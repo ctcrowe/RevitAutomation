@@ -49,12 +49,34 @@ namespace DataAnalysis
                     {
                         FamilyData fd;
                         if(Data.Any(x => x.ID == id))
+                        {
                             fd = Data.Where(x => x.ID == id).First();
+                        }
                         else
+                        {
                             fd = new FamilyData(id);
+                        }
+                        fd.TotalUses++;
                         if(doc.Root.Attribute("PrjID") != null)
+                        {
                             if(!fd.Projects.Contains(doc.Root.Attribute("PrjID").Value)
+                            {
                                 fd.Projects.Add(doc.Root.Attribute("PrjID").Value;
+                            }
+                        if(doc.Root.Attribute("PrevID") != null)
+                        {
+                            if(!fd.Previous.Keys.Contains(doc.Root.Attribute("PrevID").Value)
+                            {
+                                fd.Previous.Add(doc.Root.Attribute("PrevID").Value, 1);
+                            }
+                            else
+                            {
+                                fd.Previous[doc.Root.Attribute("PrevID").Value]++;
+                            }
+                        }
+                        if(doc.Root.Attribute("PlaceTime") != null)
+                        {
+                        }
                     }
                 }
             }
