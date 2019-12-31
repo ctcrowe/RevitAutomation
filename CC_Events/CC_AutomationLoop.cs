@@ -41,6 +41,11 @@ namespace CC_Plugin
                     try { dataset.Add("View", doc.ActiveView.Name); } catch { }
                     try { dataset.Add("Category", inst.Category.Name); } catch { }
                     try { dataset.Add("Delivery", "Automated"); } catch { }
+                    try
+                    {
+                        dataset.Add("EleCount", new FilteredElementCollector.OfClass(typeof(FamilyInstance)).ToList().Count().ToString());
+                    }
+                    catch { }
 
                     string time = ProjectTime.Get(id);
                     if (time != null)
