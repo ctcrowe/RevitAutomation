@@ -7,9 +7,62 @@ using System.Globalization;
 
 namespace DataAnalysis
 {
+    public class FamilyData
+    {
+        public string ID {get;}
+        public Dictionary<string, int> Uses {get; set;}
+        public Dictionary<string, int> Previous {get; set;}
+        public List<string> Projects {get; set;}
+        public int TotalUses { get; set; }
+        public long AverageTime {get; set;}
+        
+        public FamilyData(string id)
+        {
+            this.ID = id;
+            this.Uses = new Dictionary<string, int>();
+            this.Previous = new Dictionary<string, int>();
+            this.Projects = new List<string>();
+            this.TotalUses = 0;
+            this.AverageTime = 0;
+        }
+        public void Write(string folder)
+        {
+        }
+    }
     public class Datasort
     {
         public delegate bool DataQualifier(XDocument xdoc);
+        public static void Qualify(string InFolder, string OutFolder, int Days)
+        {
+            CultureInfo enUS = new CultureInfo("en-US");
+            List<string> lines = new List<string>();
+            string[] files = Directory.GetFiles(InFolder);
+            var Data = new List<FamilyData>();
+            
+            foreach (string f in files)
+            {
+                try
+                {
+                    XDocument doc = XDocument.Load(f);
+                    string id = doc.Root.Attribute("EleID").Value;
+                    if(id != null)
+                    {
+                        FamilyData fd;
+                        if(Data.Any(x => x.ID == id))
+                            fd = Data.Where(x => x.ID == id).First();
+                        else
+                            fd = new FamilyData(id);
+                        if(doc.Root.Attribute("PrjID") != null)
+                            if(!fd.Projects.Contains(doc.Root.Attribute("PrjID").Value)
+                                fd.Projects.Add(doc.Root.Attribute("PrjID").Value;
+                    }
+                }
+            }
+            foreach(FamilyData fd in Data)
+            {
+                fd.Write(OutFolder);
+            }
+        }
         public static void Count(string folder, string file, int Days, DataQualifier qual)
         {
             CultureInfo enUS = new CultureInfo("en-US");
