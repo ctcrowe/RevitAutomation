@@ -76,6 +76,28 @@ namespace DataAnalysis
                         }
                         if(doc.Root.Attribute("PlaceTime") != null)
                         {
+                            DateTime date;
+                            DateTime.TryParseExact(doc.Root.Attribute("PlaceTime").Value, "yyyyMMddhhmmss", enUS, DateTimeStyles.None, out date);
+                            int e = (DateTime.Today - date).Days;
+                            if (e < Days)
+                            {
+                                if(fd.Uses.ContainsKey(e))
+                                {
+                                    fd.Uses[e]++;
+                                }
+                                else
+                                {
+                                    fd.Uses.Add(e, 1);
+                                }
+                            }
+                        }
+                        if(Data.Any(x => x.ID == id))
+                        {
+                            Data.Where(x => x.ID == id).First() = fd;
+                        }
+                        else
+                        {
+                            Data.Add(fd);
                         }
                     }
                 }
