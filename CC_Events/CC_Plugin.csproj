@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{713544C9-C613-45F0-BD7E-D5E10AA6DE7C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CC_Plugin</RootNamespace>
+    <AssemblyName>CC_Plugin</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Automation\AddCaseworkFams.cs" />
+    <Compile Include="Automation\Events\ViewChangedEvent\AddViewChangedParams.cs" />
+    <Compile Include="Automation\ProjectData\CC_FamilyData.cs" />
+    <Compile Include="CC_ProjectData.cs" />
+    <Compile Include="Automation\Rooms\RoomParamUpdater.cs" />
+    <Compile Include="Automation\Dimensioning\DimensioningUpdater.cs" />
+    <Compile Include="Automation\RefPlanes\RefPlaneDetailCollector.cs" />
+    <Compile Include="Automation\RefPlanes\PlaneTypeUpdater.cs" />
+    <Compile Include="Categories\CC_CCcategory.cs" />
+    <Compile Include="CC_IDParam.cs" />
+    <Compile Include="CC_LoadFamilies.cs" />
+    <Compile Include="CC_WriteParamToTTD.cs" />
+    <Compile Include="CC_AutomationLoop.cs" />
+    <Compile Include="CC_StaticFamParams.cs" />
+    <Compile Include="CC_FamParam.cs" />
+    <Compile Include="CC_XmlLib.cs" />
+    <Compile Include="CC_Placement.cs" />
+    <Compile Include="CC_SaveFamily.cs" />
+    <Compile Include="CC_DocSaved.cs" />
+    <Compile Include="CC_RoomIDS.cs" />
+    <Compile Include="CC_FamType.cs" />
+    <Compile Include="CC_Datapoint.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Timekeeper.cs" />
+    <Compile Include="Library\Parameters\CC_Param.cs" />
+    <Compile Include="Parameters\CC_ParamSetup.cs" />
+    <Compile Include="Parameters\ExDefOpt.cs" />
+    <Compile Include="Library\Parameters\ResetParamLibrary.cs" />
+    <Compile Include="Automation\Events\ViewChangedEvent\CC_ViewChangedEvent.cs" />
+    <Compile Include="CC_DocSavingAsEvent.cs" />
+    <Compile Include="FamilyDB\CC_CheckNameUse.cs" />
+    <Compile Include="FamilyDB\CC_MoveFamiliesToDB.cs" />
+    <Compile Include="Parameters\CC_ParameterLibrary.cs" />
+    <Compile Include="QualityControl\CC_TextNoteTypes.cs" />
+    <Compile Include="CC_RevitRibon.cs" />
+    <Compile Include="UseDatabase\CC_Events.cs" />
+    <Compile Include="QualityControl\CC_QCTab.cs" />
+    <Compile Include="QualityControl\CC_ProjectCleanup.cs" />
+    <Compile Include="Elevations\CC_ElevationTab.cs" />
+    <Compile Include="CC_RevitTools.cs" />
+    <Compile Include="Updaters\CC_RoomUpdater.cs" />
+    <Compile Include="Elevations\CC_Elevations.cs" />
+    <Compile Include="RevitCodeAnalysis.cs" />
+    <Compile Include="Updaters\CC_TextUpdater.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Working\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Families\Cabinets\Cab_Base.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Bottom.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Counter_NoSplash.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Door.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Handle.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Lower_BackOfBox.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Lower_SideOfBox.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Microwave_SideOfBox.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Shelf.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Shelf_Microwave.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Shelf_Microwave_Lower.rfa" />
+    <EmbeddedResource Include="Families\Cabinets\Cab_Sink_Door.rfa" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Families\Symbols\Scale_Option2.rfa" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
