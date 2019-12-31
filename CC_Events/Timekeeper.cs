@@ -19,7 +19,7 @@ namespace CC_Plugin
             if (File.Exists(subdir + "\\" + id + ".xml"))
             {
                 XDocument doc = XDocument.Load(subdir + "\\" + id + ".xml");
-                if (doc.Root.Attribute("TOTAL") == null)
+                if (doc.Root.Attribute("TOTAL") != null)
                     return doc.Root.Attribute("TOTAL").Value;
             }
             return null;
