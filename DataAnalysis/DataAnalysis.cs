@@ -9,6 +9,8 @@ namespace DataAnalysis
 {
     public class FamilyData
     {
+        private const string root = "ELEMENT";
+        
         public string ID {get;}
         public Dictionary<string, int> Uses {get; set;}
         public Dictionary<string, int> Previous {get; set;}
@@ -27,6 +29,28 @@ namespace DataAnalysis
         }
         public void Write(string folder)
         {
+            XDocument doc = new XDocument(new XElement(root)) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+            doc.Root.Add(new XAttribute("ID", ID);
+            XElement u = new XElement("USES");
+            foreach(var v in Uses)
+            {
+                u.Add(new XAttribute(v.Key, v.Value.ToString());
+            }
+            doc.Root.Add(u);
+            XElement Prev = new XElement("PREVIOUS");
+            foreach(var v in Previous)
+            {
+                Prev.Add(v.Key, v.Value.ToString());
+            }
+            doc.Root.Add(Prev);
+            XElement Prj = new XElement("PROJECTS");
+            foreach(var v in Projects)
+            {
+                Prj.Add(new XElement(v));
+            }
+            doc.Root.Add(Prj);
+            doc.Root.Add(new XAttribute("TOTALUSES", TotalUses.ToString());
+            doc.Save(folder + "\\" + ID + ".xml");
         }
     }
     public class Datasort
