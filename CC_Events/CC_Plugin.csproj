@@ -74,6 +74,7 @@
     <Compile Include="CC_FamType.cs" />
     <Compile Include="CC_Datapoint.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="CC_DocSynching.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Library\Parameters\CC_Param.cs" />
     <Compile Include="Parameters\CC_ParamSetup.cs" />
@@ -115,7 +116,7 @@
     <EmbeddedResource Include="Families\Cabinets\Cab_Sink_Door.rfa" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Families\Symbols\Scale_Option2.rfa" />
+    <EmbeddedResource Include="Families\Symbols\GRAPHICSCALE.rfa" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -43,7 +43,7 @@ namespace CC_Plugin
                     try { dataset.Add("Delivery", "Automated"); } catch { }
                     try
                     {
-                        dataset.Add("EleCount", new FilteredElementCollector.OfClass(typeof(FamilyInstance)).ToList().Count().ToString());
+                        dataset.Add("EleCount", new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance)).ToList().Count().ToString());
                     }
                     catch { }
 

@@ -30,11 +30,11 @@ namespace DataAnalysis
         public void Write(string folder)
         {
             XDocument doc = new XDocument(new XElement(root)) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-            doc.Root.Add(new XAttribute("ID", ID);
+            doc.Root.Add(new XAttribute("ID", ID));
             XElement u = new XElement("USES");
             foreach(var v in Uses)
             {
-                u.Add(new XAttribute(v.Key, v.Value.ToString());
+                u.Add(new XAttribute(v.Key, v.Value.ToString()));
             }
             doc.Root.Add(u);
             XElement Prev = new XElement("PREVIOUS");
@@ -49,8 +49,49 @@ namespace DataAnalysis
                 Prj.Add(new XElement(v));
             }
             doc.Root.Add(Prj);
-            doc.Root.Add(new XAttribute("TOTALUSES", TotalUses.ToString());
+            doc.Root.Add(new XAttribute("TOTALUSES", TotalUses.ToString()));
             doc.Save(folder + "\\" + ID + ".xml");
+        }
+        public void Qualify(XDocument doc, int Days)
+        {
+            CultureInfo enUS = new CultureInfo("en-US");
+            TotalUses++;
+            if (doc.Root.Attribute("PrjID") != null)
+            {
+                if (!Projects.Contains(doc.Root.Attribute("PrjID").Value))
+                {
+                    Projects.Add(doc.Root.Attribute("PrjID").Value);
+                }
+                if (doc.Root.Attribute("PrevID") != null)
+                {
+                    if (!Previous.Keys.Contains(doc.Root.Attribute("PrevID").Value))
+                    {
+                        Previous.Add(doc.Root.Attribute("PrevID").Value, 1);
+                    }
+                    else
+                    {
+                        Previous[doc.Root.Attribute("PrevID").Value]++;
+                    }
+                }
+                if (doc.Root.Attribute("PlaceTime") != null)
+                {
+                    DateTime date;
+                    DateTime.TryParseExact(doc.Root.Attribute("PlaceTime").Value, "yyyyMMddhhmmss", enUS, DateTimeStyles.None, out date);
+                    int e = (DateTime.Today - date).Days;
+                    if (e < Days)
+                    {
+                        string s = e.ToString();
+                        if (Uses.ContainsKey(s))
+                        {
+                            Uses[s]++;
+                        }
+                        else
+                        {
+                            Uses.Add(s, 1);
+                        }
+                    }
+                }
+            }
         }
     }
     public class Datasort
@@ -62,73 +103,32 @@ namespace DataAnalysis
             List<string> lines = new List<string>();
             string[] files = Directory.GetFiles(InFolder);
             var Data = new List<FamilyData>();
-            
+
             foreach (string f in files)
             {
                 try
                 {
                     XDocument doc = XDocument.Load(f);
                     string id = doc.Root.Attribute("EleID").Value;
-                    if(id != null)
+                    if (id != null)
                     {
-                        FamilyData fd;
-                        if(Data.Any(x => x.ID == id))
+                        if (Data.Any(x => x.ID == id))
                         {
-                            fd = Data.Where(x => x.ID == id).First();
+                            Data.Where(x => x.ID == id).First().Qualify(doc, Days);
                         }
                         else
                         {
-                            fd = new FamilyData(id);
-                        }
-                        fd.TotalUses++;
-                        if(doc.Root.Attribute("PrjID") != null)
-                        {
-                            if(!fd.Projects.Contains(doc.Root.Attribute("PrjID").Value)
-                            {
-                                fd.Projects.Add(doc.Root.Attribute("PrjID").Value;
-                            }
-                        if(doc.Root.Attribute("PrevID") != null)
-                        {
-                            if(!fd.Previous.Keys.Contains(doc.Root.Attribute("PrevID").Value)
-                            {
-                                fd.Previous.Add(doc.Root.Attribute("PrevID").Value, 1);
-                            }
-                            else
-                            {
-                                fd.Previous[doc.Root.Attribute("PrevID").Value]++;
-                            }
-                        }
-                        if(doc.Root.Attribute("PlaceTime") != null)
-                        {
-                            DateTime date;
-                            DateTime.TryParseExact(doc.Root.Attribute("PlaceTime").Value, "yyyyMMddhhmmss", enUS, DateTimeStyles.None, out date);
-                            int e = (DateTime.Today - date).Days;
-                            if (e < Days)
-                            {
-                                if(fd.Uses.ContainsKey(e))
-                                {
-                                    fd.Uses[e]++;
-                                }
-                                else
-                                {
-                                    fd.Uses.Add(e, 1);
-                                }
-                            }
-                        }
-                        if(Data.Any(x => x.ID == id))
-                        {
-                            Data.Where(x => x.ID == id).First() = fd;
-                        }
-                        else
-                        {
+                            FamilyData fd = new FamilyData(id);
+                            fd.Qualify(doc, Days);
                             Data.Add(fd);
                         }
                     }
                 }
-            }
-            foreach(FamilyData fd in Data)
-            {
-                fd.Write(OutFolder);
+                catch { }
+                foreach (FamilyData fd in Data)
+                {
+                    fd.Write(OutFolder);
+                }
             }
         }
         public static void Count(string folder, string file, int Days, DataQualifier qual)
