@@ -37,6 +37,7 @@ namespace CC_Plugin
                 RefPlaneMaker.OnStartup(uiApp);
                 RoomParameterizer.OnStartup(uiApp);
                 CC_Automation.OnStartup(uiApp);
+                DocSynching.OnStartup(uiApp);
             }
             catch
             {
@@ -49,6 +50,7 @@ namespace CC_Plugin
             RefPlaneMaker.OnShutdown(uiApp);
             RoomParameterizer.OnShutdown(uiApp);
             CC_Automation.OnShutdown(uiApp);
+            DocSynching.OnShutdown(uiApp);
         }
     }
 }

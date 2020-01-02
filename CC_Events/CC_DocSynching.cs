@@ -1,16 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
 namespace CC_Plugin
 {
     internal class DocSynching
     {
-        public static void synch(DocumentSynchronizingWithCentralEventArgs args)
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentSynchronizingWithCentral += new EventHandler<DocumentSynchronizingWithCentralEventArgs>(synch);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentSynchronizingWithCentral -= new EventHandler<DocumentSynchronizingWithCentralEventArgs>(synch);
+            return Result.Succeeded;
+        }
+        public static void synch(object sender, DocumentSynchronizingWithCentralEventArgs args)
         {
             Document doc = args.Document;
             using (Transaction t = new Transaction(doc, "Add Families"))
