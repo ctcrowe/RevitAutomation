@@ -96,6 +96,7 @@ namespace CC_Plugin
             if(docID != null)
             {
                 XDocument xdoc = new XDocument(new XElement(IDParam.Get(doc))) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                xdoc.Root.Add(new XAttribute("TIME", DateTime.Now("yyyyMMddhhmmss");
                 if (data.Keys.Count > 0)
                 {
                     foreach (var kvp in Data)
