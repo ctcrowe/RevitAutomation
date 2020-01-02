@@ -54,24 +54,24 @@ namespace CC_Plugin
             foreach(Element e in InstCollector)
             {
                 FamilyInstance f = e as FamilyInstance;
-                string id = IDParam.Get(e);
+                string id = IDParam.Get(f);
                 if(id != null)
                 {
                     if(f.Room != null)
                     {
                         if(Data.ContainsKey(f.Room.Name))
-                            Data[f.Room.Name].Add(e);
+                            Data[f.Room.Name].Add(id);
                         else
-                            Data.Add(f.Room.Name, e);
+                            Data.Add(f.Room.Name, id);
                     }
                     else
                     {
                         if(f.FromRoom != null)
                         {
                             if(Data.ContainsKey(f.FromRoom.Name))
-                                Data[f.FromRoom.Name].Add(e);
+                                Data[f.FromRoom.Name].Add(id);
                             else
-                                Data.Add(f.FromRoom.Name, e);
+                                Data.Add(f.FromRoom.Name, id);
                         }
                     }
                 }
