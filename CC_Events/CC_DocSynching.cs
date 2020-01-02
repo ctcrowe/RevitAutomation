@@ -108,7 +108,8 @@ namespace CC_Plugin
                         }
                         xdoc.Root.Add(ele);
                     }
-                    xdoc.Save(dir + "\\" + docID + ".xml");
+                    string guid = Guid.NewGuid().ToString("N");
+                    xdoc.Save(dir + "\\" + guid + ".xml");
                 }
             }
         }
