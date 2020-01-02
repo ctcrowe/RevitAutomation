@@ -45,13 +45,13 @@ namespace CC_Plugin
             List<Element> InstCollector = new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance)).ToElements().ToList();
             List<Element> RoomCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms).ToElements().ToList();
             
-            List<string> Rooms = new List<string>();
             var Data =  new Dictionary<string, List<string>>();
             
             foreach(Element e in RoomCollector)
             {
                 Room r = e as Room;
-                Rooms.Add(r.Name);
+                List<string> l = new List<string>();
+                Data.Add(r.Name, l);
             }
             foreach(Element e in InstCollector)
             {
@@ -64,7 +64,11 @@ namespace CC_Plugin
                         if(Data.ContainsKey(f.Room.Name))
                             Data[f.Room.Name].Add(id);
                         else
-                            Data.Add(f.Room.Name, id);
+                        {
+                            List<string> l = new List<string>();
+                            l.Add(id)
+                            Data.Add(f.Room.Name, l);
+                        }
                     }
                     else
                     {
@@ -73,10 +77,29 @@ namespace CC_Plugin
                             if(Data.ContainsKey(f.FromRoom.Name))
                                 Data[f.FromRoom.Name].Add(id);
                             else
-                                Data.Add(f.FromRoom.Name, id);
+                            {
+                                List<string> l = new List<string>();
+                                l.Add(id)
+                                Data.Add(f.FromRoom.Name, l);
+                            }
                         }
                     }
                 }
+            }
+            XDocument xdoc = new XDocument(new XElement(IDParam.Get(doc))) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+            if (data.Keys.Count > 0)
+            {
+                foreach (var kvp in Data)
+                {
+                    XElement ele = new XElement(kvp.Key);
+                    foreach(string s in kvp.Value)
+                    {
+                        XElement e = new XElement(s);
+                        ele.Add(e);
+                    }
+                    xdoc.Root.Add(ele);
+                }
+                xdoc.Save(fn);
             }
         }
     }
