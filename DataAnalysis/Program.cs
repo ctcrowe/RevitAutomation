@@ -15,7 +15,6 @@ namespace DataAnalysis
         {
             string filedir = string.Empty;
             string filename = string.Empty;
-            Datasort.DataQualifier dq = new Datasort.DataQualifier(DataCheck);
 
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
@@ -37,18 +36,14 @@ namespace DataAnalysis
 
                 if(sfd.ShowDialog() == DialogResult.OK)
                 {
-                    if (sfd.FileName.EndsWith(".txt"))
-                        filename = sfd.FileName;
+                    if (sfd.FileName.Contains("."))
+                        filename = sfd.FileName.Split('.').FirstOrDefault();
                     else
-                        filename = sfd.FileName.Split('.').FirstOrDefault() + ".txt";
+                        filename = sfd.FileName;
                 }
                 Console.WriteLine(filename);
             }
-            Datasort.Count(filedir, filename, 365, dq);
-        }
-        public static bool DataCheck(XDocument xdoc)
-        {
-            return true;
+            Datasort.Qualify(filedir, filename, 365)
         }
     }
 }
