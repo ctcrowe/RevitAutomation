@@ -92,7 +92,7 @@ namespace CC_Plugin
                     }
                 }
             }
-            string docID = IDPAram.Get(doc);
+            string docID = IDParam.Get(doc);
             if(docID != null)
             {
                 XDocument xdoc = new XDocument(new XElement(IDParam.Get(doc))) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
