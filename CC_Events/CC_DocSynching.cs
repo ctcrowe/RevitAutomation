@@ -9,6 +9,9 @@ namespace CC_Plugin
 {
     internal class DocSynching
     {
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string dir = directory + "\\CC_PrjData";
+        
         public static Result OnStartup(UIControlledApplication app)
         {
             app.ControlledApplication.DocumentSynchronizingWithCentral += new EventHandler<DocumentSynchronizingWithCentralEventArgs>(synch);
@@ -44,6 +47,9 @@ namespace CC_Plugin
         {
             List<Element> InstCollector = new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance)).ToElements().ToList();
             List<Element> RoomCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms).ToElements().ToList();
+            
+            if(!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
             
             var Data =  new Dictionary<string, List<string>>();
             
@@ -86,20 +92,24 @@ namespace CC_Plugin
                     }
                 }
             }
-            XDocument xdoc = new XDocument(new XElement(IDParam.Get(doc))) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-            if (data.Keys.Count > 0)
+            string docID = IDPAram.Get(doc);
+            if(docID != null)
             {
-                foreach (var kvp in Data)
+                XDocument xdoc = new XDocument(new XElement(IDParam.Get(doc))) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                if (data.Keys.Count > 0)
                 {
-                    XElement ele = new XElement(kvp.Key);
-                    foreach(string s in kvp.Value)
+                    foreach (var kvp in Data)
                     {
-                        XElement e = new XElement(s);
-                        ele.Add(e);
+                        XElement ele = new XElement(kvp.Key);
+                        foreach(string s in kvp.Value)
+                        {
+                            XElement e = new XElement(s);
+                            ele.Add(e);
+                        }
+                        xdoc.Root.Add(ele);
                     }
-                    xdoc.Root.Add(ele);
+                    xdoc.Save(dir + "\\" + docID + ".xml");
                 }
-                xdoc.Save(fn);
             }
         }
     }
