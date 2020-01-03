@@ -31,13 +31,12 @@ namespace CC_Plugin
             using (TransactionGroup tg = new TransactionGroup(doc, "Doc Synching"))
             {
                 tg.Start();
-                /*
                 using (Transaction t = new Transaction(doc, "Room Data"))
                 {
                     t.Start();
                     CollectRoomData(doc);
                     t.Commit();
-                }*/
+                }
                 using (Transaction t = new Transaction(doc, "Add Families"))
                 {
                     t.Start();
