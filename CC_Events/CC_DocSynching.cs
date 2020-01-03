@@ -31,12 +31,13 @@ namespace CC_Plugin
             using (TransactionGroup tg = new TransactionGroup(doc, "Doc Synching"))
             {
                 tg.Start();
+                /*
                 using (Transaction t = new Transaction(doc, "Room Data"))
                 {
                     t.Start();
                     CollectRoomData(doc);
                     t.Commit();
-                }
+                }*/
                 using (Transaction t = new Transaction(doc, "Add Families"))
                 {
                     t.Start();
@@ -104,7 +105,7 @@ namespace CC_Plugin
                 {
                     foreach (var kvp in Data)
                     {
-                        XElement ele = new XElement(kvp.Key);
+                        XElement ele = new XElement(kvp.Key.Replace(' ', '_'));
                         foreach(string s in kvp.Value)
                         {
                             XElement e = new XElement(s);
