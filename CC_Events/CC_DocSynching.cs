@@ -65,6 +65,8 @@ namespace CC_Plugin
             }
             foreach(Element e in InstCollector)
             {
+            	try
+            	{
                 FamilyInstance f = e as FamilyInstance;
                 string id = IDParam.Get(f);
                 if(id != null)
@@ -95,20 +97,24 @@ namespace CC_Plugin
                         }
                     }
                 }
+            	}
+            	catch{}
             }
             string docID = IDParam.Get(doc);
             if(docID != null)
             {
-                XDocument xdoc = new XDocument(new XElement(IDParam.Get(doc))) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+            	XDocument xdoc = new XDocument(new XElement("PROJECT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 xdoc.Root.Add(new XAttribute("TIME", DateTime.Now.ToString("yyyyMMddhhmmss")));
+                xdoc.Root.Add(new XAttribute("ID", docID));
                 if (Data.Keys.Count > 0)
                 {
                     foreach (var kvp in Data)
                     {
-                        XElement ele = new XElement(kvp.Key.Replace(' ', '_'));
+                    	XElement ele = new XElement(kvp.Key.Replace(' ', '_').Replace("\'", ""));
                         foreach(string s in kvp.Value)
                         {
-                            XElement e = new XElement(s);
+                            XElement e = new XElement("ELEMENT");
+                            e.Add(new XAttribute("ID", s));
                             ele.Add(e);
                         }
                         xdoc.Root.Add(ele);
