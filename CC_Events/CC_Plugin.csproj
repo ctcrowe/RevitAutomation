@@ -118,5 +118,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Families\Symbols\GRAPHICSCALE.rfa" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Families\Symbols\ADA_TurningCircle.rfa" />
+    <EmbeddedResource Include="Families\Symbols\BREAKLINE.rfa" />
+    <EmbeddedResource Include="Families\Symbols\ELEVATION_MarkCircle.rfa" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

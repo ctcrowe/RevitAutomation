@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System.Linq;
 using System.Xml.Linq;
@@ -25,7 +28,7 @@ namespace CC_Plugin
         public static void synch(object sender, DocumentSynchronizingWithCentralEventArgs args)
         {
             Document doc = args.Document;
-            using (TranscationGroup tg = new TransactionGroup(doc, "Doc Synching"))
+            using (TransactionGroup tg = new TransactionGroup(doc, "Doc Synching"))
             {
                 tg.Start();
                 using (Transaction t = new Transaction(doc, "Room Data"))
@@ -72,7 +75,7 @@ namespace CC_Plugin
                         else
                         {
                             List<string> l = new List<string>();
-                            l.Add(id)
+                            l.Add(id);
                             Data.Add(f.Room.Name, l);
                         }
                     }
@@ -85,7 +88,7 @@ namespace CC_Plugin
                             else
                             {
                                 List<string> l = new List<string>();
-                                l.Add(id)
+                                l.Add(id);
                                 Data.Add(f.FromRoom.Name, l);
                             }
                         }
@@ -96,8 +99,8 @@ namespace CC_Plugin
             if(docID != null)
             {
                 XDocument xdoc = new XDocument(new XElement(IDParam.Get(doc))) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                xdoc.Root.Add(new XAttribute("TIME", DateTime.Now.ToString("yyyyMMddhhmmss"));
-                if (data.Keys.Count > 0)
+                xdoc.Root.Add(new XAttribute("TIME", DateTime.Now.ToString("yyyyMMddhhmmss")));
+                if (Data.Keys.Count > 0)
                 {
                     foreach (var kvp in Data)
                     {
@@ -109,9 +112,9 @@ namespace CC_Plugin
                         }
                         xdoc.Root.Add(ele);
                     }
-                    string guid = Guid.NewGuid().ToString("N");
-                    xdoc.Save(dir + "\\" + guid + ".xml");
                 }
+                string guid = Guid.NewGuid().ToString("N");
+                xdoc.Save(dir + "\\" + guid + ".xml");
             }
         }
     }

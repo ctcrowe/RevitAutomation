@@ -43,7 +43,7 @@ namespace DataAnalysis
                 }
                 Console.WriteLine(filename);
             }
-            Datasort.Qualify(filedir, filename, 365)
+            Datasort.Qualify(filedir, filename, 365);
         }
     }
 }
