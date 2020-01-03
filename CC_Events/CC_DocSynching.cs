@@ -55,7 +55,7 @@ namespace CC_Plugin
                 Directory.CreateDirectory(dir);
             
             var Data =  new Dictionary<string, List<string>>();
-            
+            Data.Add("EXTERIOR", new List<string>());
             foreach(Element e in RoomCollector)
             {
                 Room r = e as Room;
@@ -93,6 +93,10 @@ namespace CC_Plugin
                                 l.Add(id);
                                 Data.Add(f.FromRoom.Name, l);
                             }
+                        }
+                        else
+                        {
+                            Data["EXTERIOR"].Add(id);
                         }
                     }
                 }
