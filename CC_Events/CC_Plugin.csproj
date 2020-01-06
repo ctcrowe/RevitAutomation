@@ -75,6 +75,7 @@
     <Compile Include="CC_Datapoint.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CC_DocSynching.cs" />
+    <Compile Include="CC_FamLoaded.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Library\Parameters\CC_Param.cs" />
     <Compile Include="Parameters\CC_ParamSetup.cs" />
@@ -99,21 +100,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Families\Cabinets\" />
     <Folder Include="Working\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Families\Cabinets\Cab_Base.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Bottom.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Counter_NoSplash.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Door.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Handle.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Lower_BackOfBox.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Lower_SideOfBox.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Microwave_SideOfBox.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Shelf.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Shelf_Microwave.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Shelf_Microwave_Lower.rfa" />
-    <EmbeddedResource Include="Families\Cabinets\Cab_Sink_Door.rfa" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Families\Symbols\GRAPHICSCALE.rfa" />

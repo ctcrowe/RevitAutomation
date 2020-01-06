@@ -38,6 +38,7 @@ namespace CC_Plugin
                 RoomParameterizer.OnStartup(uiApp);
                 CC_Automation.OnStartup(uiApp);
                 DocSynching.OnStartup(uiApp);
+                FamLoadedEvent.OnStartup(uiApp);
             }
             catch
             {
@@ -51,6 +52,7 @@ namespace CC_Plugin
             RoomParameterizer.OnShutdown(uiApp);
             CC_Automation.OnShutdown(uiApp);
             DocSynching.OnShutdown(uiApp);
+            FamLoadedEvent.OnShutdown(uiApp);
         }
     }
 }

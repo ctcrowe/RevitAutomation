@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using System.Reflection;
 using Autodesk.Revit.DB;
@@ -294,6 +295,34 @@ namespace CC_Plugin
                 {
                     return symb.get_Parameter(ID).AsString();
                 }
+            }
+            return null;
+        }
+        public string Get(Element e)
+        {
+            if (Inst)
+            {
+                if (e.get_Parameter(ID) != null)
+                {
+                    return e.get_Parameter(ID).AsString();
+                }
+            }
+            else
+            {
+                if (e.get_Parameter(ID) != null)
+                {
+                    return e.get_Parameter(ID).AsString();
+                }
+            }
+            return null;
+        }
+        public string Get(Family F)
+        {
+            ElementId eid = F.GetFamilySymbolIds().FirstOrDefault();
+            Element e = F.Document.GetElement(eid);
+            if(e.get_Parameter(ID) != null)
+            {
+                return e.get_Parameter(ID).AsString();
             }
             return null;
         }

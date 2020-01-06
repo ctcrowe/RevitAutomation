@@ -21,7 +21,7 @@ namespace CC_Plugin
                     /* BuiltinParamGroup*/  BuiltInParameterGroup.PG_DATA,
                     /* Description */       "AN ID REFERENCE FOR DATA TRACKING",
                     /* Visible */           true,
-                    /* Instance */          true,
+                    /* Instance */          false,
                     /* User Modifiable */   false,
                     /* Fixed */             true);
             }
@@ -46,11 +46,19 @@ namespace CC_Plugin
         {
             return P.Get(doc);
         }
+        public static string Get(Family f)
+        {
+            return P.Get(f);
+        }
         public static string Get(Room r)
         {
             return P.Get(r);
         }
         public static string Get(FamilyInstance e)
+        {
+            return P.Get(e);
+        }
+        public static string Get(Element e)
         {
             return P.Get(e);
         }
