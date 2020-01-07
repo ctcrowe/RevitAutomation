@@ -123,8 +123,7 @@ namespace CC_Plugin
                         xdoc.Root.Add(ele);
                     }
                 }
-                string guid = Guid.NewGuid().ToString("N");
-                xdoc.Save(dir + "\\" + guid + ".xml");
+                xdoc.Save(dir + "\\" + docID + ".xml");
             }
         }
     }
