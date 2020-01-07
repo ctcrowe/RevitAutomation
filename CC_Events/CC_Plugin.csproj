@@ -70,12 +70,12 @@
     <Compile Include="CC_Placement.cs" />
     <Compile Include="CC_SaveFamily.cs" />
     <Compile Include="CC_DocSaved.cs" />
-    <Compile Include="CC_RoomIDS.cs" />
     <Compile Include="CC_FamType.cs" />
     <Compile Include="CC_Datapoint.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CC_DocSynching.cs" />
     <Compile Include="CC_FamLoaded.cs" />
+    <Compile Include="CC_IDUpdater.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Library\Parameters\CC_Param.cs" />
     <Compile Include="Parameters\CC_ParamSetup.cs" />
