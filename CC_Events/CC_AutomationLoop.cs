@@ -83,7 +83,7 @@ namespace CC_Plugin
         static AddInId appId;
         static UpdaterId updaterId;
         public string GetAdditionalInformation() { return "Standard Automation Loop Used By Charlie Crowe"; }
-        public ChangePriority GetChangePriority() { return ChangePriority.Masses; }
+        public ChangePriority GetChangePriority() { return ChangePriority.Annotations; }
         public UpdaterId GetUpdaterId() { return updaterId; }
         public string GetUpdaterName() { return "CC Automation Loop"; }
     }
