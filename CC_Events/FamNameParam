@@ -1,0 +1,98 @@
+using System;
+using System.Linq;
+using System.IO;
+using System.Reflection;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.ApplicationServices;
+
+
+namespace CC_Plugin
+{
+    internal class IDParam
+    {
+        private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private static string SharedParams = Location + "\\CC_SharedParams.txt";
+
+        private static Param P
+        {
+            get
+            {
+                return new Param(
+                    /* Name */              "FamName",
+                    /* Type */              ParamType.String,
+                    /* ID */                new Guid("157ebd70-5de3-4c91-a38b-14bcc52fd12b"),
+                    /* Param Group */       "ID",
+                    /* Categories */        new BuiltInCategory[1] { BuiltInCategory.OST_GenericModels },
+                    /* BuiltinParamGroup*/  BuiltInParameterGroup.PG_DATA,
+                    /* Description */       "A NAME REFERENCE FOR DATA TRACKING",
+                    /* Visible */           true,
+                    /* Instance */          false,
+                    /* User Modifiable */   false,
+                    /* Fixed */             true);
+            }
+        }
+        public static void Add(Document doc)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile DefFile = app.OpenSharedParameterFile();
+            if (doc.IsFamilyDocument)
+            {
+                ExternalDefinition def = SetupParam(doc) as ExternalDefinition;
+                if (doc.FamilyManager.get_Parameter(P.ID) == null)
+                    doc.FamilyManager.AddParameter(def, P.BuiltInGroup, false);
+            }
+        }
+        public static string Check(Document doc)
+        {
+            if (!String.IsNullOrEmpty(Get(doc)))
+                return Get(doc);
+            return Set(doc);
+        }
+        public static string Get(Document doc)
+        {
+            return P.Get(doc);
+        }
+        public static string Get(Family f)
+        {
+            return P.Get(f);
+        }
+        public static string Get(FamilyInstance e)
+        {
+            return P.Get(e);
+        }
+        public static string Get(Element e)
+        {
+            return P.Get(e);
+        }
+        public static string Set(Document doc, string s)
+        {
+            Add(doc);
+            return P.Set(doc, s);
+        }
+        private static Definition SetupParam(Document doc)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile df = app.OpenSharedParameterFile();
+
+            if (df.Groups.get_Item(P.ParamGroup) == null)
+            {
+                DefinitionGroup group = df.Groups.Create(P.ParamGroup);
+                return group.Definitions.Create(new ExDefOptions(P).opt);
+            }
+            else
+            {
+                DefinitionGroup group = df.Groups.get_Item(P.ParamGroup);
+                if (df.Groups.get_Item(P.ParamGroup).Definitions.get_Item(P.name) == null)
+                {
+                    return group.Definitions.Create(new ExDefOptions(P).opt);
+                }
+                else
+                {
+                    return group.Definitions.get_Item(P.name);
+                }
+            }
+        }
+    }
+}
