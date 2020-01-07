@@ -50,7 +50,7 @@ namespace CC_Plugin
                 string fullpath = dirpath + "\\ProjectFamilies";
                 if (!Directory.Exists(fullpath))
                     Directory.CreateDirectory(fullpath);
-                File.Copy(famfile, dirpath + "\\" + id + ".rfa");
+                File.Copy(famfile, fullpath + "\\" + id + ".rfa");
             }
         }
     }
