@@ -46,6 +46,12 @@ namespace CC_Plugin
                         id = IDParam.Set(doc);
                     t.Commit();
                 }
+                using (Transaction t = new Transaction(doc, "Add Fam Name"))
+                {
+                    t.Start();
+                    FamNameParam.Add(doc);
+                    t.Commit();
+                }
                 tg.Commit();
             }
         }
