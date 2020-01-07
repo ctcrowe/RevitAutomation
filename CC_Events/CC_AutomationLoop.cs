@@ -61,13 +61,6 @@ namespace CC_Plugin
                 }
             }
         }
-        private static void Event(Document doc)
-        {
-        }
-        private static void Synch(object sender, DocumentSynchronizingWithCentralEventArgs args)
-        {
-            Event(args.Document);
-        }
         public static void OnStartup(UIControlledApplication application)
         {
             CC_Automation updater = new CC_Automation(application.ActiveAddInId);
@@ -76,16 +69,11 @@ namespace CC_Plugin
             ElementClassFilter instFilter = new ElementClassFilter(typeof(FamilyInstance));
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), refFilter, Element.GetChangeTypeElementAddition());
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), instFilter, Element.GetChangeTypeElementAddition());
-
-            application.ControlledApplication.DocumentSynchronizingWithCentral += new EventHandler<DocumentSynchronizingWithCentralEventArgs>(Synch);
-            application.ControlledApplication.DocumentSavingAs += new EventHandler<DocumentSavingAsEventArgs>(DocSavingAs.Event);
         }
         public static void OnShutdown(Autodesk.Revit.UI.UIControlledApplication application)
         {
             CC_Automation updater = new CC_Automation(application.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
-            application.ControlledApplication.DocumentSynchronizingWithCentral -= new EventHandler<DocumentSynchronizingWithCentralEventArgs>(Synch);
-            application.ControlledApplication.DocumentSavingAs -= new EventHandler<DocumentSavingAsEventArgs>(DocSavingAs.Event);
         }
         public CC_Automation(AddInId id)
         {
