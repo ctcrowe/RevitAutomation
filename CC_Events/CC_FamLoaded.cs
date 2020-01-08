@@ -27,6 +27,9 @@ namespace CC_Plugin
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
+            string subdir = dir + "\\" + args.Document.Application.VersionNumber.ToString();
+            if (!Directory.Exists(subdir))
+                Directory.CreateDirectory(subdir);
             string fam = args.FamilyPath;
             ElementId eid = args.NewFamilyId;
             if (eid == null)
@@ -38,10 +41,11 @@ namespace CC_Plugin
             string famfile = fam + args.FamilyName + ".rfa";
             if (!string.IsNullOrEmpty(id))
             {
-                string fn = dir + "\\" + id + ".rfa";
-                if (File.Exists(fn))
-                    File.Delete(fn);
-                File.Copy(famfile, fn);
+                string fn = subdir + "\\" + id + ".rfa";
+                if(CheckUse(fn))
+                {
+                    File.Copy(famfile, fn);
+                }
                 if (!args.Document.IsFamilyDocument)
                 {
                     string FilePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(args.Document.GetWorksharingCentralModelPath());
@@ -52,6 +56,30 @@ namespace CC_Plugin
                     File.Copy(famfile, fullpath + "\\" + id + ".rfa");
                 }
             }
+        }
+        public static bool CheckUse(string famname)
+        {
+            if(File.Exists(famname))
+            {
+                TaskDialog d = new TaskDialog("File Exists!");
+                d.MainInstruction = "The File Exists!";
+                d.MainContent = "The family /"" + famname.Split('\\').Last() + "/" already exists! Would you like to replace it?";
+                d.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, "Yes");
+                d.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, "No");
+                d.CommonButtons = TaskDialogCommonButtons.Close;
+                d.DefaultButton = TaskDialogResult.Close;
+                
+                TaskDialogResult tResult = d.Show();
+                
+                if (TaskDialogResult.CommandLink1 == tResult)
+                {
+                    File.Delete(famname);
+                    return true;
+                }
+                else
+                    return false;
+            }
+            return true;
         }
     }
 }
