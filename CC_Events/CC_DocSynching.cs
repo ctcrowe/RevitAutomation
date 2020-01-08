@@ -67,17 +67,17 @@ namespace CC_Plugin
             	try
             	{
                 FamilyInstance f = e as FamilyInstance;
-                string id = IDParam.Get(f);
-                if(id != null)
+                string name = f.Symbol.Family.Name;
+                if(name != null)
                 {
                     if(f.Room != null)
                     {
                         if(Data.ContainsKey(f.Room.Name))
-                            Data[f.Room.Name].Add(id);
+                            Data[f.Room.Name].Add(name);
                         else
                         {
                             List<string> l = new List<string>();
-                            l.Add(id);
+                            l.Add(name);
                             Data.Add(f.Room.Name, l);
                         }
                     }
@@ -86,17 +86,17 @@ namespace CC_Plugin
                         if(f.FromRoom != null)
                         {
                             if(Data.ContainsKey(f.FromRoom.Name))
-                                Data[f.FromRoom.Name].Add(id);
+                                Data[f.FromRoom.Name].Add(name);
                             else
                             {
                                 List<string> l = new List<string>();
-                                l.Add(id);
+                                l.Add(name);
                                 Data.Add(f.FromRoom.Name, l);
                             }
                         }
                         else
                         {
-                            Data["EXTERIOR"].Add(id);
+                            Data["EXTERIOR"].Add(name);
                         }
                     }
                 }
