@@ -42,15 +42,15 @@ namespace CC_Plugin
                 if (File.Exists(fn))
                     File.Delete(fn);
                 File.Copy(famfile, fn);
-            }
-            if (!args.Document.IsFamilyDocument)
-            {
-                string FilePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(args.Document.GetWorksharingCentralModelPath());
-                string dirpath = FilePath.TrimEnd(FilePath.Split('\\').LastOrDefault().ToCharArray());
-                string fullpath = dirpath + "\\ProjectFamilies";
-                if (!Directory.Exists(fullpath))
-                    Directory.CreateDirectory(fullpath);
-                File.Copy(famfile, fullpath + "\\" + id + ".rfa");
+                if (!args.Document.IsFamilyDocument)
+                {
+                    string FilePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(args.Document.GetWorksharingCentralModelPath());
+                    string dirpath = FilePath.TrimEnd(FilePath.Split('\\').LastOrDefault().ToCharArray());
+                    string fullpath = dirpath + "\\ProjectFamilies";
+                    if (!Directory.Exists(fullpath))
+                        Directory.CreateDirectory(fullpath);
+                    File.Copy(famfile, fullpath + "\\" + id + ".rfa");
+                }
             }
         }
     }
