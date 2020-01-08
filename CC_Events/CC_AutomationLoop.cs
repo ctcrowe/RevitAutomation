@@ -34,6 +34,7 @@ namespace CC_Plugin
                 if (inst != null)
                 {
                     Dictionary<string, string> dataset = new Dictionary<string, string>();
+                    try { dataset.Add("Name", inst.Symbol.Family.Name); } catch { }
                     try { dataset.Add("EleID", IDParam.Get(inst)); } catch { }
                     try { dataset.Add("PrevID", Datapoint.GetPreviousElement()); } catch { }
                     try { dataset.Add("PrjID", id); } catch { }
