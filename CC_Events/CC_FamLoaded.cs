@@ -31,18 +31,11 @@ namespace CC_Plugin
             if (!Directory.Exists(subdir))
                 Directory.CreateDirectory(subdir);
             string fam = args.FamilyPath;
-            ElementId eid = args.NewFamilyId;
-            if (eid == null)
-            {
-                eid = args.OriginalFamilyId;
-            }
-            Family e = args.Document.GetElement(eid) as Family;
-            string id = IDParam.Get(e);
             string famfile = fam + args.FamilyName + ".rfa";
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(args.FamilyName))
             {
-                string fn = subdir + "\\" + id + ".rfa";
-                if(CheckUse(fn))
+                string fn = subdir + "\\" + args.FamilyName + ".rfa";
+                if(CheckUse(fn) && fn != famfile)
                 {
                     File.Copy(famfile, fn);
                 }
@@ -53,7 +46,10 @@ namespace CC_Plugin
                     string fullpath = dirpath + "\\ProjectFamilies";
                     if (!Directory.Exists(fullpath))
                         Directory.CreateDirectory(fullpath);
-                    File.Copy(famfile, fullpath + "\\" + id + ".rfa");
+                    string fullfile = fullpath + "\\" + args.FamilyName + ".rfa";
+                    if(File.Exists(fullfile) && famfile != fullfile)
+                        File.Delete(fullfile);
+                    File.Copy(famfile, fullfile);
                 }
             }
         }
