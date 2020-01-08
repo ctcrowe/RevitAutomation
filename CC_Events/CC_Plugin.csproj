@@ -75,7 +75,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="CC_DocSynching.cs" />
     <Compile Include="CC_FamLoaded.cs" />
-    <Compile Include="CC_IDUpdater.cs" />
+    <Compile Include="Class2.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Library\Parameters\CC_Param.cs" />
     <Compile Include="Parameters\CC_ParamSetup.cs" />

@@ -1,10 +1,16 @@
-﻿using Autodesk.Revit.DB;
-using System;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.ApplicationServices;
 
 namespace CC_Plugin
 {
     internal class FamParam
     {
+        private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private static string SharedParams = Location + "\\CC_SharedParams.txt";
+
         public static Param P
         {
             get
@@ -24,33 +30,62 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        public static string Get(Document doc)
+        public static void Add(Document doc)
         {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile DefFile = app.OpenSharedParameterFile();
             if (doc.IsFamilyDocument)
             {
-                if (String.IsNullOrEmpty(FamParam.P.Get(doc)))
+                ExternalDefinition def = SetupParam(doc) as ExternalDefinition;
+                if (doc.FamilyManager.get_Parameter(P.ID) == null)
+                    doc.FamilyManager.AddParameter(def, P.BuiltInGroup, false);
+            }
+        }
+        public static string Get(Document doc)
+        {
+            return P.Get(doc);
+        }
+        public static string Get(Family f)
+        {
+            return P.Get(f);
+        }
+        public static string Get(FamilyInstance e)
+        {
+            return P.Get(e);
+        }
+        public static string Get(Element e)
+        {
+            return P.Get(e);
+        }
+        public static string Set(Document doc, string s)
+        {
+            Add(doc);
+            return P.Set(doc, s);
+        }
+        private static Definition SetupParam(Document doc)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile df = app.OpenSharedParameterFile();
+
+            if (df.Groups.get_Item(P.ParamGroup) == null)
+            {
+                DefinitionGroup group = df.Groups.Create(P.ParamGroup);
+                return group.Definitions.Create(new ExDefOptions(P).opt);
+            }
+            else
+            {
+                DefinitionGroup group = df.Groups.get_Item(P.ParamGroup);
+                if (df.Groups.get_Item(P.ParamGroup).Definitions.get_Item(P.name) == null)
                 {
-                    FamParam.P.Add(doc);
-                    return null;
+                    return group.Definitions.Create(new ExDefOptions(P).opt);
                 }
                 else
                 {
-                    return FamParam.P.Get(doc);
+                    return group.Definitions.get_Item(P.name);
                 }
             }
-            return null;
-        }
-        public static string Set(Document doc, string S)
-        {
-            if (doc.IsFamilyDocument)
-            {
-                if (String.IsNullOrEmpty(FamParam.P.Get(doc)))
-                {
-                    FamParam.P.Add(doc);
-                }
-                return FamParam.P.Set(doc, S);
-            }
-            return null;
         }
     }
 }
