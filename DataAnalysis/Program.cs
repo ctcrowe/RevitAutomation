@@ -13,6 +13,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
+            /*
             string filedir = string.Empty;
             string filename = string.Empty;
 
@@ -44,6 +45,7 @@ namespace DataAnalysis
                 Console.WriteLine(filename);
             }
             Datasort.Qualify(filedir, filename, 365);
+            */
         }
     }
 }
