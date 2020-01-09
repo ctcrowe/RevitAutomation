@@ -24,23 +24,28 @@ namespace CC_Plugin
 
         public static void run(Document doc, string ID)
         {
+            List<Element> Fams = new FilteredElementCollector(doc).OfClass(typeof(Family)).ToList();
             var assembly = typeof(EmbeddedFamilies).GetTypeInfo().Assembly;
             foreach (string name in assembly.GetManifestResourceNames().Where(x => x.EndsWith(".rfa")))
             {
                 if (name.Contains(ID))
                 {
                     string outfile = output + "//" + name.Split('.')[name.Split('.').Count() - 2] + ".rfa";
-                    using (Stream s = assembly.GetManifestResourceStream(name))
-                    using (BinaryReader r = new BinaryReader(s))
-                    using (FileStream fs = new FileStream(outfile, FileMode.Create))
-                    using (BinaryWriter w = new BinaryWriter(fs))
+                    string famname = outfile.Split('.').First().Split('\\').Last();
+                    if(!Fams.Any(x => x.Name == famname))
                     {
-                        w.Write(r.ReadBytes((int)s.Length));
-                        doc.LoadFamily(outfile, out Family fam);
-                        if (fam != null)
+                        using (Stream s = assembly.GetManifestResourceStream(name))
+                        using (BinaryReader r = new BinaryReader(s))
+                        using (FileStream fs = new FileStream(outfile, FileMode.Create))
+                        using (BinaryWriter w = new BinaryWriter(fs))
                         {
-                            try { fam.Name = name.Split('.')[name.Split('.').Count() - 2]; }
-                            catch { }
+                            w.Write(r.ReadBytes((int)s.Length));
+                            doc.LoadFamily(outfile, out Family fam);
+                            if (fam != null)
+                            {
+                                try { fam.Name = name.Split('.')[name.Split('.').Count() - 2]; }
+                                catch { }
+                            }
                         }
                     }
                 }
