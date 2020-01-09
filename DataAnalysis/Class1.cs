@@ -39,6 +39,25 @@ namespace DataAnalysis
       }
       public static List<string> SplitTitle(string s)
       {
+          List<string> data = new List<string>();
+          int b = 0;
+          char[] cs = s.ToCharArray();
+          for(int i = 0; i < cs.Count(); i++)
+          {
+              if(!cs[i].IsLetter() || cs[i].IsCapital())
+              {
+                  string z = string.Empty;
+                  for(int j = b; j < i; j++)
+                  {
+                      z += cs[j];
+                  }
+                  data.Add(z);
+                  if(!cs[i].IsLetter)
+                      b = i + 1;
+                  else
+                      b = i;
+              }
+          }
       }
     }
 }
