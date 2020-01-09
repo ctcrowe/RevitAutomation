@@ -7,12 +7,13 @@ using System.Globalization;
 
 namespace DataAnalysis
 {
+    [STAThread]
     public class Mastersection
     {
-      public static Dictionary<string, string[]> GetData(string folder)
+      public static List<string> GetData(string folder)
       {
         string[] Files = Directory.GetFiles(folder);
-        Dictionary<string, string[]> data = new Dictionary<string, string[]>();
+        var data = new List<string>();
         foreach(string f in Files)
         {
           XDocument doc = XDocument.Load(f);
@@ -24,7 +25,7 @@ namespace DataAnalysis
               if(doc.Root.Attribute("Category") != null)
               {
                 string cat = doc.Root.Attribute("Category").Value;
-                data.Add(ele, new string[1] { cat });
+                data.Add(ele + '\t' + cat);
               }
             }
           }
@@ -56,5 +57,42 @@ namespace DataAnalysis
               }
           }
       }
+            class Program
+    {
+    public static void Main()
+    {
+        string filedir = string.Empty;
+        string filename = string.Empty;
+
+        using (OpenFileDialog ofd = new OpenFileDialog())
+        {
+            ofd.InitialDirectory = "c:\\";
+            ofd.Filter = "All files (*.*)|*.*";
+            ofd.RestoreDirectory = true;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                filedir = ofd.FileName.TrimEnd(ofd.FileName.Split('\\').Last().ToCharArray());
+            }
+            Console.WriteLine(filedir);
+        }
+        using (SaveFileDialog sfd = new SaveFileDialog())
+        {
+            sfd.InitialDirectory = "c:\\";
+            sfd.Filter = "All files (*.*)|*.*";
+            sfd.RestoreDirectory = true;
+
+            if(sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (sfd.FileName.EndsWith(".txt"))
+                    filename = sfd.FileName;
+                else
+                    filename = sfd.FileName.Split('.').FirstOrDefault() + ".txt";
+                }
+                Console.WriteLine(filename);
+            }
+            var data = GetData(filedir);
+            File.WriteAllLines(filename, data);
+        }
     }
 }
