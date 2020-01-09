@@ -40,12 +40,15 @@ namespace DataAnalysis
           {
               if(!cs[i].IsLetter() || cs[i].IsCapital())
               {
-                  string z = string.Empty;
-                  for(int j = b; j < i; j++)
+                  if(i > b)
                   {
-                      z += cs[j];
+                      string z = string.Empty;
+                      for(int j = b; j < i; j++)
+                      {
+                        z += cs[j];
+                      }
+                      data.Add(z);
                   }
-                  data.Add(z);
                   if(!cs[i].IsLetter)
                       b = i + 1;
                   else
