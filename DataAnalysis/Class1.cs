@@ -37,5 +37,8 @@ namespace DataAnalysis
         }
         return data;
       }
+      public static List<string> SplitTitle(string s)
+      {
+      }
     }
 }
