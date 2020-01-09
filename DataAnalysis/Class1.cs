@@ -52,13 +52,11 @@ namespace DataAnalysis
                   }
                   if(!cs[i].IsLetter)
                       b = i + 1;
-                  else
-                      b = i;
-              }
-          }
-      }
-            class Program
-    {
+                else
+                    b = i;
+                }
+            }
+        }
     public static void Main()
     {
         string filedir = string.Empty;
