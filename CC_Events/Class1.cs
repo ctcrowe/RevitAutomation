@@ -21,7 +21,7 @@ namespace CC_Plugin
                 return new Param(
                     /* Name */              "MasterFormat",
                     /* Type */              ParamType.int,
-                    /* ID */                new Guid("dc2385d1-4c41-4a81-be07-834d54ed32a6"),
+                    /* ID */                new Guid("98eefdd9-495d-4b4c-912b-aa7ce952b142"),
                     /* Param Group */       "BIMData",
                     /* Categories */        new BuiltInCategory[2] {
                                                 BuiltInCategory.OST_GenericModels},
