@@ -23,7 +23,7 @@ namespace CC_Plugin
                     /* Type */              ParamType.int,
                     /* ID */                new Guid("98eefdd9-495d-4b4c-912b-aa7ce952b142"),
                     /* Param Group */       "BIMData",
-                    /* Categories */        new BuiltInCategory[2] {
+                    /* Categories */        new BuiltInCategory[1] {
                                                 BuiltInCategory.OST_GenericModels},
                     /* BuiltinParamGroup*/  BuiltInParameterGroup.PG_DATA,
                     /* Description */       "A REFERENCE TO THE OBJECTS MASTERFORMAT DIVISION.",
