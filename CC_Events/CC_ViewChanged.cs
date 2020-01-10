@@ -38,18 +38,24 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
+                    using (Transaction t = new Transaction(doc, "Add Fam Name"))
+                    {
+                        t.Start();
+                        FamNameParam.Add(doc);
+                        t.Commit();
+                    }
+                    using (Transaction t = new Transaction(doc, "Add MasterFormat Parameter"))
+                    {
+                        t.Start();
+                        MFParam.Add(doc);
+                        t.Commit();
+                    }
                 }
                 using (Transaction t = new Transaction(doc, "Add ID"))
                 {
                     t.Start();
                     if (string.IsNullOrEmpty(IDParam.Get(doc)))
                         id = IDParam.Set(doc);
-                    t.Commit();
-                }
-                using (Transaction t = new Transaction(doc, "Add Fam Name"))
-                {
-                    t.Start();
-                    FamNameParam.Add(doc);
                     t.Commit();
                 }
                 tg.Commit();
