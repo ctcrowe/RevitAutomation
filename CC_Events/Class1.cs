@@ -20,7 +20,7 @@ namespace CC_Plugin
             {
                 return new Param(
                     /* Name */              "MasterFormat",
-                    /* Type */              ParamType.int,
+                    /* Type */              ParamType.String,
                     /* ID */                new Guid("98eefdd9-495d-4b4c-912b-aa7ce952b142"),
                     /* Param Group */       "BIMData",
                     /* Categories */        new BuiltInCategory[1] {
