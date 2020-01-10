@@ -13,7 +13,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            Mastersection.Main();
+            Mastersection.run();
             /*
             string filedir = string.Empty;
             string filename = string.Empty;

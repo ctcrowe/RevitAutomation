@@ -35,7 +35,16 @@ namespace CC_Plugin
             if (!string.IsNullOrEmpty(args.FamilyName))
             {
                 string fn = subdir + "\\" + args.FamilyName + ".rfa";
-                if(CheckUse(fn) && fn != famfile)
+                int i = CheckUse(fn);
+                if (i == 1)
+                {
+                    if(fn != famfile)
+                    {
+                        File.Delete(fn);
+                        File.Copy(famfile, fn);
+                    }
+                }
+                if(i == 0)
                 {
                     File.Copy(famfile, fn);
                 }
@@ -53,13 +62,13 @@ namespace CC_Plugin
                 }
             }
         }
-        public static bool CheckUse(string famname)
+        public static int CheckUse(string famname)
         {
             if(File.Exists(famname))
             {
                 TaskDialog d = new TaskDialog("File Exists!");
                 d.MainInstruction = "The File Exists!";
-                d.MainContent = "The family /"" + famname.Split('\\').Last() + "/" already exists! Would you like to replace it?";
+                d.MainContent = "The family '" + famname.Split('\\').Last() + "' already exists! Would you like to replace it?";
                 d.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, "Yes");
                 d.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, "No");
                 d.CommonButtons = TaskDialogCommonButtons.Close;
@@ -69,13 +78,12 @@ namespace CC_Plugin
                 
                 if (TaskDialogResult.CommandLink1 == tResult)
                 {
-                    File.Delete(famname);
-                    return true;
+                    return 1;
                 }
                 else
-                    return false;
+                    return 2;
             }
-            return true;
+            return 0;
         }
     }
 }

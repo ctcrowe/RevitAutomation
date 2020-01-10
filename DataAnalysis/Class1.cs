@@ -4,10 +4,10 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace DataAnalysis
 {
-    [STAThread]
     public class Mastersection
     {
       public static List<string> GetData(string folder)
@@ -39,7 +39,7 @@ namespace DataAnalysis
           char[] cs = s.ToCharArray();
           for(int i = 0; i < cs.Count(); i++)
           {
-              if(!cs[i].IsLetter() || cs[i].IsCapital())
+              if(!char.IsLetter(cs[i]) || char.IsUpper(cs[i]))
               {
                   if(i > b)
                   {
@@ -50,14 +50,15 @@ namespace DataAnalysis
                       }
                       data.Add(z);
                   }
-                  if(!cs[i].IsLetter)
+                  if(!char.IsLetter(cs[i]))
                       b = i + 1;
                 else
                     b = i;
                 }
             }
+            return data;
         }
-    public static void Main()
+    public static void run()
     {
         string filedir = string.Empty;
         string filename = string.Empty;
