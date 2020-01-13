@@ -123,7 +123,7 @@ namespace DataAnalysis
             char[] cs = s.ToCharArray();
             for(int i = 0; i < cs.Count(); i++)
             {
-                if(!char.IsLetter(cs[i]) || char.IsUpper(cs[i]))
+                if(!char.IsLetter(cs[i]))
                 {
                     if(i > b)
                     {
@@ -134,10 +134,23 @@ namespace DataAnalysis
                         }
                         data.Add(z);
                     }
-                    if(!char.IsLetter(cs[i]))
-                        b = i + 1;
-                    else
+                    b = i + 1;
+                }
+                else
+                {
+                    if(char.IsUpper(cs[i]) && !char.IsUpper(cs[i-1]))
+                    {
+                        if(i > b)
+                        {
+                            string z = string.Empty;
+                            for(int j = b; j < i; j++)
+                            {
+                                z += cs[j];
+                            }
+                            data.Add(z);
+                        }
                         b = i;
+                    }
                 }
             }
             return data;
