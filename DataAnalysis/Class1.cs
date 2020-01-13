@@ -94,4 +94,29 @@ namespace DataAnalysis
             File.WriteAllLines(filename, data);
         }
     }
+    public class WordSections
+    {
+        public static List<string> GetData(string folder)
+        {
+            string[] Files = Directory.GetFiles(folder);
+            var data = new List<string>();
+            foreach(string f in Files)
+            {
+                XDocument doc = XDocument.Load(f);
+                if(doc.Root.Attribute("Name") != null)
+                {
+                    string ele = doc.Root.Attribute("Name").Value;
+                    if(!string.IsNullOrEmpty(ele))
+                    {
+                        if(doc.Root.Attribute("Category") != null)
+                        {
+                            string cat = doc.Root.Attribute("Category").Value;
+                            data.Add(ele + '\t' + cat);
+                        }
+                    }
+                }
+            }
+            return data;
+        }
+    }
 }
