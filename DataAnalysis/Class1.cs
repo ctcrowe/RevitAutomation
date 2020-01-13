@@ -110,7 +110,8 @@ namespace DataAnalysis
                     {
                         List<string> title = SplitTitle(ele);
                         foreach(string s in title)
-                            data.Add(s);
+                            if(!data.Contains(s))
+                                data.Add(s);
                     }
                 }
             }
