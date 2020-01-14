@@ -36,11 +36,11 @@ namespace DataAnalysis
             List<string> data = new List<string>();
             int b = 0;
             char[] cs = s.ToCharArray();
-            for (int i = 0; i < cs.Count(); i++)
+            for (int i = 1; i < cs.Count(); i++)
             {
                 if (!char.IsLetter(cs[i]))
                 {
-                    if (i > b)
+                    if (i > b && b < )
                     {
                         string z = string.Empty;
                         for (int j = b; j < i; j++)
