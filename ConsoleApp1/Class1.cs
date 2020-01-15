@@ -10,8 +10,9 @@ namespace DataAnalysis
 {
     public class WordSections
     {
+        private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
         
-        private static readonly string xfile = "";
         public static List<string> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
