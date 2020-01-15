@@ -29,10 +29,26 @@ namespace DataAnalysis
                     }
                 }
             }
+            if(file.Exists(xfile))
+            {
+                XDocument doc = XDocument.Load(xfile);
+                foreach(XElement ele in doc.Root.Elements())
+                {
+                    data.Add(ele.Attribute("Value").Value);
+                }
+            }
             return data;
         }
-        public static void O()
+        public static void CopyToXml(string file, string n)
         {
+            string[] lines = File.ReadAllLines(file);
+            XDocument doc = new XDocument();
+            foreach(string s in lines)
+            {
+                XElement e = new XElement("string");
+                e.Add(new XAttribute("Value", s));
+            }
+            doc.Save(n);
         }
         public static List<string> SplitTitle(string s)
         {
