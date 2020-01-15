@@ -31,6 +31,9 @@ namespace DataAnalysis
             }
             return data;
         }
+        public static void O()
+        {
+        }
         public static List<string> SplitTitle(string s)
         {
             List<string> data = new List<string>();
