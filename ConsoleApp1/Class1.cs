@@ -10,6 +10,8 @@ namespace DataAnalysis
 {
     public class WordSections
     {
+        
+        private static readonly string xfile = "";
         public static List<string> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
