@@ -45,13 +45,13 @@ namespace DataAnalysis
         public static void CopyToXml(string file, string n)
         {
             string[] lines = File.ReadAllLines(file);
-            XDocument doc = new XDocument();
+            XDocument doc = new XDocument(new XElement("PROJECT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
             foreach(string s in lines)
             {
                 XElement e = new XElement("string");
                 e.Add(new XAttribute("Value", s));
             }
-            doc.Save(n);
+            doc.Save(xfile);
         }
         public static List<string> SplitTitle(string s)
         {
