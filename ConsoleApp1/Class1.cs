@@ -45,7 +45,7 @@ namespace DataAnalysis
         public static void CopyToXml(string file, string n)
         {
             string[] lines = File.ReadAllLines(file);
-            XDocument doc = new XDocument(new XElement("PROJECT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+            XDocument doc = new XDocument(new XElement("DICTIONARY")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
             foreach(string s in lines)
             {
                 XElement e = new XElement("string");
