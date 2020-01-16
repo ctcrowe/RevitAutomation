@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace CC_Library
 {
-    class Class2
+    public class Prediction
     {
+        public string Word { get; }
+        public int[] Predictions { get; set; }
+        public int[] Previous { get; set; }
+
+        public Prediction(string s)
+        {
+            this.Word = s;
+            this.Predictions = new int[26];
+            this.Previous = new int[26];
+        }
     }
 }
