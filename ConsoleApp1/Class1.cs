@@ -43,7 +43,7 @@ namespace DataAnalysis
             {
                 if (!char.IsLetter(cs[i]))
                 {
-                    if (i > b && b < )
+                    if (i > b && b < cs.Count())
                     {
                         string z = string.Empty;
                         for (int j = b; j < i; j++)
@@ -58,7 +58,7 @@ namespace DataAnalysis
                 {
                     if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
                     {
-                        if (i > b)
+                        if (i > b && b < cs.Count())
                         {
                             string z = string.Empty;
                             for (int j = b; j < i; j++)
