@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{36C735B1-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyzeNames", "ConsoleApp1\AnalyzeNames.csproj", "{18E2A8DA-2DAC-4724-8EB3-0B7D0DA75F5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC_Library", "CC_Library\CC_Library.csproj", "{8F045972-357E-4478-AB80-16D6698A2684}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{18E2A8DA-2DAC-4724-8EB3-0B7D0DA75F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18E2A8DA-2DAC-4724-8EB3-0B7D0DA75F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18E2A8DA-2DAC-4724-8EB3-0B7D0DA75F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F045972-357E-4478-AB80-16D6698A2684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F045972-357E-4478-AB80-16D6698A2684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F045972-357E-4478-AB80-16D6698A2684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F045972-357E-4478-AB80-16D6698A2684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,7 +12,7 @@ namespace DataAnalysis
     {
         public string Title { get; }
         public int Section { get; }
-        
+
         public TitleAnalysis(string s, int i)
         {
             this.Title = s;
@@ -23,8 +23,8 @@ namespace DataAnalysis
     {
         public string Word { get; }
         public int[] Predictions { get; set; }
-        public int[] Previous {get; set;}
-        
+        public int[] Previous { get; set; }
+
         public Prediction(string s)
         {
             this.Word = s;
@@ -36,12 +36,12 @@ namespace DataAnalysis
     {
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
-        
+
         public static List<string> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
             var data = new List<string>();
-            
+
             foreach (string f in Files)
             {
                 XDocument doc = XDocument.Load(f);
@@ -57,10 +57,10 @@ namespace DataAnalysis
                     }
                 }
             }
-            if(File.Exists(xfile))
+            if (File.Exists(xfile))
             {
                 XDocument doc = XDocument.Load(xfile);
-                foreach(XElement ele in doc.Root.Elements())
+                foreach (XElement ele in doc.Root.Elements())
                 {
                     data.Add(ele.Attribute("Value").Value);
                 }
@@ -71,7 +71,7 @@ namespace DataAnalysis
         {
             string[] lines = File.ReadAllLines(file);
             XDocument doc = new XDocument(new XElement("DICTIONARY")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-            foreach(string s in lines)
+            foreach (string s in lines)
             {
                 XElement e = new XElement("string");
                 e.Add(new XAttribute("Value", s));
@@ -82,21 +82,21 @@ namespace DataAnalysis
         {
             var Input = new List<TitleAnalysis>();
             var Output = new List<Prediction>();
-            
+
             string[] lines = File.ReadAllLines(f1);
-            foreach(string l in lines)
+            foreach (string l in lines)
                 Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[1])));
             XDocument doc = XDocument.Load(xfile);
-            foreach(XElement ele in doc.Root.Elements())
+            foreach (XElement ele in doc.Root.Elements())
                 Output.Add(new Prediction(ele.Attribute("Value").Value));
-            while(true)
+            while (true)
             {
-                foreach(Prediction p in Output)
+                foreach (Prediction p in Output)
                 {
                     var connections = Input.Where(x => x.Title.Contains(p.Word)).ToList();
-                    foreach(var c in connections)
+                    foreach (var c in connections)
                     {
-                        
+
                     }
                 }
             }
