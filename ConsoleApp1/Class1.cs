@@ -8,12 +8,40 @@ using System.Windows.Forms;
 
 namespace DataAnalysis
 {
+    public class TitleAnalysis
+    {
+        public string Title { get; }
+        public int Section { get; }
+        
+        public TitleAnalysis(string s, int i)
+        {
+            this.Title = s;
+            this.Section = i;
+        }
+    }
+    public class Prediction
+    {
+        public string Word { get; }
+        public int[] Predictions { get; set; }
+        public int[] Previous {get; set;}
+        
+        public Prediction(string s)
+        {
+            this.Word = s;
+            this.Predictions = new int[26];
+            this.Previous = new int[26];
+        }
+    }
     public class WordSections
     {
+        private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
+        
         public static List<string> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
             var data = new List<string>();
+            
             foreach (string f in Files)
             {
                 XDocument doc = XDocument.Load(f);
@@ -29,10 +57,49 @@ namespace DataAnalysis
                     }
                 }
             }
+            if(file.Exists(xfile))
+            {
+                XDocument doc = XDocument.Load(xfile);
+                foreach(XElement ele in doc.Root.Elements())
+                {
+                    data.Add(ele.Attribute("Value").Value);
+                }
+            }
             return data;
         }
-        public static void O()
+        public static void CopyToXml(string file, string n)
         {
+            string[] lines = File.ReadAllLines(file);
+            XDocument doc = new XDocument(new XElement("DICTIONARY")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+            foreach(string s in lines)
+            {
+                XElement e = new XElement("string");
+                e.Add(new XAttribute("Value", s));
+            }
+            doc.Save(xfile);
+        }
+        public static void GeneratePrediction(string f1)
+        {
+            var Input = new List<TitleAnalysis>();
+            var Output = new List<Prediction>();
+            
+            string[] lines = File.ReadAllLines(f1);
+            foreach(string l in lines)
+                Input.Add(new TitleAnalysis(l.Split('\t').First(), int.TryParse(l.Split('\t')[1], out new int x)));
+            XDocument doc = XDocument.Load(xfile);
+            foreach(XElement ele in doc.Root.Elements())
+                Output.Add(new Prediction(ele.Attribute("Value").Value));
+            while(true)
+            {
+                foreach(Prediction p in Output)
+                {
+                    List<string> connections = Input.Where(x => x.Title.Contains(p.Word)).ToList();
+                    foreach(string c in connections)
+                    {
+                        
+                    }
+                }
+            }
         }
         public static List<string> SplitTitle(string s)
         {
