@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System.IO;
-using System.Globalization;
 using System.Windows.Forms;
 
-namespace DataAnalysis
+namespace CC_Library
 {
     public class TitleAnalysis
     {

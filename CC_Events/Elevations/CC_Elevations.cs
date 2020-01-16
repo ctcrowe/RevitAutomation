@@ -136,7 +136,7 @@ namespace CC_Events
             {
                 if (Viewport.CanAddViewToSheet(currentDoc, sheetCollector.FirstElement().Id, v.Id) != false)
                 {
-                    if (v.ViewName.Split('-').First() == vname + ' ')
+                    if (v.Name.Split('-').First() == vname + ' ')
                     {
                         VTDs.Add(v.Id);
                     }

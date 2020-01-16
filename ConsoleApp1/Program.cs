@@ -1,4 +1,5 @@
 ﻿using System;
+using CC_Library;
 
 namespace DataAnalysis
 {
@@ -7,7 +8,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            WordSections.run();
+            CC_Library.WordSections.run();
         }
     }
 }
