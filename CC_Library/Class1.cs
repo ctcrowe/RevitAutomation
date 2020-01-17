@@ -86,7 +86,7 @@ namespace CC_Library
                         }
                         double m = Prediction.Max();
                         int p = Array.IndexOf(Prediction, m);
-                        if(p == c.)
+                        if(p == c.Section)
                         {
                             if(m < Distance)
                             {
