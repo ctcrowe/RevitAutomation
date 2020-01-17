@@ -91,9 +91,8 @@ namespace CC_Library
                             if(m < Distance)
                             {
                                 Prediction[c.Section] += Math.Abs(m - Distance)
-                                for(int b = 0; b < 27; b+)
-                                    if(b != c.Section)
-                                        Prediction[b] -= (Math.Abs(m-Distance) / 26);
+                                foreach(double b in Prediction.Where(x => x.Index != c.Section))
+                                    b -= (Math.Abs(m-Distance) / 26);
                             }
                         }
                         else
