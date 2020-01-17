@@ -94,7 +94,7 @@ namespace CC_Library
                         }
                         else
                         {
-                            if(Prediction.Any(x => x > Distance))
+                            if(m > Distance)
                             {
                             }
                             else
