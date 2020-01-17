@@ -73,7 +73,34 @@ namespace CC_Library
                     {
                         double[] Prediction = new double[26];
                         var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
-                        
+                        for(int z = 0; z < 27, z++)
+                        {
+                            double a = 0;
+                            foreach(var x in textset)
+                            {
+                                double v = textset.Value[z] * textset.Value[z];
+                                a += v;
+                            }
+                            a /= textset.Count();
+                            Prediction[z] = Math.Sqrt(a);
+                        }
+                        double m = Prediction.Max();
+                        int p = Array.IndexOf(Prediction, m);
+                        if(p == c.)
+                        {
+                            if(m < Distance)
+                            {
+                            }
+                        }
+                        else
+                        {
+                            if(Prediction.Any(x => x > Distance))
+                            {
+                            }
+                            else
+                            {
+                            }
+                        }
                     }
                 }
             }
