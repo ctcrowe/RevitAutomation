@@ -25,7 +25,7 @@ namespace CC_Library
                     string ele = doc.Root.Attribute("Name").Value;
                     if (!string.IsNullOrEmpty(ele))
                     {
-                        List<string> title = SplitTitle(ele);
+                        List<string> title = TitleAnalysis.SplitTitle(ele);
                         foreach (string s in title)
                             if (!data.Contains(s))
                                 data.Add(s);
