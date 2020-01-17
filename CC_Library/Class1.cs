@@ -10,6 +10,7 @@ namespace CC_Library
     {
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
+        private const readonly double Distance = 75;
 
         public static List<string> GetData(string folder)
         {
@@ -65,12 +66,14 @@ namespace CC_Library
                 Output.Add(new Prediction(ele.Attribute("Value").Value));
             while (true)
             {
-                foreach (Prediction p in Output)
+                foreach (var o in Output)
                 {
-                    var connections = Input.Where(x => x.Title.Contains(p.Word)).ToList();
+                    var connections = Input.Where(x => x.Title.Contains(o.Word)).ToList();
                     foreach (var c in connections)
                     {
-
+                        double[] Prediction = new double[26];
+                        var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
+                        
                     }
                 }
             }
