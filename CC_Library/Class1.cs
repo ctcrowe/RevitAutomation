@@ -90,19 +90,32 @@ namespace CC_Library
                         {
                             if(m < Distance)
                             {
+                                Prediction[c.Section] += Math.Abs(m - Distance)
+                                for(int b = 0; b < 27; b+)
+                                    if(b != c.Section)
+                                        Prediction[b] -= (Math.Abs(m-Distance) / 26);
                             }
                         }
                         else
                         {
                             if(m > Distance)
                             {
+                                Prediction[c.Section] += 2 * Math.Abs(m - Distance)
+                                for(int b = 0; b < 27; b+)
+                                    if(b != c.Section)
+                                        Prediction[b] -= (Math.Abs(m-Distance) / 13);
                             }
                             else
                             {
+                                Prediction[c.Section] += Math.Abs(m - Distance)
+                                for(int b = 0; b < 27; b+)
+                                    if(b != c.Section)
+                                        Prediction[b] -= (Math.Abs(m-Distance) / 26);
                             }
                         }
                     }
                 }
+                xdoc.Save(fn);
             }
         }
         public static void run()
