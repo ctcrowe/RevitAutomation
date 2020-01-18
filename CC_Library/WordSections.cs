@@ -28,7 +28,7 @@ namespace CC_Library
                     string ele = doc.Root.Attribute("Name").Value;
                     if (!string.IsNullOrEmpty(ele))
                     {
-                        List<string> title = SplitTitle(ele);
+                        List<string> title = TitleAnalysis.SplitTitle(ele);
                         foreach (string s in title)
                             if (!data.Contains(s))
                                 data.Add(s);
@@ -71,54 +71,43 @@ namespace CC_Library
             {
                 foreach (var o in Output)
                 {
-                    var connections = Input.Where(x => x.Title.Contains(o.Word)).ToList();
-                    foreach (var c in connections)
+                    foreach (var c in Input.Where(x => x.Title.Contains(o.Word)).ToList())
                     {
                         double[] Prediction = new double[26];
                         var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
-                        
-                    }
-                }
-            }
-        }
-        public static List<string> SplitTitle(string s)
-        {
-            List<string> data = new List<string>();
-            int b = 0;
-            char[] cs = s.ToCharArray();
-            for (int i = 1; i < cs.Count(); i++)
-            {
-                if (!char.IsLetter(cs[i]))
-                {
-                    if (i > b && b < cs.Count())
-                    {
-                        string z = string.Empty;
-                        for (int j = b; j < i; j++)
+                        for(int z = 0; z < 27, z++)
                         {
-                            z += cs[j];
-                        }
-                        data.Add(z);
-                    }
-                    b = i + 1;
-                }
-                else
-                {
-                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
-                    {
-                        if (i > b && b < cs.Count())
-                        {
-                            string z = string.Empty;
-                            for (int j = b; j < i; j++)
+                            double a = 0;
+                            foreach(var x in textset)
                             {
-                                z += cs[j];
+                                double v = textset.Value[z] * textset.Value[z];
+                                a += v;
                             }
-                            data.Add(z);
+                            a /= textset.Count();
+                            Prediction[z] = Math.Sqrt(a);
                         }
-                        b = i;
+                        double m = Prediction.Max();
+                        int p = Array.IndexOf(Prediction, m);
+                        if(p == c.Section)
+                        {
+                            if(m < Distance)
+                            {
+                                Prediction[c.Section] += Math.Abs(m - Distance)
+                                foreach(double b in Prediction.Where(x => x.Index != c.Section))
+                                    b -= (Math.Abs(m-Distance) / 26);
+                            }
+                        }
+                        else
+                        {
+                            Prediction[c.Section] += Math.Abs(m - Distance)
+                            for(int b = 0; b < 27; b+)
+                                if(b != c.Section)
+                                    Prediction[b] -= (Math.Abs(m-Distance) / 26);
+                        }
                     }
                 }
+                xdoc.Save(fn);
             }
-            return data;
         }
         public static void run()
         {
