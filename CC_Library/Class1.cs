@@ -68,8 +68,7 @@ namespace CC_Library
             {
                 foreach (var o in Output)
                 {
-                    var connections = Input.Where(x => x.Title.Contains(o.Word)).ToList();
-                    foreach (var c in connections)
+                    foreach (var c in Input.Where(x => x.Title.Contains(o.Word)).ToList())
                     {
                         double[] Prediction = new double[26];
                         var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
