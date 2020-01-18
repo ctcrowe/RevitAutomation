@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace CC_Library
 {
@@ -10,7 +13,7 @@ namespace CC_Library
     {
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
-        private const readonly double Distance = 75;
+        private const double Distance = 75;
 
         public static List<string> GetData(string folder)
         {
@@ -56,14 +59,14 @@ namespace CC_Library
         public static void GeneratePrediction(string f1)
         {
             var Input = new List<TitleAnalysis>();
-            var Output = new List<Prediction>();
+            var Output = new List<PredictionElement>();
 
             string[] lines = File.ReadAllLines(f1);
             foreach (string l in lines)
                 Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[1])));
             XDocument doc = XDocument.Load(xfile);
             foreach (XElement ele in doc.Root.Elements())
-                Output.Add(new Prediction(ele.Attribute("Value").Value));
+                Output.Add(new PredictionElement(ele.Attribute("Value").Value));
             while (true)
             {
                 foreach (var o in Output)
