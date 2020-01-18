@@ -75,12 +75,12 @@ namespace CC_Library
                     {
                         double[] Prediction = new double[26];
                         var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
-                        for(int z = 0; z < 27, z++)
+                        for(int z = 0; z < 27; z++)
                         {
                             double a = 0;
                             foreach(var x in textset)
                             {
-                                double v = textset.Value[z] * textset.Value[z];
+                                double v = x.Predictions[z] * x.Predictions[z];
                                 a += v;
                             }
                             a /= textset.Count();
@@ -92,15 +92,18 @@ namespace CC_Library
                         {
                             if(m < Distance)
                             {
-                                Prediction[c.Section] += Math.Abs(m - Distance)
-                                foreach(double b in Prediction.Where(x => x.Index != c.Section))
-                                    b -= (Math.Abs(m-Distance) / 26);
+                                Prediction[c.Section] += Math.Abs(m - Distance);
+                                for (int i = 0; i < Prediction.Count(); i++)
+                                {
+                                    if (i != c.Section)
+                                        Prediction[i] -= (Math.Abs(m - Distance) / 26);
+                                }
                             }
                         }
                         else
                         {
-                            Prediction[c.Section] += Math.Abs(m - Distance)
-                            for(int b = 0; b < 27; b+)
+                            Prediction[c.Section] += Math.Abs(m - Distance);
+                            for(int b = 0; b < Prediction.Count(); b++)
                                 if(b != c.Section)
                                     Prediction[b] -= (Math.Abs(m-Distance) / 26);
                         }

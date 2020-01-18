@@ -1,4 +1,7 @@
-﻿namespace CC_Library
+﻿using System.Linq;
+using System.Collections.Generic;
+
+namespace CC_Library
 {
     public class TitleAnalysis
     {
