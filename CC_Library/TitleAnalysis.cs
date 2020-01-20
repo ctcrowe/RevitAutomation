@@ -88,5 +88,35 @@
             }
             return data;
         }
+        public static List<PredictionElement> GetData(string folder)
+        {
+            string[] Files = Directory.GetFiles(folder);
+            var data = new List<string>();
+
+            foreach (string f in Files)
+            {
+                XDocument doc = XDocument.Load(f);
+                if (doc.Root.Attribute("Name") != null)
+                {
+                    string ele = doc.Root.Attribute("Name").Value;
+                    if (!string.IsNullOrEmpty(ele))
+                    {
+                        List<string> title = TitleAnalysis.SplitTitle(ele);
+                        foreach (string s in title)
+                            if (!data.Contains(s))
+                                data.Add(s);
+                    }
+                }
+            }
+            if (File.Exists(xfile))
+            {
+                XDocument doc = XDocument.Load(xfile);
+                foreach (XElement ele in doc.Root.Elements())
+                {
+                    data.Add(ele.Attribute("Value").Value);
+                }
+            }
+            return data;
+        }
     }
 }
