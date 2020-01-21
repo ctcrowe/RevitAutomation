@@ -21,6 +21,28 @@ namespace CC_Library
             this.Predictions = new double[PredictionCount];
         }
         
+        public void AdjustPredictions(double Value, int Guess, int Correct int Round)
+        {
+            if(Guess == Correct)
+            {
+                Predictions[Correct] += (0 / Round);
+                for(int i = 0; i < Predictions.Count(); i++)
+                {
+                    if(i != Correct)
+                        Predictions i -= (0 / Round);
+                }
+            }
+            else
+            {
+                Predictions[Correct] += (0 / Round);
+                for(int i = 0; i < Predictions.Count(); i++)
+                {
+                    if(i != Correct)
+                       Predicitons[i] -= (0 / Round);
+                }
+            }
+        }
+        
         public static List<PredictionElement> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
