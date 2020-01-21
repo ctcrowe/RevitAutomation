@@ -82,7 +82,7 @@ namespace CC_Library
                             double a = 0;
                             foreach(var x in textset)
                             {
-                                double v = x.Predictions[z] * x.Predictions[z];
+                                double v = x.Prediction[z] * x.Prediction[z];
                                 a += v;
                             }
                             a /= textset.Count();
