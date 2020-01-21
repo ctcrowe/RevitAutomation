@@ -16,6 +16,23 @@ namespace CC_Library
             this.Section = i;
         }
         
+        public double[] GetPrediction(List<PredictionElement> PredictionWords)
+        {
+            double[] Prediction = new double[PredictionElement.PredictionCount];
+            var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
+            for(int z = 0; z < Prediction.Count(); z++)
+            {
+                double a = 0;
+                foreach(var x in textset)
+                {
+                    double v = x.Prediction[z] * x.Prediction[z];
+                    a += v;
+                }
+                a /= textset.Count();
+                Prediction[z] = Math.Sqrt(a);
+            }
+            return Prediction;
+        }
         public List<PredictionElement> SplitTitle()
         {
             var data = new List<PredictionElement>();
