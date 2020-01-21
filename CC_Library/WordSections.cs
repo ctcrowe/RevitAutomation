@@ -55,7 +55,7 @@ namespace CC_Library
             }
             doc.Save(xfile);
         }
-        public static void GeneratePrediction(string Entry, string Exit)
+        private static void GeneratePrediction(string Entry, string Exit)
         {
             var Input = new List<TitleAnalysis>();
             var Output = new List<PredictionElement>();
@@ -71,7 +71,7 @@ namespace CC_Library
             {
                 XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 string fn = Exit.Split('.').First() + "_" + k.ToString() + ".xml";
-                foreach (var o in Output)
+                foreach (int o = 0; o < Output.Count(); o++)
                 {
                     int analysiscount = 1;
                     foreach (var c in Input.Where(x => x.Title.Contains(o.Word)).ToList())
@@ -83,11 +83,11 @@ namespace CC_Library
                         {
                             if(m < Distance)
                             {
-                                o.Predictions[c.Section] += (Math.Abs(m - Distance) * ;
+                                Output[o].Predictions[c.Section] += (Math.Abs(m - Distance) * ;
                                 for (int i = 0; i < Prediction.Count(); i++)
                                 {
                                     if (i != c.Section)
-                                        Prediction[i] -= (Math.Abs(m - Distance) / PredictionElement.PredictionCount);
+                                        Output[o].Predictions[i] -= (Math.Abs(m - Distance) / PredictionElement.PredictionCount);
                                 }
                             }
                         }
