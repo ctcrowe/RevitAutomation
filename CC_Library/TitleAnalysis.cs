@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 
 namespace CC_Library
 {
@@ -14,6 +16,46 @@ namespace CC_Library
             this.Section = i;
         }
         
+        public List<PredictionElement> SplitTitle()
+        {
+            var data = new List<PredictionElement>();
+            int b = 0;
+            char[] cs = this.Title.ToCharArray();
+            for (int i = 1; i < cs.Count(); i++)
+            {
+                if (!char.IsLetter(cs[i]))
+                {
+                    if (i > b && b < cs.Count())
+                    {
+                        string z = string.Empty;
+                        for (int j = b; j < i; j++)
+                        {
+                            z += cs[j];
+                        }
+                        data.Add(new PredictionElement(z));
+                    }
+                    b = i + 1;
+                }
+                else
+                {
+                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
+                    {
+                        if (i > b && b < cs.Count())
+                        {
+                            string z = string.Empty;
+                            for (int j = b; j < i; j++)
+                            {
+                                z += cs[j];
+                            }
+                            data.Add(new PredictionElement(z));
+                        }
+                        b = i;
+                    }
+                }
+            }
+            return data;
+        }
+
         public static List<TitleAnalysis> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
@@ -31,7 +73,7 @@ namespace CC_Library
                         {
                             if(doc.Root.Attribute("Section") != null)
                             {
-                                data.Add(new TitleAnalysis(ele, doc.Root.Attribute("Section").Value));
+                                data.Add(new TitleAnalysis(ele, int.Parse(doc.Root.Attribute("Section").Value)));
                             }
                             else
                             {

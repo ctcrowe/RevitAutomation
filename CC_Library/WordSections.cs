@@ -28,10 +28,9 @@ namespace CC_Library
                     string ele = doc.Root.Attribute("Name").Value;
                     if (!string.IsNullOrEmpty(ele))
                     {
-                        List<string> title = TitleAnalysis.SplitTitle(ele);
-                        foreach (string s in title)
-                            if (!data.Contains(s))
-                                data.Add(s);
+                        foreach (var pe in PredictionElement.SplitTitle(ele))
+                            if (!data.Contains(pe.Word))
+                                data.Add(pe.Word);
                     }
                 }
             }
@@ -56,26 +55,29 @@ namespace CC_Library
             }
             doc.Save(xfile);
         }
-        public static void GeneratePrediction(string f1)
+        public static void GeneratePrediction(string Entry, string Exit)
         {
             var Input = new List<TitleAnalysis>();
             var Output = new List<PredictionElement>();
 
-            string[] lines = File.ReadAllLines(f1);
+            string[] lines = File.ReadAllLines(Entry);
             foreach (string l in lines)
-                Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[1])));
-            XDocument doc = XDocument.Load(xfile);
-            foreach (XElement ele in doc.Root.Elements())
-                Output.Add(new PredictionElement(ele.Attribute("Value").Value));
-            while (true)
+                Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+            foreach(TitleAnalysis ta in Input)
             {
+                Output.AddRange(ta.SplitTitle());
+            }
+            for(int k = 1; k < 1000000; k++)
+            {
+                XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                string fn = Exit.Split('.').First() + "_" + k.ToString() + ".xml";
                 foreach (var o in Output)
                 {
                     foreach (var c in Input.Where(x => x.Title.Contains(o.Word)).ToList())
                     {
-                        double[] Prediction = new double[26];
+                        double[] Prediction = new double[PredictionElement.PredictionCount];
                         var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
-                        for(int z = 0; z < 27; z++)
+                        for(int z = 0; z < Prediction.Count(); z++)
                         {
                             double a = 0;
                             foreach(var x in textset)
@@ -96,7 +98,7 @@ namespace CC_Library
                                 for (int i = 0; i < Prediction.Count(); i++)
                                 {
                                     if (i != c.Section)
-                                        Prediction[i] -= (Math.Abs(m - Distance) / 26);
+                                        Prediction[i] -= (Math.Abs(m - Distance) / PredictionElement.PredictionCount);
                                 }
                             }
                         }
@@ -105,47 +107,36 @@ namespace CC_Library
                             Prediction[c.Section] += Math.Abs(m - Distance);
                             for(int b = 0; b < Prediction.Count(); b++)
                                 if(b != c.Section)
-                                    Prediction[b] -= (Math.Abs(m-Distance) / 26);
+                                    Prediction[b] -= (Math.Abs(m-Distance) / Prediction.Count());
+                        }
+                        for(int q = 0; q < PredictionElement.PredictionCount; q++)
+                        {
+                            o.Predictions[q] = Prediction[q];
                         }
                     }
                 }
+                foreach(var o in Output)
+                {
+                    XElement e = new XElement("Prediction");
+                    e.Add(new XAttribute("Word", o.Word));
+                    for(int i = 0; i < o.Predictions.Count(); i++) 
+                    {
+                        int j = i + 1;
+                        XElement d = new XElement("Section");
+                        d.Add(new XAttribute("Number", j.ToString()));
+                        d.Add(new XAttribute("Value", o.Predictions[i].ToString()));
+                        e.Add(d);
+                    }
+                    xdoc.Root.Add(new XElement(e));
+                }
                 xdoc.Save(fn);
+                k++;
             }
         }
         public static void run()
         {
-            string filedir = string.Empty;
-            string filename = string.Empty;
-
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.InitialDirectory = "c:\\";
-                ofd.Filter = "All files (*.*)|*.*";
-                ofd.RestoreDirectory = true;
-
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    filedir = ofd.FileName.TrimEnd(ofd.FileName.Split('\\').Last().ToCharArray());
-                }
-                Console.WriteLine(filedir);
-            }
-            using (SaveFileDialog sfd = new SaveFileDialog())
-            {
-                sfd.InitialDirectory = "c:\\";
-                sfd.Filter = "All files (*.*)|*.*";
-                sfd.RestoreDirectory = true;
-
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    if (sfd.FileName.EndsWith(".txt"))
-                        filename = sfd.FileName;
-                    else
-                        filename = sfd.FileName.Split('.').FirstOrDefault() + ".txt";
-                }
-                Console.WriteLine(filename);
-            }
-            var data = GetData(filedir);
-            File.WriteAllLines(filename, data);
+            Command.Cmd RunAnalysis = new Command.Cmd(GeneratePrediction);
+            Command.Run(RunAnalysis);
         }
     }
 }

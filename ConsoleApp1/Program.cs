@@ -8,7 +8,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            CC_Library.WordSections.run();
+            WordSections.run();
         }
     }
 }

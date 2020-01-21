@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="WordSections.cs" />
     <Compile Include="CC_PredictionElement.cs" />
-    <Compile Include="Class3.cs" />
+    <Compile Include="CC_Command.cs" />
     <Compile Include="Class4.cs" />
     <Compile Include="TitleAnalysis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
