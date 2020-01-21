@@ -13,7 +13,7 @@ namespace CC_Library
     {
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
-        private const double Distance = 75;
+        private const double Distance = 0.75;
 
         public static List<string> GetData(string folder)
         {
@@ -67,34 +67,23 @@ namespace CC_Library
             {
                 Output.AddRange(ta.SplitTitle());
             }
-            for(int k = 1; k < 1000000; k++)
+            for(int k = 1; k < 1000; k++)
             {
                 XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 string fn = Exit.Split('.').First() + "_" + k.ToString() + ".xml";
                 foreach (var o in Output)
                 {
+                    int analysiscount = 1;
                     foreach (var c in Input.Where(x => x.Title.Contains(o.Word)).ToList())
                     {
-                        double[] Prediction = new double[PredictionElement.PredictionCount];
-                        var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
-                        for(int z = 0; z < Prediction.Count(); z++)
-                        {
-                            double a = 0;
-                            foreach(var x in textset)
-                            {
-                                double v = x.Prediction[z] * x.Prediction[z];
-                                a += v;
-                            }
-                            a /= textset.Count();
-                            Prediction[z] = Math.Sqrt(a);
-                        }
+                        double[] Prediction = c.GetPrediction(Output);
                         double m = Prediction.Max();
                         int p = Array.IndexOf(Prediction, m);
                         if(p == c.Section)
                         {
                             if(m < Distance)
                             {
-                                Prediction[c.Section] += Math.Abs(m - Distance);
+                                o.Predictions[c.Section] += (Math.Abs(m - Distance) * ;
                                 for (int i = 0; i < Prediction.Count(); i++)
                                 {
                                     if (i != c.Section)
@@ -108,10 +97,6 @@ namespace CC_Library
                             for(int b = 0; b < Prediction.Count(); b++)
                                 if(b != c.Section)
                                     Prediction[b] -= (Math.Abs(m-Distance) / Prediction.Count());
-                        }
-                        for(int q = 0; q < PredictionElement.PredictionCount; q++)
-                        {
-                            o.Predictions[q] = Prediction[q];
                         }
                     }
                 }
