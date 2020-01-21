@@ -13,79 +13,31 @@ namespace CC_Library
             this.Title = s;
             this.Section = i;
         }
-        public List<string> SplitTitle()
+        
+        public static List<TitleAnalysis> GetData(string folder)
         {
-            List<string> data = new List<string>();
-            int b = 0;
-            char[] cs = this.Title.ToCharArray();
-            for (int i = 1; i < cs.Count(); i++)
+            string[] Files = Directory.GetFiles(folder);
+            var data = new List<TitleAnalysis>();
+
+            foreach (string f in Files)
             {
-                if (!char.IsLetter(cs[i]))
+                XDocument doc = XDocument.Load(f);
+                if (doc.Root.Attribute("Name") != null)
                 {
-                    if (i > b && b < cs.Count())
+                    string ele = doc.Root.Attribute("Name").Value;
+                    if (!string.IsNullOrEmpty(ele))
                     {
-                        string z = string.Empty;
-                        for (int j = b; j < i; j++)
+                        if (!data.Any(x => x.Title == ele))
                         {
-                            z += cs[j];
-                        }
-                        data.Add(z);
-                    }
-                    b = i + 1;
-                }
-                else
-                {
-                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
-                    {
-                        if (i > b && b < cs.Count())
-                        {
-                            string z = string.Empty;
-                            for (int j = b; j < i; j++)
+                            if(doc.Root.Attribute("Section") != null)
                             {
-                                z += cs[j];
+                                data.Add(new TitleAnalysis(ele, doc.Root.Attribute("Section").Value));
                             }
-                            data.Add(z);
-                        }
-                        b = i;
-                    }
-                }
-            }
-            return data;
-        }
-        public static List<string> SplitTitle(string s)
-        {
-            List<string> data = new List<string>();
-            int b = 0;
-            char[] cs = s.ToCharArray();
-            for (int i = 1; i < cs.Count(); i++)
-            {
-                if (!char.IsLetter(cs[i]))
-                {
-                    if (i > b && b < cs.Count())
-                    {
-                        string z = string.Empty;
-                        for (int j = b; j < i; j++)
-                        {
-                            z += cs[j];
-                        }
-                        data.Add(z);
-                    }
-                    b = i + 1;
-                }
-                else
-                {
-                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
-                    {
-                        if (i > b && b < cs.Count())
-                        {
-                            string z = string.Empty;
-                            for (int j = b; j < i; j++)
+                            else
                             {
-                                z += cs[j];
+                                data.Add(new TitleAnalysis(ele, 0));
                             }
-                            data.Add(z);
                         }
-                        b = i;
                     }
                 }
             }
