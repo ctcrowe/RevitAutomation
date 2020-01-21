@@ -16,6 +16,14 @@
             string[] Files = Directory.GetFiles(folder);
             var data = new List<string>();
 
+            if (File.Exists(xfile))
+            {
+                XDocument doc = XDocument.Load(xfile);
+                foreach (XElement ele in doc.Root.Elements())
+                {
+                    data.Add(new PreddictionElement(ele.Attribute("Value").Value));
+                }
+            }
             foreach (string f in Files)
             {
                 XDocument doc = XDocument.Load(f);
@@ -24,19 +32,11 @@
                     string ele = doc.Root.Attribute("Name").Value;
                     if (!string.IsNullOrEmpty(ele))
                     {
-                        List<string> title = TitleAnalysis.SplitTitle(ele);
+                        List<string> title = SplitTitle(ele);
                         foreach (string s in title)
-                            if (!data.Contains(s))
-                                data.Add(s);
+                            if (!data.Any(x => x.Word == s))
+                                data.Add(new PredictionElement(s));
                     }
-                }
-            }
-            if (File.Exists(xfile))
-            {
-                XDocument doc = XDocument.Load(xfile);
-                foreach (XElement ele in doc.Root.Elements())
-                {
-                    data.Add(ele.Attribute("Value").Value);
                 }
             }
             return data;
