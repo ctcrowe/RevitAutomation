@@ -21,24 +21,25 @@ namespace CC_Library
             this.Predictions = new double[PredictionCount];
         }
         
-        public void AdjustPredictions(double Value, int Guess, int Correct int Round)
+        public void AdjustPredictions(double Max, int Guess, int Correct)
         {
+            double estimate = Math.Abs(Max - 50);
             if(Guess == Correct)
             {
-                Predictions[Correct] += (0 / Round);
+                Predictions[Correct] += estimate;
                 for(int i = 0; i < Predictions.Count(); i++)
                 {
                     if(i != Correct)
-                        Predictions i -= (0 / (Round * PredictionCount));
+                        Predictions[i] -= (estimate / PredictionCount);
                 }
             }
             else
             {
-                Predictions[Correct] += (0 / Round);
+                Predictions[Correct] += estimate;
                 for(int i = 0; i < Predictions.Count(); i++)
                 {
                     if(i != Correct)
-                       Predicitons[i] -= (0 / (Round * PredictionCount));
+                       Predictions[i] -= (estimate / PredictionCount);
                 }
             }
         }

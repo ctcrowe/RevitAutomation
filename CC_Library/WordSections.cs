@@ -13,7 +13,6 @@ namespace CC_Library
     {
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
-        private const double Distance = 0.75;
 
         public static List<string> GetData(string folder)
         {
@@ -65,48 +64,33 @@ namespace CC_Library
                 Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
             foreach(TitleAnalysis ta in Input)
             {
-                Output.AddRange(ta.SplitTitle());
+                foreach (var o in ta.SplitTitle())
+                {
+                    if (!Output.Any(x => x.Word == o.Word))
+                        Output.Add(o);
+                }
             }
-            for(int k = 1; k < 1000; k++)
+            while(true)
             {
                 XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                string fn = Exit.Split('.').First() + "_" + k.ToString() + ".xml";
-                foreach (int o = 0; o < Output.Count(); o++)
+                string fn = Exit.Split('.').First() + ".xml";
+                for (int o = 0; o < Output.Count(); o++)
                 {
-                    int analysiscount = 1;
-                    foreach (var c in Input.Where(x => x.Title.Contains(o.Word)).ToList())
+                    foreach (var c in Input.Where(x => x.Title.Contains(Output[o].Word)).ToList())
                     {
                         double[] Prediction = c.GetPrediction(Output);
-                        double m = Prediction.Max();
-                        int p = Array.IndexOf(Prediction, m);
-                        if(p == c.Section)
-                        {
-                            if(m < Distance)
-                            {
-                                Output[o].Predictions[c.Section] += (Math.Abs(m - Distance) * ;
-                                for (int i = 0; i < Prediction.Count(); i++)
-                                {
-                                    if (i != c.Section)
-                                        Output[o].Predictions[i] -= (Math.Abs(m - Distance) / PredictionElement.PredictionCount);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Prediction[c.Section] += Math.Abs(m - Distance);
-                            for(int b = 0; b < Prediction.Count(); b++)
-                                if(b != c.Section)
-                                    Prediction[b] -= (Math.Abs(m-Distance) / Prediction.Count());
-                        }
+                        double max = Prediction.Max();
+                        int p = Array.IndexOf(Prediction, max);
+                        Output[o].AdjustPredictions(max, p, c.Section);
                     }
                 }
                 foreach(var o in Output)
                 {
                     XElement e = new XElement("Prediction");
                     e.Add(new XAttribute("Word", o.Word));
-                    for(int i = 0; i < o.Predictions.Count(); i++) 
+                    for(int i = 1; i < o.Predictions.Count(); i++) 
                     {
-                        int j = i + 1;
+                        int j = i;
                         XElement d = new XElement("Section");
                         d.Add(new XAttribute("Number", j.ToString()));
                         d.Add(new XAttribute("Value", o.Predictions[i].ToString()));
@@ -115,7 +99,6 @@ namespace CC_Library
                     xdoc.Root.Add(new XElement(e));
                 }
                 xdoc.Save(fn);
-                k++;
             }
         }
         public static void run()

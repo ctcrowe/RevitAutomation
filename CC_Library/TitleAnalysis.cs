@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using System;
 
 namespace CC_Library
 {
@@ -19,13 +20,13 @@ namespace CC_Library
         public double[] GetPrediction(List<PredictionElement> PredictionWords)
         {
             double[] Prediction = new double[PredictionElement.PredictionCount];
-            var textset = Output.Where(x => c.Title.Contains(x.Word) && x.Word != o.Word).ToList();
+            var textset = PredictionWords.Where(x => Title.Contains(x.Word)).ToList();
             for(int z = 0; z < Prediction.Count(); z++)
             {
                 double a = 0;
                 foreach(var x in textset)
                 {
-                    double v = x.Prediction[z] * x.Prediction[z];
+                    double v = x.Predictions[z] * x.Predictions[z];
                     a += v;
                 }
                 a /= textset.Count();

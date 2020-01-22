@@ -4,14 +4,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC_Plugin", "CC_Events\CC_Plugin.csproj", "{713544C9-C613-45F0-BD7E-D5E10AA6DE7C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8F045972-357E-4478-AB80-16D6698A2684} = {8F045972-357E-4478-AB80-16D6698A2684}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toolbar", "Toolbar", "{A0669FAE-4A9E-46F0-8CCF-BB553B87C5CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalysis", "DataAnalysis\DataAnalysis.csproj", "{7BE7C9F8-0F87-451B-AF91-96E8E5187139}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8F045972-357E-4478-AB80-16D6698A2684} = {8F045972-357E-4478-AB80-16D6698A2684}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{36C735B1-1A2D-430F-81CA-4F86923476BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyzeNames", "ConsoleApp1\AnalyzeNames.csproj", "{18E2A8DA-2DAC-4724-8EB3-0B7D0DA75F5C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8F045972-357E-4478-AB80-16D6698A2684} = {8F045972-357E-4478-AB80-16D6698A2684}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC_Library", "CC_Library\CC_Library.csproj", "{8F045972-357E-4478-AB80-16D6698A2684}"
 EndProject
