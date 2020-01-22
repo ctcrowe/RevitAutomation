@@ -29,7 +29,7 @@ namespace CC_Library
                 for(int i = 0; i < Predictions.Count(); i++)
                 {
                     if(i != Correct)
-                        Predictions i -= (0 / Round);
+                        Predictions i -= (0 / (Round * PredictionCount));
                 }
             }
             else
@@ -38,7 +38,7 @@ namespace CC_Library
                 for(int i = 0; i < Predictions.Count(); i++)
                 {
                     if(i != Correct)
-                       Predicitons[i] -= (0 / Round);
+                       Predicitons[i] -= (0 / (Round * PredictionCount));
                 }
             }
         }
