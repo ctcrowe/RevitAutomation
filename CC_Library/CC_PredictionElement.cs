@@ -25,7 +25,7 @@ namespace CC_Library
         
         public void AdjustPredictions(double Certainty, int Guess, int Correct)
         {
-            double MaxChange = 1 / PredictionNumber + 1;
+            double MaxChange = 1 / ((PredictionNumber * PredictionNumber) + 1);
             if(Guess == Correct && Certainty > 0.75)
             {
                 Predictions[Correct] += MaxChange / 2;
