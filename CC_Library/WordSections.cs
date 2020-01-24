@@ -54,6 +54,22 @@ namespace CC_Library
             }
             doc.Save(xfile);
         }
+        private static void GenPredictionV2(string Entry, string Exit)
+        {
+            var Input = new List<Titleanalysis>();
+            var Output = new List<PredictionElement>();
+            
+            string[] lines = File.ReadAllLines(Entry);
+            foreach(string l in lines)
+                Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+            while(true)
+            {
+                foreach(var ta in Input)
+                {
+                    var Words = new List<PredictionElement>();
+                }
+            }
+        }
         private static void GeneratePrediction(string Entry, string Exit)
         {
             var Input = new List<TitleAnalysis>();
