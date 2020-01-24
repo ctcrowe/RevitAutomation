@@ -102,6 +102,7 @@ namespace CC_Library
                 xdoc.Save(fn);
             }
         }
+                           /*
         private static void GeneratePrediction(string Entry, string Exit)
         {
             var Input = new List<TitleAnalysis>();
@@ -148,9 +149,10 @@ namespace CC_Library
                 xdoc.Save(fn);
             }
         }
+        */
         public static void run()
         {
-            Command.Cmd RunAnalysis = new Command.Cmd(GeneratePrediction);
+            Command.Cmd RunAnalysis = new Command.Cmd(GenPredictionV2);
             Command.Run(RunAnalysis);
         }
     }
