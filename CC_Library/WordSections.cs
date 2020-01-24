@@ -81,7 +81,7 @@ namespace CC_Library
                         double[] Prediction = c.GetPrediction(Output);
                         double max = Prediction.Max();
                         int p = Array.IndexOf(Prediction, max);
-                        Output[o].AdjustPredictions(max, p, c.Section);
+                        Output[o].Predictions = Output[o].AdjustPredictions(max, p, c.Section);
                     }
                 }
                 foreach(var o in Output)
@@ -90,9 +90,8 @@ namespace CC_Library
                     e.Add(new XAttribute("Word", o.Word));
                     for(int i = 1; i < o.Predictions.Count(); i++) 
                     {
-                        int j = i;
                         XElement d = new XElement("Section");
-                        d.Add(new XAttribute("Number", j.ToString()));
+                        d.Add(new XAttribute("Number", i.ToString()));
                         d.Add(new XAttribute("Value", o.Predictions[i].ToString()));
                         e.Add(d);
                     }
