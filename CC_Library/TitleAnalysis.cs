@@ -34,6 +34,45 @@ namespace CC_Library
             }
             return Prediction;
         }
+        public List<string> SplitTitleWords()
+        {
+            var data = new List<PredictionElement>();
+            int b = 0;
+            char[] cs = this.Title.ToCharArray();
+            for (int i = 1; i < cs.Count(); i++)
+            {
+                if (!char.IsLetter(cs[i]))
+                {
+                    if (i > b && b < cs.Count())
+                    {
+                        string z = string.Empty;
+                        for (int j = b; j < i; j++)
+                        {
+                            z += cs[j];
+                        }
+                        data.Add(z);
+                    }
+                    b = i + 1;
+                }
+                else
+                {
+                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
+                    {
+                        if (i > b && b < cs.Count())
+                        {
+                            string z = string.Empty;
+                            for (int j = b; j < i; j++)
+                            {
+                                z += cs[j];
+                            }
+                            data.Add(z);
+                        }
+                        b = i;
+                    }
+                }
+            }
+            return data;
+        }
         public List<PredictionElement> SplitTitle()
         {
             var data = new List<PredictionElement>();
