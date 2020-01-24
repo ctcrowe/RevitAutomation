@@ -20,11 +20,10 @@ namespace CC_Library
         public double[] GetPrediction(List<PredictionElement> PredictionWords)
         {
             double[] Prediction = new double[PredictionElement.PredictionCount];
-            var textset = PredictionWords.Where(x => Title.Contains(x.Word)).ToList();
             for(int z = 0; z < Prediction.Count(); z++)
             {
                 double a = 0;
-                foreach(var x in textset)
+                foreach(var x in PredictionWords)
                 {
                     double v = x.Predictions[z] * x.Predictions[z];
                     a += v;
