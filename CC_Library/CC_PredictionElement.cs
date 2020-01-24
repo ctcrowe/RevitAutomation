@@ -23,10 +23,12 @@ namespace CC_Library
             PredictionNumber = 1;
         }
         
-        public void AdjustPredictions(double Certainty, int Guess, int Correct)
+        public void AdjustPredictions(double[] Data, int Correct)
         {
             double MaxChange = 1 / ((PredictionNumber * PredictionNumber) + 1);
-            if(Guess == Correct && Certainty > 0.75)
+            double mv = Data.Max();
+            int Guess = Array.IndexOf(Data, mv);
+            if(Guess == Correct && mv > 0.75)
             {
                 Predictions[Correct] += MaxChange / 2;
             }
