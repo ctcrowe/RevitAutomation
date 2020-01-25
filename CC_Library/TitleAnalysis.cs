@@ -20,16 +20,16 @@ namespace CC_Library
         public double[] GetPrediction(List<PredictionElement> PredictionWords)
         {
             double[] Prediction = new double[PredictionElement.PredictionCount];
-            var textset = PredictionWords.Where(x => Title.Contains(x.Word)).ToList();
+            var Set = PredictionWords.Where(x => Title.Contains(x.Word)).ToList();
             for(int z = 0; z < Prediction.Count(); z++)
             {
                 double a = 0;
-                foreach(var x in textset)
+                foreach(var x in Set)
                 {
                     double v = x.Predictions[z] * x.Predictions[z];
                     a += v;
                 }
-                a /= textset.Count();
+                a /= Set.Count();
                 Prediction[z] = Math.Sqrt(a);
             }
             return Prediction;
@@ -69,6 +69,15 @@ namespace CC_Library
                         }
                         b = i;
                     }
+                }
+                if(i == cs.Count() - 1 && b != i)
+                {
+                    string z = string.Empty;
+                    for (int j = b; j <= i; j++)
+                    {
+                        z += cs[j];
+                    }
+                    data.Add(new PredictionElement(z));
                 }
             }
             return data;

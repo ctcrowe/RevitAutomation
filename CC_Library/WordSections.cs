@@ -72,19 +72,19 @@ namespace CC_Library
             }
             while(true)
             {
-                XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                string fn = Exit.Split('.').First() + ".xml";
-                for (int o = 0; o < Output.Count(); o++)
+                foreach(var c in Input)
                 {
-                    foreach (var c in Input.Where(x => x.Title.Contains(Output[o].Word)).ToList())
+                    double[] Prediction = c.GetPrediction(Output);
+                    double max = Prediction.Max();
+                    int p = Array.IndexOf(Prediction, max);
+                    foreach (var t in Output.Where(x => c.Title.Contains(x.Word)))
                     {
-                        double[] Prediction = c.GetPrediction(Output);
-                        double max = Prediction.Max();
-                        int p = Array.IndexOf(Prediction, max);
-                        Output[o].AdjustPredictions(max, p, c.Section);
+                        t.AdjustPredictions(max, p, c.Section);
                     }
                 }
-                foreach(var o in Output)
+
+                XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                foreach (var o in Output)
                 {
                     XElement e = new XElement("Prediction");
                     e.Add(new XAttribute("Word", o.Word));
@@ -98,6 +98,7 @@ namespace CC_Library
                     }
                     xdoc.Root.Add(new XElement(e));
                 }
+                string fn = Exit.Split('.').First() + ".xml";
                 xdoc.Save(fn);
             }
         }
