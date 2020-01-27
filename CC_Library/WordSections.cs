@@ -63,7 +63,11 @@ namespace CC_Library
             foreach(string l in lines)
             {
                 if(l.Split('\t').Count >= 3)
-                    Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+                {
+                    int section;
+                    if(int.TryParse(l.Split('\t')[2], out section))
+                        Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+                }
             }
             while(true)
             {
