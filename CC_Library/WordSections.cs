@@ -61,7 +61,10 @@ namespace CC_Library
             
             string[] lines = File.ReadAllLines(Entry);
             foreach(string l in lines)
-                Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+            {
+                if(l.Split('\t').Count >= 3)
+                    Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+            }
             while(true)
             {
                 int calculationnumber = 1;
