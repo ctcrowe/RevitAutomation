@@ -66,7 +66,7 @@ namespace CC_Library
                 {
                     int section;
                     if(int.TryParse(l.Split('\t')[2], out section))
-                        Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+                        Input.Add(new TitleAnalysis(l.Split('\t').First(), section);
                 }
             }
             while(true)
