@@ -54,7 +54,7 @@ namespace CC_Library
             }
             doc.Save(xfile);
         }
-        private static void GenPredictionV2(string Entry, string Exit)
+        private static void GenPrediction(string Entry, string Exit)
         {
             var Input = new List<Titleanalysis>();
             var Output = new List<PredictionElement>();
@@ -78,10 +78,13 @@ namespace CC_Library
                     double[] pred = ta.GetPrediction(data);
                     foreach(var d in data)
                     {
-                        d.AdjustPredictions(pred, ta.Section);
                         if(Output.Any(x => x.Word == d.Word))
-                            Output.Remove(Output.Where(x => x.Word == d.Word).First());
-                        Output.Add(d);
+                            Output.Where(x => x.Word == d.Word).First().AdjustPredictions(pred, ta.Section);
+                        else
+                        {
+                            d.AdjustPredictions(pred, ta.Section);
+                            Output.Add(d);
+                        }
                     }
                 }
                 XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
@@ -104,7 +107,7 @@ namespace CC_Library
         }
         public static void run()
         {
-            Command.Cmd RunAnalysis = new Command.Cmd(GenPredictionV2);
+            Command.Cmd RunAnalysis = new Command.Cmd(GenPrediction);
             Command.Run(RunAnalysis);
         }
     }
