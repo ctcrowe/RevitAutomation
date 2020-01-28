@@ -8,6 +8,48 @@ using Autodesk.Revit.DB.Architecture;
 
 namespace CC_Plugin
 {
+    private class RevitParamEdits
+    {
+        private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private static string SharedParams = Location + "\\CC_SharedParams.txt";
+        public void Add_ProjectInfoParam(Document doc)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile DefFile = app.OpenSharedParameterFile();
+            
+            if(!doc.IsFamilyDocument)
+            {
+                Definition def = SetupParam(doc);
+                if (!doc.ParameterBindings.Contains(def))
+                {
+                    try
+                    {
+                        CategorySet set = new CategorySet();
+                        foreach (BuiltInCategory cat in Categories)
+                        {
+                            if (!set.Contains(Category.GetCategory(doc, cat)))
+                                set.Insert(Category.GetCategory(doc, cat));
+                        }
+                        if (set.Size > 0)
+                        {
+                            if (Inst)
+                            {
+                                InstanceBinding binding = new InstanceBinding(set);
+                                doc.ParameterBindings.Insert(def, binding);
+                            }
+                            else
+                            {
+                                TypeBinding binding = new TypeBinding(set);
+                                doc.ParameterBindings.Insert(def, binding);
+                            }
+                        }
+                    }
+                    catch { }
+                }
+            }
+        }
+    }
     public class Param
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
