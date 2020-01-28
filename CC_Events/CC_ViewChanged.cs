@@ -37,17 +37,17 @@ namespace CC_Plugin
                             doc.FamilyManager.NewType("Automatic Type");
                             t.Commit();
                         }
+                        using (Transaction t = new Transaction(doc, "Add MasterFormat Parameter"))
+                        {
+                            t.Start();
+                            MFParam.Add(doc);
+                            t.Commit();
+                        }
                     }
                     using (Transaction t = new Transaction(doc, "Add Fam Name"))
                     {
                         t.Start();
                         FamNameParam.Add(doc);
-                        t.Commit();
-                    }
-                    using (Transaction t = new Transaction(doc, "Add MasterFormat Parameter"))
-                    {
-                        t.Start();
-                        MFParam.Add(doc);
                         t.Commit();
                     }
                 }
