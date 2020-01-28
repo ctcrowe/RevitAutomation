@@ -13,32 +13,25 @@ namespace CC_Plugin
         public string ParamGroup { get; set; }
         public string name { get; set; }
         public int type { get; set; }
-        public string[] Categories { get; set; }
-        public string Group { get; set; }
         public Guid ID { get; set; }
         public Boolean Vis { get; set; }
         public string Description { get; set; }
         public Boolean UsrMod { get; set; }
         public Boolean Inst { get; set; }
         public Boolean Fixed { get; set; }
-        public Param(string name, int type, Guid id, string paramgroup, BuiltInCategory[] categories,
-            BuiltInParameterGroup bpg, string description, bool vis, bool inst, bool usrmod, bool fix)
+        public Param(string name, int type, Guid id, string paramgroup,
+                     string description, bool vis, bool inst, bool usrmod, bool fix)
         {
             this.name = name;
             this.type = type;
             this.ID = id;
             this.ParamGroup = paramgroup;
-            this.Categories = categories;
-            this.BuiltInGroup = bpg;
             this.Description = description;
             this.Vis = vis;
             this.Inst = inst;
             this.UsrMod = usrmod;
             this.Fixed = fix;
         }
-        public delegate void Add();
-        public delegate void Set(string value);
-        public delegate void Get();
     }
     public static class ParamType
     {
