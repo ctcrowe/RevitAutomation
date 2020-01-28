@@ -56,7 +56,7 @@ namespace CC_Library
         }
         private static void GenPredictionV2(string Entry, string Exit)
         {
-            var Input = new List<Titleanalysis>();
+            var Input = new List<TitleAnalysis>();
             var Output = new List<PredictionElement>();
             
             string[] lines = File.ReadAllLines(Entry);
@@ -70,7 +70,7 @@ namespace CC_Library
                     var data = new List<PredictionElement>();
                     foreach(string s in ta.SplitTitleWords())
                     {
-                        if(Output.Any(x => x.Word == s)
+                        if(Output.Any(x => x.Word == s))
                             data.Add(Output.Where(x => x.Word == s).First());
                         else
                            data.Add(new PredictionElement(s));

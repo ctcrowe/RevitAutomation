@@ -28,14 +28,14 @@ namespace CC_Library
                     double v = x.Predictions[z] * x.Predictions[z];
                     a += v;
                 }
-                a /= textset.Count();
+                a /= PredictionWords.Count();
                 Prediction[z] = Math.Sqrt(a);
             }
             return Prediction;
         }
         public List<string> SplitTitleWords()
         {
-            var data = new List<PredictionElement>();
+            var data = new List<string>();
             int b = 0;
             char[] cs = this.Title.ToCharArray();
             for (int i = 1; i < cs.Count(); i++)
