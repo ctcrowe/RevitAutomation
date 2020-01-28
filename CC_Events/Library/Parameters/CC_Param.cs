@@ -12,7 +12,20 @@ namespace CC_Plugin
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static string SharedParams = Location + "\\CC_SharedParams.txt";
-        public void Add_ProjectInfoParam(Document doc)
+        
+        public static void Add_FamilyParam(Document doc, Param p)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile DefFile = app.OpenSharedParameterFile();
+            if (doc.IsFamilyDocument)
+            {
+                ExternalDefinition def = SetupParam(doc) as ExternalDefinition;
+                if (doc.FamilyManager.get_Parameter(ID) == null)
+                    doc.FamilyManager.AddParameter(def, BuiltInGroup, Inst);
+            }
+        }
+        public static void Add_ProjectInfoParam(Document doc, Param p)
         {
             Application app = doc.Application;
             app.SharedParametersFilename = SharedParams;
@@ -49,7 +62,32 @@ namespace CC_Plugin
                 }
             }
         }
+        private static Definition CreateParamDefinition(Document doc, Param p)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile df = app.OpenSharedParameterFile();
+
+            if (df.Groups.get_Item(p.ParamGroup) == null)
+            {
+                DefinitionGroup group = df.Groups.Create(p.ParamGroup);
+                return group.Definitions.Create(new ExDefOptions(this).opt);
+            }
+            else
+            {
+                DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
+                if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+                {
+                    return group.Definitions.Create(new ExDefOptions(this).opt);
+                }
+                else
+                {
+                    return group.Definitions.get_Item(p.name);
+                }
+            }
+        }
     }
+    
     public class Param
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
