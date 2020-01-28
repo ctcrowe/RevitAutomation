@@ -20,19 +20,57 @@ namespace CC_Library
         public double[] GetPrediction(List<PredictionElement> PredictionWords)
         {
             double[] Prediction = new double[PredictionElement.PredictionCount];
-            var Set = PredictionWords.Where(x => Title.Contains(x.Word)).ToList();
             for(int z = 0; z < Prediction.Count(); z++)
             {
                 double a = 0;
-                foreach(var x in Set)
+                foreach(var x in PredictionWords)
                 {
                     double v = x.Predictions[z] * x.Predictions[z];
                     a += v;
                 }
-                a /= Set.Count();
+                a /= textset.Count();
                 Prediction[z] = Math.Sqrt(a);
             }
             return Prediction;
+        }
+        public List<string> SplitTitleWords()
+        {
+            var data = new List<PredictionElement>();
+            int b = 0;
+            char[] cs = this.Title.ToCharArray();
+            for (int i = 1; i < cs.Count(); i++)
+            {
+                if (!char.IsLetter(cs[i]))
+                {
+                    if (i > b && b < cs.Count())
+                    {
+                        string z = string.Empty;
+                        for (int j = b; j < i; j++)
+                        {
+                            z += cs[j];
+                        }
+                        data.Add(z);
+                    }
+                    b = i + 1;
+                }
+                else
+                {
+                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
+                    {
+                        if (i > b && b < cs.Count())
+                        {
+                            string z = string.Empty;
+                            for (int j = b; j < i; j++)
+                            {
+                                z += cs[j];
+                            }
+                            data.Add(z);
+                        }
+                        b = i;
+                    }
+                }
+            }
+            return data;
         }
         public List<PredictionElement> SplitTitle()
         {
@@ -69,15 +107,6 @@ namespace CC_Library
                         }
                         b = i;
                     }
-                }
-                if(i == cs.Count() - 1 && b != i)
-                {
-                    string z = string.Empty;
-                    for (int j = b; j <= i; j++)
-                    {
-                        z += cs[j];
-                    }
-                    data.Add(new PredictionElement(z));
                 }
             }
             return data;

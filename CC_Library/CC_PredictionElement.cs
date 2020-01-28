@@ -11,7 +11,7 @@ namespace CC_Library
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
 
-        public const int PredictionCount = 49;
+        public const int PredictionCount = 48;
         public string Word { get; }
         public double[] Predictions { get; set; }
         private int PredictionNumber { get; set; }
@@ -23,19 +23,25 @@ namespace CC_Library
             PredictionNumber = 1;
         }
         
-        public void AdjustPredictions(double Certainty, int Guess, int Correct)
+        public void AdjustPredictions(double[] Data, int Correct)
         {
             double MaxChange = 1 / ((PredictionNumber * PredictionNumber) + 1);
-            if(Guess == Correct && Certainty > 0.75)
-                this.Predictions[Correct] += MaxChange / 2;
-            else
-                this.Predictions[Correct] += MaxChange;
-            for (int i = 0; i < Predictions.Count(); i++)
+            double mv = Data.Max();
+            int Guess = Array.IndexOf(Data, mv);
+            if(Guess == Correct && mv > 0.75)
             {
-                if (i != Correct)
-                    this.Predictions[i] -= (MaxChange / PredictionCount);
+                Predictions[Correct] += MaxChange / 2;
             }
-            this.PredictionNumber += 1;
+            else
+            {
+                Predictions[Correct] += MaxChange;
+                for(int i = 0; i < Predictions.Count(); i++)
+                {
+                    if(i != Correct)
+                       Predictions[i] -= (MaxChange / PredictionCount);
+                }
+            }
+            PredictionNumber += 1;
         }
         
         public static List<PredictionElement> GetData(string folder)

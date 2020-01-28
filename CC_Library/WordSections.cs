@@ -54,6 +54,55 @@ namespace CC_Library
             }
             doc.Save(xfile);
         }
+        private static void GenPredictionV2(string Entry, string Exit)
+        {
+            var Input = new List<Titleanalysis>();
+            var Output = new List<PredictionElement>();
+            
+            string[] lines = File.ReadAllLines(Entry);
+            foreach(string l in lines)
+                Input.Add(new TitleAnalysis(l.Split('\t').First(), int.Parse(l.Split('\t')[2])));
+            while(true)
+            {
+                int calculationnumber = 1;
+                foreach(var ta in Input)
+                {
+                    var data = new List<PredictionElement>();
+                    foreach(string s in ta.SplitTitleWords())
+                    {
+                        if(Output.Any(x => x.Word == s)
+                            data.Add(Output.Where(x => x.Word == s).First());
+                        else
+                           data.Add(new PredictionElement(s));
+                    }
+                    double[] pred = ta.GetPrediction(data);
+                    foreach(var d in data)
+                    {
+                        d.AdjustPredictions(pred, ta.Section);
+                        if(Output.Any(x => x.Word == d.Word))
+                            Output.Remove(Output.Where(x => x.Word == d.Word).First());
+                        Output.Add(d);
+                    }
+                }
+                XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                string fn = Exit.Split('.').First() + "_" + calculationnumber.ToString() + ".xml";
+                foreach(var o in Output)
+                {
+                    XElement e = new XElement("Prediction");
+                    e.Add(new XAttribute("Word", o.Word));
+                    for(int i = 1; i < o.Predictions.Count(); i++) 
+                    {
+                        XElement d = new XElement("Section");
+                        d.Add(new XAttribute("Number", i.ToString()));
+                        d.Add(new XAttribute("Value", o.Predictions[i].ToString()));
+                        e.Add(d);
+                    }
+                    xdoc.Root.Add(new XElement(e));
+                }
+                xdoc.Save(fn);
+            }
+        }
+                           /*
         private static void GeneratePrediction(string Entry, string Exit)
         {
             var Input = new List<TitleAnalysis>();
@@ -72,39 +121,38 @@ namespace CC_Library
             }
             while(true)
             {
-                foreach(var c in Input)
+                XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                string fn = Exit.Split('.').First() + ".xml";
+                for (int o = 0; o < Output.Count(); o++)
                 {
-                    double[] Prediction = c.GetPrediction(Output);
-                    double max = Prediction.Max();
-                    int p = Array.IndexOf(Prediction, max);
-                    foreach (var t in Output.Where(x => c.Title.Contains(x.Word)))
+                    foreach (var c in Input.Where(x => x.Title.Contains(Output[o].Word)).ToList())
                     {
-                        t.AdjustPredictions(max, p, c.Section);
+                        double[] Prediction = c.GetPrediction(Output);
+                        double max = Prediction.Max();
+                        int p = Array.IndexOf(Prediction, max);
+                        Output[o].Predictions = Output[o].AdjustPredictions(max, p, c.Section);
                     }
                 }
-
-                XDocument xdoc = new XDocument(new XElement("PREDICTIONS")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                foreach (var o in Output)
+                foreach(var o in Output)
                 {
                     XElement e = new XElement("Prediction");
                     e.Add(new XAttribute("Word", o.Word));
                     for(int i = 1; i < o.Predictions.Count(); i++) 
                     {
-                        int j = i;
                         XElement d = new XElement("Section");
-                        d.Add(new XAttribute("Number", j.ToString()));
+                        d.Add(new XAttribute("Number", i.ToString()));
                         d.Add(new XAttribute("Value", o.Predictions[i].ToString()));
                         e.Add(d);
                     }
                     xdoc.Root.Add(new XElement(e));
                 }
-                string fn = Exit.Split('.').First() + ".xml";
                 xdoc.Save(fn);
             }
         }
+        */
         public static void run()
         {
-            Command.Cmd RunAnalysis = new Command.Cmd(GeneratePrediction);
+            Command.Cmd RunAnalysis = new Command.Cmd(GenPredictionV2);
             Command.Run(RunAnalysis);
         }
     }
