@@ -110,6 +110,7 @@ namespace CC_Library
                     xdoc.Root.Add(new XElement(e));
                 }
                 xdoc.Save(fn);
+                calculationnumber++;
             }
         }
         public static void run()
