@@ -35,15 +35,7 @@ namespace CC_Plugin
         }
         public static void Add(Document doc)
         {
-            Application app = doc.Application;
-            app.SharedParametersFilename = SharedParams;
-            DefinitionFile DefFile = app.OpenSharedParameterFile();
-            if (doc.IsFamilyDocument)
-            {
-                ExternalDefinition def = SetupParam(doc) as ExternalDefinition;
-                if (doc.FamilyManager.get_Parameter(P.ID) == null)
-                    doc.FamilyManager.AddParameter(def, P.BuiltInGroup, false);
-            }
+            RevitParamEdits.Add_FamilyParam(doc, P);
         }
         public static string Get(Document doc)
         {
