@@ -25,7 +25,7 @@ namespace CC_Library
         
         public void AdjustPredictions(double[] Data, int Correct)
         {
-            double MaxChange = 1 / ((PredictionNumber * PredictionNumber) + 1);
+            double MaxChange = (1 / (Math.Pow(PredictionNumber, 2) + 1));
             double mv = Data.Max();
             int Guess = Array.IndexOf(Data, mv);
             if(Guess == Correct && mv > 0.75)
