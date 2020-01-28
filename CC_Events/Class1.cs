@@ -85,7 +85,7 @@ namespace CC_Plugin
             get
             {
                 return new Param(
-                    /* Name */              "MasterFormat",
+                    /* Name */              "MasterFormat_Confirmed",
                     /* Type */              ParamType.Bool,
                     /* ID */                new Guid("98d1341d-cf2a-4701-8f3b-772496234477"),
                     /* Param Group */       "BIMData",
