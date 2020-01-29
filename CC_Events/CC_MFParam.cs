@@ -43,6 +43,10 @@ namespace CC_Plugin
         {
             return P.Get(f);
         }
+        public static string Get(FamilyInstance e)
+        {
+            return P.Get(e);
+        }
         public static string Set(Document doc, int i)
         {
             Add(doc);
