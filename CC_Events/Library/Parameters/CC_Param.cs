@@ -8,7 +8,7 @@ using Autodesk.Revit.DB.Architecture;
 
 namespace CC_Plugin
 {
-    private class RevitParamEdits
+    internal class RevitParamEdits
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static string SharedParams = Location + "\\CC_SharedParams.txt";
@@ -20,9 +20,9 @@ namespace CC_Plugin
             DefinitionFile DefFile = app.OpenSharedParameterFile();
             if (doc.IsFamilyDocument)
             {
-                ExternalDefinition def = SetupParam(doc) as ExternalDefinition;
-                if (doc.FamilyManager.get_Parameter(ID) == null)
-                    doc.FamilyManager.AddParameter(def, BuiltInGroup, Inst);
+                ExternalDefinition def = SetupParamDefinition(doc, p) as ExternalDefinition;
+                if (doc.FamilyManager.get_Parameter(p.ID) == null)
+                    doc.FamilyManager.AddParameter(def, p.BuiltInGroup, p.Inst);
             }
         }
         public static void Add_ProjectInfoParam(Document doc, Param p)
@@ -33,20 +33,20 @@ namespace CC_Plugin
             
             if(!doc.IsFamilyDocument)
             {
-                Definition def = SetupParam(doc);
+                Definition def = SetupParamDefinition(doc, p);
                 if (!doc.ParameterBindings.Contains(def))
                 {
                     try
                     {
                         CategorySet set = new CategorySet();
-                        foreach (BuiltInCategory cat in Categories)
+                        foreach (BuiltInCategory cat in p.Categories)
                         {
                             if (!set.Contains(Category.GetCategory(doc, cat)))
                                 set.Insert(Category.GetCategory(doc, cat));
                         }
                         if (set.Size > 0)
                         {
-                            if (Inst)
+                            if (p.Inst)
                             {
                                 InstanceBinding binding = new InstanceBinding(set);
                                 doc.ParameterBindings.Insert(def, binding);
@@ -71,14 +71,38 @@ namespace CC_Plugin
             if (df.Groups.get_Item(p.ParamGroup) == null)
             {
                 DefinitionGroup group = df.Groups.Create(p.ParamGroup);
-                return group.Definitions.Create(new ExDefOptions(this).opt);
+                return group.Definitions.Create(new ExDefOptions(p).opt);
             }
             else
             {
                 DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
                 if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
                 {
-                    return group.Definitions.Create(new ExDefOptions(this).opt);
+                    return group.Definitions.Create(new ExDefOptions(p).opt);
+                }
+                else
+                {
+                    return group.Definitions.get_Item(p.name);
+                }
+            }
+        }
+        private static Definition SetupParamDefinition(Document doc, Param p)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile df = app.OpenSharedParameterFile();
+
+            if (df.Groups.get_Item(p.ParamGroup) == null)
+            {
+                DefinitionGroup group = df.Groups.Create(p.ParamGroup);
+                return group.Definitions.Create(new ExDefOptions(p).opt);
+            }
+            else
+            {
+                DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
+                if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+                {
+                    return group.Definitions.Create(new ExDefOptions(p).opt);
                 }
                 else
                 {

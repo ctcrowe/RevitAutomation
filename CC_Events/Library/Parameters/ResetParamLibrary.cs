@@ -7,12 +7,12 @@ namespace CC_Plugin
 {
     public static class CommandLibrary
     {
-        public delegate void DocCommand(Document doc)
+        public delegate void DocCommand(Document doc);
         public static void Transact(DocCommand dc, Document doc)
         {
             using(Transaction t = new Transaction(doc, "Run Command"))
             {
-                t.start();
+                t.Start();
                 dc(doc);
                 t.Commit();
             }
