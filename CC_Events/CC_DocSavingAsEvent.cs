@@ -28,7 +28,19 @@ namespace CC_Plugin
                         using (Transaction t = new Transaction(doc, "MF Transaction"))
                         {
                             t.Start();
-                            
+                            MFParam.Set
+                            (
+                                TitleAnalysisPrediction
+                                .GenPrediction
+                                (
+                                    args
+                                    .PathName
+                                    .Split('.')
+                                    .First()
+                                    .Split('\\')
+                                    .Last()
+                                )
+                            );
                             t.Commit();
                         }
                     }
