@@ -26,7 +26,7 @@ namespace CC_Plugin
                     /* Description */       "A REFERENCE TO THE OBJECTS MASTERFORMAT DIVISION.",
                     /* Visible */           true,
                     /* Instance */          false,
-                    /* User Modifiable */   true,
+                    /* User Modifiable */   false,
                     /* Fixed */             true);
             }
         }
