@@ -9,25 +9,34 @@ namespace CC_Library
     public class TitleAnalysisPrediction
     {
         private static string FileName;
-        private static List<PredictionElement> Predictions
+        private static List<PredictionElement> Predictions(List<string> Words)
         {
             get
             {
                 XDocument doc = XDocument.Load(FileName);
                 foreach(XElement e in doc.Root.Elements())
                 {
-                    double[] values = new double[e.Elements().Count()];
-                    for(int i = 0; i < values.Count(); i++)
+                    if(Words.Any(x => x == e.Attribute("Word").Value))
                     {
-                        values[i] = e.Elements().Where(x => x.Attribute("Number").Value == i).Attribute("Value").Value;
+                        double[] values = new double[e.Elements().Count()];
+                        for(int i = 0; i < values.Count(); i++)
+                        {
+                            values[i] = e.Elements()
+                                .Where(x => x.Attribute("Number").Value == i)
+                                .First()
+                                .Attribute("Value")
+                                .Value;
+                        }
+                        PredictionElement pe = new PredictionElement(e.Attribute("Word").Value, values);
                     }
-                    PredictionElement pe = new PredictionElement(e.Attribute("Word").Value, values);
                 }
             }
         }
         public static void GenPrediction(string Title)
         {
-            List<string> words = 
+            List<PredictionElement> preds = Predictions(SplitTitleWords(Title));
+            double[] vals = TitleAnalysis.GetPrediction(preds);
+            int prediction = Array.IndexOf(vals.Max());
         }
     }
     public class TitleAnalysis
@@ -41,7 +50,7 @@ namespace CC_Library
             this.Section = i;
         }
         
-        public double[] GetPrediction(List<PredictionElement> PredictionWords)
+        public static double[] GetPrediction(List<PredictionElement> PredictionWords)
         {
             double[] Prediction = new double[PredictionElement.PredictionCount];
             for(int z = 0; z < Prediction.Count(); z++)
