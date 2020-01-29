@@ -23,13 +23,14 @@ namespace CC_Plugin
                 }
                 if(doc.IsFamilyDocument)
                 {
-                    if(!MFConfirmParam.Get())
+                    if(!MFConfirmParam.Get(doc))
                     {
                         using (Transaction t = new Transaction(doc, "MF Transaction"))
                         {
                             t.Start();
                             MFParam.Set
                             (
+                                doc,
                                 TitleAnalysisPrediction
                                 .GenPrediction
                                 (
