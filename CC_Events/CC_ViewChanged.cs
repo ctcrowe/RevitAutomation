@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI.Events;
 
 namespace CC_Plugin
 {
-    class IDUpdater
+    class ViewChanged
     {
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
             Document doc = args.Document;
-            string id;
             using (TransactionGroup tg = new TransactionGroup(doc, "Add ID Group"))
             {
                 tg.Start();
@@ -28,33 +26,11 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
-                    CommandLibrary.Transact(new DocCommand(FamNameParam.Add), doc);
-                    CommandLibrary.Transact(new DocCommand(MFParam.Add), doc);
-                    /*
-                    using (Transaction t = new Transaction(doc, "Add Fam Name"))
-                    {
-                        t.Start();
-                        FamNameParam.Add(doc);
-                        t.Commit();
-                    }
-                    using (Transaction t = new Transaction(doc, "Add MasterFormat Parameter"))
-                    {
-                        t.Start();
-                        MFParam.Add(doc);
-                        t.Commit();
-                    }
-                    */
+                    CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
+                    CommandLibrary.Transact(new CommandLibrary.DocCommand(MFParam.Add), doc);
+                    CommandLibrary.Transact(new CommandLibrary.DocCommand(MFConfirmParam.Add), doc);
                 }
-                /*
-                using (Transaction t = new Transaction(doc, "Add ID"))
-                {
-                    t.Start();
-                    if (string.IsNullOrEmpty(IDParam.Get(doc)))
-                        id = IDParam.Set(doc);
-                    t.Commit();
-                }
-                */
-                CommandLibrary.Transact(new DocCommand(IDParam.Set), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocStringCommand(IDParam.Set), doc);
                 tg.Commit();
             }
         }

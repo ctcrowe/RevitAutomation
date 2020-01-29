@@ -65,6 +65,7 @@
     <Compile Include="Categories\CC_CCcategory.cs" />
     <Compile Include="CC_IDParam.cs" />
     <Compile Include="CC_LoadFamilies.cs" />
+    <Compile Include="CC_ViewChanged.cs" />
     <Compile Include="CC_WriteParamToTTD.cs" />
     <Compile Include="CC_AutomationLoop.cs" />
     <Compile Include="CC_StaticFamParams.cs" />
@@ -75,17 +76,15 @@
     <Compile Include="CC_DocSaved.cs" />
     <Compile Include="CC_FamType.cs" />
     <Compile Include="CC_Datapoint.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="CC_MFParam.cs" />
     <Compile Include="CC_DocSynching.cs" />
     <Compile Include="CC_FamLoaded.cs" />
-    <Compile Include="Class2.cs" />
-    <Compile Include="CC_MasterSection.cs" />
+    <Compile Include="CC_MFConfirmParam.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Library\Parameters\CC_Param.cs" />
     <Compile Include="Parameters\CC_ParamSetup.cs" />
     <Compile Include="Parameters\ExDefOpt.cs" />
     <Compile Include="Library\Parameters\ResetParamLibrary.cs" />
-    <Compile Include="CC_ViewChangedEvent.cs" />
     <Compile Include="CC_DocSavingAsEvent.cs" />
     <Compile Include="FamilyDB\CC_CheckNameUse.cs" />
     <Compile Include="FamilyDB\CC_MoveFamiliesToDB.cs" />

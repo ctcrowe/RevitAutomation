@@ -8,9 +8,19 @@ namespace CC_Plugin
     public static class CommandLibrary
     {
         public delegate void DocCommand(Document doc);
+        public delegate string DocStringCommand(Document doc);
         public static void Transact(DocCommand dc, Document doc)
         {
             using(Transaction t = new Transaction(doc, "Run Command"))
+            {
+                t.Start();
+                dc(doc);
+                t.Commit();
+            }
+        }
+        public static void Transact(DocStringCommand dc, Document doc)
+        {
+            using (Transaction t = new Transaction(doc, "Run Command"))
             {
                 t.Start();
                 dc(doc);

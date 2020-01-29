@@ -32,7 +32,6 @@ namespace CC_Plugin
 
             try
             {
-                IDUpdater.OnStartup(uiApp);
                 ViewChanged.OnStartup(uiApp);
                 RefPlaneMaker.OnStartup(uiApp);
                 RoomParameterizer.OnStartup(uiApp);
@@ -47,7 +46,6 @@ namespace CC_Plugin
         }
         public static void OnShutdown(UIControlledApplication uiApp)
         {
-            IDUpdater.OnShutdown(uiApp);
             ViewChanged.OnShutdown(uiApp);
             RefPlaneMaker.OnShutdown(uiApp);
             RoomParameterizer.OnShutdown(uiApp);
