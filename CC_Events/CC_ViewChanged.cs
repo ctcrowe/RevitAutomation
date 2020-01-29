@@ -38,6 +38,9 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
+                    CommandLibrary.Transact(new DocCommand(FamNameParam.Add), doc);
+                    CommandLibrary.Transact(new DocCommand(MFParam.Add), doc);
+                    /*
                     using (Transaction t = new Transaction(doc, "Add Fam Name"))
                     {
                         t.Start();
@@ -50,7 +53,9 @@ namespace CC_Plugin
                         MFParam.Add(doc);
                         t.Commit();
                     }
+                    */
                 }
+                /*
                 using (Transaction t = new Transaction(doc, "Add ID"))
                 {
                     t.Start();
@@ -58,6 +63,8 @@ namespace CC_Plugin
                         id = IDParam.Set(doc);
                     t.Commit();
                 }
+                */
+                CommandLibrary.Transact(new DocCommand(IDParam.Set), doc);
                 tg.Commit();
             }
         }
