@@ -30,6 +30,7 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
+        public static Guid ID { get { return P.ID; } }
         public static void Add(Document doc)
         {
             RevitParamEdits.Add_FamilyParam(doc, P);
