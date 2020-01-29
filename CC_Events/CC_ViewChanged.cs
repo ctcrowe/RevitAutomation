@@ -10,7 +10,6 @@ namespace CC_Plugin
 {
     class IDUpdater
     {
-
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
             Document doc = args.Document;
