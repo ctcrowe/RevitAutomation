@@ -8,6 +8,20 @@ namespace CC_Plugin
 {
     internal class DocSavingAs
     {
+        public static void Event(object sender, DocumentSavingAsEventArgs args)
+        {
+            Document doc = args.Document;
+            using (TransactionGroup tg = new TransactionGroup(doc, "Saving Transactions"))
+            {
+                using (Transaction t = new Transaction(doc, "Saving Transaction"))
+                {
+                    t.Start();
+                    string id = IDParam.Set(doc);
+                    string Fam = FamParam.Set(doc, args.PathName.Split('.').First().Split('\\').Last());
+                    t.Commit();
+                }
+            }
+        }
         public static Result OnStartup(UIControlledApplication app)
         {
             app.ControlledApplication.DocumentSavingAs += new EventHandler<DocumentSavingAsEventArgs>(Event);
@@ -17,17 +31,6 @@ namespace CC_Plugin
         {
             app.ControlledApplication.DocumentSavingAs -= new EventHandler<DocumentSavingAsEventArgs>(Event);
             return Result.Succeeded;
-        }
-        public static void Event(object sender, DocumentSavingAsEventArgs args)
-        {
-            Document doc = args.Document;
-            using (Transaction t = new Transaction(doc, "Saving Transaction"))
-            {
-                t.Start();
-                string id = IDParam.Set(doc);
-                string Fam = FamParam.Set(doc, args.PathName.Split('.').First().Split('\\').Last());
-                t.Commit();
-            }
         }
     }
 }
