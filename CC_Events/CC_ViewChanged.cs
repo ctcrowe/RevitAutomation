@@ -10,16 +10,7 @@ namespace CC_Plugin
 {
     class IDUpdater
     {
-        public static Result OnStartup(UIControlledApplication app)
-        {
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute);
-            return Result.Succeeded;
-        }
-        public static Result OnShutdown(UIControlledApplication app)
-        {
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
-            return Result.Succeeded;
-        }
+
         public static void Execute(object sender, ViewActivatedEventArgs args)
         {
             Document doc = args.Document;
@@ -67,6 +58,16 @@ namespace CC_Plugin
                 CommandLibrary.Transact(new DocCommand(IDParam.Set), doc);
                 tg.Commit();
             }
+        }
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
+            return Result.Succeeded;
         }
     }
 }
