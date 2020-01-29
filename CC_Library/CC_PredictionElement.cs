@@ -22,6 +22,12 @@ namespace CC_Library
             this.Predictions = new double[PredictionCount];
             PredictionNumber = 1;
         }
+        public PredictionElement(string s, double[] preds)
+        {
+            this.Word = s;
+            this.Predictions = preds;
+            PredictionNumber = 1;
+        }
         
         public void AdjustPredictions(double[] Data, int Correct)
         {
