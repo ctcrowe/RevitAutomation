@@ -10,17 +10,7 @@ namespace CC_Plugin
 {
     class IDUpdater
     {
-        public static Result OnStartup(UIControlledApplication app)
-        {
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute);
-            return Result.Succeeded;
-        }
-        public static Result OnShutdown(UIControlledApplication app)
-        {
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
-            return Result.Succeeded;
-        }
-        public static void Execute(object sender, ViewActivatedEventArgs args)
+        private static void Execute(object sender, ViewActivatedEventArgs args)
         {
             Document doc = args.Document;
             string id;
@@ -38,6 +28,9 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
+                    CommandLibrary.Transact(new DocCommand(FamNameParam.Add), doc);
+                    CommandLibrary.Transact(new DocCommand(MFParam.Add), doc);
+                    /*
                     using (Transaction t = new Transaction(doc, "Add Fam Name"))
                     {
                         t.Start();
@@ -50,7 +43,9 @@ namespace CC_Plugin
                         MFParam.Add(doc);
                         t.Commit();
                     }
+                    */
                 }
+                /*
                 using (Transaction t = new Transaction(doc, "Add ID"))
                 {
                     t.Start();
@@ -58,8 +53,20 @@ namespace CC_Plugin
                         id = IDParam.Set(doc);
                     t.Commit();
                 }
+                */
+                CommandLibrary.Transact(new DocCommand(IDParam.Set), doc);
                 tg.Commit();
             }
+        }
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
+            return Result.Succeeded;
         }
     }
 }

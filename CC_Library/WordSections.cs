@@ -56,6 +56,7 @@ namespace CC_Library
         }
         private static void GenPrediction(string Entry, string Exit)
         {
+            int calculationnumber = 1;
             var Input = new List<TitleAnalysis>();
             var Output = new List<PredictionElement>();
             
@@ -71,7 +72,6 @@ namespace CC_Library
             }
             while(true)
             {
-                int calculationnumber = 1;
                 foreach(var ta in Input)
                 {
                     var data = new List<PredictionElement>();
