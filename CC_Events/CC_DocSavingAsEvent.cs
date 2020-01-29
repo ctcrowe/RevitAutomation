@@ -13,6 +13,7 @@ namespace CC_Plugin
             Document doc = args.Document;
             using (TransactionGroup tg = new TransactionGroup(doc, "Saving Transactions"))
             {
+                tg.Start();
                 using (Transaction t = new Transaction(doc, "Saving Transaction"))
                 {
                     t.Start();
@@ -20,6 +21,19 @@ namespace CC_Plugin
                     string Fam = FamParam.Set(doc, args.PathName.Split('.').First().Split('\\').Last());
                     t.Commit();
                 }
+                if(doc.IsFamilyDocument)
+                {
+                    if(!MFConfirmParam.Get())
+                    {
+                        using (Transaction t = new Transaction(doc, "MF Transaction"))
+                        {
+                            t.Start();
+                            
+                            t.Commit();
+                        }
+                    }
+                }
+                tg.Commit();
             }
         }
         public static Result OnStartup(UIControlledApplication app)
