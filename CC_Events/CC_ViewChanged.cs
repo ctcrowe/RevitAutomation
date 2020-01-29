@@ -11,7 +11,7 @@ namespace CC_Plugin
     class IDUpdater
     {
 
-        public static void Execute(object sender, ViewActivatedEventArgs args)
+        private static void Execute(object sender, ViewActivatedEventArgs args)
         {
             Document doc = args.Document;
             string id;
