@@ -36,6 +36,7 @@ namespace CC_Plugin
                     Dictionary<string, string> dataset = new Dictionary<string, string>();
                     try { dataset.Add("Name", inst.Symbol.Family.Name); } catch { }
                     try { dataset.Add("EleID", IDParam.Get(inst)); } catch { }
+                    try { dataset.Add("MFSection", MFParam.Get(inst)); }  catch { }
                     try { dataset.Add("PrevID", Datapoint.GetPreviousElement()); } catch { }
                     try { dataset.Add("PrjID", id); } catch { }
                     try { dataset.Add("PlaceTime", DateTime.Now.ToString("yyyyMMddhhmmss")); } catch { }
