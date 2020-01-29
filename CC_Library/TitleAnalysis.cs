@@ -32,11 +32,12 @@ namespace CC_Library
                 }
             }
         }
-        public static void GenPrediction(string Title)
+        public static int GenPrediction(string Title)
         {
             List<PredictionElement> preds = Predictions(SplitTitleWords(Title));
             double[] vals = TitleAnalysis.GetPrediction(preds);
-            int prediction = Array.IndexOf(vals.Max());
+            int p = Array.IndexOf(vals.Max());
+            return p;
         }
     }
     public class TitleAnalysis
