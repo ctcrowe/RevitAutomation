@@ -9,15 +9,25 @@ namespace CC_Library
     public class TitleAnalysisPrediction
     {
         private static string FileName;
-        public static List<PredictionElement> Predictions
+        private static List<PredictionElement> Predictions
         {
             get
             {
                 XDocument doc = XDocument.Load(FileName);
                 foreach(XElement e in doc.Root.Elements())
                 {
+                    double[] values = new double[e.Elements().Count()];
+                    for(int i = 0; i < values.Count(); i++)
+                    {
+                        values[i] = e.Elements().Where(x => x.Attribute("Number").Value == i).Attribute("Value").Value;
+                    }
+                    PredictionElement pe = new PredictionElement(e.Attribute("Word").Value, values);
                 }
             }
+        }
+        public static void GenPrediction(string Title)
+        {
+            List<string> words = 
         }
     }
     public class TitleAnalysis
@@ -46,6 +56,45 @@ namespace CC_Library
                 Prediction[z] = Math.Sqrt(a);
             }
             return Prediction;
+        }
+        public static List<string> SplitTitleWords(string Title)
+        {
+            var data = new List<string>();
+            int b = 0;
+            char[] cs = Title.ToCharArray();
+            for (int i = 1; i < cs.Count(); i++)
+            {
+                if (!char.IsLetter(cs[i]))
+                {
+                    if (i > b && b < cs.Count())
+                    {
+                        string z = string.Empty;
+                        for (int j = b; j < i; j++)
+                        {
+                            z += cs[j];
+                        }
+                        data.Add(z);
+                    }
+                    b = i + 1;
+                }
+                else
+                {
+                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
+                    {
+                        if (i > b && b < cs.Count())
+                        {
+                            string z = string.Empty;
+                            for (int j = b; j < i; j++)
+                            {
+                                z += cs[j];
+                            }
+                            data.Add(z);
+                        }
+                        b = i;
+                    }
+                }
+            }
+            return data;
         }
         public List<string> SplitTitleWords()
         {
@@ -125,7 +174,6 @@ namespace CC_Library
             }
             return data;
         }
-
         public static List<TitleAnalysis> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
