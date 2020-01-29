@@ -62,11 +62,11 @@ namespace CC_Library
             string[] lines = File.ReadAllLines(Entry);
             foreach(string l in lines)
             {
-                if(l.Split('\t').Count >= 3)
+                if(l.Split('\t').Count() >= 3)
                 {
                     int section;
-                    if(int.TryParse(l.Split('\t')[2], out section))
-                        Input.Add(new TitleAnalysis(l.Split('\t').First(), section);
+                    if (int.TryParse(l.Split('\t')[2], out section))
+                        Input.Add(new TitleAnalysis(l.Split('\t').First(), section));
                 }
             }
             while(true)
@@ -110,6 +110,7 @@ namespace CC_Library
                     xdoc.Root.Add(new XElement(e));
                 }
                 xdoc.Save(fn);
+                calculationnumber++;
             }
         }
         public static void run()
