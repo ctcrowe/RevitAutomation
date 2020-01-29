@@ -6,6 +6,20 @@ using System;
 
 namespace CC_Library
 {
+    public class TitleAnalysisPrediction
+    {
+        private static string FileName;
+        public static List<PredictionElement> Predictions
+        {
+            get
+            {
+                XDocument doc = XDocument.Load(FileName);
+                foreach(XElement e in doc.Root.Elements())
+                {
+                }
+            }
+        }
+    }
     public class TitleAnalysis
     {
         public string Title { get; }
