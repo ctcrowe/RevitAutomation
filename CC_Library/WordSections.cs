@@ -82,7 +82,7 @@ namespace CC_Library
                         else
                            data.Add(new PredictionElement(s));
                     }
-                    double[] pred = ta.GetPrediction(data);
+                    double[] pred = TitleAnalysis.GetPrediction(data);
                     foreach(var d in data)
                     {
                         if(Output.Any(x => x.Word == d.Word))

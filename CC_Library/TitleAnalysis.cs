@@ -11,32 +11,33 @@ namespace CC_Library
         private static string FileName;
         private static List<PredictionElement> Predictions(List<string> Words)
         {
-            get
+            List<PredictionElement> pes = new List<PredictionElement>();
+            XDocument doc = XDocument.Load(FileName);
+            foreach (XElement e in doc.Root.Elements())
             {
-                XDocument doc = XDocument.Load(FileName);
-                foreach(XElement e in doc.Root.Elements())
+                if (Words.Any(x => x == e.Attribute("Word").Value))
                 {
-                    if(Words.Any(x => x == e.Attribute("Word").Value))
+                    double[] values = new double[e.Elements().Count()];
+                    for (int i = 0; i < values.Count(); i++)
                     {
-                        double[] values = new double[e.Elements().Count()];
-                        for(int i = 0; i < values.Count(); i++)
-                        {
-                            values[i] = e.Elements()
-                                .Where(x => x.Attribute("Number").Value == i)
-                                .First()
-                                .Attribute("Value")
-                                .Value;
-                        }
-                        PredictionElement pe = new PredictionElement(e.Attribute("Word").Value, values);
+                        values[i] = double.Parse(
+                            e.Elements()
+                            .Where(x => x.Attribute("Number").Value == i.ToString())
+                            .First()
+                            .Attribute("Value")
+                            .Value);
                     }
+                    PredictionElement pe = new PredictionElement(e.Attribute("Word").Value, values);
+                    pes.Add(pe);
                 }
             }
+            return pes;
         }
         public static int GenPrediction(string Title)
         {
-            List<PredictionElement> preds = Predictions(SplitTitleWords(Title));
+            List<PredictionElement> preds = Predictions(TitleAnalysis.SplitTitleWords(Title));
             double[] vals = TitleAnalysis.GetPrediction(preds);
-            int p = Array.IndexOf(vals.Max());
+            int p = Array.IndexOf(vals, vals.Max());
             return p;
         }
     }
