@@ -86,6 +86,24 @@ namespace CC_Plugin
                 }
             }
         }
+        public static bool Get_BooleanFamilyParam(Document doc, Param p)
+        {
+            if (doc.IsFamilyDocument)
+            {
+                if (doc.FamilyManager.get_Parameter(p.ID) != null)
+                {
+                    FamilyParameter param = doc.FamilyManager.get_Parameter(p.ID);
+                    foreach (FamilyType t in doc.FamilyManager.Types)
+                    {
+                        doc.FamilyManager.CurrentType = t;
+                        int i = t.AsInteger(param);
+                        if(i == 1)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
         private static Definition SetupParamDefinition(Document doc, Param p)
         {
             Application app = doc.Application;
