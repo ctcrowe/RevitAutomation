@@ -23,7 +23,6 @@ namespace CC_Plugin
                 }
                 if(doc.IsFamilyDocument)
                 {
-                    /*
                     if(!MFConfirmParam.Get(doc))
                     {
                         using (Transaction t = new Transaction(doc, "MF Transaction"))
@@ -34,7 +33,6 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
-                    */
                 }
                 tg.Commit();
             }
