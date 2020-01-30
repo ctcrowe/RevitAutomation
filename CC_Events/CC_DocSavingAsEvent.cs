@@ -14,26 +14,13 @@ namespace CC_Plugin
             using (TransactionGroup tg = new TransactionGroup(doc, "Saving Transactions"))
             {
                 tg.Start();
-                using (Transaction t = new Transaction(doc, "Saving Transaction"))
-                {
-                    t.Start();
-                    string id = IDParam.Set(doc);
-                    string Fam = FamParam.Set(doc, args.PathName.Split('.').First().Split('\\').Last());
-                    t.Commit();
-                }
-                if(doc.IsFamilyDocument)
-                {
-                    if(!MFConfirmParam.Get(doc))
-                    {
-                        using (Transaction t = new Transaction(doc, "MF Transaction"))
-                        {
-                            t.Start();
-                            MFParam.Set ( doc, TitleAnalysisPrediction.GenPrediction 
-                                         ( args.PathName.Split('.').First().Split('\\').Last()));
-                            t.Commit();
-                        }
-                    }
-                }
+                string id = CommandLibrary.Transact(new DocStringCommand(IDParam.Set), doc);
+                string Fam = CommandLibrary.Transact(new StringBasedDocCommand(FamParam.Set), doc,
+                    args.PathName.Split('.').First().Split('\\').Last());
+                if(doc.IsFamilyDocument && !MFConfirmParam.Get(doc))
+                    CommandLibrary.Transact(new StringBasedDocCommand(MFParam.Set), doc,
+                        TitleAnalysisPrediction.GenPrediction 
+                        (args.PathName.Split('.').First().Split('\\').Last()));
                 tg.Commit();
             }
         }
