@@ -9,19 +9,26 @@ namespace CC_Plugin
 {
     internal class DocSavingAs
     {
+        public static void runtest(string s)
+        {
+            TaskDialog.Show("TEST", s);
+        }
         public static void Event(object sender, DocumentSavingAsEventArgs args)
         {
             Document doc = args.Document;
+            TitleAnalysisPrediction.TEST t = new TitleAnalysisPrediction.TEST(runtest);
             using (TransactionGroup tg = new TransactionGroup(doc, "Saving Transactions"))
             {
                 tg.Start();
                 CommandLibrary.Transact(new CommandLibrary.DocStringCommand(IDParam.Set), doc);
                 string Fam = CommandLibrary.Transact(new CommandLibrary.StringBasedDocCommand(FamParam.Set), doc,
                     args.PathName.Split('.').First().Split('\\').Last());
-                if(doc.IsFamilyDocument && !MFConfirmParam.Get(doc))
+                if (doc.IsFamilyDocument)
+                {
                     CommandLibrary.Transact(new CommandLibrary.StringBasedDocCommand(MFParam.Set), doc,
-                        TitleAnalysisPrediction.GenPrediction 
-                        (args.PathName.Split('.').First().Split('\\').Last()).ToString());
+                        TitleAnalysisPrediction.GenPrediction
+                        (args.PathName.Split('.').First().Split('\\').Last(), t).ToString());
+                }
                 tg.Commit();
             }
         }

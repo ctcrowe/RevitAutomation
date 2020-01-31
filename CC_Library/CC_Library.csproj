@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Class2.cs" />
     <Compile Include="WordSections.cs" />
     <Compile Include="CC_PredictionElement.cs" />
     <Compile Include="CC_Command.cs" />

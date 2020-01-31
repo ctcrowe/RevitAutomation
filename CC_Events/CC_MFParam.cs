@@ -46,7 +46,6 @@ namespace CC_Plugin
         }
         public static string Set(Document doc, string i)
         {
-            Add(doc);
             return P.Set(doc, i);
         }
         private static Definition SetupParam(Document doc)
