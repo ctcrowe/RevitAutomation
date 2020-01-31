@@ -48,29 +48,5 @@ namespace CC_Plugin
         {
             return P.Set(doc, i);
         }
-        private static Definition SetupParam(Document doc)
-        {
-            Application app = doc.Application;
-            app.SharedParametersFilename = SharedParams;
-            DefinitionFile df = app.OpenSharedParameterFile();
-
-            if (df.Groups.get_Item(P.ParamGroup) == null)
-            {
-                DefinitionGroup group = df.Groups.Create(P.ParamGroup);
-                return group.Definitions.Create(new ExDefOptions(P).opt);
-            }
-            else
-            {
-                DefinitionGroup group = df.Groups.get_Item(P.ParamGroup);
-                if (df.Groups.get_Item(P.ParamGroup).Definitions.get_Item(P.name) == null)
-                {
-                    return group.Definitions.Create(new ExDefOptions(P).opt);
-                }
-                else
-                {
-                    return group.Definitions.get_Item(P.name);
-                }
-            }
-        }
     }
 }
