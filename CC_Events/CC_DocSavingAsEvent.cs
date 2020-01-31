@@ -3,6 +3,7 @@ using Autodesk.Revit.DB.Events;
 using System.Linq;
 using System;
 using Autodesk.Revit.UI;
+using CC_Library;
 
 namespace CC_Plugin
 {
@@ -14,13 +15,13 @@ namespace CC_Plugin
             using (TransactionGroup tg = new TransactionGroup(doc, "Saving Transactions"))
             {
                 tg.Start();
-                string id = CommandLibrary.Transact(new DocStringCommand(IDParam.Set), doc);
-                string Fam = CommandLibrary.Transact(new StringBasedDocCommand(FamParam.Set), doc,
+                CommandLibrary.Transact(new CommandLibrary.DocStringCommand(IDParam.Set), doc);
+                string Fam = CommandLibrary.Transact(new CommandLibrary.StringBasedDocCommand(FamParam.Set), doc,
                     args.PathName.Split('.').First().Split('\\').Last());
                 if(doc.IsFamilyDocument && !MFConfirmParam.Get(doc))
-                    CommandLibrary.Transact(new StringBasedDocCommand(MFParam.Set), doc,
+                    CommandLibrary.Transact(new CommandLibrary.StringBasedDocCommand(MFParam.Set), doc,
                         TitleAnalysisPrediction.GenPrediction 
-                        (args.PathName.Split('.').First().Split('\\').Last()));
+                        (args.PathName.Split('.').First().Split('\\').Last()).ToString());
                 tg.Commit();
             }
         }

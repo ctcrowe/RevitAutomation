@@ -9,7 +9,7 @@ namespace CC_Plugin
     {
         public delegate void DocCommand(Document doc);
         public delegate string DocStringCommand(Document doc);
-        public delegate void StringBasedDocCommand(Document doc, string s);
+        public delegate string StringBasedDocCommand(Document doc, string s);
         public static void Transact(DocCommand dc, Document doc)
         {
             using(Transaction t = new Transaction(doc, "Run Command"))
@@ -28,14 +28,15 @@ namespace CC_Plugin
                 t.Commit();
             }
         }
-        public static void Transact(StringBasedDocCommand dc, Document doc, string s)
+        public static string Transact(StringBasedDocCommand dc, Document doc, string s)
         {
             using (Transaction t = new Transaction(doc, "Run Command"))
             {
                 t.Start();
                 dc(doc, s);
-                t.Commit()
+                t.Commit();
             }
+            return s;
         }
     }
     public static class ResetParamLibrary

@@ -31,7 +31,7 @@ namespace CC_Plugin
             }
         }
         public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
-        public static bool Get(Document doc) { return Get_BooleanFamilyParam(doc, P); }
+        public static bool Get(Document doc) { return RevitParamEdits.Get_BooleanFamilyParam(doc, P); }
         public static string Set(Document doc, int i)
         {
             Add(doc);

@@ -44,10 +44,10 @@ namespace CC_Plugin
         {
             return P.Get(e);
         }
-        public static string Set(Document doc, int i)
+        public static string Set(Document doc, string i)
         {
             Add(doc);
-            return P.Set(doc, i.ToString());
+            return P.Set(doc, i);
         }
         private static Definition SetupParam(Document doc)
         {

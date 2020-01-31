@@ -96,7 +96,7 @@ namespace CC_Plugin
                     foreach (FamilyType t in doc.FamilyManager.Types)
                     {
                         doc.FamilyManager.CurrentType = t;
-                        int i = t.AsInteger(param);
+                        int i = t.AsInteger(param) ?? 0;
                         if(i == 1)
                             return true;
                     }

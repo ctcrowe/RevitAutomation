@@ -3,17 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using System;
+using System.Reflection;
 
 namespace CC_Library
 {
     public class TitleAnalysisPrediction
     {
-        private static string FileName;
+        private static XDocument XDoc
+        {
+            get
+            {
+                Assembly a = typeof(TitleAnalysisPrediction).Assembly;
+
+                Stream s = a.GetManifestResourceStream("Assembly.Namespace.Path.To.File.xml");
+                XDocument doc = XDocument.Load(s);
+                s.Close();
+                return doc;
+            }
+        }
         private static List<PredictionElement> Predictions(List<string> Words)
         {
             List<PredictionElement> pes = new List<PredictionElement>();
-            XDocument doc = XDocument.Load(FileName);
-            foreach (XElement e in doc.Root.Elements())
+            foreach (XElement e in XDoc.Root.Elements())
             {
                 if (Words.Any(x => x == e.Attribute("Word").Value))
                 {
