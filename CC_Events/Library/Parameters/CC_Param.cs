@@ -10,6 +10,7 @@ namespace CC_Plugin
 {
     internal class RevitParamEdits
     {
+        ResetParamLibrary.Run();
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static string SharedParams = Location + "\\CC_SharedParams.txt";
         
@@ -27,6 +28,7 @@ namespace CC_Plugin
         }
         public static void Add_ProjectInfoParam(Document doc, Param p)
         {
+            ResetParamLibrary.Run();
             Application app = doc.Application;
             app.SharedParametersFilename = SharedParams;
             DefinitionFile DefFile = app.OpenSharedParameterFile();
