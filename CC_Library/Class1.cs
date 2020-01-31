@@ -5,7 +5,35 @@ using System.IO;
 using System.Xml.Linq;
 using System;
 using System.Reflection;
-
+        /*
+        internal class Prediction
+        {
+            public string Phrase { get; }
+            public List<PredOption> Options { get; set; }
+        
+            public Prediction(string p)
+            {
+                this.Phrase = p;
+                this.Options = new List<PredOption>();
+            }
+        }
+        internal class PredOption
+        {
+            public string Name { get; }
+            public double Adjustment { get; set; }
+            public int Count { get; set; }
+            
+            public PredOption(string Word)
+            {
+                this.Name = Word;
+                this.Adjustment = 0;
+                this.Count = 1;
+            }
+            public XElement CreateOption()
+            {
+            }
+        }
+        */
 namespace CC_Library
 {
     public class TitleAnalysisPrediction
@@ -26,6 +54,13 @@ namespace CC_Library
         }
         public static int GenPrediction(string Title, TEST t)
         {
+            /*
+            foreach(string s in title)
+            {
+                var e = new prediction"";
+            
+            }
+            */
             List<string> words = TitleAnalysis.SplitTitleWords(Title);
             List<PredictionElement> preds = Predictions(words);
             double[] vals = TitleAnalysis.GetPrediction(preds);
