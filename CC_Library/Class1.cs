@@ -21,6 +21,40 @@ using System.Reflection;
             private List<PredictionElement> GetElements()
             {
                 var Elements = new List<PredictionElement>();
+                int b = 0;
+                char[] cs = Phrase.ToCharArray();
+                for (int i = 1; i < cs.Count(); i++)
+                {
+                    if (!char.IsLetter(cs[i]))
+                    {
+                        if (i > b && b < cs.Count())
+                        {
+                            string z = string.Empty;
+                            for (int j = b; j < i; j++)
+                            {
+                                z += cs[j];
+                            }
+                            Elements.Add(z);
+                        }
+                        b = i + 1;
+                    }
+                    else
+                    {
+                        if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
+                        {
+                            if (i > b && b < cs.Count())
+                            {
+                                string z = string.Empty;
+                                for (int j = b; j < i; j++)
+                                {
+                                    z += cs[j];
+                                }
+                                data.Add(z);
+                            }
+                            b = i;
+                        }
+                    }
+                }
                 return Elements;
             }
         }
