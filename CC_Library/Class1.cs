@@ -6,14 +6,24 @@ using System.Xml.Linq;
 using System;
 using System.Reflection;
         /*
-        internal class Prediction
+        internal class PredictionPhrase
         {
-            public string Phrase { get; }
+                public string Phrase { get; }
+                public List<PredictionElement> Elements { get; set; }
+                public int Prediction { get; set; }
+                
+                public PredictionPhrase()
+                {
+                }
+        }
+        internal class PredictionElement
+        {
+            public string Word { get; }
             public List<PredOption> Options { get; set; }
         
-            public Prediction(string p)
+            public PredictionElement(string w)
             {
-                this.Phrase = p;
+                this.Word = w;
                 this.Options = new List<PredOption>();
             }
         }
@@ -31,6 +41,11 @@ using System.Reflection;
             }
             public XElement CreateOption()
             {
+                XElement ele = new XElement("OPTION");
+                ele.Add(new XAttribute("NAME", this.Name));
+                ele.Add(new XAtribute("ADJUSTMENT", this.Adjustment.ToString()));
+                ele.Add(new XAttribute("QTY", this.Count.ToString());
+                return
             }
         }
         */
@@ -48,7 +63,6 @@ namespace CC_Library
                 string name = a.GetManifestResourceNames().Where(x => x.EndsWith("1.xml")).First();
                 Stream s = a.GetManifestResourceStream(name);
                 XDocument doc = XDocument.Load(s);
-                //s.Close();
                 return doc;
             }
         }
