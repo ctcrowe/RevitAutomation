@@ -8,15 +8,15 @@ using System.Reflection;
         /*
         internal class PredictionPhrase
         {
-                public string Phrase { get; }
-                public List<PredictionElement> Elements { get; set; }
-                public int Prediction { get; set; }
+            public string Phrase { get; }
+            public List<PredictionElement> Elements { get; set; }
+            public int Prediction { get; set; }
                 
-                public PredictionPhrase(string p)
-                {
-                        this.Phrase = p;
-                        this.Elements = new List<PredictionElement>();
-                }
+            public PredictionPhrase(string p)
+            {
+                this.Phrase = p;
+                this.Elements = new List<PredictionElement>();
+            }
         }
         internal class PredictionElement
         {
