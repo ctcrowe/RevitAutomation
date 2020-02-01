@@ -15,7 +15,13 @@ using System.Reflection;
             public PredictionPhrase(string p)
             {
                 this.Phrase = p;
-                this.Elements = new List<PredictionElement>();
+                this.Elements = GetElements();
+                this.Prediction = 0;
+            }
+            private List<PredictionElement> GetElements()
+            {
+                var Elements = new List<PredictionElement>();
+                return Elements;
             }
         }
         internal class PredictionElement
