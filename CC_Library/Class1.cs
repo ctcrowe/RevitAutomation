@@ -20,6 +20,10 @@ namespace CC_Library
                 this.Elements = GetElements();
                 this.Prediction = 0;
             }
+            public PredictionPhrase(XElement ele)
+            {
+                
+            }
             private List<PredictionElement> GetElements()
             {
                 var Elements = new List<PredictionElement>();
