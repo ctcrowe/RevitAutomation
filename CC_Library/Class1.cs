@@ -20,10 +20,6 @@ namespace CC_Library
                 this.Elements = GetElements();
                 this.Prediction = 0;
             }
-            public PredictionPhrase(XElement ele)
-            {
-                
-            }
             private List<PredictionElement> GetElements()
             {
                 var Elements = new List<PredictionElement>();
@@ -74,6 +70,25 @@ namespace CC_Library
                 this.Word = w;
                 this.Options = new List<PredOption>();
             }
+            public PredictionElement(XElement ele)
+            {
+                this.Word = ele.Attribute("WORD").Value;
+                this.Options = new List<PredOption>();
+                foreach(XElement e in ele.Elements("OPTION"))
+                {
+                    Options.Add(new PredOption(e));
+                }
+            }
+            public XElement CreateElement()
+            {
+                XElement ele = new XElement("ELEMENT");
+                ele.Add(new XAttribute("WORD", Word));
+                foreach(PredOption p in Options)
+                {
+                    ele.Add(p.CreateOption);
+                }
+                return ele;
+            }
         }
         internal class PredOption
         {
@@ -87,13 +102,19 @@ namespace CC_Library
                 this.Adjustment = 0;
                 this.Count = 1;
             }
+            public PredOption(XElement ele)
+            {
+                this.Name = ele.Attribute("NAME").Value;
+                this.Adjustment = double.parse(ele.Attribute("ADJUSTMENT").Value);
+                this.Count = int.parse(ele.Attribute("QTY").Value);
+            }
             public XElement CreateOption()
             {
                 XElement ele = new XElement("OPTION");
                 ele.Add(new XAttribute("NAME", this.Name));
                 ele.Add(new XAtribute("ADJUSTMENT", this.Adjustment.ToString()));
                 ele.Add(new XAttribute("QTY", this.Count.ToString());
-                return
+                return ele;
             }
         }
     public class TitleAnalysisPrediction
