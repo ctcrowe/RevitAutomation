@@ -5,8 +5,10 @@ using System.IO;
 using System.Xml.Linq;
 using System;
 using System.Reflection;
-        /*
-        internal class PredictionPhrase
+
+namespace CC_Library
+{
+    internal class PredictionPhrase
         {
             public string Phrase { get; }
             public List<PredictionElement> Elements { get; set; }
@@ -90,9 +92,6 @@ using System.Reflection;
                 return
             }
         }
-        */
-namespace CC_Library
-{
     public class TitleAnalysisPrediction
     {
         public delegate void TEST(string s);
