@@ -26,9 +26,6 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
-                    CommandLibrary.Transact(new CommandLibrary.DocCommand(WidthParam.Add), doc);
-                    CommandLibrary.Transact(new CommandLibrary.DocCommand(DepthParam.Add), doc);
-                    CommandLibrary.Transact(new CommandLibrary.DocCommand(HeightParam.Add), doc);
                 }
                 CommandLibrary.Transact(new CommandLibrary.DocStringCommand(IDParam.Set), doc);
                 tg.Commit();
@@ -36,13 +33,13 @@ namespace CC_Plugin
         }
         public static Result OnStartup(UIControlledApplication app)
         {
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(FamParam.Add);
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFParam.Add);
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add);
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(WidthParam);
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(HeightParam);
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(DepthParam);
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute);
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(FamParam.Add); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFParam.Add); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(WidthParam); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(HeightParam); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(DepthParam); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute); } catch {}
             return Result.Succeeded;
         }
         public static Result OnShutdown(UIControlledApplication app)
