@@ -36,9 +36,9 @@ namespace CC_Plugin
             try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(FamParam.Add); } catch {}
             try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFParam.Add); } catch {}
             try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(WidthParam); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(HeightParam); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(DepthParam); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(WidthParam.Add); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(HeightParam.Add); } catch {}
+            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(DepthParam.Add); } catch {}
             try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute); } catch {}
             return Result.Succeeded;
         }
@@ -47,9 +47,9 @@ namespace CC_Plugin
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(FamParam.Add);
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(MFParam.Add);
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(WidthParam);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(HeightParam);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(DepthParam);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(WidthParam.Add);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(HeightParam.Add);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(DepthParam.Add);
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
             return Result.Succeeded;
         }
