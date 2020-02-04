@@ -30,7 +30,7 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        private static void Add(object sender, ViewActivatedEventArgs args)
+        public static void Add(object sender, ViewActivatedEventArgs args)
         {
             Document doc = args.Document;
             
@@ -48,16 +48,6 @@ namespace CC_Plugin
                     t.Commit();
                 }
             }
-        }
-        public static Result OnStartup(UIControlledApplication app)
-        {
-            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Add);
-            return Result.Succeeded;
-        }
-        public static Result OnShutdown(UIControlledApplication app)
-        {
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Add);
-            return Result.Succeeded;
         }
         public static string Get(Document doc)
         {
