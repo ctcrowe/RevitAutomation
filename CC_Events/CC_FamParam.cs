@@ -30,7 +30,7 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        public static void Add(object sender, ViewActivatedEventArgs args)
+        private static void Add(object sender, ViewActivatedEventArgs args)
         {
             Document doc = args.Document;
             
