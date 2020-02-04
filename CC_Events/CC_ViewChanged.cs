@@ -26,9 +26,6 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
-                    CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
-                    CommandLibrary.Transact(new CommandLibrary.DocCommand(MFParam.Add), doc);
-                    CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
                     CommandLibrary.Transact(new CommandLibrary.DocCommand(WidthParam.Add), doc);
                     CommandLibrary.Transact(new CommandLibrary.DocCommand(DepthParam.Add), doc);
                     CommandLibrary.Transact(new CommandLibrary.DocCommand(HeightParam.Add), doc);
@@ -39,11 +36,15 @@ namespace CC_Plugin
         }
         public static Result OnStartup(UIControlledApplication app)
         {
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(FamParam.Add);
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFParam.Add);
             app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute);
             return Result.Succeeded;
         }
         public static Result OnShutdown(UIControlledApplication app)
         {
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(FamParam.Add);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(MFParam.Add);
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
             return Result.Succeeded;
         }
