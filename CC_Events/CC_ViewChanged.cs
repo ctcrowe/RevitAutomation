@@ -38,6 +38,10 @@ namespace CC_Plugin
         {
             app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(FamParam.Add);
             app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFParam.Add);
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add);
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(WidthParam);
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(HeightParam);
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(DepthParam);
             app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute);
             return Result.Succeeded;
         }
@@ -45,6 +49,10 @@ namespace CC_Plugin
         {
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(FamParam.Add);
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(MFParam.Add);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(WidthParam);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(HeightParam);
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(DepthParam);
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
             return Result.Succeeded;
         }
