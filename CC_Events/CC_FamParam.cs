@@ -30,17 +30,34 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        public static void Add(Document doc)
+        public static void Add(object sender, ViewActivatedEventArgs args)
         {
-            Application app = doc.Application;
-            app.SharedParametersFilename = SharedParams;
-            DefinitionFile DefFile = app.OpenSharedParameterFile();
-            if (doc.IsFamilyDocument)
+            Document doc = args.Document;
+            
+            if(doc.IsFamilyDocument)
             {
-                ExternalDefinition def = SetupParam(doc) as ExternalDefinition;
-                if (doc.FamilyManager.get_Parameter(P.ID) == null)
-                    doc.FamilyManager.AddParameter(def, P.BuiltInGroup, false);
+                using(Transaction t = new Transaction(doc, "Add Family"))
+                {
+                    t.Start();
+                    Application app = doc.Application;
+                    app.SharedParametersFilename = SharedParams;
+                    DefinitionFile DefFile = app.OpenSharedParameterFile();
+                    ExternalDefinition def = SetupParam(doc) as ExternalDefinition;
+                    if (doc.FamilyManager.get_Parameter(P.ID) == null)
+                        doc.FamilyManager.AddParameter(def, P.BuiltInGroup, false);
+                    t.Commit();
+                }
             }
+        }
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Add);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Add);
+            return Result.Succeeded;
         }
         public static string Get(Document doc)
         {
