@@ -31,7 +31,16 @@ namespace CC_Plugin
             }
         }
         public static Guid ID { get { return P.ID; } }
-        public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
+        public static void Add(object sender, ViewActivatedEventArgs args)
+        {
+            Document doc = args.Document;
+            using(Transaction t = new Transaction(doc, "Add Family"))
+            {
+                t.Start();
+                RevitParamEdits.Add_FamilyParam(doc, P);
+                t.Commit();
+            }
+        }
         public static string Get(Document doc)
         {
             return P.Get(doc);
