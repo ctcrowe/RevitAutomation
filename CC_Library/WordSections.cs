@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Linq;
-using System.Windows.Forms;
 
 namespace CC_Library
 {
@@ -27,7 +24,7 @@ namespace CC_Library
                     string ele = doc.Root.Attribute("Name").Value;
                     if (!string.IsNullOrEmpty(ele))
                     {
-                        foreach (var pe in PredictionElement.SplitTitle(ele))
+                        foreach (var pe in PredElement.SplitTitle(ele))
                             if (!data.Contains(pe.Word))
                                 data.Add(pe.Word);
                     }
@@ -58,7 +55,7 @@ namespace CC_Library
         {
             int calculationnumber = 1;
             var Input = new List<TitleAnalysis>();
-            var Output = new List<PredictionElement>();
+            var Output = new List<PredElement>();
             
             string[] lines = File.ReadAllLines(Entry);
             foreach(string l in lines)
@@ -74,13 +71,13 @@ namespace CC_Library
             {
                 foreach(var ta in Input)
                 {
-                    var data = new List<PredictionElement>();
+                    var data = new List<PredElement>();
                     foreach(string s in ta.SplitTitleWords())
                     {
                         if(Output.Any(x => x.Word == s))
                             data.Add(Output.Where(x => x.Word == s).First());
                         else
-                           data.Add(new PredictionElement(s));
+                           data.Add(new PredElement(s));
                     }
                     double[] pred = TitleAnalysis.GetPrediction(data);
                     foreach(var d in data)

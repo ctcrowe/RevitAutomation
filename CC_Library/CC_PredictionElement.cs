@@ -6,7 +6,7 @@ using System;
 
 namespace CC_Library
 {
-    public class PredictionElement
+    public class PredElement
     {
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
@@ -16,13 +16,13 @@ namespace CC_Library
         public double[] Predictions { get; set; }
         private int PredictionNumber { get; set; }
 
-        public PredictionElement(string s)
+        public PredElement(string s)
         {
             this.Word = s;
             this.Predictions = new double[PredictionCount];
             PredictionNumber = 1;
         }
-        public PredictionElement(string s, double[] preds)
+        public PredElement(string s, double[] preds)
         {
             this.Word = s;
             this.Predictions = preds;
@@ -50,17 +50,17 @@ namespace CC_Library
             PredictionNumber += 1;
         }
         
-        public static List<PredictionElement> GetData(string folder)
+        public static List<PredElement> GetData(string folder)
         {
             string[] Files = Directory.GetFiles(folder);
-            var data = new List<PredictionElement>();
+            var data = new List<PredElement>();
 
             if (File.Exists(xfile))
             {
                 XDocument doc = XDocument.Load(xfile);
                 foreach (XElement ele in doc.Root.Elements())
                 {
-                    data.Add(new PredictionElement(ele.Attribute("Value").Value));
+                    data.Add(new PredElement(ele.Attribute("Value").Value));
                 }
             }
             foreach (string f in Files)
@@ -80,9 +80,9 @@ namespace CC_Library
             return data;
         }
         
-        public static List<PredictionElement> SplitTitle(string s)
+        public static List<PredElement> SplitTitle(string s)
         {
-            var data = new List<PredictionElement>();
+            var data = new List<PredElement>();
             int b = 0;
             char[] cs = s.ToCharArray();
             for (int i = 1; i < cs.Count(); i++)
@@ -96,7 +96,7 @@ namespace CC_Library
                         {
                             z += cs[j];
                         }
-                        data.Add(new PredictionElement(z));
+                        data.Add(new PredElement(z));
                     }
                     b = i + 1;
                 }
@@ -111,7 +111,7 @@ namespace CC_Library
                             {
                                 z += cs[j];
                             }
-                            data.Add(new PredictionElement(z));
+                            data.Add(new PredElement(z));
                         }
                         b = i;
                     }

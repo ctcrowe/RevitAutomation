@@ -18,9 +18,9 @@ namespace CC_Library
             this.Section = i;
         }
         
-        public static double[] GetPrediction(List<PredictionElement> PredictionWords)
+        public static double[] GetPrediction(List<PredElement> PredictionWords)
         {
-            double[] Prediction = new double[PredictionElement.PredictionCount];
+            double[] Prediction = new double[PredElement.PredictionCount];
             for(int z = 0; z < Prediction.Count(); z++)
             {
                 double a = 0;
@@ -112,9 +112,9 @@ namespace CC_Library
             }
             return data;
         }
-        public List<PredictionElement> SplitTitle()
+        public List<PredElement> SplitTitle()
         {
-            var data = new List<PredictionElement>();
+            var data = new List<PredElement>();
             int b = 0;
             char[] cs = this.Title.ToCharArray();
             for (int i = 1; i < cs.Count(); i++)
@@ -128,7 +128,7 @@ namespace CC_Library
                         {
                             z += cs[j];
                         }
-                        data.Add(new PredictionElement(z));
+                        data.Add(new PredElement(z));
                     }
                     b = i + 1;
                 }
@@ -143,7 +143,7 @@ namespace CC_Library
                             {
                                 z += cs[j];
                             }
-                            data.Add(new PredictionElement(z));
+                            data.Add(new PredElement(z));
                         }
                         b = i;
                     }

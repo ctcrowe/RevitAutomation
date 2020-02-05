@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI.Events;
 using Autodesk.Revit.ApplicationServices;
 
 namespace CC_Plugin
@@ -58,7 +59,6 @@ namespace CC_Plugin
         }
         public static string Set(Document doc, string s)
         {
-            Add(doc);
             return P.Set(doc, s);
         }
     }

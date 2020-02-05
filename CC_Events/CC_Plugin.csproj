@@ -68,7 +68,6 @@
     <Compile Include="CC_ViewChanged.cs" />
     <Compile Include="CC_WriteParamToTTD.cs" />
     <Compile Include="CC_AutomationLoop.cs" />
-    <Compile Include="CC_StaticFamParams.cs" />
     <Compile Include="CC_FamParam.cs" />
     <Compile Include="CC_XmlLib.cs" />
     <Compile Include="CC_Placement.cs" />
