@@ -27,12 +27,12 @@ namespace CC_Plugin
         {
             uiApp.CreateRibbonTab(tabName);
             
-            QCTab.QCPanel(uiApp, tabName);
+            try { QCTab.QCPanel(uiApp, tabName); } catch {}
             PrintPanel(uiApp);
 
+            ViewChanged.OnStartup(uiApp);
             try
             {
-                ViewChanged.OnStartup(uiApp);
                 RefPlaneMaker.OnStartup(uiApp);
                 RoomParameterizer.OnStartup(uiApp);
                 CC_Automation.OnStartup(uiApp);
