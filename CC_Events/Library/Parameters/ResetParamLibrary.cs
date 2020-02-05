@@ -5,40 +5,6 @@ using Autodesk.Revit.UI;
 
 namespace CC_Plugin
 {
-    public static class CommandLibrary
-    {
-        public delegate void DocCommand(Document doc);
-        public delegate string DocStringCommand(Document doc);
-        public delegate string StringBasedDocCommand(Document doc, string s);
-        public static void Transact(DocCommand dc, Document doc)
-        {
-            using(Transaction t = new Transaction(doc, "Run Command"))
-            {
-                t.Start();
-                dc(doc);
-                t.Commit();
-            }
-        }
-        public static void Transact(DocStringCommand dc, Document doc)
-        {
-            using (Transaction t = new Transaction(doc, "Run Command"))
-            {
-                t.Start();
-                dc(doc);
-                t.Commit();
-            }
-        }
-        public static string Transact(StringBasedDocCommand dc, Document doc, string s)
-        {
-            using (Transaction t = new Transaction(doc, "Run Command"))
-            {
-                t.Start();
-                dc(doc, s);
-                t.Commit();
-            }
-            return s;
-        }
-    }
     public static class ResetParamLibrary
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
