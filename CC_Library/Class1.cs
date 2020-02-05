@@ -51,7 +51,7 @@ namespace CC_Library
                             {
                                 z += cs[j];
                             }
-                            //data.Add(z);
+                            Elements.Add(new PredictionElement(z));
                         }
                         b = i;
                     }
