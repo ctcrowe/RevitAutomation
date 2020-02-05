@@ -28,7 +28,7 @@ namespace CC_Plugin
             uiApp.CreateRibbonTab(tabName);
             
             try { QCTab.QCPanel(uiApp, tabName); } catch {}
-            PrintPanel(uiApp);
+            try { PrintPanel(uiApp); } catch {}
 
             ViewChanged.OnStartup(uiApp);
             try
