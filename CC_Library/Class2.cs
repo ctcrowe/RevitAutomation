@@ -10,8 +10,8 @@ namespace CC_Library
     internal class PredOption
     {
         public string Name { get; }
-        public float Adjustment { get; set; }
-        public float Weight { get; set; }
+        public double Adjustment { get; set; }
+        public double Weight { get; set; }
         public int Count { get; set; }
             
         public PredOption(string w)
@@ -24,8 +24,8 @@ namespace CC_Library
         public PredOption(XElement ele)
         {
             this.Name = ele.Attribute("NAME").Value;
-            this.Adjustment = float.Parse(ele.Attribute("ADJUSTMENT").Value);
-            this.Weight = float.Parse(ele.Attribute("WEIGHT").Value);
+            this.Adjustment = double.Parse(ele.Attribute("ADJUSTMENT").Value);
+            this.Weight = double.Parse(ele.Attribute("WEIGHT").Value);
             this.Count = int.Parse(ele.Attribute("QTY").Value);
         }
         public XElement CreateOption()
