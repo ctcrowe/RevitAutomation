@@ -66,30 +66,6 @@ namespace CC_Plugin
                 }
             }
         }
-        private static Definition CreateParamDefinition(Document doc, Param p)
-        {
-            Application app = doc.Application;
-            app.SharedParametersFilename = SharedParams;
-            DefinitionFile df = app.OpenSharedParameterFile();
-
-            if (df.Groups.get_Item(p.ParamGroup) == null)
-            {
-                DefinitionGroup group = df.Groups.Create(p.ParamGroup);
-                return group.Definitions.Create(new ExDefOptions(p).opt);
-            }
-            else
-            {
-                DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
-                if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
-                {
-                    return group.Definitions.Create(new ExDefOptions(p).opt);
-                }
-                else
-                {
-                    return group.Definitions.get_Item(p.name);
-                }
-            }
-        }
         public static bool Get_BooleanFamilyParam(Document doc, Param p)
         {
             if (doc.IsFamilyDocument)
@@ -119,17 +95,14 @@ namespace CC_Plugin
                 DefinitionGroup group = df.Groups.Create(p.ParamGroup);
                 return group.Definitions.Create(new ExDefOptions(p).opt);
             }
+            DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
+            if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+            {
+                return group.Definitions.Create(new ExDefOptions(p).opt);
+            }
             else
             {
-                DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
-                if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
-                {
-                    return group.Definitions.Create(new ExDefOptions(p).opt);
-                }
-                else
-                {
-                    return group.Definitions.get_Item(p.name);
-                }
+                return group.Definitions.get_Item(p.name);
             }
         }
     }
