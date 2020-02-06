@@ -8,17 +8,59 @@ using System.Reflection;
 
 namespace CC_Library
 {
+    /*
+    public PredictionElement(string w)
+    {
+        this.Word = w;
+        this.Options = new List<PredOption>();
+    }
+    public PredOption(string w)
+    {
+        this.Name = w;
+        this.Adjustment = 0;
+        this.Weight = 1;
+        this.Count = 1;
+    }
+    public Prediction(string s)
+    {
+        this.Name = s;
+        this.Weight = 0;
+        this.Count = 0;
+    }
+    */
     internal class PredictionPhrase
     {
+        public string Predict()
+        {
+            double Max = 0;
+            foreach(PredictionElement e in Elements)
+            {
+                foreach(PredOption o in e.Options)
+                {
+                    if(!this.Options.Any(x => x.Name == o.Name))
+                    {
+                        this.Options.Add(new Prediction(o.Name));
+                    }
+                    double val = o.Weight * o.Adjustment;
+                    this.Options.Where(x => x.Name == o.Name).First().Adjust(val);
+                }
+            }
+            string s = Options.Where(x => x.Weight == Max).First().Name;
+            this.Prediction = s;
+            return s;
+        }
+        
         public string Phrase { get; }
         public List<PredictionElement> Elements { get; set; }
-        public int Prediction { get; set; }
+        public List<Prediction> Options { get; set; }
+        public string Prediction { get; set; }
                 
         public PredictionPhrase(string p)
         {
             this.Phrase = p;
             this.Elements = GetElements();
-            this.Prediction = 0;
+            this.Options = new List<Prediction>();
+            this.
         }
         private List<PredictionElement> GetElements()
         {
@@ -60,6 +102,26 @@ namespace CC_Library
             return Elements;
         }
     }
+    internal class Prediction
+    {
+        public string Name { get; set; }
+        public double Weight { get; set; }
+        private int Count { get; set; }
+        
+        public Prediction(string s)
+        {
+            this.Name = s;
+            this.Weight = 0;
+            this.Count = 0;
+        }
+        public void Adjust(double d)
+        {
+            double x = this.Weight * this.Count;
+            this.Count++;
+            x += d;
+            this.Weight = x / this.Count;
+        }
+    }
     internal class PredictionElement
     {
         public string Word { get; }
@@ -76,7 +138,8 @@ namespace CC_Library
             this.Options = new List<PredOption>();
             foreach(XElement e in ele.Elements("OPTION"))
             {
-                Options.Add(new PredOption(e));
+                if(!Options.Any(x => x.Name == e.Attribute("NAME").Value))
+                    Options.Add(new PredOption(e));
             }
         }
         public XElement CreateElement()
@@ -89,91 +152,10 @@ namespace CC_Library
             }
             return ele;
         }
-    }
-    internal class PredOption
-    {
-        public string Name { get; }
-        public float Adjustment { get; set; }
-        public float Weight { get; set; }
-        public int Count { get; set; }
-            
-        public PredOption(string w)
+        public void AddOption(string s)
         {
-            this.Name = w;
-            this.Adjustment = 0;
-            this.Weight = 1;
-            this.Count = 1;
-        }
-        public PredOption(XElement ele)
-        {
-            this.Name = ele.Attribute("NAME").Value;
-            this.Adjustment = float.Parse(ele.Attribute("ADJUSTMENT").Value);
-            this.Weight = float.Parse(ele.Attribute("WEIGHT").Value);
-            this.Count = int.Parse(ele.Attribute("QTY").Value);
-        }
-        public XElement CreateOption()
-        {
-            XElement ele = new XElement("OPTION");
-            ele.Add(new XAttribute("NAME", this.Name));
-            ele.Add(new XAttribute("ADJUSTMENT", this.Adjustment.ToString()));
-            ele.Add(new XAttribute("WEIGHT", this.Weight.ToString());
-            ele.Add(new XAttribute("QTY", this.Count.ToString()));
-            return ele;
-        }
-    }
-    public class TitleAnalysisPrediction
-    {
-        public delegate void TEST(string s);
-        private static XDocument XDoc
-        {
-            get
-            {
-                Assembly a = typeof(TitleAnalysisPrediction).Assembly;
-
-                string name = a.GetManifestResourceNames().Where(x => x.EndsWith("1.xml")).First();
-                Stream s = a.GetManifestResourceStream(name);
-                XDocument doc = XDocument.Load(s);
-                return doc;
-            }
-        }
-        public static int GenPrediction(string Title, TEST t)
-        {
-            /*
-            foreach(string s in title)
-            {
-                var e = new prediction"";
-            
-            }
-            */
-            List<string> words = TitleAnalysis.SplitTitleWords(Title);
-            List<PredElement> preds = Predictions(words);
-            double[] vals = TitleAnalysis.GetPrediction(preds);
-            int p = Array.IndexOf(vals, vals.Max());
-            return p;
-        }
-        private static List<PredElement> Predictions(List<string> Words)
-        {
-            List<PredElement> pes = new List<PredElement>();
-            foreach (string s in Words)
-            {
-                XDocument doc = XDoc;
-                if (doc.Root.Elements().Any(x => x.Attribute("Word").Value == s))
-                {
-                    XElement ele = doc.Root.Elements().Where(x => x.Attribute("Word").Value == s).First();
-                    double[] values = new double[ele.Elements().Count()];
-                    for (int i = 0; i < values.Count(); i++)
-                    {
-                        values[i] = double.Parse(ele.Elements().Where(x => x.Attribute("Number").Value == i.ToString()).First().Attribute("Value").Value);
-                    }
-                    PredElement pe = new PredElement(s, values);
-                    pes.Add(pe);
-                }
-                else
-                {
-                    pes.Add(new PredElement(s));
-                }
-            }
-            return pes;
+            if(!Options.Any(x => x.Name == s))
+                Options.Add(new PredOption(s));
         }
     }
 }
