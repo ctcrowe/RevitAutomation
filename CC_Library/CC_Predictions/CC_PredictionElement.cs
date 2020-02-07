@@ -27,7 +27,7 @@ namespace CC_Library
                     Options.Add(new PredictionOption(e));
             }
         }
-        public XElement CreateElement()
+        private XElement CreateElement()
         {
             XElement ele = new XElement("ELEMENT");
             ele.Add(new XAttribute("WORD", Word));
@@ -36,6 +36,17 @@ namespace CC_Library
                 ele.Add(p.CreateOption());
             }
             return ele;
+        }
+        public void AdjustElement(XElement root)
+        {
+            if(root.Elements("ELEMENT").Any(x => x.Attribute("WORD").Value == Word))
+            {
+                
+            }
+            else
+            {
+                root.Add(CreateElement());
+            }
         }
         public void AddOption(string s)
         {
