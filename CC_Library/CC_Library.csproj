@@ -46,10 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs" />
+    <Compile Include="CC_Predictions\CC_PredictionPhrase.cs" />
+    <Compile Include="CC_Predictions\CC_PredictionOption.cs" />
+    <Compile Include="CC_Predictions\CC_Prediction.cs" />
+    <Compile Include="CC_CmdSplitTitle.cs" />
+    <Compile Include="CC_Predictions\CC_PredictionElement.cs" />
+    <Compile Include="CC_Predictions\_CMD_CC_GenPredictions.cs" />
+    <Compile Include="CC_Predictions\_CMD_CC_GetPrediction.cs" />
     <Compile Include="WordSections.cs" />
-    <Compile Include="CC_PredictionElement.cs" />
+    <Compile Include="CC_PredElement_OLD.cs" />
     <Compile Include="CC_Command.cs" />
     <Compile Include="Class4.cs" />
     <Compile Include="TitleAnalysis.cs" />

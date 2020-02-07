@@ -15,8 +15,6 @@ namespace CC_Plugin
         
         public static void Add_FamilyParam(Document doc, Param p)
         {
-            ResetParamLibrary.Run();
-
             Application app = doc.Application;
             app.SharedParametersFilename = SharedParams;
             DefinitionFile DefFile = app.OpenSharedParameterFile();
@@ -29,8 +27,6 @@ namespace CC_Plugin
         }
         public static void Add_ProjectInfoParam(Document doc, Param p)
         {
-            ResetParamLibrary.Run();
-
             Application app = doc.Application;
             app.SharedParametersFilename = SharedParams;
             DefinitionFile DefFile = app.OpenSharedParameterFile();
@@ -92,8 +88,15 @@ namespace CC_Plugin
 
             if (df.Groups.get_Item(p.ParamGroup) == null)
             {
-                DefinitionGroup group = df.Groups.Create(p.ParamGroup);
-                return group.Definitions.Create(new ExDefOptions(p).opt);
+                DefinitionGroup newgroup = df.Groups.Create(p.ParamGroup);
+                if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+                {
+                    return newgroup.Definitions.Create(new ExDefOptions(p).opt);
+                }
+                else
+                {
+                    return newgroup.Definitions.get_Item(p.name);
+                }
             }
             DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
             if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)

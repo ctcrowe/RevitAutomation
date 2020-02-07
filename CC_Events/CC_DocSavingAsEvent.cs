@@ -16,18 +16,30 @@ namespace CC_Plugin
         public static void Event(object sender, DocumentSavingAsEventArgs args)
         {
             Document doc = args.Document;
-            TitleAnalysisPrediction.TEST t = new TitleAnalysisPrediction.TEST(runtest);
             using (TransactionGroup tg = new TransactionGroup(doc, "Saving Transactions"))
             {
                 tg.Start();
-                CommandLibrary.Transact(new CommandLibrary.DocStringCommand(IDParam.Set), doc);
-                string Fam = CommandLibrary.Transact(new CommandLibrary.StringBasedDocCommand(FamParam.Set), doc,
-                    args.PathName.Split('.').First().Split('\\').Last());
+                using (Transaction t = new Transaction(doc, "Set ID"))
+                {
+                    t.Start();
+                    IDParam.Set(doc);
+                    t.Commit();
+                }
+                using (Transaction t = new Transaction(doc, "Set Fam Name"))
+                {
+                    t.Start();
+                    FamParam.Set(doc, args.PathName.Split('.').First().Split('\\').Last());
+                    t.Commit();
+                }
                 if (doc.IsFamilyDocument)
                 {
-                    CommandLibrary.Transact(new CommandLibrary.StringBasedDocCommand(MFParam.Set), doc,
-                        TitleAnalysisPrediction.GenPrediction
-                        (args.PathName.Split('.').First().Split('\\').Last(), t).ToString());
+                    using (Transaction t = new Transaction(doc, "Set MF Param"))
+                    {
+                        t.Start();
+                        MFParam.Set(doc, "0");
+                        //MFParam.Set(doc, TitleAnalysisPrediction.GenPrediction(args.PathName.Split('.').First().Split('\\').Last(), test).ToString());
+                        t.Commit();
+                    }
                 }
                 tg.Commit();
             }

@@ -15,8 +15,15 @@ namespace CC_Plugin
             using(Transaction t = new Transaction(doc, "Run Command"))
             {
                 t.Start();
-                dc(doc);
-                t.Commit();
+                try
+                {
+                    dc(doc);
+                    t.Commit();
+                }
+                catch
+                {
+                    t.RollBack();
+                }
             }
         }
         public static void Transact(DocStringCommand dc, Document doc)
@@ -24,8 +31,15 @@ namespace CC_Plugin
             using (Transaction t = new Transaction(doc, "Run Command"))
             {
                 t.Start();
-                dc(doc);
-                t.Commit();
+                try
+                {
+                    dc(doc);
+                    t.Commit();
+                }
+                catch
+                {
+                    t.RollBack();
+                }
             }
         }
         public static string Transact(StringBasedDocCommand dc, Document doc, string s)
@@ -33,8 +47,15 @@ namespace CC_Plugin
             using (Transaction t = new Transaction(doc, "Run Command"))
             {
                 t.Start();
-                dc(doc, s);
-                t.Commit();
+                try
+                {
+                    dc(doc, s);
+                    t.Commit();
+                }
+                catch
+                {
+                    t.RollBack();
+                }
             }
             return s;
         }

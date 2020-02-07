@@ -31,16 +31,7 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        public static void Add(object sender, ViewActivatedEventArgs args)
-        {
-            Document doc = args.Document;
-            using(Transaction t = new Transaction(doc, "Add Family"))
-            {
-                t.Start();
-                RevitParamEdits.Add_FamilyParam(doc, P);
-                t.Commit();
-            }
-        }
+        public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
         public static bool Get(Document doc) { return RevitParamEdits.Get_BooleanFamilyParam(doc, P); }
         public static string Set(Document doc, int i)
         {
@@ -78,16 +69,7 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        public static void Add(object sender, ViewActivatedEventArgs args)
-        {
-            Document doc = args.Document;
-            using(Transaction t = new Transaction(doc, "Add Family"))
-            {
-                t.Start();
-                RevitParamEdits.Add_FamilyParam(doc, P);
-                t.Commit();
-            }
-        }
+        public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
         public static string Set(Document doc, int i)
         {
             return P.Set(doc, i.ToString());
@@ -124,16 +106,7 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        public static void Add(object sender, ViewActivatedEventArgs args)
-        {
-            Document doc = args.Document;
-            using(Transaction t = new Transaction(doc, "Add Family"))
-            {
-                t.Start();
-                RevitParamEdits.Add_FamilyParam(doc, P);
-                t.Commit();
-            }
-        }
+        public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
         public static string Set(Document doc, int i)
         {
             return P.Set(doc, i.ToString());
@@ -170,16 +143,7 @@ namespace CC_Plugin
                     /* Fixed */             true);
             }
         }
-        public static void Add(object sender, ViewActivatedEventArgs args)
-        {
-            Document doc = args.Document;
-            using(Transaction t = new Transaction(doc, "Add Family"))
-            {
-                t.Start();
-                RevitParamEdits.Add_FamilyParam(doc, P);
-                t.Commit();
-            }
-        }
+        public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
         public static string Set(Document doc, int i)
         {
             return P.Set(doc, i.ToString());

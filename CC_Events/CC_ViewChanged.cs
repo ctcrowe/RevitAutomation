@@ -11,6 +11,8 @@ namespace CC_Plugin
     {
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
+            ResetParamLibrary.Run();
+
             Document doc = args.Document;
             using (TransactionGroup tg = new TransactionGroup(doc, "Add ID Group"))
             {
@@ -27,29 +29,28 @@ namespace CC_Plugin
                         }
                     }
                 }
-                CommandLibrary.Transact(new CommandLibrary.DocStringCommand(IDParam.Set), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(MFParam.Add), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(MFConfirmParam.Add), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(WidthParam.Add), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(HeightParam.Add), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(DepthParam.Add), doc);
+                using (Transaction t = new Transaction(doc, "Set ID"))
+                {
+                    t.Start();
+                    IDParam.Set(doc);
+                    t.Commit();
+                }
                 tg.Commit();
             }
         }
         public static Result OnStartup(UIControlledApplication app)
         {
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(FamParam.Add); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFParam.Add); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(WidthParam.Add); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(HeightParam.Add); } catch {}
-            try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(DepthParam.Add); } catch {}
             try { app.ViewActivated += new EventHandler<ViewActivatedEventArgs>(Execute); } catch {}
             return Result.Succeeded;
         }
         public static Result OnShutdown(UIControlledApplication app)
         {
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(FamParam.Add);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(MFParam.Add);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(MFConfirmParam.Add);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(WidthParam.Add);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(HeightParam.Add);
-            app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(DepthParam.Add);
             app.ViewActivated -= new EventHandler<ViewActivatedEventArgs>(Execute);
             return Result.Succeeded;
         }
