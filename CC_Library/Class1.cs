@@ -32,7 +32,6 @@ namespace CC_Library
     {
         public string Predict()
         {
-            double Max = 0;
             foreach(PredictionElement e in Elements)
             {
                 foreach(PredOption o in e.Options)
@@ -44,6 +43,12 @@ namespace CC_Library
                     double val = o.Weight * o.Adjustment;
                     this.Options.Where(x => x.Name == o.Name).First().Adjust(val);
                 }
+            }
+            double Max = 0;
+            foreach(Prediction p in this.Options)
+            {
+                if(p.Weight > Max)
+                    May = p.Weight;
             }
             string s = Options.Where(x => x.Weight == Max).First().Name;
             this.Prediction = s;
