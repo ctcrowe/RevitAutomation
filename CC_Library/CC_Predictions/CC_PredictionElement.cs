@@ -41,7 +41,7 @@ namespace CC_Library
         {
             if(root.Elements("ELEMENT").Any(x => x.Attribute("WORD").Value == Word))
             {
-                
+                XElement e = root.Elements("ELEMENT").Where(x => x.Attribute("WORD").Value == Word);
             }
             else
             {
