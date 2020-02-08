@@ -17,13 +17,20 @@ namespace CC_Library
         {
             if(Directory.Exists(Dataset))
             {
+                XDocument x = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                
                 string[] files = Directory.GetFiles(folder);
                 foreach(string f in files)
                 {
                     XDocument doc = XDocument.Load(f);
                     if(doc.Root.Attribute("MFSection") != null)
                     {
-                        
+                        string Datapoint = doc.Root.Attribute("MFSection").Value;
+                        List<string> Elements = SplitTitle.Run(doc.Root.Attribute("Name").Value);
+                        foreach(string e in Elements)
+                        {
+                            
+                        }
                     }
                 }
             }
