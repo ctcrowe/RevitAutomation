@@ -11,11 +11,13 @@ namespace CC_Library
     {
         public string Word { get; }
         internal List<PredictionOption> Options { get; set; }
+        public int Count { get; set; }
 
         public PredictionElement(string w)
         {
             this.Word = w;
             this.Options = new List<PredictionOption>();
+            this.Count = 0;
         }
         public PredictionElement(XElement ele)
         {
@@ -51,7 +53,13 @@ namespace CC_Library
         public void AddOption(string s)
         {
             if (!Options.Any(x => x.Name == s))
+            {
                 Options.Add(new PredictionOption(s));
+            }
+            else
+            {
+            }
+            Count++;
         }
     }
 }
