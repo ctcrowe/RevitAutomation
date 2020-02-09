@@ -17,6 +17,7 @@ namespace CC_Library
         {
             if(Directory.Exists(Dataset))
             {
+                List<PredictionElement> pe = new List<PredictionElement>();
                 XDocument x = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 
                 string[] files = Directory.GetFiles(folder);
@@ -29,7 +30,12 @@ namespace CC_Library
                         List<string> Elements = SplitTitle.Run(doc.Root.Attribute("Name").Value);
                         foreach(string e in Elements)
                         {
-                            
+                            if(pe.Any(x => x.Word == e))
+                            {
+                            }
+                            else   
+                            {
+                            }
                         }
                     }
                 }
