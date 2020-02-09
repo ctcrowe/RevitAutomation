@@ -27,7 +27,7 @@ namespace CC_Library
         {
             XElement ele = new XElement("OPTION");
             ele.Add(new XAttribute("NAME", this.Name));
-            ele.Add(new XAttribute("RATIO", this.Adjustment.ToString()));
+            ele.Add(new XAttribute("RATIO", this.Ratio.ToString()));
             ele.Add(new XAttribute("WEIGHT", this.Weight.ToString()));
             ele.Add(new XAttribute("QTY", this.Count.ToString()));
             return ele;
