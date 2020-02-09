@@ -32,5 +32,6 @@ namespace CC_Library
             ele.Add(new XAttribute("QTY", this.Count.ToString()));
             return ele;
         }
+        public void AdjustCount() { Count++; }
     }
 }
