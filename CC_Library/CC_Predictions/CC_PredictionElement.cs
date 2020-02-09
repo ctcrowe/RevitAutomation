@@ -58,8 +58,10 @@ namespace CC_Library
             }
             else
             {
+                Options.Where(x => x.Name == s).First().AdjustCount();
             }
             Count++;
         }
+        public void SetRatios() { foreach(var p in Options) { p.SetRatio(Count); } }
     }
 }
