@@ -33,9 +33,6 @@ namespace CC_Library
             return ele;
         }
         public void AdjustCount() { Count++; }
-        public void SetRatio(int i)
-        {
-            this.Ratio = Count / i;
-        }
+        public void SetRatio(int i) { this.Ratio = Count / i; }
     }
 }
