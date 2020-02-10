@@ -56,15 +56,16 @@ namespace CC_Library
             {
                 Options.Add(new PredictionOption(s));
             }
-            else
-            {
-                Options.Where(x => x.Name == s).First().AdjustCount();
-            }
+            Options.Where(x => x.Name == s).First().AddPositive();
             Count++;
         }
-        public void SetRatios() { foreach(var p in Options) { p.SetRatio(Count); } }
-        public void AdjustWeights(string s)
+        public void SubtractOption(string s)
         {
+            if(!Options.Any(x => x.Name == s))
+            {
+                Option.Add(new PredictionOption(s));
+            }
+            Options.Where(x => x.Name == s).AddNegative();
         }
     }
 }
