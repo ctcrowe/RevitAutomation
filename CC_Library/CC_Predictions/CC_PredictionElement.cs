@@ -63,5 +63,8 @@ namespace CC_Library
             Count++;
         }
         public void SetRatios() { foreach(var p in Options) { p.SetRatio(Count); } }
+        public void AdjustWeights(string s)
+        {
+        }
     }
 }
