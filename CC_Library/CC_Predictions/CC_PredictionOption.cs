@@ -5,34 +5,30 @@ namespace CC_Library
     internal class PredictionOption
     {
         public string Name { get; }
-        public double Ratio { get; set; }
-        public double Weight { get; set; }
-        public int Count { get; set; }
+        public int Positive { get; set; }
+        public int Negative { get; set; }
             
         public PredictionOption(string w)
         {
             this.Name = w;
-            this.Ratio = 0;
-            this.Weight = 1;
-            this.Count = 1;
+            this.Positive = 0;
+            this.Negative = 0;
         }
         public PredictionOption(XElement ele)
         {
             this.Name = ele.Attribute("NAME").Value;
-            this.Ratio = double.Parse(ele.Attribute("RATIO").Value);
-            this.Weight = double.Parse(ele.Attribute("WEIGHT").Value);
-            this.Count = int.Parse(ele.Attribute("QTY").Value);
+            this.Positive = int.Parse(ele.Attribute("POSITIVE").Value);
+            this.Negative = int.Parse(ele.Attribute("NEGATIVE").Value);
         }
-        public XElement CreateOption()
+        public XElement CreateXML()
         {
             XElement ele = new XElement("OPTION");
             ele.Add(new XAttribute("NAME", this.Name));
-            ele.Add(new XAttribute("RATIO", this.Ratio.ToString()));
-            ele.Add(new XAttribute("WEIGHT", this.Weight.ToString()));
-            ele.Add(new XAttribute("QTY", this.Count.ToString()));
+            ele.Add(new XAttribute("POSITIVE", this.Positive.ToString()));
+            ele.Add(new XAttribute("NEGATIVE", this.Negative.ToString()));
             return ele;
         }
-        public void AdjustCount() { Count++; }
-        public void SetRatio(int i) { this.Ratio = Count / i; }
+        public void AddPositive() { Positive++; }
+        public void AddNegative() { Negative++; }
     }
 }
