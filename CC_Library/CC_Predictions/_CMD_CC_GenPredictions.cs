@@ -32,13 +32,13 @@ namespace CC_Library
         private static string Dataset = directory + "\\CC_XMLData";
         private static string FileName = directory + "\\CC_MFData.xml";
         
-        public static void Run()
+        public static List<PredictionElement> Run()
         {
+            List<PredictionOption> po = new List<PredictionOption>();
+            List<PredictionElement> pe = new List<PredictionElement>();
+            List<PredictionPhrase> pp = new List<PredictionPhrase>();
             if(Directory.Exists(Dataset))
             {
-                List<PredictionOption> po = new List<PredictionOption>();
-                List<PredictionElement> pe = new List<PredictionElement>();
-                List<PredictionPhrase> pp = new List<PredictionPhrase>();
                 XDocument xfinsihed = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 
                 string[] files = Directory.GetFiles(folder);
@@ -67,17 +67,22 @@ namespace CC_Library
                 }
                 foreach(var p in pp)
                 {
+                    pe.Where(x => p.Phrase.Contains(x.Word)).
                     List<string> Elements = SplitTitle.Run(phrase.Phrase);
                     foreach(string e in Elements)
                     {
                         if(pe.Any(x => x.Word == e))
                         {
                             PredictionElement ele = pe.Where(x => x.Word == e).First();
-                            
+                            foreach(var o in ele.Options)
+                            {
+                                pe.Where(x => p.Phrase.Contains(x.Word).ForEach(SubtractOption(o.Name)));
+                            }
                         }
                     }
                 }
             }
+            return pe;
         }
     }
 }
