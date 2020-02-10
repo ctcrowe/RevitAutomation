@@ -82,6 +82,8 @@ namespace CC_Library
                     }
                 }
             }
+            if(!list.Any(pe))
+                pe.Add(new PredictionOption("NULL"));
             return pe;
         }
     }
