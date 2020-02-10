@@ -32,15 +32,25 @@ namespace CC_Library
         private static string Dataset = directory + "\\CC_XMLData";
         private static string FileName = directory + "\\CC_MFData.xml";
         
-        public static List<PredictionElement> GetPEs()
+        public static void Run()
+        {
+            XDocument xdoc = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                
+            foreach(PredictionElement pe in GetPEs())
+            {
+                XElement e = pe.CreateXML();
+                xdoc.Root.Add(e);
+            }
+            xdoc.Save(FileName);
+        }
+        
+        private static List<PredictionElement> GetPEs()
         {
             List<PredictionOption> po = new List<PredictionOption>();
             List<PredictionElement> pe = new List<PredictionElement>();
             List<PredictionPhrase> pp = new List<PredictionPhrase>();
             if(Directory.Exists(Dataset))
             {
-                XDocument xfinsihed = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                
                 string[] files = Directory.GetFiles(folder);
                 foreach(string f in files)
                 {
