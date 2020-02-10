@@ -10,7 +10,7 @@ namespace CC_Library
     internal class PredictionElement
     {
         public string Word { get; }
-        internal List<PredictionOption> Options { get; set; }
+        public List<PredictionOption> Options { get; set; }
         public int Count { get; set; }
 
         public PredictionElement(string w)
