@@ -18,7 +18,7 @@ namespace CC_Library
             if(Directory.Exists(Dataset))
             {
                 List<PredictionElement> pe = new List<PredictionElement>();
-                XDocument x = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                XDocument xfinsihed = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 
                 string[] files = Directory.GetFiles(folder);
                 foreach(string f in files)
@@ -32,11 +32,26 @@ namespace CC_Library
                         {
                             if(pe.Any(x => x.Word == e))
                             {
+                                pe.Where(x => x.Word == e).First().AddOption(Datapoint);
                             }
                             else   
                             {
+                                var o = new PredictionElement(e);
+                                o.AddOption(Datapoint);
+                                pe.Add(o);
                             }
                         }
+                    }
+                }
+                foreach(var p in pe) { p.SetRatios(); }
+                double accuracy = 0;
+                int correct = 0;
+                int wrong = 0;
+                while(true)
+                {
+                    List<PredictionElement> pe2 = pe;
+                    foreach(var p in pe)
+                    {
                     }
                 }
             }
