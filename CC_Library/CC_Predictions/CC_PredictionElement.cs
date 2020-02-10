@@ -29,13 +29,13 @@ namespace CC_Library
                     Options.Add(new PredictionOption(e));
             }
         }
-        private XElement CreateElement()
+        private XElement CreateXML()
         {
             XElement ele = new XElement("ELEMENT");
             ele.Add(new XAttribute("WORD", Word));
             foreach (PredictionOption p in Options)
             {
-                ele.Add(p.CreateOption());
+                ele.Add(p.CreateXML());
             }
             return ele;
         }
