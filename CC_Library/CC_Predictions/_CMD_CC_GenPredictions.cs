@@ -68,9 +68,16 @@ namespace CC_Library
                 foreach(var p in pp)
                 {
                     List<string> Elements = SplitTitle.Run(phrase.Phrase);
-                    for(int i = 0; i < Elements.Count(); i++)
+                    foreach(string e in Elements)
                     {
-                        
+                        if(pe.Any(x => x.Word == e))
+                        {
+                            PredictionElement ele = pe.Where(x => x.Word == e).First();
+                            
+                        }
+                        else
+                        {
+                        }
                     }
                 }
             }
