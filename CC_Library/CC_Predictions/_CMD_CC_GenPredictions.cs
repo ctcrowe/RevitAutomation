@@ -32,7 +32,7 @@ namespace CC_Library
         private static string Dataset = directory + "\\CC_XMLData";
         private static string FileName = directory + "\\CC_MFData.xml";
         
-        public static List<PredictionElement> Run()
+        public static List<PredictionElement> GetPEs()
         {
             List<PredictionOption> po = new List<PredictionOption>();
             List<PredictionElement> pe = new List<PredictionElement>();
