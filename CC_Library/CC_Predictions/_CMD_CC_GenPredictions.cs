@@ -75,9 +75,6 @@ namespace CC_Library
                             PredictionElement ele = pe.Where(x => x.Word == e).First();
                             
                         }
-                        else
-                        {
-                        }
                     }
                 }
             }
