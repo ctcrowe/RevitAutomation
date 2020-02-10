@@ -62,10 +62,9 @@ namespace CC_Library
         public void SubtractOption(string s)
         {
             if(!Options.Any(x => x.Name == s))
-            {
                 Option.Add(new PredictionOption(s));
-            }
-            Options.Where(x => x.Name == s).AddNegative();
+            if(!Options.Where(x => x.Name == s).Positive > 0)
+                Options.Where(x => x.Name == s).AddNegative();
         }
     }
 }
