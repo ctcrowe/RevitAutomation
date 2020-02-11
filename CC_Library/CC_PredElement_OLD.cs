@@ -8,27 +8,10 @@ namespace CC_Library
 {
     public class PredElement
     {
-        private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string InputFile = directory + "\\CC_MFData.xml";
+        private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
 
-        public const int PredictionCount = 48;
-        public string Word { get; }
-        public double[] Predictions { get; set; }
-        private int PredictionNumber { get; set; }
-
-        public PredElement(string s)
-        {
-            this.Word = s;
-            this.Predictions = new double[PredictionCount];
-            PredictionNumber = 1;
-        }
-        public PredElement(string s, double[] preds)
-        {
-            this.Word = s;
-            this.Predictions = preds;
-            PredictionNumber = 1;
-        }
-        
         public void AdjustPredictions(double[] Data, int Correct)
         {
             double MaxChange = (1 / (Math.Pow(PredictionNumber, 2) + 1));
@@ -48,76 +31,6 @@ namespace CC_Library
                 }
             }
             PredictionNumber += 1;
-        }
-        
-        public static List<PredElement> GetData(string folder)
-        {
-            string[] Files = Directory.GetFiles(folder);
-            var data = new List<PredElement>();
-
-            if (File.Exists(xfile))
-            {
-                XDocument doc = XDocument.Load(xfile);
-                foreach (XElement ele in doc.Root.Elements())
-                {
-                    data.Add(new PredElement(ele.Attribute("Value").Value));
-                }
-            }
-            foreach (string f in Files)
-            {
-                XDocument doc = XDocument.Load(f);
-                if (doc.Root.Attribute("Name") != null)
-                {
-                    string ele = doc.Root.Attribute("Name").Value;
-                    if (!string.IsNullOrEmpty(ele))
-                    {
-                        foreach (var pe in SplitTitle(ele))
-                            if (!data.Any(x => x.Word == pe.Word))
-                                data.Add(pe);
-                    }
-                }
-            }
-            return data;
-        }
-        
-        public static List<PredElement> SplitTitle(string s)
-        {
-            var data = new List<PredElement>();
-            int b = 0;
-            char[] cs = s.ToCharArray();
-            for (int i = 1; i < cs.Count(); i++)
-            {
-                if (!char.IsLetter(cs[i]))
-                {
-                    if (i > b && b < cs.Count())
-                    {
-                        string z = string.Empty;
-                        for (int j = b; j < i; j++)
-                        {
-                            z += cs[j];
-                        }
-                        data.Add(new PredElement(z));
-                    }
-                    b = i + 1;
-                }
-                else
-                {
-                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
-                    {
-                        if (i > b && b < cs.Count())
-                        {
-                            string z = string.Empty;
-                            for (int j = b; j < i; j++)
-                            {
-                                z += cs[j];
-                            }
-                            data.Add(new PredElement(z));
-                        }
-                        b = i;
-                    }
-                }
-            }
-            return data;
         }
     }
 }
