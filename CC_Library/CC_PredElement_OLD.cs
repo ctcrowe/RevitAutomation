@@ -8,6 +8,9 @@ namespace CC_Library
 {
     public class AdjustPredictions
     {
+        // Formula => x = SUM
+        // if (Positive > Negative) => Weight * (((Positive - Negative) ^ 2) / (Count ^ 2))
+        // if (Negative > Positive) => -Weight * (((Positive - Negative) ^ 2) / (Count ^ 2))
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static string InputFile = directory + "\\CC_MFData.xml";
         private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
@@ -19,6 +22,9 @@ namespace CC_Library
             {
                 foreach(var d in p.Options)
                 {
+                    if(!data.Any(x => x.Name == d.Name))
+                    {
+                    }
                 }
             }
         }
@@ -26,25 +32,11 @@ namespace CC_Library
         {
             if(File.Exists(InputFile))
             {
+                int count = 0;
+                int correct = 0;
+                double accuracy = 0;
                 XDocument indoc = XDocument.Load(InputFile);
-                double MaxChange = (1 / (Math.Pow(PredictionNumber, 2) + 1));
-                double mv = Data.Max();
-                int Guess = Array.IndexOf(Data, mv);
-                if(Guess == Correct && mv > 0.75)
-                {
-                    Predictions[Correct] += MaxChange / 2;
-                }
-                else
-                {
-                    Predictions[Correct] += MaxChange;
-                    for(int i = 0; i < Predictions.Count(); i++)
-                    {
-                        if(i != Correct)
-                           Predictions[i] -= (MaxChange / PredictionCount);
-                    }
-                }
-                PredictionNumber += 1;
-                }
+                
             }
         }
     }
