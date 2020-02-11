@@ -12,9 +12,15 @@ namespace CC_Library
         private static string InputFile = directory + "\\CC_MFData.xml";
         private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
 
-        public static void Math(List<PredictionElement> pes)
+        public static List<Prediction> RunFormula(List<PredictionElement> PEs)
         {
-            
+            List<Prediction> data = new List<Prediction>();
+            foreach(var p in PEs)
+            {
+                foreach(var d in p.Options)
+                {
+                }
+            }
         }
         public static void run()
         {
