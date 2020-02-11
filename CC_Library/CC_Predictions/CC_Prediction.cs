@@ -10,8 +10,8 @@
         public Prediction(string s)
         {
             this.Name = s;
-            this.Weight = 0;
-            this.Count = 0;
+            this.PositiveWeight = 1;
+            this.NegativeWeight = 1;
         }
         public void Adjust(double d)
         {
