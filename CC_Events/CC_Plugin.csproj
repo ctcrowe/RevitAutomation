@@ -79,6 +79,7 @@
     <Compile Include="CC_DocSynching.cs" />
     <Compile Include="CC_FamLoaded.cs" />
     <Compile Include="CC_MFConfirmParam.cs" />
+    <Compile Include="CC_SetMFParam.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Library\Parameters\CC_Param.cs" />
     <Compile Include="Parameters\CC_ParamSetup.cs" />

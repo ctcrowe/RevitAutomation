@@ -16,7 +16,7 @@ FINAL OUTPUT
 Word
     Number of times the word shows up
     Arrayed number of times the word shows up for each possible output (the words positive connotation)
-    Arrayed number of times the word is subtracted when added to other words (the words negative connotation)
+    Arrayed number of times the word changes another word away from a target
     
     internal class PredictionOption
         public string Name { get; }
@@ -29,7 +29,6 @@ namespace CC_Library
     public class GenPredictions
     {
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Dataset = directory + "\\CC_XMLData";
         private static string FileName = directory + "\\CC_MFData.xml";
         
         public static void Run()
@@ -46,54 +45,54 @@ namespace CC_Library
         
         private static List<PredictionElement> GetPEs()
         {
-            List<PredictionOption> po = new List<PredictionOption>();
-            List<PredictionElement> pe = new List<PredictionElement>();
-            List<PredictionPhrase> pp = new List<PredictionPhrase>();
-            if(Directory.Exists(Dataset))
+            var files = PredictionPhrase.GetData();
+            var pe = new List<PredictionElement>();
+            if(files.Count() > 0)
             {
-                string[] files = Directory.GetFiles(folder);
-                foreach(string f in files)
+                foreach(var f in files)
                 {
-                    XDocument doc = XDocument.Load(f);
-                    if(doc.Root.Attribute("MFSection") != null)
+                    foreach(var e in f.Elements)
                     {
-                        PredictionPhrase phrase = new PredictionPhrase(doc.Root.Attribute("Name").Value, doc.Root.Attribute("MFSection").Value);
-                        pp.Add(phrase);
-                        List<string> Elements = SplitTitle.Run(phrase.Phrase);
-                        foreach(string e in Elements)
+                        if(pe.Any(x => x.Word == e))
+                                pe.Where(x => x.Word == e).First().AddOption(f.Prediction);
+                        else   
                         {
-                            if(pe.Any(x => x.Word == e))
-                            {
-                                pe.Where(x => x.Word == e).First().AddOption(phrase.Prediction);
-                            }
-                            else   
-                            {
-                                var o = new PredictionElement(e);
-                                o.AddOption(phrase.Prediction);
-                                pe.Add(o);
-                            }
+                            var o = new PredictionElement(e);
+                            o.AddOption(f.Prediction);
+                            pe.Add(o);
                         }
                     }
                 }
-                foreach(var p in pp)
+                foreach(var f in files)
                 {
-                    pe.Where(x => p.Phrase.Contains(x.Word)).
-                    List<string> Elements = SplitTitle.Run(phrase.Phrase);
-                    foreach(string e in Elements)
+                    var eles = pe.Where(x => f.Elements.Contains(x.Word));
+                    foreach(var a in eles)
                     {
-                        if(pe.Any(x => x.Word == e))
+                        foreach(var o in a.Options)
                         {
-                            PredictionElement ele = pe.Where(x => x.Word == e).First();
-                            foreach(var o in ele.Options)
+                            foreach(var b in eles)
                             {
-                                pe.Where(x => p.Phrase.Contains(x.Word).ForEach(SubtractOption(o.Name)));
+                                if(a.Word != b.Word)
+                                {
+                                    if(b.Options.Any(x => x.Name == o.Name))
+                                    {
+                                        if(b.Options.Where(x => x.Name == o.Name).First().Positive == 0)
+                                        {
+                                            pe.Where(x => x.Word == b.Word).First().SubtractOption(o.Name);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        pe.Where(x => x.Word == b.Word).First().SubtractOption(o.Name);
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-            if(!list.Any(pe))
-                pe.Add(new PredictionOption("NULL"));
+            if(pe.Count() < 1)
+                pe.Add(new PredictionElement("NULL"));
             return pe;
         }
     }

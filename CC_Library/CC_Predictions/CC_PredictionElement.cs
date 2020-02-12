@@ -29,26 +29,16 @@ namespace CC_Library
                     Options.Add(new PredictionOption(e));
             }
         }
-        private XElement CreateXML()
+        public XElement CreateXML()
         {
             XElement ele = new XElement("ELEMENT");
             ele.Add(new XAttribute("WORD", Word));
+            ele.Add(new XAttribute("COUNT", Count.ToString()));
             foreach (PredictionOption p in Options)
             {
                 ele.Add(p.CreateXML());
             }
             return ele;
-        }
-        public void AdjustElement(XElement root)
-        {
-            if(root.Elements("ELEMENT").Any(x => x.Attribute("WORD").Value == Word))
-            {
-                XElement e = root.Elements("ELEMENT").Where(x => x.Attribute("WORD").Value == Word);
-            }
-            else
-            {
-                root.Add(CreateElement());
-            }
         }
         public void AddOption(string s)
         {
@@ -62,9 +52,9 @@ namespace CC_Library
         public void SubtractOption(string s)
         {
             if(!Options.Any(x => x.Name == s))
-                Option.Add(new PredictionOption(s));
-            if(!Options.Where(x => x.Name == s).Positive > 0)
-                Options.Where(x => x.Name == s).AddNegative();
+                Options.Add(new PredictionOption(s));
+            if(Options.Where(x => x.Name == s).First().Positive <= 0)
+                Options.Where(x => x.Name == s).First().AddNegative();
         }
     }
 }

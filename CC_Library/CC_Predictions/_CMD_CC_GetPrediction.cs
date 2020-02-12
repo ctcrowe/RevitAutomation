@@ -28,6 +28,7 @@ namespace CC_Library
 */
     class CMD_CC_GetPrediction
     {
+        /*
         public string Predict()
         {
             foreach(PredictionElement e in Elements)
@@ -52,5 +53,6 @@ namespace CC_Library
             this.Prediction = s;
             return s;
         }
+        */
     }
 }

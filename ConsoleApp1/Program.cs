@@ -8,7 +8,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            WordSections.run();
+            GenPredictions.Run();
         }
     }
 }
