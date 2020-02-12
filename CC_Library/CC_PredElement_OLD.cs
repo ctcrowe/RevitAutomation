@@ -6,118 +6,38 @@ using System;
 
 namespace CC_Library
 {
-    public class PredElement
+    public class AdjustPredictions
     {
-        private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static readonly string xfile = directory + "\\CC_XMLDictionary.xml";
+        // Formula => x = SUM
+        // if (Positive > Negative) => Weight * (((Positive - Negative) ^ 2) / (Count ^ 2))
+        // if (Negative > Positive) => -Weight * (((Positive - Negative) ^ 2) / (Count ^ 2))
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string InputFile = directory + "\\CC_MFData.xml";
+        private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
 
-        public const int PredictionCount = 48;
-        public string Word { get; }
-        public double[] Predictions { get; set; }
-        private int PredictionNumber { get; set; }
-
-        public PredElement(string s)
+        public static List<Prediction> RunFormula(List<PredictionElement> PEs)
         {
-            this.Word = s;
-            this.Predictions = new double[PredictionCount];
-            PredictionNumber = 1;
-        }
-        public PredElement(string s, double[] preds)
-        {
-            this.Word = s;
-            this.Predictions = preds;
-            PredictionNumber = 1;
-        }
-        
-        public void AdjustPredictions(double[] Data, int Correct)
-        {
-            double MaxChange = (1 / (Math.Pow(PredictionNumber, 2) + 1));
-            double mv = Data.Max();
-            int Guess = Array.IndexOf(Data, mv);
-            if(Guess == Correct && mv > 0.75)
+            List<Prediction> data = new List<Prediction>();
+            foreach(var p in PEs)
             {
-                Predictions[Correct] += MaxChange / 2;
-            }
-            else
-            {
-                Predictions[Correct] += MaxChange;
-                for(int i = 0; i < Predictions.Count(); i++)
+                foreach(var d in p.Options)
                 {
-                    if(i != Correct)
-                       Predictions[i] -= (MaxChange / PredictionCount);
-                }
-            }
-            PredictionNumber += 1;
-        }
-        
-        public static List<PredElement> GetData(string folder)
-        {
-            string[] Files = Directory.GetFiles(folder);
-            var data = new List<PredElement>();
-
-            if (File.Exists(xfile))
-            {
-                XDocument doc = XDocument.Load(xfile);
-                foreach (XElement ele in doc.Root.Elements())
-                {
-                    data.Add(new PredElement(ele.Attribute("Value").Value));
-                }
-            }
-            foreach (string f in Files)
-            {
-                XDocument doc = XDocument.Load(f);
-                if (doc.Root.Attribute("Name") != null)
-                {
-                    string ele = doc.Root.Attribute("Name").Value;
-                    if (!string.IsNullOrEmpty(ele))
+                    if(!data.Any(x => x.Name == d.Name))
                     {
-                        foreach (var pe in SplitTitle(ele))
-                            if (!data.Any(x => x.Word == pe.Word))
-                                data.Add(pe);
                     }
                 }
             }
-            return data;
         }
-        
-        public static List<PredElement> SplitTitle(string s)
+        public static void run()
         {
-            var data = new List<PredElement>();
-            int b = 0;
-            char[] cs = s.ToCharArray();
-            for (int i = 1; i < cs.Count(); i++)
+            if(File.Exists(InputFile))
             {
-                if (!char.IsLetter(cs[i]))
-                {
-                    if (i > b && b < cs.Count())
-                    {
-                        string z = string.Empty;
-                        for (int j = b; j < i; j++)
-                        {
-                            z += cs[j];
-                        }
-                        data.Add(new PredElement(z));
-                    }
-                    b = i + 1;
-                }
-                else
-                {
-                    if (char.IsUpper(cs[i]) && !char.IsUpper(cs[i - 1]))
-                    {
-                        if (i > b && b < cs.Count())
-                        {
-                            string z = string.Empty;
-                            for (int j = b; j < i; j++)
-                            {
-                                z += cs[j];
-                            }
-                            data.Add(new PredElement(z));
-                        }
-                        b = i;
-                    }
-                }
+                int count = 0;
+                int correct = 0;
+                double accuracy = 0;
+                XDocument indoc = XDocument.Load(InputFile);
+                
             }
-            return data;
         }
     }
 }

@@ -31,7 +31,6 @@ namespace CC_Plugin
                 }
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(MFParam.Add), doc);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(MFConfirmParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(WidthParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(HeightParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(DepthParam.Add), doc);
