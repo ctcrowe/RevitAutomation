@@ -34,13 +34,16 @@ namespace CC_Library
         public static void Run()
         {
             XDocument xdoc = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                
+            var pes = GetPEs();
+            AdjustPredictions.Run(pes);
+            /*
             foreach(PredictionElement pe in GetPEs())
             {
                 XElement e = pe.CreateXML();
                 xdoc.Root.Add(e);
             }
             xdoc.Save(FileName);
+            */
         }
         
         private static List<PredictionElement> GetPEs()
