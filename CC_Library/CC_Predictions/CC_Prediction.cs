@@ -10,19 +10,22 @@ namespace CC_Library
         public double Value { get; set; }
         private int Count { get; set; }
 
-        public Prediction( PredictionOption o)
+        public Prediction(PredictionOption o, PredictionElement e)
         {
             this.Name = o.Name;
             this.Count = 1;
-            this.Value = o.CalcAdjustment();
+            this.Value = o.CalcAdjustment(e);
         }
-        public void Combine(PredictionOption o)
+        public void Combine(PredictionElement e)
         {
-            double v = this.Value * this.Count;
-            double adjust = o.CalcAdjustment();
-            this.Count += 1;
-            double total = adjust + v;
-            this.Value = total / Count;
+            if(e.Options.Any(x => x.Name == Name))
+            {
+                double v = this.Value * this.Count;
+                double adjust = e.Options.Where(x => x.Name == Name).First().CalcAdjustment(e);
+                this.Count += 1;
+                double total = adjust + v;
+                this.Value = total / Count;
+            }
         }
     }
 }
