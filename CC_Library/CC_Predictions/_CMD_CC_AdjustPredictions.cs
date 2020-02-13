@@ -43,8 +43,10 @@ namespace CC_Library
                 int cor = 0;
                 int cor2 = 0;
                 int cor3 = 0;
-                double Accuracy = 0;
+                
                 XDocument indoc = XDocument.Load(InputFile);
+                XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                
                 List<PredictionPhrase> phrases = PredictionPhrase.GetData();
                 List<PredictionElement> elements = new List<PredictionElement>();
 
@@ -54,14 +56,15 @@ namespace CC_Library
                 }
                 while(true)
                 {
-                    double Accuracy = cor / count;
-                    cor = 0;
-                    cor2 = 0;
-                    cor3 = 0;
-                    count = 0;
                     foreach(var v in elements)
                     {
-                        double MaxChange = Math.Abs(1 - v.Weight) * Math.Abs(1 - Accuracy);
+                        cor = 0;
+                        cor2 = 0;
+                        cor3 = 0;
+                        count = 0;
+                        double mcw = 1 - Math.Abs(v.Weight);
+                        double mca = 1 - v.Accuracy;
+                        double MaxChange = mcw * mca;
                         var vneg = v;
                         vneg.Weight-= MaxChange;
                         var vpos = v;
@@ -73,15 +76,13 @@ namespace CC_Library
                         eleNeg.RemoveAt(eleNeg.IndexOf(eleNeg.Where(x => x.Word == v.Word).First()));
                         eleNeg.Add(vneg);
                         elePos.RemoveAt(eleNeg.IndexOf(eleNeg.Where(x => x.Word == v.Word).First()));
-                        elePos.Add(vneg);
+                        elePos.Add(vpos);
                         
                         foreach(var p in phrases.Where(x => x.Phrase.Contains(v.Word)))
                         {
                             var PhraseElements = elements.Where(x => p.Elements.Any(y => y == x.Word));
-                            var PENeg = elements.Where(x => p.Elements.Any(y => y == x.Word));
-                            var PEPos = elements.Where(x => p.Elements.Any(y => y == x.Word));
-                            PENeg.Add(vneg);
-                            PEPos.Add(vpos);
+                            var PENeg = eleNeg.Where(x => p.Elements.Any(y => y == x.Word));
+                            var PEPos = elePos.Where(x => p.Elements.Any(y => y == x.Word));
                             count++;
                             if(RunFormula(PhraseElements) == p.Prediction)
                                 cor++;
@@ -90,7 +91,30 @@ namespace CC_Library
                             if(RunFormula(PEPos) == p.Prediction)
                                 cor3++;
                         }
+                        if(cor2 > cor3 && cor2 > cor)
+                        {
+                            vneg.Accuracy = cor2 / count;
+                            elements.Where(x => x.Word == v.Word).First() = vneg;
+                        }
+                        else
+                        {
+                            if(cor3 > cor2 && cor3 > cor)
+                            {
+                                vpos.Accuracy = cor3 / count;
+                                elements.Where(x => x.Word == v.Word).First() = vpos;
+                            }
+                            else
+                            {
+                                elements.Where(x => x.Word == v.Word).First().Accuracy = cor / count;
+                            }
+                        }
                     }
+                    foreach(var v in elements)
+                    {
+                        XElement e = v.CreateXML();
+                        output.Root.Add(e);
+                    }
+                    output.Save(OutputFile);
                 }
             }
         }
