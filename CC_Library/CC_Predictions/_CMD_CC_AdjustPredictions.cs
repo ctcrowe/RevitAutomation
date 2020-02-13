@@ -52,7 +52,10 @@ namespace CC_Library
                 }
                 while(true)
                 {
-                    
+                    foreach(var v in elements)
+                    {
+                        foreach(
+                    }
                 }
             }
         }
