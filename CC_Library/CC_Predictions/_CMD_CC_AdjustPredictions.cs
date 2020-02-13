@@ -15,7 +15,7 @@ namespace CC_Library
         private static string InputFile = directory + "\\CC_MFData.xml";
         private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
 
-        public static List<Prediction> RunFormula(List<PredictionElement> PEs)
+        public static string RunFormula(List<PredictionElement> PEs)
         {
             List<Prediction> data = new List<Prediction>();
             foreach(var p in PEs)
@@ -24,11 +24,16 @@ namespace CC_Library
                 {
                     if(!data.Any(x => x.Name == d.Name))
                     {
+                        data.Add(new Prediction(d));
+                    }
+                    else
+                    {
+                        data.Where(x => x.Name == d.Name).First().Combine(d);
                     }
                 }
             }
         }
-        public static void run()
+        public static void Run()
         {
             if(File.Exists(InputFile))
             {
