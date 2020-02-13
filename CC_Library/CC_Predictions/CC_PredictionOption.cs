@@ -8,7 +8,6 @@ namespace CC_Library
         public int Positive { get; set; }
         public int Negative { get; set; }
         public double Weight { get; set; }
-        public int Count { get; set; }
             
         public PredictionOption(string w)
         {
@@ -16,7 +15,6 @@ namespace CC_Library
             this.Positive = 0;
             this.Negative = 0;
             this.Weight = 0;
-            this.Count = 1;
         }
         public PredictionOption(XElement ele)
         {
@@ -24,7 +22,6 @@ namespace CC_Library
             this.Positive = int.Parse(ele.Attribute("POSITIVE").Value);
             this.Negative = int.Parse(ele.Attribute("NEGATIVE").Value);
             this.Weight = double.Parse(ele.Attribute("WEIGHT").Value);
-            this.Count = 1;
         }
         public XElement CreateXML()
         {
