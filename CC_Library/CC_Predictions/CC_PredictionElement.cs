@@ -12,7 +12,7 @@ namespace CC_Library
         public string Word { get; }
         public List<PredictionOption> Options { get; set; }
         public int Count { get; set; }
-            public double Weight { get; set; }
+        public double Weight { get; set; }
 
         public PredictionElement(string w)
         {
