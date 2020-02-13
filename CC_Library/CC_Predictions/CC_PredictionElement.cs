@@ -13,6 +13,7 @@ namespace CC_Library
         public List<PredictionOption> Options { get; set; }
         public int Count { get; set; }
         public double Weight { get; set; }
+        public double Accuracy { get; set; }
 
         public PredictionElement(string w)
         {
@@ -20,9 +21,11 @@ namespace CC_Library
             this.Options = new List<PredictionOption>();
             this.Count = 0;
             this.Weight = 0;
+            this.Accuracy = 0.5;
         }
         public PredictionElement(XElement ele)
         {
+            this.Accuracy = 0.5;
             this.Word = ele.Attribute("WORD").Value;
             if(doc.Root.Attribute("WEIGHT") != null)
                 this.Weight = doc.Root.Attribute("WEIGHT").Value;
