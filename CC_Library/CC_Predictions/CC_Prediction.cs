@@ -15,9 +15,22 @@
         }
         public Prediction( PredictionOption o)
         {
+            this.Name = o.Name;
+            this.Count = 1;
+            double adj;
+            if(o.Negative > o.Positive)
+                adj = -1;
+            else
+                adj = 1
+            double v = Math.Abs(o.Positive - o.Negative);
+
         }
         public void Combine(PredictionOption o)
         {
+        }
+        private static double CalcAdjustment(PredictionOption o)
+        {
+            return 0;
         }
     }
 }
