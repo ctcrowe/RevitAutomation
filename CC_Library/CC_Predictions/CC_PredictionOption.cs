@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using System;
 
 namespace CC_Library
 {
@@ -34,5 +35,19 @@ namespace CC_Library
         }
         public void AddPositive() { Positive++; }
         public void AddNegative() { Negative++; }
+        public double CalcAdjustment()
+        {
+            double adj = 0;
+            if (Negative > Positive)
+                adj = -1;
+            else
+                adj = 1;
+            double v = Math.Abs(Positive - Negative);
+            double v2 = v * v;
+            double c = Positive + Negative;
+            double c2 = c * c;
+            double r = Math.Sqrt(v2 / c2) * adj * Weight;
+            return r;
+        }
     }
 }

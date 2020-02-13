@@ -53,11 +53,9 @@
     <Compile Include="CC_Predictions\_CMD_CC_GenPredictions.cs" />
     <Compile Include="CC_Predictions\_CMD_CC_GetPrediction.cs" />
     <Compile Include="CC_CmdLibrary.cs" />
-    <Compile Include="WordSections.cs" />
     <Compile Include="CC_Predictions\_CMD_CC_AdjustPredictions.cs" />
     <Compile Include="CC_Command.cs" />
     <Compile Include="Class4.cs" />
-    <Compile Include="TitleAnalysis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

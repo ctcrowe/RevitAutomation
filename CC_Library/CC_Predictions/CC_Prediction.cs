@@ -1,4 +1,7 @@
-﻿namespace CC_Library
+﻿using System.Collections.Generic;
+using System;
+
+namespace CC_Library
 {
 
     internal class Prediction
@@ -7,30 +10,20 @@
         public double Value { get; set; }
         private int Count { get; set; }
 
-        public Prediction(string s)
-        {
-            this.Name = s;
-            this.Value = 0;
-            this.Count = 0;
-        }
         public Prediction( PredictionOption o)
         {
             this.Name = o.Name;
             this.Count = 1;
-            double adj;
-            if(o.Negative > o.Positive)
-                adj = -1;
-            else
-                adj = 1
-            double v = Math.Abs(o.Positive - o.Negative);
-
+            this.Value = o.CalcAdjustment();
         }
         public void Combine(PredictionOption o)
         {
+            double v = this.Value * this.Count;
+            double adjust = o.CalcAdjustment();
+            this.Count += 1;
+            double total = adjust + v;
+            this.Value = total / Count;
         }
-        private static double CalcAdjustment(PredictionOption o)
-        {
-            return 0;
-        }
+
     }
 }
