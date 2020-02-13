@@ -72,11 +72,8 @@ namespace CC_Library
                         
                         var eleNeg = elements;
                         var elePos = elements;
-                        
-                        eleNeg.RemoveAt(eleNeg.IndexOf(eleNeg.Where(x => x.Word == v.Word).First()));
-                        eleNeg.Add(vneg);
-                        elePos.RemoveAt(eleNeg.IndexOf(eleNeg.Where(x => x.Word == v.Word).First()));
-                        elePos.Add(vpos);
+                        eleNeg.Where(x => x.Word == v.Word).First()).Weight -= MaxChange;
+                        elePos.Where(x => x.Word == v.Word).First()).Weight += MaxChange;
                         
                         foreach(var p in phrases.Where(x => x.Phrase.Contains(v.Word)))
                         {
