@@ -24,6 +24,5 @@ namespace CC_Library
             double total = adjust + v;
             this.Value = total / Count;
         }
-
     }
 }
