@@ -12,16 +12,20 @@ namespace CC_Library
         public string Word { get; }
         public List<PredictionOption> Options { get; set; }
         public int Count { get; set; }
+            public double Weight { get; set; }
 
         public PredictionElement(string w)
         {
             this.Word = w;
             this.Options = new List<PredictionOption>();
             this.Count = 0;
+            this.Weight = 0;
         }
         public PredictionElement(XElement ele)
         {
             this.Word = ele.Attribute("WORD").Value;
+            if(doc.Root.Attribute("WEIGHT") != null)
+                this.Weight = doc.Root.Attribute("WEIGHT").Value;
             this.Options = new List<PredictionOption>();
             foreach (XElement e in ele.Elements("OPTION"))
             {
@@ -34,6 +38,7 @@ namespace CC_Library
             XElement ele = new XElement("ELEMENT");
             ele.Add(new XAttribute("WORD", Word));
             ele.Add(new XAttribute("COUNT", Count.ToString()));
+            ele.Add(new XAttribute("WEIGHT", Weight.ToString());
             foreach (PredictionOption p in Options)
             {
                 ele.Add(p.CreateXML());
