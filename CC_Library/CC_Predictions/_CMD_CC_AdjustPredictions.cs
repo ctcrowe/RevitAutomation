@@ -25,11 +25,11 @@ namespace CC_Library
                 {
                     if(!data.Any(x => x.Name == d.Name))
                     {
-                        data.Add(new Prediction(d));
+                        data.Add(new Prediction(d, p));
                     }
                     else
                     {
-                        data.Where(x => x.Name == d.Name).First().Combine(d);
+                        data.Where(x => x.Name == d.Name).First().Combine(p);
                     }
                 }
             }
@@ -40,8 +40,10 @@ namespace CC_Library
             if(File.Exists(InputFile))
             {
                 int count = 0;
-                int correct = 0;
-                double accuracy = 0;
+                int cor = 0;
+                int cor2 = 0;
+                int cor3 = 0;
+                double Accuracy = 0;
                 XDocument indoc = XDocument.Load(InputFile);
                 List<PredictionPhrase> phrases = PredictionPhrase.GetData();
                 List<PredictionElement> elements = new List<PredictionElement>();
@@ -52,9 +54,42 @@ namespace CC_Library
                 }
                 while(true)
                 {
+                    double Accuracy = cor / count;
+                    cor = 0;
+                    cor2 = 0;
+                    cor3 = 0;
+                    count = 0;
                     foreach(var v in elements)
                     {
-                        foreach(
+                        double MaxChange = Math.Abs(1 - v.Weight) * Math.Abs(1 - Accuracy);
+                        var vneg = v;
+                        vneg.Weight-= MaxChange;
+                        var vpos = v;
+                        vpos.Weight += MaxChange
+                        
+                        var eleNeg = elements;
+                        var elePos = elements;
+                        
+                        eleNeg.RemoveAt(eleNeg.IndexOf(eleNeg.Where(x => x.Word == v.Word).First()));
+                        eleNeg.Add(vneg);
+                        elePos.RemoveAt(eleNeg.IndexOf(eleNeg.Where(x => x.Word == v.Word).First()));
+                        elePos.Add(vneg);
+                        
+                        foreach(var p in phrases.Where(x => x.Phrase.Contains(v.Word)))
+                        {
+                            var PhraseElements = elements.Where(x => p.Elements.Any(y => y == x.Word));
+                            var PENeg = elements.Where(x => p.Elements.Any(y => y == x.Word));
+                            var PEPos = elements.Where(x => p.Elements.Any(y => y == x.Word));
+                            PENeg.Add(vneg);
+                            PEPos.Add(vpos);
+                            count++;
+                            if(RunFormula(PhraseElements) == p.Prediction)
+                                cor++;
+                            if(RunFormula(PENeg) == p.Prediction)
+                                cor2++;
+                            if(RunFormula(PEPos) == p.Prediction)
+                                cor3++;
+                        }
                     }
                 }
             }
