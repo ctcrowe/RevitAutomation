@@ -62,18 +62,16 @@ namespace CC_Library
                         cor2 = 0;
                         cor3 = 0;
                         count = 0;
-                        double mcw = 1 - Math.Abs(v.Weight);
+                        double poscw = Math.Abs(1 - v.Weight);
+                        double negcw = Math.Abs(0 - Math.Abs(v.Weight));
                         double mca = 1 - v.Accuracy;
-                        double MaxChange = mcw * mca;
-                        var vneg = v;
-                        vneg.Weight-= MaxChange;
-                        var vpos = v;
-                        vpos.Weight += MaxChange
+                        double NegChange = negw * mca;
+                        double PosChagne = poscw * mca;
                         
                         var eleNeg = elements;
                         var elePos = elements;
-                        eleNeg.Where(x => x.Word == v.Word).First()).Weight -= MaxChange;
-                        elePos.Where(x => x.Word == v.Word).First()).Weight += MaxChange;
+                        eleNeg.Where(x => x.Word == v.Word).First()).Weight -= NegChange;
+                        elePos.Where(x => x.Word == v.Word).First()).Weight += PosChange;
                         
                         foreach(var p in phrases.Where(x => x.Phrase.Contains(v.Word)))
                         {
@@ -90,15 +88,15 @@ namespace CC_Library
                         }
                         if(cor2 > cor3 && cor2 > cor)
                         {
-                            vneg.Accuracy = cor2 / count;
-                            elements.Where(x => x.Word == v.Word).First() = vneg;
+                            elements.Where(x => x.Word == v.Word).First().Accuracy = cor2 / count;
+                            elements.Where(x => x.Word == v.Word).First().Weight -= NegChange;
                         }
                         else
                         {
                             if(cor3 > cor2 && cor3 > cor)
                             {
-                                vpos.Accuracy = cor3 / count;
-                                elements.Where(x => x.Word == v.Word).First() = vpos;
+                                elements.Where(x => x.Word == v.Word).First().Accuracy = cor3 / count;
+                                elements.Where(x => x.Word == v.Word).First().Weight += PosChange;
                             }
                             else
                             {
