@@ -13,7 +13,6 @@ namespace CC_Library
         // if (Negative > Positive) => -Weight * (((Positive - Negative) ^ 2) / (Count ^ 2))
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static string Dataset = directory + "\\CC_XMLData";
-        private static string InputFile = directory + "\\CC_MFData.xml";
         private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
 
         internal static string RunFormula(List<PredictionElement> PEs)
@@ -35,7 +34,7 @@ namespace CC_Library
             }
             return data[data.IndexOf(data.Where(x => x.Value == data.Max(y => y.Value)).First())].Name;
         }
-        public static void Run()
+        public static void Run(List<PredictionElement elements)
         {
             if(File.Exists(InputFile))
             {
@@ -44,16 +43,10 @@ namespace CC_Library
                 int cor2 = 0;
                 int cor3 = 0;
                 
-                XDocument indoc = XDocument.Load(InputFile);
                 XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 
                 List<PredictionPhrase> phrases = PredictionPhrase.GetData();
-                List<PredictionElement> elements = new List<PredictionElement>();
 
-                foreach(XElement ele in indoc.Root.Elements())
-                {
-                    elements.Add(new PredictionElement(ele));
-                }
                 while(true)
                 {
                     foreach(var v in elements)
