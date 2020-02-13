@@ -4,21 +4,17 @@
     internal class Prediction
     {
         public string Name { get; set; }
-        public double Weight { get; set; }
+        public double Value { get; set; }
         private int Count { get; set; }
 
         public Prediction(string s)
         {
             this.Name = s;
-            this.Weight = 0;
-            this.Count = 1;
+            this.Value = 0;
+            this.Count = 0;
         }
-        public void Adjust(double d)
+        public Prediction( PredictionOption o)
         {
-            double x = this.Weight * this.Count;
-            this.Count++;
-            x += d;
-            this.Weight = x / this.Count;
         }
         public void Combine(PredictionOption o)
         {
