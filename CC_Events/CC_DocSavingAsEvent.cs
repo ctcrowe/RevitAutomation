@@ -36,8 +36,7 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        MFParam.Set(doc, "0");
-                        //MFParam.Set(doc, TitleAnalysisPrediction.GenPrediction(args.PathName.Split('.').First().Split('\\').Last(), test).ToString());
+                        MFParam.Set(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last());
                         t.Commit();
                     }
                 }
