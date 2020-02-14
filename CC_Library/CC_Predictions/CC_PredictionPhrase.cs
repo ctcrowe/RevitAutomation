@@ -23,6 +23,11 @@ namespace CC_Library
             this.Prediction = o;
             this.Elements = i.SplitTitle();
         }
+        public PredictionPhrase(string i)
+        {
+            this.Phrase = i;
+            this.Elements = i.SplitTitle();
+        }
 
         public static List<PredictionPhrase> GetData()
         {
