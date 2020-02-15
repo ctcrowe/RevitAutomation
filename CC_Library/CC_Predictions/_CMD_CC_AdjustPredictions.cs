@@ -34,20 +34,16 @@ namespace CC_Library
             }
             return data[data.IndexOf(data.Where(x => x.Value == data.Max(y => y.Value)).First())].Name;
         }
-        public static void Run(List<PredictionElement elements)
+        internal static void Run(List<PredictionElement> elements)
         {
-            if(File.Exists(InputFile))
-            {
                 int count = 0;
                 int cor = 0;
                 int cor2 = 0;
                 int cor3 = 0;
                 
-                XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                
                 List<PredictionPhrase> phrases = PredictionPhrase.GetData();
 
-                while(true)
+                while(elements.Any(x => x.Accuracy < 1))
                 {
                     foreach(var v in elements)
                     {
@@ -58,13 +54,13 @@ namespace CC_Library
                         double poscw = Math.Abs(1 - v.Weight);
                         double negcw = Math.Abs(0 - Math.Abs(v.Weight));
                         double mca = 1 - v.Accuracy;
-                        double NegChange = negw * mca;
-                        double PosChagne = poscw * mca;
+                        double NegChange = negcw * mca;
+                        double PosChange = poscw * mca;
                         
                         var eleNeg = elements;
                         var elePos = elements;
-                        eleNeg.Where(x => x.Word == v.Word).First()).Weight -= NegChange;
-                        elePos.Where(x => x.Word == v.Word).First()).Weight += PosChange;
+                        eleNeg.Where(x => x.Word == v.Word).First().Weight -= NegChange;
+                        elePos.Where(x => x.Word == v.Word).First().Weight += PosChange;
                         
                         foreach(var p in phrases.Where(x => x.Phrase.Contains(v.Word)))
                         {
@@ -72,38 +68,38 @@ namespace CC_Library
                             var PENeg = eleNeg.Where(x => p.Elements.Any(y => y == x.Word));
                             var PEPos = elePos.Where(x => p.Elements.Any(y => y == x.Word));
                             count++;
-                            if(RunFormula(PhraseElements) == p.Prediction)
+                            if(RunFormula(PhraseElements.ToList()) == p.Prediction)
                                 cor++;
-                            if(RunFormula(PENeg) == p.Prediction)
+                            if(RunFormula(PENeg.ToList()) == p.Prediction)
                                 cor2++;
-                            if(RunFormula(PEPos) == p.Prediction)
+                            if(RunFormula(PEPos.ToList()) == p.Prediction)
                                 cor3++;
-                        }
-                        if(cor2 > cor3 && cor2 > cor)
+                    }
+                    if(cor2 > cor3 && cor2 > cor)
+                    {
+                        elements.Where(x => x.Word == v.Word).First().Accuracy = cor2 / count;
+                        elements.Where(x => x.Word == v.Word).First().Weight -= NegChange;
+                    }
+                    else
+                    {
+                        if(cor3 > cor2 && cor3 > cor)
                         {
-                            elements.Where(x => x.Word == v.Word).First().Accuracy = cor2 / count;
-                            elements.Where(x => x.Word == v.Word).First().Weight -= NegChange;
+                            elements.Where(x => x.Word == v.Word).First().Accuracy = cor3 / count;
+                            elements.Where(x => x.Word == v.Word).First().Weight += PosChange;
                         }
                         else
                         {
-                            if(cor3 > cor2 && cor3 > cor)
-                            {
-                                elements.Where(x => x.Word == v.Word).First().Accuracy = cor3 / count;
-                                elements.Where(x => x.Word == v.Word).First().Weight += PosChange;
-                            }
-                            else
-                            {
-                                elements.Where(x => x.Word == v.Word).First().Accuracy = cor / count;
-                            }
+                            elements.Where(x => x.Word == v.Word).First().Accuracy = cor / count;
                         }
                     }
-                    foreach(var v in elements)
-                    {
-                        XElement e = v.CreateXML();
-                        output.Root.Add(e);
-                    }
-                    output.Save(OutputFile);
                 }
+                XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                foreach (var v in elements)
+                {
+                    XElement e = v.CreateXML();
+                    output.Root.Add(e);
+                }
+                output.Save(OutputFile);
             }
         }
     }

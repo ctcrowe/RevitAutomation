@@ -27,8 +27,8 @@ namespace CC_Library
         {
             this.Accuracy = 0.5;
             this.Word = ele.Attribute("WORD").Value;
-            if(doc.Root.Attribute("WEIGHT") != null)
-                this.Weight = doc.Root.Attribute("WEIGHT").Value;
+            if(ele.Attribute("WEIGHT") != null)
+                this.Weight = double.Parse(ele.Attribute("WEIGHT").Value);
             this.Options = new List<PredictionOption>();
             foreach (XElement e in ele.Elements("OPTION"))
             {
@@ -41,7 +41,7 @@ namespace CC_Library
             XElement ele = new XElement("ELEMENT");
             ele.Add(new XAttribute("WORD", Word));
             ele.Add(new XAttribute("COUNT", Count.ToString()));
-            ele.Add(new XAttribute("WEIGHT", Weight.ToString());
+            ele.Add(new XAttribute("WEIGHT", Weight.ToString()));
             foreach (PredictionOption p in Options)
             {
                 ele.Add(p.CreateXML());
