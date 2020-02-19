@@ -6,53 +6,35 @@ using System.Threading.Tasks;
 
 namespace CC_Library
 {
-/*
-    public PredictionElement(string w)
+    public class GetPredictions
     {
-        this.Word = w;
-        this.Options = new List<PredOption>();
-    }
-    public PredOption(string w)
-    {
-        this.Name = w;
-        this.Adjustment = 0;
-        this.Weight = 1;
-        this.Count = 1;
-    }
-    public Prediction(string s)
-    {
-        this.Name = s;
-        this.Weight = 0;
-        this.Count = 0;
-    }
-*/
-    class CMD_CC_GetPrediction
-    {
-        /*
-        public string Predict()
+        public static void Run(Write w)
         {
-            foreach(PredictionElement e in Elements)
+            var PE = new List<PredictionElement>();
+            var Phrases = PredictionPhrase.GetData();
+            foreach(var p in Phrases)
             {
-                foreach(PredictionOption o in e.Options)
+                foreach(string e in p.Elements)
                 {
-                    if(!this.Options.Any(x => x.Name == o.Name))
-                    {
-                        this.Options.Add(new Prediction(o.Name));
-                    }
-                    double val = o.Weight * o.Adjustment;
-                    this.Options.Where(x => x.Name == o.Name).First().Adjust(val);
+                    if (!PE.Any(x => x.Word == e))
+                        PE.Add(new PredictionElement(e));
+                    PE.Where(x => x.Word == e).First().AddOption(p.Prediction);
                 }
             }
-            double Max = 0;
-            foreach(Prediction p in this.Options)
+            foreach (var ele in PE)
             {
-                if(p.Weight > Max)
-                    Max = p.Weight;
+                foreach (var phrase in Phrases.Where(x => x.Phrase.Contains(ele.Word)))
+                {
+                    foreach(var p in phrase.Elements)
+                    {
+                        if(p != ele.Word)
+                        {
+                            ele.SubtractOption(phrase.Prediction);
+                        }
+                    }
+                }
             }
-            string s = Options.Where(x => x.Weight == Max).First().Name;
-            this.Prediction = s;
-            return s;
+            AdjustPredictions.Run(PE, w);
         }
-        */
     }
 }

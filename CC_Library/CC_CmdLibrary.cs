@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace CC_Library
 {
@@ -49,6 +51,14 @@ namespace CC_Library
                 data.AddRange(a.SplitOnCaps());
             }
             return data;
+        }
+        public static XDocument ToXDocument(this XmlDocument xmlDocument)
+        {
+            using (var nodeReader = new XmlNodeReader(xmlDocument))
+            {
+                nodeReader.MoveToContent();
+                return XDocument.Load(nodeReader);
+            }
         }
     }
 }
