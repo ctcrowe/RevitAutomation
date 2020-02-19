@@ -19,7 +19,7 @@ namespace CC_Plugin
         public static void MFTab(UIControlledApplication uiApp, string tabname)
         {
 
-            RibbonPanel Panel = uiApp.CreateRibbonPanel(tabname, "Quality Control");
+            RibbonPanel Panel = uiApp.CreateRibbonPanel(tabname, "Masteformat");
 
             TextBoxData data = new TextBoxData("Masterformat Number");
             TextBox tb = Panel.AddItem(data) as TextBox;
