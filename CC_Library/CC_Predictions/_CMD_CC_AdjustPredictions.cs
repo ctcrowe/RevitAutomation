@@ -81,14 +81,14 @@ namespace CC_Library
                         if (RunFormula(PEPos.ToList()) == p.Prediction)
                             cor3++;
                     }
-                    if (cor2 > cor3 && cor2 > cor)
+                    if (cor2 > cor3 && cor2 >= cor)
                     {
                         elements.Where(x => x.Word == v.Word).First().Accuracy = cor2 / count;
                         elements.Where(x => x.Word == v.Word).First().Weight -= NegChange;
                     }
                     else
                     {
-                        if (cor3 > cor2 && cor3 > cor)
+                        if (cor3 > cor2 && cor3 >= cor)
                         {
                             elements.Where(x => x.Word == v.Word).First().Accuracy = cor3 / count;
                             elements.Where(x => x.Word == v.Word).First().Weight += PosChange;
