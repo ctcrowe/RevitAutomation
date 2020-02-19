@@ -11,7 +11,7 @@ namespace CC_Library
     internal class PredictionPhrase
     {
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Dataset = directory + "\\CC_XMLData";
+        private static string Dataset = directory + "\\CuratedData";
 
         public string Phrase { get; }
         public string Prediction { get; set; }
