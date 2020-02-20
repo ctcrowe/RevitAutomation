@@ -63,6 +63,7 @@ namespace CC_Library
                     w(e.Weight.ToString());
                 }
             }
+            #region oldcode
             /*
             while (elements.Any(x => x.Accuracy < 1))
             {
@@ -123,6 +124,7 @@ namespace CC_Library
                     w(s);
                 }
             }*/
+            #endregion
             XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
             foreach (var element in elements)
             {
