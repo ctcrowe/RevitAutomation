@@ -42,6 +42,6 @@ namespace CC_Plugin
             return P.Set(doc, i);
         }
         
-        public const string[] CategoryOptions = { "COLLAB", "PRIVATE", "COMMON", "PUBLIC", "SERVICE" };
+        public static readonly string[] CategoryOptions = ( "COLLAB", "PRIVATE", "COMMON", "PUBLIC", "SERVICE" };
     }
 }
