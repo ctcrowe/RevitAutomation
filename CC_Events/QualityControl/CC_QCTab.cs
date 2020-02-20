@@ -12,7 +12,7 @@ using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.Attributes;
 
-namespace CC_Events
+namespace CC_Plugin
 {
     public class QCTab
     {
@@ -30,7 +30,7 @@ namespace CC_Events
                 "Project Cleanup",
                 "Project\r\nCleanup",
                 @dllpath(),
-                "CC_Events.ProjectCleanup");
+                "CC_Plugin.ProjectCleanup");
             b1Data.ToolTip = "Remove unused View Templates, unused View Filters, and unused Elevation Markers";
 
             PushButton PB1 = CPanel.AddItem(b1Data) as PushButton;
@@ -39,19 +39,19 @@ namespace CC_Events
                 "Update Line Styles",
                 "Update Line Styles",
                 @dllpath(),
-                "CC_Events.ChangeLineStyle");
+                "CC_Plugin.ChangeLineStyle");
 
             PushButtonData B3Data = new PushButtonData(
                 "List Line Styles",
                 "List Line Styles",
                 dllpath(),
-                "CC_Events.ListLineStyles");
+                "CC_Plugin.ListLineStyles");
 
             PushButtonData B4Data = new PushButtonData(
                 "Select Lines",
                 "Select Lines",
                 dllpath(),
-                "CC_Events.SelectLines");
+                "CC_Plugin.SelectLines");
 
             List<RibbonItem> DBButtons2 = new List<RibbonItem>();
             DBButtons2.AddRange(CPanel.AddStackedItems(B2Data, B3Data, B4Data));
@@ -60,19 +60,19 @@ namespace CC_Events
                 "Update Text Styles",
                 "Update Text Styles",
                 @dllpath(),
-                "CC_Events.ChangeTextStyle");
+                "CC_Plugin.ChangeTextStyle");
 
             PushButtonData B6Data = new PushButtonData(
                 "List Text Styles",
                 "List Text Styles",
                 dllpath(),
-                "CC_Events.ListTextStyles");
+                "CC_Plugin.ListTextStyles");
 
             PushButtonData B7Data = new PushButtonData(
                 "Select Notes",
                 "Select Notes",
                 dllpath(),
-                "CC_Events.SelectNotes");
+                "CC_Plugin.SelectNotes");
 
             List<RibbonItem> DBButtons3 = new List<RibbonItem>();
             DBButtons2.AddRange(CPanel.AddStackedItems(B5Data, B6Data, B7Data));
