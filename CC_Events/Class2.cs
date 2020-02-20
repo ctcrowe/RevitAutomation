@@ -7,7 +7,7 @@ using Autodesk.Revit.ApplicationServices;
 
 namespace CC_Plugin
 {
-    public class RoomCategoryParam
+    public static class RoomCategoryParam
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static string SharedParams = Location + "\\CC_SharedParams.txt";
@@ -33,21 +33,15 @@ namespace CC_Plugin
         }
         public static Guid ID { get { return P.ID; } }
         public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
-        public static string Get(Document doc)
+        public static string GetRoomCategory(this Room room)
         {
             return P.Get(doc);
         }
-        public static string Get(Family f)
-        {
-            return P.Get(f);
-        }
-        public static string Get(FamilyInstance e)
-        {
-            return P.Get(e);
-        }
-        public static string Set(Document doc, string i)
+        public static string SetRoomCategory(this Room room, string i)
         {
             return P.Set(doc, i);
         }
+        
+        public const string[] CategoryOptions = { "COLLAB", "PRIVATE", "COMMON", "PUBLIC", "SERVICE" };
     }
 }
