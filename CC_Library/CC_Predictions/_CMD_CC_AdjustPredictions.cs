@@ -54,12 +54,15 @@ namespace CC_Library
             int cor3 = 0;*/
                 
             List<PredictionPhrase> phrases = PredictionPhrase.GetData();
-
-            for(int i = 0; i < 3; i++)
+            
+            While(true)
             {
                 foreach(var e in elements)
                 {
-                    elements.AdjustWeight(e, i);
+                    for(int i = 0; i < 3; i++)
+                    {
+                        elements.AdjustWeight(e.Word, i);
+                    }
                     w(e.Weight.ToString());
                 }
             }
