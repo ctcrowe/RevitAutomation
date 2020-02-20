@@ -19,7 +19,7 @@ namespace CC_Events
         private static string dllpath()
         {
             string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string dll = dir + "\\CC_Events.dll";
+            string dll = dir + "\\CC_Plugin.dll";
             return dll;
         }
         public static void QCPanel(UIControlledApplication uiApp, string tabname)
