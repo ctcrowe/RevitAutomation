@@ -33,6 +33,8 @@ namespace CC_Library
                     }
                 }
             }
+            if (!data.Any())
+                return "No Prediction Found";
             return data[data.IndexOf(data.Where(x => x.Value == data.Max(y => y.Value)).First())].Name;
         }
         internal static void Run(List<PredictionElement> elements, Write w)
