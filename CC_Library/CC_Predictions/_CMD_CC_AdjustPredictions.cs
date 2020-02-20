@@ -7,7 +7,7 @@ using System;
 namespace CC_Library
 {
     public delegate void Write(string s);
-    public class AdjustPredictions
+    public static class AdjustPredictions
     {
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static string Dataset = directory + "\\CC_XMLData";
@@ -45,7 +45,7 @@ namespace CC_Library
             }
             return ele;
         }
-        internal static void Run(List<PredictionElement> elements, Write w)
+        internal static void RunAdjustment(this List<PredictionElement> elements, Write w)
         {
             /*
             int count = 0;
