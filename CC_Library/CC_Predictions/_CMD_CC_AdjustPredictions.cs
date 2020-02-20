@@ -9,9 +9,6 @@ namespace CC_Library
     public delegate void Write(string s);
     public class AdjustPredictions
     {
-        // Formula => x = SUM
-        // if (Positive > Negative) => Weight * (((Positive - Negative) ^ 2) / (Count ^ 2))
-        // if (Negative > Positive) => -Weight * (((Positive - Negative) ^ 2) / (Count ^ 2))
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static string Dataset = directory + "\\CC_XMLData";
         private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
@@ -37,15 +34,36 @@ namespace CC_Library
                 return "No Prediction Found";
             return data[data.IndexOf(data.Where(x => x.Value == data.Max(y => y.Value)).First())].Name;
         }
+        internal static PredictionElement GetElement(PredictionElement ele, List<PredictionElement> PredList, int digit)
+        {
+            double x = Math.Pow(10, digit * -1);
+            double[] y = new double[10];
+            for(int i = 0; i < 10; i++)
+            {
+                PredictionElement e = ele;
+                e.Weight += i * x;
+            }
+            return ele;
+        }
         internal static void Run(List<PredictionElement> elements, Write w)
         {
-                int count = 0;
-                int cor = 0;
-                int cor2 = 0;
-                int cor3 = 0;
+            /*
+            int count = 0;
+            int cor = 0;
+            int cor2 = 0;
+            int cor3 = 0;*/
                 
-                List<PredictionPhrase> phrases = PredictionPhrase.GetData();
+            List<PredictionPhrase> phrases = PredictionPhrase.GetData();
 
+            for(int i = 0; i < 3; i++)
+            {
+                foreach(var e in elements)
+                {
+                    elements.AdjustWeight(e, i);
+                    w(e.Weight.ToString());
+                }
+            }
+            /*
             while (elements.Any(x => x.Accuracy < 1))
             {
                 string s = "";
@@ -103,15 +121,15 @@ namespace CC_Library
                         s += v.Word + " " + v.Accuracy.ToString() + " : ";
                     }
                     w(s);
-                    XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-                    foreach (var element in elements)
-                    {
-                        XElement e = element.CreateXML();
-                        output.Root.Add(e);
-                    }
-                    output.Save(OutputFile);
                 }
+            }*/
+            XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+            foreach (var element in elements)
+            {
+                XElement e = element.CreateXML();
+                output.Root.Add(e);
             }
+            output.Save(OutputFile);
         }
     }
 }

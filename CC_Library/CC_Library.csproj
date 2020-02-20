@@ -55,6 +55,7 @@
     <Compile Include="CC_CmdLibrary.cs" />
     <Compile Include="CC_Predictions\_CMD_CC_AdjustPredictions.cs" />
     <Compile Include="CC_Command.cs" />
+    <Compile Include="CC_Predictions\CC_PredictionData.cs" />
     <Compile Include="Class4.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

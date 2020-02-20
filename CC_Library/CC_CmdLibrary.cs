@@ -8,12 +8,32 @@ namespace CC_Library
 {
     internal static class CMDLibrary
     {
+        public static int Abs(this int x)
+        {
+            if (x < 0)
+                return x * -1;
+            return x;
+        }
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (T element in source)
             {
                 action(element);
             }
+        }
+        public static double PowTen(this int x)
+        {
+            double v = 10;
+            for (int i = 0; i < x.Abs(); i++)
+            {
+                v *= 10;
+            }
+            if (x == 0)
+                return 1;
+            if (x > 0)
+                return v;
+            else
+                return 1 / v;
         }
         public static List<string> SplitOnCaps(this string s)
         {
