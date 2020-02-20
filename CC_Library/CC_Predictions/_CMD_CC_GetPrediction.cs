@@ -34,7 +34,7 @@ namespace CC_Library
                     }
                 }
             }
-            AdjustPredictions.Run(PE, w);
+            PE.RunAdjustment(w);
         }
     }
 }
