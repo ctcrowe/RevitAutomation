@@ -6,22 +6,22 @@ namespace CC_Library
 {
     internal static class PredictionData
     {
-        public static void AdjustWeight(this List<PredictionElement> PredList, PredictionElement ele, int digit)
+        public static void AdjustWeight(this List<PredictionElement> PredList, string Word, int digit)
         {
             if (PredList.Any(x => x.Word == ele.Word))
             {
-                double StartingWeight = ele.Weight;
+                double StartingWeight = PredList.Where(z => z.Word == Word).First().Weight;
                 double x = Math.Pow(10, digit * -1);
                 double[] y = new double[10];
                 for (int i = -5; i < 5; i++)
                 {
                     double v = x * i;
-                    PredList.Where(z => z.Word == ele.Word).First().Weight = StartingWeight + v;
+                    PredList.Where(z => z.Word == Word).First().Weight = StartingWeight + v;
                     ele.Weight = StartingWeight + v;
-                    y[i + 5] = CalcAccuracy(PredList);
+                    y[i + 5] = PredList.CalcAccuracy();
                 }
                 double change = x * Array.IndexOf(y, y.Max());
-                PredList.Where(z => z.Word == ele.Word).First().Weight = StartingWeight + change;
+                PredList.Where(z => z.Word == Word).First().Weight = StartingWeight + change;
             }
         }
         public static double CalcAccuracy(this List<PredictionElement> Predictions)
