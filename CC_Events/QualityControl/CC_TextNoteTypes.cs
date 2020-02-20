@@ -161,20 +161,12 @@ namespace CC_Plugin
     public class TextSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element element)
-            {
-
-                if(element.Category.Name == "Text Notes")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        public bool AllowReference(Reference refer, XYZ point)
-            {
+        {
+            if(element.Category.Name == "Text Notes")
                 return true;
-            }
+            else
+                return false;
+        }
+        public bool AllowReference(Reference refer, XYZ point) { return true; }
     }
 }
