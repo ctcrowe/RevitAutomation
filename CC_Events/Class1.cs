@@ -4,6 +4,7 @@ using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB.Events;
+using Autodesk.Revit.DB.Architecture;
 
 namespace CC_Plugin
 {
@@ -17,15 +18,6 @@ namespace CC_Plugin
 
             foreach (ElementId eid in eids)
             {
-                    string time = ProjectTime.Get(id);
-                    if (time != null)
-                    { try { dataset.Add("ProjectTime", time); } catch { } }
-                    try { dataset.Add("RmName", inst.Room.Name); } catch { }
-                    try { dataset.Add("RmNumber", inst.Room.Number.ToString()); } catch { }
-                    try { dataset.Add("ViewType", doc.ActiveView.GetType().Name); } catch { }
-                    
-                    Datapoint.Create(dataset);
-                }
             }
         }
         public static void OnStartup(UIControlledApplication application)
@@ -34,7 +26,7 @@ namespace CC_Plugin
             UpdaterRegistry.RegisterUpdater(updater, true);
             ElementId RMNameID = new ElementId(BuiltInParameter.ROOM_NAME);
             ElementClassFilter roomFilter = new ElementClassFilter(typeof(Room));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), refFilter, Element.GetChangeTypeParameter(RMNameID));
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), roomFilter, Element.GetChangeTypeParameter(RMNameID));
         }
         public static void OnShutdown(Autodesk.Revit.UI.UIControlledApplication application)
         {
