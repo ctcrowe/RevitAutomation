@@ -24,14 +24,14 @@ namespace CC_Library
                 PredList.Where(z => z.Word == Word).First().Weight = StartingWeight + change;
             }
         }
-        public static double CalcAccuracy(this List<PredictionElement> Predictions)
+        public static double CalcAccuracy(this List<PredictionElement> Predictions, string Word)
         {
             var Phrases = PredictionPhrase.GetData();
             int total = 0;
             int correct = 0;
-            foreach(var P in Phrases)
+            foreach(var P in Phrases.Where(x => x.Elements.Any(y => y == Word))
             {
-                var PhraseSet = Predictions.Where(x => P.Elements.Any(y => y == x.Word)).ToList();
+                var PhraseSet = Predictions.Where(a => P.Elements.Any(b => b == a.Word)).ToList();
                 if (PhraseSet.Predict() == P.Prediction)
                     correct++;
                 total++;
