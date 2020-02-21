@@ -35,12 +35,11 @@ namespace CC_Library
                     {
                         pes.Add(new PredictionElement(doc.Root.Elements().Where(z => z.Attribute("WORD").Value == y).First()));
                     }
-                    string finish = AdjustPredictions.RunFormula(pes);
-                    wo(finish);
-                    return finish;
                 }
             }
-            return string.Empty;
+            string prediction = pes.Predict();
+            wo(prediction);
+            return prediction;
         }
     }
 }
