@@ -18,7 +18,7 @@ namespace CC_Library
                     double v = x * i;
                     PredList.Where(z => z.Word == Word).First().Weight = StartingWeight + v;
                     ele.Weight = StartingWeight + v;
-                    y[i + 5] = PredList.CalcAccuracy();
+                    y[i + 5] = PredList.CalcAccuracy(Word);
                 }
                 double change = x * Array.IndexOf(y, y.Max());
                 PredList.Where(z => z.Word == Word).First().Weight = StartingWeight + change;
