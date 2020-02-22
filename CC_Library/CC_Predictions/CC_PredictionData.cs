@@ -17,7 +17,7 @@ namespace CC_Library
                 {
                     double v = x * i;
                     PredList.Where(z => z.Word == Word).First().Weight = StartingWeight + v;
-                    y[i + 5] = PredList.CalcAccuracy();
+                    y[i + 5] = PredList.CalcAccuracy(Word);
                 }
                 
                 int changept = y.CalcChange();
@@ -26,12 +26,12 @@ namespace CC_Library
                 PredList.Where(z => z.Word == Word).First().Accuracy = y[Array.IndexOf(y, y.Max())];
             }
         }
-        public static double CalcAccuracy(this List<PredictionElement> Predictions)
+        public static double CalcAccuracy(this List<PredictionElement> Predictions, string Word)
         {
             var Phrases = PredictionPhrase.GetData();
             double total = 0;
             double correct = 0;
-            foreach(var P in Phrases)
+            foreach(var P in Phrases.Where(a => a.Elements.Any(b => b == Word)))
             {
                 foreach(var w in P.Elements)
                     if (!Predictions.Any(x => x.Word == w))

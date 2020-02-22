@@ -63,7 +63,7 @@
     <EmbeddedResource Include="Data_1.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CC_MasterformatPredictor.xml" />
+    <EmbeddedResource Include="CC_MasterformatPredictor.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

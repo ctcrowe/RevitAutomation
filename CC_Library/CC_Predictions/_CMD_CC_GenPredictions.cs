@@ -20,10 +20,10 @@ namespace CC_Library
             List<string> x = s.SplitTitle();
             List<PredictionElement> pes = new List<PredictionElement>();
             var assembly = typeof(GenPredictions).GetTypeInfo().Assembly;
-            string name = assembly.GetManifestResourceNames().Where(z => z.EndsWith("MasterformatPredictor.xml")).First();
+            string name = assembly.GetManifestResourceNames().Where(z => z.Contains("MasterformatPredictor")).First();
+            wo(name);
             string outfile = Output + "//" + name.Split('.')[name.Split('.').Count() - 2] + ".xml";
-            if (File.Exists(outfile))
-                File.Delete(outfile);
+            wo(outfile);
             using (Stream stream = assembly.GetManifestResourceStream(name))
             {
                 var xdoc = new XmlDocument();
