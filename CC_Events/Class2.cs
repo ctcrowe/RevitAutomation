@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI.Events;
 using Autodesk.Revit.ApplicationServices;
 
@@ -35,13 +36,13 @@ namespace CC_Plugin
         public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
         public static string GetRoomCategory(this Room room)
         {
-            return P.Get(doc);
+            return P.Get(room);
         }
         public static string SetRoomCategory(this Room room, string i)
         {
-            return P.Set(doc, i);
+            return P.Set(room, i);
         }
         
-        public static readonly string[] CategoryOptions = ( "COLLAB", "PRIVATE", "COMMON", "PUBLIC", "SERVICE" };
+        public static readonly string[] CategoryOptions = { "COLLAB", "PRIVATE", "COMMON", "PUBLIC", "SERVICE" };
     }
 }

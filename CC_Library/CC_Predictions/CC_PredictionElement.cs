@@ -20,7 +20,7 @@ namespace CC_Library
             this.Word = w;
             this.Options = new List<PredictionOption>();
             this.Count = 0;
-            this.Weight = 0;
+            this.Weight = 0.5;
             this.Accuracy = 0.5;
         }
         public PredictionElement(XElement ele)

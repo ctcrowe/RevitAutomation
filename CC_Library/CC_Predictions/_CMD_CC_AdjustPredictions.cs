@@ -55,7 +55,7 @@ namespace CC_Library
                 
             List<PredictionPhrase> phrases = PredictionPhrase.GetData();
             
-            While(true)
+            while(true)
             {
                 foreach(var e in elements)
                 {
@@ -64,8 +64,15 @@ namespace CC_Library
                     {
                         elements.AdjustWeight(e.Word, i);
                     }
-                    w(e.Weight.ToString());
+                    w(e.Word + " : " + e.Weight.ToString() + " , " + e.Accuracy.ToString());
                 }
+                XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                foreach (var element in elements)
+                {
+                    XElement e = element.CreateXML();
+                    output.Root.Add(e);
+                }
+                output.Save(OutputFile);
             }
             #region oldcode
             /*
@@ -129,13 +136,7 @@ namespace CC_Library
                 }
             }*/
             #endregion
-            XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-            foreach (var element in elements)
-            {
-                XElement e = element.CreateXML();
-                output.Root.Add(e);
-            }
-            output.Save(OutputFile);
+
         }
     }
 }

@@ -45,7 +45,7 @@ namespace CC_Library
             {
                 if (char.IsUpper(c) && !char.IsUpper(p) && p != ' ')
                 {
-                    strings.Add(outputstring);
+                    strings.Add(outputstring.ToUpper());
                     outputstring = "" + c;
                 }
                 else
@@ -54,7 +54,7 @@ namespace CC_Library
                 }
                 if(j == s.Count() - 1)
                 {
-                    strings.Add(outputstring);
+                    strings.Add(outputstring.ToUpper());
                 }
                 p = c;
                 j++;
@@ -64,7 +64,7 @@ namespace CC_Library
         public static List<string> SplitTitle(this string s)
         {
             List<string> data = new List<string>();
-            char[] delimitters = { ',', '.', ' ', '_', '-' };
+            char[] delimitters = { ',', '.', ' ', '_', '-' , '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
             List<string> Array = s.Split(delimitters).ToList();
             foreach(string a in Array)
             {
