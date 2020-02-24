@@ -74,69 +74,6 @@ namespace CC_Library
                 }
                 output.Save(OutputFile);
             }
-            #region oldcode
-            /*
-            while (elements.Any(x => x.Accuracy < 1))
-            {
-                string s = "";
-                foreach (var v in elements.Where(x => x.Accuracy < 1))
-                {
-                    cor = 0;
-                    cor2 = 0;
-                    cor3 = 0;
-                    count = 0;
-                    double poscw = Math.Abs(1 - v.Weight);
-                    double negcw = Math.Abs(0 - Math.Abs(v.Weight));
-                    double mca = 1 - v.Accuracy;
-                    double NegChange = negcw * mca / 2;
-                    double PosChange = poscw * mca / 2;
-                    if (NegChange == 0)
-                        NegChange += 0.01;
-                    if (PosChange == 0)
-                        PosChange += 0.01;
-
-                    var eleNeg = elements;
-                    var elePos = elements;
-                    eleNeg.Where(x => x.Word == v.Word).First().Weight -= NegChange;
-                    elePos.Where(x => x.Word == v.Word).First().Weight += PosChange;
-
-                    foreach (var p in phrases.Where(x => x.Phrase.Contains(v.Word)))
-                    {
-                        var PhraseElements = elements.Where(x => p.Elements.Any(y => y == x.Word));
-                        var PENeg = eleNeg.Where(x => p.Elements.Any(y => y == x.Word));
-                        var PEPos = elePos.Where(x => p.Elements.Any(y => y == x.Word));
-                        count++;
-                        if (RunFormula(PhraseElements.ToList()) == p.Prediction)
-                            cor++;
-                        if (RunFormula(PENeg.ToList()) == p.Prediction)
-                            cor2++;
-                        if (RunFormula(PEPos.ToList()) == p.Prediction)
-                            cor3++;
-                    }
-                    if (cor2 > cor3 && cor2 >= cor)
-                    {
-                        elements.Where(x => x.Word == v.Word).First().Accuracy = cor2 / count;
-                        elements.Where(x => x.Word == v.Word).First().Weight -= NegChange;
-                    }
-                    else
-                    {
-                        if (cor3 > cor2 && cor3 >= cor)
-                        {
-                            elements.Where(x => x.Word == v.Word).First().Accuracy = cor3 / count;
-                            elements.Where(x => x.Word == v.Word).First().Weight += PosChange;
-                        }
-                        else
-                        {
-                            elements.Where(x => x.Word == v.Word).First().Accuracy = cor / count;
-                        }
-
-                        s += v.Word + " " + v.Accuracy.ToString() + " : ";
-                    }
-                    w(s);
-                }
-            }*/
-            #endregion
-
         }
     }
 }
