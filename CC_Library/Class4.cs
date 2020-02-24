@@ -53,12 +53,17 @@ namespace CC_Plugin
             this.P = p;
             this.V = v;
         }
+        public DataCouplet(Param p)
+        {
+            this.P = p;
+            this.v = string.Empty;
+        }
     }
     public class CCElement
     {
         string ID { get; }
-        List<Param> Dataset { get; set; }
-        public CCElement(List<Param> data)
+        List<DataCouplet> Dataset { get; set; }
+        public CCElement(List<DataCouplet> data)
         {
             this.ID = Guid.NewGuid().ToString();
             this.Dataset = data;
