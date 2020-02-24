@@ -43,6 +43,17 @@ namespace CC_Plugin
         public const int Material = 5;
         public const int Area = 6;
     }
+    public class DataCouplet
+    {
+        Param P { get; set;}
+        string V { get; sst;}
+        
+        public DataCouplet(Param p, string v)
+        {
+            this.P = p;
+            this.V = v;
+        }
+    }
     public class CCElement
     {
         string ID { get; }
