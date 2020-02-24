@@ -59,7 +59,7 @@ namespace CC_Plugin
             this.v = string.Empty;
         }
     }
-    public class CCElement
+    public class CC_Element
     {
         string ID { get; }
         List<DataCouplet> Dataset { get; set; }
