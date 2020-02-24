@@ -46,16 +46,9 @@ namespace CC_Library
             return ele;
         }
         internal static void RunAdjustment(this List<PredictionElement> elements, Write w)
-        {
-            /*
-            int count = 0;
-            int cor = 0;
-            int cor2 = 0;
-            int cor3 = 0;*/
-                
+        {                
             List<PredictionPhrase> phrases = PredictionPhrase.GetData();
-            
-            while(true)
+            while(elements.Any(x => x.Accuracy < 1))
             {
                 foreach(var e in elements)
                 {
