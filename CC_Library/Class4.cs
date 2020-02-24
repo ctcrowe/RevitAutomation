@@ -59,13 +59,6 @@ namespace CC_Plugin
             this.v = string.Empty;
         }
     }
-    public static class SetDataCouplet
-    {
-        public static void Set(this DataCouplet d, string Value)
-        {
-            d.V = Value;
-        }
-    }
     public class CC_Element
     {
         string ID { get; }
