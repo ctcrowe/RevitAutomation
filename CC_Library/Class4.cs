@@ -43,4 +43,14 @@ namespace CC_Plugin
         public const int Material = 5;
         public const int Area = 6;
     }
+    public class CCElement
+    {
+        string ID { get; }
+        List<Param> Dataset { get; set; }
+        public CCElement(List<Param> data)
+        {
+            this.ID = Guid.NewGuid().ToString();
+            this.Dataset = data;
+        }
+    }
 }
