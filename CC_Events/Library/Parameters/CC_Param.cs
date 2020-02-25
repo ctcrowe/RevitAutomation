@@ -16,9 +16,37 @@ namespace CC_Plugin
             {
                 if (doc.FamilyManager.get_Parameter(p.ID) == null)
                 {
-                    ExternalDefinition def = SetupParamDefinition(doc, p) as ExternalDefinition;
+                    ExternalDefinition def = p.CreateDefinition(doc) as ExternalDefinition;
                     doc.FamilyManager.AddParameter(def, p.BuiltInGroup, p.Inst);
                 }
+            }
+        }
+        private static Definition CreateDefinition(this Param p, Document doc)
+        {
+            Application app = doc.Application;
+            app.SharedParametersFilename = SharedParams;
+            DefinitionFile df = app.OpenSharedParameterFile();
+
+            if (df.Groups.get_Item(p.ParamGroup) == null)
+            {
+                DefinitionGroup newgroup = df.Groups.Create(p.ParamGroup);
+                if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+                {
+                    return newgroup.Definitions.Create(new ExDefOptions(p).opt);
+                }
+                else
+                {
+                    return newgroup.Definitions.get_Item(p.name);
+                }
+            }
+            DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
+            if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+            {
+                return group.Definitions.Create(new ExDefOptions(p).opt);
+            }
+            else
+            {
+                return group.Definitions.get_Item(p.name);
             }
         }
     }
