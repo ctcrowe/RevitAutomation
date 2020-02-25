@@ -41,12 +41,20 @@ namespace CC_Plugin
         }
         public static void AddSpaceParam(this Param p, Document doc)
         {
-            if(doc.IsFamilyDocument)
+            if(!doc.IsFamilyDocument)
             {
-                if (doc.FamilyManager.get_Parameter(p.ID) == null)
+                Definition def = p.CreateDefinition(doc);
+                if(!doc.ParameterBindings.Contains(def))
                 {
-                    ExternalDefinition def = p.CreateDefinition(doc) as ExternalDefinition;
-                    doc.FamilyManager.AddParameter(def, p.BuiltInGroup, p.Inst);
+                    try
+                    {
+                        CategorySet set = new CategorySet();
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Rooms));
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Areas));
+                        InstanceBinding binding = new InstanceBinding(set);
+                        doc.ParameterBindings.Insert(def, binding);
+                    }
+                    catch { }
                 }
             }
         }
