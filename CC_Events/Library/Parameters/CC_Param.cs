@@ -31,24 +31,9 @@ namespace CC_Plugin
                     try
                     {
                         CategorySet set = new CategorySet();
-                        foreach(BuiltInCategory cat in p.Categories)
-                        {
-                            if(!Set.Contains(Category.GetCategory(doc, cat)))
-                                set.Insert(Category.GetCategory(doc, cat));
-                        }
-                        if (set.Size > 0)
-                        {
-                            if (p.Inst)
-                            {
-                                InstanceBinding binding = new InstanceBinding(set);
-                                doc.ParameterBindings.Insert(def, binding);
-                            }
-                            else
-                            {
-                                TypeBinding binding = new TypeBinding(set);
-                                doc.ParameterBindings.Insert(def, binding);
-                            }
-                        }
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_ProjectInformation));
+                        InstanceBinding binding = new InstanceBinding(set);
+                        doc.ParameterBindings.Insert(def, binding);
                     }
                     catch { }
                 }
