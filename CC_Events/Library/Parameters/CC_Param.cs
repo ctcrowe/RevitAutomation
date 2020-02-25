@@ -21,6 +21,50 @@ namespace CC_Plugin
                 }
             }
         }
+        public static void AddProjectParam(this Param p, Document doc)
+        {
+            if(!doc.IsFamilyDocument)
+            {
+                Definition def = p.CreateDefinition(doc);
+                if(!doc.ParameterBindings.Contains(def))
+                {
+                    try
+                    {
+                        CategorySet set = new CategorySet();
+                        foreach(BuiltInCategory cat in p.Categories)
+                        {
+                            if(!Set.Contains(Category.GetCategory(doc, cat)))
+                                set.Insert(Category.GetCategory(doc, cat));
+                        }
+                        if (set.Size > 0)
+                        {
+                            if (p.Inst)
+                            {
+                                InstanceBinding binding = new InstanceBinding(set);
+                                doc.ParameterBindings.Insert(def, binding);
+                            }
+                            else
+                            {
+                                TypeBinding binding = new TypeBinding(set);
+                                doc.ParameterBindings.Insert(def, binding);
+                            }
+                        }
+                    }
+                    catch { }
+                }
+            }
+        }
+        public static void AddSpaceParam(this Param p, Document doc)
+        {
+            if(doc.IsFamilyDocument)
+            {
+                if (doc.FamilyManager.get_Parameter(p.ID) == null)
+                {
+                    ExternalDefinition def = p.CreateDefinition(doc) as ExternalDefinition;
+                    doc.FamilyManager.AddParameter(def, p.BuiltInGroup, p.Inst);
+                }
+            }
+        }
         private static Definition CreateDefinition(this Param p, Document doc)
         {
             Application app = doc.Application;
