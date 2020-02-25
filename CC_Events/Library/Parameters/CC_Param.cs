@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.IO;
 using System.Reflection;
@@ -8,6 +8,20 @@ using Autodesk.Revit.DB.Architecture;
 
 namespace CC_Plugin
 {
+    internal static class RevitParams
+    {
+        public static void AddFamilyParam(this Param p, Document doc)
+        {
+            if(doc.IsFamilyDocument)
+            {
+                if (doc.FamilyManager.get_Parameter(p.ID) == null)
+                {
+                    ExternalDefinition def = SetupParamDefinition(doc, p) as ExternalDefinition;
+                    doc.FamilyManager.AddParameter(def, p.BuiltInGroup, p.Inst);
+                }
+            }
+        }
+    }
     internal class RevitParamEdits
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
