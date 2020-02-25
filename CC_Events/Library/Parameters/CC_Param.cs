@@ -8,7 +8,7 @@ using Autodesk.Revit.DB.Architecture;
 
 namespace CC_Plugin
 {
-    internal static class RevitParams
+    internal static class AddRevitParams
     {
         public static void AddFamilyParam(this Param p, Document doc)
         {
