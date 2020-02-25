@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace CC_Library.Parameters
 {
-    public class Param
+    public abstract class Param
     {
         public string ParamGroup;
         public string name;
