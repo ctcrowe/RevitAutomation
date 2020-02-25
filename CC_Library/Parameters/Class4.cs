@@ -3,7 +3,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 
-namespace CC_Plugin
+namespace CC_Library.Parameters
 {
     public class Param
     {
@@ -46,7 +46,7 @@ namespace CC_Plugin
     public class DataCouplet
     {
         Param P { get; set;}
-        string V { get; sst;}
+        string V { get; set;}
         
         public DataCouplet(Param p, string v)
         {
@@ -56,14 +56,14 @@ namespace CC_Plugin
         public DataCouplet(Param p)
         {
             this.P = p;
-            this.v = string.Empty;
+            this.V = string.Empty;
         }
     }
     public class CC_Element
     {
         string ID { get; }
-        List<DataCouplet> Dataset { get; set; }
-        public CCElement(List<DataCouplet> data)
+        DataCouplet[] Dataset { get; set; }
+        public CC_Element(DataCouplet[] data)
         {
             this.ID = Guid.NewGuid().ToString();
             this.Dataset = data;

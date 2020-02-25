@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parameters\Class1.cs" />
+    <Compile Include="Parameters\Class2.cs" />
     <Compile Include="CC_Predictions\CC_PredictionPhrase.cs" />
     <Compile Include="CC_Predictions\CC_PredictionOption.cs" />
     <Compile Include="CC_Predictions\CC_Prediction.cs" />
@@ -56,7 +58,8 @@
     <Compile Include="CC_Predictions\_CMD_CC_AdjustPredictions.cs" />
     <Compile Include="CC_Command.cs" />
     <Compile Include="CC_Predictions\CC_PredictionData.cs" />
-    <Compile Include="Class4.cs" />
+    <Compile Include="Parameters\Class3.cs" />
+    <Compile Include="Parameters\Class4.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
