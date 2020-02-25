@@ -21,9 +21,7 @@ namespace CC_Library
             List<PredictionElement> pes = new List<PredictionElement>();
             var assembly = typeof(GenPredictions).GetTypeInfo().Assembly;
             string name = assembly.GetManifestResourceNames().Where(z => z.Contains("MasterformatPredictor")).First();
-            wo(name);
             string outfile = Output + "//" + name.Split('.')[name.Split('.').Count() - 2] + ".xml";
-            wo(outfile);
             using (Stream stream = assembly.GetManifestResourceStream(name))
             {
                 var xdoc = new XmlDocument();
