@@ -7,31 +7,15 @@ namespace CC_Library.Parameters
 {
     public class Param
     {
-        private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        private static string SharedParams = Location + "\\CC_SharedParams.txt";
-
-        public string ParamGroup { get; set; }
-        public string name { get; set; }
-        public int type { get; set; }
-        public Guid ID { get; set; }
-        public Boolean Vis { get; set; }
-        public string Description { get; set; }
-        public Boolean UsrMod { get; set; }
-        public Boolean Inst { get; set; }
-        public Boolean Fixed { get; set; }
-        public Param(string name, int type, Guid id, string paramgroup,
-                     string description, bool vis, bool inst, bool usrmod, bool fix)
-        {
-            this.name = name;
-            this.type = type;
-            this.ID = id;
-            this.ParamGroup = paramgroup;
-            this.Description = description;
-            this.Vis = vis;
-            this.Inst = inst;
-            this.UsrMod = usrmod;
-            this.Fixed = fix;
-        }
+        public string ParamGroup;
+        public string name;
+        public int type;
+        public Guid ID;
+        public Boolean Vis;
+        public string Description;
+        public Boolean UsrMod;
+        public Boolean Inst;
+        public Boolean Fixed;
     }
     public static class ParamType
     {
