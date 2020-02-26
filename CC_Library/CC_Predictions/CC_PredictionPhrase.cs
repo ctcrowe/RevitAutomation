@@ -6,13 +6,18 @@ using System.Xml.Linq;
 using System;
 using System.Reflection;
 
+/*
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string Dataset = directory + "\\CuratedData";
+        
+        string attb = "MFSection"
+        string ID = "Name"
+*/
+
 namespace CC_Library
 {
     internal class PredictionPhrase
     {
-        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Dataset = directory + "\\CuratedData";
-
         public string Phrase { get; }
         public string Prediction { get; set; }
         public List<string> Elements { get; set; }
@@ -29,7 +34,7 @@ namespace CC_Library
             this.Elements = i.SplitTitle();
         }
 
-        public static List<PredictionPhrase> GetData()
+        public static List<PredictionPhrase> GetData(string Dataset, string ID, string Attb)
         {
             List<PredictionPhrase> data = new List<PredictionPhrase>();
             if(Directory.Exists(Dataset))
@@ -37,9 +42,9 @@ namespace CC_Library
                 foreach(string f in Directory.GetFiles(Dataset))
                 {
                     XDocument doc = XDocument.Load(f);
-                    if(doc.Root.Attribute("Name") != null && doc.Root.Attribute("MFSection") != null)
+                    if(doc.Root.Attribute(ID) != null && doc.Root.Attribute(attb) != null)
                     {
-                        data.Add(new PredictionPhrase(doc.Root.Attribute("Name").Value, doc.Root.Attribute("MFSection").Value));
+                        data.Add(new PredictionPhrase(doc.Root.Attribute(ID).Value, doc.Root.Attribute(attb).Value));
                     }
                 }
             }
