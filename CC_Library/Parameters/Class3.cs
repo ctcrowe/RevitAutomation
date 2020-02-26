@@ -6,14 +6,26 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Parameters
 {
-    public sealed class FireRatingParam : Param
+    public sealed class FireRating : Param
     {
         public string = "FireProtection";
         public string name = "FIRE RATING";
-        public int type = ParamType.Double;
+        public int type = ParamType.String;
         public Guid ID = Guid.NewGuid("4333b0f4-1652-4d7a-8060-2044707e0815");
         public Boolean Vis; = true;
         public string Description = "Fire Ratings foor Doors, Windows, and Walls.";
+        public Boolean UsrMod = true;
+        public Boolean Inst = false;
+        public Boolean Fixed = true
+    }
+    public sealed class Hardwareset : Param
+    {
+        public string = "Doors";
+        public string name = "HARDWARE SET";
+        public int type = ParamType.String;
+        public Guid ID = Guid.NewGuid("c58d15e9-068f-486c-886c-7e6db68b97e1");
+        public Boolean Vis; = true;
+        public string Description = "Hardware set of each type of door.";
         public Boolean UsrMod = true;
         public Boolean Inst = false;
         public Boolean Fixed = true
