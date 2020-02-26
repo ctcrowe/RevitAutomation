@@ -28,7 +28,7 @@ namespace CC_Library.Parameters
         public string Description = "Hardware set of each type of door.";
         public Boolean UsrMod = true;
         public Boolean Inst = false;
-        public Boolean Fixed = true
+        public Boolean Fixed = true;
     }
     class Class3
     {
