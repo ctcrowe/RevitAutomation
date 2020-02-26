@@ -18,7 +18,7 @@ namespace CC_Library.Parameters
         public Boolean Inst = false;
         public Boolean Fixed = true
     }
-    public sealed class Hardwareset : Param
+    public sealed class HardwareSet : Param
     {
         public string = "Doors";
         public string name = "HARDWARE SET";
@@ -36,12 +36,11 @@ namespace CC_Library.Parameters
         Finished Door Schedule
         
         Fire Rating
+        HW Set
         
         DOOR SCHEDULE
         
         Door Number
-        Fire Rating
-        HW Set
         Door Access Control
         Type
         Opening Width
