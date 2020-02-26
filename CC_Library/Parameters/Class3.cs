@@ -33,12 +33,24 @@ namespace CC_Library.Parameters
     public sealed class RoomCategory : Param
     {
         public string Category = "Rooms";
-        public string name = "RoomCategory";
+        public string name = "ROOM CATEGORY";
         public int type = ParamType.String;
         public Guid ID = new Guid("3231dffc-7322-43b6-9ede-d4e5fbb80399");
         public Boolean Vis = true;
         public string Description = "A REFERENCE TO THE USE OF THE ROOM.";
         public Boolean UsrMod = false;
+        public Boolean Inst = true;
+        public Boolean Fixed = true;
+    }
+    public sealed class RoomPrivacy : Param
+    {
+        public string Category = "Rooms";
+        public string name = "ROOM PRIVACY";
+        public int type = ParamType.Bool;
+        public Guid ID = new Guid("4a521641-328a-4853-a919-030ace5474d0");
+        public Boolean Vis = true;
+        public string Description = "YES is private, NO is public";
+        public Boolean UsrMod = true;
         public Boolean Inst = true;
         public Boolean Fixed = true;
     }
