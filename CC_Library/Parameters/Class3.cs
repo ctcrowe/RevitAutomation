@@ -32,7 +32,7 @@ namespace CC_Library.Parameters
     }
     public sealed class RoomCategory : Param
     {
-        public string Category = "BIMData";
+        public string Category = "Rooms";
         public string name = "RoomCategory";
         public int type = ParamType.String;
         public Guid ID = new Guid("3231dffc-7322-43b6-9ede-d4e5fbb80399");
