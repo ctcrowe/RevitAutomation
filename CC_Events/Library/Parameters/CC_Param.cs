@@ -65,6 +65,32 @@ namespace CC_Plugin
                 }
             }
         }
+        public static void AddWallParam(this Param p, Document doc)
+        {
+            if(!doc.IsFamilyDocument)
+            {
+                Definition def = p.CreateDefinition(doc);
+                if(!doc.ParameterBindings.Contains(def))
+                {
+                    try
+                    {
+                        CategorySet set = new CategorySet();
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Walls));
+                        if(p.Inst)
+                        {
+                            InstanceBinding binding = new InstanceBinding(set);
+                            doc.ParameterBindings.Insert(def, binding);
+                        }
+                        else
+                        {
+                            TypeBinding binding = new TypeBinding(set);
+                            doc.ParameterBindings.Insert(def, binding);
+                        }
+                    }
+                    catch { }
+                }
+            }
+        }
         private static Definition CreateDefinition(this Param p, Document doc)
         {
             Application app = doc.Application;
