@@ -21,6 +21,10 @@ namespace CC_Library.Parameters
     class Class3
     {
         /*
+        Finished Door Schedule
+        
+        Fire Rating
+        
         DOOR SCHEDULE
         
         Door Number
