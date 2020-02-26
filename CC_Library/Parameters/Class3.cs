@@ -16,7 +16,7 @@ namespace CC_Library.Parameters
         public string Description = "Fire Ratings foor Doors, Windows, and Walls.";
         public Boolean UsrMod = true;
         public Boolean Inst = false;
-        public Boolean Fixed = true
+        public Boolean Fixed = true;
     }
     public sealed class HardwareSet : Param
     {
