@@ -8,7 +8,7 @@ namespace CC_Library.Parameters
 {
     public sealed class FireRating : Param
     {
-        public string = "FireProtection";
+        public string Category = "FireProtection";
         public string name = "FIRE RATING";
         public int type = ParamType.String;
         public Guid ID = Guid.NewGuid("4333b0f4-1652-4d7a-8060-2044707e0815");
@@ -24,10 +24,22 @@ namespace CC_Library.Parameters
         public string name = "HARDWARE SET";
         public int type = ParamType.String;
         public Guid ID = Guid.NewGuid("c58d15e9-068f-486c-886c-7e6db68b97e1");
-        public Boolean Vis; = true;
+        public Boolean Vis = true;
         public string Description = "Hardware set of each type of door.";
         public Boolean UsrMod = true;
         public Boolean Inst = false;
+        public Boolean Fixed = true;
+    }
+    public sealed class RoomCategory : Param
+    {
+        public string Category = "BIMData";
+        public string name = "RoomCategory";
+        public int type = ParamType.String;
+        public Guid ID = new Guid("3231dffc-7322-43b6-9ede-d4e5fbb80399");
+        public Boolean Vis = true;
+        public string Description = "A REFERENCE TO THE USE OF THE ROOM.";
+        public Boolean UsrMod = false;
+        public Boolean Inst = true;
         public Boolean Fixed = true;
     }
     class Class3
