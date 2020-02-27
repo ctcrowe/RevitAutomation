@@ -54,12 +54,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automation\AddCaseworkFams.cs" />
-    <Compile Include="Automation\Events\ViewChangedEvent\AddViewChangedParams.cs" />
     <Compile Include="Automation\ProjectData\CC_FamilyData.cs" />
     <Compile Include="CC_ProjectData.cs" />
     <Compile Include="Automation\Rooms\RoomParamUpdater.cs" />
-    <Compile Include="Automation\Dimensioning\DimensioningUpdater.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneDetailCollector.cs" />
     <Compile Include="Automation\RefPlanes\PlaneTypeUpdater.cs" />
     <Compile Include="Categories\CC_CCcategory.cs" />
@@ -81,6 +78,7 @@
     <Compile Include="CC_SetMFParam.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Class2.cs" />
+    <Compile Include="Parameters\AddRevitParameters.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Parameters\CC_Param.cs" />
     <Compile Include="Parameters\CC_ParamSetup.cs" />
