@@ -10,8 +10,8 @@ using System.Linq;
         string ID = "Name"
         
         GetData(string Dataset, string ID, string Attb)
+        CalcAccuracy(this List<PredictionElement> Predictions, string Word, string Dataset, string ID, string Attb)
 */
-
 
 namespace CC_Library
 {
