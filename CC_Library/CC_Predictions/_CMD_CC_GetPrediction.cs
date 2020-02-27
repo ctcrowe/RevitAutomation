@@ -4,6 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string Dataset = directory + "\\CuratedData";
+        
+        string attb = "MFSection"
+        string ID = "Name"
+        
+        GetData(string Dataset, string ID, string Attb)
+        CalcAccuracy(this List<PredictionElement> Predictions, string Word, string Dataset, string ID, string Attb)
+        
+        RunAdjustment(this List<PredictionElement> elements,
+            string Name,
+            string dataset,
+            string id,
+            string attb,
+            Write w)
+*/
+
 namespace CC_Library
 {
     public class GetPredictions
