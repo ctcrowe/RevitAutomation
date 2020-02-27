@@ -9,7 +9,12 @@ using Autodesk.Revit.DB.Events;
 
 namespace CC_Plugin
 {
-
+/*
+TODO: On element placed, check if its location is inside of a room.
+    If it is not inside of a room place a room in that location.
+    If that room is not enclosed, delete the room added.
+    If it is enclosed, exit process.
+*/
     internal class CC_Automation : IUpdater
     {
         public void Execute(UpdaterData data)
