@@ -12,15 +12,14 @@ namespace CC_Library
     public class GenPredictions
     {
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Input = directory + "\\CC_MasterformatPredictor.xml";
         private static string Output = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public static string Run(string s, WriteOutput wo)
+        public static string Run(string s, string Input, WriteOutput wo)
         {
             List<string> x = s.SplitTitle();
             List<PredictionElement> pes = new List<PredictionElement>();
             var assembly = typeof(GenPredictions).GetTypeInfo().Assembly;
-            string name = assembly.GetManifestResourceNames().Where(z => z.Contains("MasterformatPredictor")).First();
+            string name = assembly.GetManifestResourceNames().Where(z => z.Contains(Input)).First();
             string outfile = Output + "//" + name.Split('.')[name.Split('.').Count() - 2] + ".xml";
             using (Stream stream = assembly.GetManifestResourceStream(name))
             {
