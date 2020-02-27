@@ -10,7 +10,7 @@ namespace CC_Library.Parameters
         public Guid ID = new Guid("3231dffc-7322-43b6-9ede-d4e5fbb80399");
         public Boolean Vis = true;
         public string Description = "A REFERENCE TO THE USE OF THE ROOM.";
-        public Boolean UsrMod = false;
+        public Boolean UsrMod = true;
         public Boolean Inst = true;
         public Boolean Fixed = true;
     }
