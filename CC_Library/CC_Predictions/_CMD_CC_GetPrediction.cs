@@ -26,10 +26,10 @@ namespace CC_Library
 {
     public class GetPredictions
     {
-        public static void Run(Write w)
+        public static void Run(string Name, string dataset, string id, string attb, Write w)
         {
             var PE = new List<PredictionElement>();
-            var Phrases = PredictionPhrase.GetData();
+            var Phrases = PredictionPhrase.GetData(dataset, id, attb);
             foreach(var p in Phrases)
             {
                 foreach(string e in p.Elements)
@@ -52,7 +52,7 @@ namespace CC_Library
                     }
                 }
             }
-            PE.RunAdjustment(w);
+            PE.RunAdjustment(Name, dataset, id, attb, w);
         }
     }
 }

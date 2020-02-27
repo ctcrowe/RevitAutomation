@@ -18,7 +18,7 @@ namespace CC_Plugin
             get
             {
                 return new Param(
-                    /* Name */              "RoomCategory",
+                    /* Name */              "ROOM CATEGORY",
                     /* Type */              ParamType.String,
                     /* ID */                new Guid("3231dffc-7322-43b6-9ede-d4e5fbb80399"),
                     /* Param Group */       "BIMData",
@@ -33,7 +33,7 @@ namespace CC_Plugin
             }
         }
         public static Guid ID { get { return P.ID; } }
-        public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
+        public static void Add(Document doc) { P.AddSpaceParam(doc); }
         public static string GetRoomCategory(this Room room)
         {
             return P.Get(room);

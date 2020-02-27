@@ -37,7 +37,7 @@ namespace CC_Plugin
                     {
                         t.Start();
                         WriteOutput wo = new WriteOutput(runtest);
-                        MFParam.Set(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last(), wo));
+                        MFParam.Set(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last(), "Masterformat", wo));
                         t.Commit();
                     }
                 }

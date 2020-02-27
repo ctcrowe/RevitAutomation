@@ -5,28 +5,7 @@ using System.Reflection;
 
 namespace CC_Library.Parameters
 {
-    internal abstract class Param
-    {
-        public string ParamGroup;
-        public string name;
-        public int type;
-        public Guid ID;
-        public Boolean Vis;
-        public string Description;
-        public Boolean UsrMod;
-        public Boolean Inst;
-        public Boolean Fixed;
-    }
-    public static class ParamType
-    {
-        public const int Bool = 0;
-        public const int Int = 1;
-        public const int Double = 2;
-        public const int Length = 3;
-        public const int String = 4;
-        public const int Material = 5;
-        public const int Area = 6;
-    }
+
     public class DataCouplet
     {
         Param P { get; set;}

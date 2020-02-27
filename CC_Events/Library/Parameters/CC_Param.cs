@@ -93,6 +93,9 @@ namespace CC_Plugin
         }
         private static Definition CreateDefinition(this Param p, Document doc)
         {
+            string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string SharedParams = Location + "\\CC_SharedParams.txt";
+
             Application app = doc.Application;
             app.SharedParametersFilename = SharedParams;
             DefinitionFile df = app.OpenSharedParameterFile();

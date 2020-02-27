@@ -17,7 +17,7 @@ namespace CC_Library
 {
     internal static class PredictionData
     {
-        public static void AdjustWeight(this List<PredictionElement> PredList, string Word, int digit)
+        public static void AdjustWeight(this List<PredictionElement> PredList, string Word, string dataset, string id, string attb, int digit)
         {
             if (PredList.Any(x => x.Word == Word))
             {
@@ -28,7 +28,7 @@ namespace CC_Library
                 {
                     double v = x * i;
                     PredList.Where(z => z.Word == Word).First().Weight = StartingWeight + v;
-                    y[i + 5] = PredList.CalcAccuracy(Word);
+                    y[i + 5] = PredList.CalcAccuracy(Word, dataset, id, attb);
                 }
                 
                 int changept = y.CalcChange();

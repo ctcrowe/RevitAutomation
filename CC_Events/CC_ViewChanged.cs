@@ -34,6 +34,7 @@ namespace CC_Plugin
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(WidthParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(HeightParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(DepthParam.Add), doc);
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(RoomCategoryParam.Add), doc);
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();

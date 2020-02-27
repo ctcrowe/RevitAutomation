@@ -1,10 +1,6 @@
-
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-using System;
-using System.Reflection;
 
 /*
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -36,7 +32,7 @@ namespace CC_Library
             this.Elements = i.SplitTitle();
         }
 
-        public static List<PredictionPhrase> GetData(string Dataset, string ID, string Attb)
+        public static List<PredictionPhrase> GetData(string Dataset, string ID, string attb)
         {
             List<PredictionPhrase> data = new List<PredictionPhrase>();
             if(Directory.Exists(Dataset))

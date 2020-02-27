@@ -75,11 +75,16 @@ namespace CC_Library
                     e.Weight = 0;
                     for(int i = 1; i <= 3; i++)
                     {
-                        elements.AdjustWeight(e.Word, i);
+                        elements.AdjustWeight(e.Word, dataset, id, attb, i);
                     }
                     w(e.Word + " : " + e.Weight.ToString() + " , " + e.Accuracy.ToString());
                 }
                 XDocument output = new XDocument(new XElement(Name)) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+
+
+                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string Dataset = directory + "\\CuratedData";
+                string OutputFile = directory + "\\" + Name + "_Data.xml";
                 foreach (var element in elements)
                 {
                     XElement e = element.CreateXML();
