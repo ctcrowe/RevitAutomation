@@ -30,4 +30,16 @@ namespace CC_Library.Parameters
         public Boolean Inst = false;
         public Boolean Fixed = true;
     }
+    public sealed class Height : Param
+    {
+        public string Category = "Dimensions";
+        public string name = "oH";
+        public int type = ParamType.Length;
+        public Guid ID = new Guid("f306ae6d-f153-47e1-b7e1-ac451eada6f2");
+        public Boolean Vis = true;
+        public string Description = "USED TO DEFINE THE OVERALL OUTSIDE MAXIMUM DIMENSIONS OF AN OBJECT, REFERENCING TOP AND BOTTOM EXTREMES";
+        public Boolean UsrMod = true;
+        public Boolean Inst = false;
+        public Boolean Fixed = true;
+    }
 }
