@@ -13,6 +13,13 @@ using System;
         
         GetData(string Dataset, string ID, string Attb)
         CalcAccuracy(this List<PredictionElement> Predictions, string Word, string Dataset, string ID, string Attb)
+        
+        RunAdjustment(this List<PredictionElement> elements,
+            string Name,
+            string dataset,
+            string id,
+            string attb,
+            Write w)
 */
 
 namespace CC_Library
@@ -52,12 +59,13 @@ namespace CC_Library
             }
             return ele;
         }
-        internal static void RunAdjustment(this List<PredictionElement> elements,
-                                           string Name,
-                                           string dataset,
-                                           string id,
-                                           string attb,
-                                           Write w)
+        internal static void
+            RunAdjustment(this List<PredictionElement> elements,
+                string Name,
+                string dataset,
+                string id,
+                string attb,
+                Write w)
         {                
             List<PredictionPhrase> phrases = PredictionPhrase.GetData(dataset, id, attb);
             while(elements.Any(x => x.Accuracy < 1))
