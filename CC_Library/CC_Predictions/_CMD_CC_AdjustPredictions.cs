@@ -20,13 +20,6 @@ namespace CC_Library
     public delegate void Write(string s);
     public static class AdjustPredictions
     {
-        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Dataset = directory + "\\CuratedData";
-        private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
-        
-        private const string ID = "Name";
-        private const string attb = "MFSection";
-
         internal static string RunFormula(List<PredictionElement> PEs)
         {
             List<Prediction> data = new List<Prediction>();
@@ -59,9 +52,14 @@ namespace CC_Library
             }
             return ele;
         }
-        internal static void RunAdjustment(this List<PredictionElement> elements, Write w)
+        internal static void RunAdjustment(this List<PredictionElement> elements,
+                                           string Name,
+                                           string dataset,
+                                           string id,
+                                           string attb,
+                                           Write w)
         {                
-            List<PredictionPhrase> phrases = PredictionPhrase.GetData(Dataset, ID, Attb);
+            List<PredictionPhrase> phrases = PredictionPhrase.GetData(dataset, id, attb);
             while(elements.Any(x => x.Accuracy < 1))
             {
                 foreach(var e in elements)
@@ -73,7 +71,7 @@ namespace CC_Library
                     }
                     w(e.Word + " : " + e.Weight.ToString() + " , " + e.Accuracy.ToString());
                 }
-                XDocument output = new XDocument(new XElement("MASTERFORMAT")) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+                XDocument output = new XDocument(new XElement(Name)) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
                 foreach (var element in elements)
                 {
                     XElement e = element.CreateXML();
