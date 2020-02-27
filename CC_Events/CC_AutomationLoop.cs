@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CC_Library;
+using CC_Library.Parameters;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB.Events;
@@ -36,7 +38,7 @@ namespace CC_Plugin
                     Dictionary<string, string> dataset = new Dictionary<string, string>();
                     try { dataset.Add("Name", inst.Symbol.Family.Name); } catch { }
                     try { dataset.Add("EleID", IDParam.Get(inst)); } catch { }
-                    try { dataset.Add("MFSection", MFParam.Get(inst)); }  catch { }
+                    try { dataset.Add("MFSection", CC_Library.Parameters.MasterformatParam.Get(inst)); }  catch { }
                     try { dataset.Add("PrevID", Datapoint.GetPreviousElement()); } catch { }
                     try { dataset.Add("PrjID", id); } catch { }
                     try { dataset.Add("PlaceTime", DateTime.Now.ToString("yyyyMMddhhmmss")); } catch { }

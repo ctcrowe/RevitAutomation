@@ -5,6 +5,8 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB.Architecture;
+using CC_Library;
+using CC_Library.Parameters;
 
 namespace CC_Plugin
 {
@@ -17,18 +19,18 @@ namespace CC_Plugin
     }
     internal static class AddRevitParams
     {
-        public static void AddFamilyParam(this Param p, Document doc)
+        public static void AddFamilyParam(this CC_Library.Parameters.Param p, Document doc)
         {
             if(doc.IsFamilyDocument)
             {
                 if (doc.FamilyManager.get_Parameter(p.ID) == null)
                 {
                     ExternalDefinition def = p.CreateDefinition(doc) as ExternalDefinition;
-                    doc.FamilyManager.AddParameter(def, p.BuiltInGroup, p.Inst);
+                    doc.FamilyManager.AddParameter(def, BuiltInParameterGroup.PG_IFC, p.Inst);
                 }
             }
         }
-        public static void AddProjectParam(this Param p, Document doc)
+        public static void AddProjectParam(this CC_Library.Parameters.Param p, Document doc)
         {
             if(!doc.IsFamilyDocument)
             {
@@ -46,7 +48,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void AddSpaceParam(this Param p, Document doc)
+        public static void AddSpaceParam(this CC_Library.Parameters.Param p, Document doc)
         {
             if(!doc.IsFamilyDocument)
             {
@@ -65,7 +67,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void AddWallParam(this Param p, Document doc)
+        public static void AddWallParam(this CC_Library.Parameters.Param p, Document doc)
         {
             if(!doc.IsFamilyDocument)
             {
@@ -91,7 +93,7 @@ namespace CC_Plugin
                 }
             }
         }
-        private static Definition CreateDefinition(this Param p, Document doc)
+        private static Definition CreateDefinition(this CC_Library.Parameters.Param p, Document doc)
         {
             string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string SharedParams = Location + "\\CC_SharedParams.txt";

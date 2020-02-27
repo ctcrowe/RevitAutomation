@@ -1,52 +1,46 @@
 ﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.ApplicationServices;
-
-using System.IO;
-using System.Reflection;
+using CC_Library.Parameters;
 
 namespace CC_Plugin
 {
-    internal class ExDefOptions
+    internal static class ExDefOptions
     {
-        public ExternalDefinitionCreationOptions opt { get; set; }
-        public ExDefOptions(Param p)
+        public static ExternalDefinitionCreationOptions CreateOptions(this CC_Library.Parameters.Param p)
         {
+            ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(p.name, ParameterType.Integer);
             switch(p.type)
             {
                 default: case ParamType.Int:
-                    opt = new ExternalDefinitionCreationOptions(p.name, ParameterType.Integer);
-                    break;
+                        options.Type = ParameterType.Integer;
+                        break;
                 case ParamType.String:
-                    opt = new ExternalDefinitionCreationOptions(p.name, ParameterType.Text);
+                    options.Type = ParameterType.Text;
                     break;
                 case ParamType.Double:
-                    opt = new ExternalDefinitionCreationOptions(p.name, ParameterType.Number);
+                    options.Type = ParameterType.Number;
                     break;
                 case ParamType.Bool:
-                    opt = new ExternalDefinitionCreationOptions(p.name, ParameterType.YesNo);
+                    options.Type = ParameterType.YesNo;
                     break;
                 case ParamType.Length:
-                    opt = new ExternalDefinitionCreationOptions(p.name, ParameterType.Length);
+                    options.Type = ParameterType.Length;
                     break;
                 case ParamType.Material:
-                    opt = new ExternalDefinitionCreationOptions(p.name, ParameterType.Material);
+                    options.Type = ParameterType.Material;
                     break;
                 case ParamType.Area:
-                    opt = new ExternalDefinitionCreationOptions(p.name, ParameterType.Area);
+                    options.Type = ParameterType.Area;
                     break;
-            }                if (!p.Vis)
-                {
-                    opt.Visible = false;
-                }
-                if (p.Description != null)
-                {
-                    opt.Description = p.Description;
-                }
-                if (!p.UsrMod)
-                {
-                    opt.UserModifiable = false;
-                }
-                opt.GUID = p.ID;
+            }
+            if (!p.Vis)
+                options.Visible = false;
+            if (p.Description != null)
+                options.Description = p.Description;
+            if (!p.UsrMod)
+                options.UserModifiable = false;
+            options.GUID = p.ID;
+
+            return options;
         }
     }
 }

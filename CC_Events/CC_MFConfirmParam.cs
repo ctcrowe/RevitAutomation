@@ -7,37 +7,6 @@ using Autodesk.Revit.ApplicationServices;
 
 namespace CC_Plugin
 {
-    internal class MFConfirmParam
-    {
-        private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        private static string SharedParams = Location + "\\CC_SharedParams.txt";
-
-        private static Param P
-        {
-            get
-            {
-                return new Param(
-                    /* Name */              "MasterFormat_Confirmed",
-                    /* Type */              ParamType.Bool,
-                    /* ID */                new Guid("98d1341d-cf2a-4701-8f3b-772496234477"),
-                    /* Param Group */       "BIMData",
-                    /* Categories */        new BuiltInCategory[1] {
-                                                BuiltInCategory.OST_GenericModel},
-                    /* BuiltinParamGroup*/  BuiltInParameterGroup.PG_DATA,
-                    /* Description */       "CONFIRMS IF THE MASTERFORMAT DIVISION WAS SET AUTOMATICALLY OR THROUGH THE API.",
-                    /* Visible */           true,
-                    /* Instance */          false,
-                    /* User Modifiable */   false,
-                    /* Fixed */             true);
-            }
-        }
-        public static void Add(Document doc) { RevitParamEdits.Add_FamilyParam(doc, P); }
-        public static bool Get(Document doc) { return RevitParamEdits.Get_BooleanFamilyParam(doc, P); }
-        public static string Set(Document doc, int i)
-        {
-            return P.Set(doc, i.ToString());
-        }
-    }
     internal class WidthParam
     {
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

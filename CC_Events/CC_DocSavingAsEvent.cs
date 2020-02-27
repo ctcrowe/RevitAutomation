@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using Autodesk.Revit.UI;
 using CC_Library;
+using CC_Library.Parameters;
 
 namespace CC_Plugin
 {
@@ -37,7 +38,7 @@ namespace CC_Plugin
                     {
                         t.Start();
                         WriteOutput wo = new WriteOutput(runtest);
-                        MFParam.Set(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last(), "Masterformat", wo));
+                        MasterformatParam.Set(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last(), "Masterformat", wo));
                         t.Commit();
                     }
                 }
