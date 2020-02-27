@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
+/*
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string Dataset = directory + "\\CuratedData";
+        
+        string attb = "MFSection"
+        string ID = "Name"
+        
+        GetData(string Dataset, string ID, string Attb)
+*/
+
+
 namespace CC_Library
 {
     internal static class PredictionData
@@ -26,9 +37,9 @@ namespace CC_Library
                 PredList.Where(z => z.Word == Word).First().Accuracy = y[Array.IndexOf(y, y.Max())];
             }
         }
-        public static double CalcAccuracy(this List<PredictionElement> Predictions, string Word)
+        public static double CalcAccuracy(this List<PredictionElement> Predictions, string Word, string Dataset, string ID, string Attb)
         {
-            var Phrases = PredictionPhrase.GetData();
+            var Phrases = PredictionPhrase.GetData(Dataset, ID, Attb);
             double total = 0;
             double correct = 0;
             foreach(var P in Phrases.Where(a => a.Elements.Any(b => b == Word)))
