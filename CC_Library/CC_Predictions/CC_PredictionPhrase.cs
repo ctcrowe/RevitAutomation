@@ -12,6 +12,8 @@ using System.Reflection;
         
         string attb = "MFSection"
         string ID = "Name"
+        
+        GetData(string Dataset, string ID, string Attb)
 */
 
 namespace CC_Library
