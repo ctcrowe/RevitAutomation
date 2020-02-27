@@ -4,14 +4,28 @@ using System.Linq;
 using System.Xml.Linq;
 using System;
 
+/*
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string Dataset = directory + "\\CuratedData";
+        
+        string attb = "MFSection"
+        string ID = "Name"
+        
+        GetData(string Dataset, string ID, string Attb)
+        CalcAccuracy(this List<PredictionElement> Predictions, string Word, string Dataset, string ID, string Attb)
+*/
+
 namespace CC_Library
 {
     public delegate void Write(string s);
     public static class AdjustPredictions
     {
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Dataset = directory + "\\CC_XMLData";
+        private static string Dataset = directory + "\\CuratedData";
         private static string OutputFile = directory + "\\CC_MasterformatPredictor.xml";
+        
+        private const string ID = "Name";
+        private const string attb = "MFSection";
 
         internal static string RunFormula(List<PredictionElement> PEs)
         {
@@ -47,7 +61,7 @@ namespace CC_Library
         }
         internal static void RunAdjustment(this List<PredictionElement> elements, Write w)
         {                
-            List<PredictionPhrase> phrases = PredictionPhrase.GetData();
+            List<PredictionPhrase> phrases = PredictionPhrase.GetData(Dataset, ID, Attb);
             while(elements.Any(x => x.Accuracy < 1))
             {
                 foreach(var e in elements)
