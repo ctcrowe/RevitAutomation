@@ -18,4 +18,16 @@ namespace CC_Library.Parameters
         public Boolean Inst = false;
         public Boolean Fixed = true;
     }
+    public sealed class Depth : Param
+    {
+        public string Category = "Dimensions";
+        public string name = "oD";
+        public int type = ParamType.Length;
+        public Guid ID = new Guid("93acc448-a229-4d27-956f-c39ffd40c3c3");
+        public Boolean Vis = true;
+        public string Description = "USED TO DEFINE THE OVERALL OUTSIDE MAXIMUM DIMENSIONS OF AN OBJECT, REFERENCING FRONT AND BACK EXTREMES";
+        public Boolean UsrMod = true;
+        public Boolean Inst = false;
+        public Boolean Fixed = true;
+    }
 }
