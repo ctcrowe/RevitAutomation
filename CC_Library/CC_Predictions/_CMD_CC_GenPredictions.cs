@@ -14,12 +14,12 @@ namespace CC_Library
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static string Output = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public static string Run(string s, string Input, WriteOutput wo)
+        public static string Run(string Input, string dataset, WriteOutput wo)
         {
-            List<string> x = s.SplitTitle();
+            List<string> x = Input.SplitTitle();
             List<PredictionElement> pes = new List<PredictionElement>();
             var assembly = typeof(GenPredictions).GetTypeInfo().Assembly;
-            string name = assembly.GetManifestResourceNames().Where(z => z.Contains(Input)).First();
+            string name = assembly.GetManifestResourceNames().Where(z => z.Contains(dataset)).First();
             string outfile = Output + "//" + name.Split('.')[name.Split('.').Count() - 2] + ".xml";
             using (Stream stream = assembly.GetManifestResourceStream(name))
             {
