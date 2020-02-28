@@ -13,6 +13,6 @@ namespace CC_Library.Parameters
         public readonly Boolean UsrMod = true;
         public readonly Boolean Inst = false;
         public readonly Boolean Fixed = true;
-        public string value { get; set; }
+        public string Value { get; set; }
     }
 }
