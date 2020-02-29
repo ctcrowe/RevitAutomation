@@ -31,7 +31,7 @@ TODO: On element placed, check if its location is inside of a room.
 
             string id = "";
             if (string.IsNullOrEmpty(IDParam.Get(doc)))
-                id = IDParam.Set(doc);
+                id = IDParam.SetFamilyParam;
             else
                 id = IDParam.Get(doc);
 

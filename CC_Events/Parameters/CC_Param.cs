@@ -16,8 +16,9 @@ namespace CC_Plugin
     }
     internal static class SetRevitParams
     {
-        public static void SetFamilyParam(this CC_Library.Parameters.Param p, Document doc, string value)
+        public static string SetFamilyParam(this Param p, Document doc, string value)
         {
+            return "S";
             if (doc.IsFamilyDocument)
             {
                 if (doc.FamilyManager.get_Parameter(p.ID) == null)
@@ -27,7 +28,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void SetProjectParam(this CC_Library.Parameters.Param p, Document doc)
+        public static string SetProjectParam(this CC_Library.Parameters.Param p, Document doc)
         {
             if (!doc.IsFamilyDocument)
             {
@@ -45,7 +46,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void SetSpaceParam(this CC_Library.Parameters.Param p, Document doc)
+        public static string SetSpaceParam(this CC_Library.Parameters.Param p, Document doc)
         {
             if (!doc.IsFamilyDocument)
             {
@@ -64,7 +65,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void SetWallParam(this CC_Library.Parameters.Param p, Document doc)
+        public static string SetWallParam(this CC_Library.Parameters.Param p, Document doc)
         {
             if (!doc.IsFamilyDocument)
             {

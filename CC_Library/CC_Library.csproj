@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters\Class1.cs" />
+    <Compile Include="Parameters\Library\IDParam.cs" />
+    <Compile Include="Parameters\Library\FamilyNameParam.cs" />
     <Compile Include="Parameters\Library\MasterformatParam.cs" />
     <Compile Include="Parameters\ParamType.cs" />
     <Compile Include="CC_Predictions\CC_PredictionPhrase.cs" />
