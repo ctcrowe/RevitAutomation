@@ -4,14 +4,15 @@ namespace CC_Library.Parameters
 {
     public abstract class Param
     {
-        public string ParamGroup;
-        public string name;
-        public int type;
-        public Guid ID;
-        public Boolean Vis;
-        public string Description;
-        public Boolean UsrMod;
-        public Boolean Inst;
-        public Boolean Fixed;
+        public readonly string ParamGroup;
+        public readonly string name;
+        public readonly int type;
+        public readonly Guid ID;
+        public readonly Boolean Vis;
+        public readonly string Description;
+        public readonly Boolean UsrMod;
+        public readonly Boolean Inst;
+        public readonly Boolean Fixed;
+        pubic string Value;
     }
 }
