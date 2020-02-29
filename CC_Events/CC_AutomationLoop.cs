@@ -29,8 +29,8 @@ TODO: On element placed, check if its location is inside of a room.
                 catch { }
             }
 
-            string id = "";
-            if (string.IsNullOrEmpty(IDParam.Get(doc)))
+            IDParam id = new IDParam();
+            if (string.IsNullOrEmpty(AddRevitParams.AddProjectParam(id as Param, doc)))
                 id = IDParam.SetFamilyParam;
             else
                 id = IDParam.Get(doc);

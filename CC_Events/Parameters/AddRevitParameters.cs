@@ -4,11 +4,11 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.ApplicationServices;
 using CC_Library.Parameters;
 
-namespace CC_Plugin.Parameters
+namespace CC_Plugin
 {
     internal static class AddRevitParams
     {
-        public static void AddFamilyParam(this Param p, Document doc)
+        public static void AddFamilyParam(this<t> p, Document doc)
         {
             if (doc.IsFamilyDocument)
             {
