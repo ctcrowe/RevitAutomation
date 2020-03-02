@@ -4,15 +4,16 @@ namespace CC_Library.Parameters
 {
     public sealed class RoomOccupancy : Param
     {
-        public readonly string Category = "Rooms";
-        public readonly string name = "ROOM CATEGORY";
-        public readonly int type = ParamType.String;
-        public readonly Guid ID = new Guid("819cfd72-96c9-4fff-b303-4765879f9747");
-        public resadonly Boolean Vis = true;
-        public readomly string Description = "A REFERENCE TO THE OCCUPANCY OF THE ROOM.";
-        public readonly Boolean UsrMod = true;
-        public readonly Boolean Inst = true;
-        public readonly Boolean Fixed = true;
-        public string Value { get; set; }
+        private static readonly string _Category = "Rooms";
+        private static readonly string _Name = "ROOM CATEGORY";
+        private static readonly int _Type = ParamType.String;
+        private static readonly Guid _ID = new Guid("819cfd72-96c9-4fff-b303-4765879f9747");
+        private static readonly Boolean _Vis = true;
+        private static readonly string _Description = "A REFERENCE TO THE OCCUPANCY OF THE ROOM.";
+        private static readonly Boolean _UsrMod = true;
+        private static readonly Boolean _Inst = true;
+        private static readonly Boolean _Fixed = true;
+
+        public RoomOccupancy() : base(_Category, _Name, _Type, _ID, _Vis, _Description, _UsrMod, _Inst, _Fixed) { }
     }
 }

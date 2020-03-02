@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parameters\Class1.cs" />
+    <Compile Include="Parameters\Library\HeightParam.cs" />
+    <Compile Include="Parameters\Library\DepthParam.cs" />
+    <Compile Include="Parameters\Library\WidthParam.cs" />
     <Compile Include="Parameters\Library\IDParam.cs" />
     <Compile Include="Parameters\Library\FamilyNameParam.cs" />
     <Compile Include="Parameters\Library\MasterformatParam.cs" />

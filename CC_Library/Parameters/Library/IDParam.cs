@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CC_Library.Parameters
 {
-    public class IDParam
+    public sealed class IDParam : Param
     {
-        public string Category = "ID";
-        public string name = "ID";
-        public int type = ParamType.String;
-        public Guid ID = new Guid("dc2385d1-4c41-4a81-be07-834d54ed32a6");
-        public Boolean Vis = true;
-        public string Description = "AN ID REFERENCE FOR DATA TRACKING";
-        public Boolean UsrMod = false;
-        public Boolean Inst = false;
-        public Boolean Fixed = true;
+        private static readonly string _Category = "ID";
+        private static readonly string _Name = "ID";
+        private static readonly int _Type = ParamType.String;
+        private static readonly Guid _ID = new Guid("dc2385d1-4c41-4a81-be07-834d54ed32a6");
+        private static readonly Boolean _Vis = true;
+        private static readonly string _Description = "AN ID REFERENCE FOR DATA TRACKING";
+        private static readonly Boolean _UsrMod = false;
+        private static readonly Boolean _Inst = false;
+        private static readonly Boolean _Fixed = true;
+
+        public IDParam() : base(_Category, _Name, _Type, _ID, _Vis, _Description, _UsrMod, _Inst, _Fixed) { }
     }
 }

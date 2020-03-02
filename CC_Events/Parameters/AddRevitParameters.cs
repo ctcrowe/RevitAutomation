@@ -8,18 +8,25 @@ namespace CC_Plugin
 {
     internal static class AddRevitParams
     {
-        public static void AddFamilyParam(this<t> p, Document doc)
+        public static void AddComboParam<t>(this t p, Document doc) where t : Param
+        {
+            if (doc.IsFamilyDocument)
+                p.AddFamilyParam(doc);
+            else
+                p.AddProjectParam(doc);
+        }
+        public static void AddFamilyParam<t>(this t p, Document doc) where t : Param
         {
             if (doc.IsFamilyDocument)
             {
                 if (doc.FamilyManager.get_Parameter(p.ID) == null)
                 {
                     ExternalDefinition def = p.CreateDefinition(doc) as ExternalDefinition;
-                    doc.FamilyManager.AddParameter(def, BuiltInParameterGroup.PG_IFC, p.Inst);
+                    doc.FamilyManager.AddParameter(def, BuiltInParameterGroup.PG_IFC, p.IsInstance);
                 }
             }
         }
-        public static void AddProjectParam(this Param p, Document doc)
+        public static void AddProjectParam<t>(this t p, Document doc) where t : Param
         {
             if (!doc.IsFamilyDocument)
             {
@@ -37,7 +44,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void AddSpaceParam(this Param p, Document doc)
+        public static void AddSpaceParam<t>(this t p, Document doc) where t : Param
         {
             if (!doc.IsFamilyDocument)
             {
@@ -56,7 +63,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void AddWallParam(this Param p, Document doc)
+        public static void AddWallParam<t>(this t p, Document doc) where t : Param
         {
             if (!doc.IsFamilyDocument)
             {
@@ -67,7 +74,7 @@ namespace CC_Plugin
                     {
                         CategorySet set = new CategorySet();
                         set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Walls));
-                        if (p.Inst)
+                        if (p.IsInstance)
                         {
                             InstanceBinding binding = new InstanceBinding(set);
                             doc.ParameterBindings.Insert(def, binding);
@@ -82,7 +89,7 @@ namespace CC_Plugin
                 }
             }
         }
-        private static Definition CreateDefinition(this Param p, Document doc)
+        private static Definition CreateDefinition<t>(this t p, Document doc) where t : Param
         {
             string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string SharedParams = Location + "\\CC_SharedParams.txt";
@@ -91,26 +98,26 @@ namespace CC_Plugin
             app.SharedParametersFilename = SharedParams;
             DefinitionFile df = app.OpenSharedParameterFile();
 
-            if (df.Groups.get_Item(p.ParamGroup) == null)
+            if (df.Groups.get_Item(p.Group) == null)
             {
-                DefinitionGroup newgroup = df.Groups.Create(p.ParamGroup);
-                if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+                DefinitionGroup newgroup = df.Groups.Create(p.Group);
+                if (df.Groups.get_Item(p.Group).Definitions.get_Item(p.Name) == null)
                 {
                     return newgroup.Definitions.Create(p.CreateOptions());
                 }
                 else
                 {
-                    return newgroup.Definitions.get_Item(p.name);
+                    return newgroup.Definitions.get_Item(p.Name);
                 }
             }
-            DefinitionGroup group = df.Groups.get_Item(p.ParamGroup);
-            if (df.Groups.get_Item(p.ParamGroup).Definitions.get_Item(p.name) == null)
+            DefinitionGroup group = df.Groups.get_Item(p.Group);
+            if (df.Groups.get_Item(p.Group).Definitions.get_Item(p.Name) == null)
             {
                 return group.Definitions.Create(p.CreateOptions());
             }
             else
             {
-                return group.Definitions.get_Item(p.name);
+                return group.Definitions.get_Item(p.Name);
             }
         }
     }

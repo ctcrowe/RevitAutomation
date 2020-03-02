@@ -21,16 +21,15 @@ TODO: On element placed, check if its location is inside of a room.
         {
             List<ElementId> eids = data.GetAddedElementIds().ToList();
             Document doc = data.GetDocument();
-
+           
 
             if (doc.IsFamilyDocument)
             {
-                try { FamType.Setup(doc); }
-                catch { }
+                try { FamType.Setup(doc); } catch { }
+                try { AddRevitParams.AddFamilyParam(new IDParam(), doc); } catch { }
             }
 
-            IDParam id = new IDParam();
-            if (string.IsNullOrEmpty(AddRevitParams.AddProjectParam(id as Param, doc)))
+            if (string.IsNullOrEmpty(AddRevitParams.AddFamilyParam(id, doc)))
                 id = IDParam.SetFamilyParam;
             else
                 id = IDParam.Get(doc);

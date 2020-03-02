@@ -30,6 +30,10 @@ namespace CC_Plugin
                         }
                     }
                 }
+                Transactions.Run(new IDParam().AddComboParam(doc), doc);
+                IDParam p = new IDParam();
+                p.Transact(doc, AddRevitParams.AddFamilyParam(p, doc));
+                CommandLibrary.Transact(new CommandLibrary.DocCommand(AddRevitParams.AddFamilyParam(id, doc)));
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(MFParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(WidthParam.Add), doc);

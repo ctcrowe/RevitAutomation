@@ -2,16 +2,18 @@
 
 namespace CC_Library.Parameters
 {
-    class FamilyName
+    public sealed class FamilyName : Param
     {
-        public string Category = "ID";
-        public string name = "FNAME";
-        public int type = ParamType.String;
-        public Guid ID = new Guid("193b3ca2-da43-468f-adb2-3d8d4d300749");
-        public Boolean Vis = true;
-        public string Description = "A FAMILY NAME REFERENCE FOR DATA TRACKING";
-        public Boolean UsrMod = false;
-        public Boolean Inst = false;
-        public Boolean Fixed = true;
+        private static readonly string _Category = "ID";
+        private static readonly string _Name = "FNAME";
+        private static readonly int _Type = ParamType.String;
+        private static readonly Guid _ID = new Guid("193b3ca2-da43-468f-adb2-3d8d4d300749");
+        private static readonly Boolean _Vis = true;
+        private static readonly string _Description = "A FAMILY NAME REFERENCE FOR DATA TRACKING";
+        private static readonly  Boolean _UsrMod = false;
+        private static readonly Boolean _Inst = false;
+        private static readonly Boolean _Fixed = true;
+
+        public FamilyName() : base(_Category, _Name, _Type, _ID, _Vis, _Description, _UsrMod, _Inst, _Fixed) { }
     }
 }

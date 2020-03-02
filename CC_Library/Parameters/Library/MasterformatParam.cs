@@ -4,15 +4,16 @@ namespace CC_Library.Parameters
 {
     public sealed class MasterformatParam : Param 
     {
-        public readonly string Category = "BIMData";
-        public readonly string name = "MASTERFORMAT";
-        public readonly int type = ParamType.String;
-        public readonly Guid ID = new Guid("98eefdd9-495d-4b4c-912b-aa7ce952b142");
-        public readonly Boolean Vis = true;
-        public readonly string Description = "A REFERENCE TO THE OBJECTS MASTERFORMAT DIVISION.";
-        public readonly Boolean UsrMod = false;
-        public readonly Boolean Inst = false;
-        public readonly Boolean Fixed = true;
-        public string Value {get; set;}
+        private static readonly string _Category = "BIMData";
+        private static readonly string _Name = "MASTERFORMAT";
+        private static readonly int _Type = ParamType.String;
+        private static readonly Guid _ID = new Guid("98eefdd9-495d-4b4c-912b-aa7ce952b142");
+        private static readonly Boolean _Vis = true;
+        private static readonly string _Description = "A REFERENCE TO THE OBJECTS MASTERFORMAT DIVISION.";
+        private static readonly Boolean _UsrMod = false;
+        private static readonly Boolean _Inst = false;
+        private static readonly Boolean _Fixed = true;
+
+        public MasterformatParam() : base(_Category, _Name, _Type, _ID, _Vis, _Description, _UsrMod, _Inst, _Fixed) { }
     }
 }

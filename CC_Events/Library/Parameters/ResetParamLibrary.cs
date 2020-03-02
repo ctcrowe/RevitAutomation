@@ -1,15 +1,34 @@
 ﻿using System.Reflection;
 using System.IO;
 using Autodesk.Revit.DB;
+using CC_Library;
+using CC_Library.Parameters;
 using Autodesk.Revit.UI;
 
 namespace CC_Plugin
 {
-    public static class CommandLibrary
+    public static class Transactions
     {
         public delegate void DocCommand(Document doc);
         public delegate string DocStringCommand(Document doc);
         public delegate string StringBasedDocCommand(Document doc, string s);
+        public delegate void ParamDocCommand(Document doc);
+        public static void Run(ParamDocCommand pdc, Document doc)
+        {
+            using (Transaction trans = new Transaction(doc, "Run Command"))
+            {
+                trans.Start();
+                try
+                {
+                    pdc(p, doc);
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.RollBack();
+                }
+            }
+        }
         public static void Transact(DocCommand dc, Document doc)
         {
             using(Transaction t = new Transaction(doc, "Run Command"))

@@ -4,15 +4,16 @@ namespace CC_Library.Parameters
 {
     public sealed class HardwareSet : Param
     {
-        public readonly string Category = "Doors";
-        public readonly string name = "HARDWARE SET";
-        public readonly int type = ParamType.String;
-        public readonly Guid ID = new Guid("c58d15e9-068f-486c-886c-7e6db68b97e1");
-        public readonly Boolean Vis = true;
-        public readonly string Description = "Hardware set of each type of door.";
-        public readonly Boolean UsrMod = true;
-        public readonly Boolean Inst = false;
-        public readonly Boolean Fixed = true;
-        public string Value {get; set;}
+        private static readonly string _Category = "Doors";
+        private static readonly string _Name = "HARDWARE SET";
+        private static readonly int _Type = ParamType.String;
+        private static readonly Guid _ID = new Guid("c58d15e9-068f-486c-886c-7e6db68b97e1");
+        private static readonly Boolean _Vis = true;
+        private static readonly string _Description = "Hardware set of each type of door.";
+        private static readonly Boolean _UsrMod = true;
+        private static readonly Boolean _Inst = false;
+        private static readonly Boolean _Fixed = true;
+
+        public HardwareSet() : base(_Category, _Name, _Type, _ID, _Vis, _Description, _UsrMod, _Inst, _Fixed) { }
     }
 }
