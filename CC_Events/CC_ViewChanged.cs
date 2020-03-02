@@ -12,6 +12,7 @@ namespace CC_Plugin
     {
         public static void AddParams(Document doc, IDParam id)
         {
+            //TODO: Use reflection to Add all parameters to the correct location depending on what its ParamLocation is.
             WidthParam width = new WidthParam();
             HeightParam height = new HeightParam();
             DepthParam depth = new DepthParam();
