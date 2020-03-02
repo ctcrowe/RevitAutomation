@@ -13,9 +13,20 @@ namespace CC_Library.Parameters
         public Boolean IsUserModifiable;
         public Boolean IsInstance;
         public Boolean IsFixed;
+        public int Location;
         public string Value;
 
-        public Param(string pg, string n, int t, Guid id, Boolean v, string desc, Boolean u, Boolean i, Boolean f)
+        public Param(
+            string pg,
+            string n,
+            int t,
+            Guid id,
+            Boolean v,
+            string desc,
+            Boolean u,
+            Boolean i,
+            Boolean f,
+            int L)
         {
             this.Group = pg;
             this.Name = n;
@@ -26,6 +37,7 @@ namespace CC_Library.Parameters
             this.IsUserModifiable = u;
             this.IsInstance = i;
             this.IsFixed = f;
+            this.Location = L;
         }
     }
 }
