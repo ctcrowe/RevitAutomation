@@ -6,5 +6,6 @@ namespace CC_Library.Parameters
         public const int Project = 0;
         public const int Family = 1;
         public const int Both = 2;
+        public const int Space = 3;
     }
 }
