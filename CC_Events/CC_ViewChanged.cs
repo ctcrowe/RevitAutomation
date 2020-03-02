@@ -10,6 +10,23 @@ namespace CC_Plugin
 {
     class ViewChanged
     {
+        public static void AddParams(Document doc, IDParam id)
+        {
+            WidthParam width = new WidthParam();
+            HeightParam height = new HeightParam();
+            DepthParam depth = new DepthParam();
+            
+            
+            using(Transaction t = new Transaction(doc, "Add Params"))
+            {
+                t.Start();
+                id.AddComboParam(doc);
+                depth.AddFamilyParam(doc);
+                height.AddFamilyParam(doc);
+                width.AddFamilyParam(doc);
+                t.Commit();
+            }
+        }
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
             ResetParamLibrary.Run();
