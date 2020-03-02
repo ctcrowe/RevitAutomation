@@ -13,7 +13,7 @@ namespace CC_Plugin
         public delegate string DocStringCommand(Document doc);
         public delegate string StringBasedDocCommand(Document doc, string s);
         public delegate void ParamDocCommand(Document doc);
-        public static void Run(ParamDocCommand pdc, Document doc)
+        public static void Run(ParamDocCommand pdc, Document doc) wher
         {
             using (Transaction trans = new Transaction(doc, "Run Command"))
             {
