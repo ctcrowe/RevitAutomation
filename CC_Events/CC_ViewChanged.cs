@@ -23,6 +23,10 @@ namespace CC_Plugin
                 depth.AddFamilyParam(doc);
                 height.AddFamilyParam(doc);
                 width.AddFamilyParam(doc);
+                FamParam.AddFamilyParam(doc);
+                MFParam.AddFamilyParam(doc);
+                RoomOccupancy.AddSpaceParam(doc);
+                RoomPrivacy.AddSpaceParam(doc);
                 t.Commit();
             }
         }
@@ -49,10 +53,6 @@ namespace CC_Plugin
                 Transactions.Run(new IDParam().AddComboParam(doc), doc);
                 IDParam id = new IDParam();
                 AddParams(doc, id);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(MFParam.Add), doc);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(RoomOccupancy.AddSpaceParam), doc);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(RoomPrivacy.AddSpaceParam), doc);
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();
