@@ -16,7 +16,6 @@ namespace CC_Plugin
             HeightParam height = new HeightParam();
             DepthParam depth = new DepthParam();
             
-            
             using(Transaction t = new Transaction(doc, "Add Params"))
             {
                 t.Start();
@@ -48,14 +47,10 @@ namespace CC_Plugin
                     }
                 }
                 Transactions.Run(new IDParam().AddComboParam(doc), doc);
-                IDParam p = new IDParam();
-                p.Transact(doc, AddRevitParams.AddFamilyParam(p, doc));
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(AddRevitParams.AddFamilyParam(id, doc)));
+                IDParam id = new IDParam();
+                AddParams(doc, id);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(FamParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(MFParam.Add), doc);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(WidthParam.Add), doc);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(HeightParam.Add), doc);
-                CommandLibrary.Transact(new CommandLibrary.DocCommand(DepthParam.Add), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(RoomOccupancy.AddSpaceParam), doc);
                 CommandLibrary.Transact(new CommandLibrary.DocCommand(RoomPrivacy.AddSpaceParam), doc);
                 using (Transaction t = new Transaction(doc, "Set ID"))
