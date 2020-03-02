@@ -12,23 +12,28 @@ namespace CC_Plugin
     {
         public static void AddParams(Document doc, IDParam id)
         {
-            //TODO: Use reflection to Add all parameters to the correct location depending on what its ParamLocation is.
-            WidthParam width = new WidthParam();
-            HeightParam height = new HeightParam();
-            DepthParam depth = new DepthParam();
-            
-            using(Transaction t = new Transaction(doc, "Add Params"))
+            Foreach(var p in ...)
             {
-                t.Start();
-                id.AddComboParam(doc);
-                depth.AddFamilyParam(doc);
-                height.AddFamilyParam(doc);
-                width.AddFamilyParam(doc);
-                FamParam.AddFamilyParam(doc);
-                MFParam.AddFamilyParam(doc);
-                RoomOccupancy.AddSpaceParam(doc);
-                RoomPrivacy.AddSpaceParam(doc);
-                t.Commit();
+                using(Transaction t = new Transaction(doc, "Add Params"))
+                {
+                    t.Start();
+                    try
+                    {
+                    switch(p.Location)
+                    {
+                        case ParamLocation....
+                            break;
+                        case ParanLocation....
+                            break;
+                        case ParamLocation....
+                            break;
+                        case ParamLocation....
+                            break;
+                    }
+                    t.Commit();
+                    }
+                    catch { t.RollBack(); }
+                }
             }
         }
         private static void Execute(object sender, ViewActivatedEventArgs args)
