@@ -30,8 +30,7 @@ namespace CC_Plugin
                         }
                     }
                 }
-                IDParam id = new IDParam();
-                AddParams(doc, id);
+                AddParams(doc);
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();
