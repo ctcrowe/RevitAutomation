@@ -30,7 +30,6 @@ namespace CC_Plugin
                         }
                     }
                 }
-                Transactions.Run(new IDParam().AddComboParam(doc), doc);
                 IDParam id = new IDParam();
                 AddParams(doc, id);
                 using (Transaction t = new Transaction(doc, "Set ID"))
