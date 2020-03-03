@@ -8,6 +8,32 @@ namespace CC_Plugin
 {
     internal static class AddRevitParams
     {
+        public static void AddParams(Document doc, IDParam id)
+        {
+            Foreach(var p in ...)
+            {
+                using(Transaction t = new Transaction(doc, "Add Params"))
+                {
+                    t.Start();
+                    try
+                    {
+                    switch(p.Location)
+                    {
+                        case ParamLocation....
+                            break;
+                        case ParanLocation....
+                            break;
+                        case ParamLocation....
+                            break;
+                        case ParamLocation....
+                            break;
+                    }
+                    t.Commit();
+                    }
+                    catch { t.RollBack(); }
+                }
+            }
+        }
         public static void AddComboParam<t>(this t p, Document doc) where t : Param
         {
             if (doc.IsFamilyDocument)
