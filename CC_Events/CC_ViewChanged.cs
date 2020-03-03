@@ -10,32 +10,6 @@ namespace CC_Plugin
 {
     class ViewChanged
     {
-        public static void AddParams(Document doc, IDParam id)
-        {
-            Foreach(var p in ...)
-            {
-                using(Transaction t = new Transaction(doc, "Add Params"))
-                {
-                    t.Start();
-                    try
-                    {
-                    switch(p.Location)
-                    {
-                        case ParamLocation....
-                            break;
-                        case ParanLocation....
-                            break;
-                        case ParamLocation....
-                            break;
-                        case ParamLocation....
-                            break;
-                    }
-                    t.Commit();
-                    }
-                    catch { t.RollBack(); }
-                }
-            }
-        }
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
             ResetParamLibrary.Run();
