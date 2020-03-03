@@ -8,7 +8,7 @@ namespace CC_Plugin
 {
     internal static class AddRevitParams
     {
-        public static void AddParams(Document doc, IDParam id)
+        public static void AddParams(Document doc)
         {
             Foreach(var p in ...)
             {
