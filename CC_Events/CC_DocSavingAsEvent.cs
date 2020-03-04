@@ -23,13 +23,13 @@ namespace CC_Plugin
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();
-                    IDParam.Set(doc);
+                    //IDParam.Set(doc);
                     t.Commit();
                 }
                 using (Transaction t = new Transaction(doc, "Set Fam Name"))
                 {
                     t.Start();
-                    FamParam.Set(doc, args.PathName.Split('.').First().Split('\\').Last());
+                    //FamParam.Set(doc, args.PathName.Split('.').First().Split('\\').Last());
                     t.Commit();
                 }
                 if (doc.IsFamilyDocument)
@@ -38,7 +38,7 @@ namespace CC_Plugin
                     {
                         t.Start();
                         WriteOutput wo = new WriteOutput(runtest);
-                        MasterformatParam.Set(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last(), "Masterformat", wo));
+                        //MasterformatParam.Set(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last(), "Masterformat", wo));
                         t.Commit();
                     }
                 }

@@ -7,8 +7,8 @@ namespace CC_Plugin
     {
         public static ExternalDefinitionCreationOptions CreateOptions(this CC_Library.Parameters.Param p)
         {
-            ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(p.name, ParameterType.Integer);
-            switch(p.type)
+            ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(p.Name, ParameterType.Integer);
+            switch(p.Type)
             {
                 default: case ParamType.Int:
                         options.Type = ParameterType.Integer;
@@ -32,11 +32,11 @@ namespace CC_Plugin
                     options.Type = ParameterType.Area;
                     break;
             }
-            if (!p.Vis)
+            if (!p.IsVisible)
                 options.Visible = false;
             if (p.Description != null)
                 options.Description = p.Description;
-            if (!p.UsrMod)
+            if (!p.IsUserModifiable)
                 options.UserModifiable = false;
             options.GUID = p.ID;
 

@@ -13,7 +13,7 @@ namespace CC_Library.Parameters
         private static readonly Boolean _UsrMod = false;
         private static readonly Boolean _Inst = false;
         private static readonly Boolean _Fixed = true;
-        private static readonly int _Location = ParamLocation.Both;
+        private static readonly ParamLocation _Location = ParamLocation.Both;
 
         public IDParam() : base(_Category, _Name, _Type, _ID, _Vis, _Description, _UsrMod, _Inst, _Fixed, _Location) { }
     }

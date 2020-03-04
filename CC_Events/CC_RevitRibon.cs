@@ -35,9 +35,9 @@ namespace CC_Plugin
             try
             {
                 RefPlaneMaker.OnStartup(uiApp);
-                RoomParameterizer.OnStartup(uiApp);
+                //RoomParameterizer.OnStartup(uiApp);
                 CC_Automation.OnStartup(uiApp);
-                DocSynching.OnStartup(uiApp);
+                //DocSynching.OnStartup(uiApp);
                 FamLoadedEvent.OnStartup(uiApp);
                 DocSavingAs.OnStartup(uiApp);
             }
@@ -49,9 +49,9 @@ namespace CC_Plugin
         {
             ViewChanged.OnShutdown(uiApp);
             RefPlaneMaker.OnShutdown(uiApp);
-            RoomParameterizer.OnShutdown(uiApp);
+            //RoomParameterizer.OnShutdown(uiApp);
             CC_Automation.OnShutdown(uiApp);
-            DocSynching.OnShutdown(uiApp);
+            //DocSynching.OnShutdown(uiApp);
             FamLoadedEvent.OnShutdown(uiApp);
             DocSavingAs.OnShutdown(uiApp);
         }

@@ -47,9 +47,9 @@ namespace CC_Plugin
                 double f = Math.Abs(ts.TotalHours);
                 UpdateTime(id, f);
             }
-            string mark = IDParam.Get(doc) + "\t" + e;
+            /*string mark = IDParam.Get(doc) + "\t" + e;
             List<string> timemark = new List<string>() { mark };
-            File.WriteAllLines(timefile, timemark);
+            File.WriteAllLines(timefile, timemark);*/
         }
         public static void Run()
         {

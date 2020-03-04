@@ -33,7 +33,7 @@ namespace CC_Plugin
                 using (Transaction t = new Transaction(doc, "Set MF Param"))
                 {
                     t.Start();
-                    MFParam.Set(args.Application.ActiveUIDocument.Document, tb.Value.ToString());
+                    //MFParam.Set(args.Application.ActiveUIDocument.Document, tb.Value.ToString());
                     t.Commit();
                 }
             }

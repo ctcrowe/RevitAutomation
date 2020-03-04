@@ -28,7 +28,7 @@ TODO: On element placed, check if its location is inside of a room.
                 try { FamType.Setup(doc); } catch { }
                 try { AddRevitParams.AddFamilyParam(new IDParam(), doc); } catch { }
             }
-
+            /*
             if (string.IsNullOrEmpty(AddRevitParams.AddFamilyParam(id, doc)))
                 id = IDParam.SetFamilyParam;
             else
@@ -68,6 +68,7 @@ TODO: On element placed, check if its location is inside of a room.
                     Datapoint.Create(dataset);
                 }
             }
+            */
         }
         public static void OnStartup(UIControlledApplication application)
         {

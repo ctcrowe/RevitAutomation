@@ -8,7 +8,7 @@ using CC_Library.Parameters;
 
 namespace CC_Plugin
 {
-    class ViewChanged
+    internal class ViewChanged
     {
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
@@ -30,11 +30,11 @@ namespace CC_Plugin
                         }
                     }
                 }
-                AddParams(doc);
+                AddRevitParams.AddParams(doc);
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();
-                    IDParam.Set(doc);
+                    //IDParam.Set(doc);
                     t.Commit();
                 }
                 tg.Commit();

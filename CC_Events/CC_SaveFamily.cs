@@ -15,15 +15,15 @@ namespace CC_Plugin
                 using (Transaction t = new Transaction(doc, "get ID"))
                 {
                     t.Start();
-                    string id = IDParam.Get(doc);
+                    //string id = IDParam.Get(doc);
                     t.Commit();
                     if (!Directory.Exists(folder))
                     {
                         Directory.CreateDirectory(folder);
                     }
-                    string nf = folder + "\\" + id + ".rfa";
+                    //string nf = folder + "\\" + id + ".rfa";
                     string fp = doc.PathName;
-                    File.Copy(fp, nf, true);
+                    //File.Copy(fp, nf, true);
                 }
             }
         }

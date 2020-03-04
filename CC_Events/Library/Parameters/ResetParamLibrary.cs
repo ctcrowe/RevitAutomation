@@ -13,22 +13,6 @@ namespace CC_Plugin
         public delegate string DocStringCommand(Document doc);
         public delegate string StringBasedDocCommand(Document doc, string s);
         public delegate void ParamDocCommand(Document doc);
-        public static void Run(ParamDocCommand pdc, Document doc) wher
-        {
-            using (Transaction trans = new Transaction(doc, "Run Command"))
-            {
-                trans.Start();
-                try
-                {
-                    pdc(p, doc);
-                    trans.Commit();
-                }
-                catch
-                {
-                    trans.RollBack();
-                }
-            }
-        }
         public static void Transact(DocCommand dc, Document doc)
         {
             using(Transaction t = new Transaction(doc, "Run Command"))

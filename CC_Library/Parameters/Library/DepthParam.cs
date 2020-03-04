@@ -13,7 +13,7 @@ namespace CC_Library.Parameters
         private static readonly Boolean _UsrMod = true;
         private static readonly Boolean _Inst = false;
         private static readonly Boolean _Fixed = true;
-        private static readonly int _Location = ParamLocation.Family;
+        private static readonly ParamLocation _Location = ParamLocation.Family;
 
         public DepthParam() : base(_Category, _Name, _Type, _ID, _Vis, _Description, _UsrMod, _Inst, _Fixed, _Location) { }
     }

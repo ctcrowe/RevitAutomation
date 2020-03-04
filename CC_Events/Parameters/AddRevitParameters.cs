@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
+using System;
+using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.ApplicationServices;
 using CC_Library.Parameters;
@@ -10,25 +12,39 @@ namespace CC_Plugin
     {
         public static void AddParams(Document doc)
         {
-            Foreach(var p in ...)
+            Assembly a = Assembly.GetAssembly(typeof(Param));
+            var types = a.GetTypes();
+            foreach(var type in types.Where(x => x.IsSubclassOf(typeof(Param))))
             {
+                Param p = Activator.CreateInstance(type) as Param;
+
                 using(Transaction t = new Transaction(doc, "Add Params"))
                 {
                     t.Start();
                     try
                     {
-                    switch(p.Location)
-                    {
-                        case ParamLocation....
-                            break;
-                        case ParanLocation....
-                            break;
-                        case ParamLocation....
-                            break;
-                        case ParamLocation....
-                            break;
-                    }
-                    t.Commit();
+                        switch(p.Location)
+                        {
+                            default:
+                            case ParamLocation.Family:
+                                p.AddFamilyParam(doc);
+                                break;
+                            case ParamLocation.Project:
+                                p.AddProjectParam(doc);
+                                break;
+                            case ParamLocation.Both:
+                                p.AddComboParam(doc);
+                                break;
+                            case ParamLocation.Space:
+                                p.AddSpaceParam(doc);
+                                break;
+                            case ParamLocation.Wall:
+                                p.AddWallParam(doc);
+                                break;
+                            case ParamLocation.Door:
+                                break;
+                        }
+                        t.Commit();
                     }
                     catch { t.RollBack(); }
                 }
@@ -40,6 +56,32 @@ namespace CC_Plugin
                 p.AddFamilyParam(doc);
             else
                 p.AddProjectParam(doc);
+        }
+        public static void AddDoorParam<t>(this t p, Document doc) where t : Param
+        {
+            if (!doc.IsFamilyDocument)
+            {
+                Definition def = p.CreateDefinition(doc);
+                if (!doc.ParameterBindings.Contains(def))
+                {
+                    try
+                    {
+                        CategorySet set = new CategorySet();
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Doors));
+                        if (p.IsInstance)
+                        {
+                            InstanceBinding binding = new InstanceBinding(set);
+                            doc.ParameterBindings.Insert(def, binding);
+                        }
+                        else
+                        {
+                            TypeBinding binding = new TypeBinding(set);
+                            doc.ParameterBindings.Insert(def, binding);
+                        }
+                    }
+                    catch { }
+                }
+            }
         }
         public static void AddFamilyParam<t>(this t p, Document doc) where t : Param
         {
