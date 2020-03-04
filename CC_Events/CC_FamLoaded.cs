@@ -12,17 +12,6 @@ namespace CC_Plugin
         private static readonly string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string dir = directory + "\\CC_ElesByID";
 
-        public static Result OnStartup(UIControlledApplication app)
-        {
-            app.ControlledApplication.FamilyLoadedIntoDocument += new EventHandler<FamilyLoadedIntoDocumentEventArgs>(LoadEvent);
-            return Result.Succeeded;
-        }
-        public static Result OnShutdown(UIControlledApplication app)
-        {
-            app.ControlledApplication.FamilyLoadedIntoDocument -= new EventHandler<FamilyLoadedIntoDocumentEventArgs>(LoadEvent);
-            return Result.Succeeded;
-        }
-
         public static void LoadEvent(object sender, FamilyLoadedIntoDocumentEventArgs args)
         {
             if (!Directory.Exists(dir))
@@ -84,6 +73,16 @@ namespace CC_Plugin
                     return 2;
             }
             return 0;
+        }
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ControlledApplication.FamilyLoadedIntoDocument += new EventHandler<FamilyLoadedIntoDocumentEventArgs>(LoadEvent);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ControlledApplication.FamilyLoadedIntoDocument -= new EventHandler<FamilyLoadedIntoDocumentEventArgs>(LoadEvent);
+            return Result.Succeeded;
         }
     }
 }
