@@ -8,9 +8,9 @@ namespace CC_Library.Parameters
 {
     public enum ObjectCategory
     {
-        PLAN SWING,
-        HEAD,
-        JAMB,
+        PlanSwing,
+        Head,
+        Jamb,
         Sill
     }
 
