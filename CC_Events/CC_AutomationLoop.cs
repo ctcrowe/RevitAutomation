@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CC_Library;
 using CC_Library.Parameters;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB.Events;
 
 namespace CC_Plugin
 {
@@ -28,23 +26,25 @@ TODO: On element placed, check if its location is inside of a room.
                 try { FamType.Setup(doc); } catch { }
                 try { AddRevitParams.AddFamilyParam(new IDParam(), doc); } catch { }
             }
-            /*
-            if (string.IsNullOrEmpty(AddRevitParams.AddFamilyParam(id, doc)))
-                id = IDParam.SetFamilyParam;
-            else
-                id = IDParam.Get(doc);
+
+            IDParam id = new IDParam();
+            id.GetIDParam(doc);
+            if (string.IsNullOrEmpty(id.Value))
+                id.SetIDParam(doc);
 
             foreach (ElementId eid in eids)
             {
                 FamilyInstance inst = doc.GetElement(eid) as FamilyInstance;
+                IDParam eleid = new IDParam();
+                MasterformatParam mp = new MasterformatParam();
                 if (inst != null)
                 {
                     Dictionary<string, string> dataset = new Dictionary<string, string>();
                     try { dataset.Add("Name", inst.Symbol.Family.Name); } catch { }
-                    try { dataset.Add("EleID", IDParam.Get(inst)); } catch { }
-                    try { dataset.Add("MFSection", CC_Library.Parameters.MasterformatParam.Get(inst)); }  catch { }
+                    try { dataset.Add("EleID", eleid.GetEleParam(inst)); } catch { }
+                    try { dataset.Add("MFSection", mp.GetEleParam(inst)); }  catch { }
                     try { dataset.Add("PrevID", Datapoint.GetPreviousElement()); } catch { }
-                    try { dataset.Add("PrjID", id); } catch { }
+                    try { dataset.Add("PrjID", id.Value); } catch { }
                     try { dataset.Add("PlaceTime", DateTime.Now.ToString("yyyyMMddhhmmss")); } catch { }
                     try { dataset.Add("View", doc.ActiveView.Name); } catch { }
                     try { dataset.Add("Category", inst.Category.Name); } catch { }
@@ -55,7 +55,7 @@ TODO: On element placed, check if its location is inside of a room.
                     }
                     catch { }
 
-                    string time = ProjectTime.Get(id);
+                    string time = ProjectTime.Get(id.Value);
                     if (time != null)
                     { try { dataset.Add("ProjectTime", time); } catch { } }
 
@@ -68,7 +68,6 @@ TODO: On element placed, check if its location is inside of a room.
                     Datapoint.Create(dataset);
                 }
             }
-            */
         }
         public static void OnStartup(UIControlledApplication application)
         {

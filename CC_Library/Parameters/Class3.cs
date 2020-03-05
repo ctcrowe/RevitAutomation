@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Parameters
 {
-
-
-
     class Class3
     {
         /*

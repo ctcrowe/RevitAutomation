@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
@@ -31,11 +29,16 @@ namespace CC_Plugin
                     }
                 }
                 AddRevitParams.AddParams(doc);
-                using (Transaction t = new Transaction(doc, "Set ID"))
+                IDParam id = new IDParam();
+                id.GetIDParam(doc);
+                if (string.IsNullOrEmpty(id.Value))
                 {
-                    t.Start();
-                    //IDParam.Set(doc);
-                    t.Commit();
+                    using (Transaction t = new Transaction(doc, "Set ID"))
+                    {
+                        t.Start();
+                        id.SetIDParam(doc);
+                        t.Commit();
+                    }
                 }
                 tg.Commit();
             }

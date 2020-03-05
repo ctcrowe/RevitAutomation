@@ -2,7 +2,7 @@
 
 namespace CC_Library.Parameters
 {
-    public abstract class Param
+    public class Param
     {
         public string Group;
         public string Name;
@@ -15,6 +15,8 @@ namespace CC_Library.Parameters
         public Boolean IsFixed;
         public ParamLocation Location;
         public string Value;
+
+        public delegate void AddParam(dynamic doc);
 
         public Param(
             string pg,

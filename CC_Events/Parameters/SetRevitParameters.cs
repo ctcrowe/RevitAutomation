@@ -12,14 +12,14 @@ namespace CC_Plugin
 {
     internal static class SetRevitParams
     {
-        public static string SetIDParam(this IDParam p, Document doc)
+        public static void SetIDParam(this IDParam p, Document doc)
         {
             string id = Guid.NewGuid().ToString("N");
             if (doc.IsFamilyDocument)
                 SetFamilyParam(p, doc, id);
             else
                 SetProjectParam(p, doc, id);
-            return id;
+            p.Value = id;
         }
         public static void SetFamilyParam(this Param p, Document doc, string value)
         {
