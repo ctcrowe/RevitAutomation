@@ -8,8 +8,9 @@ namespace CC_Library.Parameters
 {
     public enum ObjectCategory
     {
-        Head,
-        Jamb,
+        PLAN SWING,
+        HEAD,
+        JAMB,
         Sill
     }
 
