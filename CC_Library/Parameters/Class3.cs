@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Parameters
 {
+    public enum ObjectCategory
+    {
+        PlanSwing,
+        Head,
+        Jamb,
+        Sill
+    }
+
+
     class Class3
     {
         /*
