@@ -54,6 +54,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Categories\AddCategories.cs" />
     <Compile Include="CC_ProjectData.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneDetailCollector.cs" />
     <Compile Include="Automation\RefPlanes\PlaneTypeUpdater.cs" />

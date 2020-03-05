@@ -14,7 +14,6 @@ namespace CC_Library.Parameters
         Sill
     }
 
-
     class Class3
     {
         /*

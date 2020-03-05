@@ -36,6 +36,12 @@ namespace CC_Plugin
                 }
                 if (doc.IsFamilyDocument)
                 {
+                    using (Transaction t = new Transaction(doc, "Add Categories"))
+                    {
+                        t.Start();
+                        doc.AddCategories();
+                        t.Commit();
+                    }
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
