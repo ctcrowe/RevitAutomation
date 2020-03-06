@@ -27,6 +27,12 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
+                    using (Transaction t = new Transaction(doc, "Add Categories"))
+                    {
+                        t.Start();
+                        doc.AddCategories();
+                        t.Commit();
+                    }
                 }
                 AddRevitParams.AddParams(doc);
                 IDParam id = new IDParam();

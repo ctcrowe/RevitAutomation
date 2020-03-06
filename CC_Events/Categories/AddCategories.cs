@@ -1,6 +1,6 @@
 ﻿using System;
 using Autodesk.Revit.DB;
-using CC_Library.Parameters;
+using CC_Library;
 
 namespace CC_Plugin
 {
@@ -10,7 +10,7 @@ namespace CC_Plugin
         {
             if(doc.IsFamilyDocument)
             {
-                Category cat = doc.OwnerFamily.Category;
+                Category cat = Category.GetCategory(doc, doc.OwnerFamily.FamilyCategoryId);
                 var values = Enum.GetNames(typeof(ObjectCategory));
                 foreach(string s in values)
                 {
