@@ -13,6 +13,10 @@ Version 2.0
                 3b) iterate through dimensional options (from 1 - 100) to see where solutions best fit.
                 3c) accept the new locations of the words and results as 2 separate files that control how to resolve a prediction
         4) Word 2 Vec style analysis.
+        5) each predictive result then exists as a set of 20 dimensional arrays
+        6) any input can be judged on a 20 dimensional array if any of the words are in the array.
+-Words can then be judged as a distance and as a closest, using basic geometry.
+-the computer then can find similarities between objects, rather than just a guess at a set of options.
 */
 
 /*
