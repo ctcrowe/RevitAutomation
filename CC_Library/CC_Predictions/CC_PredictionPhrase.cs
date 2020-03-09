@@ -20,7 +20,7 @@ Version 2.0
 
 internal class PredictionArray
 {
-        Dictionary<string, int[]> Data = new Dictionary<string, int[]>();
+        private Dictionary<string, int[]> Data = new Dictionary<string, int[]>();
 }
 */
 
