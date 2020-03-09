@@ -38,6 +38,12 @@ internal class SolvedDataPoint
         {
         }
 }
+public static class ResultantVector
+{
+    public static void FindResult(this string s, string solutionname)
+    {
+    }
+}
 */
 
 /*
