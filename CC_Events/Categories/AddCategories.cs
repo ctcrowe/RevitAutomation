@@ -57,7 +57,7 @@ namespace CC_Plugin
 
                             if (gStyle != null)
                             {
-                                categories.Add(gStyle.GraphicsStyleCategory.Name, "1");
+                                categories.Add(gStyle.GraphicsStyleCategory.Name.SimplifyTitle(), "CATEGORY");
                             }
                         }
                     }
