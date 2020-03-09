@@ -29,8 +29,7 @@ namespace CC_Plugin
         }
         public static Dictionary<string, string> GetCategories(this Element ele)
         {
-            GeometryElement geoElem = ele.get_Geometry(
-              new Options());
+            GeometryElement geoElem = ele.get_Geometry(new Options());
 
             Dictionary<string, string> categories = new Dictionary<string, string>();
 
@@ -54,12 +53,11 @@ namespace CC_Plugin
 
                             ElementId id = solid.GraphicsStyleId;
 
-                            GraphicsStyle gStyle = ele.Document.GetElement(
-                              id) as GraphicsStyle;
+                            GraphicsStyle gStyle = ele.Document.GetElement(id) as GraphicsStyle;
 
                             if (gStyle != null)
                             {
-                                categories.Add("Category", gStyle.GraphicsStyleCategory.Name);
+                                categories.Add(gStyle.GraphicsStyleCategory.Name, "1");
                             }
                         }
                     }
