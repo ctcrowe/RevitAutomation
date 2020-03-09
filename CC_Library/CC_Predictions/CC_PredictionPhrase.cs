@@ -19,6 +19,7 @@ Version 2.0
 -the computer then can find similarities between objects, rather than just a guess at a set of options.
 -This will also let us draw conclusions that havent been dealt with before, by cross contaminating datasets to solution sets.
 -The first dataset will initialize everything to 0 and everything will hopefully expand away from 0. If something is too close to 0, its accuracy is lower.
+-this function will effectively be able to create solutions with minimal background (hopefully) by modifying the existing values over time.
 
 internal class PredictionArray
 {
