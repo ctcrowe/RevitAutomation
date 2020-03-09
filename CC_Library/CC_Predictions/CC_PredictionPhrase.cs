@@ -21,6 +21,8 @@ Version 2.0
 internal class PredictionArray
 {
         private var Data = new Dictionary<string, double[]>();
+        private var Solution = new Dictionary<string, double[]>();
+        
 }
 */
 
