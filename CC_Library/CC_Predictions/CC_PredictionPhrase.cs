@@ -27,6 +27,16 @@ internal class PredictionArray
         private var Solution = new Dictionary<string, double[]>();
         
 }
+internal class SolvedDataPoint
+{
+        private string DataName;
+        private string SolutionName;
+        private string SolutionValue;
+        
+        public SolvedDataPoint(string dataname, string solutionname, string solutionvalue)
+        {
+        }
+}
 */
 
 /*
