@@ -3,6 +3,19 @@ using System.IO;
 using System.Xml.Linq;
 
 /*
+Version 2.0
+-Every Prediction will be assessed on a 20 dimensional unknown parameter array.
+-The sequence will work as follows
+        1) set all assessments to their existing values in the library
+        2) Add new values
+        3) Run a prediction on the given values
+                3a) iterate through dimensional options (from 1 - 100) to see where a phrase is best fit.
+                3b) iterate through dimensional options (from 1 - 100) to see where solutions best fit.
+                3c) accept the new locations of the words and results as 2 separate files that control how to resolve a prediction
+        4) Word 2 Vec style analysis.
+*/
+
+/*
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static string Dataset = directory + "\\CuratedData";
         
