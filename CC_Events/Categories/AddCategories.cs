@@ -1,7 +1,12 @@
 ﻿using System;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using CC_Library;
-//https://adndevblog.typepad.com/aec/2012/05/accessing-subcategory-information-from-inplace-family-instances.html
+using System.IO;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Linq;
+
 namespace CC_Plugin
 {
     public static class CCAddCategories
@@ -22,15 +27,45 @@ namespace CC_Plugin
                 }
             }
         }
-    }
-    public static void GetCategories(this Element ele)
-    {
-        GeometryElement ge = ele.Geometry;
-        foreach(GeometryObject go in ge)
+        public static Dictionary<string, string> GetCategories(this Element ele)
         {
-            if(go is GeometryInstance)
+            GeometryElement geoElem = ele.get_Geometry(
+              new Options());
+
+            Dictionary<string, string> categories = new Dictionary<string, string>();
+
+            FamilyInstance inst = ele as FamilyInstance;
+            categories.Add("NAME", inst.Symbol.Family.Name);
+            foreach (GeometryObject obj in geoElem)
             {
+                if (obj is GeometryInstance)
+                {
+                    GeometryInstance geoInst
+                      = obj as GeometryInstance;
+
+                    GeometryElement geoElem2
+                      = geoInst.GetSymbolGeometry();
+
+                    foreach (GeometryObject geoObj2 in geoElem2)
+                    {
+                        if (geoObj2 is Solid)
+                        {
+                            Solid solid = geoObj2 as Solid;
+
+                            ElementId id = solid.GraphicsStyleId;
+
+                            GraphicsStyle gStyle = ele.Document.GetElement(
+                              id) as GraphicsStyle;
+
+                            if (gStyle != null)
+                            {
+                                categories.Add("Category", gStyle.GraphicsStyleCategory.Name);
+                            }
+                        }
+                    }
+                }
             }
+            return categories;
         }
     }
 }

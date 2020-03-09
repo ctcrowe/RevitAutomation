@@ -9,10 +9,9 @@ namespace CC_Plugin
     internal class Datapoint
     {
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string dir = directory + "\\CC_XMLData";
         private const string root = "Data";
 
-        public static string GetPreviousElement()
+        public static string GetPreviousElement(string dir)
         {
             var dinfo = new DirectoryInfo(dir);
             if (Directory.GetFiles(dir).Length > 0)
@@ -26,7 +25,7 @@ namespace CC_Plugin
             }
             return "Null ID";
         }
-        public static void Create(Dictionary<string, string> data)
+        public static void Create(Dictionary<string, string> data, string dir)
         {
             string guid = Guid.NewGuid().ToString("N");
             string fn = dir + "\\" + guid + ".xml";

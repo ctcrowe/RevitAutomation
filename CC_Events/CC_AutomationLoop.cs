@@ -15,6 +15,7 @@ TODO: On element placed, check if its location is inside of a room.
 */
     internal class CC_Automation : IUpdater
     {
+        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public void Execute(UpdaterData data)
         {
             List<ElementId> eids = data.GetAddedElementIds().ToList();
@@ -39,11 +40,12 @@ TODO: On element placed, check if its location is inside of a room.
                 MasterformatParam mp = new MasterformatParam();
                 if (inst != null)
                 {
+                    Datapoint.Create(doc.GetElement(eid).GetCategories(), directory + "\\CC_CatData");
                     Dictionary<string, string> dataset = new Dictionary<string, string>();
                     try { dataset.Add("Name", inst.Symbol.Family.Name); } catch { }
                     try { dataset.Add("EleID", eleid.GetEleParam(inst)); } catch { }
                     try { dataset.Add("MFSection", mp.GetEleParam(inst)); }  catch { }
-                    try { dataset.Add("PrevID", Datapoint.GetPreviousElement()); } catch { }
+                    try { dataset.Add("PrevID", Datapoint.GetPreviousElement(directory + "\\CC_XMLData")); } catch { }
                     try { dataset.Add("PrjID", id.Value); } catch { }
                     try { dataset.Add("PlaceTime", DateTime.Now.ToString("yyyyMMddhhmmss")); } catch { }
                     try { dataset.Add("View", doc.ActiveView.Name); } catch { }
@@ -65,7 +67,7 @@ TODO: On element placed, check if its location is inside of a room.
                         try { dataset.Add("RmNumber", inst.Room.Number.ToString()); } catch { }
                         try { dataset.Add("ViewType", doc.ActiveView.GetType().Name); } catch { }
                     }
-                    Datapoint.Create(dataset);
+                    Datapoint.Create(dataset, directory + "\\CC_XMLData");
                 }
             }
         }
