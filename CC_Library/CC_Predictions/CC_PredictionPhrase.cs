@@ -17,6 +17,7 @@ Version 2.0
         6) any input can be judged on a 20 dimensional array if any of the words are in the array.
 -Words can then be judged as a distance and as a closest, using basic geometry.
 -the computer then can find similarities between objects, rather than just a guess at a set of options.
+-This will also let us draw conclusions that havent been dealt with before, by cross contaminating datasets to solution sets.
 
 internal class PredictionArray
 {
