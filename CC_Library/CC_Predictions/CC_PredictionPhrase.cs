@@ -9,8 +9,8 @@ Version 2.0
         1) set all assessments to their existing values in the library
         2) Add new values
         3) Run a prediction on the given values
-                3a) iterate through dimensional options (from 1 - 100) to see where a phrase is best fit.
-                3b) iterate through dimensional options (from 1 - 100) to see where solutions best fit.
+                3a) iterate through dimensional options (from -100 to 100) to see where a phrase is best fit.
+                3b) iterate through dimensional options (from -100 to 100) to see where solutions best fit.
                 3c) accept the new locations of the words and results as 2 separate files that control how to resolve a prediction
         4) Word 2 Vec style analysis.
         5) each predictive result then exists as a set of 20 dimensional arrays
@@ -18,6 +18,7 @@ Version 2.0
 -Words can then be judged as a distance and as a closest, using basic geometry.
 -the computer then can find similarities between objects, rather than just a guess at a set of options.
 -This will also let us draw conclusions that havent been dealt with before, by cross contaminating datasets to solution sets.
+-The first dataset will initialize everything to 0 and everything will hopefully expand away from 0. If something is too close to 0, its accuracy is lower.
 
 internal class PredictionArray
 {
