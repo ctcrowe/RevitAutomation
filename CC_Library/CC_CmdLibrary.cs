@@ -21,6 +21,20 @@ namespace CC_Library
                 action(element);
             }
         }
+        public double PowX(this int x, this int y)
+        {
+            double z = x;
+            for(int i = 1; i < y.Abs(); i++)
+            {
+                z *= x;
+            }
+            if(x == 0)
+                return 1;
+            if(x > 0)
+                return z;
+            else
+                return 1 / z;
+        }
         public static double PowTen(this int x)
         {
             double v = 10;
