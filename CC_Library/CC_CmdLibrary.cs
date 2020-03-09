@@ -72,6 +72,15 @@ namespace CC_Library
             }
             return data;
         }
+        public static string SimplifyTitle(this string s)
+        {
+            char[] delimitters = { ',', '.', ' ', '-' , '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+            List<string> Array = s.Split(delimitters).ToList();
+            string x = string.Empty;
+            foreach(string a in Array)
+                x += a;
+            return x;
+        }
         public static XDocument ToXDocument(this XmlDocument xmlDocument)
         {
             using (var nodeReader = new XmlNodeReader(xmlDocument))
