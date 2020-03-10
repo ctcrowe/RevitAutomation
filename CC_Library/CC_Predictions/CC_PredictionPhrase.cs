@@ -59,6 +59,10 @@ public static class ResultantVector
 {
     public static void FindResultantVector(this string s, string solutionname)
     {
+        var title = s.SplitTitle();
+        foreach(string t in title)
+        {
+        }
     }
 }
 */
