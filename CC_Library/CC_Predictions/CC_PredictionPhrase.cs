@@ -21,12 +21,15 @@ Version 2.0
 -The first dataset will initialize everything to 0 and everything will hopefully expand away from 0. If something is too close to 0, its accuracy is lower.
 -this function will effectively be able to create solutions with minimal background (hopefully) by modifying the existing values over time.
 -The prediction has to run first on the results to create variety, otherwise the distance will always be the same for everything yielding no values!
-private Enumerable Datafiles
+private Enumerable DataFile
 {
 }
 //Used to access the datafiles embedded in the dll file from the Enum
 internal static class CMDGetDataSet
 {
+        public static void GetDataSet(this DataFile df)
+        {
+        }
 }
 internal class Data
 {
