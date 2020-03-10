@@ -24,6 +24,7 @@ Version 2.0
 private Enumerable Datafiles
 {
 }
+//Used to access the datafiles embedded in the dll file from the Enum
 internal class CMDGetDataSet
 {
 }
