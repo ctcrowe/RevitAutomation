@@ -48,8 +48,11 @@ internal class Solution
         private string SolutionName;
         private string SolutionValue;
         
-        public SolvedDataPoint(string dataname, string solutionname, string solutionvalue)
+        public Solution(string dataname, string solutionname, string solutionvalue)
         {
+                this.DataName = dataname;
+                this.SolutionName = solutionname;
+                this.SolutionValue = solutionvalue;
         }
 }
 public static class ResultantVector
