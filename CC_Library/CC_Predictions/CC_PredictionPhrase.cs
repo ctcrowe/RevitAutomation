@@ -60,16 +60,6 @@ public static class ResultantVector
 }
 */
 
-/*
-        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Dataset = directory + "\\CuratedData";
-        
-        string attb = "MFSection"
-        string ID = "Name"
-        
-        GetData(string Dataset, string ID, string Attb)
-*/
-
 namespace CC_Library
 {
     internal class PredictionPhrase
