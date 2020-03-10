@@ -23,6 +23,9 @@ Version 2.0
 -The prediction has to run first on the results to create variety, otherwise the distance will always be the same for everything yielding no values!
 private Enumerable DataFile
 {
+        TextData,
+        Masteformat,
+        Subcategory
 }
 //Used to access the datafiles embedded in the dll file from the Enum
 internal static class CMDGetDataSet
