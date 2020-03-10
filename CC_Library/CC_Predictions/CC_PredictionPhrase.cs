@@ -22,11 +22,13 @@ Version 2.0
 -this function will effectively be able to create solutions with minimal background (hopefully) by modifying the existing values over time.
 -The prediction has to run first on the results to create variety, otherwise the distance will always be the same for everything yielding no values!
 
-internal class PredictionArray
+internal class Datapoint
 {
-        private var Data = new Dictionary<string, double[]>();
-        private var Solution = new Dictionary<string, double[]>();
-        
+        public double[] Dataset;
+        public Datapoint()
+        {
+                this.Dataset = new double[20];
+        }
 }
 internal class Solution
 {
