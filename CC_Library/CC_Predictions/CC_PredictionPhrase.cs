@@ -22,11 +22,23 @@ Version 2.0
 -this function will effectively be able to create solutions with minimal background (hopefully) by modifying the existing values over time.
 -The prediction has to run first on the results to create variety, otherwise the distance will always be the same for everything yielding no values!
 
-internal class Datapoint
+internal class DataPhrase
 {
+        public string Phrase;
         public double[] Dataset;
-        public Datapoint()
+        public DataPhrase(string phrase)
         {
+                this.Phrase = phrase;
+                this.Dataset = new double[20];
+        }
+}
+internal class SolutionPhrase
+{
+        public string Phrase;
+        public double[] Dataset;
+        public SolutionPhrase(string phrase)
+        {
+                this.Phrase = phrase;
                 this.Dataset = new double[20];
         }
 }
