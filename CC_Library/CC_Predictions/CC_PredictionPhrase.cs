@@ -32,16 +32,6 @@ internal class DataPhrase
                 this.Dataset = new double[20];
         }
 }
-internal class SolutionPhrase
-{
-        public string Phrase;
-        public double[] Dataset;
-        public SolutionPhrase(string phrase)
-        {
-                this.Phrase = phrase;
-                this.Dataset = new double[20];
-        }
-}
 internal class Solution
 {
         private string DataName;
@@ -60,8 +50,10 @@ public static class ResultantVector
     public static void FindResultantVector(this string s, string solutionname)
     {
         var title = s.SplitTitle();
+        double[] FinVector = new double[20];
         foreach(string t in title)
         {
+            if(
         }
     }
 }
