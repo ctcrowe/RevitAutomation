@@ -28,7 +28,7 @@ internal class PredictionArray
         private var Solution = new Dictionary<string, double[]>();
         
 }
-internal class SolvedDataPoint
+internal class Solution
 {
         private string DataName;
         private string SolutionName;
@@ -40,7 +40,7 @@ internal class SolvedDataPoint
 }
 public static class ResultantVector
 {
-    public static void FindResult(this string s, string solutionname)
+    public static void FindResultantVector(this string s, string solutionname)
     {
     }
 }
