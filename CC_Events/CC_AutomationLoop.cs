@@ -40,7 +40,9 @@ TODO: On element placed, check if its location is inside of a room.
                 MasterformatParam mp = new MasterformatParam();
                 if (inst != null)
                 {
-                    Datapoint.Create(doc.GetElement(eid).GetCategories(), directory + "\\CC_CatData");
+                    var cats = doc.GetElement(eid).GetCategories();
+                    if(cats.Count != 0)
+                        Datapoint.Create(cats, directory + "\\CC_CatData");
                     Dictionary<string, string> dataset = new Dictionary<string, string>();
                     try { dataset.Add("Name", inst.Symbol.Family.Name); } catch { }
                     try { dataset.Add("EleID", eleid.GetEleParam(inst)); } catch { }
