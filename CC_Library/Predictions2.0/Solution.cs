@@ -19,4 +19,8 @@ namespace CC_Library.Predictions
             this.SolutionValue = solutionvalue;
         }
     }
+    internal static class CMDGetSolution
+    {
+        public static Solution GetSolution(this 
+    }
 }
