@@ -19,6 +19,18 @@ namespace CC_Library.Predictions
             this._SolutionName = solutionname;
             this._SolutionValue = solutionvalue;
         }
+        public string DataName()
+        {
+            return _DataName;
+        }
+        public string SolutionName()
+        {
+            return _SolutionName;
+        }
+        public string SolutionValue()
+        {
+            return _SolutionValue;
+        }
     }
     internal static class CMDGetSolution
     {
