@@ -9,15 +9,15 @@ namespace CC_Library.Predictions
 {
     internal class Solution
     {
-        private string DataName;
-        private string SolutionName;
-        private string SolutionValue;
+        private string _DataName;
+        private string _SolutionName;
+        private string _SolutionValue;
 
         public Solution(string dataname, string solutionname, string solutionvalue)
         {
-            this.DataName = dataname;
-            this.SolutionName = solutionname;
-            this.SolutionValue = solutionvalue;
+            this._DataName = dataname;
+            this._SolutionName = solutionname;
+            this._SolutionValue = solutionvalue;
         }
     }
     internal static class CMDGetSolution
