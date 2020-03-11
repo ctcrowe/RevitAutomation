@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace CC_Library
 {
-    internal static class CMDLibrary
+    public static class CMDLibrary
     {
         public static int Abs(this int x)
         {
@@ -21,7 +21,7 @@ namespace CC_Library
                 action(element);
             }
         }
-        public double PowX(this int x, this int y)
+        public static double PowX(this int x, int y)
         {
             double z = x;
             for(int i = 1; i < y.Abs(); i++)
