@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,17 @@ namespace CC_Library.Predictions
         }
         public static Solution GetSolution(this string fn)
         {
+            if(File.Exists(fn))
+            {
+                string[] lines = File.ReadAllLines(fn);
+                if(lines.Count() >= 4)
+                {
+                    return new Solution(lines[2].Split('\t').First(),
+                                        lines[1].Split('\t').First(),
+                                        lines[3].Split('\t').First());
+                }
+            }
+            return new Solution("null", "null", "null");
         }
     }
 }
