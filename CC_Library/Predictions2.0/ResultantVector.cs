@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
 
             for(int i = 0; i < 20; i++)
             {
-                vector.SetValue(i, vector.GetValue(i) / 20);
+                vector.SetValue(i, vector.GetValue(i) / title.Count());
             }
 
             var results = df.GetDataSet();
