@@ -22,9 +22,6 @@ namespace CC_Library.Predictions
     }
     internal static class CMDGetSolution
     {
-        public static Solution GetSolution(this XElement ele)
-        {
-        }
         public static Solution GetSolution(this string fn)
         {
             if(File.Exists(fn))
