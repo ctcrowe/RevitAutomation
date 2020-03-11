@@ -21,39 +21,54 @@ Version 2.0
 -The first dataset will initialize everything to 0 and everything will hopefully expand away from 0. If something is too close to 0, its accuracy is lower.
 -this function will effectively be able to create solutions with minimal background (hopefully) by modifying the existing values over time.
 -The prediction has to run first on the results to create variety, otherwise the distance will always be the same for everything yielding no values!
-
-internal class PredictionArray
+private Enum DataFile
 {
-        private var Data = new Dictionary<string, double[]>();
-        private var Solution = new Dictionary<string, double[]>();
-        
+        TextData,
+        Masteformat,
+        Subcategory
 }
-internal class SolvedDataPoint
+//Used to access the datafiles embedded in the dll file from the Enum
+internal static class CMDGetDataSet
+{
+        public static void GetDataSet(this DataFile df)
+        {
+        }
+}
+internal class Data
+{
+        public string Phrase;
+        public double[] Dataset;
+        public Data(string phrase)
+        {
+                this.Phrase = phrase;
+                this.Dataset = new double[20];
+        }
+}
+internal class Solution
 {
         private string DataName;
         private string SolutionName;
         private string SolutionValue;
         
-        public SolvedDataPoint(string dataname, string solutionname, string solutionvalue)
+        public Solution(string dataname, string solutionname, string solutionvalue)
         {
+                this.DataName = dataname;
+                this.SolutionName = solutionname;
+                this.SolutionValue = solutionvalue;
         }
 }
 public static class ResultantVector
 {
-    public static void FindResult(this string s, string solutionname)
+    public static void FindResultantVector(this string s, string solutionname)
     {
+        var title = s.SplitTitle();
+        double[] FinVector = new double[20];
+        foreach(string t in title)
+        {
+            if(
+        }
     }
 }
-*/
-
-/*
-        private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static string Dataset = directory + "\\CuratedData";
-        
-        string attb = "MFSection"
-        string ID = "Name"
-        
-        GetData(string Dataset, string ID, string Attb)
 */
 
 namespace CC_Library
