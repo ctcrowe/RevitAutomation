@@ -70,6 +70,14 @@
     <Compile Include="Parameters\Library\RoomCategoryParam.cs" />
     <Compile Include="Parameters\Library\HardwareSetParam.cs" />
     <Compile Include="Parameters\Library\FireRatingParam.cs" />
+    <Compile Include="Predictions2.0\CMDCalcDistance.cs" />
+    <Compile Include="Predictions2.0\CMDGetDataPoint.cs" />
+    <Compile Include="Predictions2.0\CMDCreateDataPoint.cs" />
+    <Compile Include="Predictions2.0\ResultantVector.cs" />
+    <Compile Include="Predictions2.0\Solution.cs" />
+    <Compile Include="Predictions2.0\Data.cs" />
+    <Compile Include="Predictions2.0\CMDGetDataSet.cs" />
+    <Compile Include="Predictions2.0\DataFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
