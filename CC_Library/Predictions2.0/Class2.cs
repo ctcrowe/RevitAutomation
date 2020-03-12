@@ -26,6 +26,18 @@ namespace CC_Library.Predictions
                 
             }
         }
+        internal static double CalcAccuracy(this List<Data> dataset, Solution[] solutions, Datafile df)
+        {
+            int total = 0;
+            int correct = 0;
+            
+            var resultset = df.GetDataSet();
+            
+            foreach(Solution s in solutions)
+            {
+                
+            }
+        }
         internal static int Compare(this List<Data> dataset, Datafile df, int x)
         {
             int ivalue = 0;
