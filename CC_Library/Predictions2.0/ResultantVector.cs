@@ -33,7 +33,6 @@ namespace CC_Library.Predictions
                 {
                     r = i;
                     r2 = v;
-
                 }
             }
             return results[r].Phrase;
