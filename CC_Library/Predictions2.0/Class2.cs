@@ -26,9 +26,23 @@ namespace CC_Library.Predictions
                 
             }
         }
-        internal static int Compare(this List<Data> dataset, int x)
+        internal static int Compare(this List<Data> dataset, Datafile df, int x)
         {
-            return 0;
+            int ivalue = 0;
+            double acc = 0;
+            for(int i = -10; i <= 10; i++)
+            {
+                List<Data> adjusted = dataset;
+                int val = adjusted[x].GetValue();
+                adjusted[x].SetValue(val + i);
+                double newacc = adjusted.CalcAccuracy(df);
+                if(newacc > acc)
+                {
+                    ivalue = i;
+                    acc = newacc;
+                }
+            }
+            return ivalue;
         }
         internal static List<string> GetPhrases(this Solution[] sols)
         {
