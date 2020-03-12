@@ -4,7 +4,7 @@ namespace CC_Library.Predictions
 {
     public static class FindResultantVector
     {
-        public static string ResultantVector(this string s, DataFile df)
+        public static string ResultantVector(this string s, List<Data> results)
         {
             var title = s.SplitTitle();
             Data vector = new Data("result");
@@ -23,7 +23,6 @@ namespace CC_Library.Predictions
                 vector.SetValue(i, vector.GetValue(i) / title.Count());
             }
 
-            var results = df.GetDataSet();
             int r = 0;
             double r2 = double.MaxValue;
             for(int i = 0; i < results.Count(); i++)
