@@ -4,14 +4,14 @@ namespace CC_Library.Predictions
 {
     public static class FindResultantVector
     {
-        public static string ResultantVector(this string s, List<Data> results)
+        public static string ResultantVector(this string s, List<Data> PhraseSet, List<Data> results)
         {
             var title = s.SplitTitle();
             Data vector = new Data("result");
 
             for(int i = 0; i < title.Count(); i++)
             {
-                Data d = title[i].ToDataPoint();
+                Data d = title[i].ToDataPoint(PhraseSet);
                 for(int j = 0; j < 20; j++)
                 {
                     vector.SetValue(j, vector.GetValue(j) + d.GetValue(j));
