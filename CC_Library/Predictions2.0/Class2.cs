@@ -9,8 +9,9 @@ namespace CC_Library.Predictions
 {
     public static class CreateFiles
     {
-        public static void Create(string dir)
+        public static void Create(Datafile df)
         {
+            string dir = "";
             if (Directory.Exists(dir))
             {
                 string[] files = Directory.GetFiles(dir);
@@ -22,7 +23,7 @@ namespace CC_Library.Predictions
                 }
 
                 List<string> words = solutions.GetPhrases();
-
+                
             }
         }
         internal static List<string> GetPhrases(this Solution[] sols)
