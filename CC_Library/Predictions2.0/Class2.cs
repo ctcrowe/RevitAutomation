@@ -26,6 +26,10 @@ namespace CC_Library.Predictions
                 
             }
         }
+        internal static int Compare(this List<Data> dataset, int x)
+        {
+            return 0;
+        }
         internal static List<string> GetPhrases(this Solution[] sols)
         {
             List<string> phrases = new List<string>();
