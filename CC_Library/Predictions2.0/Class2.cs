@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
 {
     public static class CreateFiles
     {
-        public static void Create(Datafile df)
+        public static void Create(this Datafile df)
         {
             string dir = "";
             if (Directory.Exists(dir))
