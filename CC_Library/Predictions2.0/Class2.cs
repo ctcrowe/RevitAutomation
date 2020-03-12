@@ -35,9 +35,11 @@ namespace CC_Library.Predictions
             
             foreach(Solution s in solutions)
             {
-                
+                total++;
+                if(s.DataName().ResultantVector(dataset, resultset) == s.SolutionValue())
+                    correct++;
             }
-            return 0;
+            return correct / total;
         }
         internal static int Compare(this List<Data> dataset, Datafile df, int x)
         {
