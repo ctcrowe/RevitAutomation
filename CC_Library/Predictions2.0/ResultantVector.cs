@@ -11,7 +11,7 @@ namespace CC_Library.Predictions
 
             for(int i = 0; i < title.Count(); i++)
             {
-                Data d = title[i].ToDataPoint(PhraseSet);
+                Data d = PhraseSet.Where(x => x.Phrase == title[i]);
                 for(int j = 0; j < 20; j++)
                 {
                     vector.SetValue(j, vector.GetValue(j) + d.GetValue(j));
