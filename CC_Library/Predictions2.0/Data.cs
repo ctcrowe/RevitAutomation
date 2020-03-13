@@ -1,4 +1,4 @@
-﻿namespace CC_Library.Predictions
+namespace CC_Library.Predictions
 {
     internal class Data
     {
@@ -8,6 +8,11 @@
         {
             this.Phrase = phrase;
             this.Dataset = new int[20];
+            Random rnd = new Random();
+            for(int i = 0; i < Dataset.Count(); i++)
+            {
+                Dataset[i] = rnd.Next(1, 100);
+            }
         }
         public void SetValue(int i, int value)
         {
