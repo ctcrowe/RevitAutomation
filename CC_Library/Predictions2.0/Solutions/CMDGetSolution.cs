@@ -5,6 +5,7 @@ namespace CC_Library.Predictions
 {
     internal static class CMDGetSolution
     {
+        //transforms a tab delimitted text file into a solution
         public static Solution GetSolution(this string fn)
         {
             if (File.Exists(fn))

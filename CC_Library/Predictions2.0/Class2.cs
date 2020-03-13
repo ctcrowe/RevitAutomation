@@ -9,48 +9,66 @@ namespace CC_Library.Predictions
 {
     public static class CreateFiles
     {
-        public static void Create(this Datafile df)
+        public static void Create(this DataFile df)
         {
-            string dir = "";
-            if (Directory.Exists(dir))
+            List<Data> TextData = DataFile.TextData.GetDataSet();
+            List<Data> VariableData = df.GetDataSet();
+
+            Solution[] solutions = df.GetSolutions();
+
+            foreach(Solution s in solutions)
             {
-                string[] files = Directory.GetFiles(dir);
-                Solution[] solutions = new Solution[files.Count()];
+                if (!TextData.Any(x => x.Phrase == s.DataName()))
+                    TextData.Add(new Data(s.DataName()));
+                if (!VariableData.Any(x => x.Phrase == s.SolutionValue()))
+                    VariableData.Add(new Data(s.SolutionValue()));
+            }
 
-                for(int i = 0; i < files.Count(); i++)
+            while(true)
+            {
+                foreach(Solution s in solutions)
                 {
-                    solutions[i] = files[i].GetSolution();
+                    //modify TextData
                 }
-
-                List<string> words = solutions.GetPhrases();
-                
+                foreach(Solution s in solutions)
+                {
+                    //modify VariableData
+                }
             }
         }
-        internal static double CalcAccuracy(this List<Data> dataset, Solution[] solutions, Datafile df)
+
+        internal static double CalcAccuracy(this List<Data> dataset, Solution[] solutions, List<Data> VariableSet)
         {
             int total = 0;
             int correct = 0;
             
-            var resultset = df.GetDataSet();
-            
             foreach(Solution s in solutions)
             {
                 total++;
-                if(s.DataName().ResultantVector(dataset, resultset) == s.SolutionValue())
+                if(s.DataName().ResultantVector(dataset, VariableSet) == s.SolutionValue())
                     correct++;
             }
             return correct / total;
         }
-        internal static int Compare(this List<Data> dataset, Datafile df, int x)
+        internal static Data FullCompare(this List<Data> dataset, List<Data> VariableSet, Solution[] solutions, int x)
+        {
+            Data d = dataset[x];
+            for(int i = 0; i < 20; i++)
+            {
+                d.SetValue(i, dataset.Compare(solutions, VariableSet, x, i));
+            }
+            return d;
+        }
+        internal static int Compare(this List<Data> dataset, Solution[] solutions, List<Data> variableset, int x, int y)
         {
             int ivalue = 0;
             double acc = 0;
             for(int i = -10; i <= 10; i++)
             {
                 List<Data> adjusted = dataset;
-                int val = adjusted[x].GetValue();
-                adjusted[x].SetValue(val + i);
-                double newacc = adjusted.CalcAccuracy(df);
+                int val = dataset[x].GetValue(y);
+                adjusted[x].SetValue(y, val + i);
+                double newacc = adjusted.CalcAccuracy(solutions, variableset);
                 if(newacc > acc)
                 {
                     ivalue = i;

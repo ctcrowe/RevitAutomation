@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CMDGetMyDocs.cs" />
     <Compile Include="Parameters\Library\HeightParam.cs" />
     <Compile Include="Parameters\Library\DepthParam.cs" />
     <Compile Include="Parameters\Library\WidthParam.cs" />
@@ -70,13 +71,16 @@
     <Compile Include="Parameters\Library\RoomCategoryParam.cs" />
     <Compile Include="Parameters\Library\HardwareSetParam.cs" />
     <Compile Include="Parameters\Library\FireRatingParam.cs" />
-    <Compile Include="Predictions2.0\CMDGetSolution.cs" />
+    <Compile Include="Predictions2.0\Solutions\CMDGetSolutions.cs" />
+    <Compile Include="Predictions2.0\Class3.cs" />
+    <Compile Include="Predictions2.0\Class4.cs" />
+    <Compile Include="Predictions2.0\Solutions\CMDGetSolution.cs" />
     <Compile Include="Predictions2.0\Class2.cs" />
     <Compile Include="Predictions2.0\CMDCalcDistance.cs" />
     <Compile Include="Predictions2.0\CMDGetDataPoint.cs" />
     <Compile Include="Predictions2.0\CMDCreateDataPoint.cs" />
-    <Compile Include="Predictions2.0\ResultantVector.cs" />
-    <Compile Include="Predictions2.0\Solution.cs" />
+    <Compile Include="Predictions2.0\CMDResultantVector.cs" />
+    <Compile Include="Predictions2.0\Solutions\Solution.cs" />
     <Compile Include="Predictions2.0\Data.cs" />
     <Compile Include="Predictions2.0\CMDGetDataSet.cs" />
     <Compile Include="Predictions2.0\DataFiles.cs" />

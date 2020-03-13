@@ -3,7 +3,7 @@
     public enum DataFile
     {
         TextData,
-        Masteformat,
+        Masterformat,
         Subcategory
     }
 }

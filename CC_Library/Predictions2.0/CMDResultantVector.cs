@@ -1,8 +1,9 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 
 namespace CC_Library.Predictions
 {
-    public static class FindResultantVector
+    internal static class FindResultantVector
     {
         public static string ResultantVector(this string s, List<Data> PhraseSet, List<Data> results)
         {
@@ -11,7 +12,7 @@ namespace CC_Library.Predictions
 
             for(int i = 0; i < title.Count(); i++)
             {
-                Data d = PhraseSet.Where(x => x.Phrase == title[i]);
+                Data d = PhraseSet.Where(x => x.Phrase == title[i]).First();
                 for(int j = 0; j < 20; j++)
                 {
                     vector.SetValue(j, vector.GetValue(j) + d.GetValue(j));
