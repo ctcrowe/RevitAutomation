@@ -13,7 +13,6 @@ namespace CC_Library.Predictions
         {
             List<Data> TextData = DataFile.TextData.GetDataSet();
             List<Data> VariableData = df.GetDataSet();
-
             Solution[] solutions = df.GetSolutions();
 
             foreach(Solution s in solutions)
