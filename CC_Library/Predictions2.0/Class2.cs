@@ -26,13 +26,13 @@ namespace CC_Library.Predictions
 
             while(true)
             {
-                foreach(Solution s in solutions)
+                for(int i = 0; i < TextData.Count(); i++)
                 {
-                    //modify TextData
+                    TextData[i] = TextData.FullCompare(VariableData, solutions, i);
                 }
-                foreach(Solution s in solutions)
+                for(int i = 0; o < VariableData.Count(); i++)
                 {
-                    //modify VariableData
+                    VariableData[i] = VariableData.FullCompare(TextData, solutions, i);
                 }
             }
         }
