@@ -34,6 +34,8 @@ namespace CC_Library.Predictions
                 {
                     VariableData[i] = VariableData.FullCompare(TextData, solutions, i);
                 }
+                DataFile.TextData.Save(TextData);
+                df.Save(VariableData);
             }
         }
         internal static void Save(this DataFile df, List<Data> data)
