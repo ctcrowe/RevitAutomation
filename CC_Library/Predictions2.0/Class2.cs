@@ -36,7 +36,21 @@ namespace CC_Library.Predictions
                 }
             }
         }
-
+        internal static void Save(this DataFile df, List<Data> data)
+        {
+            XDocument doc = new XDocument();
+            
+            foreach(Data d in data)
+            {
+                XElement ele = new XElement(Title);
+                for(int i = 0; i < 20; i++)
+                {
+                    ele.Add(new XAttribute(Number, Title));
+                }
+                doc.Root.Add(ele);
+            }
+            doc.Save(File);
+        }
         internal static double CalcAccuracy(this List<Data> dataset, Solution[] solutions, List<Data> VariableSet)
         {
             int total = 0;
