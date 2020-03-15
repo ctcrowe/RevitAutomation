@@ -9,11 +9,19 @@ namespace CC_Library.Predictions
 {
     public static class CreateFiles
     {
-        public static void Create(this DataFile df)
+        public static void CreateFolder(this DataFile df, CMDGetMyDocs.WriteOutput wo)
+        {
+            string folder = df.ToString().GetMyDocs(wo);
+            if(!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+        }
+        public static void Create(this DataFile df, CMDGetMyDocs.WriteOutput wo)
         {
             List<Data> TextData = DataFile.TextData.GetDataSet();
             List<Data> VariableData = df.GetDataSet();
-            Solution[] solutions = df.GetSolutions();
+            Solution[] solutions = df.GetSolutions(wo);
 
             foreach(Solution s in solutions)
             {
@@ -29,29 +37,15 @@ namespace CC_Library.Predictions
                 {
                     TextData[i] = TextData.FullCompare(VariableData, solutions, i);
                 }
-                for(int i = 0; o < VariableData.Count(); i++)
+                for(int i = 0; i < VariableData.Count(); i++)
                 {
                     VariableData[i] = VariableData.FullCompare(TextData, solutions, i);
                 }
-                DataFile.TextData.Save(TextData);
-                df.Save(VariableData);
+                DataFile.TextData.Save(TextData, wo);
+                df.Save(VariableData, wo);
             }
         }
-        internal static void Save(this DataFile df, List<Data> data)
-        {
-            XDocument doc = new XDocument();
-            
-            foreach(Data d in data)
-            {
-                XElement ele = new XElement(Title);
-                for(int i = 0; i < 20; i++)
-                {
-                    ele.Add(new XAttribute(Number, Title));
-                }
-                doc.Root.Add(ele);
-            }
-            doc.Save(File);
-        }
+
         internal static double CalcAccuracy(this List<Data> dataset, Solution[] solutions, List<Data> VariableSet)
         {
             int total = 0;

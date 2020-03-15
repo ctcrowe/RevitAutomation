@@ -4,10 +4,13 @@ namespace CC_Library
 {
     public static class CMDGetMyDocs
     {
-        public static string GetMyDocs(this string Subdir)
+        public delegate void WriteOutput(string s);
+        public static string GetMyDocs(this string Subdir, WriteOutput wo)
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            return directory +"\\" + Subdir;
+            string subdir = directory +"\\" + Subdir;
+            wo(subdir);
+            return subdir;
         }
     }
 }

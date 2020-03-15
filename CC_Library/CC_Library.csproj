@@ -72,7 +72,7 @@
     <Compile Include="Parameters\Library\HardwareSetParam.cs" />
     <Compile Include="Parameters\Library\FireRatingParam.cs" />
     <Compile Include="Predictions2.0\Solutions\CMDGetSolutions.cs" />
-    <Compile Include="Predictions2.0\Class3.cs" />
+    <Compile Include="Predictions2.0\SaveDataFile.cs" />
     <Compile Include="Predictions2.0\Class4.cs" />
     <Compile Include="Predictions2.0\Solutions\CMDGetSolution.cs" />
     <Compile Include="Predictions2.0\Class2.cs" />

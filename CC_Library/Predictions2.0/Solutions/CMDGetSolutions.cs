@@ -6,10 +6,9 @@ namespace CC_Library.Predictions
     //collects all solutions for a given Dataset
     internal static class CMDGetSolutions
     {
-        public static Solution[] GetSolutions(this DataFile df)
+        public static Solution[] GetSolutions(this DataFile df, CMDGetMyDocs.WriteOutput wo)
         {
-            string dir = df.ToString().GetMyDocs();
-            string datafile = df.ToString().GetMyDocs() + ".xml";
+            string dir = df.ToString().GetMyDocs(wo);
             if (Directory.Exists(dir))
             {
                 string[] files = Directory.GetFiles(dir);
@@ -21,6 +20,7 @@ namespace CC_Library.Predictions
                 }
                 return solutions;
             }
+            else { Directory.CreateDirectory(dir); }
             return null;
         }
     }
