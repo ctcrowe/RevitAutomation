@@ -10,8 +10,6 @@ namespace CC_Plugin
     {
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
-            ResetParamLibrary.Run();
-
             Document doc = args.Document;
             using (TransactionGroup tg = new TransactionGroup(doc, "Add ID Group"))
             {
@@ -27,24 +25,21 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
-                    using (Transaction t = new Transaction(doc, "Add Categories"))
+                }
+                foreach (CCParameter p in Enum.GetValues(typeof(CCParameter)))
+                {
+                    using (Transaction t = new Transaction(doc, "ADD Parameters"))
                     {
                         t.Start();
-                        doc.AddCategories();
+                        doc.AddParam(p);
                         t.Commit();
                     }
                 }
-                AddRevitParams.AddParams(doc);
-                IDParam id = new IDParam();
-                id.GetIDParam(doc);
-                if (string.IsNullOrEmpty(id.Value))
+                using (Transaction t = new Transaction(doc, "Set ID"))
                 {
-                    using (Transaction t = new Transaction(doc, "Set ID"))
-                    {
-                        t.Start();
-                        id.SetIDParam(doc);
-                        t.Commit();
-                    }
+                    t.Start();
+                    doc.SetID(doc.CheckID());
+                    t.Commit();
                 }
                 tg.Commit();
             }

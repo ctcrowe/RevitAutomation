@@ -1,7 +1,8 @@
-﻿namespace CC_Library.Predictions
+﻿namespace CC_Library.Datatypes
 {
-    public enum DataFile
+    public enum Datatype
     {
+        Null,
         TextData,
         Masterformat,
         Subcategory

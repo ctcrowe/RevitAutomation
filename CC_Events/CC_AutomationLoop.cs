@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using CC_Library.Parameters;
+using CC_Library.Predictions;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using CC_Library.Datatypes;
 
 namespace CC_Plugin
 {
@@ -20,18 +22,6 @@ TODO: On element placed, check if its location is inside of a room.
         {
             List<ElementId> eids = data.GetAddedElementIds().ToList();
             Document doc = data.GetDocument();
-           
-
-            if (doc.IsFamilyDocument)
-            {
-                try { FamType.Setup(doc); } catch { }
-                try { AddRevitParams.AddFamilyParam(new IDParam(), doc); } catch { }
-            }
-
-            IDParam id = new IDParam();
-            id.GetIDParam(doc);
-            if (string.IsNullOrEmpty(id.Value))
-                id.SetIDParam(doc);
 
             foreach (ElementId eid in eids)
             {
@@ -40,36 +30,17 @@ TODO: On element placed, check if its location is inside of a room.
                 MasterformatParam mp = new MasterformatParam();
                 if (inst != null)
                 {
-                    var cats = doc.GetElement(eid).GetCategories();
-                    if(cats.Count != 0)
-                        Datapoint.Create(cats, directory + "\\CC_CatData");
-                    Dictionary<string, string> dataset = new Dictionary<string, string>();
-                    try { dataset.Add("Name", inst.Symbol.Family.Name); } catch { }
-                    try { dataset.Add("EleID", eleid.GetEleParam(inst)); } catch { }
-                    try { dataset.Add("MFSection", mp.GetEleParam(inst)); }  catch { }
-                    try { dataset.Add("PrevID", Datapoint.GetPreviousElement(directory + "\\CC_XMLData")); } catch { }
-                    try { dataset.Add("PrjID", id.Value); } catch { }
-                    try { dataset.Add("PlaceTime", DateTime.Now.ToString("yyyyMMddhhmmss")); } catch { }
-                    try { dataset.Add("View", doc.ActiveView.Name); } catch { }
-                    try { dataset.Add("Category", inst.Category.Name); } catch { }
-                    try { dataset.Add("Delivery", "Automated"); } catch { }
-                    try
+                    string name = inst.Symbol.Family.Name;
+                    //try { name.CreateTTDData("ID", mp.GetEleParam(inst), Datatype.Masterformat); } catch { }
+                    var cats = inst.GetCategories();
+                    if (cats.Any())
                     {
-                        dataset.Add("EleCount", new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance)).ToList().Count().ToString());
+                        foreach (var c in cats)
+                        {
+                            try { name.CreateTTDData("ID", c, Datatype.Subcategory); }
+                            catch { TaskDialog.Show("Error", "Failed to create category at Updater"); }
+                        }
                     }
-                    catch { }
-
-                    string time = ProjectTime.Get(id.Value);
-                    if (time != null)
-                    { try { dataset.Add("ProjectTime", time); } catch { } }
-
-                    if (!doc.IsFamilyDocument)
-                    {
-                        try { dataset.Add("RmName", inst.Room.Name); } catch { }
-                        try { dataset.Add("RmNumber", inst.Room.Number.ToString()); } catch { }
-                        try { dataset.Add("ViewType", doc.ActiveView.GetType().Name); } catch { }
-                    }
-                    Datapoint.Create(dataset, directory + "\\CC_XMLData");
                 }
             }
         }
@@ -77,9 +48,7 @@ TODO: On element placed, check if its location is inside of a room.
         {
             CC_Automation updater = new CC_Automation(application.ActiveAddInId);
             UpdaterRegistry.RegisterUpdater(updater, true);
-            ElementClassFilter refFilter = new ElementClassFilter(typeof(ReferencePlane));
             ElementClassFilter instFilter = new ElementClassFilter(typeof(FamilyInstance));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), refFilter, Element.GetChangeTypeElementAddition());
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), instFilter, Element.GetChangeTypeElementAddition());
         }
         public static void OnShutdown(Autodesk.Revit.UI.UIControlledApplication application)

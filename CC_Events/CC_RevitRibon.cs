@@ -30,6 +30,7 @@ namespace CC_Plugin
             QCTab.QCPanel(uiApp, tabName);
             PrintPanel(uiApp);
             MFPanel.MFTab(uiApp, tabName);
+            uiApp.LoadFamPanel(tabName);
 
             ViewChanged.OnStartup(uiApp);
             try

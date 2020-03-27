@@ -1,44 +1,32 @@
-﻿using Autodesk.Revit.DB;
+﻿using System;
+using Autodesk.Revit.DB;
 using CC_Library.Parameters;
 
 namespace CC_Plugin
 {
     internal static class ExDefOptions
     {
-        public static ExternalDefinitionCreationOptions CreateOptions(this CC_Library.Parameters.Param p)
+        public static ExternalDefinitionCreationOptions CreateOptions(this CCParameter par)
         {
-            ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(p.Name, ParameterType.Integer);
-            switch(p.Type)
+            ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(par.ToString(), ParameterType.Text);
+            int value = (int)par;
+            int typevalue = Math.Abs((value / 100) % 10);
+            switch(typevalue)
             {
-                default: case ParamType.Int:
-                        options.Type = ParameterType.Integer;
-                        break;
-                case ParamType.String:
+                default:
+                case 0:
                     options.Type = ParameterType.Text;
                     break;
-                case ParamType.Double:
-                    options.Type = ParameterType.Number;
-                    break;
-                case ParamType.Bool:
-                    options.Type = ParameterType.YesNo;
-                    break;
-                case ParamType.Length:
+                case 1:
                     options.Type = ParameterType.Length;
                     break;
-                case ParamType.Material:
-                    options.Type = ParameterType.Material;
+                case 2:
+                    options.Type = ParameterType.Integer;
                     break;
-                case ParamType.Area:
-                    options.Type = ParameterType.Area;
-                    break;
+
             }
-            if (!p.IsVisible)
-                options.Visible = false;
-            if (p.Description != null)
-                options.Description = p.Description;
-            if (!p.IsUserModifiable)
+            if (value % 10 == 0)
                 options.UserModifiable = false;
-            options.GUID = p.ID;
 
             return options;
         }

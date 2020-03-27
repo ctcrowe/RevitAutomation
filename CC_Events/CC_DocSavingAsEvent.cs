@@ -23,10 +23,10 @@ namespace CC_Plugin
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();
-                    IDParam id = new IDParam();
-                    id.SetIDParam(doc);
+                    doc.SetID(true);
                     t.Commit();
                 }
+                /*
                 using (Transaction t = new Transaction(doc, "Set Fam Name"))
                 {
                     t.Start();
@@ -45,6 +45,7 @@ namespace CC_Plugin
                         t.Commit();
                     }
                 }
+                */
                 tg.Commit();
             }
         }

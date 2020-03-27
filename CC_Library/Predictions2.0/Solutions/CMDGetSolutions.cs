@@ -1,14 +1,15 @@
 ﻿using System.Linq;
 using System.IO;
+using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
     //collects all solutions for a given Dataset
     internal static class CMDGetSolutions
     {
-        public static Solution[] GetSolutions(this DataFile df, CMDGetMyDocs.WriteOutput wo)
+        public static Solution[] GetSolutions(this Datatype dt, CMDGetMyDocs.WriteOutput wo)
         {
-            string dir = df.ToString().GetMyDocs(wo);
+            string dir = dt.ToString().GetMyDocs(wo);
             if (Directory.Exists(dir))
             {
                 string[] files = Directory.GetFiles(dir);

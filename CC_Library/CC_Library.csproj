@@ -46,6 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datatypes\GetDataTypes.cs" />
+    <Compile Include="Datatypes\TabDelimittedData.cs" />
+    <Compile Include="Parameters\CoordinateGUID.cs" />
+    <Compile Include="Parameters\ParamGUIDs.cs" />
+    <Compile Include="Parameters\Parameter.cs" />
     <Compile Include="CMDGetMyDocs.cs" />
     <Compile Include="Parameters\Library\HeightParam.cs" />
     <Compile Include="Parameters\Library\DepthParam.cs" />
@@ -83,7 +88,7 @@
     <Compile Include="Predictions2.0\Solutions\Solution.cs" />
     <Compile Include="Predictions2.0\Data.cs" />
     <Compile Include="Predictions2.0\CMDGetDataSet.cs" />
-    <Compile Include="Predictions2.0\DataFiles.cs" />
+    <Compile Include="Datatypes\Datatypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

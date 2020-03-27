@@ -5,14 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+using CC_Library.Datatypes;
+
 namespace CC_Library.Predictions
 {
     internal static class SaveDataFile
     {
-        public static void Save(this DataFile df, List<Data> data, CMDGetMyDocs.WriteOutput wo)
+        public static void Save(this Datatype dt, List<Data> data, CMDGetMyDocs.WriteOutput wo)
         {
-            XDocument doc = new XDocument(new XElement(df.ToString())) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
-            string file = df.ToString().GetMyDocs(wo) + ".xml";
+            XDocument doc = new XDocument(new XElement(dt.ToString())) { Declaration = new XDeclaration("1.0", "utf-8", "yes") };
+            string file = dt.ToString().GetMyDocs(wo) + ".xml";
             string Title = "";
             string Number = "";
 

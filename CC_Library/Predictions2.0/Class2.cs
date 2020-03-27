@@ -4,24 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
     public static class CreateFiles
     {
-        public static void CreateFolder(this DataFile df, CMDGetMyDocs.WriteOutput wo)
+        public static string CreateFolder(this Datatype dt, CMDGetMyDocs.WriteOutput wo)
         {
-            string folder = df.ToString().GetMyDocs(wo);
+            string folder = dt.ToString().GetMyDocs(wo);
             if(!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
             }
+            return folder;
         }
-        public static void Create(this DataFile df, CMDGetMyDocs.WriteOutput wo)
+        public static void Create(this Datatype dt, CMDGetMyDocs.WriteOutput wo)
         {
-            List<Data> TextData = DataFile.TextData.GetDataSet();
-            List<Data> VariableData = df.GetDataSet();
-            Solution[] solutions = df.GetSolutions(wo);
+            List<Data> TextData = Datatype.TextData.GetDataSet();
+            List<Data> VariableData = dt.GetDataSet();
+            Solution[] solutions = dt.GetSolutions(wo);
 
             foreach(Solution s in solutions)
             {
@@ -41,8 +43,8 @@ namespace CC_Library.Predictions
                 {
                     VariableData[i] = VariableData.FullCompare(TextData, solutions, i);
                 }
-                DataFile.TextData.Save(TextData, wo);
-                df.Save(VariableData, wo);
+                Datatype.TextData.Save(TextData, wo);
+                dt.Save(VariableData, wo);
             }
         }
 

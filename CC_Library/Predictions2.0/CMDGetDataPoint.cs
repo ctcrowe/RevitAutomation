@@ -4,6 +4,8 @@ using System.Xml;
 using System.IO;
 using System.Reflection;
 
+using CC_Library.Datatypes;
+
 namespace CC_Library.Predictions
 {
     internal static class GetDataPoint
@@ -11,9 +13,9 @@ namespace CC_Library.Predictions
         public static Data ToDataPoint(this string s)
         {
             var assembly = typeof(CMDGetDataSet).GetTypeInfo().Assembly;
-            if (assembly.GetManifestResourceNames().Any(x => x.Contains(DataFile.TextData.ToString())))
+            if (assembly.GetManifestResourceNames().Any(x => x.Contains(Datatype.TextData.ToString())))
             {
-                string name = assembly.GetManifestResourceNames().Where(y => y.Contains(DataFile.TextData.ToString())).First();
+                string name = assembly.GetManifestResourceNames().Where(y => y.Contains(Datatype.TextData.ToString())).First();
                 using (Stream stream = assembly.GetManifestResourceStream(name))
                 {
                     var xdoc = new XmlDocument();

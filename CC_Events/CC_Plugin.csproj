@@ -30,8 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CC_CeilingTypes">
+      <HintPath>..\CC_CeilingTypes\bin\Debug\CC_CeilingTypes.dll</HintPath>
+    </Reference>
     <Reference Include="CC_Library">
       <HintPath>..\CC_Library\bin\Debug\CC_Library.dll</HintPath>
+    </Reference>
+    <Reference Include="MEPEquipment">
+      <HintPath>..\MEPEquipment\bin\Debug\MEPEquipment.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -42,6 +48,9 @@
     <Reference Include="RevitAPIUI">
       <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Symbols">
+      <HintPath>..\Symbols\bin\Debug\Symbols.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -71,13 +80,14 @@
     <Compile Include="CC_FamLoaded.cs" />
     <Compile Include="CC_SetMFParam.cs" />
     <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs" />
-    <Compile Include="Parameters\AddRevitParameters.cs" />
-    <Compile Include="Parameters\GetRevitParameters.cs" />
-    <Compile Include="Parameters\SetRevitParameters.cs" />
+    <Compile Include="Parameters\GetParameters.cs" />
+    <Compile Include="Parameters\SetParameters.cs" />
+    <Compile Include="CreateTTDDatapoint.cs" />
+    <Compile Include="LoadFamilyTab.cs" />
+    <Compile Include="Parameters\AddParameters.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Parameters\ExDefOpt.cs" />
-    <Compile Include="Library\Parameters\ResetParamLibrary.cs" />
+    <Compile Include="Parameters\ResetParamLibrary.cs" />
     <Compile Include="CC_DocSavingAsEvent.cs" />
     <Compile Include="FamilyDB\CC_CheckNameUse.cs" />
     <Compile Include="FamilyDB\CC_MoveFamiliesToDB.cs" />
@@ -95,13 +105,5 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="Families\Symbols\GRAPHICSCALE.rfa" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Families\Symbols\ADA_TurningCircle.rfa" />
-    <EmbeddedResource Include="Families\Symbols\BREAKLINE.rfa" />
-    <EmbeddedResource Include="Families\Symbols\ELEVATION_MarkCircle.rfa" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

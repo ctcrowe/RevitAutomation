@@ -1,6 +1,7 @@
 ﻿using System;
 using CC_Library;
 using CC_Library.Predictions;
+using CC_Library.Datatypes;
 
 namespace DataAnalysis
 {
@@ -13,7 +14,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            DataFile.Masterformat.Create(new CMDGetMyDocs.WriteOutput(Write));
+            Datatype.Subcategory.Create(new CMDGetMyDocs.WriteOutput(Write));
             while (true) { }
         }
     }

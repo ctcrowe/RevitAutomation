@@ -24,19 +24,20 @@ namespace CC_Plugin
             if (!string.IsNullOrEmpty(args.FamilyName))
             {
                 string fn = subdir + "\\" + args.FamilyName + ".rfa";
-                int i = CheckUse(fn);
-                if (i == 1)
-                {
+                //int i = CheckUse(fn);
+                //if (i == 1)
+                //{
                     if(fn != famfile)
                     {
-                        File.Delete(fn);
+                        if(File.Exists(fn))
+                            File.Delete(fn);
                         File.Copy(famfile, fn);
                     }
-                }
-                if(i == 0)
-                {
-                    File.Copy(famfile, fn);
-                }
+                //}
+                //if(i == 0)
+                //{
+                //    File.Copy(famfile, fn);
+                //}
                 if (!args.Document.IsFamilyDocument)
                 {
                     string FilePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(args.Document.GetWorksharingCentralModelPath());
