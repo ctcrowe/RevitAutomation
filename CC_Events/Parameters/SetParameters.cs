@@ -10,17 +10,14 @@ namespace CC_Plugin
     {
         public static bool CheckID(this Document doc)
         {
+            string v = string.Empty;
             if (doc.IsFamilyDocument)
             {
                 if (doc.FamilyManager.get_Parameter(CCParameter.CC_ID.GetGUID()) != null)
                 {
                     FamilyParameter p = doc.FamilyManager.get_Parameter(CCParameter.CC_ID.GetGUID());
-                    foreach (FamilyType t in doc.FamilyManager.Types)
-                    {
-                        string v = t.AsString(p);
-                        if(string.IsNullOrEmpty(v) || string.IsNullOrWhiteSpace(v) || v.Length < 10)
-                            return true;
-                    }
+                    FamilyType t = doc.FamilyManager.CurrentType;
+                    try { v = t.AsString(p); } catch { }
                 }
             }
             else
@@ -28,23 +25,27 @@ namespace CC_Plugin
                 if (doc.ProjectInformation.get_Parameter(CCParameter.CC_ID.GetGUID()) != null)
                 {
                     Parameter p = doc.ProjectInformation.get_Parameter(CCParameter.CC_ID.GetGUID());
-                    string v = p.AsString();
-                    if (string.IsNullOrEmpty(v) || string.IsNullOrWhiteSpace(v) || v.Length < 10)
-                        return true;
+                    try { v = p.AsString(); } catch { }
                 }
             }
-            return false;
+            if (v == string.Empty)
+                return false;
+            if (v == null)
+                return false;
+            if (v.Length < 30)
+                return false;
+            return true;
         }
         public static void SetID(this Document doc, bool check)
         {
-            if (check)
+            if (!check)
             {
                 string ID = Guid.NewGuid().ToString("N");
                 if (doc.IsFamilyDocument)
                 {
-                    if(doc.FamilyManager.get_Parameter(CCParameter.CC_ID.GetGUID()) != null)
+                    if (doc.FamilyManager.get_Parameter(CCParameter.CC_ID.GetGUID()) != null)
                     {
-                        FamilyParameter p = doc.FamilyManager.GetParameters().Where(x => x.Definition.Name == CCParameter.CC_ID.ToString()).First();
+                        FamilyParameter p = doc.FamilyManager.get_Parameter(CCParameter.CC_ID.GetGUID());
                         foreach (FamilyType t in doc.FamilyManager.Types)
                         {
                             doc.FamilyManager.CurrentType = t;
@@ -56,7 +57,7 @@ namespace CC_Plugin
                 {
                     if (doc.ProjectInformation.get_Parameter(CCParameter.CC_ID.GetGUID()) != null)
                     {
-                        Parameter p = doc.ProjectInformation.LookupParameter(CCParameter.CC_ID.ToString());
+                        Parameter p = doc.ProjectInformation.get_Parameter(CCParameter.CC_ID.GetGUID());
                         p.Set(ID);
                     }
                 }

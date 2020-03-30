@@ -98,10 +98,8 @@
     <Compile Include="QualityControl\CC_ProjectCleanup.cs" />
     <Compile Include="Elevations\CC_ElevationTab.cs" />
     <Compile Include="CC_RevitTools.cs" />
-    <Compile Include="Updaters\CC_RoomUpdater.cs" />
     <Compile Include="Elevations\CC_Elevations.cs" />
     <Compile Include="RevitCodeAnalysis.cs" />
-    <Compile Include="Updaters\CC_TextUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

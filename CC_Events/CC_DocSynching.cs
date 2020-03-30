@@ -15,6 +15,7 @@ namespace CC_Plugin
             Document doc = args.Document;
             using (TransactionGroup tg = new TransactionGroup(doc, "Doc Synching"))
             {
+                tg.Start();
                 foreach (CCParameter p in Enum.GetValues(typeof(CCParameter)))
                 {
                     using (Transaction t = new Transaction(doc, "ADD Parameters"))
@@ -23,6 +24,12 @@ namespace CC_Plugin
                         doc.AddParam(p);
                         t.Commit();
                     }
+                }
+                using (Transaction t = new Transaction(doc, "Set ID"))
+                {
+                    t.Start();
+                    doc.SetID(doc.CheckID());
+                    t.Commit();
                 }
                 using (Transaction t = new Transaction(doc, "Add Families"))
                 {

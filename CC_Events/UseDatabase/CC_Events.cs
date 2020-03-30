@@ -7,14 +7,7 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI.Events;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.ApplicationServices;
 
-//Events.cs will hold all Revit related classes and methods.
-//Note: NONE of this will ever be available outside of Revit
-//Everything in this file should be built in a way that it can be worked around as we develop
-//None of it should be absolutely necessary for anything.
 namespace CC_Events
 {
     #region Event Data

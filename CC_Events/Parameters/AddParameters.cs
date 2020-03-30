@@ -5,6 +5,7 @@ using System.Reflection;
 using System.IO;
 
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 
 using CC_Library.Parameters;
@@ -46,8 +47,7 @@ namespace CC_Plugin
             {
                 default:
                 case 0:
-                    doc.AddProjectInfoParam(p);
-                    doc.AddFamilyParam(p); break;
+                    doc.AddComboParam(p); break;
                 case 1:
                     doc.AddProjectInfoParam(p); break;
                 case 2:
@@ -58,6 +58,13 @@ namespace CC_Plugin
                     doc.AddCFWParam(p); break;
             }
         }
+        private static void AddComboParam(this Document doc, CCParameter p)
+        {
+            if (doc.IsFamilyDocument)
+                doc.AddFamilyParam(p);
+            else
+                doc.AddProjectInfoParam(p);
+        }
         private static void AddProjectInfoParam(this Document doc, CCParameter p)
         {
             if (!doc.IsFamilyDocument)
@@ -65,22 +72,10 @@ namespace CC_Plugin
                 if (doc.ProjectInformation.get_Parameter(p.GetGUID()) == null)
                 {
                     Definition def = p.CreateDefinition(doc);
-                    try
-                    {
-                        CategorySet set = new CategorySet();
-                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_ProjectInformation));
-                        if ((int)p <= 0)
-                        {
-                            InstanceBinding binding = new InstanceBinding(set);
-                            doc.ParameterBindings.Insert(def, binding);
-                        }
-                        else
-                        {
-                            TypeBinding binding = new TypeBinding(set);
-                            doc.ParameterBindings.Insert(def, binding);
-                        }
-                    }
-                    catch { }
+                    CategorySet set = new CategorySet();
+                    set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_ProjectInformation));
+                    InstanceBinding binding = new InstanceBinding(set);
+                    doc.ParameterBindings.Insert(def, binding);
                 }
             }
         }
@@ -99,16 +94,8 @@ namespace CC_Plugin
                             CategorySet set = new CategorySet();
                             set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Rooms));
                             set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Areas));
-                            if ((int)p < 0)
-                            {
-                                InstanceBinding binding = new InstanceBinding(set);
-                                doc.ParameterBindings.Insert(def, binding);
-                            }
-                            else
-                            {
-                                TypeBinding binding = new TypeBinding(set);
-                                doc.ParameterBindings.Insert(def, binding);
-                            }
+                            InstanceBinding binding = new InstanceBinding(set);
+                            doc.ParameterBindings.Insert(def, binding);
                         }
                         catch { }
                     }

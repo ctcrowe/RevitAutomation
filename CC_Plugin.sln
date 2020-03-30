@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC_CeilingTypes", "CC_Ceili
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Symbols", "Symbols\Symbols.csproj", "{7EE4598F-548A-4F0E-A78E-90026E0448AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC_Updater", "..\CC_Updater\CC_Updater\CC_Updater.csproj", "{6FBCCB17-BD2B-4FFE-BE27-E88F363B31C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Updater", "_Updater", "{59014F79-DD4A-4012-B4BE-23AB8BBE5850}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +74,10 @@ Global
 		{7EE4598F-548A-4F0E-A78E-90026E0448AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EE4598F-548A-4F0E-A78E-90026E0448AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EE4598F-548A-4F0E-A78E-90026E0448AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBCCB17-BD2B-4FFE-BE27-E88F363B31C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBCCB17-BD2B-4FFE-BE27-E88F363B31C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBCCB17-BD2B-4FFE-BE27-E88F363B31C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBCCB17-BD2B-4FFE-BE27-E88F363B31C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +89,7 @@ Global
 		{FFBDFAEB-3F6E-499E-9D14-CFEC7786EC2A} = {A0669FAE-4A9E-46F0-8CCF-BB553B87C5CF}
 		{F85BB7DA-2407-4332-8EF5-55A3F09AAEFF} = {A0669FAE-4A9E-46F0-8CCF-BB553B87C5CF}
 		{7EE4598F-548A-4F0E-A78E-90026E0448AB} = {A0669FAE-4A9E-46F0-8CCF-BB553B87C5CF}
+		{6FBCCB17-BD2B-4FFE-BE27-E88F363B31C7} = {59014F79-DD4A-4012-B4BE-23AB8BBE5850}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56F8FA72-0493-42CD-8D59-E8B625B97271}

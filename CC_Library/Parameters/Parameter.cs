@@ -14,6 +14,7 @@
         OverallWidth = 2101,
         OverallDepth = 2102,
         OverallHeight = 2103,
-        RoomCategory = -3001
+        RoomCategory = -3001,
+        RoomPrivacy = -3101
     }
 }

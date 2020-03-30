@@ -25,6 +25,7 @@ namespace CC_Plugin
                     break;
 
             }
+            options.GUID = par.GetGUID();
             if (value % 10 == 0)
                 options.UserModifiable = false;
 

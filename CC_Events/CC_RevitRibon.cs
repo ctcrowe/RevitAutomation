@@ -1,7 +1,5 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Autodesk.Revit.UI;
-using CC_Events;
 
 namespace CC_Plugin
 {
@@ -35,24 +33,20 @@ namespace CC_Plugin
             ViewChanged.OnStartup(uiApp);
             try
             {
+                DocSynching.OnStartup(uiApp);
                 RefPlaneMaker.OnStartup(uiApp);
-                //RoomParameterizer.OnStartup(uiApp);
                 CC_Automation.OnStartup(uiApp);
-                //DocSynching.OnStartup(uiApp);
                 FamLoadedEvent.OnStartup(uiApp);
                 DocSavingAs.OnStartup(uiApp);
             }
-            catch
-            {
-            }
+            catch { }
         }
         public static void OnShutdown(UIControlledApplication uiApp)
         {
             ViewChanged.OnShutdown(uiApp);
             RefPlaneMaker.OnShutdown(uiApp);
-            //RoomParameterizer.OnShutdown(uiApp);
             CC_Automation.OnShutdown(uiApp);
-            //DocSynching.OnShutdown(uiApp);
+            DocSynching.OnShutdown(uiApp);
             FamLoadedEvent.OnShutdown(uiApp);
             DocSavingAs.OnShutdown(uiApp);
         }
