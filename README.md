@@ -6,4 +6,4 @@ The project consists of currently 4 (3 active) projects.
 1. CC_Plugin
 2. CC_Library
 3. ConsoleApp1
-4. DataAnalysis __UNUSED__
+4. DataAnalysis
