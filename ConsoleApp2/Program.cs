@@ -13,8 +13,8 @@ namespace CreateDataFolder
         }
         static void Main(string[] args)
         {
-            Datatype.Masterformat.CreateFolder(new CMDGetMyDocs.WriteOutput(Write));
-            Datatype.Subcategory.CreateFolder(new CMDGetMyDocs.WriteOutput(Write));
+            Datatype.Masterformat.CreateFolder(new WriteToCMDLine(Write));
+            Datatype.Subcategory.CreateFolder(new WriteToCMDLine(Write));
         }
     }
 }

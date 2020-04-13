@@ -10,73 +10,51 @@ namespace CC_Library.Predictions
 {
     public static class CreateFiles
     {
-        public static string CreateFolder(this Datatype dt, CMDGetMyDocs.WriteOutput wo)
+        internal static DataPt GetClosestPoint(this DataPt d, List<DataPt> Dataset)
         {
-            string folder = dt.ToString().GetMyDocs(wo);
-            if(!Directory.Exists(folder))
+            double x = double.MaxValue;
+            int j = int.MaxValue;
+            for(int i = 0; i < Dataset.Count(); i++)
             {
-                Directory.CreateDirectory(folder);
-            }
-            return folder;
-        }
-        public static void Create(this Datatype dt, CMDGetMyDocs.WriteOutput wo)
-        {
-            List<Data> TextData = Datatype.TextData.GetDataSet();
-            List<Data> VariableData = dt.GetDataSet();
-            Solution[] solutions = dt.GetSolutions(wo);
-
-            foreach(Solution s in solutions)
-            {
-                if (!TextData.Any(x => x.Phrase == s.DataName()))
-                    TextData.Add(new Data(s.DataName()));
-                if (!VariableData.Any(x => x.Phrase == s.SolutionValue()))
-                    VariableData.Add(new Data(s.SolutionValue()));
-            }
-
-            while(true)
-            {
-                for(int i = 0; i < TextData.Count(); i++)
+                double dist = d.CalcDistance(Dataset[i]);
+                if(dist < x)
                 {
-                    TextData[i] = TextData.FullCompare(VariableData, solutions, i);
+                    j = i;
+                    x = dist;
                 }
-                for(int i = 0; i < VariableData.Count(); i++)
-                {
-                    VariableData[i] = VariableData.FullCompare(TextData, solutions, i);
-                }
-                Datatype.TextData.Save(TextData, wo);
-                dt.Save(VariableData, wo);
             }
+            return Dataset[j];
         }
-
-        internal static double CalcAccuracy(this List<Data> dataset, Solution[] solutions, List<Data> VariableSet)
+        internal static double CalcAccuracy(this List<DataPt> PhraseData, List<CSVData> solutions, List<DataPt> ParameterData)
         {
             int total = 0;
             int correct = 0;
             
-            foreach(Solution s in solutions)
+            foreach(CSVData s in solutions)
             {
+                DataPt dp = s.ResultantVector(PhraseData);
                 total++;
-                if(s.DataName().ResultantVector(dataset, VariableSet) == s.SolutionValue())
+                if (dp.GetClosestPoint(ParameterData).Phrase == s.Data)
                     correct++;
             }
             return correct / total;
         }
-        internal static Data FullCompare(this List<Data> dataset, List<Data> VariableSet, Solution[] solutions, int x)
+        internal static DataPt FullCompare(this List<DataPt> dataset, List<DataPt> VariableSet, List<CSVData> solutions, int x)
         {
-            Data d = dataset[x];
+            DataPt d = dataset[x];
             for(int i = 0; i < 20; i++)
             {
                 d.SetValue(i, dataset.Compare(solutions, VariableSet, x, i));
             }
             return d;
         }
-        internal static int Compare(this List<Data> dataset, Solution[] solutions, List<Data> variableset, int x, int y)
+        internal static int Compare(this List<DataPt> dataset, List<CSVData> solutions, List<DataPt> variableset, int x, int y)
         {
             int ivalue = 0;
             double acc = 0;
             for(int i = -10; i <= 10; i++)
             {
-                List<Data> adjusted = dataset;
+                List<DataPt> adjusted = dataset;
                 int val = dataset[x].GetValue(y);
                 adjusted[x].SetValue(y, val + i);
                 double newacc = adjusted.CalcAccuracy(solutions, variableset);
@@ -88,13 +66,13 @@ namespace CC_Library.Predictions
             }
             return ivalue;
         }
-        internal static List<string> GetPhrases(this Solution[] sols)
+        internal static List<string> GetPhrases(this List<CSVData> sols)
         {
             List<string> phrases = new List<string>();
-            foreach(Solution s in sols)
+            foreach(CSVData s in sols)
             {
-                if (!phrases.Any(x => x == s.DataName()))
-                    phrases.Add(s.DataName());
+                if (!phrases.Any(x => x == s.Name))
+                    phrases.Add(s.Name);
             }
             return phrases;
         }

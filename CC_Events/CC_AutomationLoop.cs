@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CC_Library.Parameters;
-using CC_Library.Predictions;
+
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using CC_Library.Datatypes;
@@ -25,19 +25,19 @@ TODO: On element placed, check if its location is inside of a room.
 
             foreach (ElementId eid in eids)
             {
-                FamilyInstance inst = doc.GetElement(eid) as FamilyInstance;
-                IDParam eleid = new IDParam();
-                MasterformatParam mp = new MasterformatParam();
+                Element ele = doc.GetElement(eid);
+                FamilyInstance inst = ele as FamilyInstance;
                 if (inst != null)
                 {
+                    string id = inst.GetElementTypeParam(CCParameter.CC_ID);
                     string name = inst.Symbol.Family.Name;
-                    //try { name.CreateTTDData("ID", mp.GetEleParam(inst), Datatype.Masterformat); } catch { }
+                    Datatype.Masterformat.CreateInputData(name, inst.GetElementTypeParam(CCParameter.Masterformat));
                     var cats = inst.GetCategories();
                     if (cats.Any())
                     {
                         foreach (var c in cats)
                         {
-                            try { name.CreateTTDData("ID", c, Datatype.Subcategory); }
+                            try { Datatype.Subcategory.CreateInputData(name, c); }
                             catch { TaskDialog.Show("Error", "Failed to create category at Updater"); }
                         }
                     }

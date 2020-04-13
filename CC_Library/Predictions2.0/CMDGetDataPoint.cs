@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
 {
     internal static class GetDataPoint
     {
-        public static Data ToDataPoint(this string s)
+        public static DataPt ToDataPoint(this string s)
         {
             var assembly = typeof(CMDGetDataSet).GetTypeInfo().Assembly;
             if (assembly.GetManifestResourceNames().Any(x => x.Contains(Datatype.TextData.ToString())))
@@ -26,7 +26,7 @@ namespace CC_Library.Predictions
                             return ele.CreateDataPoint();
                 }
             }
-            return new Data(s);
+            return new DataPt(s);
         }
     }
 }

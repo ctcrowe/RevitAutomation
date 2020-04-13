@@ -6,7 +6,7 @@ using CC_Library;
 
 namespace CC_Plugin
 {
-    public static class CCAddCategories
+    public static class CC_AddCategories
     {
         public static void AddCategories(this Document doc)
         {

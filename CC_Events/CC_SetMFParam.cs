@@ -2,12 +2,15 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Events;
 
+using System;
 using System.IO;
 using System.Reflection;
 
+using CC_Library.Parameters;
+
 namespace CC_Plugin
 {
-    public class MFPanel
+    public static class MFPanel
     {
         private static string dllpath()
         {
@@ -33,9 +36,26 @@ namespace CC_Plugin
                 using (Transaction t = new Transaction(doc, "Set MF Param"))
                 {
                     t.Start();
-                    //MFParam.Set(args.Application.ActiveUIDocument.Document, tb.Value.ToString());
+                    doc.SetFamilyParam(CCParameter.Masterformat, tb.Value.ToString());
                     t.Commit();
                 }
+            }
+        }
+        public static void SetMasterformat(this Document doc, string Value)
+        {
+            if (doc.IsFamilyDocument)
+            {
+                if (Value == null)
+                {
+                    if (!doc.CheckStringParam(CCParameter.Masterformat))
+                    {
+                        Random rand = new Random();
+                        int numb = rand.Next(25);
+                        doc.SetFamilyParam(CCParameter.Masterformat, numb.ToString());
+                    }
+                }
+                else
+                    doc.SetFamilyParam(CCParameter.Masterformat, Value);
             }
         }
     }

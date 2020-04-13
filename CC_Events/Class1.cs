@@ -25,10 +25,8 @@ namespace CC_Plugin
             RoomNameCollector updater = new RoomNameCollector(application.ActiveAddInId);
             UpdaterRegistry.RegisterUpdater(updater, true);
             ElementId RMNameID = new ElementId(BuiltInParameter.ROOM_NAME);
-            ElementId RMAreaID = new ElementId(BuiltInParameter.ROOM_AREA);
             ElementClassFilter roomFilter = new ElementClassFilter(typeof(Room));
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), roomFilter, Element.GetChangeTypeParameter(RMNameID));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), roomFilter, Element.GetChangeTypeParameter(RMAreaID));
         }
         public static void OnShutdown(Autodesk.Revit.UI.UIControlledApplication application)
         {

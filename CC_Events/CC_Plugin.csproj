@@ -80,6 +80,9 @@
     <Compile Include="CC_FamLoaded.cs" />
     <Compile Include="CC_SetMFParam.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="CC_DocClosing.cs" />
+    <Compile Include="CreateCSVDatapoint.cs" />
+    <Compile Include="PurgeCategories.cs" />
     <Compile Include="Parameters\GetParameters.cs" />
     <Compile Include="Parameters\SetParameters.cs" />
     <Compile Include="CreateTTDDatapoint.cs" />

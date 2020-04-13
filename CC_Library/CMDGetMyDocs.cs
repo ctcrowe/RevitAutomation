@@ -1,11 +1,11 @@
 ﻿using System;
+using CC_Library.Predictions;
 
 namespace CC_Library
 {
     public static class CMDGetMyDocs
     {
-        public delegate void WriteOutput(string s);
-        public static string GetMyDocs(this string Subdir, WriteOutput wo)
+        public static string GetMyDocs(this string Subdir, WriteToCMDLine wo)
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string subdir = directory +"\\" + Subdir;

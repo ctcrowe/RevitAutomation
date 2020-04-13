@@ -38,6 +38,7 @@ namespace CC_Plugin
                 CC_Automation.OnStartup(uiApp);
                 FamLoadedEvent.OnStartup(uiApp);
                 DocSavingAs.OnStartup(uiApp);
+                DocClosing.OnStartup(uiApp);
             }
             catch { }
         }
@@ -49,6 +50,7 @@ namespace CC_Plugin
             DocSynching.OnShutdown(uiApp);
             FamLoadedEvent.OnShutdown(uiApp);
             DocSavingAs.OnShutdown(uiApp);
+            DocClosing.OnShutdown(uiApp);
         }
     }
 }

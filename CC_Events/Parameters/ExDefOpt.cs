@@ -21,9 +21,11 @@ namespace CC_Plugin
                     options.Type = ParameterType.Length;
                     break;
                 case 2:
+                    options.Type = ParameterType.YesNo;
+                    break;
+                case 3:
                     options.Type = ParameterType.Integer;
                     break;
-
             }
             options.GUID = par.GetGUID();
             if (value % 10 == 0)

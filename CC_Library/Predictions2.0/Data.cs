@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace CC_Library.Predictions
 {
-    internal class Data
+    internal class DataPt
     {
         public string Phrase;
         private int[] Dataset;
-        public Data(string phrase)
+        public DataPt(string phrase)
         {
             this.Phrase = phrase;
             this.Dataset = new int[20];

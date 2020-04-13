@@ -25,6 +25,12 @@ namespace CC_Plugin
                             t.Commit();
                         }
                     }
+                    using (Transaction t = new Transaction(doc, "Add Categories"))
+                    {
+                        t.Start();
+                        doc.AddCategories();
+                        t.Commit();
+                    }
                 }
                 foreach (CCParameter p in Enum.GetValues(typeof(CCParameter)))
                 {

@@ -26,26 +26,15 @@ namespace CC_Plugin
                     doc.SetID(true);
                     t.Commit();
                 }
-                /*
-                using (Transaction t = new Transaction(doc, "Set Fam Name"))
-                {
-                    t.Start();
-                    FamilyName fn = new FamilyName();
-                    fn.SetFamilyParam(doc, args.PathName.Split('.').First().Split('\\').Last());
-                    t.Commit();
-                }
                 if (doc.IsFamilyDocument)
                 {
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        WriteOutput wo = new WriteOutput(runtest);
-                        MasterformatParam mfp = new MasterformatParam();
-                        mfp.SetFamilyParam(doc, GenPredictions.Run(args.PathName.Split('.').First().Split('\\').Last(), "Masterformat", wo));
+                        doc.SetMasterformat(null);
                         t.Commit();
                     }
                 }
-                */
                 tg.Commit();
             }
         }

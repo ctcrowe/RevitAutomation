@@ -1,41 +1,41 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
     internal static class FindResultantVector
     {
-        public static string ResultantVector(this string s, List<Data> PhraseSet, List<Data> results)
+        public static DataPt ResultantVector(this CSVData cData, List<DataPt> PhraseData)
         {
-            var title = s.SplitTitle();
-            Data vector = new Data("result");
+            var title = cData.Name.SplitTitle();
+            int titlecount = 0;
+            DataPt vector = new DataPt("result");
 
-            for(int i = 0; i < title.Count(); i++)
+            if (PhraseData.Any())
             {
-                Data d = PhraseSet.Where(x => x.Phrase == title[i]).First();
-                for(int j = 0; j < 20; j++)
+                for (int i = 0; i < title.Count(); i++)
                 {
-                    vector.SetValue(j, vector.GetValue(j) + d.GetValue(j));
+                    if (PhraseData.Any(x => x.Phrase == title[i]))
+                    {
+                        titlecount++;
+                        DataPt d = PhraseData.Where(x => x.Phrase == title[i]).First();
+                        for (int j = 0; j < 20; j++)
+                        {
+                            vector.SetValue(j, vector.GetValue(j) + d.GetValue(j));
+                        }
+                    }
                 }
             }
 
-            for(int i = 0; i < 20; i++)
+            if (titlecount > 0)
             {
-                vector.SetValue(i, vector.GetValue(i) / title.Count());
-            }
-
-            int r = 0;
-            double r2 = double.MaxValue;
-            for(int i = 0; i < results.Count(); i++)
-            {
-                double v = results[i].CalcDistance(vector);
-                if(v < r2)
+                for (int i = 0; i < 20; i++)
                 {
-                    r = i;
-                    r2 = v;
+                    vector.SetValue(i, vector.GetValue(i) / titlecount);
                 }
             }
-            return results[r].Phrase;
+            return vector;
         }
     }
 }

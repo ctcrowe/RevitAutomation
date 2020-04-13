@@ -56,6 +56,8 @@ namespace CC_Plugin
                     doc.AddRoomParam(p); break;
                 case 4:
                     doc.AddCFWParam(p); break;
+                case 5:
+                    doc.AddViewParam(p); break;
             }
         }
         private static void AddComboParam(this Document doc, CCParameter p)
@@ -83,23 +85,16 @@ namespace CC_Plugin
         {
             if (!doc.IsFamilyDocument)
             {
-                List<Element> e = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms).ToList();
-                if (e.Any())
+                Definition def = p.CreateDefinition(doc);
+                try
                 {
-                    if (e.First().get_Parameter(p.GetGUID()) == null)
-                    {
-                        Definition def = p.CreateDefinition(doc);
-                        try
-                        {
-                            CategorySet set = new CategorySet();
-                            set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Rooms));
-                            set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Areas));
-                            InstanceBinding binding = new InstanceBinding(set);
-                            doc.ParameterBindings.Insert(def, binding);
-                        }
-                        catch { }
-                    }
+                    CategorySet set = new CategorySet();
+                    set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Rooms));
+                    set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Areas));
+                    InstanceBinding binding = new InstanceBinding(set);
+                    doc.ParameterBindings.Insert(def, binding);
                 }
+                catch { }
             }
         }
         private static void AddCFWParam(this Document doc, CCParameter p)
@@ -129,6 +124,29 @@ namespace CC_Plugin
                     }
                     catch { }
                 }
+            }
+        }
+        private static void AddViewParam(this Document doc, CCParameter p)
+        {
+            if (!doc.IsFamilyDocument)
+            {
+                Definition def = p.CreateDefinition(doc);
+                try
+                {
+                    CategorySet set = new CategorySet();
+                    set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Views));
+                    if ((int)p < 0)
+                    {
+                        InstanceBinding binding = new InstanceBinding(set);
+                        doc.ParameterBindings.Insert(def, binding);
+                    }
+                    else
+                    {
+                        TypeBinding binding = new TypeBinding(set);
+                        doc.ParameterBindings.Insert(def, binding);
+                    }
+                }
+                catch { }
             }
         }
         private static void AddFamilyParam(this Document doc, CCParameter p)

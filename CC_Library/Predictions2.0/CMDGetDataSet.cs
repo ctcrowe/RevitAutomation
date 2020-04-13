@@ -11,12 +11,12 @@ namespace CC_Library.Predictions
     //Used to access the datafiles embedded in the dll file from the Enum
     internal static class CMDGetDataSet
     {
-        public static List<Data> GetDataSet(this Datatype dt)
+        public static List<DataPt> GetDataSet(this Datatype dt)
         {
-            var data = new List<Data>();
+            var data = new List<DataPt>();
 
             var assembly = typeof(CMDGetDataSet).GetTypeInfo().Assembly;
-            if (assembly.GetManifestResourceNames().Any(x => x.Contains(dt.ToString())))
+            if (assembly.GetManifestResourceNames().Any(x => x.EndsWith(dt.ToString() + ".xml")))
             {
                 string name = assembly.GetManifestResourceNames().Where(y => y.Contains(dt.ToString())).First();
                 using (Stream stream = assembly.GetManifestResourceStream(name))

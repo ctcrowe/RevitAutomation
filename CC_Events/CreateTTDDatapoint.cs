@@ -15,7 +15,7 @@ namespace CC_Plugin
         public static void CreateTTDData(this string obj, string id, string value, Datatype dt)
         {
             string[] lines = new string[4] { DateTime.Now.ToString("yyyyMMddhhmmss"), obj, id, value };
-            string folder = dt.CreateFolder(new CMDGetMyDocs.WriteOutput(Write));
+            string folder = dt.CreateFolder(new WriteToCMDLine(Write));
             string file = folder + "\\" + Guid.NewGuid().ToString("N") + ".txt";
             File.WriteAllLines(file, lines);
         }

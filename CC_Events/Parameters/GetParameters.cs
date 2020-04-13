@@ -1,5 +1,6 @@
 ﻿
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
 using CC_Library.Parameters;
 
@@ -14,6 +15,16 @@ namespace CC_Plugin
             else
                 return doc.GetProjectInfoParam(p);
             return null;
+        }
+        public static string GetElementTypeParam(this FamilyInstance inst, CCParameter p)
+        {
+            string paramValue = null;
+            FamilySymbol symb = inst.Symbol;
+            if(symb.get_Parameter(p.GetGUID()) != null)
+            {
+                return symb.get_Parameter(p.GetGUID()).GetParameterValue();
+            }
+            return paramValue;
         }
         public static string GetElementParam(this Element e, CCParameter p)
         {

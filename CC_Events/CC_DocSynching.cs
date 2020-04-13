@@ -37,6 +37,7 @@ namespace CC_Plugin
                     doc.LoadSymbols();
                     t.Commit();
                 }
+                //doc.PurgeCategories();
                 tg.Commit();
             }
         }

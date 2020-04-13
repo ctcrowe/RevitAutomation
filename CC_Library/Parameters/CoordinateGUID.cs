@@ -6,16 +6,11 @@ namespace CC_Library.Parameters
     {
         public static Guid GetGUID(this CCParameter par)
         {
-            int i = 0;
-            foreach(CCParameter p in Enum.GetValues(typeof(CCParameter)))
+            int j = (int) par;
+            ParamGUID pg;
+            if(Enum.TryParse(j.ToString(), out pg))
             {
-                if(p == par)
-                {
-                    ParamGUID pg = (ParamGUID)i;
-
-                    return new Guid(pg.ToString());
-                }
-                i++;
+                return new Guid(pg.ToString());
             }
             return Guid.NewGuid();
         }

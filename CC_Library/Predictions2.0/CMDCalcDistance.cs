@@ -4,7 +4,7 @@ namespace CC_Library.Predictions
 {
     internal static class CMDCalcDistance
     {
-        public static double CalcDistance(this Data d, Data r)
+        public static double CalcDistance(this DataPt d, DataPt r)
         {
             double val = 0;
             for(int i = 0; i < 20; i++)

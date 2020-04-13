@@ -14,7 +14,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            Datatype.Subcategory.Create(new CMDGetMyDocs.WriteOutput(Write));
+            Datatype.Masterformat.RunPredictions(new WriteToCMDLine(Write));
             while (true) { }
         }
     }
