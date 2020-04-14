@@ -14,7 +14,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            Datatype.Masterformat.RunPredictions(new WriteToCMDLine(Write));
+            Datasets.RunPredictions();
             while (true) { }
         }
     }
