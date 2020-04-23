@@ -81,6 +81,7 @@
     <Compile Include="CC_SetMFParam.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CC_DocClosing.cs" />
+    <Compile Include="Class2.cs" />
     <Compile Include="CreateCSVDatapoint.cs" />
     <Compile Include="PurgeCategories.cs" />
     <Compile Include="Parameters\GetParameters.cs" />

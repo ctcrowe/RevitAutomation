@@ -37,8 +37,8 @@ TODO: On element placed, check if its location is inside of a room.
                     {
                         foreach (var c in cats)
                         {
-                            try { Datatype.Subcategory.CreateInputData(name, c); }
-                            catch { TaskDialog.Show("Error", "Failed to create category at Updater"); }
+                            //try { Datatype.Subcategory.CreateInputData(name, c); }
+                            //catch { TaskDialog.Show("Error", "Failed to create category at Updater"); }
                         }
                     }
                 }

@@ -68,6 +68,14 @@ namespace CC_Plugin
 
             List<RibbonItem> DBButtons3 = new List<RibbonItem>();
             DBButtons2.AddRange(CPanel.AddStackedItems(B5Data, B6Data, B7Data));
+
+            PushButtonData B8Data = new PushButtonData(
+                "Capture Families",
+                "Capture Families",
+                dllpath(),
+                "CC_Plugin.CollectFamilies");
+
+            PushButton familybutton = CPanel.AddItem(B8Data) as PushButton;
         }
     }
 }

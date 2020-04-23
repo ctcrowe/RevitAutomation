@@ -12,5 +12,11 @@ namespace CC_Library
             wo(subdir);
             return subdir;
         }
+        public static string GetMyDocs(this string Subdir)
+        {
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string subdir = directory + "\\" + Subdir;
+            return subdir;
+        }
     }
 }

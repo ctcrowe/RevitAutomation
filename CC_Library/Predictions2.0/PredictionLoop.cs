@@ -5,7 +5,6 @@ using CC_Library;
 
 namespace CC_Library.Predictions
 {
-    public delegate void WriteToCMDLine(string s);
     public static class CCPredictionLoop
     {
         public static void RunPredictions(this Datatype dt, WriteToCMDLine wo)

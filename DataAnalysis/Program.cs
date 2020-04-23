@@ -1,7 +1,6 @@
 ﻿using System;
-using CC_Library;
+using System.Threading;
 using CC_Library.Predictions;
-using CC_Library.Datatypes;
 
 namespace DataAnalysis
 {
@@ -10,12 +9,12 @@ namespace DataAnalysis
         public static void Write(string wo)
         {
             Console.WriteLine(wo);
+            Thread.Sleep(100);
         }
         [STAThread]
         static void Main(string[] args)
         {
-            Datasets.RunPredictions();
-            while (true) { }
+            Datasets.RunPredictions(new WriteToCMDLine(Write));
         }
     }
 }

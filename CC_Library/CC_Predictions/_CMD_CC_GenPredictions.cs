@@ -20,7 +20,6 @@ namespace CC_Library
             List<PredictionElement> pes = new List<PredictionElement>();
             var assembly = typeof(GenPredictions).GetTypeInfo().Assembly;
             string name = assembly.GetManifestResourceNames().Where(z => z.Contains(dataset)).First();
-            string outfile = Output + "//" + name.Split('.')[name.Split('.').Count() - 2] + ".xml";
             using (Stream stream = assembly.GetManifestResourceStream(name))
             {
                 var xdoc = new XmlDocument();

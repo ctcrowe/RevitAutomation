@@ -103,5 +103,16 @@ namespace CC_Library
                 return XDocument.Load(nodeReader);
             }
         }
+        public static KeyValuePair<TKey, TValue> GetEntry<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        {
+            return new KeyValuePair<TKey, TValue>(key, dictionary[key]);
+        }
+        public static void Divide(this double[] array, int a)
+        {
+            for(int i = 0; i < array.Count(); i++)
+            {
+                array[i] /= a;
+            }
+        }
     }
 }
