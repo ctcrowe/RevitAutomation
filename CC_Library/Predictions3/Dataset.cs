@@ -11,7 +11,7 @@ namespace CC_Library.Predictions
 {
     internal class Dataset
     {
-        public static readonly int DataSize = 5;
+        public static readonly int DataSize = 7;
         public Datatype datatype { get; }
         public Dictionary<string, double[]> Data { get; }
         public Dataset(Datatype dtype)
@@ -100,6 +100,33 @@ namespace CC_Library.Predictions
             }
             write("New Dataset");
             return new Dataset(dt);
+        }
+        public static void InitializeDataset(this Dataset ds, Dictionary<string, string> EntrySet, Random random, WriteToCMDLine write)
+        {
+            if(ds.datatype == Datatype.TextData)
+            {
+                foreach (string key in EntrySet.Keys)
+                {
+                    foreach (string section in key.SplitTitle())
+                    {
+                        if (!ds.Data.ContainsKey(section))
+                        {
+                            ds.AddEntry(section, random);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach(string value in EntrySet.Values)
+                {
+                    if(!ds.Data.ContainsKey(value))
+                    {
+                        ds.AddEntry(value, random);
+                    }
+                }
+            }
+            write(ds.datatype.ToString() + " has " + ds.Data.Count() + " Entries.");
         }
         public static KeyValuePair<string, double[]> GeneratePoint(this Datatype dt)
         {

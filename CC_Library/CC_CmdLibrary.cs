@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using System.Reflection;
+using CC_Library.Predictions;
 
 namespace CC_Library
 {
@@ -86,6 +88,12 @@ namespace CC_Library
             }
             return data;
         }
+        public static double Sigmoid(this double x)
+        {
+            double Top = Math.Pow(Math.E, x);
+            double Bottom = Top + 1;
+            return Top / Bottom;
+        }
         public static string SimplifyTitle(this string s)
         {
             char[] delimitters = { ',', '.', ' ', '-' , '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -94,6 +102,15 @@ namespace CC_Library
             foreach(string a in Array)
                 x += a;
             return x;
+        }
+        public static double[] Multiply(this double[] matrix, double x)
+        {
+            double[] NewMatrix = new double[matrix.Count()];
+            for(int i = 0; i < matrix.Count(); i++)
+            {
+                NewMatrix[i] = matrix[i] * x;
+            }
+            return NewMatrix;
         }
         public static XDocument ToXDocument(this XmlDocument xmlDocument)
         {
@@ -113,6 +130,15 @@ namespace CC_Library
             {
                 array[i] /= a;
             }
+        }
+        public static void WriteArray<t>(this t[] values, string label, WriteToCMDLine write)
+        {
+            string s = label + " : " + values.FirstOrDefault();
+            for(int i = 1; i < values.Count(); i++)
+            {
+                s += ", " + values[i];
+            }
+            write(s);
         }
     }
 }

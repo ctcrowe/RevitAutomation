@@ -38,34 +38,41 @@ namespace CC_Library.Predictions
                     //It is added at this stage with the entries to the dictionary set.
                     //Added with random data.
                     Dictionary<string, string> entries = filepath.GetEntryValues(write);
+                    dataset.InitializeDataset(entries, random, write);
+                    dictionary.InitializeDataset(entries, random, write);
 
                     //Primary Accuracy Test
-                    double Accuracy = dataset.CalcAccuracy(dictionary, entries, random, write);
+                    double Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
                     //After each accuracy test, and once when target accuracy is reached, save all datasets to xml files.
                     dictionary.WriteToXML();
                     dataset.WriteToXML();
 
-                    while (Accuracy < 1)
+                    while (Accuracy < .95)
                     {
                         for (int i = 0; i < dataset.Data.Count(); i++)
                         {
-                            dataset.Data.ElementAt(i).ChartEntry(dataset, dictionary, entries, random, write);
+                            dataset.Data.ElementAt(i).ChartEntry(dataset, dictionary, entries, write);
+
+                            //Save the dataset to its own xml file
+                            dictionary.WriteToXML();
+                            dataset.WriteToXML();
+
+                            //Test for accuracy of the dataset.
+                            Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
+                            write("The Total Accuracy is " + Accuracy);
                         }
                         for(int i = 0; i < dictionary.Data.Count(); i++)
                         {
-                            dictionary.Data.ElementAt(i).ChartEntry(dictionary, dataset, entries, random, write);
+                            dictionary.Data.ElementAt(i).ChartEntry(dictionary, dataset, entries, write);
+
+                            //Save the dataset to its own xml file
+                            dictionary.WriteToXML();
+                            dataset.WriteToXML();
+
+                            //Test for accuracy of the dataset.
+                            Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
+                            write("The Total Accuracy is " + Accuracy);
                         }
-
-                        //Test for accuracy of the dataset.
-                        Accuracy = dataset.CalcAccuracy(dictionary, entries, random, write);
-                        write("The Total Accuracy is " + Accuracy);
-
-                        dataset.Reduce();
-                        dictionary.Reduce();
-
-                        //Save the dataset to its own xml file
-                        dictionary.WriteToXML();
-                        dataset.WriteToXML();
                     }
                 }
             }
