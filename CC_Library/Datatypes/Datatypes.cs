@@ -5,6 +5,7 @@
         Null,
         TextData,
         Masterformat,
-        Subcategory
+        Subcategory,
+        RoomPrivacy
     }
 }

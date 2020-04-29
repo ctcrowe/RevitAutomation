@@ -11,7 +11,7 @@ namespace CC_Library.Predictions
 {
     internal class Dataset
     {
-        public static readonly int DataSize = 7;
+        public static readonly int DataSize = 5;
         public Datatype datatype { get; }
         public Dictionary<string, double[]> Data { get; }
         public Dataset(Datatype dtype)

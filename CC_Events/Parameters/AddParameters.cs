@@ -58,6 +58,8 @@ namespace CC_Plugin
                     doc.AddCFWParam(p); break;
                 case 5:
                     doc.AddViewParam(p); break;
+                case 6:
+                    doc.AddCFWParam(p); break;
             }
         }
         private static void AddComboParam(this Document doc, CCParameter p)

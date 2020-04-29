@@ -47,6 +47,7 @@ namespace CC_Library.Predictions
                     dictionary.WriteToXML();
                     dataset.WriteToXML();
 
+                    int runcount = 0;
                     while (Accuracy < .95)
                     {
                         for (int i = 0; i < dataset.Data.Count(); i++)
@@ -60,6 +61,7 @@ namespace CC_Library.Predictions
                             //Test for accuracy of the dataset.
                             Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
                             write("The Total Accuracy is " + Accuracy);
+                            write("The number of loops completed is : " + runcount);
                         }
                         for(int i = 0; i < dictionary.Data.Count(); i++)
                         {
@@ -72,7 +74,9 @@ namespace CC_Library.Predictions
                             //Test for accuracy of the dataset.
                             Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
                             write("The Total Accuracy is " + Accuracy);
+                            write("The number of loops completed is : " + runcount);
                         }
+                        runcount++;
                     }
                 }
             }

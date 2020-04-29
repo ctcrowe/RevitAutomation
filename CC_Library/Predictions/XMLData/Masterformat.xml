@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Masterformat>
+  <DataPoint Label="1">
+    <Data Location="0" Value="-0.998577892581757" />
+    <Data Location="1" Value="-0.9893270416363793" />
+    <Data Location="2" Value="1" />
+    <Data Location="3" Value="1" />
+    <Data Location="4" Value="-0.99912555138069059" />
+  </DataPoint>
+  <DataPoint Label="12">
+    <Data Location="0" Value="0.33831292631106258" />
+    <Data Location="1" Value="0.511373064776253" />
+    <Data Location="2" Value="-0.97528611281624689" />
+    <Data Location="3" Value="-0.96570012947109" />
+    <Data Location="4" Value="-0.92883644107099406" />
+  </DataPoint>
+  <DataPoint Label="6">
+    <Data Location="0" Value="0.105341237002664" />
+    <Data Location="1" Value="1" />
+    <Data Location="2" Value="1" />
+    <Data Location="3" Value="-0.98330889338623106" />
+    <Data Location="4" Value="1" />
+  </DataPoint>
+  <DataPoint Label="8">
+    <Data Location="0" Value="-0.997295273065598" />
+    <Data Location="1" Value="1" />
+    <Data Location="2" Value="1" />
+    <Data Location="3" Value="1" />
+    <Data Location="4" Value="-0.98834009007231671" />
+  </DataPoint>
+  <DataPoint Label="22">
+    <Data Location="0" Value="0.95487543136318542" />
+    <Data Location="1" Value="-0.95759375268458558" />
+    <Data Location="2" Value="0.97935023056011183" />
+    <Data Location="3" Value="-0.96932784040920861" />
+    <Data Location="4" Value="0.7997463130597805" />
+  </DataPoint>
+  <DataPoint Label="9">
+    <Data Location="0" Value="-0.68973755992432384" />
+    <Data Location="1" Value="0.93577069910137467" />
+    <Data Location="2" Value="-0.604897479527834" />
+    <Data Location="3" Value="-0.93678958176017368" />
+    <Data Location="4" Value="-0.78893170851975658" />
+  </DataPoint>
+  <DataPoint Label="10">
+    <Data Location="0" Value="-0.032903697354844504" />
+    <Data Location="1" Value="-0.98113119504444646" />
+    <Data Location="2" Value="0.99748114912651475" />
+    <Data Location="3" Value="-0.98330514554995407" />
+    <Data Location="4" Value="0.99748114912651475" />
+  </DataPoint>
+  <DataPoint Label="5">
+    <Data Location="0" Value="-0.99074049599843883" />
+    <Data Location="1" Value="-0.99458606073419342" />
+    <Data Location="2" Value="-0.35859695158388122" />
+    <Data Location="3" Value="0.99752258235178015" />
+    <Data Location="4" Value="-0.97912513852410343" />
+  </DataPoint>
+  <DataPoint Label="32">
+    <Data Location="0" Value="0.99046373691695733" />
+    <Data Location="1" Value="0.98548029275130022" />
+    <Data Location="2" Value="-0.45106537991608542" />
+    <Data Location="3" Value="0.98802768730202484" />
+    <Data Location="4" Value="0.97926988433168272" />
+  </DataPoint>
+  <DataPoint Label="23">
+    <Data Location="0" Value="-0.6852178086197861" />
+    <Data Location="1" Value="-0.32850445100585768" />
+    <Data Location="2" Value="0.70959046821578009" />
+    <Data Location="3" Value="0.611705694661801" />
+    <Data Location="4" Value="0.76827905254363194" />
+  </DataPoint>
+  <DataPoint Label="">
+    <Data Location="0" Value="0.950168660557508" />
+    <Data Location="1" Value="0.9751875567230246" />
+    <Data Location="2" Value="0.97225045380583408" />
+    <Data Location="3" Value="0.073039900305063063" />
+    <Data Location="4" Value="0.066509042448508374" />
+  </DataPoint>
+  <DataPoint Label="14">
+    <Data Location="0" Value="-0.61343062329212206" />
+    <Data Location="1" Value="-0.012509573780133907" />
+    <Data Location="2" Value="0.39181757453446669" />
+    <Data Location="3" Value="-0.46259852281416197" />
+    <Data Location="4" Value="0.19773037355072315" />
+  </DataPoint>
+  <DataPoint Label="2">
+    <Data Location="0" Value="-0.64772759687621273" />
+    <Data Location="1" Value="-0.32384509957704566" />
+    <Data Location="2" Value="0.24318350471545355" />
+    <Data Location="3" Value="-0.920160802946971" />
+    <Data Location="4" Value="0.96837121508332924" />
+  </DataPoint>
+  <DataPoint Label="21">
+    <Data Location="0" Value="-0.93891826047388571" />
+    <Data Location="1" Value="-0.29707788914813116" />
+    <Data Location="2" Value="-0.93205572010287208" />
+    <Data Location="3" Value="0.96421652257044888" />
+    <Data Location="4" Value="0.85502816720897379" />
+  </DataPoint>
+  <DataPoint Label="26">
+    <Data Location="0" Value="0.98092230632355726" />
+    <Data Location="1" Value="-0.31525596244208381" />
+    <Data Location="2" Value="-0.94263716688131693" />
+    <Data Location="3" Value="0.99734943990799563" />
+    <Data Location="4" Value="-0.77121775651014512" />
+  </DataPoint>
+</Masterformat>

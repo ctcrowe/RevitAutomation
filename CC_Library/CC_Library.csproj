@@ -53,35 +53,27 @@
     <Compile Include="Parameters\ParamGUIDs.cs" />
     <Compile Include="Parameters\Parameter.cs" />
     <Compile Include="CMDGetMyDocs.cs" />
-    <Compile Include="CC_Predictions\CC_PredictionPhrase.cs" />
-    <Compile Include="CC_Predictions\CC_PredictionOption.cs" />
-    <Compile Include="CC_Predictions\CC_Prediction.cs" />
-    <Compile Include="CC_Predictions\CC_PredictionElement.cs" />
-    <Compile Include="CC_Predictions\_CMD_CC_GenPredictions.cs" />
-    <Compile Include="CC_Predictions\_CMD_CC_GetPrediction.cs" />
     <Compile Include="CC_CmdLibrary.cs" />
-    <Compile Include="CC_Predictions\_CMD_CC_AdjustPredictions.cs" />
     <Compile Include="CC_Command.cs" />
-    <Compile Include="CC_Predictions\CC_PredictionData.cs" />
     <Compile Include="Enumerations\ObjectCategories.cs" />
-    <Compile Include="Predictions3\Accuracy.cs" />
-    <Compile Include="Predictions3\AdjustEntry.cs" />
-    <Compile Include="Predictions3\Datapoint.cs" />
-    <Compile Include="Predictions3\CloneDataset.cs" />
-    <Compile Include="Predictions3\CorrelatedData.cs" />
-    <Compile Include="Predictions3\CorrelationPositive.cs" />
-    <Compile Include="Predictions3\ReduceDataset.cs" />
-    <Compile Include="Predictions3\CorrelationNegative.cs" />
-    <Compile Include="Predictions3\Entryset.cs" />
-    <Compile Include="Predictions3\Distance.cs" />
-    <Compile Include="Predictions3\Dataset.cs" />
+    <Compile Include="Predictions\Accuracy.cs" />
+    <Compile Include="Predictions\AdjustEntry.cs" />
+    <Compile Include="Predictions\Datapoint.cs" />
+    <Compile Include="Predictions\CloneDataset.cs" />
+    <Compile Include="Predictions\CorrelatedData.cs" />
+    <Compile Include="Predictions\ReduceDataset.cs" />
+    <Compile Include="Predictions\Entryset.cs" />
+    <Compile Include="Predictions\Distance.cs" />
+    <Compile Include="Predictions\Dataset.cs" />
     <Compile Include="Datatypes\CSVData.cs" />
     <Compile Include="Datatypes\Datatypes.cs" />
-    <Compile Include="Predictions3\RunPredictionsr1.cs" />
+    <Compile Include="Predictions\RunPredictionsr1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Predictions3\XMLData\" />
+    <EmbeddedResource Include="Predictions\XMLData\Masterformat.xml" />
+    <EmbeddedResource Include="Predictions\XMLData\TextData.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
