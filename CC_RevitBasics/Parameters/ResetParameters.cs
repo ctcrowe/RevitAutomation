@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.IO;
 
-namespace CC_Plugin
+namespace CC_RevitBasics
 {
     public static class ResetParamLibrary
     {

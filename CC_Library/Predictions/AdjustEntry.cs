@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
@@ -32,145 +29,102 @@ namespace CC_Library.Predictions
             */
 
             Dictionary<string, string> ReducedEntries = Datum.ReducedEntries(ActionSet, EntrySet, write);
-            double Accuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-
             CorrelationSet Relations = new CorrelationSet(Datum, ReferencedSet, ReducedEntries, write);
 
-            //The positive vector
-            var PositiveRelation = Datum.Correlation(Relations.Positive.Data, ReducedEntries, write, true);
-            //Normalized Positive Vector
-            var PositiveNormal = PositiveRelation.NormalizeVector();
-
-            //The negative vector
-            var NegativeRelation = Datum.Correlation(Relations.Negative.Data, ReducedEntries, write, false);
-            //Normalized Negative Vector
-            var NegativeNormal = NegativeRelation.NormalizeVector();
-
-            //The Similar Vector
-            var SimilarRelation = Datum.Correlation(Datum.SimilarSet(ActionSet.Data, write), EntrySet, write, false);
-            //Normalized Similar Vector
-            var SimilarNormal = SimilarRelation.NormalizeVector();
-
-            double NegativeChange = 0.03;
-            double PositiveChange = 0.05;
-            double SimilarChange = 0.03;
-            
-            double OldAccuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-
-            var TestSet = ActionSet.Clone();
-            var TestPoint = TestSet.Data.Where(x => x.Key == Datum.Key).First();
-            TestPoint.AdustValue(PositiveNormal, PositiveChange);
-            double TestAccuracy = TestSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-            if (TestAccuracy < OldAccuracy)
-                PositiveChange = 0;
-
-            TestSet = ActionSet.Clone();
-            TestPoint = TestSet.Data.Where(x => x.Key == Datum.Key).First();
-            TestPoint.AdustValue(NegativeNormal, -1 * NegativeChange);
-            TestAccuracy = TestSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-            if (TestAccuracy < OldAccuracy)
-                NegativeChange = 0;
-
-            TestSet = ActionSet.Clone();
-            TestPoint = TestSet.Data.Where(x => x.Key == Datum.Key).First();
-            TestPoint.AdustValue(SimilarNormal, -1 * SimilarChange);
-            TestAccuracy = TestSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-            if (TestAccuracy < OldAccuracy)
-                SimilarChange = 0;
-
-            for (double pos = 0; pos <= 0.1; pos += 0.01)
+            if (Relations.Positive.Data.Any())
             {
-                for(double neg = 0; neg <= 0.1; neg += 0.01)
+                //The positive vector
+                var PositiveRelation = Datum.Correlation(Relations.Positive.Data, ReducedEntries, write, true);
+                //The negative vector
+                var NegativeRelation = Datum.Correlation(Relations.Negative.Data, ReducedEntries, write, false);
+                //The Similar Vector
+                var SimilarRelation = Datum.Correlation(Datum.SimilarSet(ActionSet.Data, write), EntrySet, write, false);
+
+                double NegativeChange = -0.1;
+                double PositiveChange = 0.1;
+                double SimilarChange = -0.1;
+                double OldAccuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
+
+                for (double pos = 0.1; pos >= 0; pos -= 0.01)
                 {
-                    for (double sim = 0; sim <= 0.1; sim += 0.01)
+                    for (double neg = -0.1; neg <= 0; neg += 0.01)
                     {
-                        var CopySet = ActionSet.Clone();
-                        var CopyPoint = CopySet.Data.Where(x => x.Key == Datum.Key).First();
-                        CopyPoint.AdustValue(PositiveNormal, pos);
-                        CopyPoint.AdustValue(NegativeNormal, -1 * neg);
-                        if(ActionSet.datatype != Datatype.TextData)
-                            CopyPoint.AdustValue(SimilarNormal, -1 * sim);
-                        double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-                        if (NewAccuracy > OldAccuracy)
+                        for (double sim = -0.1; sim <= 0; sim += 0.01)
                         {
-                            NegativeChange = neg;
-                            PositiveChange = pos;
-                            if(ActionSet.datatype != Datatype.TextData)
-                                SimilarChange = sim;
-                            OldAccuracy = NewAccuracy;
+                            var CopySet = ActionSet.Clone();
+                            var CopyPoint = CopySet.Data.Where(x => x.Key == Datum.Key).First();
+                            CopyPoint.AdustValue(PositiveRelation, pos, null, write, false);
+                            CopyPoint.AdustValue(NegativeRelation, neg, null, write, false);
+                            if (ActionSet.datatype != Datatype.TextData)
+                                CopyPoint.AdustValue(SimilarRelation, sim, null, write, false);
+                            double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
+                            if (NewAccuracy > OldAccuracy)
+                            {
+                                NegativeChange = neg;
+                                PositiveChange = pos;
+                                if (ActionSet.datatype != Datatype.TextData)
+                                    SimilarChange = sim;
+                                OldAccuracy = NewAccuracy;
+                            }
                         }
                     }
                 }
-            }
 
-            Datum.AdustValue(PositiveNormal, PositiveChange);
-            Datum.AdustValue(NegativeNormal, -1 * NegativeChange);
-            if (ActionSet.datatype != Datatype.TextData)
-                Datum.AdustValue(SimilarNormal, -1 * SimilarChange);
+                Datum.AdustValue(PositiveRelation, PositiveChange, "Positive", write, true);
+                Datum.AdustValue(NegativeRelation, NegativeChange, "Negative", write, true);
+                if (ActionSet.datatype != Datatype.TextData)
+                    Datum.AdustValue(SimilarRelation, SimilarChange, "Similar", write, true);
 
-            double AccuracyRange = OldAccuracy;
-            //The current direction of the normal. This prevents the model from congregating to 0.
-            double[] CurrentVector = new double[Dataset.DataSize];
-            double CurrentChange = 0.005;
-            
-            for (int i = 0; i < CurrentVector.Count(); i++)
-            {
-                CurrentVector[i] = Datum.Value[i];
-            }
-            var CurrentDistance = CurrentVector.CalcDistance();
-            var CurrentNormal = CurrentVector.NormalizeVector();
-            if(CurrentDistance > 1)
-            {
-                for(int i = 0; i < Dataset.DataSize; i++)
-                    CurrentNormal[i] *= -1;
-            }
+                double Accuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
+                double LengthVector = 1;
 
-
-            TestSet = ActionSet.Clone();
-            TestPoint = TestSet.Data.Where(x => x.Key == Datum.Key).First();
-            TestPoint.AdustValue(CurrentNormal, CurrentChange);
-            TestAccuracy = TestSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-            if (TestAccuracy < AccuracyRange)
-                CurrentChange = 0;
-
-            for (double cur = 0; cur <= 0.1; cur += 0.01)
-            {
-                var CopySet = ActionSet.Clone();
-                var CopyPoint = CopySet.Data.Where(x => x.Key == Datum.Key).First();
-                
-                CopyPoint.AdustValue(CurrentNormal, cur);
-
-                double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-                if (NewAccuracy > AccuracyRange)
+                for (double i = 0.95; i <= 1.05; i++)
                 {
-                    CurrentChange = cur;
-                    AccuracyRange = NewAccuracy;
-                }
-            }
+                    var CopySet = ActionSet.Clone();
+                    var CopyPoint = CopySet.Data.Where(x => x.Key == Datum.Key).First();
 
-            string s = Datum.Key + " ; Current : " + CurrentChange + ", Positive : " + PositiveChange + ", Negative : " + NegativeChange;
-            if (ActionSet.datatype != Datatype.TextData)
-                s += ", Similar : " + SimilarChange;
-            write(s);
-            write(Datum.Key + " ; Distance : " + Datum.Value.CalcDistance());
-            Datum.AdustValue(CurrentNormal, CurrentChange);
+                    for (int j = 0; j < Dataset.DataSize; j++)
+                    {
+                        CopyPoint.Value[j] *= i;
+                    }
+                    double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
+                    if (NewAccuracy > Accuracy)
+                    {
+                        LengthVector = i;
+                    }
+                }
+
+                for (int i = 0; i < Dataset.DataSize; i++)
+                {
+                    if (Datum.Value[i] * LengthVector <= 1 && Datum.Value[i] * LengthVector >= -1)
+                        Datum.Value[i] *= LengthVector;
+                    else
+                    {
+                        if (Datum.Value[i] * LengthVector >= 1)
+                            Datum.Value[i] = 1;
+                        if (Datum.Value[i] * LengthVector <= -1)
+                            Datum.Value[i] = -1;
+                    }
+                }
+                write(Datum.Key + " ; Distance : " + Datum.Value.CalcDistance());
+            }
         }
-        public static void AdustValue(this KeyValuePair<string, double[]> datapoint, double[] values, double adjustment)
+        public static void AdustValue(this KeyValuePair<string, double[]> datapoint, double[] values, double adjustment, string type, WriteToCMDLine write, bool t)
         {
+            double DataLength = datapoint.Value.VectorLength();
+            double[] Normal = datapoint.Value.Normalize();
+            double[] ValueNorm = values.Normalize();
+            double[] ChangeDirection = ValueNorm.DirectionBetween(Normal);
+            if(t) write(type + " : " + ChangeDirection.VectorLength());
+
             for(int i = 0; i < datapoint.Value.Count(); i++)
             {
-                double MaxChange = 1 - datapoint.Value[i];
-                double MinChange = -1 - datapoint.Value[i];
-                double change = values[i] * adjustment;
-
-                if(change < MaxChange && change > MinChange)
-                    datapoint.Value[i] += (values[i] * adjustment);
-                else
+                if (ChangeDirection[i] > 0)
                 {
-                    if (change > MaxChange)
-                        datapoint.Value[i] += MaxChange;
-                    if (change < MinChange)
-                        datapoint.Value[i] -= MinChange;
+                    double change = ChangeDirection[i] * adjustment;
+
+                    Normal[i] += change;
+                    datapoint.Value[i] = Normal[i] * DataLength;
                 }
             }
         }

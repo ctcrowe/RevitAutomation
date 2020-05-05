@@ -2,7 +2,7 @@
 using Autodesk.Revit.DB;
 using CC_Library.Parameters;
 
-namespace CC_Plugin
+namespace CC_RevitBasics
 {
     internal static class ExDefOptions
     {
@@ -11,7 +11,7 @@ namespace CC_Plugin
             ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(par.ToString(), ParameterType.Text);
             int value = (int)par;
             int typevalue = Math.Abs((value / 100) % 10);
-            switch(typevalue)
+            switch (typevalue)
             {
                 default:
                 case 0:

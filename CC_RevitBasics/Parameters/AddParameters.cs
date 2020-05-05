@@ -5,14 +5,13 @@ using System.Reflection;
 using System.IO;
 
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 
 using CC_Library.Parameters;
 
-namespace CC_Plugin
+namespace CC_RevitBasics
 {
-    internal static class AddParameters
+    public static class AddParameters
     {
         private static Definition CreateDefinition(this CCParameter p, Document doc)
         {

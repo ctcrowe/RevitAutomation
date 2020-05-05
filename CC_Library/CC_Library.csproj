@@ -58,6 +58,7 @@
     <Compile Include="Enumerations\ObjectCategories.cs" />
     <Compile Include="Predictions\Accuracy.cs" />
     <Compile Include="Predictions\AdjustEntry.cs" />
+    <Compile Include="Predictions\Prediction.cs" />
     <Compile Include="Predictions\Datapoint.cs" />
     <Compile Include="Predictions\CloneDataset.cs" />
     <Compile Include="Predictions\CorrelatedData.cs" />
@@ -70,10 +71,14 @@
     <Compile Include="Predictions\RunPredictionsr1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Predictions\XMLData\RoomPrivacy.xml" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Predictions\XMLData\Masterformat.xml" />
-    <EmbeddedResource Include="Predictions\XMLData\TextData.xml" />
+    <EmbeddedResource Include="Predictions\XMLData\TextData.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

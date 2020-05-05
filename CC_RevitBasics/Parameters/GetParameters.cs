@@ -1,12 +1,9 @@
-﻿
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
+﻿using Autodesk.Revit.DB;
 using CC_Library.Parameters;
 
-namespace CC_Plugin
+namespace CC_RevitBasics
 {
-    internal static class GetParameters
+    public static class GetParameters
     {
         public static string GetDocumentParam(this Document doc, CCParameter p)
         {
@@ -14,13 +11,12 @@ namespace CC_Plugin
                 return doc.GetFamilyParam(p);
             else
                 return doc.GetProjectInfoParam(p);
-            return null;
         }
         public static string GetElementTypeParam(this FamilyInstance inst, CCParameter p)
         {
             string paramValue = null;
             FamilySymbol symb = inst.Symbol;
-            if(symb.get_Parameter(p.GetGUID()) != null)
+            if (symb.get_Parameter(p.GetGUID()) != null)
             {
                 return symb.get_Parameter(p.GetGUID()).GetParameterValue();
             }
@@ -112,9 +108,9 @@ namespace CC_Plugin
                 if (doc.FamilyManager.get_Parameter(p.GetGUID()) != null)
                 {
                     FamilyParameter par = doc.FamilyManager.get_Parameter(p.GetGUID());
-                    foreach(FamilyType t in doc.FamilyManager.Types)
+                    foreach (FamilyType t in doc.FamilyManager.Types)
                     {
-                        if(!string.IsNullOrEmpty(t.GetParameterValue(par)))
+                        if (!string.IsNullOrEmpty(t.GetParameterValue(par)))
                             return t.GetParameterValue(par);
                     }
                 }

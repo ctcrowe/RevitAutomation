@@ -2,7 +2,7 @@
 using Autodesk.Revit.DB;
 using CC_Library.Parameters;
 
-namespace CC_Plugin
+namespace CC_RevitBasics
 {
     public static class SetParameters
     {
@@ -106,7 +106,7 @@ namespace CC_Plugin
         }
         public static void SetElementParam(this Element e, CCParameter p, string value)
         {
-            if(p < 0)
+            if (p < 0)
             {
                 e.SetElementInstanceParam(p, value);
             }

@@ -76,6 +76,14 @@ namespace CC_Plugin
                 "CC_Plugin.CollectFamilies");
 
             PushButton familybutton = CPanel.AddItem(B8Data) as PushButton;
+
+            PushButtonData B9Data = new PushButtonData(
+                "Capture Rooms",
+                "Capture Rooms",
+                dllpath(),
+                "CC_Plugin.CollectRooms");
+
+            PushButton RoomButton = CPanel.AddItem(B9Data) as PushButton;
         }
     }
 }

@@ -101,6 +101,23 @@ namespace CC_Library.Predictions
             write("New Dataset");
             return new Dataset(dt);
         }
+        public static Dataset LoadDataset(this Datatype dt)
+        {
+            var assembly = typeof(StaticLoadDataset).GetTypeInfo().Assembly;
+            if (assembly.GetManifestResourceNames().Any(z => z.Contains(dt.ToString())))
+            {
+                string name = assembly.GetManifestResourceNames().Where(z => z.Contains(dt.ToString())).First();
+
+                using (Stream stream = assembly.GetManifestResourceStream(name))
+                {
+                    var xdoc = new XmlDocument();
+                    xdoc.Load(stream);
+                    XDocument doc = xdoc.ToXDocument();
+                    return new Dataset(doc);
+                }
+            }
+            return new Dataset(dt);
+        }
         public static void InitializeDataset(this Dataset ds, Dictionary<string, string> EntrySet, Random random, WriteToCMDLine write)
         {
             if(ds.datatype == Datatype.TextData)

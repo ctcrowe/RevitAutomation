@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<RoomPrivacy>
+  <DataPoint Label="2">
+    <Data Location="0" Value="-1" />
+    <Data Location="1" Value="-0.98773142138424341" />
+    <Data Location="2" Value="-0.85855273838180624" />
+    <Data Location="3" Value="0.15179655726106728" />
+    <Data Location="4" Value="0.32051425411429091" />
+  </DataPoint>
+  <DataPoint Label="1">
+    <Data Location="0" Value="-0.35209315396277563" />
+    <Data Location="1" Value="-0.95076154597641194" />
+    <Data Location="2" Value="-1" />
+    <Data Location="3" Value="-0.14024560517263066" />
+    <Data Location="4" Value="0.48260682122221604" />
+  </DataPoint>
+  <DataPoint Label="0">
+    <Data Location="0" Value="-1" />
+    <Data Location="1" Value="-1" />
+    <Data Location="2" Value="-0.4254889195849984" />
+    <Data Location="3" Value="-1" />
+    <Data Location="4" Value="-0.71936742335883785" />
+  </DataPoint>
+  <DataPoint Label="3">
+    <Data Location="0" Value="-0.033457213547972639" />
+    <Data Location="1" Value="-1" />
+    <Data Location="2" Value="-0.75297384457030669" />
+    <Data Location="3" Value="-0.72578454083830679" />
+    <Data Location="4" Value="-1" />
+  </DataPoint>
+</RoomPrivacy>

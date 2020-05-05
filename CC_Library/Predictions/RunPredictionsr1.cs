@@ -46,12 +46,15 @@ namespace CC_Library.Predictions
                     //After each accuracy test, and once when target accuracy is reached, save all datasets to xml files.
                     dictionary.WriteToXML();
                     dataset.WriteToXML();
-
-                    int runcount = 0;
-                    while (Accuracy < .95)
+                    
+                    int totalcount = dataset.Data.Count() + dictionary.Data.Count();
+                    for(int runcount = 0; runcount < 500; runcount++)
                     {
+                        int objectcount = 0;
+                        dataset.ShowAccuracy(dictionary, entries, write, runcount);
                         for (int i = 0; i < dataset.Data.Count(); i++)
                         {
+                            objectcount++;
                             dataset.Data.ElementAt(i).ChartEntry(dataset, dictionary, entries, write);
 
                             //Save the dataset to its own xml file
@@ -60,11 +63,13 @@ namespace CC_Library.Predictions
 
                             //Test for accuracy of the dataset.
                             Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
+                            write("Scanned " + objectcount + " of " + totalcount + " objects.");
                             write("The Total Accuracy is " + Accuracy);
                             write("The number of loops completed is : " + runcount);
                         }
                         for(int i = 0; i < dictionary.Data.Count(); i++)
                         {
+                            objectcount++;
                             dictionary.Data.ElementAt(i).ChartEntry(dictionary, dataset, entries, write);
 
                             //Save the dataset to its own xml file
@@ -73,10 +78,10 @@ namespace CC_Library.Predictions
 
                             //Test for accuracy of the dataset.
                             Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
+                            write("Scanned " + objectcount + " of " + totalcount + " objects.");
                             write("The Total Accuracy is " + Accuracy);
                             write("The number of loops completed is : " + runcount);
                         }
-                        runcount++;
                     }
                 }
             }

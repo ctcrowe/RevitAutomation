@@ -9,7 +9,6 @@ namespace DataAnalysis
         public static void Write(string wo)
         {
             Console.WriteLine(wo);
-            Thread.Sleep(200);
         }
         [STAThread]
         static void Main(string[] args)

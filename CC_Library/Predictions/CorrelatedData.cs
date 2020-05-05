@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CC_Library.Datatypes;
 
@@ -66,22 +67,23 @@ namespace CC_Library.Predictions
             
             foreach (var Reduced in ReducedSet)
             {
-                double[] Direction = Datum.DirectionBetween(Reduced);
+                double[] norm = Reduced.Value.Normalize();
+                double distance = Datum.CalcDistance(Reduced);
                 for (int i = 0; i < Location.Count(); i++)
                 {
                     if (CorrelationIsPositive)
-                        Location[i] += Direction[i];
+                        Location[i] += norm[i] * distance;
                     else
-                        Location[i] = 1 / Direction[i];
+                    {
+                        double pi = Math.PI / 2;
+                        double adjustment = Math.Cos(distance/2 * pi);
+                        Location[i] += norm[i] * adjustment;
+                    }
                 }
             }
             Location.Divide(ReducedSet.Count());
 
-            for (int i = 0; i < Dataset.DataSize; i++)
-            {
-                results[i] = Datum.Value[i] - Location[i];
-            }
-            return results;
+            return Location;
         }
         public static Dictionary<string, double[]> SimilarSet(this KeyValuePair<string, double[]> Datum,
             Dictionary<string, double[]> Dataset,

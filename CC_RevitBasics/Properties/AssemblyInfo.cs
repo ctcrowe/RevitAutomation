@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsoleApp1")]
+[assembly: AssemblyTitle("CC_RevitBasics")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ConsoleApp1")]
+[assembly: AssemblyProduct("CC_RevitBasics")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("18e2a8da-2dac-4724-8eb3-0b7d0da75f5c")]
+[assembly: Guid("ebb8b96f-72fc-404b-9681-2362f823ed6f")]
 
 // Version information for an assembly consists of the following four values:
 //

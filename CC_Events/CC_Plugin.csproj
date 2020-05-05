@@ -36,6 +36,9 @@
     <Reference Include="CC_Library">
       <HintPath>..\CC_Library\bin\Debug\CC_Library.dll</HintPath>
     </Reference>
+    <Reference Include="CC_RevitBasics">
+      <HintPath>..\CC_RevitBasics\bin\Debug\CC_RevitBasics.dll</HintPath>
+    </Reference>
     <Reference Include="MEPEquipment">
       <HintPath>..\MEPEquipment\bin\Debug\MEPEquipment.dll</HintPath>
     </Reference>
@@ -79,20 +82,15 @@
     <Compile Include="CC_DocSynching.cs" />
     <Compile Include="CC_FamLoaded.cs" />
     <Compile Include="CC_SetMFParam.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="CC_DocClosing.cs" />
-    <Compile Include="Class2.cs" />
-    <Compile Include="Class3.cs" />
+    <Compile Include="CaptureFamilies.cs" />
+    <Compile Include="CaptureRoomNames.cs" />
+    <Compile Include="UpdateRoomPrivacy.cs" />
     <Compile Include="CreateCSVDatapoint.cs" />
     <Compile Include="PurgeCategories.cs" />
-    <Compile Include="Parameters\GetParameters.cs" />
-    <Compile Include="Parameters\SetParameters.cs" />
     <Compile Include="CreateTTDDatapoint.cs" />
     <Compile Include="LoadFamilyTab.cs" />
-    <Compile Include="Parameters\AddParameters.cs" />
     <Compile Include="Timekeeper.cs" />
-    <Compile Include="Parameters\ExDefOpt.cs" />
-    <Compile Include="Parameters\ResetParamLibrary.cs" />
     <Compile Include="CC_DocSavingAsEvent.cs" />
     <Compile Include="FamilyDB\CC_CheckNameUse.cs" />
     <Compile Include="FamilyDB\CC_MoveFamiliesToDB.cs" />

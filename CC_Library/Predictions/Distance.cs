@@ -29,12 +29,10 @@ namespace CC_Library.Predictions
         public static double[] DirectionBetween(this KeyValuePair<string, double[]> point1, KeyValuePair<string, double[]> point2)
         {
             double[] SpaceBetween = new double[Dataset.DataSize];
-            var _point1 = point1;
-            var _point2 = point2;
 
             for(int i = 0; i < Dataset.DataSize; i++)
             {
-                SpaceBetween[i] = _point2.Value[i] - _point1.Value[i];
+                SpaceBetween[i] = point2.Value[i] - point1.Value[i];
             }
             return SpaceBetween;
         }
@@ -92,7 +90,7 @@ namespace CC_Library.Predictions
             double fin = Math.Sqrt(val);
             return fin;
         }
-        public static KeyValuePair<string, double[]> FindClosest(this Dataset set, KeyValuePair<string, double[]> point, WriteToCMDLine write)
+        public static KeyValuePair<string, double[]> FindClosest(this Dataset set, KeyValuePair<string, double[]> point)
         {
             if (set.Data.Any())
             {
@@ -101,16 +99,29 @@ namespace CC_Library.Predictions
                 {
                     results.Add(dp.Key, dp.CalcDistance(point));
                 }
-                KeyValuePair<string, double> max = results.First();
+                KeyValuePair<string, double> min = results.First();
                 foreach (KeyValuePair<string, double> result in results)
                 {
-                    if (result.Value > max.Value) max = result;
+                    if (result.Value < min.Value) min = result;
                 }
 
-                KeyValuePair<string, double[]> datapoint = set.Data.GetEntry(max.Key);
+                KeyValuePair<string, double[]> datapoint = set.Data.GetEntry(min.Key);
                 return datapoint;
             }
             return Datatype.TextData.GeneratePoint();
+        }
+        public static Dictionary<string, double[]> FindNClosest(this Dataset set, KeyValuePair<string, double[]> point, int NumberToFind)
+        {
+            Dictionary<string, double[]> solutions = new Dictionary<string, double[]>();
+            if (set.Data.Any())
+            {
+                Dictionary<string, double> results = new Dictionary<string, double>();
+                foreach (KeyValuePair<string, double[]> dp in set.Data)
+                {
+                    results.Add(dp.Key, dp.CalcDistance(point));
+                }
+            }
+            return solutions;
         }
     }
 }
