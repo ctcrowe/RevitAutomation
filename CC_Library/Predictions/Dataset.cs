@@ -118,7 +118,7 @@ namespace CC_Library.Predictions
             }
             return new Dataset(dt);
         }
-        public static void InitializeDataset(this Dataset ds, Dictionary<string, string> EntrySet, Random random, WriteToCMDLine write)
+        public static void InitializeDataset(this Dataset ds, Dictionary<string, string[]> EntrySet, Random random, WriteToCMDLine write)
         {
             if(ds.datatype == Datatype.TextData)
             {
@@ -135,11 +135,14 @@ namespace CC_Library.Predictions
             }
             else
             {
-                foreach(string value in EntrySet.Values)
+                foreach(string[] values in EntrySet.Values)
                 {
-                    if(!ds.Data.ContainsKey(value))
+                    foreach (string value in values)
                     {
-                        ds.AddEntry(value, random);
+                        if (!ds.Data.ContainsKey(value))
+                        {
+                            ds.AddEntry(value, random);
+                        }
                     }
                 }
             }

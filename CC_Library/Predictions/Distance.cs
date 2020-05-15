@@ -110,18 +110,38 @@ namespace CC_Library.Predictions
             }
             return Datatype.TextData.GeneratePoint();
         }
-        public static Dictionary<string, double[]> FindNClosest(this Dataset set, KeyValuePair<string, double[]> point, int NumberToFind)
+        public static KeyValuePair<string, double[]>[] FindNClosest(this Dataset set, KeyValuePair<string, double[]> point, int NumberToFind)
         {
-            Dictionary<string, double[]> solutions = new Dictionary<string, double[]>();
+            KeyValuePair<string, double[]>[] solutions = new KeyValuePair<string, double[]>[NumberToFind];
+            List<KeyValuePair<string, double>> results = new List<KeyValuePair<string, double>>();
             if (set.Data.Any())
             {
-                Dictionary<string, double> results = new Dictionary<string, double>();
                 foreach (KeyValuePair<string, double[]> dp in set.Data)
                 {
-                    results.Add(dp.Key, dp.CalcDistance(point));
+                    results.Add(new KeyValuePair<string, double>(dp.Key, dp.CalcDistance(point)));
+                }
+                results.Sort((x, y) => y.Value.CompareTo(x.Value));
+                results.Reverse();
+                for (int i = 0; i < solutions.Count(); i++)
+                {
+                    string key = results[i].Key;
+                    solutions[i] = new KeyValuePair<string, double[]>(key, set.Data[key]);
                 }
             }
             return solutions;
+        }
+        public static KeyValuePair<string, double[]>[] FindWithinRange(this Dataset set, KeyValuePair<string, double[]> point, double Distance)
+        {
+            List<KeyValuePair<string, double[]>> solutions = new List<KeyValuePair<string, double[]>>();
+            if (set.Data.Any())
+            {
+                foreach (KeyValuePair<string, double[]> dp in set.Data)
+                {
+                    if (dp.CalcDistance(point) > Distance)
+                        solutions.Add(new KeyValuePair<string, double[]>(dp.Key, dp.Value));
+                }
+            }
+            return solutions.ToArray();
         }
     }
 }

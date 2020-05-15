@@ -33,6 +33,7 @@ TODO: On element placed, check if its location is inside of a room.
                     string id = inst.GetElementTypeParam(CCParameter.CC_ID);
                     string name = inst.Symbol.Family.Name;
                     Datatype.Masterformat.CreateInputData(name, inst.GetElementTypeParam(CCParameter.Masterformat));
+                    /*
                     var cats = inst.GetCategories();
                     if (cats.Any())
                     {
@@ -42,6 +43,7 @@ TODO: On element placed, check if its location is inside of a room.
                             //catch { TaskDialog.Show("Error", "Failed to create category at Updater"); }
                         }
                     }
+                    */
                 }
             }
         }

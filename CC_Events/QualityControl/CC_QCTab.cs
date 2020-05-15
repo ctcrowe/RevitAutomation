@@ -84,6 +84,13 @@ namespace CC_Plugin
                 "CC_Plugin.CollectRooms");
 
             PushButton RoomButton = CPanel.AddItem(B9Data) as PushButton;
+
+            PushButtonData B10Data = new PushButtonData(
+                "Generate Finish Floors",
+                "Generate Finish Floors",
+                dllpath(),
+                "CC_Plugin.GenerateFinishFloors");
+            PushButton FinFloors = CPanel.AddItem(B10Data) as PushButton;
         }
     }
 }

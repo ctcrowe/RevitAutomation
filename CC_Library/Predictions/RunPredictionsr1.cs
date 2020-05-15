@@ -37,12 +37,12 @@ namespace CC_Library.Predictions
                     //Note, Datapoints are calculated on the fly. 
                     //It is added at this stage with the entries to the dictionary set.
                     //Added with random data.
-                    Dictionary<string, string> entries = filepath.GetEntryValues(write);
+                    Dictionary<string, string[]> entries = filepath.GetEntryValues(write);
                     dataset.InitializeDataset(entries, random, write);
                     dictionary.InitializeDataset(entries, random, write);
 
                     //Primary Accuracy Test
-                    double Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
+                    double Accuracy = dataset.CalcAccuracy(dictionary, entries, true, 0);
                     //After each accuracy test, and once when target accuracy is reached, save all datasets to xml files.
                     dictionary.WriteToXML();
                     dataset.WriteToXML();
@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
                     for(int runcount = 0; runcount < 500; runcount++)
                     {
                         int objectcount = 0;
-                        dataset.ShowAccuracy(dictionary, entries, write, runcount);
+                        dataset.ShowClosestAccuracy(dictionary, entries, write, runcount);
                         for (int i = 0; i < dataset.Data.Count(); i++)
                         {
                             objectcount++;
@@ -62,7 +62,7 @@ namespace CC_Library.Predictions
                             dataset.WriteToXML();
 
                             //Test for accuracy of the dataset.
-                            Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
+                            Accuracy = dataset.CalcAccuracy(dictionary, entries, true, 0);
                             write("Scanned " + objectcount + " of " + totalcount + " objects.");
                             write("The Total Accuracy is " + Accuracy);
                             write("The number of loops completed is : " + runcount);
@@ -77,7 +77,7 @@ namespace CC_Library.Predictions
                             dataset.WriteToXML();
 
                             //Test for accuracy of the dataset.
-                            Accuracy = dataset.CalcAccuracy(dictionary, entries, write);
+                            Accuracy = dataset.CalcAccuracy(dictionary, entries, true, 0);
                             write("Scanned " + objectcount + " of " + totalcount + " objects.");
                             write("The Total Accuracy is " + Accuracy);
                             write("The number of loops completed is : " + runcount);

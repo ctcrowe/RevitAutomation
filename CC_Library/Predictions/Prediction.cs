@@ -10,15 +10,16 @@ namespace CC_Library.Predictions
         public static string FindClosest(this Datatype type, string phrase)
         {
             Dataset dataset = type.LoadDataset();
+            Dataset dictionary = Datatype.TextData.LoadDataset();
             if (dataset.Data.Any())
             {
-                Dataset dictionary = Datatype.TextData.LoadDataset();
                 List<string> words = phrase.SplitTitle();
-                IEnumerable<KeyValuePair<string, double[]>> datum = dataset.Data.Where(x => words.Contains(x.Key));
+
+                IEnumerable<KeyValuePair<string, double[]>> datum = dictionary.Data.Where(x => words.Contains(x.Key));
                 if (datum.Any())
                 {
                     KeyValuePair<string, double[]> data = datum.ResultantDatapoint();
-                    return dictionary.FindClosest(data).Key;
+                    return dataset.FindClosest(data).Key;
                 }
             }
             return null;

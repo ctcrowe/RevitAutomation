@@ -5,6 +5,7 @@ using System.Reflection;
 using System.IO;
 
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 
 using CC_Library.Parameters;
@@ -59,6 +60,8 @@ namespace CC_RevitBasics
                     doc.AddViewParam(p); break;
                 case 6:
                     doc.AddCFWParam(p); break;
+                case 7:
+                    doc.AddOpeningParam(p); break;
             }
         }
         private static void AddComboParam(this Document doc, CCParameter p)
@@ -158,6 +161,55 @@ namespace CC_RevitBasics
                 {
                     ExternalDefinition def = p.CreateDefinition(doc) as ExternalDefinition;
                     doc.FamilyManager.AddParameter(def, BuiltInParameterGroup.PG_IFC, (int)p < 0);
+                }
+            }
+        }
+        private static void AddOpeningParam(this Document doc, CCParameter p)
+        {
+            if (doc.IsFamilyDocument)
+            {
+                ElementId FamilyCategory = doc.OwnerFamily.FamilyCategoryId;
+                List<ElementId> Categories = new List<ElementId>()
+                {
+                    Category.GetCategory(doc, BuiltInCategory.OST_Doors).Id,
+                    Category.GetCategory(doc, BuiltInCategory.OST_Windows).Id,
+                    Category.GetCategory(doc, BuiltInCategory.OST_CurtainWallPanels).Id,
+                    Category.GetCategory(doc, BuiltInCategory.OST_CurtainWallMullions).Id
+                };
+                if (Categories.Any(x => x == FamilyCategory))
+                {
+                    if (doc.FamilyManager.get_Parameter(p.GetGUID()) == null)
+                    {
+                        ExternalDefinition def = p.CreateDefinition(doc) as ExternalDefinition;
+                        doc.FamilyManager.AddParameter(def, BuiltInParameterGroup.PG_IFC, (int)p < 0);
+                    }
+                }
+            }
+            else
+            {
+                List<Element> e = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Doors).ToList();
+                if (e.First().get_Parameter(p.GetGUID()) == null)
+                {
+                    Definition def = p.CreateDefinition(doc);
+                    try
+                    {
+                        CategorySet set = new CategorySet();
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Doors));
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Windows));
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_CurtainWallPanels));
+                        set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_CurtainWallMullions));
+                        if ((int)p < 0)
+                        {
+                            InstanceBinding binding = new InstanceBinding(set);
+                            doc.ParameterBindings.Insert(def, binding);
+                        }
+                        else
+                        {
+                            TypeBinding binding = new TypeBinding(set);
+                            doc.ParameterBindings.Insert(def, binding);
+                        }
+                    }
+                    catch { }
                 }
             }
         }

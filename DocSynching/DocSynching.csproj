@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EBB8B96F-72FC-404B-9681-2362F823ED6F}</ProjectGuid>
+    <ProjectGuid>{869DAA03-CE27-47A2-A4BE-6665AB0B325C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CC_RevitBasics</RootNamespace>
-    <AssemblyName>CC_RevitBasics</AssemblyName>
+    <RootNamespace>DocSynching</RootNamespace>
+    <AssemblyName>DocSynching</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -34,6 +34,12 @@
     <Reference Include="CC_Library">
       <HintPath>..\CC_Library\bin\Debug\CC_Library.dll</HintPath>
     </Reference>
+    <Reference Include="CC_Plugin">
+      <HintPath>..\CC_Events\bin\Debug\CC_Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="CC_RevitBasics">
+      <HintPath>..\CC_RevitBasics\bin\Debug\CC_RevitBasics.dll</HintPath>
+    </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
       <Private>False</Private>
@@ -52,12 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Keynotes\Class1.cs" />
-    <Compile Include="Parameters\AddParameters.cs" />
-    <Compile Include="Parameters\ResetParameters.cs" />
-    <Compile Include="Parameters\GetParameters.cs" />
-    <Compile Include="Parameters\ExDefOptions.cs" />
-    <Compile Include="Parameters\SetParameters.cs" />
+    <Compile Include="UpdateRoomPrivacy.cs" />
+    <Compile Include="DocSynching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

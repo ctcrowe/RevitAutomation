@@ -10,12 +10,12 @@ namespace CC_Library.Predictions
         public Dataset Positive { get; set; }
         public Dataset Negative { get; set; }
 
-        public CorrelationSet(KeyValuePair<string, double[]> datapoint, Dataset ReferenceSet, Dictionary<string, string> Entries, WriteToCMDLine write)
+        public CorrelationSet(KeyValuePair<string, double[]> datapoint, Dataset ReferenceSet, Dictionary<string, string[]> Entries, WriteToCMDLine write)
         {
             Positive = new Dataset(ReferenceSet.datatype);
             Negative = new Dataset(ReferenceSet.datatype);
 
-            foreach (KeyValuePair<string, string> pairs in Entries)
+            foreach (KeyValuePair<string, string[]> pairs in Entries)
             {
                 if (ReferenceSet.datatype == Datatype.TextData)
                 {
@@ -33,12 +33,15 @@ namespace CC_Library.Predictions
                 }
                 else
                 {
-                    if (ReferenceSet.Data.Any(x => x.Key == pairs.Value))
+                    foreach (string v in pairs.Value)
                     {
-                        if (!Positive.Data.ContainsKey(pairs.Value))
+                        if (ReferenceSet.Data.Any(x => x.Key == v))
                         {
-                            KeyValuePair<string, double[]> point = ReferenceSet.Data.Where(x => x.Key == pairs.Value).First();
-                            Positive.Data.Add(point.Key, point.Value);
+                            if (!Positive.Data.ContainsKey(v))
+                            {
+                                KeyValuePair<string, double[]> point = ReferenceSet.Data.Where(x => x.Key == v).First();
+                                Positive.Data.Add(point.Key, point.Value);
+                            }
                         }
                     }
                 }
@@ -59,7 +62,6 @@ namespace CC_Library.Predictions
     {
         public static double[] Correlation(this KeyValuePair<string, double[]> Datum,
             Dictionary<string, double[]> ReducedSet,
-            Dictionary<string, string> EntrySet,
             WriteToCMDLine write, bool CorrelationIsPositive)
         {
             double[] results = new double[Dataset.DataSize];
@@ -102,14 +104,14 @@ namespace CC_Library.Predictions
     }
     internal static class ReducedDataset
     {
-        public static Dictionary<string, string> ReducedEntries(
+        public static Dictionary<string, string[]> ReducedEntries(
             this KeyValuePair<string, double[]> Referenced,
             Dataset ActionSet,
-            Dictionary<string, string> EntrySet,
+            Dictionary<string, string[]> EntrySet,
             WriteToCMDLine write)
         {
-            Dictionary<string, string> ReducedEntries = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, string> Entry in EntrySet)
+            Dictionary<string, string[]> ReducedEntries = new Dictionary<string, string[]>();
+            foreach (KeyValuePair<string, string[]> Entry in EntrySet)
             {
                 if (ActionSet.datatype == Datatype.TextData)
                 {
@@ -126,7 +128,7 @@ namespace CC_Library.Predictions
                 }
                 else
                 {
-                    if (Entry.Value == Referenced.Key)
+                    if (Entry.Value.Any(x => x == Referenced.Key))
                         if (!ReducedEntries.ContainsKey(Entry.Key))
                             ReducedEntries.Add(Entry.Key, Entry.Value);
                 }

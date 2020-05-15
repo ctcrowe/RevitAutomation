@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
         public static void ChartEntry(this KeyValuePair<string, double[]> Datum,
             Dataset ActionSet,
             Dataset ReferencedSet,
-            Dictionary<string, string> EntrySet,
+            Dictionary<string, string[]> EntrySet,
             WriteToCMDLine write)
         {
             /*
@@ -28,54 +28,54 @@ namespace CC_Library.Predictions
              *  3 - Similar Vector - The resultant of all other options in the given dataset.
             */
 
-            Dictionary<string, string> ReducedEntries = Datum.ReducedEntries(ActionSet, EntrySet, write);
+            Dictionary<string, string[]> ReducedEntries = Datum.ReducedEntries(ActionSet, EntrySet, write);
             CorrelationSet Relations = new CorrelationSet(Datum, ReferencedSet, ReducedEntries, write);
 
-            if (Relations.Positive.Data.Any())
+            //The positive vector
+            var PositiveRelation = Datum.Correlation(Relations.Positive.Data, write, true);
+            //The negative vector
+            var NegativeRelation = Datum.Correlation(Relations.Negative.Data, write, false);
+            //The Similar Vector
+            var SimilarRelation = Datum.Correlation(Datum.SimilarSet(ActionSet.Data, write), write, false);
+
+            double NegativeChange = -0.1;
+            double PositiveChange = 0.1;
+            double SimilarChange = -0.1;
+            double OldAccuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, true, 0);
+
+            for (double pos = 0.1; pos >= 0; pos -= 0.01)
             {
-                //The positive vector
-                var PositiveRelation = Datum.Correlation(Relations.Positive.Data, ReducedEntries, write, true);
-                //The negative vector
-                var NegativeRelation = Datum.Correlation(Relations.Negative.Data, ReducedEntries, write, false);
-                //The Similar Vector
-                var SimilarRelation = Datum.Correlation(Datum.SimilarSet(ActionSet.Data, write), EntrySet, write, false);
-
-                double NegativeChange = -0.1;
-                double PositiveChange = 0.1;
-                double SimilarChange = -0.1;
-                double OldAccuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-
-                for (double pos = 0.1; pos >= 0; pos -= 0.01)
+                for (double neg = -0.1; neg <= 0; neg += 0.01)
                 {
-                    for (double neg = -0.1; neg <= 0; neg += 0.01)
+                    for (double sim = -0.1; sim <= 0; sim += 0.01)
                     {
-                        for (double sim = -0.1; sim <= 0; sim += 0.01)
+                        var CopySet = ActionSet.Clone();
+                        var CopyPoint = CopySet.Data.Where(x => x.Key == Datum.Key).First();
+                        CopyPoint.AdustValue(PositiveRelation, pos, null, write, false);
+                        CopyPoint.AdustValue(NegativeRelation, neg, null, write, false);
+                        if (ActionSet.datatype != Datatype.TextData)
+                            CopyPoint.AdustValue(SimilarRelation, sim, null, write, false);
+                        double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, true, 0);
+                        if (NewAccuracy > OldAccuracy)
                         {
-                            var CopySet = ActionSet.Clone();
-                            var CopyPoint = CopySet.Data.Where(x => x.Key == Datum.Key).First();
-                            CopyPoint.AdustValue(PositiveRelation, pos, null, write, false);
-                            CopyPoint.AdustValue(NegativeRelation, neg, null, write, false);
+                            NegativeChange = neg;
+                            PositiveChange = pos;
                             if (ActionSet.datatype != Datatype.TextData)
-                                CopyPoint.AdustValue(SimilarRelation, sim, null, write, false);
-                            double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
-                            if (NewAccuracy > OldAccuracy)
-                            {
-                                NegativeChange = neg;
-                                PositiveChange = pos;
-                                if (ActionSet.datatype != Datatype.TextData)
-                                    SimilarChange = sim;
-                                OldAccuracy = NewAccuracy;
-                            }
+                                SimilarChange = sim;
+                            OldAccuracy = NewAccuracy;
                         }
                     }
                 }
+            }
 
+            Datum.AdustValue(NegativeRelation, NegativeChange, "Negative", write, true);
+            if (ActionSet.datatype != Datatype.TextData)
+                Datum.AdustValue(SimilarRelation, SimilarChange, "Similar", write, true);
+
+            if (Relations.Positive.Data.Any())
+            {
                 Datum.AdustValue(PositiveRelation, PositiveChange, "Positive", write, true);
-                Datum.AdustValue(NegativeRelation, NegativeChange, "Negative", write, true);
-                if (ActionSet.datatype != Datatype.TextData)
-                    Datum.AdustValue(SimilarRelation, SimilarChange, "Similar", write, true);
-
-                double Accuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
+                double Accuracy = ActionSet.CalcAccuracy(ReferencedSet, ReducedEntries, true, 0);
                 double LengthVector = 1;
 
                 for (double i = 0.95; i <= 1.05; i++)
@@ -87,7 +87,7 @@ namespace CC_Library.Predictions
                     {
                         CopyPoint.Value[j] *= i;
                     }
-                    double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, write);
+                    double NewAccuracy = CopySet.CalcAccuracy(ReferencedSet, ReducedEntries, true, 0);
                     if (NewAccuracy > Accuracy)
                     {
                         LengthVector = i;
