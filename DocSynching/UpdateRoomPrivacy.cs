@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 
 using CC_Library.Parameters;
-using CC_Library.Datatypes;
-using CC_Library.Predictions;
+using CC_Library.Predictions.RoomPrivacy;
 using CC_RevitBasics;
 
 namespace CC_DocSynching
@@ -36,7 +34,7 @@ namespace CC_DocSynching
                                 test = true;
                             if(test)
                             {
-                                string privacy = Datatype.RoomPrivacy.FindClosest(r.Name);
+                                string privacy = RoomPrivacy.Predict(r.Name);
                                 if (privacy != null)
                                     r.SetRoomTextParam(CCParameter.RoomPrivacy, privacy);
                             }

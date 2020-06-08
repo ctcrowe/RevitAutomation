@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Keynotes\Class1.cs" />
+    <Compile Include="Keynotes\CollectKeynotes.cs" />
     <Compile Include="Parameters\AddParameters.cs" />
     <Compile Include="Parameters\ResetParameters.cs" />
     <Compile Include="Parameters\GetParameters.cs" />

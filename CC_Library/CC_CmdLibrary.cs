@@ -187,15 +187,6 @@ namespace CC_Library
             double result = Math.Sqrt(vec);
             return result;
         }
-        public static double[] DirectionBetween(this double[] point1, double[] point2)
-        {
-            double[] SpaceBetween = new double[Dataset.DataSize];
-            for (int i = 0; i < Dataset.DataSize; i++)
-            {
-                SpaceBetween[i] = point1[i] - point2[i];
-            }
-            return SpaceBetween;
-        }
         public static double[,] OuterProduct(this double[] x, double[] y)
         {
             double[,] z = new double[x.Count(), y.Count()];

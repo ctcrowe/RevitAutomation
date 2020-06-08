@@ -3,11 +3,6 @@ using Autodesk.Revit.DB.Events;
 using System.Linq;
 using System;
 using Autodesk.Revit.UI;
-using CC_Library;
-using CC_Library.Parameters;
-using CC_Library.Predictions;
-using CC_Library.Datatypes;
-
 using CC_RevitBasics;
 
 namespace CC_Plugin
@@ -35,7 +30,8 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        string Masterformat = Datatype.Masterformat.FindClosest(args.PathName.Split('\\').Last());
+                        string Masterformat = CC_Library.Predictions.Masterformat.Masterformat.Predict
+                            (args.PathName.Split('\\').Last().Split('.').First());
                         if (Masterformat != null)
                             TaskDialog.Show("Test", Masterformat);
                         else

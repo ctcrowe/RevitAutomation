@@ -15,6 +15,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
+            /*
             bool enumfound = false;
             while (!enumfound)
             {
@@ -41,6 +42,7 @@ namespace DataAnalysis
                     }
                 }
             }
+            */
         }
     }
 }

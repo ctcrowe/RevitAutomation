@@ -7,35 +7,6 @@ namespace CC_Library.Predictions
 {
     internal static class Distance
     {
-        public static KeyValuePair<string, double[]> ResultantDatapoint(this IEnumerable<KeyValuePair<string, double[]>> datum)
-        {
-            double[] values = new double[Dataset.DataSize];
-            int valuecount = 0;
-            foreach(KeyValuePair<string, double[]> d in datum)
-            {
-                if (d.Value.Count() == values.Count())
-                {
-                    valuecount++;
-                    for (int i = 0; i < d.Value.Count(); i++)
-                    {
-                        values[i] += d.Value[i];
-                    }
-                }
-            }
-            for (int i = 0; i < values.Count(); i++)
-                values[i] /= valuecount;
-            return new KeyValuePair<string, double[]>("Resultant", values);
-        }
-        public static double[] DirectionBetween(this KeyValuePair<string, double[]> point1, KeyValuePair<string, double[]> point2)
-        {
-            double[] SpaceBetween = new double[Dataset.DataSize];
-
-            for(int i = 0; i < Dataset.DataSize; i++)
-            {
-                SpaceBetween[i] = point2.Value[i] - point1.Value[i];
-            }
-            return SpaceBetween;
-        }
         public static double FindMaximum(this double[] values)
         {
             double max = 0;
@@ -46,16 +17,7 @@ namespace CC_Library.Predictions
             }
             return max;
         }
-        public static double[] NormalizeVector(this double[] values)
-        {
-            double[] newvalues = new double[values.Count()];
-            double length = values.CalcDistance();
-            for(int i = 0; i < values.Count(); i++)
-            {
-                newvalues[i] = values[i] / length;
-            }
-            return newvalues;
-        }
+
         public static double CalcDistance(this KeyValuePair<string, double[]> point1, KeyValuePair<string, double[]> point2)
         {
             double val = 0;
@@ -89,59 +51,6 @@ namespace CC_Library.Predictions
             }
             double fin = Math.Sqrt(val);
             return fin;
-        }
-        public static KeyValuePair<string, double[]> FindClosest(this Dataset set, KeyValuePair<string, double[]> point)
-        {
-            if (set.Data.Any())
-            {
-                Dictionary<string, double> results = new Dictionary<string, double>();
-                foreach (KeyValuePair<string, double[]> dp in set.Data)
-                {
-                    results.Add(dp.Key, dp.CalcDistance(point));
-                }
-                KeyValuePair<string, double> min = results.First();
-                foreach (KeyValuePair<string, double> result in results)
-                {
-                    if (result.Value < min.Value) min = result;
-                }
-
-                KeyValuePair<string, double[]> datapoint = set.Data.GetEntry(min.Key);
-                return datapoint;
-            }
-            return Datatype.TextData.GeneratePoint();
-        }
-        public static KeyValuePair<string, double[]>[] FindNClosest(this Dataset set, KeyValuePair<string, double[]> point, int NumberToFind)
-        {
-            KeyValuePair<string, double[]>[] solutions = new KeyValuePair<string, double[]>[NumberToFind];
-            List<KeyValuePair<string, double>> results = new List<KeyValuePair<string, double>>();
-            if (set.Data.Any())
-            {
-                foreach (KeyValuePair<string, double[]> dp in set.Data)
-                {
-                    results.Add(new KeyValuePair<string, double>(dp.Key, dp.CalcDistance(point)));
-                }
-                results.Sort((x, y) => y.Value.CompareTo(x.Value));
-                results.Reverse();
-                for (int i = 0; i < solutions.Count(); i++)
-                {
-                    string key = results[i].Key;
-                    solutions[i] = new KeyValuePair<string, double[]>(key, set.Data[key]);
-                }
-            }
-            return solutions;
-        }
-        public static KeyValuePair<string, double[]>[] FindWithinRange(this Dataset set, KeyValuePair<string, double[]> point, double Distance)
-        {
-            List<KeyValuePair<string, double[]>> solutions = new List<KeyValuePair<string, double[]>>();
-            if (set.Data.Any())
-            {
-                foreach (KeyValuePair<string, double[]> dp in set.Data)
-                {
-                    if (dp.CalcDistance(point) > Distance)
-                        solutions.Add(new KeyValuePair<string, double[]>(dp.Key, dp.Value));
-                }
-            }
-            return solutions.ToArray();
         }
     }
 }

@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Datatypes\CreateCSVInputData.cs" />
     <Compile Include="Datatypes\CreateDataFolder.cs" />
+    <Compile Include="Predictions\ChartDataset.cs" />
+    <Compile Include="Predictions\ChartDictionary.cs" />
+    <Compile Include="Predictions\Data\DataCount.cs" />
     <Compile Include="Enumerations\ViewTypes.cs" />
     <Compile Include="Parameters\CoordinateGUID.cs" />
     <Compile Include="Parameters\ParamGUIDs.cs" />
@@ -57,28 +60,55 @@
     <Compile Include="CC_Command.cs" />
     <Compile Include="Enumerations\ObjectCategories.cs" />
     <Compile Include="Predictions\Accuracy.cs" />
-    <Compile Include="Predictions\AdjustEntry.cs" />
-    <Compile Include="Predictions\Prediction.cs" />
-    <Compile Include="Predictions\Datapoint.cs" />
-    <Compile Include="Predictions\CloneDataset.cs" />
-    <Compile Include="Predictions\CorrelatedData.cs" />
-    <Compile Include="Predictions\ReduceDataset.cs" />
-    <Compile Include="Predictions\Entryset.cs" />
+    <Compile Include="Predictions\Data\DataFindClosest.cs" />
+    <Compile Include="Predictions\Data\DataAdjustLocation.cs" />
+    <Compile Include="Predictions\Data\DataCorrelation.cs" />
+    <Compile Include="Predictions\Data\DataDirection.cs" />
+    <Compile Include="Predictions\Data\DataCorrelateArrays.cs" />
+    <Compile Include="Predictions\Data\DataNormalization.cs" />
+    <Compile Include="Predictions\Data\PossibleArrays.cs" />
+    <Compile Include="Predictions\Data\ReadWriteDataset.cs" />
+    <Compile Include="Predictions\Data\SetNegativeDirection.cs" />
+    <Compile Include="Predictions\Data\SetPositiveDirection.cs" />
+    <Compile Include="Predictions\Entries\ReduceEntries.cs" />
+    <Compile Include="Predictions\Data\DataDistance.cs" />
+    <Compile Include="Predictions\Data\DataKNearestNeighbors.cs" />
+    <Compile Include="Predictions\Data\DataResultantDatapoint.cs" />
+    <Compile Include="Predictions\Keynotes\KT_Accuracy.cs" />
+    <Compile Include="Predictions\Keynotes\KT_ChartData.cs" />
+    <Compile Include="Predictions\Keynotes\KT_InitializeData.cs" />
+    <Compile Include="Predictions\Keynotes\KT_RunPredictions.cs" />
+    <Compile Include="Predictions\Masterformat\MF_InitializeData.cs" />
+    <Compile Include="Predictions\Masterformat\MF_ParallelRunPredictions.cs" />
+    <Compile Include="Predictions\Masterformat\MF_Predict.cs" />
+    <Compile Include="Predictions\Masterformat\MF_RunPredictions.cs" />
+    <Compile Include="Predictions\Masterformat\MF_Accuracy.cs" />
+    <Compile Include="Predictions\Masterformat\MF_ChartMasterformat.cs" />
+    <Compile Include="Predictions\Data\Datapoint.cs" />
+    <Compile Include="Predictions\Entries\Entryset.cs" />
     <Compile Include="Predictions\Distance.cs" />
-    <Compile Include="Predictions\Dataset.cs" />
     <Compile Include="Datatypes\CSVData.cs" />
     <Compile Include="Datatypes\Datatypes.cs" />
+    <Compile Include="Predictions\ParallelDataCharting.cs" />
+    <Compile Include="Predictions\ParallelDirectionalChangeTest.cs" />
+    <Compile Include="Predictions\ParallelNegativeRelationship.cs" />
+    <Compile Include="Predictions\ParallelPositiveRelationship.cs" />
+    <Compile Include="Predictions\PredictionDelegates.cs" />
+    <Compile Include="Predictions\PredictionsCloneDictionary.cs" />
+    <Compile Include="Predictions\RoomPrivacy\RP_InitializeData.cs" />
+    <Compile Include="Predictions\RoomPrivacy\RP_ChartDictionary.cs" />
+    <Compile Include="Predictions\RoomPrivacy\RP_ChartPrivacy.cs" />
+    <Compile Include="Predictions\RoomPrivacy\RP_Accuracy.cs" />
+    <Compile Include="Predictions\RoomPrivacy\RP_Predict.cs" />
+    <Compile Include="Predictions\RoomPrivacy\RP_RunPredictions.cs" />
     <Compile Include="Predictions\RunPredictionsr1.cs" />
+    <Compile Include="Predictions\PredictionsUpdateDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Predictions\XMLData\RoomPrivacy.xml" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="Predictions\XMLData\Dictionary.xml" />
     <EmbeddedResource Include="Predictions\XMLData\Masterformat.xml" />
-    <EmbeddedResource Include="Predictions\XMLData\TextData.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

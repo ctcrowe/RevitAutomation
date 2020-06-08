@@ -35,6 +35,10 @@ namespace CC_DocSynching
                     v.UpdateRoomPrivacy();
                     t.Commit();
                 }
+                using (Transaction t = new Transaction(doc, "Collect Keynotes"))
+                {
+                    doc.CollectKeynotes();
+                }
                 /*doc.PurgeCategories();*/
                 tg.Commit();
             }
