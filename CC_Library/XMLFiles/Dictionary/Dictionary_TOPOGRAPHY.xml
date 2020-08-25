@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="TOPOGRAPHY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.97333916083916083" />
+  <Data Number="1" Referencing="1" Location="-0.097703258280181421" />
+  <Data Number="2" Referencing="2" Location="0.025048856516605544" />
+  <Data Number="3" Referencing="3" Location="0.309119374169558" />
+  <Data Number="4" Referencing="4" Location="-0.19917421941693653" />
+  <Data Number="5" Referencing="5" Location="0.75861915861915863" />
+  <Data Number="6" Referencing="6" Location="0.038419016408369588" />
+  <Data Number="7" Referencing="7" Location="0.31013215123301785" />
+</Dictionary>

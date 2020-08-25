@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CHANNEL" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.38801962993481182" />
+  <Data Number="1" Referencing="1" Location="-0.11531253071283573" />
+  <Data Number="2" Referencing="2" Location="-0.079180778506761779" />
+  <Data Number="3" Referencing="3" Location="0.41413433124038129" />
+  <Data Number="4" Referencing="4" Location="-0.084620538207059975" />
+  <Data Number="5" Referencing="5" Location="0.44861874983115996" />
+  <Data Number="6" Referencing="6" Location="-0.72689655969240541" />
+  <Data Number="7" Referencing="7" Location="-0.54426778505755025" />
+</Dictionary>

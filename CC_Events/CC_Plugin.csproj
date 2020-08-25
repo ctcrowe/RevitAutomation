@@ -66,6 +66,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddParameters.cs" />
+    <Compile Include="CaptureWallTypes.cs" />
     <Compile Include="Categories\AddCategories.cs" />
     <Compile Include="CC_ProjectData.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneDetailCollector.cs" />
@@ -91,12 +93,14 @@
     <Compile Include="PurgeCategories.cs" />
     <Compile Include="CreateTTDDatapoint.cs" />
     <Compile Include="LoadFamilyTab.cs" />
+    <Compile Include="UpdateStudSize.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Events\CC_DocSavingAsEvent.cs" />
     <Compile Include="FamilyDB\CC_CheckNameUse.cs" />
     <Compile Include="FamilyDB\CC_MoveFamiliesToDB.cs" />
     <Compile Include="QualityControl\CC_TextNoteTypes.cs" />
     <Compile Include="CC_RevitRibon.cs" />
+    <Compile Include="UpdateLoadFactor.cs" />
     <Compile Include="UseDatabase\CC_Events.cs" />
     <Compile Include="QualityControl\CC_QCTab.cs" />
     <Compile Include="QualityControl\CC_ProjectCleanup.cs" />

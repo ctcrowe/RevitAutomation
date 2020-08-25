@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="KITCHEN" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.83940042826552475" />
+  <Data Number="1" Referencing="1" Location="-0.21110695303387089" />
+  <Data Number="2" Referencing="2" Location="-0.16081330868761556" />
+  <Data Number="3" Referencing="3" Location="-0.32362956539250454" />
+  <Data Number="4" Referencing="4" Location="-0.86633431521423443" />
+  <Data Number="5" Referencing="5" Location="-0.37056360219039769" />
+  <Data Number="6" Referencing="6" Location="-0.86454881532515537" />
+  <Data Number="7" Referencing="7" Location="-0.4147458621790468" />
+</Dictionary>

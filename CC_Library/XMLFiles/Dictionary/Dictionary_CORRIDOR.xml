@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CORRIDOR" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.6396050522748008" />
+  <Data Number="1" Referencing="1" Location="0.691911855103407" />
+  <Data Number="2" Referencing="2" Location="0.095429322726758817" />
+  <Data Number="3" Referencing="3" Location="-0.35363298671023591" />
+  <Data Number="4" Referencing="4" Location="-0.42660680188842326" />
+  <Data Number="5" Referencing="5" Location="0.43281432591029551" />
+  <Data Number="6" Referencing="6" Location="-0.19336819192085797" />
+  <Data Number="7" Referencing="7" Location="0.26938415098441026" />
+</Dictionary>

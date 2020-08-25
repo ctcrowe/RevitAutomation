@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="AISC" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.28799531211886675" />
+  <Data Number="1" Referencing="1" Location="0.0807630442300974" />
+  <Data Number="2" Referencing="2" Location="-0.55457172748185524" />
+  <Data Number="3" Referencing="3" Location="-0.51776439767226778" />
+  <Data Number="4" Referencing="4" Location="0.267710506787195" />
+  <Data Number="5" Referencing="5" Location="0.39247468611408043" />
+  <Data Number="6" Referencing="6" Location="-0.43527834370512436" />
+  <Data Number="7" Referencing="7" Location="-0.7815213645802469" />
+</Dictionary>

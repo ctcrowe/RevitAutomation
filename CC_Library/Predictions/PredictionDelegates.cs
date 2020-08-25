@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    internal delegate double CalcAccuracy
-        (Dictionary<string, Data> Dataset,
-        Dictionary<string, Data> Dict,
-        Dictionary<string, string[]> EntrySet);
+    internal delegate List<string>[] ChangedElements
+        (List<Entry> Entries);
+    internal delegate double[] Accuracy
+        (List<Entry> Entries,
+        Dictionary<string, Element>[] Datasets);
+    internal delegate Dictionary<string, Element>[] InitializeData
+        (List<Entry> Entries);
     internal delegate double Initialize
         (Dictionary<string, string[]> Entries,
         WriteToCMDLine write,

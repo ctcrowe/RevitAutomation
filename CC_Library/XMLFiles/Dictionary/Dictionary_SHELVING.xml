@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="SHELVING" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.60526177799796521" />
+  <Data Number="1" Referencing="1" Location="-0.992371399200069" />
+  <Data Number="2" Referencing="2" Location="-0.66846339701657131" />
+  <Data Number="3" Referencing="3" Location="0.474903002451008" />
+  <Data Number="4" Referencing="4" Location="-0.99520845855211182" />
+  <Data Number="5" Referencing="5" Location="0.27953450198320967" />
+  <Data Number="6" Referencing="6" Location="-0.536459932819223" />
+  <Data Number="7" Referencing="7" Location="0.96267447199797" />
+</Dictionary>

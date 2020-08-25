@@ -36,14 +36,23 @@ namespace CC_Plugin
                 "Load Ceiling Pallets",
                 @dllpath(),
                 "CC_Plugin.LoadCeilings");
-            b1Data.ToolTip = "Load a Pallet of Materials used for ceilings.";
+            b2Data.ToolTip = "Load a Pallet of Materials used for ceilings.";
 
             PushButtonData b3Data = new PushButtonData(
                 "Load Symbols",
                 "Load Symbols",
                 @dllpath(),
                 "CC_Plugin.LoadSymbols");
-            b1Data.ToolTip = "Load typical symbols into the project.";
+            b3Data.ToolTip = "Load typical symbols into the project.";
+
+            PushButtonData b4Data = new PushButtonData(
+                "Add Parameters",
+                "Add Parameters",
+                @dllpath(),
+                "CC_Plugin.AddRevitParameters");
+            b4Data.ToolTip = "Add Standard Parameters to the Project";
+
+            PushButton b4 = CPanel.AddItem(b4Data) as PushButton;
 
             var DBButtons = new List<RibbonItem>();
             DBButtons.AddRange(CPanel.AddStackedItems(b1Data, b2Data, b3Data));
@@ -110,6 +119,21 @@ namespace CC_Plugin
                 doc.LoadSymbols();
                 t.Commit();
             }
+            return Result.Succeeded;
+        }
+    }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
+    public class AddRevitParameters : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
+        {
+            UIApplication uiapp = commandData.Application;
+            Document doc = uiapp.ActiveUIDocument.Document;
+            doc.AddParams();
             return Result.Succeeded;
         }
     }

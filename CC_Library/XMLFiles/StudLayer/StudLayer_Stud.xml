@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StudLayer Label="Stud" Datatype="StudLayer">
+  <Data Number="0" Referencing="1" Location="-0.38809634716627017" />
+  <Data Number="1" Referencing="2" Location="0.85699416131572526" />
+  <Data Number="2" Referencing="5" Location="-0.84454035332637856" />
+</StudLayer>

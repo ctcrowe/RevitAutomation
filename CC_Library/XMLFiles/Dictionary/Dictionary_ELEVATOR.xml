@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="ELEVATOR" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.76471721553821237" />
+  <Data Number="1" Referencing="1" Location="-0.43634897094020869" />
+  <Data Number="2" Referencing="2" Location="-0.020023422911110735" />
+  <Data Number="3" Referencing="3" Location="0.33488881231047624" />
+  <Data Number="4" Referencing="4" Location="0.2140127056618153" />
+  <Data Number="5" Referencing="5" Location="-0.0041281870206217978" />
+  <Data Number="6" Referencing="6" Location="-0.8495334553762961" />
+  <Data Number="7" Referencing="7" Location="-0.099056988866561418" />
+</Dictionary>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="LAMP" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.28553802839479525" />
+  <Data Number="1" Referencing="1" Location="0.34443523265369219" />
+  <Data Number="2" Referencing="2" Location="-0.22573029805174433" />
+  <Data Number="3" Referencing="3" Location="0.7030268272864757" />
+  <Data Number="4" Referencing="4" Location="0.16546698774532886" />
+  <Data Number="5" Referencing="5" Location="0.723461363336362" />
+  <Data Number="6" Referencing="6" Location="-0.55809440489769657" />
+  <Data Number="7" Referencing="7" Location="-0.2456589225892252" />
+</Dictionary>

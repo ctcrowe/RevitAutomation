@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="FLANGE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.86416646617265624" />
+  <Data Number="1" Referencing="1" Location="-0.62019368869629843" />
+  <Data Number="2" Referencing="2" Location="0.44313466442498772" />
+  <Data Number="3" Referencing="3" Location="-0.29802396872569165" />
+  <Data Number="4" Referencing="4" Location="0.72397697255508486" />
+  <Data Number="5" Referencing="5" Location="0.7275514905658953" />
+  <Data Number="6" Referencing="6" Location="0.022354288524741014" />
+  <Data Number="7" Referencing="7" Location="-0.92328756410376522" />
+</Dictionary>

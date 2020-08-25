@@ -13,10 +13,14 @@
     public enum Datatype
     {
         Null = 0,
-        Dictionary = 8001,
-        Masterformat = 5001,
+        OccupantLoadFactor = 3001,
+        StudLayer = 3002,
+        OccupancyGroup = 3003,
+        RequiredFamilies = 5001,
         Subcategory = 5002,
         RoomPrivacy = 5003,
-        Keynote = 5004
+        Keynote = 5004,
+        Masterformat = 6001,
+        Dictionary = 8001
     }
 }

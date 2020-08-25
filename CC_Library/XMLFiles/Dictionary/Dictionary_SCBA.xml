@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="SCBA" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.82016025521799929" />
+  <Data Number="1" Referencing="1" Location="0.0065731956913772441" />
+  <Data Number="2" Referencing="2" Location="-0.43487699137363095" />
+  <Data Number="3" Referencing="3" Location="0.52759078970717377" />
+  <Data Number="4" Referencing="4" Location="-0.19596629321795184" />
+  <Data Number="5" Referencing="5" Location="0.12884053559256903" />
+  <Data Number="6" Referencing="6" Location="0.27563550475781573" />
+  <Data Number="7" Referencing="7" Location="-0.90116492793949554" />
+</Dictionary>

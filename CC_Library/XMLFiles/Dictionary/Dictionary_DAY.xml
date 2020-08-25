@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="DAY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.67595106581037445" />
+  <Data Number="1" Referencing="1" Location="-0.96550507515925221" />
+  <Data Number="2" Referencing="2" Location="-0.351676799986361" />
+  <Data Number="3" Referencing="3" Location="0.070783793027877712" />
+  <Data Number="4" Referencing="4" Location="0.37847261893491846" />
+  <Data Number="5" Referencing="5" Location="-0.055062151539634049" />
+  <Data Number="6" Referencing="6" Location="-0.11063660081039956" />
+  <Data Number="7" Referencing="7" Location="-0.62471114034983843" />
+</Dictionary>

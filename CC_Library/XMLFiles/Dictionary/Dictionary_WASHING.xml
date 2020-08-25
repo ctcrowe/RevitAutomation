@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="WASHING" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.46390937835095869" />
+  <Data Number="1" Referencing="1" Location="-0.31915918911703317" />
+  <Data Number="2" Referencing="2" Location="-0.51822414383720672" />
+  <Data Number="3" Referencing="3" Location="-0.80010804797967772" />
+  <Data Number="4" Referencing="4" Location="0.081445624310973491" />
+  <Data Number="5" Referencing="5" Location="-0.073559307118709671" />
+  <Data Number="6" Referencing="6" Location="-0.3110154345200683" />
+  <Data Number="7" Referencing="7" Location="-0.12069703038814339" />
+</Dictionary>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="SPEAK" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.59819844153438984" />
+  <Data Number="1" Referencing="1" Location="0.29327342536866008" />
+  <Data Number="2" Referencing="2" Location="-0.52478695619878435" />
+  <Data Number="3" Referencing="3" Location="-0.89572621961393906" />
+  <Data Number="4" Referencing="4" Location="-0.95704698399617161" />
+  <Data Number="5" Referencing="5" Location="0.777998458462977" />
+  <Data Number="6" Referencing="6" Location="0.79784179562602275" />
+  <Data Number="7" Referencing="7" Location="0.22358329278583791" />
+</Dictionary>

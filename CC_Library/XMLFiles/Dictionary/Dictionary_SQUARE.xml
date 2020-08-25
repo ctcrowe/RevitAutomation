@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="SQUARE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.41990866453242059" />
+  <Data Number="1" Referencing="1" Location="0.23254079902164504" />
+  <Data Number="2" Referencing="2" Location="0.93003608695887818" />
+  <Data Number="3" Referencing="3" Location="0.49333313968653469" />
+  <Data Number="4" Referencing="4" Location="-0.17988499852318721" />
+  <Data Number="5" Referencing="5" Location="-0.25872082816113062" />
+  <Data Number="6" Referencing="6" Location="0.60304053103931576" />
+  <Data Number="7" Referencing="7" Location="-0.39237871150328196" />
+</Dictionary>

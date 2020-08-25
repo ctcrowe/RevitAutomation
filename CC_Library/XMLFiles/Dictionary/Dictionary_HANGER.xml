@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="HANGER" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.98060735560735557" />
+  <Data Number="1" Referencing="1" Location="0.34775006314163104" />
+  <Data Number="2" Referencing="2" Location="-0.96845197357898738" />
+  <Data Number="3" Referencing="3" Location="0.28259373841928026" />
+  <Data Number="4" Referencing="4" Location="0.73438021946979326" />
+  <Data Number="5" Referencing="5" Location="-0.71599983998114725" />
+  <Data Number="6" Referencing="6" Location="-0.296254659209519" />
+  <Data Number="7" Referencing="7" Location="-0.20764762764510863" />
+</Dictionary>

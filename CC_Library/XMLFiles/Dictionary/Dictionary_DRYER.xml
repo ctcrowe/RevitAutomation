@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="DRYER" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.75657025203395056" />
+  <Data Number="1" Referencing="1" Location="0.38814026091024717" />
+  <Data Number="2" Referencing="2" Location="0.0056981878418675309" />
+  <Data Number="3" Referencing="3" Location="0.87234648029171213" />
+  <Data Number="4" Referencing="4" Location="-0.45230566586417292" />
+  <Data Number="5" Referencing="5" Location="-1" />
+  <Data Number="6" Referencing="6" Location="-0.14650449396542267" />
+  <Data Number="7" Referencing="7" Location="-0.55995095407587991" />
+</Dictionary>

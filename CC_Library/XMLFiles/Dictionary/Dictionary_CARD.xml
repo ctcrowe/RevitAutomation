@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CARD" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.14010760131283839" />
+  <Data Number="1" Referencing="1" Location="0.19222278158343606" />
+  <Data Number="2" Referencing="2" Location="-0.045151111962530049" />
+  <Data Number="3" Referencing="3" Location="0.567201140203586" />
+  <Data Number="4" Referencing="4" Location="-0.045744973657170396" />
+  <Data Number="5" Referencing="5" Location="-0.043645362749640718" />
+  <Data Number="6" Referencing="6" Location="-0.7389934466867677" />
+  <Data Number="7" Referencing="7" Location="-0.7545039182316996" />
+</Dictionary>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CANOPY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.73347137651434524" />
+  <Data Number="1" Referencing="1" Location="0.30398855010002329" />
+  <Data Number="2" Referencing="2" Location="0.79020332717190389" />
+  <Data Number="3" Referencing="3" Location="-0.6754110410407399" />
+  <Data Number="4" Referencing="4" Location="-0.25924732824825419" />
+  <Data Number="5" Referencing="5" Location="-0.09534040366447076" />
+  <Data Number="6" Referencing="6" Location="-0.78963686830246582" />
+  <Data Number="7" Referencing="7" Location="0.16692006130093712" />
+</Dictionary>

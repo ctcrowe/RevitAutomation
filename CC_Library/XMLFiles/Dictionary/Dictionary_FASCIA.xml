@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="FASCIA" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.046433543707121071" />
+  <Data Number="1" Referencing="1" Location="0.82556226504653052" />
+  <Data Number="2" Referencing="2" Location="-0.20368730869404036" />
+  <Data Number="3" Referencing="3" Location="0.64361144559705619" />
+  <Data Number="4" Referencing="4" Location="-0.2049264518142172" />
+  <Data Number="5" Referencing="5" Location="-0.23002875564103725" />
+  <Data Number="6" Referencing="6" Location="-0.37209702971779368" />
+  <Data Number="7" Referencing="7" Location="-0.85082743603390587" />
+</Dictionary>

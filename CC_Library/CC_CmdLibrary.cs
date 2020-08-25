@@ -77,17 +77,6 @@ namespace CC_Library
             }
             return strings;
         }
-        public static List<string> SplitTitle(this string s)
-        {
-            List<string> data = new List<string>();
-            char[] delimitters = { ',', '.', ' ', '_', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-            List<string> Array = s.Split(delimitters).ToList();
-            foreach (string a in Array)
-            {
-                data.AddRange(a.SplitOnCaps());
-            }
-            return data;
-        }
         public static double Sigmoid(this double x)
         {
             double Top = Math.Pow(Math.E, x);

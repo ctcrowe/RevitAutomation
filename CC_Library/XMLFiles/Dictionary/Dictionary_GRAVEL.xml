@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="GRAVEL" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.610773944898014" />
+  <Data Number="1" Referencing="1" Location="0.26518569248037294" />
+  <Data Number="2" Referencing="2" Location="0.87650486848039255" />
+  <Data Number="3" Referencing="3" Location="0.91363093532325279" />
+  <Data Number="4" Referencing="4" Location="0.91549339549339548" />
+  <Data Number="5" Referencing="5" Location="-0.70890516967359229" />
+  <Data Number="6" Referencing="6" Location="-0.39843743751732824" />
+  <Data Number="7" Referencing="7" Location="-0.48864206547799161" />
+</Dictionary>

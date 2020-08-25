@@ -11,6 +11,7 @@ namespace CC_Plugin
     {
         private static void Execute(object sender, ViewActivatedEventArgs args)
         {
+            ResetParamLibrary.Run();
             Document doc = args.Document;
             using (TransactionGroup tg = new TransactionGroup(doc, "Add ID Group"))
             {

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="HOUSE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.1733018202022476" />
+  <Data Number="1" Referencing="1" Location="0.73701686980738146" />
+  <Data Number="2" Referencing="2" Location="0.00849472549361637" />
+  <Data Number="3" Referencing="3" Location="0.24340437957692204" />
+  <Data Number="4" Referencing="4" Location="0.862199329984182" />
+  <Data Number="5" Referencing="5" Location="-0.034040569693142966" />
+  <Data Number="6" Referencing="6" Location="0.994262706020038" />
+  <Data Number="7" Referencing="7" Location="-0.275400211697165" />
+</Dictionary>

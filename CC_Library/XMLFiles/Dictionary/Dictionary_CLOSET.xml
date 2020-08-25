@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CLOSET" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.20922781856084843" />
+  <Data Number="1" Referencing="1" Location="0.25826250168413972" />
+  <Data Number="2" Referencing="2" Location="-0.65323385302047221" />
+  <Data Number="3" Referencing="3" Location="-0.2217142950844552" />
+  <Data Number="4" Referencing="4" Location="-0.8902434938832372" />
+  <Data Number="5" Referencing="5" Location="-0.24922352235851014" />
+  <Data Number="6" Referencing="6" Location="-0.58182724964890031" />
+  <Data Number="7" Referencing="7" Location="-0.59134184177561744" />
+</Dictionary>

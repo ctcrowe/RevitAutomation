@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="INCH" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.19842921887413267" />
+  <Data Number="1" Referencing="1" Location="-0.10682092214087807" />
+  <Data Number="2" Referencing="2" Location="-0.35737980384590734" />
+  <Data Number="3" Referencing="3" Location="0.65113173222687637" />
+  <Data Number="4" Referencing="4" Location="-0.11371014850769506" />
+  <Data Number="5" Referencing="5" Location="0.02891074662381482" />
+  <Data Number="6" Referencing="6" Location="-0.28853065540652578" />
+  <Data Number="7" Referencing="7" Location="-0.076173835188442521" />
+</Dictionary>

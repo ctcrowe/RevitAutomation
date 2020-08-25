@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="BREAKROOM" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.31828798694456367" />
+  <Data Number="1" Referencing="1" Location="0.669375349613547" />
+  <Data Number="2" Referencing="2" Location="-0.660713000530709" />
+  <Data Number="3" Referencing="3" Location="-0.3269501777025639" />
+  <Data Number="4" Referencing="4" Location="-0.432633731250015" />
+  <Data Number="5" Referencing="5" Location="0.63324304513318608" />
+  <Data Number="6" Referencing="6" Location="0.38509885379350689" />
+  <Data Number="7" Referencing="7" Location="-0.75975600944820609" />
+</Dictionary>

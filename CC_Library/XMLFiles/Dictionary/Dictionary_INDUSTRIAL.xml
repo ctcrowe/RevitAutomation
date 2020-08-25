@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="INDUSTRIAL" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.49251849413217247" />
+  <Data Number="1" Referencing="1" Location="0.42608253994593742" />
+  <Data Number="2" Referencing="2" Location="0.2368148871547302" />
+  <Data Number="3" Referencing="3" Location="0.99341172631523189" />
+  <Data Number="4" Referencing="4" Location="0.4583059741394151" />
+  <Data Number="5" Referencing="5" Location="-0.34741695136525924" />
+  <Data Number="6" Referencing="6" Location="-0.82806680898515528" />
+  <Data Number="7" Referencing="7" Location="-0.91309542537253086" />
+</Dictionary>

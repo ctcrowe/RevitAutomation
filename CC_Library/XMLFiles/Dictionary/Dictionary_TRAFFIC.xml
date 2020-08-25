@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="TRAFFIC" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-1" />
+  <Data Number="1" Referencing="1" Location="-0.64240444984956857" />
+  <Data Number="2" Referencing="2" Location="0.21071361196743069" />
+  <Data Number="3" Referencing="3" Location="-0.7630207834954551" />
+  <Data Number="4" Referencing="4" Location="0.72654017540622517" />
+  <Data Number="5" Referencing="5" Location="-0.028549927264647619" />
+  <Data Number="6" Referencing="6" Location="0.21734459056395319" />
+  <Data Number="7" Referencing="7" Location="-0.63148483011475054" />
+</Dictionary>

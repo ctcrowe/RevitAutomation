@@ -14,10 +14,9 @@ namespace DataAnalysis
         }
         public static void holdfortime()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1400);
         }
-        [STAThread]
-        static void Main(string[] args)
+        public static int loopcount()
         {
             int loopcount;
             Console.WriteLine("Enter The Number Of Loops To Run.");
@@ -26,8 +25,22 @@ namespace DataAnalysis
             {
                 Console.WriteLine("Enter The Number Of Loops To Run.");
                 loops = Console.ReadLine();
-            };
-            Datasets.RunPredictions(loopcount, new WriteToCMDLine(Write), new CC_Library.Predictions.Hold(holdfortime));
+            }
+            return loopcount;
+        }
+        [STAThread]
+        static void Main(string[] args)
+        {
+            /*
+            int loopcount;
+            Console.WriteLine("Enter The Number Of Loops To Run.");
+            string loops = Console.ReadLine();
+            while (!int.TryParse(loops, out loopcount))
+            {
+                Console.WriteLine("Enter The Number Of Loops To Run.");
+                loops = Console.ReadLine();
+            };*/
+            Datasets.RunPredictions(new WriteToCMDLine(Write), new CC_Library.Predictions.Hold(holdfortime));
         }
     }
 }

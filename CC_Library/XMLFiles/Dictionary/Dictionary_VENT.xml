@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="VENT" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.79723079287031273" />
+  <Data Number="1" Referencing="1" Location="-0.10145013787578068" />
+  <Data Number="2" Referencing="2" Location="0.76624079080267249" />
+  <Data Number="3" Referencing="3" Location="0.3165858330838881" />
+  <Data Number="4" Referencing="4" Location="0.50291207835626239" />
+  <Data Number="5" Referencing="5" Location="0.61488122773026432" />
+  <Data Number="6" Referencing="6" Location="0.711164178611741" />
+  <Data Number="7" Referencing="7" Location="0.02437371424452767" />
+</Dictionary>

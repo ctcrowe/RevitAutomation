@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="SIGNAGE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.78819846658467019" />
+  <Data Number="1" Referencing="1" Location="-0.537517302273753" />
+  <Data Number="2" Referencing="2" Location="-0.098930587603875436" />
+  <Data Number="3" Referencing="3" Location="-0.49857114325554097" />
+  <Data Number="4" Referencing="4" Location="0.78622263816085625" />
+  <Data Number="5" Referencing="5" Location="0.21273680694854502" />
+  <Data Number="6" Referencing="6" Location="-0.37267731119103686" />
+  <Data Number="7" Referencing="7" Location="-0.056987172368932387" />
+</Dictionary>

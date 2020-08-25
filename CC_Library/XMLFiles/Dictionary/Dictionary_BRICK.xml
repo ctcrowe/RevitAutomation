@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="BRICK" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.577219310435004" />
+  <Data Number="1" Referencing="1" Location="-0.6809608522653372" />
+  <Data Number="2" Referencing="2" Location="-0.33120754652663875" />
+  <Data Number="3" Referencing="3" Location="-0.11363707237137766" />
+  <Data Number="4" Referencing="4" Location="-0.56902348554836046" />
+  <Data Number="5" Referencing="5" Location="0.048035648210110013" />
+  <Data Number="6" Referencing="6" Location="-0.5167647058823529" />
+  <Data Number="7" Referencing="7" Location="-0.40567414705345739" />
+</Dictionary>

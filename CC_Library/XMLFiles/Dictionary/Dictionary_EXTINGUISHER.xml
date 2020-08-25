@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="EXTINGUISHER" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.81873452028873417" />
+  <Data Number="1" Referencing="1" Location="0.33062594258264" />
+  <Data Number="2" Referencing="2" Location="0.79016349019522558" />
+  <Data Number="3" Referencing="3" Location="-0.31154240248516485" />
+  <Data Number="4" Referencing="4" Location="1" />
+  <Data Number="5" Referencing="5" Location="-0.054499147909441173" />
+  <Data Number="6" Referencing="6" Location="0.34215425936458538" />
+  <Data Number="7" Referencing="7" Location="0.26537587971676879" />
+</Dictionary>

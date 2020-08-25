@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CITY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.79195327733122567" />
+  <Data Number="1" Referencing="1" Location="0.71418874312999" />
+  <Data Number="2" Referencing="2" Location="0.41791576387409729" />
+  <Data Number="3" Referencing="3" Location="-0.33330782658108876" />
+  <Data Number="4" Referencing="4" Location="0.12062830983836462" />
+  <Data Number="5" Referencing="5" Location="-0.869444174750851" />
+  <Data Number="6" Referencing="6" Location="0.83502690439812233" />
+  <Data Number="7" Referencing="7" Location="-0.72960894169733348" />
+</Dictionary>

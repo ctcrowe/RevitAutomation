@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="RANGETOP" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.79193278746733631" />
+  <Data Number="1" Referencing="1" Location="-0.21188220740869024" />
+  <Data Number="2" Referencing="2" Location="0.75783187052674883" />
+  <Data Number="3" Referencing="3" Location="0.071964799925668538" />
+  <Data Number="4" Referencing="4" Location="0.25661807363806544" />
+  <Data Number="5" Referencing="5" Location="-0.32086697328876096" />
+  <Data Number="6" Referencing="6" Location="0.84142810511296684" />
+  <Data Number="7" Referencing="7" Location="-0.23932537773455864" />
+</Dictionary>

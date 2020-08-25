@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="DINING" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.8082538096560461" />
+  <Data Number="1" Referencing="1" Location="-0.82061144322566149" />
+  <Data Number="2" Referencing="2" Location="-0.626379277937017" />
+  <Data Number="3" Referencing="3" Location="0.62753774028886022" />
+  <Data Number="4" Referencing="4" Location="-0.72009353896200412" />
+  <Data Number="5" Referencing="5" Location="-0.605082824216222" />
+  <Data Number="6" Referencing="6" Location="-0.025699477876856027" />
+  <Data Number="7" Referencing="7" Location="0.38497508485769316" />
+</Dictionary>

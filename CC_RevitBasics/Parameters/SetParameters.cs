@@ -104,6 +104,26 @@ namespace CC_RevitBasics
                 }
             }
         }
+        public static void SetWallTypeParam(this WallType wt, CCParameter p, string value)
+        {
+            if (wt.get_Parameter(p.GetGUID()) != null)
+            {
+                Parameter par = wt.get_Parameter(p.GetGUID());
+                switch (par.StorageType)
+                {
+                    default:
+                    case StorageType.String:
+                        par.Set(value);
+                        break;
+                    case StorageType.Double:
+                        par.Set(double.Parse(value));
+                        break;
+                    case StorageType.Integer:
+                        par.Set(int.Parse(value));
+                        break;
+                }
+            }
+        }
         public static void SetElementParam(this Element e, CCParameter p, string value)
         {
             if (p < 0)
@@ -138,14 +158,44 @@ namespace CC_RevitBasics
         private static void SetElementInstanceParam(this Element e, CCParameter p, string value)
         {
             if (e.get_Parameter(p.GetGUID()) != null)
-                e.get_Parameter(p.GetGUID()).Set(value);
+            {
+                Parameter par = e.get_Parameter(p.GetGUID());
+                switch(par.StorageType)
+                {
+                    default:
+                    case StorageType.String:
+                        par.Set(value);
+                        break;
+                    case StorageType.Double:
+                        par.Set(double.Parse(value));
+                        break;
+                    case StorageType.Integer:
+                        par.Set(int.Parse(value));
+                        break;
+                }
+            }
         }
         private static void SetElementTypeParam(this Element e, CCParameter p, string value)
         {
             FamilyInstance i = e as FamilyInstance;
             FamilySymbol s = i.Symbol;
             if (s.get_Parameter(p.GetGUID()) != null)
-                s.get_Parameter(p.GetGUID()).Set(value);
+            {
+                Parameter par = s.get_Parameter(p.GetGUID());
+                switch (par.StorageType)
+                {
+                    default:
+                    case StorageType.String:
+                        par.Set(value);
+                        break;
+                    case StorageType.Double:
+                        par.Set(double.Parse(value));
+                        break;
+                    case StorageType.Integer:
+                        par.Set(int.Parse(value));
+                        break;
+                }
+            }
         }
     }
 }

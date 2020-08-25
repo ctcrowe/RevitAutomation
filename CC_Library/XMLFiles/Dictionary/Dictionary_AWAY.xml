@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="AWAY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.85638985703354165" />
+  <Data Number="1" Referencing="1" Location="0.24457592548838586" />
+  <Data Number="2" Referencing="2" Location="0.41066849597118221" />
+  <Data Number="3" Referencing="3" Location="-0.49057114705935639" />
+  <Data Number="4" Referencing="4" Location="-0.64252326693680351" />
+  <Data Number="5" Referencing="5" Location="-0.73088790536610837" />
+  <Data Number="6" Referencing="6" Location="0.67576233468752467" />
+  <Data Number="7" Referencing="7" Location="0.50374839664611426" />
+</Dictionary>

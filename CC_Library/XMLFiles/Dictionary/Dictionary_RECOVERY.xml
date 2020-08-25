@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="RECOVERY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.28254587309553564" />
+  <Data Number="1" Referencing="1" Location="-0.72492924879167953" />
+  <Data Number="2" Referencing="2" Location="0.22320816222816572" />
+  <Data Number="3" Referencing="3" Location="0.18555628997560306" />
+  <Data Number="4" Referencing="4" Location="-0.28332831136575426" />
+  <Data Number="5" Referencing="5" Location="0.28077541069353695" />
+  <Data Number="6" Referencing="6" Location="0.26008486806418973" />
+  <Data Number="7" Referencing="7" Location="-0.67812372961925516" />
+</Dictionary>

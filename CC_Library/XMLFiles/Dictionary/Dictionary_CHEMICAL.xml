@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CHEMICAL" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.410615655915621" />
+  <Data Number="1" Referencing="1" Location="-0.884131633298101" />
+  <Data Number="2" Referencing="2" Location="-0.39918833992801717" />
+  <Data Number="3" Referencing="3" Location="0.28205846635720622" />
+  <Data Number="4" Referencing="4" Location="-0.69331853836576129" />
+  <Data Number="5" Referencing="5" Location="0.71336531905148426" />
+  <Data Number="6" Referencing="6" Location="0.026153858649210944" />
+  <Data Number="7" Referencing="7" Location="-0.40965807317274533" />
+</Dictionary>

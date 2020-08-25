@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="WOOD" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-1" />
+  <Data Number="1" Referencing="1" Location="-0.94168167706640682" />
+  <Data Number="2" Referencing="2" Location="-0.6980204382149614" />
+  <Data Number="3" Referencing="3" Location="0.92904273791519643" />
+  <Data Number="4" Referencing="4" Location="0.0089635595400306967" />
+  <Data Number="5" Referencing="5" Location="-0.0075717025296945864" />
+  <Data Number="6" Referencing="6" Location="-0.058417244476206338" />
+  <Data Number="7" Referencing="7" Location="-0.624731991042716" />
+</Dictionary>

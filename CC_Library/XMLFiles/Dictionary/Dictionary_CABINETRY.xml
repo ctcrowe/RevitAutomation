@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CABINETRY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.45544480470573551" />
+  <Data Number="1" Referencing="1" Location="-0.857914012395279" />
+  <Data Number="2" Referencing="2" Location="-0.10696043406007774" />
+  <Data Number="3" Referencing="3" Location="-0.456502418848276" />
+  <Data Number="4" Referencing="4" Location="-0.33291880355962128" />
+  <Data Number="5" Referencing="5" Location="-0.85558999253560675" />
+  <Data Number="6" Referencing="6" Location="-0.58475537904759656" />
+  <Data Number="7" Referencing="7" Location="0.5499266220954836" />
+</Dictionary>

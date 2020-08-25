@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="DRAIN" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.34431187061197988" />
+  <Data Number="1" Referencing="1" Location="-0.040391550863791308" />
+  <Data Number="2" Referencing="2" Location="1" />
+  <Data Number="3" Referencing="3" Location="0.73447606563677" />
+  <Data Number="4" Referencing="4" Location="-0.74524060595474029" />
+  <Data Number="5" Referencing="5" Location="0.16213236418217447" />
+  <Data Number="6" Referencing="6" Location="0.48523608502972493" />
+  <Data Number="7" Referencing="7" Location="0.018999363390053887" />
+</Dictionary>

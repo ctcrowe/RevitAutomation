@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="LOCKER" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.66385807271554675" />
+  <Data Number="1" Referencing="1" Location="-0.49969128437219634" />
+  <Data Number="2" Referencing="2" Location="-0.30694423744231969" />
+  <Data Number="3" Referencing="3" Location="0.848688849519164" />
+  <Data Number="4" Referencing="4" Location="0.16395603363027778" />
+  <Data Number="5" Referencing="5" Location="0.81622348723908134" />
+  <Data Number="6" Referencing="6" Location="-0.76003309586276657" />
+  <Data Number="7" Referencing="7" Location="-1" />
+</Dictionary>

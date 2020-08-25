@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="CHAIRS" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.16152500538788345" />
+  <Data Number="1" Referencing="1" Location="-0.39974522896842124" />
+  <Data Number="2" Referencing="2" Location="-0.51851539042021544" />
+  <Data Number="3" Referencing="3" Location="-0.256755738348375" />
+  <Data Number="4" Referencing="4" Location="0.0053188572793644306" />
+  <Data Number="5" Referencing="5" Location="-0.1807365480857826" />
+  <Data Number="6" Referencing="6" Location="0.766076416573384" />
+  <Data Number="7" Referencing="7" Location="0.88551113749179577" />
+</Dictionary>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="STOREFRONT" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.83133790617138381" />
+  <Data Number="1" Referencing="1" Location="-0.68296665927918565" />
+  <Data Number="2" Referencing="2" Location="0.308963434651772" />
+  <Data Number="3" Referencing="3" Location="0.092006130808170078" />
+  <Data Number="4" Referencing="4" Location="0.284084080392562" />
+  <Data Number="5" Referencing="5" Location="-0.47254461803375164" />
+  <Data Number="6" Referencing="6" Location="0.16445701294338896" />
+  <Data Number="7" Referencing="7" Location="-0.22940732127535787" />
+</Dictionary>

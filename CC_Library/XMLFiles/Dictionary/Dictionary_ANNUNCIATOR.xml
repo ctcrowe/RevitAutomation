@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="ANNUNCIATOR" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.87973856209150336" />
+  <Data Number="1" Referencing="1" Location="-0.22115906352079934" />
+  <Data Number="2" Referencing="2" Location="-0.13223363262125834" />
+  <Data Number="3" Referencing="3" Location="0.24492867915057845" />
+  <Data Number="4" Referencing="4" Location="-0.090911412322318752" />
+  <Data Number="5" Referencing="5" Location="0.13355395269485781" />
+  <Data Number="6" Referencing="6" Location="-0.39827240044170636" />
+  <Data Number="7" Referencing="7" Location="-0.82039910080861256" />
+</Dictionary>

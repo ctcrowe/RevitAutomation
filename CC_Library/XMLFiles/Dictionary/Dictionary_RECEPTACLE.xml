@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="RECEPTACLE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.568180284114357" />
+  <Data Number="1" Referencing="1" Location="0.66373713443689475" />
+  <Data Number="2" Referencing="2" Location="0.78293958403787911" />
+  <Data Number="3" Referencing="3" Location="0.30831540780657318" />
+  <Data Number="4" Referencing="4" Location="0.75724551765086867" />
+  <Data Number="5" Referencing="5" Location="0.07106663874374293" />
+  <Data Number="6" Referencing="6" Location="-0.17990953250783939" />
+  <Data Number="7" Referencing="7" Location="0.705828817889946" />
+</Dictionary>

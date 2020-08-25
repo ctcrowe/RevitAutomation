@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UpdateOccLoads.cs" />
     <Compile Include="UpdateRoomPrivacy.cs" />
     <Compile Include="DocSynching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

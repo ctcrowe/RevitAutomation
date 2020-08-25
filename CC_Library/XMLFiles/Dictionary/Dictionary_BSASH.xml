@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="BSASH" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.086232670465350214" />
+  <Data Number="1" Referencing="1" Location="-0.23861929821029335" />
+  <Data Number="2" Referencing="2" Location="0.36852602301583265" />
+  <Data Number="3" Referencing="3" Location="0.49253023159342363" />
+  <Data Number="4" Referencing="4" Location="0.18486055428578194" />
+  <Data Number="5" Referencing="5" Location="-0.75509783148537291" />
+  <Data Number="6" Referencing="6" Location="-0.18242851883752193" />
+  <Data Number="7" Referencing="7" Location="-0.37167399250082273" />
+</Dictionary>

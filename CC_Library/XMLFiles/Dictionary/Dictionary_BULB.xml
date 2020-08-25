@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="BULB" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.997657707265896" />
+  <Data Number="1" Referencing="1" Location="0.12478637038966899" />
+  <Data Number="2" Referencing="2" Location="0.98616854361278372" />
+  <Data Number="3" Referencing="3" Location="0.098112336871266526" />
+  <Data Number="4" Referencing="4" Location="0.32844220890551235" />
+  <Data Number="5" Referencing="5" Location="-0.37533981372748015" />
+  <Data Number="6" Referencing="6" Location="-0.039725518942519952" />
+  <Data Number="7" Referencing="7" Location="0.12589047668776032" />
+</Dictionary>

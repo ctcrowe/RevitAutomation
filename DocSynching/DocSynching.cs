@@ -15,12 +15,16 @@ namespace CC_DocSynching
                 tg.Start();
                 foreach (CCParameter p in Enum.GetValues(typeof(CCParameter)))
                 {
-                    using (Transaction t = new Transaction(doc, "ADD Parameters"))
+                    try
                     {
-                        t.Start();
-                        doc.AddParam(p);
-                        t.Commit();
+                        using (Transaction t = new Transaction(doc, "ADD Parameters"))
+                        {
+                            t.Start();
+                            doc.AddParam(p);
+                            t.Commit();
+                        }
                     }
+                    catch { }
                 }
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
@@ -28,6 +32,14 @@ namespace CC_DocSynching
                     doc.SetID(doc.CheckID());
                     t.Commit();
                 }
+                using (Transaction t = new Transaction(doc, "Update Occ Loads"))
+                {
+                    t.Start();
+                    View v = doc.ActiveView;
+                    v.UpdateOccLoads();
+                    t.Commit();
+                }
+                /*
                 using (Transaction t = new Transaction(doc, "Predict Room Privacy"))
                 {
                     t.Start();
@@ -35,6 +47,7 @@ namespace CC_DocSynching
                     v.UpdateRoomPrivacy();
                     t.Commit();
                 }
+                */
                 using (Transaction t = new Transaction(doc, "Collect Keynotes"))
                 {
                     doc.CollectKeynotes();

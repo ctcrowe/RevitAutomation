@@ -30,12 +30,14 @@ namespace CC_Plugin
             MFPanel.MFTab(uiApp, tabName);
             uiApp.LoadFamPanel(tabName);
 
-            ViewChanged.OnStartup(uiApp);
             try
             {
+                ViewChanged.OnStartup(uiApp);
                 DocSynching.OnStartup(uiApp);
                 RefPlaneMaker.OnStartup(uiApp);
                 CC_Automation.OnStartup(uiApp);
+                UpdateLoadFactor.OnStartup(uiApp);
+                UpdateStudSize.OnStartup(uiApp);
                 FamLoadedEvent.OnStartup(uiApp);
                 DocSavingAs.OnStartup(uiApp);
                 DocClosing.OnStartup(uiApp);
@@ -47,6 +49,8 @@ namespace CC_Plugin
             ViewChanged.OnShutdown(uiApp);
             RefPlaneMaker.OnShutdown(uiApp);
             CC_Automation.OnShutdown(uiApp);
+            UpdateLoadFactor.OnShutdown(uiApp);
+            UpdateStudSize.OnShutdown(uiApp);
             DocSynching.OnShutdown(uiApp);
             FamLoadedEvent.OnShutdown(uiApp);
             DocSavingAs.OnShutdown(uiApp);

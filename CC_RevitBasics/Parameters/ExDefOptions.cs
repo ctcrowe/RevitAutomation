@@ -26,6 +26,12 @@ namespace CC_RevitBasics
                 case 3:
                     options.Type = ParameterType.Integer;
                     break;
+                case 4:
+                    options.Type = ParameterType.Material;
+                    break;
+                case 5:
+                    options.Type = ParameterType.Area;
+                    break;
             }
             options.GUID = par.GetGUID();
             if (value % 10 == 0)

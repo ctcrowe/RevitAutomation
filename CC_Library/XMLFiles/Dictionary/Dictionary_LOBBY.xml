@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="LOBBY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.67584411866085214" />
+  <Data Number="1" Referencing="1" Location="-0.34465454970358195" />
+  <Data Number="2" Referencing="2" Location="-0.72165415490638418" />
+  <Data Number="3" Referencing="3" Location="0.16619343597403233" />
+  <Data Number="4" Referencing="4" Location="-0.28333092409132948" />
+  <Data Number="5" Referencing="5" Location="-0.18707853282146025" />
+  <Data Number="6" Referencing="6" Location="0.35332064357577908" />
+  <Data Number="7" Referencing="7" Location="-0.10693857320388947" />
+</Dictionary>

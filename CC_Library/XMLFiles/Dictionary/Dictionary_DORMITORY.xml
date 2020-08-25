@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="DORMITORY" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.77457565592275379" />
+  <Data Number="1" Referencing="1" Location="0.75631233978421275" />
+  <Data Number="2" Referencing="2" Location="0.93107407248716367" />
+  <Data Number="3" Referencing="3" Location="-0.903170508141186" />
+  <Data Number="4" Referencing="4" Location="-0.19142376352593038" />
+  <Data Number="5" Referencing="5" Location="-0.7094852542656086" />
+  <Data Number="6" Referencing="6" Location="-0.22876241348160542" />
+  <Data Number="7" Referencing="7" Location="0.49248024471685303" />
+</Dictionary>

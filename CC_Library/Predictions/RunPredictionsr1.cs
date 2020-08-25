@@ -3,15 +3,19 @@ using System.Linq;
 using System.Windows.Forms;
 
 using CC_Library.Datatypes;
-using CC_Library.Predictions.RoomPrivacy;
 using CC_Library.Predictions.Masterformat;
 
 namespace CC_Library.Predictions
 {
     public static class Datasets
     {
-        public static void RunPredictions(int Loops, WriteToCMDLine write, Hold hold)
+        public static void RunPredictions(WriteToCMDLine write, Hold hold)
         {
+            InitializeData init;
+            GetEntry ge;
+            Accuracy accuracy;
+            ChangedElements ce;
+
             //Open the Dataset
             OpenFileDialog ofd = new OpenFileDialog()
             {
@@ -31,15 +35,38 @@ namespace CC_Library.Predictions
                     switch(datatype)
                     {
                         default:
-                            break;
                         case Datatype.Masterformat:
-                            //filepath.MF_RunPredictions(Loops, write, hold);
-                            filepath.MF_RunPredictionsParallel(Loops, write, hold);
+                            init = new InitializeData(MasterformatInitialize.InitializeMF);
+                            accuracy = new Accuracy(MasterformatAccuracy.MF_Accuracy);
+                            ge = new GetEntry(MasterformatEntry.MFEntry);
+                            ce = new ChangedElements(MasterformatInitialize.CollectChangedElements);
+                            break;
+                        case Datatype.OccupantLoadFactor:
+                            init = new InitializeData(OLFInitialize.Initialize);
+                            accuracy = new Accuracy(OLFAccuracy.Accuracy);
+                            ge = new GetEntry(OLFGetEntry.OLFEntry);
+                            ce = new ChangedElements(OLFInitialize.CollectChangedElements);
+                            break;
+                        case Datatype.StudLayer:
+                            init = new InitializeData(Stud_Initialize.Initialize);
+                            accuracy = new Accuracy(Stud_Accuracy.Accuracy);
+                            ge = new GetEntry(Stud_Entry.StudEntry);
+                            ce = new ChangedElements(Stud_Initialize.CollectChangedElements);
+                            break;
+                        case Datatype.OccupancyGroup:
+                            init = new InitializeData(OCCInitialize.Initialize);
+                            accuracy = new Accuracy(OCCAccuracy.Accuracy);
+                            ge = new GetEntry(OCCGetEntry.OCCEntry);
+                            ce = new ChangedElements(OCCInitialize.CollectChangedElements);
                             break;
                         case Datatype.RoomPrivacy:
-                            filepath.RP_RunPredictions(write);
+                            init = new InitializeData(PrivacyInitialize.RPInitialize);
+                            accuracy = new Accuracy(PrivacyAccuracy.RP_Accuracy);
+                            ge = new GetEntry(PrivacyEntry.RPEntry);
+                            ce = new ChangedElements(PrivacyInitialize.CollectChangedElements);
                             break;
                     }
+                    filepath.AlternatingPredictions2(datatype, init, accuracy, ge, write, ce, hold);
                 }
             }
         }

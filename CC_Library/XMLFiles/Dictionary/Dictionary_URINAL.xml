@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="URINAL" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.0581942219065763" />
+  <Data Number="1" Referencing="1" Location="0.13805143941704259" />
+  <Data Number="2" Referencing="2" Location="0.51956249309839442" />
+  <Data Number="3" Referencing="3" Location="0.99354701954570923" />
+  <Data Number="4" Referencing="4" Location="0.35290232686346962" />
+  <Data Number="5" Referencing="5" Location="-0.37655370836132379" />
+  <Data Number="6" Referencing="6" Location="-0.13220013220246749" />
+  <Data Number="7" Referencing="7" Location="0.024638569662425988" />
+</Dictionary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using Autodesk.Revit.UI;
 using CC_RevitBasics;
+using CC_Library.Predictions;
 
 namespace CC_Plugin
 {
@@ -30,12 +31,11 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        string Masterformat = CC_Library.Predictions.Masterformat.Masterformat.Predict
-                            (args.PathName.Split('\\').Last().Split('.').First());
+                        string Masterformat = args.PathName.Split('\\').Last().Split('.').First().MFPredict();
                         if (Masterformat != null)
-                            TaskDialog.Show("Test", Masterformat);
+                            TaskDialog.Show("Masterformat Check", Masterformat);
                         else
-                            TaskDialog.Show("Test", "Masterformat was Null!");
+                            TaskDialog.Show("Masterformat Check", "Masterformat was Null!");
                         doc.SetMasterformat(Masterformat);
                         t.Commit();
                     }

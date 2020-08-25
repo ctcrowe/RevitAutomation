@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="TELEVISION" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.45503396772579818" />
+  <Data Number="1" Referencing="1" Location="0.083943237436921961" />
+  <Data Number="2" Referencing="2" Location="-0.065803574075993659" />
+  <Data Number="3" Referencing="3" Location="0.49828160331093113" />
+  <Data Number="4" Referencing="4" Location="-0.025336195592705772" />
+  <Data Number="5" Referencing="5" Location="-0.738947637282846" />
+  <Data Number="6" Referencing="6" Location="0.526464464853734" />
+  <Data Number="7" Referencing="7" Location="-0.28024652427073871" />
+</Dictionary>

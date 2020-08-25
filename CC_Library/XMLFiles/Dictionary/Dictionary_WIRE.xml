@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="WIRE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.22060875619524198" />
+  <Data Number="1" Referencing="1" Location="-0.62350719791203046" />
+  <Data Number="2" Referencing="2" Location="0.27910004671671718" />
+  <Data Number="3" Referencing="3" Location="-0.33886405706061323" />
+  <Data Number="4" Referencing="4" Location="-0.73701959860687394" />
+  <Data Number="5" Referencing="5" Location="0.70264964101508942" />
+  <Data Number="6" Referencing="6" Location="0.38830570056489933" />
+  <Data Number="7" Referencing="7" Location="-0.78097496594784621" />
+</Dictionary>

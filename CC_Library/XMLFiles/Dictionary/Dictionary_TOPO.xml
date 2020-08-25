@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="TOPO" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.17855961085524641" />
+  <Data Number="1" Referencing="1" Location="0.88286713286713292" />
+  <Data Number="2" Referencing="2" Location="0.18982200215422423" />
+  <Data Number="3" Referencing="3" Location="0.49306550365549767" />
+  <Data Number="4" Referencing="4" Location="-0.19978975147940739" />
+  <Data Number="5" Referencing="5" Location="0.74949908072482652" />
+  <Data Number="6" Referencing="6" Location="0.69288564400666142" />
+  <Data Number="7" Referencing="7" Location="-0.42126081637327489" />
+</Dictionary>

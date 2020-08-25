@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="ACTUATOR" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.66764402483324359" />
+  <Data Number="1" Referencing="1" Location="-0.26593126735749761" />
+  <Data Number="2" Referencing="2" Location="-0.62082755615543073" />
+  <Data Number="3" Referencing="3" Location="0.89149317275587137" />
+  <Data Number="4" Referencing="4" Location="0.0955222867908513" />
+  <Data Number="5" Referencing="5" Location="0.12103806712519308" />
+  <Data Number="6" Referencing="6" Location="0.21823654173417639" />
+  <Data Number="7" Referencing="7" Location="0.05941936063067977" />
+</Dictionary>

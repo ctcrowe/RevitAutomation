@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="HUDDLE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.86402546161251592" />
+  <Data Number="1" Referencing="1" Location="-0.938628824864807" />
+  <Data Number="2" Referencing="2" Location="-0.35123841845195247" />
+  <Data Number="3" Referencing="3" Location="-0.93226464694936972" />
+  <Data Number="4" Referencing="4" Location="-0.50176405696429816" />
+  <Data Number="5" Referencing="5" Location="0.56185649890512679" />
+  <Data Number="6" Referencing="6" Location="-0.61373590706555914" />
+  <Data Number="7" Referencing="7" Location="0.65645387845880065" />
+</Dictionary>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="FREIGHT" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.10031969826150472" />
+  <Data Number="1" Referencing="1" Location="-0.23572599619427975" />
+  <Data Number="2" Referencing="2" Location="-0.084470421616713587" />
+  <Data Number="3" Referencing="3" Location="-0.19503148607678314" />
+  <Data Number="4" Referencing="4" Location="-0.51305268771935586" />
+  <Data Number="5" Referencing="5" Location="-0.086515678382246469" />
+  <Data Number="6" Referencing="6" Location="0.77355791152154929" />
+  <Data Number="7" Referencing="7" Location="-0.081713700239413281" />
+</Dictionary>

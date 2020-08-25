@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="FLAGPOLE" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.99493464052287584" />
+  <Data Number="1" Referencing="1" Location="-0.81760609043738219" />
+  <Data Number="2" Referencing="2" Location="0.03732457749431918" />
+  <Data Number="3" Referencing="3" Location="-0.68791926248660207" />
+  <Data Number="4" Referencing="4" Location="0.43096932058654852" />
+  <Data Number="5" Referencing="5" Location="-0.12626173293004295" />
+  <Data Number="6" Referencing="6" Location="-0.99398398864734172" />
+  <Data Number="7" Referencing="7" Location="0.1757005733324683" />
+</Dictionary>

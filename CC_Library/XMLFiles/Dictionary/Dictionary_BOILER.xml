@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="BOILER" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.58297347399259869" />
+  <Data Number="1" Referencing="1" Location="-0.5901076516628434" />
+  <Data Number="2" Referencing="2" Location="0.37079501287786171" />
+  <Data Number="3" Referencing="3" Location="0.939132737433134" />
+  <Data Number="4" Referencing="4" Location="0.67532144169856367" />
+  <Data Number="5" Referencing="5" Location="0.36299991002145554" />
+  <Data Number="6" Referencing="6" Location="0.27965474858235595" />
+  <Data Number="7" Referencing="7" Location="0.33805730911986759" />
+</Dictionary>

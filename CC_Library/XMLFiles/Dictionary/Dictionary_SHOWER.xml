@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="SHOWER" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.38367474973239729" />
+  <Data Number="1" Referencing="1" Location="-0.56036526164220335" />
+  <Data Number="2" Referencing="2" Location="0.78373382624768939" />
+  <Data Number="3" Referencing="3" Location="-0.0901202427982901" />
+  <Data Number="4" Referencing="4" Location="-0.7363311133771846" />
+  <Data Number="5" Referencing="5" Location="-1" />
+  <Data Number="6" Referencing="6" Location="-0.88182306759312123" />
+  <Data Number="7" Referencing="7" Location="-0.48327991415576116" />
+</Dictionary>

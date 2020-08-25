@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="PANELS" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.3469878051276955" />
+  <Data Number="1" Referencing="1" Location="-0.99343363151712283" />
+  <Data Number="2" Referencing="2" Location="-0.94678928614635849" />
+  <Data Number="3" Referencing="3" Location="-0.9931009440813362" />
+  <Data Number="4" Referencing="4" Location="0.93049516580825942" />
+  <Data Number="5" Referencing="5" Location="-0.37677875405766303" />
+  <Data Number="6" Referencing="6" Location="0.21265434204258693" />
+  <Data Number="7" Referencing="7" Location="-0.070039769667219268" />
+</Dictionary>

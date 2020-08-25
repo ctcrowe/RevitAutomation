@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="FEC" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="0.19705318274616684" />
+  <Data Number="1" Referencing="1" Location="0.43372092056223482" />
+  <Data Number="2" Referencing="2" Location="0.57694778908723965" />
+  <Data Number="3" Referencing="3" Location="-0.91459101667375819" />
+  <Data Number="4" Referencing="4" Location="-0.9538586413586414" />
+  <Data Number="5" Referencing="5" Location="-0.39190486985422812" />
+  <Data Number="6" Referencing="6" Location="0.7420707613128914" />
+  <Data Number="7" Referencing="7" Location="0.78139648203803058" />
+</Dictionary>

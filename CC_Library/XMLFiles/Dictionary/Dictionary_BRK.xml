@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="BRK" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.16404103797373976" />
+  <Data Number="1" Referencing="1" Location="-0.82653621740578265" />
+  <Data Number="2" Referencing="2" Location="-0.019145842638207924" />
+  <Data Number="3" Referencing="3" Location="-0.78106650886175522" />
+  <Data Number="4" Referencing="4" Location="0.18468712805224957" />
+  <Data Number="5" Referencing="5" Location="-0.12150846506252762" />
+  <Data Number="6" Referencing="6" Location="0.16023684051901754" />
+  <Data Number="7" Referencing="7" Location="-0.23606577528848494" />
+</Dictionary>

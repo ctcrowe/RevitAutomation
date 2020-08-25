@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="LED" Datatype="Dictionary">
+  <Data Number="0" Referencing="0" Location="-0.8331405399987365" />
+  <Data Number="1" Referencing="1" Location="-0.95462752503554837" />
+  <Data Number="2" Referencing="2" Location="-0.49483088982515261" />
+  <Data Number="3" Referencing="3" Location="-0.18644149114908407" />
+  <Data Number="4" Referencing="4" Location="-0.24869518515696698" />
+  <Data Number="5" Referencing="5" Location="-0.50527949562029939" />
+  <Data Number="6" Referencing="6" Location="-0.24797343179696116" />
+  <Data Number="7" Referencing="7" Location="-0.93857187635198791" />
+</Dictionary>
