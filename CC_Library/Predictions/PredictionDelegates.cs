@@ -9,10 +9,10 @@ using CC_Library.Datatypes;
 namespace CC_Library.Predictions
 {
     internal delegate List<string>[] ChangedElements
-        (List<Entry> Entries);
+        (Entry[] entry);
     internal delegate double[] Accuracy
         (List<Entry> Entries,
-        Dictionary<string, Element>[] Datasets);
+        NeuralNetwork network);
     internal delegate Dictionary<string, Element>[] InitializeData
         (List<Entry> Entries);
     internal delegate double Initialize

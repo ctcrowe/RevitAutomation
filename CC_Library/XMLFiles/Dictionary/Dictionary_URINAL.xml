@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="URINAL" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="-0.0581942219065763" />
-  <Data Number="1" Referencing="1" Location="0.13805143941704259" />
-  <Data Number="2" Referencing="2" Location="0.51956249309839442" />
-  <Data Number="3" Referencing="3" Location="0.99354701954570923" />
-  <Data Number="4" Referencing="4" Location="0.35290232686346962" />
-  <Data Number="5" Referencing="5" Location="-0.37655370836132379" />
-  <Data Number="6" Referencing="6" Location="-0.13220013220246749" />
-  <Data Number="7" Referencing="7" Location="0.024638569662425988" />
+  <Data Number="0" Location="0.97305062001448728" />
+  <Data Number="1" Location="0.5742327867814131" />
+  <Data Number="2" Location="-0.8262093014278854" />
+  <Data Number="3" Location="-0.691240775169301" />
+  <Data Number="4" Location="0.68323086894469021" />
+  <Data Number="5" Location="0.099220802208192307" />
+  <Data Number="6" Location="0.85437167810215342" />
+  <Data Number="7" Location="0.56308298313403748" />
+  <Data Number="8" Location="-0.00024761157852370573" />
+  <Data Number="9" Location="-0.91108099358471051" />
+  <Data Number="10" Location="0.10642825173714325" />
+  <Data Number="11" Location="-0.16919159143458917" />
+  <Data Number="12" Location="-0.81809887878306975" />
+  <Data Number="13" Location="0.9755169158614424" />
+  <Data Number="14" Location="0.1877353877630317" />
+  <Data Number="15" Location="0.35576180254112388" />
+  <Data Number="16" Location="-0.94227778807187235" />
+  <Data Number="17" Location="-0.37041751397126865" />
+  <Data Number="18" Location="0.1406997914076849" />
+  <Data Number="19" Location="0.16344177133764898" />
 </Dictionary>

@@ -7,7 +7,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.Attributes;
 
 
-namespace CCRevitTools
+namespace CC_Plugin
 {
     #region Print Sets
     [TransactionAttribute(TransactionMode.Manual)]

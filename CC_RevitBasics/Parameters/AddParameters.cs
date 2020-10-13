@@ -54,9 +54,9 @@ namespace CC_RevitBasics
                 case 3:
                     doc.AddRoomParam(p); break;
                 case 4:
-                    doc.AddCFWParam(p); break;
-                case 5:
                     doc.AddViewParam(p); break;
+                case 5:
+                    doc.AddMatParam(p); break;
                 case 6:
                     doc.AddCFWParam(p); break;
                 case 7:
@@ -133,6 +133,20 @@ namespace CC_RevitBasics
                 doc.AddFamilyParam(p);
             else
                 doc.AddProjectInfoParam(p);
+        }
+        private static void AddMatParam(this Document doc, CCParameter p)
+        {
+            if(!doc.IsFamilyDocument)
+            {
+                if(doc.ProjectInformation.get_Parameter(p.GetGUID()) == null)
+                {
+                    Definition def = p.CreateDefinition(doc);
+                    CategorySet set = new CategorySet();
+                    set.Insert(Category.GetCategory(doc, BuiltInCategory.OST_Materials));
+                    InstanceBinding binding = new InstanceBinding(set);
+                    doc.ParameterBindings.Insert(def, binding);
+                }
+            }
         }
         private static void AddProjectInfoParam(this Document doc, CCParameter p)
         {

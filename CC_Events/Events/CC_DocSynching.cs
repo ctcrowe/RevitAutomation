@@ -16,34 +16,6 @@ namespace CC_Plugin
         {
             Document doc = args.Document;
             CCMethod.Run("DocSynching", "CC_DocSynching.DocSynching", "synch", doc);
-            /*
-            using (TransactionGroup tg = new TransactionGroup(doc, "Doc Synching"))
-            {
-                TaskDialog.Show("Test", "Doc Synching is Running");
-                tg.Start();
-                foreach (CCParameter p in Enum.GetValues(typeof(CCParameter)))
-                {
-                    using (Transaction t = new Transaction(doc, "ADD Parameters"))
-                    {
-                        t.Start();
-                        doc.AddParam(p);
-                        t.Commit();
-                    }
-                }
-                using (Transaction t = new Transaction(doc, "Set ID"))
-                {
-                    t.Start();
-                    doc.SetID(doc.CheckID());
-                    t.Commit();
-                }
-                using (Transaction t = new Transaction(doc, "Add Families"))
-                {
-                    t.Start();
-                    doc.LoadSymbols();
-                    t.Commit();
-                }
-                tg.Commit();
-            } */
         }
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static string dir = directory + "\\CC_PrjData";

@@ -33,11 +33,22 @@ namespace CC_Library.Predictions
             for(int i = 0; i < Loc.Count(); i++)
             {
                 Loc[i] = ele.Location[i];
-                Ref[i] = ele.Referencing[i];
             }
             newele.Location = Loc;
-            newele.Referencing = Ref;
             return newele;
+        }
+        public static List<Element> GetElements(this Datatype datatype, List<Entry> entries)
+        {
+            List<Element> eles = new List<Element>();
+            foreach (Entry e in entries)
+            {
+                foreach (string v in e.Values)
+                {
+                    if (!eles.Any(x => x.Label == v))
+                        eles.Add(datatype.GetElement(v));
+                }
+            }
+            return eles;
         }
         public static List<Element> GetElements(this Datatype datatype)
         {

@@ -13,7 +13,7 @@ namespace CC_Library.Predictions
             {
                 for (int i = 0; i < ele1.Location.Count(); i++)
                 {
-                    double a = ele2.Location[ele1.Referencing[i]] - ele1.Location[i];
+                    double a = ele2.Location[i] - ele1.Location[i];
                     double b = Math.Pow(a, 2);
                     loc += b;
                 }
@@ -35,7 +35,7 @@ namespace CC_Library.Predictions
             double loc = 0;
             for (int i = 0; i < ele.Location.Count(); i++)
             {
-                double a = Point[ele.Referencing[i]] - ele.Location[i];
+                double a = Point[i] - ele.Location[i];
                 double b = Math.Pow(a, 2);
                 loc += b;
             }

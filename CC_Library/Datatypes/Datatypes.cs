@@ -10,17 +10,34 @@
      *          This allows relationships to develop between Datatypes that are not exclusively interrelated.
      *          Some datatypes will have stronger relations to each other than others.
      */
+
+        /// <summary>
+        /// New Datatypes:
+        /// 7 Number Format
+        /// Second Number Represents Number of Layers
+        /// Third Number Represents Layer Size
+        /// Fourth and Fifth Numbers represent the last layer size (Accept in the Dictionary)
+        /// Last Two Numbers are to give it a unique ID
+        /// All Entry and Exit information will be contained within 8 values
+
+        /// A new datatype is created! Softmax Functions will begin with a "1"
+        /// Other datatypes will begin with a 2
+        /// if the system is a softmax system, the last layer needs to be the size of the options.
+
     public enum Datatype
     {
-        Null = 0,
-        OccupantLoadFactor = 3001,
-        StudLayer = 3002,
-        OccupancyGroup = 3003,
-        RequiredFamilies = 5001,
-        Subcategory = 5002,
-        RoomPrivacy = 5003,
-        Keynote = 5004,
-        Masterformat = 6001,
-        Dictionary = 8001
+        Dictionary = 1280001,
+        Masterformat = 1484001,
+        OccupantLoadFactor = 22401,
+        StudLayer = 22402,
+        OccupancyGroup = 23801,
+        ObjectCategory = 24001,
+        RequiredFamilies = 25001,
+        Subcategory = 25002,
+        RoomPrivacy = 25003,
+        Keynote = 25004,
+        Boundary,
+        Elevation,
+        Pointer
     }
 }

@@ -32,6 +32,7 @@ namespace CC_Plugin
 
             try
             {
+                UpdateOccupantLoads.OnStartup(uiApp);
                 ViewChanged.OnStartup(uiApp);
                 DocSynching.OnStartup(uiApp);
                 RefPlaneMaker.OnStartup(uiApp);
@@ -46,6 +47,7 @@ namespace CC_Plugin
         }
         public static void OnShutdown(UIControlledApplication uiApp)
         {
+            UpdateOccupantLoads.OnShutdown(uiApp);
             ViewChanged.OnShutdown(uiApp);
             RefPlaneMaker.OnShutdown(uiApp);
             CC_Automation.OnShutdown(uiApp);

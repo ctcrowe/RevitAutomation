@@ -7,6 +7,7 @@
     //Parameters in the 8000 range apply to Floors, Ceilings, and Rooms
     //Parameters in the 7000 range apply to Door and Window Families Only
     //Parameters in the 6000 range apply to Walls, Floors, and Ceilings
+    //Parameters in the 5000 range apply to Materials
     //Parameters in the 4000 range are View Parameters
     //Parameters in the 3000 range are room parameters
     //Parameters in the 2000 range are family only
@@ -25,6 +26,12 @@
         FrameFinish = -7401,
         WallThickness = -7101,
         EWallModified = -6201,
+        FinishMaterial = -5201,
+        PatternStyle = -5005,
+        ColorFinish = -5004,
+        Model = -5003,
+        Manufacturer = -5002,
+        Category = -5001,
         PredictedViewType = -4000,
         OccupantLoadFactor = -3501,
         OccupantLoad = -3301,
@@ -46,17 +53,19 @@
         OverallWidth = 2101,
         OverallDepth = 2102,
         OverallHeight = 2103,
-        FireRating = 6001,
         ULListing = 6002,
         StudSize = 6101,
         Thickness = 6102,
         Finish = 6201,
         HardwareGroup = 7001,
-        FrameMaterial = 7401,
-        PanelMaterial = 7402,
         PanelType = 7006,
         HeadDetail = 7007,
         JambDetail = 7008,
-        SillDetail = 7009
+        SillDetail = 7009,
+        PanelThickness = 7101,
+        FrameMaterial = 7401,
+        PanelMaterial = 7402,
+        Glazing = 7403,
+        FireRating = 9001
     }
 }

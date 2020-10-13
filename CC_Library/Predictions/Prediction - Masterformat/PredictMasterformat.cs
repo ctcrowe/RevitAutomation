@@ -6,18 +6,24 @@ namespace CC_Library.Predictions
 {
     public static class MasterformatPredict
     {
+        private static void writeout(string s) { }
         public static string MFPredict(this string s)
         {
-            List<string> words = s.SplitTitle();
-            Dictionary<string, Element> DictPoints = new Dictionary<string, Element>();
-            var Dataset = Datatype.Masterformat.GetElements().ToDictionary(x => x.Label, y => y);
-
-            foreach (var word in words)
+            var Network = LoadNeuralNetwork.LoadNetwork(Datatype.Masterformat, new List<string>(), new WriteToCMDLine(writeout));
+            var WordList = s.SplitTitle();
+            if (WordList.Any())
             {
-                DictPoints.Add(word, Datatype.Dictionary.GetElement(word));
+                var result = WordList.GetInput();
+                var Zees = new double[1];
+                for (int j = 0; j < Network.Layers.Count(); j++)
+                {
+                    Zees = Network.Layers[j].ZScore(result);
+                    result = Network.Layers[j].Output(Zees);
+                }
+                
+                return result.ToList().IndexOf(result.Max()).ToString();
             }
-            var Combined = DictPoints.Combine();
-            return Dataset.FindClosest(Combined);
+            return "";
         }
     }
 }

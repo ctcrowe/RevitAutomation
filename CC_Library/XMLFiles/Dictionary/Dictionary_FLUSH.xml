@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="FLUSH" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="-0.2825525545689509" />
-  <Data Number="1" Referencing="1" Location="-0.44603874218849088" />
-  <Data Number="2" Referencing="2" Location="-0.12548655256525332" />
-  <Data Number="3" Referencing="3" Location="0.94047091758831913" />
-  <Data Number="4" Referencing="4" Location="-0.67963226009148137" />
-  <Data Number="5" Referencing="5" Location="0.64809630096335724" />
-  <Data Number="6" Referencing="6" Location="-0.2603531387879901" />
-  <Data Number="7" Referencing="7" Location="-0.84290602609650511" />
+  <Data Number="0" Location="0.31709397027641439" />
+  <Data Number="1" Location="0.42687334220752926" />
+  <Data Number="2" Location="-1.0107004672995803" />
+  <Data Number="3" Location="-0.44388085497216179" />
+  <Data Number="4" Location="0.69634107473647844" />
+  <Data Number="5" Location="-1.0033960129471555" />
+  <Data Number="6" Location="-0.9139003954748196" />
+  <Data Number="7" Location="0.62015762149875509" />
+  <Data Number="8" Location="-0.27919299997966474" />
+  <Data Number="9" Location="-0.35455364635945863" />
+  <Data Number="10" Location="-0.10276710026516615" />
+  <Data Number="11" Location="-0.36859918741401992" />
+  <Data Number="12" Location="-0.20782947109497266" />
+  <Data Number="13" Location="0.33688381804323886" />
+  <Data Number="14" Location="-0.53333734572044433" />
+  <Data Number="15" Location="-0.87721223064987919" />
+  <Data Number="16" Location="0.12490536358945767" />
+  <Data Number="17" Location="-0.087512715885680964" />
+  <Data Number="18" Location="-0.57700417230185685" />
+  <Data Number="19" Location="-0.92298541006821011" />
 </Dictionary>

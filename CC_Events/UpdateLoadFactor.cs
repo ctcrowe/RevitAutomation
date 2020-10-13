@@ -38,9 +38,10 @@ namespace CC_Plugin
                 Room r = ele as Room;
                 if (r != null)
                 {
+                    /*
                     Parameter p = r.get_Parameter(BuiltInParameter.ROOM_NAME);
                     string s = p.AsString();
-                    var OLF = s.PredictOLF();
+                    //var OLF = s.PredictOLF();
                     double lf = double.Parse(OLF);
                     double Area = r.get_Parameter(BuiltInParameter.ROOM_AREA).AsDouble();
                     int load = 0;
@@ -50,6 +51,7 @@ namespace CC_Plugin
                         + "The new Occupany Load is " + load);
                     ele.SetElementParam(CCParameter.OccupantLoadFactor, OLF);
                     ele.SetElementParam(CCParameter.OccupantLoad, load.ToString());
+                    */
                 }
                 else
                     TaskDialog.Show("Error", "The room was null");

@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="WDDOOR" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="-1" />
-  <Data Number="1" Referencing="1" Location="-0.914918414918415" />
-  <Data Number="2" Referencing="2" Location="-0.40917571686066007" />
-  <Data Number="3" Referencing="3" Location="-0.62605473940542655" />
-  <Data Number="4" Referencing="4" Location="-0.42740018832373622" />
-  <Data Number="5" Referencing="5" Location="0.33598588501307852" />
-  <Data Number="6" Referencing="6" Location="-0.52115513341505826" />
-  <Data Number="7" Referencing="7" Location="-0.94098502507593407" />
+  <Data Number="0" Location="0.34132988386536739" />
+  <Data Number="1" Location="-0.82550174556306821" />
+  <Data Number="2" Location="0.88505140166655538" />
+  <Data Number="3" Location="-0.24950681739309086" />
+  <Data Number="4" Location="-0.26412233357821258" />
+  <Data Number="5" Location="0.77693747990312689" />
+  <Data Number="6" Location="-0.70782571699212748" />
+  <Data Number="7" Location="-0.98052142753599458" />
+  <Data Number="8" Location="0.266742294235168" />
+  <Data Number="9" Location="0.66952922963671635" />
+  <Data Number="10" Location="0.75347871500385688" />
+  <Data Number="11" Location="0.35975478132862615" />
+  <Data Number="12" Location="0.41621903574536773" />
+  <Data Number="13" Location="0.23663631131403798" />
+  <Data Number="14" Location="-0.31762924838274181" />
+  <Data Number="15" Location="-0.356489134264739" />
+  <Data Number="16" Location="-0.35133714066727623" />
+  <Data Number="17" Location="-0.053487763376988164" />
+  <Data Number="18" Location="-0.41280706067547268" />
+  <Data Number="19" Location="-0.73011295026948519" />
 </Dictionary>

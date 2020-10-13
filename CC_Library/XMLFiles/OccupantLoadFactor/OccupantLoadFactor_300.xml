@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<OccupantLoadFactor Label="300" Datatype="OccupantLoadFactor">
-  <Data Number="0" Referencing="0" Location="-0.965918283924676" />
-  <Data Number="1" Referencing="4" Location="-0.994660729915896" />
-  <Data Number="2" Referencing="5" Location="0.080357816275652846" />
-</OccupantLoadFactor>

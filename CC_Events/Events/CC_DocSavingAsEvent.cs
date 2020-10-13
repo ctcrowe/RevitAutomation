@@ -31,7 +31,7 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        string Masterformat = args.PathName.Split('\\').Last().Split('.').First().MFPredict();
+                        string Masterformat = "Division " + args.PathName.Split('\\').Last().Split('.').First().MFPredict();
                         if (Masterformat != null)
                             TaskDialog.Show("Masterformat Check", Masterformat);
                         else

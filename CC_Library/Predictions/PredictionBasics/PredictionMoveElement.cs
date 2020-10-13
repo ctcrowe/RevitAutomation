@@ -17,27 +17,41 @@ namespace CC_Library.Predictions
             {
                 if (ele.datatype == Reference.datatype)
                 {
-                    if (ele.Location[i] + adjustment[i] <= 1 && ele.Location[i] + adjustment[i] >= -1)
+                    if (ele.datatype != Datatypes.Datatype.Dictionary)
+                    {
                         ele.Location[i] += adjustment[i];
+                    }
                     else
                     {
-                        if (ele.Location[i] + adjustment[i] >= 1)
-                            ele.Location[i] = 1;
-                        if (ele.Location[i] + adjustment[i] <= -1)
-                            ele.Location[i] = -1;
+                        if (ele.Location[i] + adjustment[i] <= 1 && ele.Location[i] + adjustment[i] >= -1)
+                            ele.Location[i] += adjustment[i];
+                        else
+                        {
+                            if (ele.Location[i] + adjustment[i] >= 1)
+                                ele.Location[i] = 1;
+                            if (ele.Location[i] + adjustment[i] <= -1)
+                                ele.Location[i] = -1;
+                        }
                     }
                 }
                 else
                 {
-                    if (ele.Location[Reference.Referencing[i]] + adjustment[i] <= 1 &&
-                        ele.Location[Reference.Referencing[i]] + adjustment[i] >= -1)
-                        ele.Location[Reference.Referencing[i]] += adjustment[i];
+                    if (ele.datatype != Datatypes.Datatype.Dictionary)
+                    {
+                        ele.Location[i] += adjustment[i];
+                    }
                     else
                     {
-                        if (ele.Location[Reference.Referencing[i]] + adjustment[i] >= 1)
-                            ele.Location[Reference.Referencing[i]] = 1;
-                        if (ele.Location[Reference.Referencing[i]] + adjustment[i] <= -1)
-                            ele.Location[Reference.Referencing[i]] = -1;
+                        if (ele.Location[i] + adjustment[i] <= 1 &&
+                            ele.Location[i] + adjustment[i] >= -1)
+                            ele.Location[i] += adjustment[i];
+                        else
+                        {
+                            if (ele.Location[i] + adjustment[i] >= 1)
+                                ele.Location[i] = 1;
+                            if (ele.Location[i] + adjustment[i] <= -1)
+                                ele.Location[i] = -1;
+                        }
                     }
                 }
             }
@@ -45,14 +59,14 @@ namespace CC_Library.Predictions
         }
         public static void Multiply(this Element ele, double adjustment, Element Reference)
         {
-            for (int i = 0; i < Reference.Referencing.Count(); i++)
+            for (int i = 0; i < Reference.Location.Count(); i++)
             {
-                double val = ele.Location[Reference.Referencing[i]] * adjustment;
+                double val = ele.Location[i] * adjustment;
                 if (val > 1)
                     val = 1;
                 if (val < -1)
                     val = -1;
-                ele.Location[Reference.Referencing[i]] = val;
+                ele.Location[i] = val;
             }
         }
         public static string BulkMove(this Dictionary<string, Element>[] Datasets,
@@ -60,7 +74,7 @@ namespace CC_Library.Predictions
             List<string>[] Changes,
             double ChangeValue)
         {
-            string Mod = "Modified:";
+            string Mod = "";
             int loccount = 0;
             for (int i = 0; i < Changes.Count(); i++)
             {

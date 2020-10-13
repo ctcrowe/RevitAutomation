@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="FASCIA" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="0.046433543707121071" />
-  <Data Number="1" Referencing="1" Location="0.82556226504653052" />
-  <Data Number="2" Referencing="2" Location="-0.20368730869404036" />
-  <Data Number="3" Referencing="3" Location="0.64361144559705619" />
-  <Data Number="4" Referencing="4" Location="-0.2049264518142172" />
-  <Data Number="5" Referencing="5" Location="-0.23002875564103725" />
-  <Data Number="6" Referencing="6" Location="-0.37209702971779368" />
-  <Data Number="7" Referencing="7" Location="-0.85082743603390587" />
+  <Data Number="0" Location="-0.72156518510789536" />
+  <Data Number="1" Location="0.087572922382422924" />
+  <Data Number="2" Location="-0.7053255663444854" />
+  <Data Number="3" Location="-0.5138939655281749" />
+  <Data Number="4" Location="-0.14517262829882968" />
+  <Data Number="5" Location="0.21269433244548189" />
+  <Data Number="6" Location="-0.65085455957548122" />
+  <Data Number="7" Location="0.85784689085283949" />
+  <Data Number="8" Location="-0.82438891245430435" />
+  <Data Number="9" Location="-0.326481429203526" />
+  <Data Number="10" Location="-0.14395402111471639" />
+  <Data Number="11" Location="0.71658236554490828" />
+  <Data Number="12" Location="0.043405227726164834" />
+  <Data Number="13" Location="-0.84320384920897762" />
+  <Data Number="14" Location="0.590242909885249" />
+  <Data Number="15" Location="-0.40557386990139921" />
+  <Data Number="16" Location="0.15994670237237613" />
+  <Data Number="17" Location="0.5786731849959772" />
+  <Data Number="18" Location="0.16789231677732716" />
+  <Data Number="19" Location="0.69716562583736719" />
 </Dictionary>

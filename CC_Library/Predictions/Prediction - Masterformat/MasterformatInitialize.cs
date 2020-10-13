@@ -11,6 +11,7 @@ namespace CC_Library.Predictions
             Dictionary<string, Element>[] Datasets = new Dictionary<string, Element>[2];
             Datasets[0] = new Dictionary<string, Element>();
             Datasets[1] = new Dictionary<string, Element>();
+
             foreach (Entry entry in Entries)
             {
                 foreach (string result in entry.Values)

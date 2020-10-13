@@ -29,7 +29,7 @@ namespace CC_DocSynching
                         int load = 0;
                         if (lf > 0)
                             load = (int)Math.Ceiling(Area / lf);
-                        e.SetElementParam(CCParameter.OccupantLoad, load.ToString());
+                        r.SetRoomIntParam(CCParameter.OccupantLoad, load.ToString());
                     }
                     catch { }
                 }

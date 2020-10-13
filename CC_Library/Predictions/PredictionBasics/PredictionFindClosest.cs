@@ -21,6 +21,20 @@ namespace CC_Library.Predictions
             var fin = res.OrderBy(x => x.Value);
             return fin.FirstOrDefault().Key;
         }
+        public static string FindClosest
+            (this List<Element> Dataset,
+            double[] location)
+        {
+            Dictionary<string, double> results = new Dictionary<string, double>();
+            foreach (var e in Dataset)
+            {
+                if (!results.ContainsKey(e.Label))
+                    results.Add(e.Label, e.Distance(location));
+            }
+            var res = results.ToList();
+            var fin = res.OrderBy(x => x.Value);
+            return fin.FirstOrDefault().Key;
+        }
         public static int FindClosest
             (this List<double[]> Dataset,
             Element location)

@@ -75,6 +75,8 @@
     <Compile Include="Categories\CC_CCcategory.cs" />
     <Compile Include="CC_LoadFamilies.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="CollectElevations.cs" />
+    <Compile Include="CollectBoundaries.cs" />
     <Compile Include="Events\CC_ViewChanged.cs" />
     <Compile Include="CC_AutomationLoop.cs" />
     <Compile Include="CC_XmlLib.cs" />
@@ -84,10 +86,12 @@
     <Compile Include="CC_Datapoint.cs" />
     <Compile Include="Events\CC_DocSynching.cs" />
     <Compile Include="CC_FamLoaded.cs" />
-    <Compile Include="CC_SetMFParam.cs" />
+    <Compile Include="Events\MaterialLibrary\MaterialLibrary.cs" />
+    <Compile Include="Masterformat\CC_SetMFParam.cs" />
     <Compile Include="CC_DocClosing.cs" />
     <Compile Include="CaptureFamilies.cs" />
     <Compile Include="CaptureRoomNames.cs" />
+    <Compile Include="Events\UpdateRoomLoadFactor\OccLoadFactor.cs" />
     <Compile Include="RunMethod.cs" />
     <Compile Include="CreateCSVDatapoint.cs" />
     <Compile Include="PurgeCategories.cs" />

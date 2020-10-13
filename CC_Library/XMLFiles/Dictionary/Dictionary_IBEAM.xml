@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="IBEAM" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="0.28188549732060497" />
-  <Data Number="1" Referencing="1" Location="-0.24419452250465587" />
-  <Data Number="2" Referencing="2" Location="0.025915013504453008" />
-  <Data Number="3" Referencing="3" Location="0.20243484862262143" />
-  <Data Number="4" Referencing="4" Location="-0.87167132773060507" />
-  <Data Number="5" Referencing="5" Location="-0.82297909391251356" />
-  <Data Number="6" Referencing="6" Location="-0.12147838745540981" />
-  <Data Number="7" Referencing="7" Location="0.70931924006473435" />
+  <Data Number="0" Location="-1.0081313900780038" />
+  <Data Number="1" Location="-0.39448262965975617" />
+  <Data Number="2" Location="0.728109725056332" />
+  <Data Number="3" Location="-0.66756755806851586" />
+  <Data Number="4" Location="-0.7654988081126286" />
+  <Data Number="5" Location="0.85959674261498076" />
+  <Data Number="6" Location="0.49484492990885592" />
+  <Data Number="7" Location="0.60152374412010556" />
+  <Data Number="8" Location="-0.82060038533083224" />
+  <Data Number="9" Location="0.69566523212744125" />
+  <Data Number="10" Location="0.44723024555824076" />
+  <Data Number="11" Location="-0.0720177052039143" />
+  <Data Number="12" Location="0.45602499564929933" />
+  <Data Number="13" Location="-0.035099000788747343" />
+  <Data Number="14" Location="-0.93882255589528163" />
+  <Data Number="15" Location="-0.69803781244805951" />
+  <Data Number="16" Location="0.62875994919282341" />
+  <Data Number="17" Location="-0.93803987147188772" />
+  <Data Number="18" Location="0.42260834118478224" />
+  <Data Number="19" Location="-0.824001328108768" />
 </Dictionary>

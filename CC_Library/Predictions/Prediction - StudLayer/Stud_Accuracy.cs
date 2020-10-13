@@ -8,21 +8,12 @@ namespace CC_Library.Predictions
     {
         public static double[] Accuracy
             (this List<Entry> Entries,
-            Dictionary<string, Element>[] Datasets)
+            Dictionary<string, Element>[] Datasets,
+            NeuralNetwork Network)
         {
             double[] Result = new double[4];
             Result[1] = Entries.Count();
 
-            foreach (var e in Datasets[1])
-            {
-                e.Value.total = 1;
-                e.Value.correct = 1;
-            }
-            foreach (var e in Datasets[0])
-            {
-                e.Value.total = 1;
-                e.Value.correct = 1;
-            }
             foreach (var e in Entries)
             {
                 e.correct = false;
@@ -35,7 +26,6 @@ namespace CC_Library.Predictions
                     {
                         if (!DictPoints.ContainsKey(word))
                             DictPoints.Add(word, Datasets[1][word]);
-                        Datasets[1][word].total++;
                     }
                     Positions.Add(DictPoints.Combine());
                 }
@@ -46,8 +36,6 @@ namespace CC_Library.Predictions
                 {
                     e.correct = true;
                     Result[0]++;
-                    foreach (var word in correct.SplitTitle())
-                        Datasets[1][word].correct++;
 
                 }
                 for(int i = 0; i < Positions.Count(); i++)
@@ -58,11 +46,6 @@ namespace CC_Library.Predictions
                         Result[2] += Datasets[0].First().Value.Distance(Positions[i]);
                 }
             }
-
-            foreach (var e in Datasets[0])
-                e.Value.accuracy = (e.Value.correct * 1.0) / (e.Value.total * 1.0);
-            foreach (var e in Datasets[1])
-                e.Value.accuracy = (e.Value.correct * 1.0) / (e.Value.total * 1.0);
 
             return Result;
         }

@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="CLEVIS" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="-0.38086866483290532" />
-  <Data Number="1" Referencing="1" Location="-0.990970856446685" />
-  <Data Number="2" Referencing="2" Location="0.50852871965444191" />
-  <Data Number="3" Referencing="3" Location="0.75491897191615731" />
-  <Data Number="4" Referencing="4" Location="0.18638996342717498" />
-  <Data Number="5" Referencing="5" Location="-0.069379430201046019" />
-  <Data Number="6" Referencing="6" Location="-0.73871207286051832" />
-  <Data Number="7" Referencing="7" Location="0.69211575556638583" />
+  <Data Number="0" Location="0.78211891681081" />
+  <Data Number="1" Location="-0.41873786717568462" />
+  <Data Number="2" Location="0.80886913913741576" />
+  <Data Number="3" Location="-0.23917199036972989" />
+  <Data Number="4" Location="0.08011289636635989" />
+  <Data Number="5" Location="-0.56986316605903919" />
+  <Data Number="6" Location="0.9544050850975202" />
+  <Data Number="7" Location="0.96156836991297845" />
+  <Data Number="8" Location="0.94388125688044777" />
+  <Data Number="9" Location="0.9018572004336981" />
+  <Data Number="10" Location="0.98561753046055578" />
+  <Data Number="11" Location="-0.48371153074463469" />
+  <Data Number="12" Location="-0.70231398746452578" />
+  <Data Number="13" Location="0.13998560654025022" />
+  <Data Number="14" Location="-0.7831608191703413" />
+  <Data Number="15" Location="0.061470951848679352" />
+  <Data Number="16" Location="0.8146417539916978" />
+  <Data Number="17" Location="0.95823915294316" />
+  <Data Number="18" Location="0.46061528489048337" />
+  <Data Number="19" Location="-0.50318352209526029" />
 </Dictionary>

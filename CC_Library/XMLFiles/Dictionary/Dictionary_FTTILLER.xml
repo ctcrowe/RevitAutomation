@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="FTTILLER" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="-0.29364392907903325" />
-  <Data Number="1" Referencing="1" Location="-1" />
-  <Data Number="2" Referencing="2" Location="0.063385444367628552" />
-  <Data Number="3" Referencing="3" Location="0.7297315163210647" />
-  <Data Number="4" Referencing="4" Location="0.10377427606503138" />
-  <Data Number="5" Referencing="5" Location="0.078739899562680848" />
-  <Data Number="6" Referencing="6" Location="0.12799865821650708" />
-  <Data Number="7" Referencing="7" Location="-0.20529159169400302" />
+  <Data Number="0" Location="0.21876454602866571" />
+  <Data Number="1" Location="-0.089197958330278992" />
+  <Data Number="2" Location="-0.41611438257441841" />
+  <Data Number="3" Location="-0.39661321894111046" />
+  <Data Number="4" Location="0.22426507499264717" />
+  <Data Number="5" Location="0.076330794587856729" />
+  <Data Number="6" Location="-0.35108542545286509" />
+  <Data Number="7" Location="0.18445142233948683" />
+  <Data Number="8" Location="0.084642864868315543" />
+  <Data Number="9" Location="-0.30776607253022092" />
+  <Data Number="10" Location="-0.1907679275846246" />
+  <Data Number="11" Location="0.55799802751184446" />
+  <Data Number="12" Location="-0.13553786324132208" />
+  <Data Number="13" Location="-0.36806978808163437" />
+  <Data Number="14" Location="-0.29453890545042427" />
+  <Data Number="15" Location="0.59051106252262986" />
+  <Data Number="16" Location="-0.73380518220079272" />
+  <Data Number="17" Location="0.16124677765238341" />
+  <Data Number="18" Location="-0.12485524079991356" />
+  <Data Number="19" Location="-0.23853356721745578" />
 </Dictionary>

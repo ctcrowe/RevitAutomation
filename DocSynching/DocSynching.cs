@@ -32,13 +32,6 @@ namespace CC_DocSynching
                     doc.SetID(doc.CheckID());
                     t.Commit();
                 }
-                using (Transaction t = new Transaction(doc, "Update Occ Loads"))
-                {
-                    t.Start();
-                    View v = doc.ActiveView;
-                    v.UpdateOccLoads();
-                    t.Commit();
-                }
                 /*
                 using (Transaction t = new Transaction(doc, "Predict Room Privacy"))
                 {

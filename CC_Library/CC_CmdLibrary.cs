@@ -10,6 +10,29 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double MeanLoss(this double[] F)
+        {
+            double loss = 0;
+            for (int i = 0; i < F.Count(); i++)
+            {
+                loss += F[i];
+            }
+            return loss;
+        }
+        public static double SecH(this double x)
+        {
+            double a = 2 / (Math.Exp(x) + Math.Exp(-1 * x));
+            return a;
+        }
+        public static double SumError(this double[] X)
+        {
+            double a = 0;
+            for(int x = 0; x < X.Count(); x++)
+            {
+                a += X[x];
+            }
+            return a / X.Count();
+        }
         public static int Abs(this int x)
         {
             if (x < 0)
@@ -21,6 +44,40 @@ namespace CC_Library
             foreach (T element in source)
             {
                 action(element);
+            }
+        }
+        public static void Add(this double[,] X, double[,] Y)
+        {
+            for(int i = 0; i < X.GetLength(0); i++)
+            {
+                for(int j = 0; j < X.GetLength(1); j++)
+                {
+                    X[i, j] += Y[i, j];
+                }
+            }
+        }
+        public static void Add(this double[] X, double[] Y)
+        {
+            for(int i = 0; i < X.Count(); i++)
+            {
+                X[i] += Y[i];
+            }
+        }
+        public static void Divide(this double[,] X, double Y)
+        {
+            for (int i = 0; i < X.GetLength(0); i++)
+            {
+                for (int j = 0; j < X.GetLength(1); j++)
+                {
+                    X[i, j] /= Y;
+                }
+            }
+        }
+        public static void Divide(this double[] X, double Y)
+        {
+            for (int i = 0; i < X.Count(); i++)
+            {
+                X[i] /= Y;
             }
         }
         public static double PowX(this int x, int y)

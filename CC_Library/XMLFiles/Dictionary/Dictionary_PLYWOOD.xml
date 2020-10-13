@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="PLYWOOD" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="-0.99456099456099456" />
-  <Data Number="1" Referencing="1" Location="-0.43163040591837681" />
-  <Data Number="2" Referencing="2" Location="-0.99456099456099456" />
-  <Data Number="3" Referencing="3" Location="0.22976339246601024" />
-  <Data Number="4" Referencing="4" Location="-0.16998383070422307" />
-  <Data Number="5" Referencing="5" Location="-0.99456099456099456" />
-  <Data Number="6" Referencing="6" Location="-0.78221108306751985" />
-  <Data Number="7" Referencing="7" Location="-0.41111712549148505" />
+  <Data Number="0" Location="-0.6132130398160468" />
+  <Data Number="1" Location="0.48321707423361449" />
+  <Data Number="2" Location="0.5944310591846288" />
+  <Data Number="3" Location="-0.94930247826567982" />
+  <Data Number="4" Location="-0.70151360138954311" />
+  <Data Number="5" Location="-0.030671531875988721" />
+  <Data Number="6" Location="0.50281621253615982" />
+  <Data Number="7" Location="-0.51782410575540017" />
+  <Data Number="8" Location="-0.59203477377265468" />
+  <Data Number="9" Location="-0.31075507469609515" />
+  <Data Number="10" Location="-0.52614139703021467" />
+  <Data Number="11" Location="0.8992351064305355" />
+  <Data Number="12" Location="0.11710690333739986" />
+  <Data Number="13" Location="0.61523209860693273" />
+  <Data Number="14" Location="-0.64422059793786191" />
+  <Data Number="15" Location="0.21983738433928848" />
+  <Data Number="16" Location="-0.40288237367524304" />
+  <Data Number="17" Location="0.24756966955747653" />
+  <Data Number="18" Location="-0.061553960290587961" />
+  <Data Number="19" Location="0.10764518937818758" />
 </Dictionary>

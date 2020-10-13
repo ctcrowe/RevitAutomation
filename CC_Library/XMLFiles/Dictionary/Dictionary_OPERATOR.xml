@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="OPERATOR" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="0.52858463648107235" />
-  <Data Number="1" Referencing="1" Location="0.15622337733635411" />
-  <Data Number="2" Referencing="2" Location="0.029303036062874144" />
-  <Data Number="3" Referencing="3" Location="-0.12902707372418418" />
-  <Data Number="4" Referencing="4" Location="0.3241934532161006" />
-  <Data Number="5" Referencing="5" Location="-0.59632428221597933" />
-  <Data Number="6" Referencing="6" Location="0.18788910718745921" />
-  <Data Number="7" Referencing="7" Location="0.095125715070335654" />
+  <Data Number="0" Location="-0.74318586779137408" />
+  <Data Number="1" Location="-0.85904348856887" />
+  <Data Number="2" Location="-0.45477713794367841" />
+  <Data Number="3" Location="-0.83454405870196591" />
+  <Data Number="4" Location="0.91455298529522167" />
+  <Data Number="5" Location="0.11056980786243195" />
+  <Data Number="6" Location="-0.94728021030815324" />
+  <Data Number="7" Location="0.78081919486510531" />
+  <Data Number="8" Location="-0.2487122635413927" />
+  <Data Number="9" Location="-0.12539924722579071" />
+  <Data Number="10" Location="0.36550398804340112" />
+  <Data Number="11" Location="-0.67463151898147133" />
+  <Data Number="12" Location="0.93226958713341834" />
+  <Data Number="13" Location="-0.31018624225337932" />
+  <Data Number="14" Location="-0.84279752271542208" />
+  <Data Number="15" Location="0.65748025937657817" />
+  <Data Number="16" Location="-0.46399874017923665" />
+  <Data Number="17" Location="0.85057937264773043" />
+  <Data Number="18" Location="-0.92127116009814247" />
+  <Data Number="19" Location="-0.84338005893251855" />
 </Dictionary>

@@ -11,6 +11,7 @@
         Counter,
         Base,
         Pull,
+        Panel,
         Glazing,
         Details,
         Det_03_XFine,

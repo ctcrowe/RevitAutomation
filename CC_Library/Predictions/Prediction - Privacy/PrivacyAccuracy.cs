@@ -8,21 +8,13 @@ namespace CC_Library.Predictions
     {
         public static double[] RP_Accuracy
             (this List<Entry> Entries,
-            Dictionary<string, Element>[] Datasets)
+            Dictionary<string, Element>[] Datasets,
+            NeuralNetwork Network)
         {
             double[] Result = new double[4];
             Result[1] = Entries.Count();
-
-            foreach (var e in Datasets[1])
-            {
-                e.Value.total = 1;
-                e.Value.correct = 1;
-            }
             foreach (var e in Datasets[0])
             {
-                e.Value.total = 1;
-                e.Value.correct = 1;
-
                 foreach (var r in Datasets[0])
                 {
                     Result[2] += e.Value.Distance(r.Value);
@@ -37,7 +29,6 @@ namespace CC_Library.Predictions
                 {
                     if (!DictPoints.ContainsKey(word))
                         DictPoints.Add(word, Datasets[1][word]);
-                    Datasets[1][word].total++;
                 }
                 if (DictPoints.Any())
                 {
@@ -46,25 +37,15 @@ namespace CC_Library.Predictions
 
                     foreach (string val in e.Values)
                     {
-                        Datasets[0][val].total++;
                         Result[3] += Datasets[0][val].Distance(WordPoint);
                         if (ResultantPoint == val)
                         {
                             e.correct = true;
                             Result[0]++;
-                            Datasets[0][val].correct++;
-                            foreach (var word in WordList)
-                                Datasets[1][word].correct++;
                         }
                     }
                 }
             }
-
-            foreach (var e in Datasets[0])
-                e.Value.accuracy = (e.Value.correct * 1.0) / (e.Value.total * 1.0);
-            foreach (var e in Datasets[1])
-                e.Value.accuracy = (e.Value.correct * 1.0) / (e.Value.total * 1.0);
-
             return Result;
         }
     }

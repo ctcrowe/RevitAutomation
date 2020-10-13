@@ -1,5 +1,6 @@
 ﻿using System;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using CC_Library.Parameters;
 
 namespace CC_RevitBasics
@@ -146,13 +147,13 @@ namespace CC_RevitBasics
             if (e.get_Parameter(p.GetGUID()) != null)
                 e.get_Parameter(p.GetGUID()).Set(value);
         }
-        public static void SetRoomIntParam(this Element e, CCParameter p, string value)
+        public static void SetRoomIntParam(this Room r, CCParameter p, string value)
         {
             int i = 0;
             if (int.TryParse(value, out i))
             {
-                if (e.get_Parameter(p.GetGUID()) != null)
-                    e.get_Parameter(p.GetGUID()).Set(i);
+                if (r.get_Parameter(p.GetGUID()) != null)
+                    r.get_Parameter(p.GetGUID()).Set(i);
             }
         }
         private static void SetElementInstanceParam(this Element e, CCParameter p, string value)

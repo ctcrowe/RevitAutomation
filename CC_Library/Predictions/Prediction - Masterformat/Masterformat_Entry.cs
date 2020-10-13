@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CC_Library.Predictions
 {
     internal static class MasterformatEntry
     {
-        public static Entry MFEntry(string s)
+        public static List<Entry> MFEntry(string s, WriteToCMDLine write)
         {
+            List<Entry> Entries = new List<Entry>();
             Entry e = new Entry();
             e.Keys = new string[1];
             e.Keys[0] = s.Split(',').First();
@@ -19,7 +21,8 @@ namespace CC_Library.Predictions
                 e.Values[i - 1] = s.Split(',')[i];
             }
             e.correct = false;
-            return e;
+            Entries.Add(e);
+            return Entries;
         }
     }
 }

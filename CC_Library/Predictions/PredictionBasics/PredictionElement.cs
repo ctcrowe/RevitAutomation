@@ -11,10 +11,6 @@ namespace CC_Library.Predictions
     {
         public string Label;
         public double[] Location;
-        public int[] Referencing;
-        public int total;
-        public int correct;
-        public double accuracy;
         public Datatype datatype;
 
         public Element(Datatype dt, string Name)
@@ -23,9 +19,8 @@ namespace CC_Library.Predictions
             this.datatype = dt;
             Random r = new Random();
 
-            double[] Loc = new double[dt.Count()];
-            int[] Ref = new int[dt.Count()];
-            for (int i = 0; i < dt.Count(); i++)
+            double[] Loc = new double[CustomNeuralNet.DictSize];
+            for (int i = 0; i < CustomNeuralNet.DictSize; i++)
             {
                 double swap = r.NextDouble();
                 double v = r.NextDouble();
@@ -33,44 +28,51 @@ namespace CC_Library.Predictions
                     Loc[i] = v;
                 else
                     Loc[i] = -v;
-                Ref[i] = i;
             }
 
             this.Location = Loc;
-            this.Referencing = Ref;
-            this.total = 0;
-            this.correct = 0;
-            this.accuracy = 0;
+        }
+        public Element(Datatype dt, string Name, double[] values)
+        {
+            this.Label = Name;
+            this.datatype = dt;
+            this.Location = values;
         }
         public Element(XDocument doc)
         {
             this.Label = doc.Root.Attribute("Label").Value;
             this.datatype = (Datatype)Enum.Parse(typeof(Datatype), doc.Root.Attribute("Datatype").Value);
-            double[] Loc = new double[datatype.Count()];
-            int[] Ref = new int[Loc.Count()];
-            for (int i = 0; i < datatype.Count(); i++)
+            double[] Loc = new double[CustomNeuralNet.DictSize];
+            for (int i = 0; i < CustomNeuralNet.DictSize; i++)
             {
                 if (doc.Root.Elements("Data").Any(x => x.Attribute("Number").Value == i.ToString()))
                 {
                     XElement ele = doc.Root.Elements("Data").Where(x => int.Parse(x.Attribute("Number").Value) == i).First();
-                    Ref[i] = int.Parse(ele.Attribute("Referencing").Value);
                     Loc[i] = double.Parse(ele.Attribute("Location").Value);
                 }
                 else
                 {
-                    if (i == 0)
-                        Ref[i] = 0;
-                    else
-                        Ref[i] = Ref[i - 1] + 1;
                     Random r = new Random();
                     Loc[i] = r.NextDouble();
                 }
             }
             this.Location = Loc;
-            this.Referencing = Ref;
-            this.total = 0;
-            this.correct = 0;
-            this.accuracy = 0;
+        }
+        public void AdjustElement(double[] change)
+        {
+            double rate = 1e-5;
+            for(int i = 0; i < this.Location.Count(); i++)
+            {
+
+                if (change[i] > 1 || change[i] < -1)
+                    if (change[i] > 1)
+                        this.Location[i] -= rate;
+                    else
+                        this.Location[i] += rate;
+                else
+                    this.Location[i] -= (rate * change[i]);
+            }
+            Write();
         }
         public void Write()
         {
@@ -90,7 +92,6 @@ namespace CC_Library.Predictions
             {
                 XElement ele = new XElement("Data");
                 ele.Add(new XAttribute("Number", i));
-                ele.Add(new XAttribute("Referencing", Referencing[i]));
                 ele.Add(new XAttribute("Location", Location[i]));
 
                 doc.Root.Add(ele);

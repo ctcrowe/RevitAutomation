@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="DIFFUSERS" Datatype="Dictionary">
-  <Data Number="0" Referencing="0" Location="-0.9985014985014985" />
-  <Data Number="1" Referencing="1" Location="-0.56668522018852674" />
-  <Data Number="2" Referencing="2" Location="0.39053099787232537" />
-  <Data Number="3" Referencing="3" Location="0.75518660794719428" />
-  <Data Number="4" Referencing="4" Location="0.52856978540683464" />
-  <Data Number="5" Referencing="5" Location="0.17189778890982033" />
-  <Data Number="6" Referencing="6" Location="0.21297581819078193" />
-  <Data Number="7" Referencing="7" Location="-0.17024189026794218" />
+  <Data Number="0" Location="0.2682418249845745" />
+  <Data Number="1" Location="-0.86489249405873725" />
+  <Data Number="2" Location="-0.87280596013972023" />
+  <Data Number="3" Location="-0.84453936770964522" />
+  <Data Number="4" Location="0.31218204875848804" />
+  <Data Number="5" Location="0.74649821237768754" />
+  <Data Number="6" Location="-0.73886204843551151" />
+  <Data Number="7" Location="0.30713483640129891" />
+  <Data Number="8" Location="-0.01221386129800294" />
+  <Data Number="9" Location="0.29651479650862728" />
+  <Data Number="10" Location="-0.45020447618067017" />
+  <Data Number="11" Location="0.48412693109360372" />
+  <Data Number="12" Location="-0.22209364670621243" />
+  <Data Number="13" Location="0.17603706744120012" />
+  <Data Number="14" Location="0.51244003377308" />
+  <Data Number="15" Location="-0.66447574508779617" />
+  <Data Number="16" Location="-0.40246603489232075" />
+  <Data Number="17" Location="0.689284200447193" />
+  <Data Number="18" Location="0.39579081581514358" />
+  <Data Number="19" Location="-0.27402747360906454" />
 </Dictionary>

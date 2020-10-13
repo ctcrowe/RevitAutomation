@@ -97,6 +97,22 @@ namespace CC_Plugin
                 dllpath(),
                 "CC_Plugin.GenerateFinishFloors");
             PushButton FinFloors = CPanel.AddItem(B10Data) as PushButton;
+
+            PushButtonData B12Data = new PushButtonData(
+                "Collect Boundaries",
+                "Collect Boundaries",
+                dllpath(),
+                "CC_Plugin.CollectRoomBounds");
+
+            PushButtonData B13 = new PushButtonData(
+                "Show Category",
+                "Show Category",
+                dllpath(),
+                "CC_Plugin.ShowCategory");
+
+
+            List<RibbonItem> DBButtons5 = new List<RibbonItem>();
+            DBButtons5.AddRange(CPanel.AddStackedItems(B12Data, B13));
         }
     }
 }
