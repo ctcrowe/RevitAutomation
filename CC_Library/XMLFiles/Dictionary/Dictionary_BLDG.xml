@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="BLDG" Datatype="Dictionary">
+  <Data Number="0" Location="0.65301524179560611" />
+  <Data Number="1" Location="-0.49384265050702247" />
+  <Data Number="2" Location="-0.70317382974111242" />
+  <Data Number="3" Location="0.12073021907144688" />
+  <Data Number="4" Location="-0.33950521566283348" />
+  <Data Number="5" Location="-0.20750694316022345" />
+  <Data Number="6" Location="-0.80453446353556057" />
+  <Data Number="7" Location="0.21420178998825756" />
+  <Data Number="8" Location="0.85757367764164183" />
+  <Data Number="9" Location="0.81607237058339677" />
+  <Data Number="10" Location="0.04474868921122898" />
+  <Data Number="11" Location="0.31059413314418877" />
+  <Data Number="12" Location="0.92639049065790668" />
+  <Data Number="13" Location="-0.2422054566269454" />
+  <Data Number="14" Location="0.83758934470870727" />
+  <Data Number="15" Location="-0.301567749950594" />
+  <Data Number="16" Location="0.27054411156565583" />
+  <Data Number="17" Location="0.95524287114268491" />
+  <Data Number="18" Location="0.98887380741379716" />
+  <Data Number="19" Location="-0.11705030406067098" />
+</Dictionary>

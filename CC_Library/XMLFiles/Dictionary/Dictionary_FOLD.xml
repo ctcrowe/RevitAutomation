@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="FOLD" Datatype="Dictionary">
-  <Data Number="0" Location="-0.67900416458765056" />
-  <Data Number="1" Location="0.51929856896321169" />
-  <Data Number="2" Location="-0.5808119756531821" />
-  <Data Number="3" Location="0.21478777390237502" />
-  <Data Number="4" Location="0.17724751364819705" />
-  <Data Number="5" Location="0.4379621717132986" />
-  <Data Number="6" Location="-0.17406361730352041" />
-  <Data Number="7" Location="0.045179581644052266" />
-  <Data Number="8" Location="0.017653632000374397" />
-  <Data Number="9" Location="-0.25955045873137372" />
-  <Data Number="10" Location="0.11050576676683004" />
-  <Data Number="11" Location="-1.1233389610855913" />
-  <Data Number="12" Location="0.68973469581492064" />
-  <Data Number="13" Location="-0.60134243293215628" />
-  <Data Number="14" Location="0.25391045412270707" />
-  <Data Number="15" Location="0.22893940868409093" />
-  <Data Number="16" Location="0.17780020609903718" />
-  <Data Number="17" Location="-0.62271351161957167" />
-  <Data Number="18" Location="-0.36793665358097871" />
-  <Data Number="19" Location="-0.0012531903098501945" />
+  <Data Number="0" Location="0.24971280751502353" Referencing="0.94141457506521353" />
+  <Data Number="1" Location="0.84225382884800948" Referencing="0.94141457506521353" />
+  <Data Number="2" Location="-0.002089386066462503" Referencing="0.94141457506521353" />
+  <Data Number="3" Location="0.64074086366714167" Referencing="0.94141457506521353" />
+  <Data Number="4" Location="-0.39840086634506916" Referencing="0.94141457506521353" />
+  <Data Number="5" Location="0.0579904471229832" Referencing="0.94141457506521353" />
+  <Data Number="6" Location="-0.39141578834822249" Referencing="0.94141457506521353" />
+  <Data Number="7" Location="-0.14166962845760456" Referencing="0.94141457506521353" />
+  <Data Number="8" Location="0.27741646628522609" Referencing="0.94141457506521353" />
+  <Data Number="9" Location="-0.3492649705934957" Referencing="0.94141457506521353" />
+  <Data Number="10" Location="-0.11658489014868771" Referencing="0.94141457506521353" />
+  <Data Number="11" Location="0.043333268056364949" Referencing="0.94141457506521353" />
+  <Data Number="12" Location="-0.84002425135177017" Referencing="0.94141457506521353" />
+  <Data Number="13" Location="-0.64982884287741238" Referencing="0.94141457506521353" />
+  <Data Number="14" Location="-0.76838889527852983" Referencing="0.94141457506521353" />
+  <Data Number="15" Location="-0.71313332320955813" Referencing="0.94141457506521353" />
+  <Data Number="16" Location="0.76916887694919533" Referencing="0.94141457506521353" />
+  <Data Number="17" Location="-0.0091295744239860924" Referencing="0.94141457506521353" />
+  <Data Number="18" Location="0.3277222577790837" Referencing="0.94141457506521353" />
+  <Data Number="19" Location="-0.71246619127805366" Referencing="0.94141457506521353" />
 </Dictionary>

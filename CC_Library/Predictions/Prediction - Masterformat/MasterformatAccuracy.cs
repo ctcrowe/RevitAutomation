@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
             Parallel.For(0, Entries.Count(), i =>
             {
                 Entries[i].correct = false;
-                var WordList = Entries[i].Keys[0].SplitTitle();
+                var WordList = Entries[i].Keys[0].GetWords();
                 if (WordList.Any())
                 {
                     var result = WordList.GetInput();
@@ -73,7 +73,7 @@ namespace CC_Library.Predictions
             {
                 string output = i.ToString() + " : ";
                 Entries[i].correct = false;
-                var WordList = Entries[i].Keys[0].SplitTitle();
+                var WordList = Entries[i].Keys[0].GetWords();
                 if (WordList.Any())
                 {
                     var result = WordList.GetInput();

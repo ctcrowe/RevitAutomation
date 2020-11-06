@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CC_Library.Datatypes;
+using System.Xml.Linq;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
+using System.IO;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace CC_Library.Predictions
 {
-    internal static class SplitTitle_Command
+    public static class SplitTitle_Command
     {
         public static List<string> SplitTitle(this string s)
         {
@@ -37,20 +46,46 @@ namespace CC_Library.Predictions
             }
             return data;
         }
-        public static List<double[]> Engrams(this string s, int ncount)
+        public static List<string> GetWords(this string s)
         {
-            List<double[]> Result = new List<double[]>();
-            List<string> Words = s.SplitTitle();
-            for(int i = 0; i < Words.Count() - ncount; i++)
+            List<string> output = new List<string>();
+            /*
+            var assembly = typeof(ReadWriteXML).GetTypeInfo().Assembly;
+            if (assembly.GetManifestResourceNames().Any(x => x.Contains("Dict.xml")))
             {
-                List<Element> NElements = new List<Element>();
-                for(int j = 0; j < ncount; j++)
+                string name = assembly.GetManifestResourceNames().Where(x => x.Contains("Dict.xml")).First();
+                using (Stream stream = assembly.GetManifestResourceStream(name))
                 {
-                    NElements.Add(Datatype.Dictionary.GetElement(Words[i + j]));
+                
+                    XDocument doc = XDocument.Load(stream);*/
+                    var word = s.ToUpper();
+                    int length = word.Count();
+                    int start = 0;
+                    while (start < length - 1)
+                    {
+                        bool modified = false;
+                        for (int j = length; j > start; j--)
+                        {
+                            string sub = word.Substring(start, j - start);
+                            if(Enum.GetNames(typeof(Dict)).Contains(sub))
+                            {
+                                if (!output.Contains(sub))
+                                {
+                                    output.Add(sub);
+                                }
+                                start = j;
+                                modified = true;
+                                break;
+                            }
+                        }
+                        if (!modified)
+                            start++;
+                    }
+                    /*
                 }
-                Result.Add(NElements.Combine());
             }
-            return Result;
+            */
+            return output;
         }
     }
 }

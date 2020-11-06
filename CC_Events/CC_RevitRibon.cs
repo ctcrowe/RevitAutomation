@@ -24,7 +24,8 @@ namespace CC_Plugin
         public static void OnStartup(UIControlledApplication uiApp)
         {
             uiApp.CreateRibbonTab(tabName);
-            
+
+            ObjStylesTab.ObjTab(uiApp, tabName);
             QCTab.QCPanel(uiApp, tabName);
             PrintPanel(uiApp);
             MFPanel.MFTab(uiApp, tabName);
@@ -32,6 +33,7 @@ namespace CC_Plugin
 
             try
             {
+                MaterialLibrary.OnStartup(uiApp);
                 UpdateOccupantLoads.OnStartup(uiApp);
                 ViewChanged.OnStartup(uiApp);
                 DocSynching.OnStartup(uiApp);
@@ -47,6 +49,7 @@ namespace CC_Plugin
         }
         public static void OnShutdown(UIControlledApplication uiApp)
         {
+            MaterialLibrary.OnStartup(uiApp);
             UpdateOccupantLoads.OnShutdown(uiApp);
             ViewChanged.OnShutdown(uiApp);
             RefPlaneMaker.OnShutdown(uiApp);

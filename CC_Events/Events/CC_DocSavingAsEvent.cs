@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using Autodesk.Revit.UI;
 using CC_RevitBasics;
+using CC_Library;
 using CC_Library.Predictions;
 
 namespace CC_Plugin
@@ -17,6 +18,8 @@ namespace CC_Plugin
         public static void Event(object sender, DocumentSavingAsEventArgs args)
         {
             Document doc = args.Document;
+            string fn = args.PathName.Split('\\').Last().Split('.').First();
+            string Masterformat = "Division " + fn.MFPredict();
             using (TransactionGroup tg = new TransactionGroup(doc, "Saving Transactions"))
             {
                 tg.Start();
@@ -31,7 +34,6 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        string Masterformat = "Division " + args.PathName.Split('\\').Last().Split('.').First().MFPredict();
                         if (Masterformat != null)
                             TaskDialog.Show("Masterformat Check", Masterformat);
                         else
@@ -40,6 +42,8 @@ namespace CC_Plugin
                         t.Commit();
                     }
                 }
+                fn.AddToDictionary();
+                fn.AddToMF(int.Parse(Masterformat.Split(' ').Last()));
                 tg.Commit();
             }
         }

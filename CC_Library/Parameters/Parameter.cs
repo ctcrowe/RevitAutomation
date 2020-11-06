@@ -27,6 +27,7 @@
         WallThickness = -7101,
         EWallModified = -6201,
         FinishMaterial = -5201,
+        MatDescription = -5006,
         PatternStyle = -5005,
         ColorFinish = -5004,
         Model = -5003,

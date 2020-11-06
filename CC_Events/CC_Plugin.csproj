@@ -92,6 +92,8 @@
     <Compile Include="CaptureFamilies.cs" />
     <Compile Include="CaptureRoomNames.cs" />
     <Compile Include="Events\UpdateRoomLoadFactor\OccLoadFactor.cs" />
+    <Compile Include="ObjStyles\CollectObjStyles.cs" />
+    <Compile Include="ObjStyles\ObjStylesTab.cs" />
     <Compile Include="RunMethod.cs" />
     <Compile Include="CreateCSVDatapoint.cs" />
     <Compile Include="PurgeCategories.cs" />

@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
         public static string MFPredict(this string s)
         {
             var Network = LoadNeuralNetwork.LoadNetwork(Datatype.Masterformat, new List<string>(), new WriteToCMDLine(writeout));
-            var WordList = s.SplitTitle();
+            var WordList = s.GetWords();
             if (WordList.Any())
             {
                 var result = WordList.GetInput();

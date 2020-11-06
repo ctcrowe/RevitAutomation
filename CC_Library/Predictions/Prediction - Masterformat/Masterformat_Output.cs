@@ -12,7 +12,7 @@ namespace CC_Library.Predictions
         public static double[] MFInput(this Entry e, List<string> Words)
         {
             double[] input = new double[CustomNeuralNet.DictSize];
-            var words = e.Keys[0].SplitTitle();
+            var words = e.Keys[0].GetWords();
             if (words.Any())
             {
                 for (int i = 0; i < words.Count(); i++)

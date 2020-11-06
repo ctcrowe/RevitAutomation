@@ -110,9 +110,15 @@ namespace CC_Plugin
                 dllpath(),
                 "CC_Plugin.ShowCategory");
 
+            PushButtonData B14 = new PushButtonData(
+                "Get Obj Styles",
+                "Get Obj Styles",
+                dllpath(),
+                "CC_Plugin.GetObjStyles");
+
 
             List<RibbonItem> DBButtons5 = new List<RibbonItem>();
-            DBButtons5.AddRange(CPanel.AddStackedItems(B12Data, B13));
+            DBButtons5.AddRange(CPanel.AddStackedItems(B12Data, B13, B14));
         }
     }
 }

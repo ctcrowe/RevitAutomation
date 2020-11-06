@@ -11,38 +11,38 @@ namespace DataAnalysis
         public static void Write(string wo)
         {
             Console.WriteLine(wo);
+            Thread.Sleep(500);
         }
         [STAThread]
         static void Main(string[] args)
         {
-            /*
-            bool enumfound = false;
-            while (!enumfound)
+            bool finished = false;
+            while (!finished)
             {
-                Console.WriteLine("Enter a Datatype");
+                Console.WriteLine("Enter a Phrase");
                 string datatype = Console.ReadLine();
-                if (Enum.GetNames(typeof(Datatype)).Any(x => x == datatype))
+                var entries = datatype.GetWords();
+                if (entries.Any())
                 {
-                    enumfound = true;
-                    Datatype type = (Datatype)Enum.Parse(typeof(Datatype), datatype);
-                    bool finished = false;
-                    while (!finished)
+                    string result = "The Words Are : " + entries[0];
+                    for (int i = 1; i < entries.Count(); i++)
                     {
-                        Console.WriteLine("Enter a Value");
-                        string value = Console.ReadLine();
-                        string result = type.FindClosest(value);
-                        Console.WriteLine("The result is : " + result);
-                        Console.WriteLine("Would you like to continue? y / n");
-                        string yesno = Console.ReadLine();
-                        if(yesno == "n" || yesno == "N")
-                        {
-                            finished = true;
-                            break;
-                        }
+                        result += ", " + entries[i];
                     }
+                    Console.WriteLine(result);
+                }
+                else
+                {
+                    Console.WriteLine("Error, No Words Found!");
+                }
+                Console.WriteLine("Would you like to continue? y / n");
+                string yesno = Console.ReadLine();
+                if (yesno == "n" || yesno == "N")
+                {
+                    finished = true;
+                    break;
                 }
             }
-            */
         }
     }
 }

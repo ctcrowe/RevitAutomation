@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Dictionary Label="TABLETOP" Datatype="Dictionary">
-  <Data Number="0" Location="-0.59552985713256668" />
-  <Data Number="1" Location="-0.75593400804715571" />
-  <Data Number="2" Location="0.84960448758544926" />
-  <Data Number="3" Location="0.62546488509188947" />
-  <Data Number="4" Location="0.88794574439316643" />
-  <Data Number="5" Location="-0.12823355645903861" />
-  <Data Number="6" Location="0.21095306180348453" />
-  <Data Number="7" Location="-0.5902893017431361" />
-  <Data Number="8" Location="-0.17164892268557361" />
-  <Data Number="9" Location="-0.51577475667382033" />
-  <Data Number="10" Location="0.26040393010152685" />
-  <Data Number="11" Location="0.97824845299395513" />
-  <Data Number="12" Location="-0.23149254393015487" />
-  <Data Number="13" Location="-0.15993720556254212" />
-  <Data Number="14" Location="-0.428103485107675" />
-  <Data Number="15" Location="0.93149349486411559" />
-  <Data Number="16" Location="-0.13526783586838492" />
-  <Data Number="17" Location="0.971725981905727" />
-  <Data Number="18" Location="-0.3446126169697627" />
-  <Data Number="19" Location="-0.0056182562830186279" />
+  <Data Number="0" Location="-0.13155808911265715" />
+  <Data Number="1" Location="0.479065568409425" />
+  <Data Number="2" Location="-0.75367369956973651" />
+  <Data Number="3" Location="-0.14297567500871405" />
+  <Data Number="4" Location="-0.57237136064673366" />
+  <Data Number="5" Location="0.60309103531906894" />
+  <Data Number="6" Location="-0.0037678289244732956" />
+  <Data Number="7" Location="-0.33076415412629218" />
+  <Data Number="8" Location="0.53319285648557957" />
+  <Data Number="9" Location="0.83264561967581774" />
+  <Data Number="10" Location="-0.061789306375099953" />
+  <Data Number="11" Location="-0.0038837213087285502" />
+  <Data Number="12" Location="0.92237480819335893" />
+  <Data Number="13" Location="0.98008571703922265" />
+  <Data Number="14" Location="0.2631137050982163" />
+  <Data Number="15" Location="-0.68401148108952281" />
+  <Data Number="16" Location="0.92896153541699122" />
+  <Data Number="17" Location="0.47229427167786953" />
+  <Data Number="18" Location="-0.039524525888042769" />
+  <Data Number="19" Location="0.9238400472904742" />
 </Dictionary>

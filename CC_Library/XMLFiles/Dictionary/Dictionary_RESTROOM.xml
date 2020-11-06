@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="RESTROOM" Datatype="Dictionary">
+  <Data Number="0" Location="0.98975073190972707" Referencing="0.54444114935791177" />
+  <Data Number="1" Location="-0.85393371769708581" Referencing="0.54444114935791177" />
+  <Data Number="2" Location="-0.955158365423094" Referencing="0.54444114935791177" />
+  <Data Number="3" Location="-0.45017785864510484" Referencing="0.54444114935791177" />
+  <Data Number="4" Location="0.38632041512011867" Referencing="0.54444114935791177" />
+  <Data Number="5" Location="0.23677634036313436" Referencing="0.54444114935791177" />
+  <Data Number="6" Location="0.44514677536323827" Referencing="0.54444114935791177" />
+  <Data Number="7" Location="0.12238034508236083" Referencing="0.54444114935791177" />
+  <Data Number="8" Location="-0.7778335071426653" Referencing="0.54444114935791177" />
+  <Data Number="9" Location="0.75971684732440969" Referencing="0.54444114935791177" />
+  <Data Number="10" Location="0.18811237553155566" Referencing="0.54444114935791177" />
+  <Data Number="11" Location="0.18930801327133481" Referencing="0.54444114935791177" />
+  <Data Number="12" Location="-0.072244517535225539" Referencing="0.54444114935791177" />
+  <Data Number="13" Location="0.12936215679047339" Referencing="0.54444114935791177" />
+  <Data Number="14" Location="-0.16537604708280268" Referencing="0.54444114935791177" />
+  <Data Number="15" Location="-0.0062534235800061596" Referencing="0.54444114935791177" />
+  <Data Number="16" Location="0.29000171642828454" Referencing="0.54444114935791177" />
+  <Data Number="17" Location="-0.36328794431588057" Referencing="0.54444114935791177" />
+  <Data Number="18" Location="-0.24107527795398404" Referencing="0.54444114935791177" />
+  <Data Number="19" Location="-0.4073472507117824" Referencing="0.54444114935791177" />
+</Dictionary>

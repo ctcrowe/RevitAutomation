@@ -17,16 +17,19 @@ namespace CC_Library.Predictions
             network.Datatype = Datatype.Dictionary;
 
             double[,] Layer1Weights = new double[DictSize, Words.Count()];
-            for(int i = 0; i < Words.Count(); i++)
+            double[,] Layer2Weights = new double[Words.Count(), DictSize];
+            for (int i = 0; i < Words.Count(); i++)
             {
                 Element e = Datatype.Dictionary.GetElement(Words[i]);
                 for(int j = 0; j < e.Location.Count(); j++)
                 {
                     Layer1Weights[j, i] = e.Location[j];
+                    Layer2Weights[i, j] = e.Ref[j];
                 }
             }
 
             network.Layers[0].Weights = Layer1Weights;
+            network.Layers[1].Weights = Layer2Weights;
 
             return network;
         }
@@ -35,11 +38,13 @@ namespace CC_Library.Predictions
             for(int i = 0; i < Words.Count(); i++)
             {
                 double[] vals = new double[Network.Layers[0].Weights.GetLength(0)];
+                double[] r = new double[Network.Layers[1].Weights.GetLength(1)];
                 for(int j = 0; j < Network.Layers[0].Weights.GetLength(0); j++)
                 {
                     vals[j] = Network.Layers[0].Weights[j, i];
+                    r[j] = Network.Layers[1].Weights[i, j];
                 }
-                Element ele = new Element(Datatype.Dictionary, Words[i], vals);
+                Element ele = new Element(Datatype.Dictionary, Words[i], vals, r);
                 ele.Write();
             }
         }
@@ -73,6 +78,20 @@ namespace CC_Library.Predictions
             return network;
         }
         #endregion
+
+        #region StudLayer
+        public  static NeuralNetwork StudNetwork()
+        {
+            NeuralNetwork network = new NeuralNetwork();
+
+            network.Layers.Add(new Layer(10, DictSize, Activation.ReLu));
+            network.Layers.Add(new Layer(10, network.Layers[0], Activation.ReLu));
+            network.Layers.Add(new Layer(2, network.Layers[1], Activation.SoftMax));
+            network.Datatype = Datatype.StudLayer;
+
+            return network;
+        }
+    #endregion
 
         #region BoundaryNetworks
         public static NeuralNetwork BoundaryNetwork()

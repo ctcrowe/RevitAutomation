@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dict>
+  <A />
+  <ABC />
+  <ACCENT />
+  <ACCOUNTING />
+  <ACTUATOR />
+  <ADA />
+  <ADJ />
+  <AISC />
+  <ALIGNED />
+  <ALTERNATE />
+  <ALUMINUM />
+  <ANCHOR />
+  <AND />
+  <ANGLE />
+  <ARROW />
+  <AT />
+  <B />
+  <BACK />
+  <BAR />
+  <BASE />
+  <BASED />
+  <BATHROOM />
+  <BEAM />
+  <BED />
+  <BIFOLD />
+  <BLDG />
+  <BLOCKING />
+  <BNDY />
+  <BOARD />
+  <BOILER />
+  <BOLLARD />
+  <BOOKCASE />
+  <BOT />
+  <BOTTOM />
+  <BOUNDARY />
+  <BOWL />
+  <BOX />
+  <BREAKLINE />
+  <BRK />
+  <BUILDING />
+  <BUILT />
+  <BULB />
+  <C />
+  <CAB />
+  <CABINET />
+  <CAN />
+  <CANOPY />
+  <CASEWORK />
+  <CEILING />
+  <CHAIR />
+  <CHEMICAL />
+  <CHIP />
+  <CIRCLE />
+  <CLEANOUT />
+  <CLEVIS />
+  <CLIP />
+  <CNTR />
+  <COLUMN />
+  <COMMON />
+  <CONC />
+  <CONCRETE />
+  <CONTEXT />
+  <CONTINUOUS />
+  <COR />
+  <CORNER />
+  <CORR />
+  <COUNTER />
+  <COUNTERTOP />
+  <COURT />
+  <COURTYARD />
+  <COUTR />
+  <COVER />
+  <CROWN />
+  <CRWN />
+  <CULV />
+  <CURB />
+  <CURTAIN />
+  <CUT />
+  <DASH />
+  <DATA />
+  <DAVIT />
+  <DAY />
+  <DECK />
+  <DEMO />
+  <DESK />
+  <DIFFUSERS />
+  <DIM />
+  <DIMS />
+  <DINING />
+  <DISPENSER />
+  <DITCH />
+  <DN />
+  <DOOR />
+  <DORM />
+  <DOT />
+  <DOUBLE />
+  <DOWN />
+  <DOWNSPOUT />
+  <DRAIN />
+  <DRAINBOARD />
+  <DRY />
+  <DTCH />
+  <DWG />
+  <E />
+  <EASE />
+  <EDGE />
+  <ELEC />
+  <ELEVATION />
+  <ELEVATOR />
+  <END />
+  <ENTRY />
+  <ERD />
+  <ESCUCHION />
+  <ESMT />
+  <EXHAUST />
+  <EXIST />
+  <EXISTING />
+  <EXIT />
+  <EXITING />
+  <EXTERIOR />
+  <EXTINGUISHER />
+  <EXTN />
+  <FALSE />
+  <FASCIA />
+  <FEAT />
+  <FEC/>
+  <FENCE/>
+  <FILE/>
+  <FILING/>
+  <FILL/>
+  <FINISH/>
+  <FIRE/>
+  <FIXED/>
+  <FIXTURE/>
+  <FL/>
+  <FLANGE/>
+  <FLOOR/>
+  <FLOW/>
+  <FLUSH/>
+  <FNC/>
+  <FOLD/>
+  <FOLDING/>
+  <FOOT/>
+  <FOUNTAINS/>
+  <FOUR/>
+  <FRAM/>
+  <FREE/>
+  <FT/>
+  <FUEL/>
+  <FULL/>
+  <FULLY/>
+  <GALVANIZED/>
+  <GATE/>
+  <GB/>
+  <GEAR/>
+  <GENERATOR/>
+  <GLASS/>
+  <GLAZED/>
+  <GLAZING/>
+  <GRAB/>
+  <GRAD/>
+  <GRAPHIC/>
+  <GRAVEL/>
+  <GRID/>
+  <GROMMIT/>
+  <GROMMITTED/>
+  <GUY/>
+  <GYPSUM/>
+  <HANGAR/>
+  <HANGER/>
+  <HEAD/>
+  <HEADER/>
+  HEIGHT,
+  HIDDEN,
+  HM,
+  HNG,
+  HNGR,
+  HOLLOW,
+  HOOD,
+  HORIZONTAL,
+  HSS,
+  I,
+  IMPORT,
+  IN,
+  INCH,
+  INDUSTRIAL,
+  INTERIOR,
+  ISLAND,
+  JAMB,
+  KEY,
+  KEYNOTE,
+  KITCHEN,
+  L,
+  LARGE,
+  LATERAL,
+  LEAF,
+  LIGHT,
+  LIGHTING,
+  LINE,
+  LINEAR,
+  LN,
+  LOAD,
+  LOBBY,
+  LOCKER,
+  LOCKERS,
+  LOT,
+  LOTS,
+  LOWER,
+  MANUFACTURED,
+  MARBLE,
+  MARK,
+  MARKER,
+  METAL,
+  MFD,
+  MODEL,
+  MOP,
+  MTL,
+  MULLION,
+  N,
+  NAME,
+  NEW,
+  NON,
+  NORTH,
+  NOTE,
+  NUMBER,
+  NUMB,
+  OCCUPANCY,
+  OF,
+  OFFICE,
+  OH,
+  ONE,
+  ONLY,
+  OP,
+  OPS,
+  OPEN,
+  OPENING,
+  OPERATOR,
+  OPTION,
+  OUTLET,
+  OVR,
+  PAN,
+  PANEL,
+  PASSAGE,
+  PATH,
+  PENDANT,
+  PHASER,
+  PIN,
+  PIPE,
+  PKNG,
+  PLANTER,
+  PLATE,
+  PLOT,
+  PLOTS,
+  PLYWOOD,
+  PM,
+  PNT,
+  PNTS,
+  POINT,
+  POINTS,
+  POND,
+  PORTABLE,
+  POWER,
+  PRE,
+  PRINTER,
+  PRO,
+  PROF,
+  PROFILE,
+  PROP,
+  PWR,
+  RANGETOP,
+  RECESSED,
+  RECLINER,
+  RECT,
+  RECTANGULAR,
+  REHAB,
+  REMOVE,
+  REMOVED,
+  RESTROOM,
+  RETURN,
+  REVIT,
+  RFA,
+  RM,
+  ROD,
+  ROAD,
+  ROOM,
+  ROUND,
+  RSRV,
+  SAFETY,
+  SAMP,
+  SASH,
+  SCALE,
+  SDS,
+  SEAL,
+  SEAT,
+  SECTION,
+  SECTIONS,
+  SET,
+  SHAPE,
+  SHAPED,
+  SHAPES,
+  SHEET,
+  SHELF,
+  SHORT,
+  SHOT,
+  SHOWER,
+  SIDE,
+  SIDELIGHT,
+  SIDELITE,
+  SIG,
+  SIGN,
+  SIGNAGE,
+  SILL,
+  SIMPLE,
+  SIMPLIFIED,
+  SINGLE,
+  SINK,
+  SIT,
+  SITE,
+  SKYLIGHT,
+  SLIDE,
+  SLIDING,
+  SMALL,
+  SOUTH,
+  SPEAKER,
+  SQUARE,
+  STAIR,
+  STAMP,
+  STAND,
+  STANDARD,
+  STANDPIPE,
+  STOP,
+  STORAGE,
+  STOREFRONT,
+  STR,
+  STRIPE,
+  STRIPING,
+  STRCH,
+  STRCHD,
+  STRM,
+  STRP,
+  STRUCTURAL,
+  STUD,
+  SUB,
+  SUPPLY,
+  SUPPORT,
+  SUSPENDED,
+  SWING,
+  SSWR,
+  SWR,
+  SYMB,
+  SYMBOL,
+  TABLE,
+  TABLES,
+  TABLETOP,
+  TAG,
+  TALL,
+  TANK,
+  TASK,
+  TBAR,
+  THRESHOLD,
+  TILLER,
+  TITLE,
+  TOILET,
+  TOE,
+  TOP,
+  TOPO,
+  TOPOGRAPHY,
+  TRASH,
+  TRAVEL,
+  TRUCK,
+  TURNING,
+  TYP,
+  TYPES,
+  U,
+  UC,
+  UNHOSTED,
+  UP,
+  UPPER,
+  URINAL,
+  USA,
+  UTIL,
+  VANITY,
+  VENT,
+  VENTED,
+  VPT,
+  VRF,
+  WALL,
+  WALLS,
+  WASHER,
+  WATER,
+  WATR,
+  WD,
+  WDW,
+  WHITE,
+  WIDE,
+  WINDOW,
+  WIP,
+  WIRE,
+  WITH,
+  WOOD,
+  WORKSPACE,
+  WORKSTATION,
+  WORKSTATIONS,
+  XEROX,
+  XFMR,
+  ZEE
+</Dict>
