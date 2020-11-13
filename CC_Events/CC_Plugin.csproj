@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddParameters.cs" />
+    <Compile Include="Analysis\CC_AnalysisTab.cs" />
     <Compile Include="CaptureWallTypes.cs" />
     <Compile Include="Categories\AddCategories.cs" />
     <Compile Include="CC_ProjectData.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="Masterformat\CC_SetMFParam.cs" />
     <Compile Include="CC_DocClosing.cs" />
     <Compile Include="CaptureFamilies.cs" />
-    <Compile Include="CaptureRoomNames.cs" />
+    <Compile Include="Analysis\CaptureLoadFactors.cs" />
     <Compile Include="Events\UpdateRoomLoadFactor\OccLoadFactor.cs" />
     <Compile Include="ObjStyles\CollectObjStyles.cs" />
     <Compile Include="ObjStyles\ObjStylesTab.cs" />
@@ -99,6 +100,8 @@
     <Compile Include="PurgeCategories.cs" />
     <Compile Include="CreateTTDDatapoint.cs" />
     <Compile Include="LoadFamilyTab.cs" />
+    <Compile Include="Schedules\CC_ScheduleTab.cs" />
+    <Compile Include="Schedules\DoorSchedule.cs" />
     <Compile Include="UpdateStudSize.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Events\CC_DocSavingAsEvent.cs" />

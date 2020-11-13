@@ -75,12 +75,6 @@ namespace CC_Plugin
                 dllpath(),
                 "CC_Plugin.CollectFamilies");
 
-            PushButtonData B9Data = new PushButtonData(
-                "Capture Rooms",
-                "Capture Rooms",
-                dllpath(),
-                "CC_Plugin.CollectRooms");
-
             PushButtonData B11Data = new PushButtonData(
                 "Capture Walls",
                 "Capture Walls",
@@ -89,7 +83,7 @@ namespace CC_Plugin
 
 
             List<RibbonItem> DBButtons4 = new List<RibbonItem>();
-            DBButtons4.AddRange(CPanel.AddStackedItems(B8Data, B9Data, B11Data));
+            DBButtons4.AddRange(CPanel.AddStackedItems(B8Data, B11Data));
 
             PushButtonData B10Data = new PushButtonData(
                 "Generate Finish Floors",

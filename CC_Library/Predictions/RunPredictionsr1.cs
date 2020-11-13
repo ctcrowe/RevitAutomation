@@ -78,6 +78,16 @@ namespace CC_Library.Predictions
                             output = ElevationAccuracy.ElevAcc_Output;
                             Save = NeuralNetwork.Save;
                             break;
+                        case Datatype.OccupantLoadFactor:
+                            GetEntries = OLF_Entry.OLFEntry;
+                            Input = OLF_Output.OLFInput;
+                            Output = OLF_Output.OLFOutput;
+                            Forward = CategoricalCrossEntropy.Forward;
+                            Backward = CategoricalCrossEntropy.Backward;
+                            Accuracy = OLFAccuracy.OLF_Accuracy;
+                            output = OLFAccuracy.OLFAcc_Output;
+                            Save = NeuralNetwork.Save;
+                            break;
                     }
                     filepath.Propogate(datatype, GetEntries, Input, Output, Forward, Backward, Accuracy, output, Save, write);
                 }

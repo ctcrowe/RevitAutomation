@@ -28,7 +28,7 @@ namespace CC_Library.Predictions
             Dictionary<string, Element> eles = new Dictionary<string, Element>();
             foreach(Entry entry in entries)
             {
-                var WordList = entry.Keys[0].SplitTitle();
+                var WordList = entry.Keys[0].GetWords();
                 foreach (var word in WordList)
                 {
                     if (!eles.ContainsKey(word))
@@ -44,7 +44,7 @@ namespace CC_Library.Predictions
             (this Entry entry)
         {
             Dictionary<string, Element> eles = new Dictionary<string, Element>();
-            var WordList = entry.Keys[0].SplitTitle();
+            var WordList = entry.Keys[0].GetWords();
             foreach (var word in WordList)
             {
                 if (!eles.ContainsKey(word))

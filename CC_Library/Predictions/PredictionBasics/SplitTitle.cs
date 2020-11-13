@@ -18,6 +18,7 @@ namespace CC_Library.Predictions
 {
     public static class SplitTitle_Command
     {
+        /*
         public static List<string> SplitTitle(this string s)
         {
             List<string> Array = new List<string>();
@@ -45,7 +46,7 @@ namespace CC_Library.Predictions
                 data.AddRange(a.SplitOnCaps());
             }
             return data;
-        }
+        }*/
         public static List<string> GetWords(this string s)
         {
             List<string> output = new List<string>();

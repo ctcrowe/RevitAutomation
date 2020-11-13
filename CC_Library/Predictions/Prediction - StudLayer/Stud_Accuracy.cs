@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
                 List<double[]> Positions = new List<double[]>();
                 foreach(string Phrase in e.Keys)
                 {
-                    var WordList = Phrase.SplitTitle();
+                    var WordList = Phrase.GetWords();
                     Dictionary<string, Element> DictPoints = new Dictionary<string, Element>();
                     foreach (var word in WordList)
                     {

@@ -32,6 +32,8 @@ namespace CC_Library.Predictions
                     return CustomNeuralNet.ElevationNetwork();
                 case Datatype.Pointer:
                     return CustomNeuralNet.PointerNetwork();
+                case Datatype.OccupantLoadFactor:
+                    return CustomNeuralNet.OLFNetwork();
             }
         }
 

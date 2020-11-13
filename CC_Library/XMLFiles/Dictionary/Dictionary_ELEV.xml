@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="ELEV" Datatype="Dictionary">
+  <Data Number="0" Location="-0.28884221438340668" Referencing="0.38056629425948635" />
+  <Data Number="1" Location="0.46765049999414532" Referencing="0.33118330412055386" />
+  <Data Number="2" Location="0.13635824079240833" Referencing="0.32458575775426241" />
+  <Data Number="3" Location="-0.21408985418511659" Referencing="0.36869930461394157" />
+  <Data Number="4" Location="-0.69566518226919427" Referencing="0.391660791076781" />
+  <Data Number="5" Location="0.42970963801766537" Referencing="0.35779528735329291" />
+  <Data Number="6" Location="0.89206474739001562" Referencing="0.34842926071577118" />
+  <Data Number="7" Location="0.66370757295145233" Referencing="0.34816419878950677" />
+  <Data Number="8" Location="0.1010656743601108" Referencing="0.39293199550563818" />
+  <Data Number="9" Location="-0.35194580563400052" Referencing="0.33498745034081573" />
+  <Data Number="10" Location="0.30937284422556915" Referencing="0.34787416971299" />
+  <Data Number="11" Location="0.61682095352430122" Referencing="0.30716310199751595" />
+  <Data Number="12" Location="-0.9074800607107758" Referencing="0.37297737640348755" />
+  <Data Number="13" Location="0.26070302890304692" Referencing="0.36477333169937126" />
+  <Data Number="14" Location="0.16556285891110081" Referencing="0.342371966669114" />
+  <Data Number="15" Location="-0.16024123444209731" Referencing="0.32482853247655313" />
+  <Data Number="16" Location="0.1327104094121416" Referencing="0.35206635710755008" />
+  <Data Number="17" Location="-0.25462383985442316" Referencing="0.332381784439789" />
+  <Data Number="18" Location="0.13278713198724351" Referencing="0.35253477293333874" />
+  <Data Number="19" Location="-0.47016498573389592" Referencing="0.37296111600549731" />
+</Dictionary>

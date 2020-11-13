@@ -29,6 +29,8 @@ namespace CC_Plugin
             QCTab.QCPanel(uiApp, tabName);
             PrintPanel(uiApp);
             MFPanel.MFTab(uiApp, tabName);
+            AnalysisTab.AnalysisPanel(uiApp, tabName);
+            SchduleTab.SchedulePanel(uiApp, tabName);
             uiApp.LoadFamPanel(tabName);
 
             try

@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
             Parallel.For(0, Entries.Count(), i =>
             {
                 Entries[i].correct = false;
-                var WordList = Entries[i].Keys[0].SplitTitle();
+                var WordList = Entries[i].Keys[0].GetWords();
                 if (WordList.Any())
                 {
                     var result = WordList.GetInput();
@@ -31,7 +31,8 @@ namespace CC_Library.Predictions
                         result = Network.Layers[j].Output(Zees);
                     }
 
-                    int resultnumb = result.ToList().IndexOf(result.Max());
+                    int resultnumb = result.ToList().IndexOf(result.Max()).ReverseOLFOutput();
+
                     int correct = int.Parse(Entries[i].Values[0]);
                     double incorrect = 0;
                     int tot = 0;
@@ -73,7 +74,7 @@ namespace CC_Library.Predictions
             {
                 string output = i.ToString() + " : ";
                 Entries[i].correct = false;
-                var WordList = Entries[i].Keys[0].SplitTitle();
+                var WordList = Entries[i].Keys[0].GetWords();
                 if (WordList.Any())
                 {
                     var result = WordList.GetInput();

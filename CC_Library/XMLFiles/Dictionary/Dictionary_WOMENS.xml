@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="WOMENS" Datatype="Dictionary">
+  <Data Number="0" Location="0.64493755672747077" Referencing="-0.0016880981006994866" />
+  <Data Number="1" Location="0.70448033801693755" Referencing="0.77736075713508657" />
+  <Data Number="2" Location="0.54080107464287341" Referencing="0.0995596321954577" />
+  <Data Number="3" Location="0.83786318410241567" Referencing="-0.31087083400534965" />
+  <Data Number="4" Location="-0.74227280601043233" Referencing="0.87851837679246714" />
+  <Data Number="5" Location="0.090270488809595081" Referencing="-0.52984007701495273" />
+  <Data Number="6" Location="-0.21789410960938718" Referencing="-0.2665095279718197" />
+  <Data Number="7" Location="0.91138440041108593" Referencing="-0.59632072675302494" />
+  <Data Number="8" Location="-0.657631847122514" Referencing="-0.90512986588398248" />
+  <Data Number="9" Location="-0.79610089828819608" Referencing="-0.42925315916593776" />
+  <Data Number="10" Location="-0.336276871921257" Referencing="-0.41079127224940892" />
+  <Data Number="11" Location="0.2762892793193556" Referencing="-0.18174632411908162" />
+  <Data Number="12" Location="0.76944879570919966" Referencing="0.69271268054162471" />
+  <Data Number="13" Location="0.21862759222018277" Referencing="0.76436483292196855" />
+  <Data Number="14" Location="-0.66596056968392436" Referencing="0.23421610744576185" />
+  <Data Number="15" Location="-0.52397039923677624" Referencing="-0.93835846820407021" />
+  <Data Number="16" Location="-0.10859570596011822" Referencing="0.18164281439125185" />
+  <Data Number="17" Location="-0.39644964818010675" Referencing="-0.26013093138669996" />
+  <Data Number="18" Location="-0.35109230697117383" Referencing="0.57220221129393256" />
+  <Data Number="19" Location="0.0017305671089091238" Referencing="0.015955227602871491" />
+</Dictionary>

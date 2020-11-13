@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
                 }
                 foreach (string e in entry.Keys)
                 {
-                    var Words = e.SplitTitle();
+                    var Words = e.GetWords();
                     foreach (string word in Words)
                     {
                         if (!Datasets[1].ContainsKey(word))
@@ -41,7 +41,7 @@ namespace CC_Library.Predictions
             {
                 foreach (var e in entry.Keys)
                 {
-                    var strings = e.SplitTitle();
+                    var strings = e.GetWords();
                     foreach (var s in strings)
                     {
                         if(!ChangedElements[1].Contains(s))

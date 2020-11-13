@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Dictionary Label="JANITOR" Datatype="Dictionary">
+  <Data Number="0" Location="0.347332078151849" Referencing="0.48032596045414971" />
+  <Data Number="1" Location="-0.48912321312978085" Referencing="-0.24781606196922604" />
+  <Data Number="2" Location="0.82357114348295324" Referencing="0.25815989115764709" />
+  <Data Number="3" Location="0.0087197264349378762" Referencing="-0.7451354784358204" />
+  <Data Number="4" Location="0.712176714605151" Referencing="-0.31450261711782518" />
+  <Data Number="5" Location="0.28318243842438" Referencing="0.41541517454295512" />
+  <Data Number="6" Location="-0.514785713315653" Referencing="0.26846665847794521" />
+  <Data Number="7" Location="0.906596546715166" Referencing="-0.5026589483492947" />
+  <Data Number="8" Location="-0.15438512379641109" Referencing="-0.24783336601572154" />
+  <Data Number="9" Location="-0.26341869501976056" Referencing="-0.12227320563489108" />
+  <Data Number="10" Location="-0.033256474276550194" Referencing="0.23851702467090738" />
+  <Data Number="11" Location="-0.054476510369035419" Referencing="-0.29183729704804584" />
+  <Data Number="12" Location="0.1938813399237749" Referencing="-0.10180874910948524" />
+  <Data Number="13" Location="-0.50753416096964954" Referencing="0.43617969446691518" />
+  <Data Number="14" Location="-0.1228396102651526" Referencing="-0.78405753755722241" />
+  <Data Number="15" Location="1.0509035054660887" Referencing="-0.7651390790364534" />
+  <Data Number="16" Location="0.044790479838091007" Referencing="0.181585348879566" />
+  <Data Number="17" Location="0.315192433950558" Referencing="0.44393282196996775" />
+  <Data Number="18" Location="0.12847864534536171" Referencing="-0.58627826824747731" />
+  <Data Number="19" Location="-0.54001556442171872" Referencing="0.11339315479006082" />
+</Dictionary>

@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
             foreach (var e in Entries)
             {
                 e.correct = false;
-                var WordList = e.Keys[0].SplitTitle();
+                var WordList = e.Keys[0].GetWords();
                 Dictionary<string, Element> DictPoints = new Dictionary<string, Element>();
                 foreach (var word in WordList)
                 {

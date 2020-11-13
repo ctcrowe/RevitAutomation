@@ -8,7 +8,7 @@ namespace CC_Library.Predictions
     {
         public static string RPPredict(this string s)
         {
-            List<string> words = s.SplitTitle();
+            List<string> words = s.GetWords();
             Dictionary<string, Element> DictPoints = new Dictionary<string, Element>();
             var Dataset = Datatype.RoomPrivacy.GetElements().ToDictionary(x => x.Label, y => y);
 

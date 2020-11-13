@@ -72,7 +72,7 @@ namespace CC_Library.Predictions
 
             network.Layers.Add(new Layer(10, DictSize, Activation.ReLu));
             network.Layers.Add(new Layer(10, network.Layers[0], Activation.ReLu));
-            network.Layers.Add(new Layer(16, network.Layers[1], Activation.SoftMax));
+            network.Layers.Add(new Layer(17, network.Layers[1], Activation.SoftMax));
             network.Datatype = Datatype.OccupantLoadFactor;
 
             return network;

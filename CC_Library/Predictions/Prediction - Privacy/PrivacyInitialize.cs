@@ -18,7 +18,7 @@ namespace CC_Library.Predictions
                     if (!Datasets[0].ContainsKey(result))
                         Datasets[0].Add(result, Datatype.RoomPrivacy.GetElement(result));
                 }
-                var Words = entry.Keys[0].SplitTitle();
+                var Words = entry.Keys[0].GetWords();
                 foreach (string word in Words)
                 {
                     if (!Datasets[1].ContainsKey(word))
@@ -40,7 +40,7 @@ namespace CC_Library.Predictions
                     if (!ChangedElements[0].Contains(result))
                         ChangedElements[0].Add(result);
                 }
-                var words = entry.Keys[0].SplitTitle();
+                var words = entry.Keys[0].GetWords();
                 foreach (string word in words)
                 {
                     if (!ChangedElements[1].Contains(word))

@@ -26,16 +26,16 @@
 
     public enum Datatype
     {
-        Dictionary = 1280001,
-        Masterformat = 1484001,
-        OccupantLoadFactor = 22401,
-        StudLayer = 22402,
-        OccupancyGroup = 23801,
-        ObjectCategory = 24001,
-        RequiredFamilies = 25001,
-        Subcategory = 25002,
-        RoomPrivacy = 25003,
-        Keynote = 25004,
+        Dictionary,
+        Masterformat,
+        OccupantLoadFactor,
+        StudLayer,
+        OccupancyGroup,
+        ObjectCategory,
+        RequiredFamilies,
+        Subcategory,
+        RoomPrivacy,
+        Keynote,
         Boundary,
         Elevation,
         Pointer
