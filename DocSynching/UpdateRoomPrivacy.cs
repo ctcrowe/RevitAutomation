@@ -5,6 +5,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 
 using CC_Library.Parameters;
+using CC_Plugin.Parameters;
 using CC_RevitBasics;
 
 namespace CC_DocSynching
@@ -25,7 +26,7 @@ namespace CC_DocSynching
                         Room r = e as Room;
                         if (r.Name.Split(' ').FirstOrDefault() != "Room")
                         {
-                            string s = e.GetElementParam(CCParameter.RoomPrivacy);
+                            string s = e.GetElementParam(RoomParams.RoomPrivacy);
                             bool test = false;
                             if (s == null)
                                 test = true;

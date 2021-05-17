@@ -14,6 +14,7 @@
         Panel,
         Glazing,
         Details,
+        Det_Beyond,
         Det_03_XFine,
         Det_04_Fine,
         Det_05_Medium,

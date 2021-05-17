@@ -8,9 +8,9 @@ namespace CC_Plugin
 {
     internal static class CreateDataPoint
     {
-        private static void Write(string s)
+        private static string Write(string s)
         {
-
+            return null;
         }
         public static void CreateTTDData(this string obj, string id, string value, Datatype dt)
         {

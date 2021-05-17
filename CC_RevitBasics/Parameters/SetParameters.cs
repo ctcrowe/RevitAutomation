@@ -2,7 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using CC_Library.Parameters;
-
+/*
 namespace CC_RevitBasics
 {
     public static class SetParameters
@@ -199,4 +199,4 @@ namespace CC_RevitBasics
             }
         }
     }
-}
+}*/

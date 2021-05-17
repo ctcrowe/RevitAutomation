@@ -7,7 +7,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using CC_Library.Datatypes;
 using CC_Library.Predictions;
-using CC_RevitBasics;
+using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
@@ -17,7 +17,7 @@ namespace CC_Plugin
         If that room is not enclosed, delete the room added.
         If it is enclosed, exit process.
     */
-
+    /*
     internal class UpdateStudSize : IUpdater
     {
         private static string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -28,52 +28,62 @@ namespace CC_Plugin
 
             foreach (ElementId eid in eids)
             {
-        
-                double thickness = 0;
                 Element ele = doc.GetElement(eid);
-                WallType wt = ele as WallType;
-                if (wt.Kind == WallKind.Basic)
-                {
-                    var layers = wt.GetCompoundStructure().GetLayers();
+                string thickness = SetWallThickness(ele);
+            }
+        }
+        public static string SetWallThickness(Element ele)
+        {
+            string thk = "";
+            double thickness = 0;
+            WallType wt = ele as WallType;
+            if (wt.Kind == WallKind.Basic)
+            {
+                var layers = wt.GetCompoundStructure().GetLayers();
 
-                    string[] s = new string[layers.Count()];
-                    for(int i = 0; i < layers.Count(); i++)
+                List<string> s = new List<string>();
+                for (int i = 0; i < layers.Count(); i++)
+                {
+                    var materialId = layers[i].MaterialId;
+                    if (materialId != ElementId.InvalidElementId)
                     {
-                        var materialId = layers[i].MaterialId;
-                        if (materialId != ElementId.InvalidElementId)
-                        {
-                            Material mat = doc.GetElement(layers[i].MaterialId) as Material;
-                            s[i] = mat.Name;
-                        }
-                        else
-                        {
-                            s[i] = "NullMaterial";
-                        }
+                        Material mat = ele.Document.GetElement(layers[i].MaterialId) as Material;
+                        s.Add(mat.Name);
                     }
-                    string lyr = s.PredictStudSize();
-                    foreach (var layer in layers)
+                    else
                     {
-                        var matId = layer.MaterialId;
-                        if (matId != ElementId.InvalidElementId)
-                        {
-                            Material mat = doc.GetElement(layer.MaterialId) as Material;
-                            string a = mat.Name;
-                            if (a == lyr)
-                            {
-                                if (thickness < layer.Width)
-                                    thickness = layer.Width;
-                            }
-                        }
-                        else
-                        {
-                            if (lyr == "NullMaterial")
-                                if (thickness < layer.Width)
-                                    thickness = layer.Width;
-                        }
+                        s.Add("NullMaterial");
                     }
                 }
-                wt.SetWallTypeParam(CCParameter.StudSize, thickness.ToString());
+                string lyr = s.PredictStudSize();
+                foreach (var layer in layers)
+                {
+                    var matId = layer.MaterialId;
+                    if (matId != ElementId.InvalidElementId)
+                    {
+                        Material mat = ele.Document.GetElement(layer.MaterialId) as Material;
+                        string a = mat.Name;
+                        if (a == lyr)
+                        {
+                            if (thickness < layer.Width)
+                            {
+                                thickness = layer.Width;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (lyr == "NullMaterial")
+                            if (thickness < layer.Width)
+                            {
+                                thickness = layer.Width;
+                            }
+                    }
+                }
             }
+            wt.SetWallTypeParam(WallParams.StudSize, thickness.ToString());
+            return wt.GetElementParam(WallParams.StudSize);
+
         }
         public static void OnStartup(UIControlledApplication application)
         {
@@ -99,5 +109,5 @@ namespace CC_Plugin
         public ChangePriority GetChangePriority() { return ChangePriority.Annotations; }
         public UpdaterId GetUpdaterId() { return updaterId; }
         public string GetUpdaterName() { return "Update Stud Size"; }
-    }
+    }*/
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Revit.DB;
-using CC_RevitBasics;
 using System.IO;
+
+using Autodesk.Revit.DB;
+using CC_Plugin.Parameters;
 using Autodesk.Revit.DB.Architecture;
 
 namespace CC_Plugin
@@ -22,7 +23,7 @@ namespace CC_Plugin
             {
                 Room r = e as Room;
                 string name = r.Name;
-                string LoadFactor = e.GetElementParam(CC_Library.Parameters.CCParameter.OccupantLoadFactor);
+                string LoadFactor = e.GetElementParam(CC_Library.Parameters.RoomParams.OccupantLoadFactor);
                 lines.Add(name + ',' + LoadFactor);
             }
 

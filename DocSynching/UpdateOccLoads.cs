@@ -6,7 +6,7 @@ using CC_Library.Parameters;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using CC_Library.Predictions;
-using CC_RevitBasics;
+using CC_Plugin.Parameters;
 
 namespace CC_DocSynching
 {
@@ -24,12 +24,12 @@ namespace CC_DocSynching
                     try
                     {
                         Room r = e as Room;
-                        double lf = double.Parse(e.GetElementParam(CCParameter.OccupantLoadFactor).Split(' ').First());
+                        double lf = double.Parse(e.GetElementParam(RoomParams.OccupantLoadFactor).Split(' ').First());
                         double Area = r.get_Parameter(BuiltInParameter.ROOM_AREA).AsDouble();
                         int load = 0;
                         if (lf > 0)
                             load = (int)Math.Ceiling(Area / lf);
-                        r.SetRoomIntParam(CCParameter.OccupantLoad, load.ToString());
+                        r.SetIntParam(RoomParams.OccupantLoad, load.ToString());
                     }
                     catch { }
                 }

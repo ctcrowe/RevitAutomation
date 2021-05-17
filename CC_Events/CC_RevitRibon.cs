@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
 using Autodesk.Revit.UI;
+using CC_Plugin.TypeNaming;
+using CC_Plugin.Details;
 
 namespace CC_Plugin
 {
-    public class CCRibbon
+    public class CCRibbon : IExternalApplication
     {
         public const string tabName = "CCrowe";
         private static string dllpath = Assembly.GetExecutingAssembly().Location;
@@ -21,47 +23,66 @@ namespace CC_Plugin
             pbrpd.ToolTip = "Create sheet sets for printing for each active revision";
         }
 
-        public static void OnStartup(UIControlledApplication uiApp)
+        public Result OnStartup(UIControlledApplication uiApp)
         {
-            uiApp.CreateRibbonTab(tabName);
+            //uiApp.CreateRibbonTab(tabName);
 
-            ObjStylesTab.ObjTab(uiApp, tabName);
-            QCTab.QCPanel(uiApp, tabName);
-            PrintPanel(uiApp);
-            MFPanel.MFTab(uiApp, tabName);
-            AnalysisTab.AnalysisPanel(uiApp, tabName);
-            SchduleTab.SchedulePanel(uiApp, tabName);
-            uiApp.LoadFamPanel(tabName);
+            //DetailPanel.DetailTab(uiApp, tabName);
+            //ObjStylesTab.ObjTab(uiApp, tabName);
+            //QCTab.QCPanel(uiApp, tabName);
+            //PrintPanel(uiApp);
+            // MFPanel.MFTab(uiApp, tabName);
+            //AnalysisTab.AnalysisPanel(uiApp, tabName);
+            //SchduleTab.SchedulePanel(uiApp, tabName);
+            //uiApp.LoadFamPanel(tabName);
 
             try
             {
-                MaterialLibrary.OnStartup(uiApp);
-                UpdateOccupantLoads.OnStartup(uiApp);
-                ViewChanged.OnStartup(uiApp);
-                DocSynching.OnStartup(uiApp);
-                RefPlaneMaker.OnStartup(uiApp);
-                CC_Automation.OnStartup(uiApp);
-                UpdateLoadFactor.OnStartup(uiApp);
-                UpdateStudSize.OnStartup(uiApp);
-                FamLoadedEvent.OnStartup(uiApp);
-                DocSavingAs.OnStartup(uiApp);
-                DocClosing.OnStartup(uiApp);
+                SetMF.OnStartup(uiApp);
+                TypeNamingUpdater.OnStartup(uiApp);
+                #region IUpdaters
+                //MaterialLibrary.OnStartup(uiApp);
+                #endregion
+
+                #region Doc Synch Events
+                //CollectProjectData.OnStartup(uiApp);
+                #endregion
+
+                //RegUpdaters.OnStartup(uiApp);
+                //ViewChanged.OnStartup(uiApp);
+                //RefPlaneMaker.OnStartup(uiApp);
+                //UpdateLoadFactor.OnStartup(uiApp);
+                //UpdateStudSize.OnStartup(uiApp);
+                //FamLoadedEvent.OnStartup(uiApp);
+                //DocSavingAs.OnStartup(uiApp);
+                //DocClosing.OnStartup(uiApp);
+                //AddParameterEvents.OnStartup(uiApp);
             }
-            catch { }
+            catch { TaskDialog.Show("Setup Failed", "Setup Failed"); }
+            return Result.Succeeded;
         }
-        public static void OnShutdown(UIControlledApplication uiApp)
+        public Result OnShutdown(UIControlledApplication uiApp)
         {
-            MaterialLibrary.OnStartup(uiApp);
-            UpdateOccupantLoads.OnShutdown(uiApp);
-            ViewChanged.OnShutdown(uiApp);
-            RefPlaneMaker.OnShutdown(uiApp);
-            CC_Automation.OnShutdown(uiApp);
-            UpdateLoadFactor.OnShutdown(uiApp);
-            UpdateStudSize.OnShutdown(uiApp);
-            DocSynching.OnShutdown(uiApp);
-            FamLoadedEvent.OnShutdown(uiApp);
-            DocSavingAs.OnShutdown(uiApp);
-            DocClosing.OnShutdown(uiApp);
+            SetMF.OnShutdown(uiApp);
+            TypeNamingUpdater.OnShutdown(uiApp);
+            #region IUpdaters
+            //MaterialLibrary.OnShutdown(uiApp);
+            #endregion
+
+            #region Doc Synch Events
+            //CollectProjectData.OnShutdown(uiApp);
+            #endregion
+
+            //RegUpdaters.OnShutdown(uiApp);
+            //ViewChanged.OnShutdown(uiApp);
+            //RefPlaneMaker.OnShutdown(uiApp);
+            //UpdateLoadFactor.OnShutdown(uiApp);
+            //UpdateStudSize.OnShutdown(uiApp);
+            //FamLoadedEvent.OnShutdown(uiApp);
+            //DocSavingAs.OnShutdown(uiApp);
+            //DocClosing.OnShutdown(uiApp);
+            //AddParameterEvents.OnShutdown(uiApp);
+            return Result.Succeeded;
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Reflection;
 using CC_Library.Predictions;
 
@@ -10,14 +12,37 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double[] GetRank(this double[,] D, int l)
+        {
+            double[] r = new double[D.GetLength(1)];
+            if(D.GetLength(0) > l)
+                Parallel.For(0, D.GetLength(1), j => r[j] = D[l, j]);
+            return r;
+        }
+        public static void SetRank(this double[,] d, double[] r, int n)
+        {
+            if(d.GetLength(1) == r.GetLength(0) && n < d.GetLength(0))
+            {
+                Parallel.For(0, d.GetLength(1), j => d[n, j] = r[j]);
+            }
+        }
+        public static double[] GetRank(this double[,,] D, int r1, int r2)
+        {
+            double[] r = new double[D.GetLength(2)];
+            if (D.GetLength(0) > r1 && D.GetLength(1) > r2)
+                Parallel.For(0, D.GetLength(2), j => r[j] = D[r1, r2, j]);
+            return r;
+        }
+        public static void SetRank(this double[,,] d, double[] r, int r1, int r2)
+        {
+            if (d.GetLength(2) == r.GetLength(0) && r1 < d.GetLength(0) && r2 < d.GetLength(1))
+            {
+                Parallel.For(0, d.GetLength(1), j => d[r1, r2, j] = r[j]);
+            }
+        }
         public static double MeanLoss(this double[] F)
         {
-            double loss = 0;
-            for (int i = 0; i < F.Count(); i++)
-            {
-                loss += F[i];
-            }
-            return loss;
+            return F.Sum() / F.Count();
         }
         public static double SecH(this double x)
         {

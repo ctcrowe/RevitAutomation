@@ -22,12 +22,6 @@ namespace CC_Plugin
         {
             RibbonPanel CPanel = uiApp.CreateRibbonPanel(tabname, "Analysis");
 
-            ComboBoxData cbd = new ComboBoxData("Analysis Tools");
-
-            ComboBox cb = CPanel.AddItem(cbd) as ComboBox;
-            cb.AddItem(new ComboBoxMemberData("Collect Load Factor Data", "Collect Load Factor Data"));
-            cb.AddItem(new ComboBoxMemberData("Collect Family MF Data", "Collect Family MF Data"));
-
             PushButtonData b1Data = new PushButtonData(
                 "Analysis Button",
                 "Run Analysis",
@@ -35,7 +29,12 @@ namespace CC_Plugin
                 "CC_Plugin.AnalysisButton");
             b1Data.ToolTip = "Run the current drop down analysis tool.";
 
-            PushButton pb1 = CPanel.AddItem(b1Data) as PushButton;
+            ComboBoxData cbd = new ComboBoxData("Analysis Tools");
+
+            IList<RibbonItem> Buttons = CPanel.AddStackedItems(cbd, b1Data);
+            ComboBox cb = Buttons[0] as ComboBox;
+            cb.AddItem(new ComboBoxMemberData("Collect Load Factor Data", "Collect Load Factor Data"));
+            cb.AddItem(new ComboBoxMemberData("Collect Family MF Data", "Collect Family MF Data"));
         }
     }
     [TransactionAttribute(TransactionMode.Manual)]

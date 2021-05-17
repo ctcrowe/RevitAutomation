@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using CC_Library.Parameters;
-
+/*
 namespace CC_RevitBasics
 {
     public static class GetParameters
@@ -118,4 +118,4 @@ namespace CC_RevitBasics
             return null;
         }
     }
-}
+}*/

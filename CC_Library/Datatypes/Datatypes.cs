@@ -27,7 +27,13 @@
     public enum Datatype
     {
         Dictionary,
+        Alpha,
+        LocalContext,
+        AlphaLocation,
+        GlobalContext,
+        Beta,
         Masterformat,
+        Div8Type,
         OccupantLoadFactor,
         StudLayer,
         OccupancyGroup,

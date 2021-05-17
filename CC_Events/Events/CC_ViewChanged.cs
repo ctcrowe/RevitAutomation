@@ -2,8 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
-using CC_Library.Parameters;
-using CC_RevitBasics;
+using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
@@ -34,19 +33,10 @@ namespace CC_Plugin
                         t.Commit();
                     }
                 }
-                foreach (CCParameter p in Enum.GetValues(typeof(CCParameter)))
-                {
-                    using (Transaction t = new Transaction(doc, "ADD Parameters"))
-                    {
-                        t.Start();
-                        doc.AddParam(p);
-                        t.Commit();
-                    }
-                }
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();
-                    doc.SetID(doc.CheckID());
+                    doc.SetID();
                     t.Commit();
                 }
                 tg.Commit();

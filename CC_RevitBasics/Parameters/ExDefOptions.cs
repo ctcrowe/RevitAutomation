@@ -1,7 +1,7 @@
 ﻿using System;
 using Autodesk.Revit.DB;
 using CC_Library.Parameters;
-
+/*
 namespace CC_RevitBasics
 {
     internal static class ExDefOptions
@@ -40,4 +40,4 @@ namespace CC_RevitBasics
             return options;
         }
     }
-}
+}*/

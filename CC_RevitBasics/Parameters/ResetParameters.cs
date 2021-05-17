@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.IO;
-
+/*
 namespace CC_RevitBasics
 {
     public static class ResetParamLibrary
@@ -20,4 +20,4 @@ namespace CC_RevitBasics
             }
         }
     }
-}
+}*/

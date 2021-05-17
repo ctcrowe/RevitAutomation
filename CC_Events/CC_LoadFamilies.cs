@@ -22,9 +22,9 @@ namespace CC_Plugin
             return assembly.GetManifestResourceNames().Any(x => x.Contains(id));
         }
 
-        public static void run(Document doc, string ID)
+        public static Family run(Document doc, string ID)
         {
-            List<Element> Fams = new FilteredElementCollector(doc).OfClass(typeof(Family)).ToList();
+            Family fam;
             var assembly = typeof(EmbeddedFamilies).GetTypeInfo().Assembly;
             foreach (string name in assembly.GetManifestResourceNames().Where(x => x.EndsWith(".rfa")))
             {
@@ -38,17 +38,19 @@ namespace CC_Plugin
                     using (BinaryWriter w = new BinaryWriter(fs))
                     {
                         w.Write(r.ReadBytes((int)s.Length));
-                        doc.LoadFamily(outfile, out Family fam);
+                        doc.LoadFamily(outfile, out fam);
                         if (fam != null)
                         {
                             try { fam.Name = name.Split('.')[name.Split('.').Count() - 2]; }
                             catch { }
+                            return fam;
                         }
                     }
                 }
             }
             if (File.Exists(outfile))
                 File.Delete(outfile);
+            return null;
         }
     }
 }

@@ -10,40 +10,31 @@ namespace CC_Library.Predictions
     {
         public static double[] Forward(double[] predicted, double[] actual)
         {
-            double[] Clipped = new double[predicted.Count()];
-            double[] Result = new double[Clipped.Count()];
-            for (int j = 0; j < predicted.Count(); j++)
+            double[] Result = new double[predicted.Count()];
+            int amax = actual.ToList().IndexOf(actual.Max());
+            double pmax = 1;
+            double min = 1e-6;
+            double max = 1 - min;
+            if (predicted[amax] <= min)
+                pmax = min;
+            else
             {
-                if (predicted[j] <= 0)
-                    Clipped[j] = 1e-9;
+                if (predicted[amax] >= max)
+                    pmax = max;
                 else
-                {
-                    if (predicted[j] >= 1)
-                        Clipped[j] = 1 - 1e-9;
-                    else
-                        Clipped[j] = predicted[j];
-                }
+                    pmax = predicted[amax];
             }
-            Result[actual.ToList().IndexOf(actual.Max())] = -1 * Math.Log(Clipped[actual.ToList().IndexOf(actual.Max())]);
+            var afin = -1 * Math.Log(pmax);
+            Result[amax] = afin;
             return Result;
         }
-        public static double[] Backward(double[] DValues, double[] actual)
+        public static double[] Backward(double[] dvals, double[] actual)
         {
-            int Labels = DValues.Length;
-
-            double[] dinput = new double[DValues.Length];
-            dinput[actual.ToList().IndexOf(actual.Max())] = -1 * actual.Max() / DValues[actual.ToList().IndexOf(actual.Max())];
+            double[] dinput = new double[dvals.Length];
+            double[] dvalues = dvals.Clipped();
+            dinput[actual.ToList().IndexOf(actual.Max())] = -1 / dvalues[actual.ToList().IndexOf(actual.Max())];
 
             return dinput;
-        }
-        public static double MeanLoss(double[] F)
-        {
-            double loss = 0;
-            for(int i = 0; i < F.Count(); i++)
-            {
-                loss += F[i];
-            }
-            return loss;
         }
     }
 }

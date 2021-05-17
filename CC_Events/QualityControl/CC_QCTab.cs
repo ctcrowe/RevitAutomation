@@ -68,51 +68,6 @@ namespace CC_Plugin
 
             List<RibbonItem> DBButtons3 = new List<RibbonItem>();
             DBButtons2.AddRange(CPanel.AddStackedItems(B5Data, B6Data, B7Data));
-
-            PushButtonData B8Data = new PushButtonData(
-                "Capture Families",
-                "Capture Families",
-                dllpath(),
-                "CC_Plugin.CollectFamilies");
-
-            PushButtonData B11Data = new PushButtonData(
-                "Capture Walls",
-                "Capture Walls",
-                dllpath(),
-                "CC_Plugin.CollectWalls");
-
-
-            List<RibbonItem> DBButtons4 = new List<RibbonItem>();
-            DBButtons4.AddRange(CPanel.AddStackedItems(B8Data, B11Data));
-
-            PushButtonData B10Data = new PushButtonData(
-                "Generate Finish Floors",
-                "Generate Finish Floors",
-                dllpath(),
-                "CC_Plugin.GenerateFinishFloors");
-            PushButton FinFloors = CPanel.AddItem(B10Data) as PushButton;
-
-            PushButtonData B12Data = new PushButtonData(
-                "Collect Boundaries",
-                "Collect Boundaries",
-                dllpath(),
-                "CC_Plugin.CollectRoomBounds");
-
-            PushButtonData B13 = new PushButtonData(
-                "Show Category",
-                "Show Category",
-                dllpath(),
-                "CC_Plugin.ShowCategory");
-
-            PushButtonData B14 = new PushButtonData(
-                "Get Obj Styles",
-                "Get Obj Styles",
-                dllpath(),
-                "CC_Plugin.GetObjStyles");
-
-
-            List<RibbonItem> DBButtons5 = new List<RibbonItem>();
-            DBButtons5.AddRange(CPanel.AddStackedItems(B12Data, B13, B14));
         }
     }
 }

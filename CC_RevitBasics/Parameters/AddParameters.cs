@@ -10,8 +10,9 @@ using Autodesk.Revit.ApplicationServices;
 
 using CC_Library.Parameters;
 
+/*
 namespace CC_RevitBasics
-{
+{\/*
     public static class AddParameters
     {
         private static Definition CreateDefinition(this CCParameter p, Document doc)
@@ -292,3 +293,4 @@ namespace CC_RevitBasics
         }
     }
 }
+*/

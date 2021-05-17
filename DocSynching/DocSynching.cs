@@ -13,23 +13,10 @@ namespace CC_DocSynching
             using (TransactionGroup tg = new TransactionGroup(doc, "Doc Synching"))
             {
                 tg.Start();
-                foreach (CCParameter p in Enum.GetValues(typeof(CCParameter)))
-                {
-                    try
-                    {
-                        using (Transaction t = new Transaction(doc, "ADD Parameters"))
-                        {
-                            t.Start();
-                            doc.AddParam(p);
-                            t.Commit();
-                        }
-                    }
-                    catch { }
-                }
                 using (Transaction t = new Transaction(doc, "Set ID"))
                 {
                     t.Start();
-                    doc.SetID(doc.CheckID());
+                    //doc.SetID(doc.CheckID());
                     t.Commit();
                 }
                 /*

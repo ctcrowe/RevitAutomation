@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace CC_Library
 {
+    /*
     public class Command
     {
         public delegate void Cmd(string Entry, string Exit);
@@ -37,5 +38,5 @@ namespace CC_Library
             }
             command(EntryFile, ExitFile);
         }
-    }
+    }*/
 }
