@@ -4,7 +4,7 @@ using CC_Library.Parameters;
 
 namespace CC_Plugin.Parameters
 {
-    internal static class ExDefOptions
+    internal static class CreateExternalDefinitionOptions
     {
         public static ExternalDefinitionCreationOptions CreateOptions(this Param param)
         {

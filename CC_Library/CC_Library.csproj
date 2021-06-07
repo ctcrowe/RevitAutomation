@@ -58,6 +58,7 @@
     <Compile Include="GetFileLocation.cs" />
     <Compile Include="Materials\CCMaterial.cs" />
     <Compile Include="OpenFile.cs" />
+    <Compile Include="OutputError.cs" />
     <Compile Include="Parameters\CoordinateGUID.cs" />
     <Compile Include="Parameters\Params.cs" />
     <Compile Include="Parameters\Params_Door.cs" />

@@ -17,7 +17,7 @@ namespace CC_Library.Parameters
             Subcategory.Generic,
             ParamType.Int,
             false,
-            false);
+            true);
         public static readonly Param Masterformat_Material = new Param
             ("MF Division Material",
             new Guid("c0409866752d448b9ae10c03942ba603"),

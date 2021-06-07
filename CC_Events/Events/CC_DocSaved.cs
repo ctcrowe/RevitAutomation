@@ -1,14 +1,30 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
-
+using System;
 namespace CC_Plugin
 {
     class DocumentSaved
     {
-        public static void Event(object sender, DocumentSavedEventArgs args)
+        public static void SavedEvent(object sender, DocumentSavedEventArgs args)
         {
             SaveFamily.Main(args.Document);
+        }
+        public static void SavedAsEvent(object sender, DocumentSavedAsEventArgs args)
+        {
+            SaveFamily.Main(args.Document);
+        }
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentSaved += new EventHandler<DocumentSavedEventArgs>(SavedEvent);
+            app.ControlledApplication.DocumentSavedAs += new EventHandler<DocumentSavedAsEventArgs>(SavedAsEvent);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentSaved -= new EventHandler<DocumentSavedEventArgs>(SavedEvent);
+            app.ControlledApplication.DocumentSavedAs -= new EventHandler<DocumentSavedAsEventArgs>(SavedAsEvent);
+            return Result.Succeeded;
         }
     }
 }

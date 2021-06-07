@@ -100,6 +100,14 @@ namespace CC_Library.Predictions
             }
             return false;
         }
+        public double RoughError()
+        {
+            return Error.Sum() / Error.Count();
+        }
+        public void SetAcc()
+        {
+            Acc = 1.0 * Correct.Sum() / Correct.Count();
+        }
         public void Reset()
         {
             Completion = 0;

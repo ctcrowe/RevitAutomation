@@ -40,6 +40,7 @@ namespace CC_Plugin
             {
                 SetMF.OnStartup(uiApp);
                 TypeNamingUpdater.OnStartup(uiApp);
+                DocumentSaved.OnStartup(uiApp);
                 #region IUpdaters
                 //MaterialLibrary.OnStartup(uiApp);
                 #endregion
@@ -65,6 +66,7 @@ namespace CC_Plugin
         {
             SetMF.OnShutdown(uiApp);
             TypeNamingUpdater.OnShutdown(uiApp);
+            DocumentSaved.OnShutdown(uiApp);
             #region IUpdaters
             //MaterialLibrary.OnShutdown(uiApp);
             #endregion

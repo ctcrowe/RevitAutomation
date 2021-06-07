@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using Autodesk.Revit.UI;
 
+using CC_Library;
 using CC_Library.Predictions;
 using CC_Library.Parameters;
 
@@ -18,6 +19,7 @@ namespace CC_Plugin
             app.ControlledApplication.DocumentSavingAs += new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
             app.ControlledApplication.DocumentSaving += new EventHandler<DocumentSavingEventArgs>(SavingEvent);
             app.ControlledApplication.DocumentOpened += new EventHandler<DocumentOpenedEventArgs>(OpenedEvent);
+            app.ControlledApplication.DocumentClosing += new EventHandler<DocumentClosingEventArgs>(ClosingEvent);
             app.ControlledApplication.DocumentCreated += new EventHandler<DocumentCreatedEventArgs>(CreatedEvent);
             RegisterUpdater(app.ActiveAddInId);
             return Result.Succeeded;
@@ -27,6 +29,7 @@ namespace CC_Plugin
             app.ControlledApplication.DocumentSavingAs -= new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
             app.ControlledApplication.DocumentSaving -= new EventHandler<DocumentSavingEventArgs>(SavingEvent);
             app.ControlledApplication.DocumentOpened -= new EventHandler<DocumentOpenedEventArgs>(OpenedEvent);
+            app.ControlledApplication.DocumentClosing -= new EventHandler<DocumentClosingEventArgs>(ClosingEvent);
             app.ControlledApplication.DocumentCreated -= new EventHandler<DocumentCreatedEventArgs>(CreatedEvent);
             SetMF updater = new SetMF(app.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
@@ -37,7 +40,16 @@ namespace CC_Plugin
             Document doc = args.Document;
             if(!doc.IsFamilyDocument)
             {
+                UpdateMFDB.ProjectStartup(args.Document.Application.ActiveAddInId, args.Document);
                 ProjectStartup(doc);
+            }
+        }
+        public static void ClosingEvent(object sender, DocumentClosingEventArgs args)
+        {
+            Document doc = args.Document;
+            if(!doc.IsFamilyDocument)
+            {
+                UpdateMFDB.ProjectShutdown(args.Document.Application.ActiveAddInId, args.Document);
             }
         }
         public static void CreatedEvent(object sender, DocumentCreatedEventArgs args)
@@ -71,19 +83,9 @@ namespace CC_Plugin
             ElementId FamName = new ElementId(BuiltInParameter.SYMBOL_NAME_PARAM);
             SetMF updater = new SetMF(id);
             UpdaterRegistry.RegisterUpdater(updater, true);
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_GenericModel), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_Doors), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_CurtainWallPanels), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_Windows), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_Casework), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_DetailComponents), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_Furniture), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_FurnitureSystems), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_SpecialityEquipment), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_MechanicalEquipment), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_LightingFixtures), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_ElectricalEquipment), Element.GetChangeTypeParameter(FamName));
-            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), new ElementCategoryFilter(BuiltInCategory.OST_PlumbingFixtures), Element.GetChangeTypeParameter(FamName));
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
+                new ElementClassFilter(typeof(FamilySymbol)),
+                Element.GetChangeTypeParameter(FamName));
         }
         public static void ProjectStartup(Document doc)
         {
@@ -95,7 +97,22 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Add MF Param"))
                     {
                         t.Start();
-                        try { doc.AddParam(Params.Masterformat); } catch { }
+                        try { doc.AddParam(Params.Masterformat); } catch (Exception e) { e.OutputError(); }
+                        t.Commit();
+                    }
+                    tg.Commit();
+                }
+            }
+            else
+            {
+                using (TransactionGroup tg = new TransactionGroup(doc, "Preupdater Registration"))
+                {
+                    tg.Start();
+                    using (Transaction t = new Transaction(doc, "Add MF Param"))
+                    {
+                        t.Start();
+                        try { doc.AddParam(Params.Masterformat); }
+                        catch (Exception e) { e.OutputError(); }
                         t.Commit();
                     }
                     tg.Commit();
@@ -115,9 +132,13 @@ namespace CC_Plugin
                     {
                         string name = "";
                         int MF = 0;
-                        try { name = ele.FamilyName + " " + ele.Name; } catch { }
-                        if (name != "") { MF = MasterformatNetwork.Predict(name); }
-                        try { ele.SetElementParam(Params.Masterformat, MF.ToString()); } catch { }
+                        try { name = ele.FamilyName + " " + ele.Name; } catch (Exception e) { e.OutputError(); }
+                        if (name != "")
+                        {
+                            try { MF = MasterformatNetwork.Predict(name); }
+                            catch (Exception e) { e.OutputError(); }
+                        }
+                        try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
                     }
                 }
             }
@@ -133,7 +154,8 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Add MF Param"))
                     {
                         t.Start();
-                        try { doc.AddParam(Params.Masterformat); } catch { }
+                        try { doc.AddParam(Params.Masterformat); }
+                        catch (Exception e) { e.OutputError(); }
                         t.Commit();
                     }
                     if (doc.FamilyManager.Types.Size < 1)
@@ -148,7 +170,8 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        doc.SetFamilyParam(Params.Masterformat, Masterformat.ToString());
+                        try { doc.SetFamilyParam(Params.Masterformat, Masterformat.ToString()); }
+                        catch (Exception e) { e.OutputError(); }
                         t.Commit();
                     }
                     tg.Commit();
@@ -163,7 +186,7 @@ namespace CC_Plugin
         static AddInId appId;
         static UpdaterId updaterId;
         public string GetAdditionalInformation() { return "Updates MF Section Based on Family Name and Type Name"; }
-        public ChangePriority GetChangePriority() { return ChangePriority.Annotations; }
+        public ChangePriority GetChangePriority() { return ChangePriority.DetailComponents; }
         public UpdaterId GetUpdaterId() { return updaterId; }
         public string GetUpdaterName() { return "Update MF Division"; }
     }

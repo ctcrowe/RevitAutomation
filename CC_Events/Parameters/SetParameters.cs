@@ -143,6 +143,17 @@ namespace CC_Plugin.Parameters
                 }
             }
         }
+        public static void Set(this Element e, Param p, string value)
+        {
+            if (p.Instance)
+            {
+                e.SetElementInstanceParam(p, value);
+            }
+            else
+            {
+                e.SetElementTypeParam(p, value);
+            }
+        }
         public static void SetElementParam(this Element e, Param p, string value)
         {
             if (p.Instance)

@@ -71,11 +71,13 @@
     <Compile Include="Categories\AddCategories.cs" />
     <Compile Include="Details\CreateDetailImage.cs" />
     <Compile Include="Details\DetailTab.cs" />
+    <Compile Include="Events\UpdateMFDB.cs" />
     <Compile Include="Events\RegisterUpdaters.cs" />
     <Compile Include="Events\UpdateOccLoad.cs" />
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="FamilyDB\Class1.cs" />
     <Compile Include="GetParameter.cs" />
+    <Compile Include="Parameters\CreateExternalDefinition.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneDetailCollector.cs" />
     <Compile Include="Automation\RefPlanes\PlaneTypeUpdater.cs" />
@@ -99,7 +101,7 @@
     <Compile Include="ObjStyles\CollectObjStyles.cs" />
     <Compile Include="ObjStyles\ObjStylesTab.cs" />
     <Compile Include="Parameters\AddParameters.cs" />
-    <Compile Include="Parameters\ExDefOptions.cs" />
+    <Compile Include="Parameters\CreateExternalDefinitionOptions.cs" />
     <Compile Include="Parameters\GetParameters.cs" />
     <Compile Include="Parameters\ResetParameters.cs" />
     <Compile Include="Parameters\SetParameters.cs" />

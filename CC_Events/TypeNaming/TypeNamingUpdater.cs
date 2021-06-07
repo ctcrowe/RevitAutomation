@@ -12,35 +12,37 @@ namespace CC_Plugin.TypeNaming
         {
             List<ElementId> eids = data.GetModifiedElementIds().ToList();
             Document doc = data.GetDocument();
-
-            foreach (ElementId eid in eids)
+            if(!doc.IsFamilyDocument)
             {
-                Element ele = doc.GetElement(eid);
-                Category cat = null;
-                var FS = ele as FamilySymbol;
-                WallType wt = ele as WallType;
-                try { cat = FS.Family.FamilyCategory; } catch { }
-                try { cat = wt.Category; } catch { }
-                if (cat != null)
+                foreach (ElementId eid in eids)
                 {
-                    switch (cat.Id.IntegerValue)
+                    Element ele = doc.GetElement(eid);
+                    Category cat = null;
+                    var FS = ele as FamilySymbol;
+                    WallType wt = ele as WallType;
+                    try { cat = FS.Family.FamilyCategory; } catch { }
+                    try { cat = wt.Category; } catch { }
+                    if (cat != null)
                     {
-                        default:
-                            break;
-                        case (int)BuiltInCategory.OST_Windows:
-                            try { ele.SetWindowTypeName(); }
-                            catch { }
-                            break;
-                            /*
-                        case (int)BuiltInCategory.OST_Doors:
-                            try { ele.SetDoorTypeName(); }
-                            catch { TaskDialog.Show("Error", "Failed to update Door Type Name"); }
-                            break;
-                        case (int)BuiltInCategory.OST_Walls:
-                            try { ele.SetWallTypeName(); }
-                            catch { TaskDialog.Show("Error", "Faild to update Wall Type Name"); }
-                            break;
-                            */
+                        switch (cat.Id.IntegerValue)
+                        {
+                            default:
+                                break;
+                            case (int)BuiltInCategory.OST_Windows:
+                                try { ele.SetWindowTypeName(); }
+                                catch { }
+                                break;
+                                /*
+                            case (int)BuiltInCategory.OST_Doors:
+                                try { ele.SetDoorTypeName(); }
+                                catch { TaskDialog.Show("Error", "Failed to update Door Type Name"); }
+                                break;
+                            case (int)BuiltInCategory.OST_Walls:
+                                try { ele.SetWallTypeName(); }
+                                catch { TaskDialog.Show("Error", "Faild to update Wall Type Name"); }
+                                break;
+                                */
+                        }
                     }
                 }
             }

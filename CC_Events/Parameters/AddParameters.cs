@@ -88,30 +88,6 @@ namespace CC_Plugin.Parameters
                 tg.Commit();
             }
         }
-        private static Definition CreateDefinition(this Param p, Document doc)
-        {
-            string localname = "CC_SharedParams.txt";
-            string FullName = localname.GetMyDocs();
-            if (!File.Exists(FullName))
-                File.Create(FullName);
-
-            Application app = doc.Application;
-            app.SharedParametersFilename = FullName;
-            DefinitionFile df = app.OpenSharedParameterFile();
-
-            if (df.Groups.get_Item(Group) == null)
-            {
-                DefinitionGroup newgroup = df.Groups.Create(Group);
-                if (df.Groups.get_Item(Group).Definitions.get_Item(p.Name) == null)
-                    return newgroup.Definitions.Create(p.CreateOptions());
-                else
-                    return newgroup.Definitions.get_Item(p.Name);
-            }
-            DefinitionGroup group = df.Groups.get_Item(Group);
-            if (df.Groups.get_Item(Group).Definitions.get_Item(p.Name) == null)
-                return group.Definitions.Create(p.CreateOptions());
-            return group.Definitions.get_Item(p.Name);
-        }
         public static void AddParam(this Document doc, Param p)
         {
             if (doc.IsFamilyDocument)

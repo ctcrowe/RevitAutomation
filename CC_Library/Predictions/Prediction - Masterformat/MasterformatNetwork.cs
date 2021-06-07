@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using CC_Library.Datatypes;
+using System.Runtime.InteropServices;
 
 /// <summary>
 /// This system is specifically for creating and using a vocabulary.
@@ -12,9 +13,13 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-
     public class MasterformatNetwork
     {
+        /*
+        [DllImport("kernel32.dll")]
+        private static extern Int32 AllocConsole();
+        */
+
         private const int MinSamples = 2000;
         private const int RunSize = 16;
         public NeuralNetwork Network { get; }
@@ -177,6 +182,52 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        private static string WriteNull(string s) { return null; }
+
+        public static void ActivePropogate
+            (List<string> LineList)
+        {
+            MasterformatNetwork mf = new MasterformatNetwork(WriteNull);
+            Alpha a = new Alpha(WriteNull);
+            LocalContext lctxt = new LocalContext(Datatype.Masterformat, WriteNull);
+
+            mf.Network.Save();
+            a.Location.Save();
+            lctxt.Save();
+
+            Random random = new Random();
+            var Lines = LineList.ToArray();
+            var acc = new Accuracy(Lines);
+            int[] numbs = new int[Lines.Count()];
+            for (int i = 0; i < numbs.Count(); i++)
+                numbs[i] = i;
+            int cycles = 0;
+
+            while (acc.Acc < 0.999 && cycles < 5)
+            {
+                var numbers = numbs.OrderBy(x => random.Next()).ToList();
+
+                for (int i = 0; i < Lines.Count(); i += RunSize)
+                {
+                    Parallel.For(0, RunSize, j =>
+                    {
+                        if (i + j < numbers.Count())
+                        {
+                            SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, mf, a, lctxt, acc, true, WriteNull);
+                        }
+                    });
+                    mf.Network.Update(RunSize, 0.0001);
+                    a.Location.Update(RunSize, 0.0001);
+                    lctxt.Network.Update(RunSize, 0.0001);
+                }
+                acc.SetAcc();
+                var output = acc.Get();
+                cycles++;
+            }
+            mf.Network.Save();
+            a.Location.Save();
+            lctxt.Save();
+        }
+        private static string WriteNull(string s) { return s; }
+        private static string WriteConsole(string s) { Console.WriteLine(s); return s; }
     }
 }
