@@ -36,8 +36,10 @@ namespace CC_Library.Predictions
             AlphaMem am = new AlphaMem(s.ToCharArray());
             return a.Forward(s, context, am, Delegates.WriteNull);
         }
-        public double[] Encode(string s, AlphaMem am)
+        public double[] Encode(string s, Datatype dt, AlphaMem am)
         {
+            Alpha a = new Alpha(Delegates.WriteNull);
+            LocalContext lctxt = new LocalContext(dt, Delegates.WriteNull);
             return new double[2];
         }
         public double[] Encode(string s)

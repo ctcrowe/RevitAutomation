@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
+    internal class NetworkMem
+    {
+        public List<LayerMem> Layers { get; set; }
+        public NetworkMem(NeuralNetwork net, int RunSize)
+        {
+            this.Layers = new List<LayerMem>();
+            Parallel.For(0, net.Layers.Count, i => Layers[i] = new LayerMem(net.Layers[i], RunSize));
+        }
+    }
     internal class LayerMem
     {
         public Layer layer { get; set; }

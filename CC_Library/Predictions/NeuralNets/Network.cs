@@ -27,5 +27,14 @@ namespace CC_Library.Predictions
                 this.Layers[j].Update(ChangeSize);
             });
         }
+        internal void Update(int RunSize, double ChangeSize, NetworkMem nm)
+        {
+            Parallel.For(0, this.Layers.Count(), j =>
+            {
+                nm.Layers[j].DeltaB.Divide(RunSize);
+                nm.Layers[j].DeltaW.Divide(RunSize);
+                this.Layers[j].Update(ChangeSize, nm.Layers[j]);
+            });
+        }
     }
 }
