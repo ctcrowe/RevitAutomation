@@ -70,7 +70,8 @@
     <Compile Include="Categories\AddCategories.cs" />
     <Compile Include="Details\CreateDetailImage.cs" />
     <Compile Include="Details\DetailTab.cs" />
-    <Compile Include="Events\Masterformat\UpdateMFDB.cs" />
+    <Compile Include="Events\Masterformat\Family_UpdateMFDB.cs" />
+    <Compile Include="Events\Masterformat\Project_UpdateMFDB.cs" />
     <Compile Include="Events\UpdateOccLoad.cs" />
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="FamilyDB\Class1.cs" />
@@ -84,7 +85,6 @@
     <Compile Include="BoundaryData.cs" />
     <Compile Include="CollectElevations.cs" />
     <Compile Include="CollectBoundaries.cs" />
-    <Compile Include="Events\CC_ViewChanged.cs" />
     <Compile Include="ProjectDataAnalysis\CC_XmlLib.cs" />
     <Compile Include="Events\Masterformat\CC_SaveFamily.cs" />
     <Compile Include="Events\Masterformat\CC_DocSaved.cs" />

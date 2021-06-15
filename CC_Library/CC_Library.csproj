@@ -48,11 +48,9 @@
   <ItemGroup>
     <Compile Include="Array_Clipped.cs" />
     <Compile Include="Array_DiagFlat.cs" />
-    <Compile Include="DataFiles\Masterformat_Master.cs" />
-    <Compile Include="DataFiles\Dictionary_Master.cs" />
-    <Compile Include="Datatypes\CountDatatype.cs" />
-    <Compile Include="Datatypes\CreateCSVInputData.cs" />
-    <Compile Include="Datatypes\CreateDataFolder.cs" />
+    <Compile Include="Enumerations\Datatypes\CountDatatype.cs" />
+    <Compile Include="Enumerations\Datatypes\CreateCSVInputData.cs" />
+    <Compile Include="Enumerations\Datatypes\CreateDataFolder.cs" />
     <Compile Include="DotProduct.cs" />
     <Compile Include="Enumerations\Commands.cs" />
     <Compile Include="GetFileLocation.cs" />
@@ -86,16 +84,11 @@
     <Compile Include="Predictions\NeuralNets\Networks.cs" />
     <Compile Include="Predictions\NeuralNets\NeuralNetIO.cs" />
     <Compile Include="Predictions\NeuralNets\OutputStor.cs" />
-    <Compile Include="Predictions\Prediction - Alpha\Alpha - Copy.cs" />
     <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
-    <Compile Include="Predictions\Prediction - Alpha\AlphaMem - Copy.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaMem.cs" />
-    <Compile Include="Predictions\Prediction - Alpha\GlobalContext.cs" />
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
-    <Compile Include="Predictions\Prediction - Dictionary\DictionaryPrediction - Copy.cs" />
     <Compile Include="Predictions\Prediction - Masterformat\Division 8\Div8TypeNetwork - Copy.cs" />
     <Compile Include="Predictions\Prediction - Masterformat\Division 8\Div8TypeNetwork.cs" />
-    <Compile Include="Predictions\Prediction - Masterformat\MasterformatNetwork - Copy.cs" />
     <Compile Include="Predictions\Prediction - Masterformat\MasterformatNetwork.cs" />
     <Compile Include="Predictions\RevisePredictions.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
@@ -116,8 +109,8 @@
     <Compile Include="Predictions\PredictionBasics\PredictionQuantifyResults.cs" />
     <Compile Include="Predictions\PredictionBasics\SplitTitle.cs" />
     <Compile Include="Predictions\PredictionBasics\PredictionGetEntries.cs" />
-    <Compile Include="Datatypes\CSVData.cs" />
-    <Compile Include="Datatypes\Datatypes.cs" />
+    <Compile Include="Enumerations\Datatypes\CSVData.cs" />
+    <Compile Include="Enumerations\Datatypes\Datatypes.cs" />
     <Compile Include="Predictions\PredictionDelegates.cs" />
     <Compile Include="Predictions\RunPredictions.cs" />
     <Compile Include="Predictions\PredictionBasics\Predictions_XML\ReadWriteXml.cs" />
@@ -131,14 +124,7 @@
     <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlResultantDatapoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Boundaries\" />
-    <Folder Include="Predictions\Prediction - Boundary\" />
-    <Folder Include="Predictions\Prediction - Elevation\" />
-    <Folder Include="Predictions\Prediction - Occupancy\" />
-    <Folder Include="Predictions\Prediction - Privacy\" />
-    <Folder Include="Predictions\Prediction - StudLayer\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Div8Type.bin" />
     <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Div8Type_LocalContext.bin" />

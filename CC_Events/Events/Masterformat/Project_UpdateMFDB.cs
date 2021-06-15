@@ -18,7 +18,6 @@ namespace CC_Plugin
 {
     internal class UpdateMFDB : IUpdater
     {
-
         public static void ProjectStartup(AddInId id, Document doc)
         {
             using (TransactionGroup tg = new TransactionGroup(doc, "Preupdater Registration"))
@@ -61,7 +60,7 @@ namespace CC_Plugin
         }
         public static void ProjectShutdown(AddInId id, Document doc)
         {
-            UpdateOccLoad updater = new UpdateOccLoad(id);
+            UpdateMFDB updater = new UpdateMFDB(id);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId(), doc);
         }
         private static string Write(string s)
