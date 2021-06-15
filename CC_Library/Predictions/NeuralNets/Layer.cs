@@ -81,31 +81,39 @@ namespace CC_Library.Predictions
             }
         }
         #endregion
-        public XElement WriteXml()
-        {
-            XElement Layer = new XElement("Layer");
-            Layer.Add(new XAttribute("Number", this.Number));
-            Layer.Add(new XAttribute("Function", this.Function));
-            for (int i = 0; i < this.Weights.GetLength(0); i++)
-            {
-                XElement n = new XElement("Neuron");
-                n.Add(new XAttribute("Location", i));
-                n.Add(new XAttribute("Bias", this.Biases[i]));
-                for (int j = 0; j < this.Weights.GetLength(1); j++)
-                {
-                    XElement w = new XElement("Weight");
-                    w.Add(new XAttribute("Number", j));
-                    w.Add(new XAttribute("Value", this.Weights[i, j]));
-                    n.Add(w);
-                }
-                Layer.Add(n);
-            }
-            return Layer;
-        }
         //Input must be equal to number of Weights, Output equal to number of nodes / biases.
         public double[] Output(double[] Input)
         {
             double[] Output = new double[Weights.GetLength(0)];
+            if(Input.Count() != Weights.GetLength(1))
+            {
+                double[,] NewWeights = new double[Output.Count(), Input.Count()];
+                double[] NewBiases = new double[Output.Count()];
+                if (Input.Count() < Weights.GetLength(1))
+                {
+                    for (int i = 0; i < Output.Count(); i++)
+                    {
+                        NewBiases[i] = Biases[i];
+                        for (int j = 0; j < Input.Count(); j++)
+                        {
+                            NewWeights[i, j] = Weights[i, j];
+                        }
+                    }
+                    Weights = NewWeights;
+                    Biases = NewBiases;
+                }
+                else
+                {
+                    for(int i = 0; i < Output.Count(); i++)
+                    {
+                        NewBiases[i] = Biases[i];
+                        for (int j = 0; j < Weights.GetLength(1); j++)
+                        {
+                            NewWeights[i, j] = Weights[i, j];
+                        }
+                    }
+                }
+            }
             if (Input.Count() == Weights.GetLength(1))
             {
                 for (int i = 0; i < Output.Count(); i++)
@@ -121,6 +129,44 @@ namespace CC_Library.Predictions
             }
             var func = Function.GetFunction();
             return func(Output);
+        }
+        internal void Update(double adjustment, LayerMem lm)
+        {
+            for (int i = 0; i < DeltaB.Count(); i++)
+            {
+                if (lm.DeltaB[i] == double.PositiveInfinity || lm.DeltaB[i] == double.NegativeInfinity)
+                {
+                    if (lm.DeltaB[i] == double.PositiveInfinity)
+                        this.Biases[i] -= adjustment;
+                    else
+                        this.Biases[i] += adjustment;
+                }
+                else
+                {
+                    if (!double.IsNaN(lm.DeltaB[i]))
+                        this.Biases[i] -= (adjustment * lm.DeltaB[i]);
+                }
+            }
+            for (int i = 0; i < Weights.GetLength(0); i++)
+            {
+                for (int j = 0; j < Weights.GetLength(1); j++)
+                {
+                    if (lm.DeltaW[i, j] == double.PositiveInfinity || lm.DeltaW[i, j] == double.NegativeInfinity)
+                    {
+                        if (lm.DeltaW[i, j] == double.PositiveInfinity)
+                            lm.DeltaW[i, j] -= adjustment;
+                        else
+                            lm.DeltaW[i, j] += adjustment;
+                    }
+                    else
+                    {
+                        if (!double.IsNaN(lm.DeltaW[i, j]))
+                            this.Weights[i, j] -= (adjustment * lm.DeltaW[i, j]);
+                    }
+                }
+            }
+            lm.DeltaW = new double[Weights.GetLength(0), Weights.GetLength(1)];
+            lm.DeltaB = new double[Biases.Count()];
         }
         public void Update(double adjustment)
         {
@@ -180,20 +226,6 @@ namespace CC_Library.Predictions
                 for(int j = 0; j < DeltaW.GetLength(1); j++)
                 {
                     DeltaW[i, j] += inputs[j] * dvalues[i];
-                }
-            }
-        }
-        public void AddDerivative(Layer l)
-        {
-            if(l.Weights.GetLength(0) == Weights.GetLength(0) && l.Weights.GetLength(1) == Weights.GetLength(1))
-            {
-                for(int i = 0; i < Weights.GetLength(0); i++)
-                {
-                    DeltaB[i] += l.DeltaB[i];
-                    for(int j = 0; j < Weights.GetLength(1); j++)
-                    {
-                        DeltaW[i, j] += l.DeltaW[i, j];
-                    }
                 }
             }
         }

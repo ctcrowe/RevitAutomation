@@ -12,7 +12,6 @@ namespace CC_Library.Predictions
     {
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
-
         internal LocalContext(Datatype dt, WriteToCMDLine write)
         {
             datatype = dt;
@@ -22,7 +21,6 @@ namespace CC_Library.Predictions
         {
             Network.Save(datatype);
         }
-
         public double Contextualize(char[] phrase, int c, AlphaMem am)
         {
             var result = Locate(phrase, c);

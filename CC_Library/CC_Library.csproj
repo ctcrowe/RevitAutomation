@@ -76,18 +76,15 @@
     <Compile Include="Parameters\Subcategory.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
     <Compile Include="Predictions\LossFunctions\Loss_BinaryCrossEntropy.cs" />
-    <Compile Include="Predictions\GeneralPrediction.cs" />
     <Compile Include="Predictions\NeuralNets\Layer.cs" />
     <Compile Include="Predictions\NeuralNets\LayerStorage.cs" />
     <Compile Include="Predictions\NeuralNets\Network.cs" />
-    <Compile Include="Predictions\NeuralNets\Networks - Copy.cs" />
     <Compile Include="Predictions\NeuralNets\Networks.cs" />
     <Compile Include="Predictions\NeuralNets\NeuralNetIO.cs" />
     <Compile Include="Predictions\NeuralNets\OutputStor.cs" />
     <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaMem.cs" />
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
-    <Compile Include="Predictions\Prediction - Masterformat\Division 8\Div8TypeNetwork - Copy.cs" />
     <Compile Include="Predictions\Prediction - Masterformat\Division 8\Div8TypeNetwork.cs" />
     <Compile Include="Predictions\Prediction - Masterformat\MasterformatNetwork.cs" />
     <Compile Include="Predictions\RevisePredictions.cs" />
@@ -100,7 +97,6 @@
     <Compile Include="Predictions\NeuralNets\Activations.cs" />
     <Compile Include="Predictions\NeuralNets\Cost.cs" />
     <Compile Include="Predictions\Prediction - Dictionary\DictionaryPrediction.cs" />
-    <Compile Include="Predictions\Prediction - OccupantLoadFactor\OLFNetwork.cs" />
     <Compile Include="Predictions\PredictionBasics\ArrayTranspose.cs" />
     <Compile Include="Predictions\PredictionBasics\Accuracy.cs" />
     <Compile Include="Predictions\PredictionBasics\FindBestResult.cs" />

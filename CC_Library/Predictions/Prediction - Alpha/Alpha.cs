@@ -36,6 +36,22 @@ namespace CC_Library.Predictions
             AlphaMem am = new AlphaMem(s.ToCharArray());
             return a.Forward(s, context, am, Delegates.WriteNull);
         }
+        public double[] Encode(string s, AlphaMem am)
+        {
+            return new double[2];
+        }
+        public double[] Encode(string s)
+        {
+            return new double[2];
+        }
+        public string Decode(double[] encoding, AlphaMem am)
+        {
+            return "test";
+        }
+        public string Decode(double[] encoding)
+        {
+            return "test";
+        }
         public double[] Forward(string s, LocalContext context, AlphaMem am, WriteToCMDLine write)
         {
             char[] chars = GetChars(s);

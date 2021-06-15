@@ -15,20 +15,13 @@ namespace CC_Library.Predictions
 {
     public class MasterformatNetwork
     {
-        /*
-        [DllImport("kernel32.dll")]
-        private static extern Int32 AllocConsole();
-        */
-
         private const int MinSamples = 2000;
         private const int RunSize = 16;
         public NeuralNetwork Network { get; }
-
         public MasterformatNetwork(WriteToCMDLine write)
         {
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
-        
         public static int Predict(string s)
         {
             MasterformatNetwork mf = new MasterformatNetwork(new WriteToCMDLine(WriteNull));
@@ -106,7 +99,6 @@ namespace CC_Library.Predictions
                 a.Backward(input, DValues, lctxt, am, write);
             }
         }
-        
         internal static void Propogate
             (string filepath,
             WriteToCMDLine write)
@@ -182,7 +174,6 @@ namespace CC_Library.Predictions
                 }
             }
         }
-
         public static void ActivePropogate
             (List<string> LineList)
         {
