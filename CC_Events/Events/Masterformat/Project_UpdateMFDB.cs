@@ -31,14 +31,9 @@ namespace CC_Plugin
                         doc.AddParam(Params.Masterformat);
                         t.Commit();
                     }
-                    /*
-                    FamilySymbol f;
-                    using (Transaction t = new Transaction(doc, "Add Room"))
-                    {
-                        t.Start();
-                        f = doc.Create.NewFamilyInstance(doc.Phases.get_Item(0));
-                        t.Commit();
-                    }*/
+                }
+                try
+                {
                     Element symb = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_GenericModel).FirstOrDefault();
                     Parameter p = symb.get_Parameter(Params.Masterformat.Guid);
 
@@ -46,15 +41,8 @@ namespace CC_Plugin
                     UpdaterRegistry.RegisterUpdater(updater, doc, true);
                     ElementClassFilter symbs = new ElementClassFilter(typeof(FamilySymbol));
                     UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), symbs, Element.GetChangeTypeParameter(p.Id));
-
-                    /*
-                    using (Transaction t = new Transaction(doc, "Add Room"))
-                    {
-                        t.Start();
-                        doc.Delete(r.Id);
-                        t.Commit();
-                    }*/
                 }
+                catch (Exception e) { e.OutputError(); }
                 tg.Commit();
             }
         }
