@@ -9,6 +9,11 @@ using System.Diagnostics;
 using CC_Library.Parameters;
 using System.Threading;
 using CC_Plugin.Parameters;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Events;
+using System.Linq;
+using System;
+using Autodesk.Revit.UI;
 
 using Autodesk.Revit.DB.Architecture;
 using CC_Library.Predictions;
@@ -18,7 +23,36 @@ namespace CC_Plugin
 {
     internal class FamUpdateMFDB : IUpdater
     {
-
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(Event);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentChanged -= new EventHandler<DocumentChangedEventArgs>(Event);
+            return Result.Succeeded;
+        }
+        public static void Event(object sender, DocumentChangedEventArgs args)
+        {
+            Document doc = args.GetDocument();
+            if (doc.IsFamilyDocument)
+            {
+                var ids = args.GetModifiedElementIds();
+                var pid = doc.FamilyManager.get_Parameter(Params.Masterformat.Guid).Id;
+                if (ids.Any(x => x.IntegerValue == pid.IntegerValue))
+                {
+                    try
+                    {
+                        TaskDialog.Show("Test", "The Masterformat Parameter was changed!");
+                    }
+                    catch (Exception e)
+                    {
+                        e.OutputError();
+                    }
+                }
+            }
+        }
         public static void ProjectStartup(AddInId id, Document doc)
         {
             using (TransactionGroup tg = new TransactionGroup(doc, "Preupdater Registration"))
@@ -48,12 +82,11 @@ namespace CC_Plugin
                     }
                     try
                     {
-                        Element symb = new FilteredElementCollector(doc).OfClass(typeof(FamilyType)).FirstOrDefault();
-                        Parameter p = symb.get_Parameter(Params.Masterformat.Guid);
+                        FamilyParameter p = doc.FamilyManager.get_Parameter(Params.Masterformat.Guid);
 
                         FamUpdateMFDB updater = new FamUpdateMFDB(id);
                         UpdaterRegistry.RegisterUpdater(updater, doc, true);
-                        ElementClassFilter symbs = new ElementClassFilter(typeof(FamilySymbol));
+                        ElementClassFilter symbs = new ElementClassFilter(typeof(FamilyType));
                         UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), symbs, Element.GetChangeTypeParameter(p.Id));
                     }
                     catch (Exception e) { e.OutputError(); }
@@ -68,6 +101,8 @@ namespace CC_Plugin
         }
         public void Execute(UpdaterData data)
         {
+            TaskDialog.Show("Test", "The Updater Triggered");
+            /*
             try
             {
                 Document doc = data.GetDocument();
@@ -76,10 +111,10 @@ namespace CC_Plugin
                     var Eles = data.GetModifiedElementIds().ToList();
                     foreach (var eid in Eles)
                     {
-                        var ele = doc.GetElement(eid) as FamilySymbol;
                         string name = string.Empty;
                         try { name = ele.FamilyName + " " + ele.Name; } catch { }
-                        var Actual = ele.GetElementParam(Params.Masterformat);
+                        var Actual = "";
+                        var type = doc.FamilyManager.CurrentType;
                         var Prediction = MasterformatNetwork.Predict(name).ToString();
 
                         if (Prediction != Actual)
@@ -110,6 +145,7 @@ namespace CC_Plugin
             }
             catch (Exception e)
             { e.OutputError(); }
+            */
         }
         public FamUpdateMFDB(AddInId id)
         {

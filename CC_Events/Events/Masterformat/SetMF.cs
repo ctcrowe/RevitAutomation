@@ -41,8 +41,11 @@ namespace CC_Plugin
             if(!doc.IsFamilyDocument)
             {
                 UpdateMFDB.ProjectStartup(args.Document.Application.ActiveAddInId, args.Document);
-                FamUpdateMFDB.ProjectStartup(args.Document.Application.ActiveAddInId, args.Document);
                 ProjectStartup(doc);
+            }
+            else
+            {
+                FamUpdateMFDB.ProjectStartup(args.Document.Application.ActiveAddInId, args.Document);
             }
         }
         public static void ClosingEvent(object sender, DocumentClosingEventArgs args)
@@ -51,6 +54,9 @@ namespace CC_Plugin
             if(!doc.IsFamilyDocument)
             {
                 UpdateMFDB.ProjectShutdown(args.Document.Application.ActiveAddInId, args.Document);
+            }
+            else
+            {
                 FamUpdateMFDB.ProjectShutdown(args.Document.Application.ActiveAddInId, args.Document);
             }
         }
