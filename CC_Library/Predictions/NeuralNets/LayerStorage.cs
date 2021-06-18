@@ -17,13 +17,11 @@ namespace CC_Library.Predictions
     }
     internal class LayerMem
     {
-        public Layer layer { get; set; }
         public double[] DeltaB { get; set; }
         public double[,] DeltaW { get; set; }
         public Activation Function { get; set; }
         public LayerMem(Layer l)
         {
-            layer = l;
             DeltaW = new double[l.Weights.GetLength(0), l.Weights.GetLength(1)];
             DeltaB = new double[l.Biases.Count()];
             Function = l.Function;
@@ -40,38 +38,38 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        public void Update(int RunSize)
+        public void Update(Layer layer, int RunSize)
         {
             for (int i = 0; i < DeltaB.Count(); i++)
             {
                 if (DeltaB[i] == double.PositiveInfinity || DeltaB[i] == double.NegativeInfinity)
                 {
                     if (DeltaB[i] == double.PositiveInfinity)
-                        this.Biases[i] -= adjustment;
+                        layer.Biases[i] -= adjustment;
                     else
-                        this.Biases[i] += adjustment;
+                        layer.Biases[i] += adjustment;
                 }
                 else
                 {
                     if (!double.IsNaN(lm.DeltaB[i]))
-                        this.Biases[i] -= (adjustment * lm.DeltaB[i]);
+                        layer.Biases[i] -= (adjustment * DeltaB[i]);
                 }
             }
-            for (int i = 0; i < Weights.GetLength(0); i++)
+            for (int i = 0; i < layer.Weights.GetLength(0); i++)
             {
-                for (int j = 0; j < Weights.GetLength(1); j++)
+                for (int j = 0; j < layer.Weights.GetLength(1); j++)
                 {
-                    if (lm.DeltaW[i, j] == double.PositiveInfinity || lm.DeltaW[i, j] == double.NegativeInfinity)
+                    if (DeltaW[i, j] == double.PositiveInfinity || DeltaW[i, j] == double.NegativeInfinity)
                     {
-                        if (lm.DeltaW[i, j] == double.PositiveInfinity)
-                            lm.DeltaW[i, j] -= adjustment;
+                        if (DeltaW[i, j] == double.PositiveInfinity)
+                            layer.Weights[i, j] -= adjustment;
                         else
-                            lm.DeltaW[i, j] += adjustment;
+                            layer.Weights[i, j] += adjustment;
                     }
                     else
                     {
-                        if (!double.IsNaN(lm.DeltaW[i, j]))
-                            this.Weights[i, j] -= (adjustment * lm.DeltaW[i, j]);
+                        if (!double.IsNaN(DeltaW[i, j]))
+                            layer.Weights[i, j] -= (adjustment * DeltaW[i, j]);
                     }
                 }
             }
@@ -79,8 +77,8 @@ namespace CC_Library.Predictions
         }
         public void Reset()
         {
-            DeltaB = new double[layer.Biases.Count()];
-            DeltaW = new double[l.Weights.GetLength(0), l.Weights.GetLength(1)];
+            DeltaB = new double[DeltaB.Count()];
+            DeltaW = new double[DeltaW.GetLength(0), DeltaW.GetLength(1)];
         }
     }
 }
