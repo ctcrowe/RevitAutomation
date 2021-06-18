@@ -53,6 +53,7 @@ namespace CC_Library.Predictions
         }
         public void Backward(string s, double[] DValues, LocalContext context, AlphaMem am, WriteToCMDLine write)
         {
+            NetworkMem mem = new NetworkMem(Location);
             char[] chars = GetChars(s);
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
@@ -63,10 +64,10 @@ namespace CC_Library.Predictions
                 var ldv = LocDValues[j];
                 for (int i = Location.Layers.Count() - 1; i >= 0; i--)
                 {
-                    ldv = Location.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
-                    Location.Layers[i].DBiases(ldv);
-                    Location.Layers[i].DWeights(ldv, am.LocationOutputs[j][i]);
-                    ldv = Location.Layers[i].DInputs(ldv);
+                    ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
+                    mem.Layers[i].DBiases(ldv);
+                    mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i]);
+                    ldv = mem.Layers[i].DInputs(ldv);
                 }
             });
         }
