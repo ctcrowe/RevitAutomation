@@ -171,6 +171,7 @@ namespace CC_Library.Predictions
 
         #region CostFunctions
         //DActivation ALWAYS needs to equal number of nodes = number of Biases
+            /*
         public double[] DActivation(double[] dvalues, double[] output)
         {
             var function = Function.InvertFunction();
@@ -203,6 +204,7 @@ namespace CC_Library.Predictions
             }
             return result;
         }
+        */
         #endregion
     }
 }
