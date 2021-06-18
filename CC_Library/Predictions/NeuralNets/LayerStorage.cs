@@ -38,6 +38,18 @@ namespace CC_Library.Predictions
                 }
             }
         }
+        public double[] DInputs(double[] dvalues, Layer layer)
+        {
+            double[] result = new double[this.DeltaW.GetLength(1)];
+            for(int i = 0; i < this.DeltaW.GetLength(0); i++)
+            {
+                for(int j = 0; j < this.DeltaW.GetLength(1); j++)
+                {
+                    result[j] += dvalues[i] * layer.Weights[i, j];
+                }
+            }
+            return result;
+        }
         public void Update(Layer layer)
         {
             for (int i = 0; i < DeltaB.Count(); i++)
