@@ -40,6 +40,10 @@ namespace CC_Library.Predictions
                 }
             }
         }
+        public void Update(int RunSize)
+        {
+            
+        }
         public void Reset()
         {
             DeltaB = new double[layer.Biases.Count()];
