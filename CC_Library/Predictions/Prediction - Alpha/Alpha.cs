@@ -51,9 +51,8 @@ namespace CC_Library.Predictions
             var output = Multiply(loc, am.GlobalContextOutputs);
             return output;
         }
-        public void Backward(string s, double[] DValues, LocalContext context, AlphaMem am, WriteToCMDLine write)
+        public void Backward(string s, double[] DValues, LocalContext context, AlphaMem am, NetworkMem mem, WriteToCMDLine write)
         {
-            NetworkMem mem = new NetworkMem(Location);
             char[] chars = GetChars(s);
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
