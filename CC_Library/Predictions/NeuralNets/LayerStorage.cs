@@ -38,7 +38,7 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        public void Update(Layer layer, int RunSize)
+        public void Update(Layer layer)
         {
             for (int i = 0; i < DeltaB.Count(); i++)
             {
