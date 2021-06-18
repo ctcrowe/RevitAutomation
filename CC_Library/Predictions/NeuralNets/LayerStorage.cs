@@ -21,7 +21,7 @@ namespace CC_Library.Predictions
         public double[] DeltaB { get; set; }
         public double[,] DeltaW { get; set; }
         public Activation Function { get; set; }
-        public LayerMem(Layer l, int RunSize)
+        public LayerMem(Layer l)
         {
             layer = l;
             DeltaW = new double[l.Weights.GetLength(0), l.Weights.GetLength(1)];
