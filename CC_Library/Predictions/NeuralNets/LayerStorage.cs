@@ -42,7 +42,40 @@ namespace CC_Library.Predictions
         }
         public void Update(int RunSize)
         {
-            
+            for (int i = 0; i < DeltaB.Count(); i++)
+            {
+                if (lm.DeltaB[i] == double.PositiveInfinity || lm.DeltaB[i] == double.NegativeInfinity)
+                {
+                    if (lm.DeltaB[i] == double.PositiveInfinity)
+                        this.Biases[i] -= adjustment;
+                    else
+                        this.Biases[i] += adjustment;
+                }
+                else
+                {
+                    if (!double.IsNaN(lm.DeltaB[i]))
+                        this.Biases[i] -= (adjustment * lm.DeltaB[i]);
+                }
+            }
+            for (int i = 0; i < Weights.GetLength(0); i++)
+            {
+                for (int j = 0; j < Weights.GetLength(1); j++)
+                {
+                    if (lm.DeltaW[i, j] == double.PositiveInfinity || lm.DeltaW[i, j] == double.NegativeInfinity)
+                    {
+                        if (lm.DeltaW[i, j] == double.PositiveInfinity)
+                            lm.DeltaW[i, j] -= adjustment;
+                        else
+                            lm.DeltaW[i, j] += adjustment;
+                    }
+                    else
+                    {
+                        if (!double.IsNaN(lm.DeltaW[i, j]))
+                            this.Weights[i, j] -= (adjustment * lm.DeltaW[i, j]);
+                    }
+                }
+            }
+            Reset()
         }
         public void Reset()
         {
