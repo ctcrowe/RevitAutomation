@@ -44,9 +44,9 @@ namespace CC_Library.Predictions
         {
             for (int i = 0; i < DeltaB.Count(); i++)
             {
-                if (lm.DeltaB[i] == double.PositiveInfinity || lm.DeltaB[i] == double.NegativeInfinity)
+                if (DeltaB[i] == double.PositiveInfinity || DeltaB[i] == double.NegativeInfinity)
                 {
-                    if (lm.DeltaB[i] == double.PositiveInfinity)
+                    if (DeltaB[i] == double.PositiveInfinity)
                         this.Biases[i] -= adjustment;
                     else
                         this.Biases[i] += adjustment;
