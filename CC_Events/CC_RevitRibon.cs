@@ -38,7 +38,6 @@ namespace CC_Plugin
 
             try
             {
-                FamUpdateMFDB.OnStartup(uiApp);
                 SetMF.OnStartup(uiApp);
                 TypeNamingUpdater.OnStartup(uiApp);
                 DocumentSaved.OnStartup(uiApp);
@@ -66,7 +65,6 @@ namespace CC_Plugin
         }
         public Result OnShutdown(UIControlledApplication uiApp)
         {
-            FamUpdateMFDB.OnShutdown(uiApp);
             SetMF.OnShutdown(uiApp);
             TypeNamingUpdater.OnShutdown(uiApp);
             DocumentSaved.OnShutdown(uiApp);
