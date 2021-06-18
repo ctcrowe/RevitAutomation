@@ -31,7 +31,7 @@ namespace CC_Library.Predictions
             }
             return result.First();
         }
-        public void Backward(double[] DValues, int runs, AlphaMem am, WriteToCMDLine write)
+        public void Backward(double[] DValues, int runs, AlphaMem am, NetworkMem mem, WriteToCMDLine write)
         {
             Parallel.For(0, runs, j =>
             {
@@ -40,10 +40,10 @@ namespace CC_Library.Predictions
                 {
                     try
                     {
-                        cdv = Network.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1]);
-                        Network.Layers[i].DBiases(cdv);
-                        Network.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i]);
-                        cdv = Network.Layers[i].DInputs(cdv);
+                        cdv = mem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1]);
+                        memLayers[i].DBiases(cdv);
+                        mem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i]);
+                        cdv = mem.Layers[i].DInputs(cdv);
                     }
                     catch
                     {
