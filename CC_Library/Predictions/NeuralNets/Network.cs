@@ -18,23 +18,16 @@ namespace CC_Library.Predictions
         {
             this.Layers = new List<Layer>();
         }
-        public void Update(int RunSize, double ChangeSize)
-        {
-            Parallel.For(0, this.Layers.Count(), j =>
-            {
-                this.Layers[j].DeltaB.Divide(RunSize);
-                this.Layers[j].DeltaW.Divide(RunSize);
-                this.Layers[j].Update(ChangeSize);
-            });
-        }
+        /*
         internal void Update(int RunSize, double ChangeSize, NetworkMem nm)
         {
             Parallel.For(0, this.Layers.Count(), j =>
             {
                 nm.Layers[j].DeltaB.Divide(RunSize);
                 nm.Layers[j].DeltaW.Divide(RunSize);
-                this.Layers[j].Update(ChangeSize, nm.Layers[j]);
+                nm.Layers[j].Update(this.Layers[j], ChangeSize);
             });
         }
+        */
     }
 }

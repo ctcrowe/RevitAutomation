@@ -29,7 +29,7 @@ namespace CC_Library.Predictions
         {
             NeuralNetwork network = new NeuralNetwork();
             network.Layers.Add(new Layer(Alpha.DictSize, 3 * Alpha.CharCount(), Activation.LRelu));
-            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last(), Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last(), Activation.Linear));
             network.Datatype = Datatype.Alpha;
             return network;

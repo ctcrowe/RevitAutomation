@@ -63,6 +63,9 @@ namespace CC_Library.Predictions
             LocalContext lctxt,
             Accuracy acc,
             bool tf,
+            NetworkMem AlphaMem,
+            NetworkMem CtxtMem,
+            NetworkMem MFMem,
             WriteToCMDLine write
             )
         {
@@ -91,12 +94,12 @@ namespace CC_Library.Predictions
 
                 for (int l = mf.Network.Layers.Count() - 1; l >= 0; l--)
                 {
-                    DValues = mf.Network.Layers[l].DActivation(DValues, Results[l + 1]);
-                    mf.Network.Layers[l].DBiases(DValues);
-                    mf.Network.Layers[l].DWeights(DValues, Results[l]);
-                    DValues = mf.Network.Layers[l].DInputs(DValues);
+                    DValues = MFMem.Layers[l].DActivation(DValues, Results[l + 1]);
+                    MFMem.Layers[l].DBiases(DValues);
+                    MFMem.Layers[l].DWeights(DValues, Results[l]);
+                    DValues = MFMem.Layers[l].DInputs(DValues, mf.Network.Layers[l]);
                 }
-                a.Backward(input, DValues, lctxt, am, write);
+                a.Backward(input, DValues, lctxt, am, AlphaMem, CtxtMem, write);
             }
         }
         internal static void Propogate
@@ -106,6 +109,9 @@ namespace CC_Library.Predictions
             MasterformatNetwork mf = new MasterformatNetwork(write);
             Alpha a = new Alpha(write);
             LocalContext lctxt = new LocalContext(Datatype.Masterformat, write);
+            NetworkMem MFMem = new NetworkMem(mf.Network);
+            NetworkMem AlphaMem = new NetworkMem(a.Location);
+            NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
             Random random = new Random();
             COutput.Clear();
             while (true)
@@ -146,15 +152,15 @@ namespace CC_Library.Predictions
                         {
                             if (i + j < numbers.Count())
                             {
-                                SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, mf, a, lctxt, acc, epochs > 0, write);
+                                SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, mf, a, lctxt, acc, epochs > 0, AlphaMem, CtxtMem, MFMem, write);
                                 samples++;
                             }
                         });
                         if (epochs > 0)
                         {
-                            mf.Network.Update(RunSize, 0.0001);
-                            a.Location.Update(RunSize, 0.0001);
-                            lctxt.Network.Update(RunSize, 0.0001);
+                            MFMem.Update(RunSize, 0.0001, mf.Network);
+                            AlphaMem.Update(RunSize, 0.0001, a.Location);
+                            CtxtMem.Update(RunSize, 0.0001, lctxt.Network);
                         }
                         epoch = "Samples Run : " + samples + " : Cycles : " + cycles + " : Epochs : " + epochs;
                         COutput.Update(epoch, acc);
@@ -180,6 +186,9 @@ namespace CC_Library.Predictions
             MasterformatNetwork mf = new MasterformatNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
             LocalContext lctxt = new LocalContext(Datatype.Masterformat, WriteNull);
+            NetworkMem MFMem = new NetworkMem(mf.Network);
+            NetworkMem AlphaMem = new NetworkMem(a.Location);
+            NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
 
             mf.Network.Save();
             a.Location.Save();
@@ -203,12 +212,12 @@ namespace CC_Library.Predictions
                     {
                         if (i + j < numbers.Count())
                         {
-                            SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, mf, a, lctxt, acc, true, WriteNull);
+                            SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, mf, a, lctxt, acc, true, AlphaMem, CtxtMem, MFMem, WriteNull);
                         }
                     });
-                    mf.Network.Update(RunSize, 0.0001);
-                    a.Location.Update(RunSize, 0.0001);
-                    lctxt.Network.Update(RunSize, 0.0001);
+                    MFMem.Update(RunSize, 0.0001, mf.Network);
+                    AlphaMem.Update(RunSize, 0.0001, a.Location);
+                    CtxtMem.Update(RunSize, 0.0001, lctxt.Network);
                 }
                 acc.SetAcc();
                 var output = acc.Get();

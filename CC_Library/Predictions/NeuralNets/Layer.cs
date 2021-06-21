@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace CC_Library.Predictions
@@ -11,10 +8,7 @@ namespace CC_Library.Predictions
     public class Layer
     {
         public double[,] Weights { get; set; }
-        public double[,] DeltaW { get; set; }
         public double[] Biases { get; set; }
-        public double[] DeltaB { get; set; }
-        public int Number { get; set; }
         public Activation Function { get; set; }
 
         #region Overloads
@@ -23,9 +17,6 @@ namespace CC_Library.Predictions
             Random random = new Random();
             this.Weights = new double[NeuronCount, WeightCount];
             this.Biases = new double[NeuronCount];
-            this.DeltaW = new double[NeuronCount, WeightCount];
-            this.DeltaB = new double[NeuronCount];
-            this.Number = 0;
             this.Function = function;
             for (int i = 0; i < NeuronCount; i++)
             {
@@ -42,9 +33,6 @@ namespace CC_Library.Predictions
             Random random = new Random();
             this.Weights = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
             this.Biases = new double[NeuronCount];
-            this.DeltaW = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
-            this.DeltaB = new double[NeuronCount];
-            this.Number = PreviousLayer.Number + 1;
             this.Function = function;
             for (int i = 0; i < NeuronCount; i++)
             {
@@ -60,13 +48,10 @@ namespace CC_Library.Predictions
         {
             int Neurons = ele.Elements("Neuron").Count();
             int Weight = ele.Elements("Neuron").First().Elements("Weight").Count();
-            this.Number = int.Parse(ele.Attribute("Number").Value);
             this.Function = (Activation)Enum.Parse(typeof(Activation), ele.Attribute("Function").Value);
 
             this.Biases = new double[Neurons];
             this.Weights = new double[Neurons, Weight];
-            this.DeltaW = new double[Neurons, Weight];
-            this.DeltaB = new double[Neurons];
 
             for (int i = 0; i < Neurons; i++)
             {
@@ -130,81 +115,5 @@ namespace CC_Library.Predictions
             var func = Function.GetFunction();
             return func(Output);
         }
-        public void Update(double adjustment)
-        {
-            for (int i = 0; i < DeltaB.Count(); i++)
-            {
-                if (DeltaB[i] == double.PositiveInfinity || DeltaB[i] == double.NegativeInfinity)
-                {
-                    if (DeltaB[i] == double.PositiveInfinity)
-                        this.Biases[i] -= adjustment;
-                    else
-                        this.Biases[i] += adjustment;
-                }
-                else
-                {
-                    if (!double.IsNaN(DeltaB[i]))
-                        this.Biases[i] -= (adjustment * DeltaB[i]);
-                }
-            }
-            for (int i = 0; i < Weights.GetLength(0); i++)
-            {
-                for (int j = 0; j < Weights.GetLength(1); j++)
-                {
-                    if (DeltaW[i, j] == double.PositiveInfinity || DeltaW[i, j] == double.NegativeInfinity)
-                    {
-                        if (DeltaW[i, j] == double.PositiveInfinity)
-                            this.Weights[i, j] -= adjustment;
-                        else
-                            this.Weights[i, j] += adjustment;
-                    }
-                    else
-                    {
-                        if (!double.IsNaN(DeltaW[i, j]))
-                            this.Weights[i, j] -= (adjustment * DeltaW[i, j]);
-                    }
-                }
-            }
-            this.DeltaW = new double[Weights.GetLength(0), Weights.GetLength(1)];
-            this.DeltaB = new double[Biases.Count()];
-        }
-
-        #region CostFunctions
-        //DActivation ALWAYS needs to equal number of nodes = number of Biases
-            /*
-        public double[] DActivation(double[] dvalues, double[] output)
-        {
-            var function = Function.InvertFunction();
-            var deriv = function(dvalues, output);
-            return deriv;
-        }
-        public void DBiases(double[] dvalues)
-        {
-            DeltaB.Add(dvalues);
-        }
-        public void DWeights(double[] dvalues, double[] inputs)
-        {
-            for(int i = 0; i < DeltaW.GetLength(0); i++)
-            {
-                for(int j = 0; j < DeltaW.GetLength(1); j++)
-                {
-                    DeltaW[i, j] += inputs[j] * dvalues[i];
-                }
-            }
-        }
-        public double[] DInputs(double[] dvalues)
-        {
-            double[] result = new double[Weights.GetLength(1)];
-            for(int i = 0; i < this.Weights.GetLength(0); i++)
-            {
-                for(int j = 0; j < this.Weights.GetLength(1); j++)
-                {
-                    result[j] += dvalues[i] * this.Weights[i, j];
-                }
-            }
-            return result;
-        }
-        */
-        #endregion
     }
 }

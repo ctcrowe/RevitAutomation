@@ -12,7 +12,21 @@ namespace CC_Library.Predictions
         public NetworkMem(NeuralNetwork net)
         {
             this.Layers = new List<LayerMem>();
-            Parallel.For(0, net.Layers.Count, i => Layers[i] = new LayerMem(net.Layers[i]));
+            
+            for(int i = 0; i < net.Layers.Count(); i++)
+            {
+                Layers.Add(new LayerMem(net.Layers[i]));
+            }
+            //Parallel.For(0, net.Layers.Count(), i => Layers[i] = new LayerMem(net.Layers[i]));
+        }
+        internal void Update(int RunSize, double ChangeSize, NeuralNetwork Net)
+        {
+            Parallel.For(0, this.Layers.Count(), j =>
+            {
+                this.Layers[j].DeltaB.Divide(RunSize);
+                this.Layers[j].DeltaW.Divide(RunSize);
+                this.Layers[j].Update(Net.Layers[j], ChangeSize);
+            });
         }
     }
     internal class LayerMem
@@ -50,7 +64,7 @@ namespace CC_Library.Predictions
             }
             return result;
         }
-        public void Update(Layer layer)
+        public void Update(Layer layer, double adjustment)
         {
             for (int i = 0; i < DeltaB.Count(); i++)
             {
@@ -63,7 +77,7 @@ namespace CC_Library.Predictions
                 }
                 else
                 {
-                    if (!double.IsNaN(lm.DeltaB[i]))
+                    if (!double.IsNaN(DeltaB[i]))
                         layer.Biases[i] -= (adjustment * DeltaB[i]);
                 }
             }
@@ -85,7 +99,7 @@ namespace CC_Library.Predictions
                     }
                 }
             }
-            Reset()
+            Reset();
         }
         public void Reset()
         {

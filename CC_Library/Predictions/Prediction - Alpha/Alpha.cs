@@ -51,13 +51,13 @@ namespace CC_Library.Predictions
             var output = Multiply(loc, am.GlobalContextOutputs);
             return output;
         }
-        public void Backward(string s, double[] DValues, LocalContext context, AlphaMem am, NetworkMem mem, WriteToCMDLine write)
+        public void Backward(string s, double[] DValues, LocalContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem, WriteToCMDLine write)
         {
             char[] chars = GetChars(s);
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
-            context.Backward(DValues, chars.Count(), am, write);
+            context.Backward(DValues, chars.Count(), am, CtxtMem, write);
             Parallel.For(0, chars.Count(), j =>
             {
                 var ldv = LocDValues[j];
@@ -66,7 +66,7 @@ namespace CC_Library.Predictions
                     ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
                     mem.Layers[i].DBiases(ldv);
                     mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i]);
-                    ldv = mem.Layers[i].DInputs(ldv);
+                    ldv = mem.Layers[i].DInputs(ldv, Location.Layers[i]);
                 }
             });
         }

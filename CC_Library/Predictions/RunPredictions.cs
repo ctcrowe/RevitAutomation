@@ -34,9 +34,6 @@ namespace CC_Library.Predictions
                         case Datatype.Masterformat:
                             MasterformatNetwork.Propogate(filepath, write);
                             break;
-                        case Datatype.Div8Type:
-                            Div8TypeNetwork.Propogate(filepath, write);
-                            break;
                         case Datatype.Dictionary:
                             DictionaryNetwork.Propogate(filepath, write);
                             break;

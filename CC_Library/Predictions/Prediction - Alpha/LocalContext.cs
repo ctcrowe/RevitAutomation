@@ -41,9 +41,9 @@ namespace CC_Library.Predictions
                     try
                     {
                         cdv = mem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1]);
-                        memLayers[i].DBiases(cdv);
+                        mem.Layers[i].DBiases(cdv);
                         mem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i]);
-                        cdv = mem.Layers[i].DInputs(cdv);
+                        cdv = mem.Layers[i].DInputs(cdv, Network.Layers[i]);
                     }
                     catch
                     {

@@ -29,6 +29,9 @@ namespace CC_Library.Predictions
            Alpha a,
            LocalContext lctxt,
            Accuracy acc,
+           NetworkMem AlphaMem,
+           NetworkMem CtxtMem,
+           NetworkMem DMem,
            WriteToCMDLine write
            )
         {
@@ -55,12 +58,12 @@ namespace CC_Library.Predictions
 
             for (int l = d.Network.Layers.Count() - 1; l >= 0; l--)
             {
-                DValues = d.Network.Layers[l].DActivation(DValues, Results[l + 1]);
-                d.Network.Layers[l].DBiases(DValues);
-                d.Network.Layers[l].DWeights(DValues, Results[l]);
-                DValues = d.Network.Layers[l].DInputs(DValues);
+                DValues = DMem.Layers[l].DActivation(DValues, Results[l + 1]);
+                DMem.Layers[l].DBiases(DValues);
+                DMem.Layers[l].DWeights(DValues, Results[l]);
+                DValues = DMem.Layers[l].DInputs(DValues, d.Network.Layers[l]);
             }
-            a.Backward(input, DValues, lctxt, am, write);
+            a.Backward(input, DValues, lctxt, am, AlphaMem, CtxtMem, write);
         }
 
         internal static void Propogate
@@ -70,6 +73,9 @@ namespace CC_Library.Predictions
             DictionaryNetwork dict = new DictionaryNetwork(write);
             Alpha a = new Alpha(write);
             LocalContext lctxt = new LocalContext(Datatype.Dictionary, write);
+            NetworkMem AlphaMem = new NetworkMem(a.Location);
+            NetworkMem DictMem = new NetworkMem(dict.Network);
+            NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
             Random random = new Random();
             string[] Lines = Words.ToArray();
 
@@ -92,15 +98,15 @@ namespace CC_Library.Predictions
                     {
                         if (i + j < numbers.Count())
                         {
-                            SamplePropogate(Lines[numbers[i + j]], numbers[i + j], dict, a, lctxt, acc, write);
+                            SamplePropogate(Lines[numbers[i + j]], numbers[i + j], dict, a, lctxt, acc, AlphaMem, CtxtMem, DictMem, write);
                             samples++;
                         }
                     });
                     if (cycles > 1)
                     {
-                        dict.Network.Update(RunSize, 0.1);
-                        //a.Location.Update(RunSize, 0.00001);
-                        lctxt.Network.Update(RunSize, 0.1);
+                        DictMem.Update(RunSize, 0.1, dict.Network);
+                        CtxtMem.Update(RunSize, 0.1, lctxt.Network);
+                        //AlphaMem.UpdatE(RunSize, 0.00001, a.Location);
                     }
                     write("Samples Run : " + samples + " : Cycles : " + cycles + " : Epochs : " + epochs);
                     acc.Show(write);
