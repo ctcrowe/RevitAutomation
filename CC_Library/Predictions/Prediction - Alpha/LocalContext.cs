@@ -24,8 +24,7 @@ namespace CC_Library.Predictions
         //This is always 0 or 1... need to fix UPDATE: I think this is fixed. Build and confirm tonight.
         public double Contextualize(char[] phrase, int c, AlphaMem am)
         {
-            var result = Locate(phrase, c);
-            am.LocalContextOutputs[c].Add(result);
+            am.LocalContextOutputs[c].Add(Locate(phrase, c));
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 am.LocalContextOutputs[c].Add(Network.Layers[i].Output(am.LocalContextOutputs[c].Last()));
