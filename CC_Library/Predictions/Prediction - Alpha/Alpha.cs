@@ -44,7 +44,7 @@ namespace CC_Library.Predictions
             {
                 var location = Locate(chars, j);
                 loc.SetRank(location, j);
-                ctxt[j] = context.Contextualize(chars, j, am);
+                ctxt[j] = context.Contextualize(chars, j);
             });
             var output = Multiply(loc, Activations.SoftMax(ctxt));
             return output;
