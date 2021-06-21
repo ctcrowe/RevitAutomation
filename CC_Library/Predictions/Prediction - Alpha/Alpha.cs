@@ -33,8 +33,21 @@ namespace CC_Library.Predictions
         {
             Alpha a = new Alpha(Delegates.WriteNull);
             LocalContext context = new LocalContext(dt, Delegates.WriteNull);
-            AlphaMem am = new AlphaMem(s.ToCharArray());
-            return a.Forward(s, context, am, Delegates.WriteNull);
+            return a.Forward(s, context, Delegates.WriteNull);
+        }
+        public double[] Forward(string s, LocalContext context, WriteToCMDLine write)
+        {
+            char[] chars = GetChars(s);
+            double[] ctxt = new double[chars.Count()];
+            double[,] loc = new double[chars.Count(), DictSize];
+            Parallel.For(0, chars.Count(), j =>
+            {
+                var location = Locate(chars, j);
+                loc.SetRank(location, j);
+                ctxt[j] = context.Contextualize(chars, j, am);
+            });
+            var output = Multiply(loc, Activations.SoftMax(ctxt));
+            return output;
         }
         public double[] Forward(string s, LocalContext context, AlphaMem am, WriteToCMDLine write)
         {
@@ -83,7 +96,15 @@ namespace CC_Library.Predictions
 
             return a;
         }
-
+        private double[] Locate(char[] c, int numb)
+        {
+            double[] a = GetLocation(c, numb);
+            for (int i = 0; i < Location.Layers.Count(); i++)
+            {
+                a = Location.Layers[i].Output(a);
+            }
+            return a;
+        }
         public NeuralNetwork Location { get; }
 
         public static string GenerateTypo(string input, Random r, int ErrorCount = 2)
