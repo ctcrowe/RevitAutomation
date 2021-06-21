@@ -8,16 +8,12 @@ namespace CC_Library.Predictions
 {
     internal class NetworkMem
     {
-        public List<LayerMem> Layers { get; set; }
+        public LayerMem[] Layers { get; set; }
         public NetworkMem(NeuralNetwork net)
         {
-            this.Layers = new List<LayerMem>();
+            this.Layers = new LayerMem[net.Layers.Count()];
             
-            for(int i = 0; i < net.Layers.Count(); i++)
-            {
-                Layers.Add(new LayerMem(net.Layers[i]));
-            }
-            //Parallel.For(0, net.Layers.Count(), i => Layers[i] = new LayerMem(net.Layers[i]));
+            Parallel.For(0, net.Layers.Count(), i => Layers[i] = new LayerMem(net.Layers[i]));
         }
         internal void Update(int RunSize, double ChangeSize, NeuralNetwork Net)
         {
