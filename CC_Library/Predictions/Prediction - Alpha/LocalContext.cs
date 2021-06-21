@@ -8,19 +8,20 @@ using CC_Library.Predictions;
 
 namespace CC_Library.Predictions
 {
-    internal class LocalContext
+    internal class AlphaContext
     {
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
-        internal LocalContext(Datatype dt, WriteToCMDLine write)
+        internal AlphaContext(Datatype dt, WriteToCMDLine write)
         {
             datatype = dt;
-            Network = Datatype.LocalContext.LoadSpecialNetwork(dt, write);
+            Network = Datatype.AlphaContext.LoadSpecialNetwork(dt, write);
         }
         public void Save()
         {
             Network.Save(datatype);
         }
+        //This is always 0 or 1... need to fix UPDATE: I think this is fixed. Build and confirm tonight.
         public double Contextualize(char[] phrase, int c, AlphaMem am)
         {
             var result = Locate(phrase, c);
@@ -28,6 +29,15 @@ namespace CC_Library.Predictions
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 am.LocalContextOutputs[c].Add(Network.Layers[i].Output(am.LocalContextOutputs[c].Last()));
+            }
+            return am.LocalContextOutputs[c].Last().First();
+        }
+        public double Contextualize(char[] phrase, int c)
+        {
+            var result = Locate(phrase, c);
+            for (int i = 0; i < Network.Layers.Count(); i++)
+            {
+                result = Network.Layers[i].Output(result);
             }
             return result.First();
         }
