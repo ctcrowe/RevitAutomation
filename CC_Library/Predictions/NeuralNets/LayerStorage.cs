@@ -12,7 +12,6 @@ namespace CC_Library.Predictions
         public NetworkMem(NeuralNetwork net)
         {
             this.Layers = new LayerMem[net.Layers.Count()];
-            
             Parallel.For(0, net.Layers.Count(), i => Layers[i] = new LayerMem(net.Layers[i]));
         }
         internal void Update(int RunSize, double ChangeSize, NeuralNetwork Net)
