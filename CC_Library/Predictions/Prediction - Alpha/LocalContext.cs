@@ -21,7 +21,7 @@ namespace CC_Library.Predictions
         {
             Network.Save(datatype);
         }
-        //This is always 0 or 1... need to fix UPDATE: I think this is fixed. Build and confirm tonight.
+        //This was previously always returning 0 accept A's returned as 1... I think this is fixed. Build and confirm tonight.
         public double Contextualize(char[] phrase, int c, AlphaMem am)
         {
             am.LocalContextOutputs[c].Add(Locate(phrase, c));
