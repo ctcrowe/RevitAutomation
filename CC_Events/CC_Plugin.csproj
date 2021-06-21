@@ -78,7 +78,7 @@
     <Compile Include="GetParameter.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
-    <Compile Include="Automation\RefPlanes\RefPlaneDetailCollector.cs" />
+    <Compile Include="Automation\RefPlanes\RefPlaneTypeUpdater.cs" />
     <Compile Include="Automation\RefPlanes\PlaneTypeUpdater.cs" />
     <Compile Include="Categories\CC_CCcategory.cs" />
     <Compile Include="CC_LoadFamilies.cs" />
