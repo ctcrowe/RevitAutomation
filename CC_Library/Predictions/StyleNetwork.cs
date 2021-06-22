@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public ObjectStyleNetwork(WriteToCMDLine write)
         {
-            Network = Datatype..LoadNetwork(write);
+            Network = Datatype.ObjectStyle.LoadNetwork(write);
         }
         public static int[] Predict(string s)
         {
@@ -106,7 +106,7 @@ namespace CC_Library.Predictions
             (string filepath,
             WriteToCMDLine write)
         {
-            ObjectStyleNetwork mf = new ObjectStyleNetwork(write);
+            ObjectStyleNetwork net = new ObjectStyleNetwork(write);
             Alpha a = new Alpha(write);
             AlphaContext lctxt = new AlphaContext(Datatype.Masterformat, write);
             NetworkMem OBJMem = new NetworkMem(net.Network);
@@ -183,7 +183,7 @@ namespace CC_Library.Predictions
         public static void ActivePropogate
             (List<string> LineList)
         {
-            MasterformatNetwork mf = new MasterformatNetwork(WriteNull);
+            ObjectStyleNetwork net = new ObjectStyleNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
             AlphaContext lctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
             NetworkMem MFMem = new NetworkMem(mf.Network);
