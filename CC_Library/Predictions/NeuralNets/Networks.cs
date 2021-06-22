@@ -13,8 +13,6 @@ namespace CC_Library.Predictions
                 default:
                 case Datatype.Masterformat:
                     return MFNetwork();
-                case Datatype.Div8Type:
-                    return Div8TypeNetwork();
                 case Datatype.Alpha:
                     return AlphaNetwork();
                 case Datatype.AlphaContext:
@@ -23,8 +21,6 @@ namespace CC_Library.Predictions
                     return DictNetwork();
             }
         }
-
-
         private static NeuralNetwork AlphaNetwork()
         {
             NeuralNetwork network = new NeuralNetwork();
@@ -34,16 +30,6 @@ namespace CC_Library.Predictions
             network.Datatype = Datatype.Alpha;
             return network;
         }
-        /*
-        private static NeuralNetwork LocalContextNetwork()
-        {
-            NeuralNetwork network = new NeuralNetwork();
-            network.Layers.Add(new Layer(Alpha.CharCount(), Alpha.CharCount() * Alpha.SearchSize, Activation.LRelu));
-            network.Layers.Add(new Layer(Alpha.CharCount(), network.Layers.Last(), Activation.LRelu));
-            network.Layers.Add(new Layer(1, network.Layers.Last(), Activation.LRelu));
-            network.Datatype = Datatype.LocalContext;
-            return network;
-        }*/
         private static NeuralNetwork AlphaContextNetwork()
         {
             NeuralNetwork network = new NeuralNetwork();
@@ -62,7 +48,6 @@ namespace CC_Library.Predictions
 
             return network;
         }
-        #region Div8
         private static NeuralNetwork MFNetwork()
         {
             NeuralNetwork network = new NeuralNetwork();
@@ -74,25 +59,16 @@ namespace CC_Library.Predictions
 
             return network;
         }
-        /// <summary>
-        /// Types Are
-        /// 0 - Door
-        /// 1 - Window
-        /// 2 - Other
-        /// 3 - Subtype
-        /// </summary>
-        /// <returns></returns>
-        private static NeuralNetwork Div8TypeNetwork()
+        private static NeuralNetwork ObjectStyleNetwork()
         {
             NeuralNetwork network = new NeuralNetwork();
 
             network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last(), Activation.LRelu));
-            network.Layers.Add(new Layer(4, network.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
-            network.Datatype = Datatype.Div8Type;
+            network.Layers.Add(new Layer(40, network.Layers.Last(), Activation.Sigmoid));
+            network.Datatype = Datatype.ObjectStyle;
 
             return network;
         }
-        #endregion
     }
 }
