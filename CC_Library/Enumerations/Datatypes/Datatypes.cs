@@ -29,21 +29,13 @@
         Dictionary,
         Alpha,
         AlphaContext,
-        AlphaLocation,
-        GlobalContext,
-        Beta,
         Masterformat,
-        Div8Type,
         OccupantLoadFactor,
         StudLayer,
         OccupancyGroup,
+        ObjectStyle,
         ObjectCategory,
-        RequiredFamilies,
         Subcategory,
-        RoomPrivacy,
-        Keynote,
-        Boundary,
-        Elevation,
-        Pointer
+        RoomPrivacy
     }
 }
