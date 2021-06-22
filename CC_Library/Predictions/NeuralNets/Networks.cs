@@ -19,6 +19,8 @@ namespace CC_Library.Predictions
                     return AlphaContextNetwork();
                 case Datatype.Dictionary:
                     return DictNetwork();
+                case Datatype.ObjectStles:
+                    return ObjectStyleNetwork();
             }
         }
         private static NeuralNetwork AlphaNetwork()
