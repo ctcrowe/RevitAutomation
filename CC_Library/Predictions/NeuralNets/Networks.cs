@@ -30,7 +30,7 @@ namespace CC_Library.Predictions
             NeuralNetwork network = new NeuralNetwork();
             network.Layers.Add(new Layer(Alpha.DictSize, 3 * Alpha.CharCount(), Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last(), Activation.Linear));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             network.Datatype = Datatype.Alpha;
             return network;
         }
@@ -56,8 +56,8 @@ namespace CC_Library.Predictions
             NeuralNetwork network = new NeuralNetwork();
 
             network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.ReLu));
-            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last(), Activation.LRelu));
-            network.Layers.Add(new Layer(Enum.GetNames(typeof(Dict)).GetLength(0), network.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+            network.Layers.Add(new Layer(Enum.GetNames(typeof(Dict)).GetLength(0), network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             network.Datatype = Datatype.Dictionary;
 
             return network;
