@@ -53,8 +53,8 @@ namespace CC_Library.Predictions
             NeuralNetwork network = new NeuralNetwork();
 
             network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
-            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last(), Activation.LRelu));
-            network.Layers.Add(new Layer(40, network.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+            network.Layers.Add(new Layer(40, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             network.Datatype = Datatype.Masterformat;
 
             return network;
@@ -64,8 +64,8 @@ namespace CC_Library.Predictions
             NeuralNetwork network = new NeuralNetwork();
 
             network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
-            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last(), Activation.LRelu));
-            network.Layers.Add(new Layer(40, network.Layers.Last(), Activation.Sigmoid));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+            network.Layers.Add(new Layer(40, network.Layers.Last().Weights.GetLength(0), Activation.Sigmoid));
             network.Datatype = Datatype.ObjectStyle;
 
             return network;
