@@ -65,7 +65,7 @@ namespace CC_Library.Predictions
 
             network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-            network.Layers.Add(new Layer(40, network.Layers.Last().Weights.GetLength(0), Activation.Sigmoid));
+            network.Layers.Add(new Layer(Enum.GetNames(typeof(ObjectStyles).Count(), network.Layers.Last().Weights.GetLength(0), Activation.Sigmoid));
             network.Datatype = Datatype.ObjectStyle;
 
             return network;
