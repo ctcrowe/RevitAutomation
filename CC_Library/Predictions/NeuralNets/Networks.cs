@@ -17,8 +17,8 @@ namespace CC_Library.Predictions
                     return Div8TypeNetwork();
                 case Datatype.Alpha:
                     return AlphaNetwork();
-                case Datatype.LocalContext:
-                    return LocalContextNetwork();
+                case Datatype.AlphaContext:
+                    return AlphaContextNetwork();
                 case Datatype.Dictionary:
                     return DictNetwork();
             }
@@ -44,11 +44,11 @@ namespace CC_Library.Predictions
             network.Datatype = Datatype.LocalContext;
             return network;
         }*/
-        private static NeuralNetwork LocalContextNetwork()
+        private static NeuralNetwork AlphaContextNetwork()
         {
             NeuralNetwork network = new NeuralNetwork();
             network.Layers.Add(new Layer(1, Alpha.CharCount() * Alpha.SearchSize, Activation.Linear));
-            network.Datatype = Datatype.LocalContext;
+            network.Datatype = Datatype.AlphaContext;
             return network;
         }
         private static NeuralNetwork DictNetwork()

@@ -32,10 +32,10 @@ namespace CC_Library.Predictions
         public static double[] Predict(Datatype dt, string s)
         {
             Alpha a = new Alpha(Delegates.WriteNull);
-            LocalContext context = new LocalContext(dt, Delegates.WriteNull);
+            AlphaContext context = new AlphaContext(dt, Delegates.WriteNull);
             return a.Forward(s, context, Delegates.WriteNull);
         }
-        public double[] Forward(string s, LocalContext context, WriteToCMDLine write)
+        public double[] Forward(string s, AlphaContext context, WriteToCMDLine write)
         {
             char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
@@ -49,7 +49,7 @@ namespace CC_Library.Predictions
             var output = Multiply(loc, Activations.SoftMax(ctxt));
             return output;
         }
-        public double[] Forward(string s, LocalContext context, AlphaMem am, WriteToCMDLine write)
+        public double[] Forward(string s, AlphaContext context, AlphaMem am, WriteToCMDLine write)
         {
             char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
@@ -64,7 +64,7 @@ namespace CC_Library.Predictions
             var output = Multiply(loc, am.GlobalContextOutputs);
             return output;
         }
-        public void Backward(string s, double[] DValues, LocalContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem, WriteToCMDLine write)
+        public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem, WriteToCMDLine write)
         {
             char[] chars = GetChars(s);
             var LocDValues = am.DLocation(DValues);

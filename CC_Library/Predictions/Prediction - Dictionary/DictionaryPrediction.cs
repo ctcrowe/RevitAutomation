@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
            int lineno,
            DictionaryNetwork d,
            Alpha a,
-           LocalContext lctxt,
+           AlphaContext lctxt,
            Accuracy acc,
            NetworkMem AlphaMem,
            NetworkMem CtxtMem,
@@ -72,7 +72,7 @@ namespace CC_Library.Predictions
         {
             DictionaryNetwork dict = new DictionaryNetwork(write);
             Alpha a = new Alpha(write);
-            LocalContext lctxt = new LocalContext(Datatype.Dictionary, write);
+            AlphaContext lctxt = new AlphaContext(Datatype.Dictionary, write);
             NetworkMem AlphaMem = new NetworkMem(a.Location);
             NetworkMem DictMem = new NetworkMem(dict.Network);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);

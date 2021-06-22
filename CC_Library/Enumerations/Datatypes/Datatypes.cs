@@ -28,7 +28,7 @@
     {
         Dictionary,
         Alpha,
-        LocalContext,
+        AlphaContext,
         AlphaLocation,
         GlobalContext,
         Beta,

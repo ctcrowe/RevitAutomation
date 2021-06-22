@@ -60,7 +60,7 @@ namespace CC_Library.Predictions
             Random r,
             MasterformatNetwork mf,
             Alpha a,
-            LocalContext lctxt,
+            AlphaContext lctxt,
             Accuracy acc,
             bool tf,
             NetworkMem AlphaMem,
@@ -108,7 +108,7 @@ namespace CC_Library.Predictions
         {
             MasterformatNetwork mf = new MasterformatNetwork(write);
             Alpha a = new Alpha(write);
-            LocalContext lctxt = new LocalContext(Datatype.Masterformat, write);
+            AlphaContext lctxt = new AlphaContext(Datatype.Masterformat, write);
             NetworkMem MFMem = new NetworkMem(mf.Network);
             NetworkMem AlphaMem = new NetworkMem(a.Location);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
@@ -185,7 +185,7 @@ namespace CC_Library.Predictions
         {
             MasterformatNetwork mf = new MasterformatNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
-            LocalContext lctxt = new LocalContext(Datatype.Masterformat, WriteNull);
+            AlphaContext lctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
             NetworkMem MFMem = new NetworkMem(mf.Network);
             NetworkMem AlphaMem = new NetworkMem(a.Location);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
