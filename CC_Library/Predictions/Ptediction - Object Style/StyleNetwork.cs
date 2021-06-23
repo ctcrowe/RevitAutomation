@@ -54,7 +54,8 @@ namespace CC_Library.Predictions
         }
         internal static void SamplePropogate
             (
-            string line,
+            string Name,
+            double[] Numbers,
             int lineno,
             Random r,
             ObjectStyleNetwork net,
@@ -68,7 +69,6 @@ namespace CC_Library.Predictions
             WriteToCMDLine write
             )
         {
-            string input = line.Split(',')[1];
             AlphaMem am = new AlphaMem(input.ToCharArray());
 
             List<double[]> Results = new List<double[]>();
@@ -179,8 +179,8 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        public static void ActivePropogate
-            (List<string> LineList)
+        public static void SinglePropogate
+            (string Name, double[] Numbers)
         {
             ObjectStyleNetwork net = new ObjectStyleNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
@@ -189,24 +189,11 @@ namespace CC_Library.Predictions
             NetworkMem AlphaMem = new NetworkMem(a.Location);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
 
-            net.Network.Save();
-            a.Location.Save();
-            lctxt.Save();
-
             Random random = new Random();
             var Lines = LineList.ToArray();
             var acc = new Accuracy(Lines);
-            int[] numbs = new int[Lines.Count()];
-            for (int i = 0; i < numbs.Count(); i++)
-                numbs[i] = i;
-            int cycles = 0;
 
-            while (acc.Acc < 0.999 && cycles < 5)
-            {
-                var numbers = numbs.OrderBy(x => random.Next()).ToList();
-
-                for (int i = 0; i < Lines.Count(); i += RunSize)
-                {
+            SamplePropogate(
                     Parallel.For(0, RunSize, j =>
                     {
                         if (i + j < numbers.Count())
@@ -220,8 +207,6 @@ namespace CC_Library.Predictions
                 }
                 acc.SetAcc();
                 var output = acc.Get();
-                cycles++;
-            }
             net.Network.Save();
             a.Location.Save();
             lctxt.Save();
