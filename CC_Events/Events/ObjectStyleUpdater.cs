@@ -28,6 +28,8 @@ namespace CC_Plugin
         }
         public void Execute(UpdaterData data)
         {
+            if(data.Document.IsFamilyDocument)
+                TaskDialog.Show("Test", "A Sweep has been updated!");
         }
         public ObjStyleUpdater(AddInId id)
         {
