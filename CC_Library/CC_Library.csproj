@@ -86,6 +86,7 @@
     <Compile Include="Predictions\Prediction - Alpha\AlphaMem.cs" />
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
     <Compile Include="Predictions\Prediction - Masterformat\MasterformatNetwork.cs" />
+    <Compile Include="Predictions\Ptediction - Object Style\StyleNetwork.cs" />
     <Compile Include="Predictions\RevisePredictions.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
