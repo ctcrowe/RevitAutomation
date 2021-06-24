@@ -45,6 +45,8 @@ namespace CC_Plugin
                     //Get form location info (Varies by type?)
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
+                        Element ele = doc.GetElement(e);
+                        
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
                     }
