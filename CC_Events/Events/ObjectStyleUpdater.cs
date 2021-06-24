@@ -33,6 +33,29 @@ namespace CC_Plugin
                 new ElementClassFilter(typeof(GenericForm)),
                 Element.GetChangeTypeAny());
         }
+        private double[] GetDims(BoundingBox bbox)
+        {
+            double[] dims = new double[18];
+            dims[0] = bbox.Min.X;
+            dims[1] = bbox.Min.Y;
+            dims[2] = bbox.Min.Z;
+            dims[3] = bbox.Max.X;
+            dims[4] = bbox.Max.Y;
+            dims[5] = bbox.Max.Z;
+            dims[6] = bbox.Transform.BasisX.X;
+            dims[7] = bbox.Transform.BasisX.Y;
+            dims[8] = bbox.Transform.BasisX.Z;
+            dims[9] = bbox.Transform.BasisY.X;
+            dims[10] = bbox.Transform.BasisY.Y;
+            dims[11] = bbox.Transform.BasisY.Z;
+            dims[12] = bbox.Transform.BasisZ.X;
+            dims[13] = bbox.Transform.BasisZ.Y;
+            dims[14] = bbox.Transform.BasisZ.Z;
+            dims[15] = bbox.Transform.Origin.X;
+            dims[16] = bbox.Transform.Origin.Y;
+            dims[17] = bbox.Transform.Origin.Z;
+            return dims;
+        }
         public void Execute(UpdaterData data)
         {
             Document doc = data.GetDocument();
@@ -46,21 +69,8 @@ namespace CC_Plugin
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
                         Element ele = doc.GetElement(e);
+                        var dims = GetDims(ele.BoundingBox);
                         var bbox = ele.BoundingBox;
-                        double MinX = bbox.Min.X;
-                        double MinY = bbox.Min.Y;
-                        double MinZ = bbox.Min.Z;
-                        double MaxX = bbox.Max.X;
-                        double MaxY = bbox.Max.Y;
-                        double MaxZ = bbox.Max.Z;
-                        /*
-                        Transform t = bbox.Transform
-                        var basX = t.BasisX;   //get as doubles X and Y and Z;
-                        var basY = t.BasisY;   //get as doubles X and Y and Z;
-                        var basZ = t.BasisZ;   //get as doubles X and Y and Z;
-                        var Orig = t.Origin;   //get as doubles X and Y and Z;
-                        
-                        */
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
                     }
