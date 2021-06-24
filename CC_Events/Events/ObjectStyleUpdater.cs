@@ -56,6 +56,15 @@ namespace CC_Plugin
             dims[17] = bbox.Transform.Origin.Z;
             return dims;
         }
+        private double[] SetArray(double[] a, XYZ pt, int s)
+        {
+            if(a.Count() >= s + 3)
+            {
+                a[s] = pt.X;
+                a[s + 1] = pt.Y;
+                a[s + 2] = pt.Z;
+            }
+        }
         public void Execute(UpdaterData data)
         {
             Document doc = data.GetDocument();
