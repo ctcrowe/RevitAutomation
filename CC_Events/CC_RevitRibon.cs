@@ -42,6 +42,7 @@ namespace CC_Plugin
                 TypeNamingUpdater.OnStartup(uiApp);
                 DocumentSaved.OnStartup(uiApp);
                 PlaneTypeUpdater.OnStartup(uiApp);
+                ObjStyleUpdater.OnStartup(uiApp);
                 #region IUpdaters
                 //MaterialLibrary.OnStartup(uiApp);
                 #endregion
@@ -69,6 +70,7 @@ namespace CC_Plugin
             TypeNamingUpdater.OnShutdown(uiApp);
             DocumentSaved.OnShutdown(uiApp);
             PlaneTypeUpdater.OnShutdown(uiApp);
+            ObjStyleUpdater.OnShutdown(uiApp);
             #region IUpdaters
             //MaterialLibrary.OnShutdown(uiApp);
             #endregion

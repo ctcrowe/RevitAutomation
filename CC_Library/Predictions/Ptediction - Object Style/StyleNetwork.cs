@@ -69,10 +69,11 @@ namespace CC_Library.Predictions
             WriteToCMDLine write
             )
         {
+            /*
             AlphaMem am = new AlphaMem(input.ToCharArray());
 
             List<double[]> Results = new List<double[]>();
-            Results.Add(a.Forward(input, lctxt, am, write));
+            //Results.Add(a.Forward(input, lctxt, am, write));
 
             for (int k = 0; k < net.Network.Layers.Count(); k++)
             {
@@ -80,13 +81,13 @@ namespace CC_Library.Predictions
             }
 
             int choice = Results.Last().ToList().IndexOf(Results.Last().Max());
-            int correct = int.Parse(line.Split(',').Last());
+            //int correct = int.Parse(line.Split(',').Last());
 
             double[] res = new double[40];
-            res[correct] = 1;
+            //res[correct] = 1;
             var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
 
-            acc.Add(input, lineno, Results.Last()[correct], result.Sum(), choice);
+            //acc.Add(input, lineno, Results.Last()[correct], result.Sum(), choice);
             if (tf)
             {
                 var DValues = res;
@@ -98,8 +99,9 @@ namespace CC_Library.Predictions
                     ObjMem.Layers[l].DWeights(DValues, Results[l]);
                     DValues = ObjMem.Layers[l].DInputs(DValues, net.Network.Layers[l]);
                 }
-                a.Backward(input, DValues, lctxt, am, AlphaMem, CtxtMem, write);
+                //a.Backward(input, DValues, lctxt, am, AlphaMem, CtxtMem, write);
             }
+            */
         }
         internal static void Propogate
             (string filepath,
@@ -151,7 +153,7 @@ namespace CC_Library.Predictions
                         {
                             if (i + j < numbers.Count())
                             {
-                                SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, net, a, lctxt, acc, epochs > 0, AlphaMem, CtxtMem, OBJMem, write);
+                                //SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, net, a, lctxt, acc, epochs > 0, AlphaMem, CtxtMem, OBJMem, write);
                                 samples++;
                             }
                         });
@@ -190,23 +192,15 @@ namespace CC_Library.Predictions
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
 
             Random random = new Random();
-            var Lines = LineList.ToArray();
-            var acc = new Accuracy(Lines);
+            //var acc = new Accuracy(Lines);
 
-            SamplePropogate(
-                    Parallel.For(0, RunSize, j =>
-                    {
-                        if (i + j < numbers.Count())
-                        {
-                            SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, net, a, lctxt, acc, true, AlphaMem, CtxtMem, OBJMem, WriteNull);
-                        }
-                    });
-                    OBJMem.Update(RunSize, 0.0001, net.Network);
-                    AlphaMem.Update(RunSize, 0.0001, a.Location);
-                    CtxtMem.Update(RunSize, 0.0001, lctxt.Network);
-                }
-                acc.SetAcc();
-                var output = acc.Get();
+
+            //SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, net, a, lctxt, acc, true, AlphaMem, CtxtMem, OBJMem, WriteNull);
+            OBJMem.Update(RunSize, 0.0001, net.Network);
+            AlphaMem.Update(RunSize, 0.0001, a.Location);
+            CtxtMem.Update(RunSize, 0.0001, lctxt.Network);
+            //acc.SetAcc();
+            //var output = acc.Get();
             net.Network.Save();
             a.Location.Save();
             lctxt.Save();

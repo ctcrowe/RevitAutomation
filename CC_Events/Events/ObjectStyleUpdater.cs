@@ -15,21 +15,47 @@ namespace CC_Plugin
     internal class ObjStyleUpdater : IUpdater
     {
         public static Result OnStartup(UIControlledApplication app)
-        { return Result.Succeeded; }
+        {
+            RegisterUpdater(app.ActiveAddInId);
+            return Result.Succeeded;
+        }
         public static Result OnShutdown(UIControlledApplication app)
-        { return Result.Succeeded; }
+        {
+            ObjStyleUpdater updater = new ObjStyleUpdater(app.ActiveAddInId);
+            UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
+            return Result.Succeeded;
+        }
         public static void RegisterUpdater(AddInId id)
         {
             ObjStyleUpdater updater = new ObjStyleUpdater(id);
             UpdaterRegistry.RegisterUpdater(updater, true);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
-                new ElementClassFilter(typeof(Sweep)),
+                new ElementClassFilter(typeof(GenericForm)),
                 Element.GetChangeTypeAny());
         }
         public void Execute(UpdaterData data)
         {
-            if(data.Document.IsFamilyDocument)
-                TaskDialog.Show("Test", "A Sweep has been updated!");
+            Document doc = data.GetDocument();
+            if (doc.IsFamilyDocument)
+            {
+                try
+                {
+                    //Get document Name
+                    string name = doc.OwnerFamily.Name;
+                    //Get form location info (Varies by type?)
+                    foreach (ElementId e in data.GetModifiedElementIds())
+                    {
+                        //run info through neural network (slightly larger than mf network.
+                        //update object style parameter
+                    }
+                    //profit
+                }
+                catch(Exception e)
+                {
+                    e.OutputError();
+                }
+            }
+
         }
         public ObjStyleUpdater(AddInId id)
         {
