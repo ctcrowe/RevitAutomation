@@ -36,6 +36,7 @@ namespace CC_Plugin
         private double[] GetDims(BoundingBox bbox)
         {
             double[] dims = new double[18];
+            SetArray(dims, 
             dims[0] = bbox.Min.X;
             dims[1] = bbox.Min.Y;
             dims[2] = bbox.Min.Z;
