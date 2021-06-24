@@ -46,7 +46,7 @@ namespace CC_Plugin
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
                         Element ele = doc.GetElement(e);
-                        
+                        var bbox = ele.BoundingBox;
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
                     }
