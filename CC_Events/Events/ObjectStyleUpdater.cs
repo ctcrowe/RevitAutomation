@@ -36,25 +36,12 @@ namespace CC_Plugin
         private double[] GetDims(BoundingBox bbox)
         {
             double[] dims = new double[18];
-            SetArray(dims, 
-            dims[0] = bbox.Min.X;
-            dims[1] = bbox.Min.Y;
-            dims[2] = bbox.Min.Z;
-            dims[3] = bbox.Max.X;
-            dims[4] = bbox.Max.Y;
-            dims[5] = bbox.Max.Z;
-            dims[6] = bbox.Transform.BasisX.X;
-            dims[7] = bbox.Transform.BasisX.Y;
-            dims[8] = bbox.Transform.BasisX.Z;
-            dims[9] = bbox.Transform.BasisY.X;
-            dims[10] = bbox.Transform.BasisY.Y;
-            dims[11] = bbox.Transform.BasisY.Z;
-            dims[12] = bbox.Transform.BasisZ.X;
-            dims[13] = bbox.Transform.BasisZ.Y;
-            dims[14] = bbox.Transform.BasisZ.Z;
-            dims[15] = bbox.Transform.Origin.X;
-            dims[16] = bbox.Transform.Origin.Y;
-            dims[17] = bbox.Transform.Origin.Z;
+            dims = SetArray(dims, bbox.Min, 0);
+            dims = SetArray(dims, bbox.Max, 3);
+            dims = SetArray(dims, bbox.Transform.BasisX, 6);
+            dims - setArray(dims, bbox.Transform.BasisY, 9);
+            dims - setArray(dims, bbox.Transform.BasisZ, 12);
+            dims - setArray(dims, bbox.Transform.Origin, 15);
             return dims;
         }
         private double[] SetArray(double[] a, XYZ pt, int s)
@@ -65,6 +52,7 @@ namespace CC_Plugin
                 a[s + 1] = pt.Y;
                 a[s + 2] = pt.Z;
             }
+            return a;
         }
         public void Execute(UpdaterData data)
         {
@@ -80,7 +68,12 @@ namespace CC_Plugin
                     {
                         Element ele = doc.GetElement(e);
                         var dims = GetDims(ele.BoundingBox);
-                        var bbox = ele.BoundingBox;
+                        string s = "";
+                        for(int i = 0; i < dims.Count(); i++)
+                        {
+                            s += ", " + dims[i];
+                        {
+                        TaskDialog.Show("Test", s);
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
                     }
