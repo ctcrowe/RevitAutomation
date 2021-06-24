@@ -56,7 +56,7 @@ namespace CC_Library.Predictions
             (
             string Name,
             double[] Numbers,
-            int lineno,
+            int correct,
             Random r,
             ObjectStyleNetwork net,
             Alpha a,
@@ -69,11 +69,10 @@ namespace CC_Library.Predictions
             WriteToCMDLine write
             )
         {
-            /*
             AlphaMem am = new AlphaMem(input.ToCharArray());
 
             List<double[]> Results = new List<double[]>();
-            //Results.Add(a.Forward(input, lctxt, am, write));
+            Results.Add(a.Forward(Name, lctxt, am, write));
 
             for (int k = 0; k < net.Network.Layers.Count(); k++)
             {
@@ -81,9 +80,9 @@ namespace CC_Library.Predictions
             }
 
             int choice = Results.Last().ToList().IndexOf(Results.Last().Max());
-            //int correct = int.Parse(line.Split(',').Last());
-
-            double[] res = new double[40];
+            double[] res = new double[net.Network.Layers.Last().Biases.Count()];
+            if(res.Count() > choice)
+            {
             //res[correct] = 1;
             var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
 
@@ -101,7 +100,7 @@ namespace CC_Library.Predictions
                 }
                 //a.Backward(input, DValues, lctxt, am, AlphaMem, CtxtMem, write);
             }
-            */
+            }
         }
         internal static void Propogate
             (string filepath,
