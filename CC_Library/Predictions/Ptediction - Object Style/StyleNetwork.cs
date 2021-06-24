@@ -81,9 +81,9 @@ namespace CC_Library.Predictions
 
             int choice = Results.Last().ToList().IndexOf(Results.Last().Max());
             double[] res = new double[net.Network.Layers.Last().Biases.Count()];
-            if(res.Count() > choice)
+            if(res.Count() > correct)
             {
-            //res[correct] = 1;
+            res[correct] = 1;
             var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
 
             //acc.Add(input, lineno, Results.Last()[correct], result.Sum(), choice);
