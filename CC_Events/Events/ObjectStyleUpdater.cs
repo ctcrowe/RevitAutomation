@@ -47,6 +47,20 @@ namespace CC_Plugin
                     {
                         Element ele = doc.GetElement(e);
                         var bbox = ele.BoundingBox;
+                        double MinX = bbox.Min.X;
+                        double MinY = bbox.Min.Y;
+                        double MinZ = bbox.Min.Z;
+                        double MaxX = bbox.Max.X;
+                        double MaxY = bbox.Max.Y;
+                        double MaxZ = bbox.Max.Z;
+                        /*
+                        Transform t = bbox.Transform
+                        var basX = t.BasisX;   //get as doubles X and Y and Z;
+                        var basY = t.BasisY;   //get as doubles X and Y and Z;
+                        var basZ = t.BasisZ;   //get as doubles X and Y and Z;
+                        var Orig = t.Origin;   //get as doubles X and Y and Z;
+                        
+                        */
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
                     }
