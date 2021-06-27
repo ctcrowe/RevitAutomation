@@ -33,15 +33,15 @@ namespace CC_Plugin
                 new ElementClassFilter(typeof(GenericForm)),
                 Element.GetChangeTypeAny());
         }
-        private double[] GetDims(BoundingBox bbox)
+        private double[] GetDims(BoundingBoxXYZ bbox)
         {
             double[] dims = new double[18];
             dims = SetArray(dims, bbox.Min, 0);
             dims = SetArray(dims, bbox.Max, 3);
             dims = SetArray(dims, bbox.Transform.BasisX, 6);
-            dims - setArray(dims, bbox.Transform.BasisY, 9);
-            dims - setArray(dims, bbox.Transform.BasisZ, 12);
-            dims - setArray(dims, bbox.Transform.Origin, 15);
+            dims = SetArray(dims, bbox.Transform.BasisY, 9);
+            dims = SetArray(dims, bbox.Transform.BasisZ, 12);
+            dims = SetArray(dims, bbox.Transform.Origin, 15);
             return dims;
         }
         private double[] SetArray(double[] a, XYZ pt, int s)
@@ -66,14 +66,19 @@ namespace CC_Plugin
                     //Get form location info (Varies by type?)
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
-                        Element ele = doc.GetElement(e);
-                        var dims = GetDims(ele.BoundingBox);
-                        string s = "";
-                        for(int i = 0; i < dims.Count(); i++)
+                        GenericForm ele = doc.GetElement(e) as GenericForm;
+                        var bbox = ele.get_BoundingBox(null);
+                        if (bbox != null)
                         {
-                            s += ", " + dims[i];
-                        {
-                        TaskDialog.Show("Test", s);
+                            var dims = GetDims(bbox);
+                            /*
+                            string s = "";
+                            for (int i = 0; i < dims.Count(); i++)
+                            {
+                                s += ", " + dims[i];
+                            }
+                            TaskDialog.Show("Test", s);*/
+                        }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
                     }
