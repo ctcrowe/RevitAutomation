@@ -45,11 +45,6 @@ namespace CC_Plugin
                 ObjStyleUpdater.OnStartup(uiApp);
                 ObjStyleNetworkUpdater.OnStartup(uiApp);
 
-                #region Doc Synch Events
-                //CollectProjectData.OnStartup(uiApp);
-                #endregion
-
-                //RegUpdaters.OnStartup(uiApp);
                 //ViewChanged.OnStartup(uiApp);
                 //RefPlaneMaker.OnStartup(uiApp);
                 //UpdateLoadFactor.OnStartup(uiApp);
@@ -71,11 +66,6 @@ namespace CC_Plugin
             ObjStyleUpdater.OnShutdown(uiApp);
             ObjStyleNetworkUpdater.OnShutdown(uiApp);
 
-            #region Doc Synch Events
-            //CollectProjectData.OnShutdown(uiApp);
-            #endregion
-
-            //RegUpdaters.OnShutdown(uiApp);
             //ViewChanged.OnShutdown(uiApp);
             //RefPlaneMaker.OnShutdown(uiApp);
             //UpdateLoadFactor.OnShutdown(uiApp);
