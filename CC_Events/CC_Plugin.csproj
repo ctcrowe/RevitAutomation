@@ -73,6 +73,7 @@
     <Compile Include="Events\Masterformat\TimedUpdates.cs" />
     <Compile Include="Events\Masterformat\Project_UpdateMFDB.cs" />
     <Compile Include="Events\Subcategories\ObjectStyleUpdater.cs" />
+    <Compile Include="Events\Subcategories\ObjStyleNetworkUpdater.cs" />
     <Compile Include="Events\UpdateOccLoad.cs" />
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="FamilyDB\Class1.cs" />

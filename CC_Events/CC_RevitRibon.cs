@@ -43,9 +43,7 @@ namespace CC_Plugin
                 DocumentSaved.OnStartup(uiApp);
                 PlaneTypeUpdater.OnStartup(uiApp);
                 ObjStyleUpdater.OnStartup(uiApp);
-                #region IUpdaters
-                //MaterialLibrary.OnStartup(uiApp);
-                #endregion
+                ObjStyleNetworkUpdater.OnStartup(uiApp);
 
                 #region Doc Synch Events
                 //CollectProjectData.OnStartup(uiApp);
@@ -71,9 +69,7 @@ namespace CC_Plugin
             DocumentSaved.OnShutdown(uiApp);
             PlaneTypeUpdater.OnShutdown(uiApp);
             ObjStyleUpdater.OnShutdown(uiApp);
-            #region IUpdaters
-            //MaterialLibrary.OnShutdown(uiApp);
-            #endregion
+            ObjStyleNetworkUpdater.OnShutdown(uiApp);
 
             #region Doc Synch Events
             //CollectProjectData.OnShutdown(uiApp);
