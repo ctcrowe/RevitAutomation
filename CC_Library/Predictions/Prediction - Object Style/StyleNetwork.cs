@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
         {
             Network = Datatype.ObjectStyle.LoadNetwork(write);
         }
-        public static double[] Predict(string s, double[] vals)
+        public static int Predict(string s, double[] vals)
         {
             ObjectStyleNetwork net = new ObjectStyleNetwork(new WriteToCMDLine(WriteNull));
             double[] Results = Alpha.Predict(Datatype.ObjectStyle, s);
@@ -31,7 +31,7 @@ namespace CC_Library.Predictions
             {
                 Results = net.Network.Layers[i].Output(Results);
             }
-            return Results;
+            return Results.ToList().IndexOf(Results.Max());
         }
         /*
         public static string[] PredictAll(string[] s, WriteToCMDLine write)

@@ -71,13 +71,9 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            /*
-                            string s = "";
-                            for (int i = 0; i < dims.Count(); i++)
-                            {
-                                s += ", " + dims[i];
-                            }
-                            TaskDialog.Show("Test", s);*/
+                            int prediction = ObjectStyleNetwork.Predict(name, dims);
+                            var subcat = doc.AddCategories(prediction);
+                            ele.Subcategory = subcat;
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
