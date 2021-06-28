@@ -62,7 +62,9 @@ namespace CC_Plugin
                 try
                 {
                     //Get document Name
-                    string name = doc.OwnerFamily.Name;
+                    string name = doc.Title;
+                    if(String.IsNullOrEmpty(name))
+                        name = "null";
                     //Get form location info (Varies by type?)
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
