@@ -33,27 +33,6 @@ namespace CC_Library.Predictions
             }
             return Results.ToList().IndexOf(Results.Max());
         }
-        /*
-        public static string[] PredictAll(string[] s, WriteToCMDLine write)
-        {
-            string[] r = new string[s.Count()];
-            Alpha a = new Alpha(write);
-            int x = 0;
-            for(int i = 0; i < s.Count(); i++)
-            {
-                var pred = ObjectStyleNetwork.Predict(s[i].Split(',')[1]);
-                if (pred[int.Parse(s[i].Split(',')[2])] > 0.65)
-                {
-                    r[i] = "cor : ";
-                    x++;
-                }
-                else
-                    r[i] = "inc : ";
-                r[i] += x + " / " + (i + 1) + " : " + x / (1.0 + i) + " : " + s[i] + " : " + pred;
-                write(r[i]);
-            }
-            return r;
-        }*/
         internal static void SamplePropogate
             (
             string Name,
