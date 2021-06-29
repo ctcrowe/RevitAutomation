@@ -62,8 +62,7 @@ namespace CC_Library.Predictions
             return new KeyValuePair<double, List<double>> (error, Results);
         }
         internal static void Backward
-            (string Name,
-             double[] Numbers,
+            (List<double[]> Results,
              int correct,
              ObjectStyleNetwork net,
              Alpha a,
