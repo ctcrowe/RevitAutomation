@@ -33,7 +33,7 @@ namespace CC_Library.Predictions
             }
             return Results.ToList().IndexOf(Results.Max());
         }
-        internal static double[] Forward
+        internal static KeyValuePair<double, List<double[]>> Forward
             (string Name,
              double[] Numbers,
              int correct,
@@ -43,6 +43,49 @@ namespace CC_Library.Predictions
              AlphaMem am,
              WriteToCMDLine write)
         {
+            List<double[]> Results = new List<double[]>();
+            var input = a.Forward(Name, lctxt, am, write).ToList();
+            input.AddRange(Numbers);
+            Results.Add(input.ToArray());
+
+            for (int k = 0; k < net.Network.Layers.Count(); k++)
+            {
+                Results.Add(net.Network.Layers[k].Output(Results.Last()));
+            }
+
+            int choice = Results.Last().ToList().IndexOf(Results.Last().Max());
+            double[] res = new double[net.Network.Layers.Last().Biases.Count()];
+            res[correct] = 1;
+            
+            var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
+            error = result.Sum()
+            return new KeyValuePair<double, List<double>> (error, Results);
+        }
+        internal static void Backward
+            (string Name,
+             double[] Numbers,
+             int correct,
+             ObjectStyleNetwork net,
+             Alpha a,
+             AlphaContext ctxt,
+             AlphaMem am,
+             WriteToCMDLine write)
+        {
+            double[] res = new double[net.Network.Layers.Last().Biases.Count()];
+            res[correct] = 1;
+            var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
+            error = result.Sum()
+            var DValues = res;
+
+            for (int l = net.Network.Layers.Count() - 1; l >= 0; l--)
+            {
+                DValues = ObjMem.Layers[l].DActivation(DValues, Results[l + 1]);
+                ObjMem.Layers[l].DBiases(DValues);
+                ObjMem.Layers[l].DWeights(DValues, Results[l]);
+                DValues = ObjMem.Layers[l].DInputs(DValues, net.Network.Layers[l]);
+            }
+            DValues = DValues.ToList().Take(Alpha.DictSize).ToArray();
+            a.Backward(Name, DValues, lctxt, am, AlphaMem, CtxtMem, write);
         }
         internal static double SamplePropogate
             (
