@@ -89,9 +89,9 @@ namespace CC_Library.Predictions
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
 
             SamplePropogate(Name, Numbers, correct, net, a, lctxt, AlphaMem, CtxtMem, OBJMem, WriteNull);
-            OBJMem.Update(1, 0.0001, net.Network);
-            AlphaMem.Update(1, 0.0001, a.Location);
-            CtxtMem.Update(1, 0.0001, lctxt.Network);
+            OBJMem.Update(1, 0.01, net.Network);
+            AlphaMem.Update(1, 0.01, a.Location);
+            CtxtMem.Update(1, 0.01, lctxt.Network);
 
             net.Network.Save();
             a.Location.Save();

@@ -65,6 +65,8 @@ namespace CC_Plugin
                     string name = doc.Title;
                     if(String.IsNullOrEmpty(name))
                         name = "null";
+
+                    TaskDialog.Show("Test", name);
                     //Get form location info (Varies by type?)
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
