@@ -77,7 +77,6 @@ namespace CC_Plugin
                             int prediction = ObjectStyleNetwork.Predict(name, dims);
                             if (ele.Subcategory.Name != Enum.GetNames(typeof(ObjectCategory))[prediction])
                             {
-                                TaskDialog.Show("Test", ele.Subcategory.Name);
                                 if (Enum.GetNames(typeof(ObjectCategory)).Contains(ele.Subcategory.Name))
                                     ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name));
                             }
