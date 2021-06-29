@@ -93,9 +93,9 @@ namespace CC_Library.Predictions
 
             double error = SamplePropogate(Name, Numbers, correct, net, a, lctxt, AlphaMem, CtxtMem, OBJMem, WriteNull);
             write(error.ToString());
-            OBJMem.Update(1, 0.01, net.Network);
-            AlphaMem.Update(1, 0.01, a.Location);
-            CtxtMem.Update(1, 0.01, lctxt.Network);
+            OBJMem.Update(1, 0.001, net.Network);
+            AlphaMem.Update(1, 0.0001, a.Location);
+            CtxtMem.Update(1, 0.001, lctxt.Network);
 
             net.Network.Save();
             a.Location.Save();
