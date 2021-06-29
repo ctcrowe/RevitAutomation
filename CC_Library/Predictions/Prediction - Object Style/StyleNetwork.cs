@@ -92,7 +92,7 @@ namespace CC_Library.Predictions
             while(Prediction != correct)
             {
                 AlphaMem am = new AlphaMem(Name);
-                var F = Forward(Name, Numbers, correct, net, a, ctxt, am, write);
+                var F = Forward(Name, Numbers, correct, net, a, ctxt, am, WriteNull);
                 Prediction = F.Value.Last().ToList().IndexOf(F.Value.Last().Max());
                 if(F.Key > error)
                     break;
@@ -103,7 +103,7 @@ namespace CC_Library.Predictions
                 NetworkMem AlphaMem = new NetworkMem(a.Location);
                 NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
                 
-                Backward(Name. F.Value, correct, net, a, ctxt, am, write);
+                Backward(Name. F.Value, correct, net, a, ctxt, am, WriteNull);
                 OBJMem.Update(1, 0.001, net.Network);
                 AlphaMem.Update(1, 0.0001, a.Location);
                 CtxtMem.Update(1, 0.001, lctxt.Network);
