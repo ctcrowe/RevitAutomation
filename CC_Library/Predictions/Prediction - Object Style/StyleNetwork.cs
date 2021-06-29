@@ -33,7 +33,7 @@ namespace CC_Library.Predictions
             }
             return Results.ToList().IndexOf(Results.Max());
         }
-        internal static void SamplePropogate
+        internal static double SamplePropogate
             (
             string Name,
             double[] Numbers,
@@ -48,6 +48,7 @@ namespace CC_Library.Predictions
             )
         {
             AlphaMem am = new AlphaMem(Name.ToCharArray());
+            double error = 0;
 
             List<double[]> Results = new List<double[]>();
             var input = a.Forward(Name, lctxt, am, write).ToList();
@@ -65,6 +66,7 @@ namespace CC_Library.Predictions
             {
                 res[correct] = 1;
                 var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
+                error = result.Sum()
                 var DValues = res;
 
                 for (int l = net.Network.Layers.Count() - 1; l >= 0; l--)
@@ -77,9 +79,10 @@ namespace CC_Library.Predictions
                 DValues = DValues.ToList().Take(Alpha.DictSize).ToArray();
                 a.Backward(Name, DValues, lctxt, am, AlphaMem, CtxtMem, write);
             }
+            return error;
         }
         public static void SinglePropogate
-            (string Name, double[] Numbers, int correct)
+            (string Name, double[] Numbers, int correct, WriteToCMDLine write)
         {
             ObjectStyleNetwork net = new ObjectStyleNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
@@ -88,7 +91,8 @@ namespace CC_Library.Predictions
             NetworkMem AlphaMem = new NetworkMem(a.Location);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
 
-            SamplePropogate(Name, Numbers, correct, net, a, lctxt, AlphaMem, CtxtMem, OBJMem, WriteNull);
+            double error = SamplePropogate(Name, Numbers, correct, net, a, lctxt, AlphaMem, CtxtMem, OBJMem, WriteNull);
+            write(error.ToString());
             OBJMem.Update(1, 0.01, net.Network);
             AlphaMem.Update(1, 0.01, a.Location);
             CtxtMem.Update(1, 0.01, lctxt.Network);
