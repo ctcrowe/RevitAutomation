@@ -132,23 +132,29 @@ namespace CC_Library.Predictions
             (string Name, double[] Numbers, int correct, WriteToCMDLine write)
         {
             double error = Double.MaxValue();
+            int Prediction = -1;
             ObjectStyleNetwork net = new ObjectStyleNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
-            AlphaContext lctxt = new AlphaContext(Datatype.ObjectStyle, WriteNull);
+            AlphaContext ctxt = new AlphaContext(Datatype.ObjectStyle, WriteNull);
             NetworkMem OBJMem = new NetworkMem(net.Network);
             NetworkMem AlphaMem = new NetworkMem(a.Location);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
             
-            while(true)
+            while(Prediction != correct)
             {
+                var F = Forward(Name, Numbers, correct, net, a, ctxt, am, write);
+                Prediction = F.Value.Last().ToList().IndexOf(F.Value.Last().Max());
+                if(F.Key > error)
+                    break;
+                error = F.Key;
+                write(error.ToString());
+                
+                Backward(Ma,e. F.Value, cprrect, net, a, ctxt, am, write);
+                OBJMem.Update(1, 0.001, net.Network);
+                AlphaMem.Update(1, 0.0001, a.Location);
+                CtxtMem.Update(1, 0.001, lctxt.Network);
             }
-
-            double error = SamplePropogate(Name, Numbers, correct, net, a, lctxt, AlphaMem, CtxtMem, OBJMem, WriteNull);
-            write(error.ToString());
-            OBJMem.Update(1, 0.001, net.Network);
-            AlphaMem.Update(1, 0.0001, a.Location);
-            CtxtMem.Update(1, 0.001, lctxt.Network);
-
+            
             net.Network.Save();
             a.Location.Save();
             lctxt.Save();
