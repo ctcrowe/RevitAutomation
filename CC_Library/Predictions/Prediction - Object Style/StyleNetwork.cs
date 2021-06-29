@@ -33,6 +33,17 @@ namespace CC_Library.Predictions
             }
             return Results.ToList().IndexOf(Results.Max());
         }
+        internal static double[] Forward
+            (string Name,
+             double[] Numbers,
+             int correct,
+             ObjectStyleNetwork net,
+             Alpha a,
+             AlphaContext ctxt,
+             AlphaMem am,
+             WriteToCMDLine write)
+        {
+        }
         internal static double SamplePropogate
             (
             string Name,
