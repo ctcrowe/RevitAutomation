@@ -149,7 +149,7 @@ namespace CC_Library.Predictions
                 error = F.Key;
                 write(error.ToString());
                 
-                Backward(Ma,e. F.Value, cprrect, net, a, ctxt, am, write);
+                Backward(Name. F.Value, cprrect, net, a, ctxt, am, write);
                 OBJMem.Update(1, 0.001, net.Network);
                 AlphaMem.Update(1, 0.0001, a.Location);
                 CtxtMem.Update(1, 0.001, lctxt.Network);
