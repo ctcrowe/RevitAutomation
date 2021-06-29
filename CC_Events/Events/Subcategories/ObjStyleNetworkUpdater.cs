@@ -76,15 +76,7 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            int prediction = ObjectStyleNetwork.Predict(name, dims);
-                            if (ele.Subcategory.Name != Enum.GetNames(typeof(ObjectCategory))[prediction])
-                            {
-                                if (Enum.GetNames(typeof(ObjectCategory)).Contains(ele.Subcategory.Name))
-                                    ObjectStyleNetwork.SinglePropogate(name,
-                                    dims,
-                                    Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name),
-                                    new WriteToCMDLine(Write));
-                            }
+                            
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
@@ -94,6 +86,7 @@ namespace CC_Plugin
                 catch (Exception e)
                 {
                     e.OutputError();
+                    ObjectStyleNetwork.SinglePropogate(name, dims, new WriteToCMDLine(write));
                 }
             }
 
