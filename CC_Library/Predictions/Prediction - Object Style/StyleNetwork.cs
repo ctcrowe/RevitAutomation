@@ -57,7 +57,8 @@ namespace CC_Library.Predictions
             return new KeyValuePair<double, List<double>> (error, Results);
         }
         internal static void Backward
-            (List<double[]> Results,
+            (string Name,
+             List<double[]> Results,
              int correct,
              ObjectStyleNetwork net,
              Alpha a,
@@ -67,8 +68,6 @@ namespace CC_Library.Predictions
         {
             double[] res = new double[net.Network.Layers.Last().Biases.Count()];
             res[correct] = 1;
-            var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
-            error = result.Sum()
             var DValues = res;
 
             for (int l = net.Network.Layers.Count() - 1; l >= 0; l--)
@@ -132,12 +131,17 @@ namespace CC_Library.Predictions
         public static void SinglePropogate
             (string Name, double[] Numbers, int correct, WriteToCMDLine write)
         {
+            double error = Double.MaxValue();
             ObjectStyleNetwork net = new ObjectStyleNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
             AlphaContext lctxt = new AlphaContext(Datatype.ObjectStyle, WriteNull);
             NetworkMem OBJMem = new NetworkMem(net.Network);
             NetworkMem AlphaMem = new NetworkMem(a.Location);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
+            
+            while(true)
+            {
+            }
 
             double error = SamplePropogate(Name, Numbers, correct, net, a, lctxt, AlphaMem, CtxtMem, OBJMem, WriteNull);
             write(error.ToString());
