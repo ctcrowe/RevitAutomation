@@ -34,6 +34,8 @@ namespace CC_Plugin
                 new ElementClassFilter(typeof(GenericForm)),
                 Element.GetChangeTypeParameter(pid));
         }
+        private static void Write(string s)
+        { TaskDialog.Show("CHECKING ERROR", s); }
         private double[] GetDims(BoundingBoxXYZ bbox)
         {
             double[] dims = new double[18];
@@ -78,7 +80,10 @@ namespace CC_Plugin
                             if (ele.Subcategory.Name != Enum.GetNames(typeof(ObjectCategory))[prediction])
                             {
                                 if (Enum.GetNames(typeof(ObjectCategory)).Contains(ele.Subcategory.Name))
-                                    ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name));
+                                    ObjectStyleNetwork.SinglePropogate(name,
+                                    dims,
+                                    Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name),
+                                    new WriteToCMDLine(Write));
                             }
                         }
                         //run info through neural network (slightly larger than mf network.
