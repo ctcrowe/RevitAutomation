@@ -136,9 +136,6 @@ namespace CC_Library.Predictions
             ObjectStyleNetwork net = new ObjectStyleNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
             AlphaContext ctxt = new AlphaContext(Datatype.ObjectStyle, WriteNull);
-            NetworkMem OBJMem = new NetworkMem(net.Network);
-            NetworkMem AlphaMem = new NetworkMem(a.Location);
-            NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
             
             while(Prediction != correct)
             {
@@ -148,6 +145,10 @@ namespace CC_Library.Predictions
                     break;
                 error = F.Key;
                 write(error.ToString());
+                
+                NetworkMem OBJMem = new NetworkMem(net.Network);
+                NetworkMem AlphaMem = new NetworkMem(a.Location);
+                NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
                 
                 Backward(Name. F.Value, cprrect, net, a, ctxt, am, write);
                 OBJMem.Update(1, 0.001, net.Network);
