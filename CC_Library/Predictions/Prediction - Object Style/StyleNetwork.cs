@@ -58,7 +58,7 @@ namespace CC_Library.Predictions
             res[correct] = 1;
             
             var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
-            error = result.Sum()
+            error = result.Sum();
             return new KeyValuePair<double, List<double>> (error, Results);
         }
         internal static void Backward
