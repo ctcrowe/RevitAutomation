@@ -27,6 +27,11 @@ using Autodesk.Revit.Attributes;
 /// 
 /// Once detail information is created it cannot be updated. Only deleted.
 /// Only modifications to the XML file through revit will include adding tags, so you get more information to search and use.
+
+///https://www.revitapidocs.com/2020/e87fc993-5dc8-bb39-b7a7-fe91d075489a.htm
+///https://www.revitapidocs.com/2020/8c0c72db-2801-3642-72bb-108cfdff23e1.htm
+///https://www.revitapidocs.com/2020/6aa52291-2f4b-27d7-b999-5b5755bd7235.htm
+
 /// 
 /// If I have time eventually and figure it out, it would be nice to save these details to the google cloud using the google api. that way they  can be referenced from anywhere.
 /// </summary>
