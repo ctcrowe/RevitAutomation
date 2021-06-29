@@ -17,6 +17,9 @@
         Pull,
         Details,
     //Details
+        Fasteners,
+        Blocking,
+        Structure,
         Det_Beyond,
         Det_03_XFine,
         Det_03_XFine_Dash,
