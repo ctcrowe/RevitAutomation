@@ -12,8 +12,7 @@ using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
-    /*
-    internal class ObjStyleNetworkUpdater : IUpdater
+    internal class LineStyleNetworkUpdater : IUpdater
     {
         public static Result OnStartup(UIControlledApplication app)
         {
@@ -22,13 +21,13 @@ namespace CC_Plugin
         }
         public static Result OnShutdown(UIControlledApplication app)
         {
-            ObjStyleNetworkUpdater updater = new ObjStyleNetworkUpdater(app.ActiveAddInId);
+            LineStyleNetworkUpdater updater = new LineStyleNetworkUpdater(app.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
             return Result.Succeeded;
         }
         public static void RegisterUpdater(AddInId id)
         {
-            ObjStyleNetworkUpdater updater = new ObjStyleNetworkUpdater(id);
+            LineStyleNetworkUpdater updater = new LineStyleNetworkUpdater(id);
             UpdaterRegistry.RegisterUpdater(updater, true);
             ElementId pid = new ElementId(BuiltInParameter.FAMILY_ELEM_SUBCATEGORY);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
@@ -97,7 +96,7 @@ namespace CC_Plugin
         public ObjStyleNetworkUpdater(AddInId id)
         {
             appId = id;
-            updaterId = new UpdaterId(appId, new Guid("af950c46-2b41-43d8-b224-79906787ff6c"));
+            updaterId = new UpdaterId(appId, new Guid("9e45d863-3943-45fa-a4de-dd904b95ac1f"));
         }
         static AddInId appId;
         static UpdaterId updaterId;
@@ -105,7 +104,5 @@ namespace CC_Plugin
         public ChangePriority GetChangePriority() { return ChangePriority.FreeStandingComponents; }
         public UpdaterId GetUpdaterId() { return updaterId; }
         public string GetUpdaterName() { return "Update Object Styles"; }
-
     }
-    */
 }
