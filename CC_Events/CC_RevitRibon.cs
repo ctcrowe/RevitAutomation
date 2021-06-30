@@ -25,7 +25,9 @@ namespace CC_Plugin
 
         public Result OnStartup(UIControlledApplication uiApp)
         {
-            //uiApp.CreateRibbonTab(tabName);
+            uiApp.CreateRibbonTab(tabName);
+            //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
+            //create a paint all surfaces tool.
 
             //DetailPanel.DetailTab(uiApp, tabName);
             //ObjStylesTab.ObjTab(uiApp, tabName);
