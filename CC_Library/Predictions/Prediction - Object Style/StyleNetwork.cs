@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
              WriteToCMDLine write)
         {
             List<double[]> Results = new List<double[]>();
-            var input = a.Forward(Name, lctxt, am, write).ToList();
+            var input = a.Forward(Name, ctxt, am, write).ToList();
             input.AddRange(Numbers);
             Results.Add(input.ToArray());
 
@@ -53,8 +53,8 @@ namespace CC_Library.Predictions
             res[correct] = 1;
             
             var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
-            error = result.Sum();
-            return new KeyValuePair<double, List<double>> (error, Results);
+            double error = result.Sum();
+            return new KeyValuePair<double, List<double[]>> (error, Results);
         }
         internal static void Backward
             (string Name,
@@ -64,6 +64,9 @@ namespace CC_Library.Predictions
              Alpha a,
              AlphaContext ctxt,
              AlphaMem am,
+             NetworkMem ObjMem,
+             NetworkMem AlphaMem,
+             NetworkMem CtxtMem,
              WriteToCMDLine write)
         {
             double[] res = new double[net.Network.Layers.Last().Biases.Count()];
@@ -78,12 +81,12 @@ namespace CC_Library.Predictions
                 DValues = ObjMem.Layers[l].DInputs(DValues, net.Network.Layers[l]);
             }
             DValues = DValues.ToList().Take(Alpha.DictSize).ToArray();
-            a.Backward(Name, DValues, lctxt, am, AlphaMem, CtxtMem, write);
+            a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
         }
         public static void SinglePropogate
             (string Name, double[] Numbers, int correct, WriteToCMDLine write)
         {
-            double error = Double.MaxValue();
+            double error = double.MaxValue;
             int Prediction = -1;
             ObjectStyleNetwork net = new ObjectStyleNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
@@ -91,7 +94,7 @@ namespace CC_Library.Predictions
             
             while(Prediction != correct)
             {
-                AlphaMem am = new AlphaMem(Name);
+                AlphaMem am = new AlphaMem(Name.ToCharArray());
                 var F = Forward(Name, Numbers, correct, net, a, ctxt, am, WriteNull);
                 Prediction = F.Value.Last().ToList().IndexOf(F.Value.Last().Max());
                 if(F.Key > error)
@@ -101,17 +104,17 @@ namespace CC_Library.Predictions
                 
                 NetworkMem OBJMem = new NetworkMem(net.Network);
                 NetworkMem AlphaMem = new NetworkMem(a.Location);
-                NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
+                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
-                Backward(Name. F.Value, correct, net, a, ctxt, am, WriteNull);
+                Backward(Name, F.Value, correct, net, a, ctxt, am, OBJMem, AlphaMem, CtxtMem, WriteNull);
                 OBJMem.Update(1, 0.001, net.Network);
                 AlphaMem.Update(1, 0.0001, a.Location);
-                CtxtMem.Update(1, 0.001, lctxt.Network);
+                CtxtMem.Update(1, 0.001, ctxt.Network);
             }
             
             net.Network.Save();
             a.Location.Save();
-            lctxt.Save();
+            ctxt.Save();
         }
         private static string WriteNull(string s) { return s; }
     }

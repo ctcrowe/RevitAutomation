@@ -34,8 +34,11 @@ namespace CC_Plugin
                 new ElementClassFilter(typeof(GenericForm)),
                 Element.GetChangeTypeParameter(pid));
         }
-        private static void Write(string s)
-        { TaskDialog.Show("CHECKING ERROR", s); }
+        private static string Write(string s)
+        {
+            TaskDialog.Show("CHECKING ERROR", s);
+            return s;
+        }
         private double[] GetDims(BoundingBoxXYZ bbox)
         {
             double[] dims = new double[18];
@@ -76,7 +79,7 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            
+                            ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name), new WriteToCMDLine(Write));
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
@@ -86,7 +89,6 @@ namespace CC_Plugin
                 catch (Exception e)
                 {
                     e.OutputError();
-                    ObjectStyleNetwork.SinglePropogate(name, dims, new WriteToCMDLine(write));
                 }
             }
 

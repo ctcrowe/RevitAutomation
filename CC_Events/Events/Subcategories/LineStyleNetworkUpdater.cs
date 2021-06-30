@@ -75,11 +75,13 @@ namespace CC_Plugin
                         {
                             var dims = GetDims(bbox);
                             int prediction = ObjectStyleNetwork.Predict(name, dims);
+                            /*
                             if (ele.Subcategory.Name != Enum.GetNames(typeof(ObjectCategory))[prediction])
                             {
                                 if (Enum.GetNames(typeof(ObjectCategory)).Contains(ele.Subcategory.Name))
                                     ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name));
                             }
+                            */
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
@@ -93,7 +95,7 @@ namespace CC_Plugin
             }
 
         }
-        public ObjStyleNetworkUpdater(AddInId id)
+        public LineStyleNetworkUpdater(AddInId id)
         {
             appId = id;
             updaterId = new UpdaterId(appId, new Guid("9e45d863-3943-45fa-a4de-dd904b95ac1f"));

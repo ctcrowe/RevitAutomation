@@ -9,11 +9,7 @@ using System.Diagnostics;
 using CC_Library.Parameters;
 using System.Threading;
 using CC_Plugin.Parameters;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
-using System.Linq;
-using System;
-using Autodesk.Revit.UI;
 
 using Autodesk.Revit.DB.Architecture;
 using CC_Library.Predictions;
