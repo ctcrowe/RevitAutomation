@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
 using CC_Library.Datatypes;
-using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
