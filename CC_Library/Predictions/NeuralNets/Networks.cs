@@ -65,9 +65,9 @@ namespace CC_Library.Predictions
         {
             NeuralNetwork network = new NeuralNetwork();
 
-            network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize + 18, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-            network.Layers.Add(new Layer(Enum.GetNames(typeof(ObjectCategory)).Count(), network.Layers.Last().Weights.GetLength(0), Activation.Sigmoid));
+            network.Layers.Add(new Layer(Enum.GetNames(typeof(ObjectCategory)).Count(), network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             network.Datatype = Datatype.ObjectStyle;
 
             return network;

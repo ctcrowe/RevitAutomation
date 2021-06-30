@@ -70,7 +70,6 @@
     <Compile Include="Events\Subcategories\AddCategories.cs" />
     <Compile Include="Details\CreateDetailImage.cs" />
     <Compile Include="Details\DetailTab.cs" />
-    <Compile Include="Events\Masterformat\TimedUpdates.cs" />
     <Compile Include="Events\Masterformat\Project_UpdateMFDB.cs" />
     <Compile Include="Events\Subcategories\LineStyleUpdater.cs" />
     <Compile Include="Events\Subcategories\ObjectStyleUpdater.cs" />

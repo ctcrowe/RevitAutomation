@@ -31,7 +31,7 @@ namespace CC_Plugin
             UpdaterRegistry.RegisterUpdater(updater, true);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(GenericForm)),
-                Element.GetChangeTypeAny());
+                Element.GetChangeTypeGeometry());
         }
         private double[] GetDims(BoundingBoxXYZ bbox)
         {
