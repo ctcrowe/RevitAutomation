@@ -7,7 +7,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.Attributes;
 
 using CC_Plugin.Parameters;
-using MEPEquipment;
 using CC_CeilingTypes;
 using LoadFamilies;
 
@@ -58,27 +57,6 @@ namespace CC_Plugin
             var DBButtons = new List<RibbonItem>();
             DBButtons.AddRange(CPanel.AddStackedItems(b1Data, b2Data, b3Data));
 
-        }
-    }
-    [TransactionAttribute(TransactionMode.Manual)]
-    [RegenerationAttribute(RegenerationOption.Manual)]
-    public class LoadMEPFamilies : IExternalCommand
-    {
-        public Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            ElementSet elements)
-        {
-            UIApplication uiapp = commandData.Application;
-            Document doc = uiapp.ActiveUIDocument.Document;
-
-            using (Transaction t = new Transaction(doc, "Load"))
-            {
-                t.Start();
-                doc.LoadMEPEquipment();
-                t.Commit();
-            }
-            return Result.Succeeded;
         }
     }
     [TransactionAttribute(TransactionMode.Manual)]

@@ -39,9 +39,6 @@
     <Reference Include="CC_RevitBasics">
       <HintPath>..\CC_RevitBasics\bin\Debug\CC_RevitBasics.dll</HintPath>
     </Reference>
-    <Reference Include="MEPEquipment">
-      <HintPath>..\MEPEquipment\bin\Debug\MEPEquipment.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
