@@ -14,31 +14,42 @@ namespace CC_Plugin
         {
             RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Paint");
         }
-        public static void PaintByMaterial(GenericForm gf)
+        public static void PaintByMaterial(Document doc, GenericForm gf, Param par)
         {
-            using (Transaction t = new Transaction(doc, "Paint Faces"))
+            if(doc.IsFamilyDocument)
             {
-                t.Start();
-                
-                FamilyManager fmgr = doc.FamilyManager;
-                //Add Parameter
-                Options geoOptions = new Options();
-                geoOptions.DetailLevel = ViewDetailLevel.Fine;
-                GeometryElement geoEle = gf.get_Geometry(geoOptions);
-                
-                IEnumerator<GeometryObject> geoObjIt = geoEle.GetEnumerator();
-                while(geoObjIt.MoveNext())
+                using (Transaction t = new Transaction(doc, "Paint Faces"))
                 {
-                    Solid solid = geoObjIt.Current as Solid;
-                    if(solid != null)
+                    t.Start();
+                    FamilyManager fmgr = doc.FamilyManager;
+                    
+                    FamilyParameter p;
+                    if (doc.FamilyManager.get_Parameter(par.Guid) == null)
                     {
-                        foreach(Face f in solid.Faces)
+                        ExternalDefinition def = par.CreateDefinition(doc) as ExternalDefinition;
+                        p = doc.FamilyManager.AddParameter(def, BuiltInParameterGroup.PG_IFC, par.Instance);
+                    }
+                    else
+                        p = doc.FamilyManager.get_Parameter(par.Guid);
+                    
+                    Options geoOptions = new Options();
+                    geoOptions.DetailLevel = ViewDetailLevel.Fine;
+                    GeometryElement geoEle = gf.get_Geometry(geoOptions);
+                
+                    IEnumerator<GeometryObject> geoObjIt = geoEle.GetEnumerator();
+                    while(geoObjIt.MoveNext())
+                    {
+                        Solid solid = geoObjIt.Current as Solid;
+                        if(solid != null)
                         {
-                            doc.Paint(gf.Id, f, param);
+                            foreach(Face f in solid.Faces)
+                            {
+                                doc.Paint(gf.Id, f, param);
+                            }
                         }
                     }
+                    t.Commit();
                 }
-                t.Commit();
             }
         }
     }
