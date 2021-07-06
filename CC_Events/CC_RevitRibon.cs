@@ -14,6 +14,71 @@ namespace CC_Plugin
         }
         public static void PaintByMaterial(GenericForm gf)
         {
+            {
+   Face geoFace = null;
+
+   using (Transaction transaction = new Transaction(document, "Painting"))
+   {
+      transaction.Start();
+
+      // create a new type and material parameter in the document.
+      FamilyManager famMgr = document.FamilyManager;
+      if (famMgr.Types.Size == 0)
+      {
+         FamilyType createdType = famMgr.NewType("New_type");
+         famMgr.CurrentType = createdType;
+      }
+
+      FamilyParameter materialParam =
+         famMgr.AddParameter("Material_Para", BuiltInParameterGroup.PG_MATERIALS, ParameterType.Material, true);
+
+      famMgr.Set(materialParam, material.Id);
+
+      // Before acquiring the geometry, make sure the detail level is set to 'Fine'
+      Options geoOptions = new Options();
+      geoOptions.DetailLevel = ViewDetailLevel.Fine;
+
+      // Find the first geometry face of the given extrusion object
+      GeometryElement geoElem = extrusion.get_Geometry(geoOptions);
+      IEnumerator<GeometryObject> geoObjectItor = geoElem.GetEnumerator();
+      while (geoObjectItor.MoveNext())
+      {
+         // need to find a solid first
+         Solid theSolid = geoObjectItor.Current as Solid;
+         if (null != theSolid)
+         {
+            foreach (Face face in theSolid.Faces)
+            {
+               geoFace = face;
+               break;
+            }
+         }
+      }
+
+      if (null == geoFace)
+      {
+         TaskDialog.Show("Failure", "Could not find a face to paint.");
+         transaction.RollBack();
+         return;
+      }
+
+      // Paint a material family parameter to the extrusion face.
+      document.Paint(extrusion.Id, geoFace, materialParam);
+      transaction.Commit();
+   }
+
+   // For illustration purposes only, check if the painted material indeed got applied
+
+   bool isPainted = document.IsPainted(extrusion.Id, geoFace);
+   if (isPainted)
+   {
+      ElementId paintedMatId = document.GetPaintedMaterial(extrusion.Id, geoFace);
+      if (paintedMatId == material.Id)
+      {
+         TaskDialog.Show("Painting material", "Face painted successfully.");
+      }
+   }
+}
         }
     }
     public class CCRibbon : IExternalApplication
