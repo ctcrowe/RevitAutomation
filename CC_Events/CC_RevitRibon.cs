@@ -12,7 +12,7 @@ namespace CC_Plugin
         {
             RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Paint");
         }
-        public void PaintByMaterial(GenericForm gf)
+        public static void PaintByMaterial(GenericForm gf)
         {
         }
     }
