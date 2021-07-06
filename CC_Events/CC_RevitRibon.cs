@@ -7,6 +7,8 @@ namespace CC_Plugin
 {
     internal class CCPaintPanel
     {
+        //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
+        //create a paint all surfaces tool.
         public static string dllpath = Assembly.GetExecutingAssembly().Location;
         public static void PaintPanel(UIControlledApplication uiApp)
         {
@@ -14,71 +16,30 @@ namespace CC_Plugin
         }
         public static void PaintByMaterial(GenericForm gf)
         {
+            using (Transaction t = new Transaction(doc, "Paint Faces"))
             {
-   Face geoFace = null;
-
-   using (Transaction transaction = new Transaction(document, "Painting"))
-   {
-      transaction.Start();
-
-      // create a new type and material parameter in the document.
-      FamilyManager famMgr = document.FamilyManager;
-      if (famMgr.Types.Size == 0)
-      {
-         FamilyType createdType = famMgr.NewType("New_type");
-         famMgr.CurrentType = createdType;
-      }
-
-      FamilyParameter materialParam =
-         famMgr.AddParameter("Material_Para", BuiltInParameterGroup.PG_MATERIALS, ParameterType.Material, true);
-
-      famMgr.Set(materialParam, material.Id);
-
-      // Before acquiring the geometry, make sure the detail level is set to 'Fine'
-      Options geoOptions = new Options();
-      geoOptions.DetailLevel = ViewDetailLevel.Fine;
-
-      // Find the first geometry face of the given extrusion object
-      GeometryElement geoElem = extrusion.get_Geometry(geoOptions);
-      IEnumerator<GeometryObject> geoObjectItor = geoElem.GetEnumerator();
-      while (geoObjectItor.MoveNext())
-      {
-         // need to find a solid first
-         Solid theSolid = geoObjectItor.Current as Solid;
-         if (null != theSolid)
-         {
-            foreach (Face face in theSolid.Faces)
-            {
-               geoFace = face;
-               break;
+                t.Start();
+                
+                FamilyManager fmgr = doc.FamilyManager;
+                //Add Parameter
+                Options geoOptions = new Options();
+                geoOptions.DetailLevel = ViewDetailLevel.Fine;
+                GeometryElement geoEle = gf.get_Geometry(geoOptions);
+                
+                IEnumerator<GeometryObject> geoObjIt = geoEle.GetEnumerator();
+                while(geoObjIt.MoveNext())
+                {
+                    Solid solid = geoObjIt.Current as Solid;
+                    if(solid != null)
+                    {
+                        foreach(Face f in solid.Faces)
+                        {
+                            doc.Paint(gf.Id, f, param);
+                        }
+                    }
+                }
+                t.Commit();
             }
-         }
-      }
-
-      if (null == geoFace)
-      {
-         TaskDialog.Show("Failure", "Could not find a face to paint.");
-         transaction.RollBack();
-         return;
-      }
-
-      // Paint a material family parameter to the extrusion face.
-      document.Paint(extrusion.Id, geoFace, materialParam);
-      transaction.Commit();
-   }
-
-   // For illustration purposes only, check if the painted material indeed got applied
-
-   bool isPainted = document.IsPainted(extrusion.Id, geoFace);
-   if (isPainted)
-   {
-      ElementId paintedMatId = document.GetPaintedMaterial(extrusion.Id, geoFace);
-      if (paintedMatId == material.Id)
-      {
-         TaskDialog.Show("Painting material", "Face painted successfully.");
-      }
-   }
-}
         }
     }
     public class CCRibbon : IExternalApplication
@@ -102,8 +63,6 @@ namespace CC_Plugin
         public Result OnStartup(UIControlledApplication uiApp)
         {
             uiApp.CreateRibbonTab(tabName);
-            //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
-            //create a paint all surfaces tool.
             //https://spiderinnet.typepad.com/blog/2016/09/revit-net-api-get-all-line-styles.html
             //Used to get linestyles for linestyle updating.
             
