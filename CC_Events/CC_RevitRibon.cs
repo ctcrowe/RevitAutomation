@@ -5,6 +5,17 @@ using CC_Plugin.Details;
 
 namespace CC_Plugin
 {
+    internal class CCPaintPanel
+    {
+        public static string dllpath = Assembly.GetExecutingAssembly().Location;
+        public static void PaintPanel(UIControlledApplication uiApp)
+        {
+            RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Paint");
+        }
+        public void PaintByMaterial(GenericForm gf)
+        {
+        }
+    }
     public class CCRibbon : IExternalApplication
     {
         public const string tabName = "CCrowe";
@@ -30,6 +41,8 @@ namespace CC_Plugin
             //create a paint all surfaces tool.
             //https://spiderinnet.typepad.com/blog/2016/09/revit-net-api-get-all-line-styles.html
             //Used to get linestyles for linestyle updating.
+            
+            CCPaintPanel.PaintPanel(uiApp);
 
             //DetailPanel.DetailTab(uiApp, tabName);
             //ObjStylesTab.ObjTab(uiApp, tabName);
