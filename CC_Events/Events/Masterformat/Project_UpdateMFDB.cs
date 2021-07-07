@@ -63,39 +63,20 @@ namespace CC_Plugin
             try
             {
                 Document doc = data.GetDocument();
-                if (!doc.IsFamilyDocument)
-                {
                     var Eles = data.GetModifiedElementIds().ToList();
                     foreach (var eid in Eles)
                     {
-                        var ele = doc.GetElement(eid) as FamilySymbol;
-                        string name = string.Empty;
-                        try { name = ele.FamilyName + " " + ele.Name; } catch { }
-                        var Actual = ele.GetElementParam(Params.Masterformat);
-                        var Prediction = MasterformatNetwork.Predict(name).ToString();
-
-                        if (Prediction != Actual)
+                        try
                         {
-                            List<string> LineList = new List<string>();
-                            string Folder = "NeuralNets".GetMyDocs();
-                            if (!Directory.Exists(Folder))
-                                Directory.CreateDirectory(Folder);
-                            string filepath = Folder + "\\MasterformatData.txt";
-                            if (File.Exists(filepath))
-                                LineList = File.ReadAllLines(filepath).ToList();
-                            if (!string.IsNullOrEmpty(name)) LineList.Add("Masterformat," + name + "," + Actual);
-                            if (LineList.Count() == 100)
-                                LineList.RemoveAt(0);
-
-                            File.WriteAllLines(filepath, LineList);
-                            try
-                            {
-                                MasterformatNetwork.ActivePropogate(LineList);
-                            }
-                            catch (Exception e)
-                            {
-                                e.OutputError();
-                            }
+                            var ele = doc.GetElement(eid) as FamilySymbol;
+                            string name = string.Empty;
+                            try { name = ele.FamilyName + " " + ele.Name; } catch { }
+                            var Actual = ele.GetElementParam(Params.Masterformat);
+                            MasterformatNetwork.SinglePropogate(name, int.Parse(Actual), new WriteToCMDLine(Write));
+                        }
+                        catch (Exception e)
+                        {
+                            e.OutputError();
                         }
                     }
                 }
