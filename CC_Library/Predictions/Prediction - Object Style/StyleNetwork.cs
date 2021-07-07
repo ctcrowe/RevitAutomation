@@ -10,6 +10,14 @@ namespace CC_Library.Predictions
 /// public double Forward -> updates all results and returns the error value.
 /// public double Backward -> modifies the underlying Neural Network
 /// public double[] Predict -> returns ONLY the final layer of Results
+    public class NeuralNetIterator
+    {
+        public NeuralNetwork Network { get; }
+        public double[] Predict;
+        private List<double[]> Results;
+        public double Forward;
+        public void Backward;
+    }
     public class ObjectStyleNetwork
     {
         public NeuralNetwork Network { get; }
