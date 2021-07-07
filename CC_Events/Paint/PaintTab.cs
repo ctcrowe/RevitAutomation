@@ -14,7 +14,12 @@ namespace CC_Plugin
     {
         //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
         //create a paint all surfaces tool.
-        public static string dllpath = Assembly.GetExecutingAssembly().Location;
+        private static string dllpath()
+        {
+            string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string dll = dir + "\\CC_Plugin.dll";
+            return dll;
+        }
         public static void PaintPanel(UIControlledApplication uiApp)
         {
             RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Paint");
@@ -22,7 +27,7 @@ namespace CC_Plugin
             PushButtonData b1Data = new PushButtonData(
                 "Paint All Surfaces",
                 "Paint All\r\nSurfaces",
-                @dllpath,
+                @dllpath(),
                 "CC_Plugin.PaintObjectByFinishMat");
             b1Data.ToolTip = "Paint all Surfaces of an Object a the Finish Material Parameter";
 
