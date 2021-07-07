@@ -57,7 +57,7 @@ namespace CC_Library.Predictions
         internal static KeyValuePair<double, List<double[]>> Forward
             (string Name,
              int correct,
-             ObjectStyleNetwork net,
+             MasterformatNetwork net,
              Alpha a,
              AlphaContext ctxt,
              AlphaMem am,
@@ -78,6 +78,33 @@ namespace CC_Library.Predictions
             var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
             double error = result.Sum();
             return new KeyValuePair<double, List<double[]>> (error, Results);
+        }
+        internal static void Backward
+            (string Name,
+             List<double[]> Results,
+             int correct,
+             MasterformatNetwork net,
+             Alpha a,
+             AlphaContext ctxt,
+             AlphaMem am,
+             NetworkMem ObjMem,
+             NetworkMem AlphaMem,
+             NetworkMem CtxtMem,
+             WriteToCMDLine write)
+        {
+            double[] res = new double[net.Network.Layers.Last().Biases.Count()];
+            res[correct] = 1;
+            var DValues = res;
+
+            for (int l = net.Network.Layers.Count() - 1; l >= 0; l--)
+            {
+                DValues = ObjMem.Layers[l].DActivation(DValues, Results[l + 1]);
+                ObjMem.Layers[l].DBiases(DValues);
+                ObjMem.Layers[l].DWeights(DValues, Results[l]);
+                DValues = ObjMem.Layers[l].DInputs(DValues, net.Network.Layers[l]);
+            }
+            DValues = DValues.ToList().Take(Alpha.DictSize).ToArray();
+            a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
         }
         internal static void SamplePropogate
             (
