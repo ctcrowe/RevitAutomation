@@ -76,6 +76,7 @@
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="FamilyDB\Class1.cs" />
     <Compile Include="GetParameter.cs" />
+    <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneTypeUpdater.cs" />

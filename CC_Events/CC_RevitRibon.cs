@@ -5,54 +5,6 @@ using CC_Plugin.Details;
 
 namespace CC_Plugin
 {
-    internal class CCPaintPanel
-    {
-        //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
-        //create a paint all surfaces tool.
-        public static string dllpath = Assembly.GetExecutingAssembly().Location;
-        public static void PaintPanel(UIControlledApplication uiApp)
-        {
-            RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Paint");
-        }
-        public static void PaintByMaterial(Document doc, GenericForm gf, Param par)
-        {
-            if(doc.IsFamilyDocument)
-            {
-                using (Transaction t = new Transaction(doc, "Paint Faces"))
-                {
-                    t.Start();
-                    FamilyManager fmgr = doc.FamilyManager;
-                    
-                    FamilyParameter p;
-                    if (doc.FamilyManager.get_Parameter(par.Guid) == null)
-                    {
-                        ExternalDefinition def = par.CreateDefinition(doc) as ExternalDefinition;
-                        p = doc.FamilyManager.AddParameter(def, BuiltInParameterGroup.PG_IFC, par.Instance);
-                    }
-                    else
-                        p = doc.FamilyManager.get_Parameter(par.Guid);
-                    
-                    Options geoOptions = new Options();
-                    geoOptions.DetailLevel = ViewDetailLevel.Fine;
-                    GeometryElement geoEle = gf.get_Geometry(geoOptions);
-                
-                    IEnumerator<GeometryObject> geoObjIt = geoEle.GetEnumerator();
-                    while(geoObjIt.MoveNext())
-                    {
-                        Solid solid = geoObjIt.Current as Solid;
-                        if(solid != null)
-                        {
-                            foreach(Face f in solid.Faces)
-                            {
-                                doc.Paint(gf.Id, f, param);
-                            }
-                        }
-                    }
-                    t.Commit();
-                }
-            }
-        }
-    }
     public class CCRibbon : IExternalApplication
     {
         public const string tabName = "CCrowe";
