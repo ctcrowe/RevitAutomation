@@ -53,6 +53,32 @@ namespace CC_Library.Predictions
             }
             return r;
         }
+        
+        internal static KeyValuePair<double, List<double[]>> Forward
+            (string Name,
+             int correct,
+             ObjectStyleNetwork net,
+             Alpha a,
+             AlphaContext ctxt,
+             AlphaMem am,
+             WriteToCMDLine write)
+        {
+            List<double[]> Results = new List<double[]>();
+            Results.Add(a.Forward(Name, ctxt, am, write));
+            
+            for (int k = 0; k < net.Network.Layers.Count(); k++)
+            {
+                Results.Add(net.Network.Layers[k].Output(Results.Last()));
+            }
+
+            int choice = Results.Last().ToList().IndexOf(Results.Last().Max());
+            double[] res = new double[net.Network.Layers.Last().Biases.Count()];
+            res[correct] = 1;
+            
+            var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
+            double error = result.Sum();
+            return new KeyValuePair<double, List<double[]>> (error, Results);
+        }
         internal static void SamplePropogate
             (
             string line,
