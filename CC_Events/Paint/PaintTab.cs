@@ -10,16 +10,25 @@ using System.Reflection;
 
 namespace CC_Plugin
 {
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
+    public class PaintObjectByFinishMat : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
+        {
+            UIDocument uiDoc = commandData.Application.ActiveUIDocument;
+            PaintByMaterial(uiDoc, Params.Finish);
+            return Result.Succeeded;
+        }
+    }
     internal class CCPaintPanel
     {
         //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
         //create a paint all surfaces tool.
-        private static string dllpath()
-        {
-            string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string dll = dir + "\\CC_Plugin.dll";
-            return dll;
-        }
+        private static string dllpath = Assembly.GetExecutingAssembly().Location;
         public static void PaintPanel(UIControlledApplication uiApp)
         {
             RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Paint");
@@ -27,25 +36,11 @@ namespace CC_Plugin
             PushButtonData b1Data = new PushButtonData(
                 "Paint All Surfaces",
                 "Paint All\r\nSurfaces",
-                @dllpath(),
+                @dllpath,
                 "CC_Plugin.PaintObjectByFinishMat");
             b1Data.ToolTip = "Paint all Surfaces of an Object a the Finish Material Parameter";
 
             PushButton PB1 = Panel.AddItem(b1Data) as PushButton;
-        }
-        [TransactionAttribute(TransactionMode.Manual)]
-        [RegenerationAttribute(RegenerationOption.Manual)]
-        public class PaintObjectByFinishMat : IExternalCommand
-        {
-            public Result Execute(
-                ExternalCommandData commandData,
-                ref string message,
-                ElementSet elements)
-            {
-                UIDocument uiDoc = commandData.Application.ActiveUIDocument;
-                PaintByMaterial(uiDoc, Params.Finish);
-                return Result.Succeeded;
-            }
         }
         public static void PaintByMaterial(UIDocument uidoc, Param par)
         {
