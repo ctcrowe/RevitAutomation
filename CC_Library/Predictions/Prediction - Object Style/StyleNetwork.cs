@@ -16,8 +16,8 @@ namespace CC_Library.Predictions
         public double[] Predict;
         public double[,] Results;
         public double Output;
-        public void Forward( double[] Input, WriteToCMDLine Write);
-        public void Backward;
+        public void Forward (double[] Input, WriteToCMDLine Write);
+        public void Backward();
     }
     public class ObjectStyleNetwork
     {
