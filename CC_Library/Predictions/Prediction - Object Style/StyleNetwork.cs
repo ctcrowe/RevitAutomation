@@ -14,9 +14,10 @@ namespace CC_Library.Predictions
     {
         public NeuralNetwork Network { get; }
         public double[] Predict;
-        private double[,] Results;
-        public double Forward;
-        public bool Backward;
+        public double[,] Results;
+        public double Output;
+        public void Forward;
+        public void Backward;
     }
     public class ObjectStyleNetwork
     {
