@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
     {
         public NeuralNetwork Network { get; }
         public double[] Predict;
-        private List<double[]> Results;
+        private double[,] Results;
         public double Forward;
         public bool Backward;
     }
