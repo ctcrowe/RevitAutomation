@@ -287,7 +287,7 @@ namespace CC_Library.Predictions
             int Prediction = -1;
             MasterformatNetwork net = new MasterformatNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
-            AlphaContext ctxt = new AlphaContext(Datatype.ObjectStyle, WriteNull);
+            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
             
             while(true)
             {
