@@ -233,53 +233,6 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        public static void ActivePropogate
-            (List<string> LineList)
-        {
-            MasterformatNetwork mf = new MasterformatNetwork(WriteNull);
-            Alpha a = new Alpha(WriteNull);
-            AlphaContext lctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
-            NetworkMem MFMem = new NetworkMem(mf.Network);
-            NetworkMem AlphaMem = new NetworkMem(a.Location);
-            NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
-
-            mf.Network.Save();
-            a.Location.Save();
-            lctxt.Save();
-
-            Random random = new Random();
-            var Lines = LineList.ToArray();
-            var acc = new Accuracy(Lines);
-            int[] numbs = new int[Lines.Count()];
-            for (int i = 0; i < numbs.Count(); i++)
-                numbs[i] = i;
-            int cycles = 0;
-
-            while (acc.Acc < 0.999 && cycles < 5)
-            {
-                var numbers = numbs.OrderBy(x => random.Next()).ToList();
-
-                for (int i = 0; i < Lines.Count(); i += RunSize)
-                {
-                    Parallel.For(0, RunSize, j =>
-                    {
-                        if (i + j < numbers.Count())
-                        {
-                            SamplePropogate(Lines[numbers[i + j]], numbers[i + j], random, mf, a, lctxt, acc, true, AlphaMem, CtxtMem, MFMem, WriteNull);
-                        }
-                    });
-                    MFMem.Update(RunSize, 0.0001, mf.Network);
-                    AlphaMem.Update(RunSize, 0.0001, a.Location);
-                    CtxtMem.Update(RunSize, 0.0001, lctxt.Network);
-                }
-                acc.SetAcc();
-                var output = acc.Get();
-                cycles++;
-            }
-            mf.Network.Save();
-            a.Location.Save();
-            lctxt.Save();
-        }
         public static void SinglePropogate
             (string Name, int correct, WriteToCMDLine write)
         {
@@ -300,12 +253,12 @@ namespace CC_Library.Predictions
                 error = F.Key;
                 //write("Prediction : " + Prediction + " : Actual : " + correct + " : Error : " + error.ToString());
                 
-                NetworkMem OBJMem = new NetworkMem(net.Network);
+                NetworkMem MFMem = new NetworkMem(net.Network);
                 NetworkMem AlphaMem = new NetworkMem(a.Location);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
                 Backward(Name, F.Value, correct, net, a, ctxt, am, OBJMem, AlphaMem, CtxtMem, WriteNull);
-                OBJMem.Update(1, 0.0001, net.Network);
+                MFMem.Update(1, 0.0001, net.Network);
                 AlphaMem.Update(1, 0.00001, a.Location);
                 CtxtMem.Update(1, 0.0001, ctxt.Network);
 
