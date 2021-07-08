@@ -48,7 +48,7 @@ namespace CC_Plugin
             if (doc.IsFamilyDocument)
             {
                 Selection sel = uidoc.Selection;
-                ISelectionFilter selectionFilter = new TextSelectionFilter();
+                ISelectionFilter selectionFilter = new GFSelectionFilter();
 
                 Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
                 GenericForm gf = doc.GetElement(ChangedObject.ElementId) as GenericForm;
