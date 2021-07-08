@@ -20,7 +20,7 @@ namespace CC_Plugin
             ElementSet elements)
         {
             UIDocument uiDoc = commandData.Application.ActiveUIDocument;
-            PaintByMaterial(uiDoc, Params.Finish);
+            CCPaintPanel.PaintByMaterial(uiDoc, Params.Finish);
             return Result.Succeeded;
         }
     }

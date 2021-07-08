@@ -63,21 +63,20 @@ namespace CC_Plugin
             try
             {
                 Document doc = data.GetDocument();
-                    var Eles = data.GetModifiedElementIds().ToList();
-                    foreach (var eid in Eles)
+                var Eles = data.GetModifiedElementIds().ToList();
+                foreach (var eid in Eles)
+                {
+                    try
                     {
-                        try
-                        {
-                            var ele = doc.GetElement(eid) as FamilySymbol;
-                            string name = string.Empty;
-                            try { name = ele.FamilyName + " " + ele.Name; } catch { }
-                            var Actual = ele.GetElementParam(Params.Masterformat);
-                            MasterformatNetwork.SinglePropogate(name, int.Parse(Actual), new WriteToCMDLine(Write));
-                        }
-                        catch (Exception e)
-                        {
-                            e.OutputError();
-                        }
+                        var ele = doc.GetElement(eid) as FamilySymbol;
+                        string name = string.Empty;
+                        try { name = ele.FamilyName + " " + ele.Name; } catch { }
+                        var Actual = ele.GetElementParam(Params.Masterformat);
+                        MasterformatNetwork.SinglePropogate(name, int.Parse(Actual), new WriteToCMDLine(Write));
+                    }
+                    catch (Exception e)
+                    {
+                        e.OutputError();
                     }
                 }
             }
