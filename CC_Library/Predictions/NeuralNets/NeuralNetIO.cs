@@ -7,36 +7,15 @@ namespace CC_Library.Predictions
 {
     internal static class ReadWriteNeuralNetwork
     {
-        public static void Save(this NeuralNetwork network)
+        public static void Save(this NeuralNetwork network, Datatype reference = Datatypes.None)
         {
             string Folder = "NeuralNets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\NeuralNet_" + network.Datatype.ToString() + ".bin";
-            WriteToBinaryFile(FileName, network, true);
-        }
-        public static void Save(this NeuralNetwork network, Datatype dt)
-        {
-            string Folder = "NeuralNets".GetMyDocs();
-            if (!Directory.Exists(Folder))
-                Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\NeuralNet_" + dt.ToString() + "_" + network.Datatype.ToString() + ".bin";
-            WriteToBinaryFile(FileName, network, true);
-        }
-        public static void Save(this NeuralNetwork network, string prefix)
-        {
-            string Folder = "NeuralNets".GetMyDocs();
-            if (!Directory.Exists(Folder))
-                Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\" + prefix + "_NeuralNet_" + network.Datatype.ToString() + ".bin";
-            WriteToBinaryFile(FileName, network, true);
-        }
-        public static void Save(this NeuralNetwork network, Datatype dt, string prefix)
-        {
-            string Folder = "NeuralNets".GetMyDocs();
-            if (!Directory.Exists(Folder))
-                Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\" + prefix + "_NeuralNet_" + dt.ToString() + "_" + network.Datatype.ToString() + ".bin";
+            string FileName = Folder + "\\NeuralNet_" + network.Datatype.ToString();
+            if(reference != Datatype.None)
+                FileName += "_" + reference.Datatype.ToString();
+            FileName += ".bin";
             WriteToBinaryFile(FileName, network, true);
         }
         private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
