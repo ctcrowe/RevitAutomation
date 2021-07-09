@@ -12,11 +12,12 @@ namespace CC_Library.Predictions
     public class NeuralNetwork
     {
         public List<Layer> Layers { get; set; }
-        public Datatype Datatype { get; set; }
+        public string Datatype { get; set; }
 
-        public NeuralNetwork()
+        public NeuralNetwork(Datatype datatype)
         {
             this.Layers = new List<Layer>();
+            this.Datatype = datatype.ToString();
         }
         /*
         internal void Update(int RunSize, double ChangeSize, NetworkMem nm)
