@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
                 Directory.CreateDirectory(Folder);
             string FileName = Folder + "\\NeuralNet_" + network.Datatype;
             if(reference != Datatype.None)
-                FileName += "_" + reference.Datatype.ToString();
+                FileName += "_" + reference.ToString();
             FileName += ".bin";
             WriteToBinaryFile(FileName, network, true);
         }
