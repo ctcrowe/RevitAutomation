@@ -163,7 +163,7 @@ namespace CC_Library.Predictions
             Alpha a = new Alpha(write);
             AlphaContext lctxt = new AlphaContext(Datatype.Masterformat, write);
             NetworkMem MFMem = new NetworkMem(mf.Network);
-            NetworkMem AlphaMem = new NetworkMem(a.Location);
+            NetworkMem AlphaMem = new NetworkMem(a.Network);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
             Random random = new Random();
             COutput.Clear();
@@ -212,7 +212,7 @@ namespace CC_Library.Predictions
                         if (epochs > 0)
                         {
                             MFMem.Update(RunSize, 0.0001, mf.Network);
-                            AlphaMem.Update(RunSize, 0.0001, a.Location);
+                            AlphaMem.Update(RunSize, 0.0001, a.Network);
                             CtxtMem.Update(RunSize, 0.0001, lctxt.Network);
                         }
                         epoch = "Samples Run : " + samples + " : Cycles : " + cycles + " : Epochs : " + epochs;
@@ -223,7 +223,7 @@ namespace CC_Library.Predictions
                     if (acc.CheckError() && epochs > 0)
                     {
                         mf.Network.Save();
-                        a.Location.Save();
+                        a.Network.Save();
                         lctxt.Save();
                     }
                     if (epochs == 0)
@@ -254,21 +254,20 @@ namespace CC_Library.Predictions
                 //write("Prediction : " + Prediction + " : Actual : " + correct + " : Error : " + error.ToString());
                 
                 NetworkMem MFMem = new NetworkMem(net.Network);
-                NetworkMem AlphaMem = new NetworkMem(a.Location);
+                NetworkMem AlphaMem = new NetworkMem(a.Network);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
                 Backward(Name, F.Value, correct, net, a, ctxt, am, MFMem, AlphaMem, CtxtMem, WriteNull);
                 MFMem.Update(1, 0.0001, net.Network);
-                AlphaMem.Update(1, 0.00001, a.Location);
+                AlphaMem.Update(1, 0.00001, a.Network);
                 CtxtMem.Update(1, 0.0001, ctxt.Network);
 
             }
 
             net.Network.Save();
-            a.Location.Save();
+            a.Network.Save();
             ctxt.Save();
         }
         private static string WriteNull(string s) { return s; }
-        private static string WriteConsole(string s) { Console.WriteLine(s); return s; }
     }
 }

@@ -16,8 +16,10 @@ namespace CC_Library.Predictions
     {
         internal Alpha(WriteToCMDLine write)
         {
-            Location = Datatype.Alpha.LoadNetwork(write);
+            Network = Datatype.Alpha.LoadNetwork(write);
+            this.Results = new List<double[]>();
         }
+        public List<double[]> Results { get; set; }
         public const int DictSize = 100;
         public const int SearchSize = 8;
         public static int CharCount() { return Chars.Count(); }
@@ -28,7 +30,6 @@ namespace CC_Library.Predictions
             'V', 'W', 'X', 'Y', 'Z', '0', '1',
             '2', '3', '4', '5', '6', '7', '8',
             '9', ' ', '_'};
-
         public static double[] Predict(Datatype dt, string s)
         {
             Alpha a = new Alpha(Delegates.WriteNull);
@@ -74,12 +75,12 @@ namespace CC_Library.Predictions
             Parallel.For(0, chars.Count(), j =>
             {
                 var ldv = LocDValues[j];
-                for (int i = Location.Layers.Count() - 1; i >= 0; i--)
+                for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
                     ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
                     mem.Layers[i].DBiases(ldv);
                     mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i]);
-                    ldv = mem.Layers[i].DInputs(ldv, Location.Layers[i]);
+                    ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
                 }
             });
         }
@@ -88,9 +89,9 @@ namespace CC_Library.Predictions
             double[] a = GetLocation(c, numb);
             am.LocationOutputs[numb].Add(a);
 
-            for (int i = 0; i < Location.Layers.Count(); i++)
+            for (int i = 0; i < Network.Layers.Count(); i++)
             {
-                a = Location.Layers[i].Output(a);
+                a = Network.Layers[i].Output(a);
                 am.LocationOutputs[numb].Add(a);
             }
 
@@ -99,13 +100,13 @@ namespace CC_Library.Predictions
         private double[] Locate(char[] c, int numb)
         {
             double[] a = GetLocation(c, numb);
-            for (int i = 0; i < Location.Layers.Count(); i++)
+            for (int i = 0; i < Network.Layers.Count(); i++)
             {
-                a = Location.Layers[i].Output(a);
+                a = Network.Layers[i].Output(a);
             }
             return a;
         }
-        public NeuralNetwork Location { get; }
+        public NeuralNetwork Network { get; }
 
         public static string GenerateTypo(string input, Random r, int ErrorCount = 2)
         {

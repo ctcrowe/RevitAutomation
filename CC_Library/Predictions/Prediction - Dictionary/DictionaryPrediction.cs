@@ -73,7 +73,7 @@ namespace CC_Library.Predictions
             DictionaryNetwork dict = new DictionaryNetwork(write);
             Alpha a = new Alpha(write);
             AlphaContext lctxt = new AlphaContext(Datatype.Dictionary, write);
-            NetworkMem AlphaMem = new NetworkMem(a.Location);
+            NetworkMem AlphaMem = new NetworkMem(a.Network);
             NetworkMem DictMem = new NetworkMem(dict.Network);
             NetworkMem CtxtMem = new NetworkMem(lctxt.Network);
             Random random = new Random();

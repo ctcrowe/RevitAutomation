@@ -10,12 +10,10 @@ namespace CC_Library.Predictions
 /// public double Forward -> updates all results and returns the error value.
 /// public double Backward -> modifies the underlying Neural Network
 /// public double[] Predict -> returns ONLY the final layer of Results
-    public interface INetworkPrediction
+    public interface INetworkPredUpdater
     {
-        NeuralNetwork Network { get; set; }
-        double[] Predict { get; set; }
+        NeuralNetwork Network { get; }
         List<double[]> Results { get; set; }
-        double Output { get; set; }
         void Forward (double[] Input, WriteToCMDLine Write);
         void Backward();
     }
@@ -115,18 +113,18 @@ namespace CC_Library.Predictions
                 //write("Prediction : " + Prediction + " : Actual : " + correct + " : Error : " + error.ToString());
                 
                 NetworkMem OBJMem = new NetworkMem(net.Network);
-                NetworkMem AlphaMem = new NetworkMem(a.Location);
+                NetworkMem AlphaMem = new NetworkMem(a.Network);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
                 Backward(Name, F.Value, correct, net, a, ctxt, am, OBJMem, AlphaMem, CtxtMem, WriteNull);
                 OBJMem.Update(1, 0.0001, net.Network);
-                AlphaMem.Update(1, 0.00001, a.Location);
+                AlphaMem.Update(1, 0.00001, a.Network);
                 CtxtMem.Update(1, 0.0001, ctxt.Network);
 
             }
 
             net.Network.Save();
-            a.Location.Save();
+            a.Network.Save();
             ctxt.Save();
         }
         private static string WriteNull(string s) { return s; }
