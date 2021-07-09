@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static NeuralNetwork LoadSpecialNetwork(this Datatype datatype, WriteToCMDLine write, Datatype reference = Datatype.None)
+        public static NeuralNetwork LoadNetwork(this Datatype datatype, WriteToCMDLine write, Datatype reference = Datatype.None)
         {
             string fn = "NeuralNet_";
             if(reference != Datatype.None)
