@@ -257,7 +257,7 @@ namespace CC_Library.Predictions
                 NetworkMem AlphaMem = new NetworkMem(a.Location);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
-                Backward(Name, F.Value, correct, net, a, ctxt, am, OBJMem, AlphaMem, CtxtMem, WriteNull);
+                Backward(Name, F.Value, correct, net, a, ctxt, am, MFMem, AlphaMem, CtxtMem, WriteNull);
                 MFMem.Update(1, 0.0001, net.Network);
                 AlphaMem.Update(1, 0.00001, a.Location);
                 CtxtMem.Update(1, 0.0001, ctxt.Network);

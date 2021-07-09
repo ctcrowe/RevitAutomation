@@ -12,12 +12,12 @@ namespace CC_Library.Predictions
 /// public double[] Predict -> returns ONLY the final layer of Results
     public interface INetworkPrediction
     {
-        public NeuralNetwork Network { get; }
-        public double[] Predict;
-        public double[,] Results;
-        public double Output;
-        public void Forward (double[] Input, WriteToCMDLine Write);
-        public void Backward();
+        NeuralNetwork Network { get; set; }
+        double[] Predict { get; set; }
+        List<double[]> Results { get; set; }
+        double Output { get; set; }
+        void Forward (double[] Input, WriteToCMDLine Write);
+        void Backward();
     }
     public class ObjectStyleNetwork
     {

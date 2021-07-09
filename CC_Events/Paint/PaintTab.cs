@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using CC_Library;
 using CC_Library.Parameters;
 using CC_Plugin.Parameters;
 using Autodesk.Revit.UI.Selection;
@@ -24,6 +25,28 @@ namespace CC_Plugin
             return Result.Succeeded;
         }
     }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
+    public class AddObjectStyles : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
+        {
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            using (Transaction t = new Transaction(doc, "Add Cats"))
+            {
+                t.Start();
+                for(int i = 0; i < Enum.GetNames(typeof(ObjectCategory)).Length; i++)
+                {
+                    doc.AddCategories(i);
+                }
+                t.Commit();
+            }
+            return Result.Succeeded;
+        }
+    }
     internal class CCPaintPanel
     {
         //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
@@ -41,6 +64,14 @@ namespace CC_Plugin
             b1Data.ToolTip = "Paint all Surfaces of an Object a the Finish Material Parameter";
 
             PushButton PB1 = Panel.AddItem(b1Data) as PushButton;
+            PushButtonData b2Data = new PushButtonData(
+                "Add All Categories",
+                "Add All\r\nCategories",
+                @dllpath,
+                "CC_Plugin.AddObjectStyles");
+            b1Data.ToolTip = "Add all predefined subcategories to the document.";
+
+            PushButton PB2 = Panel.AddItem(b2Data) as PushButton;
         }
         public static void PaintByMaterial(UIDocument uidoc, Param par)
         {
