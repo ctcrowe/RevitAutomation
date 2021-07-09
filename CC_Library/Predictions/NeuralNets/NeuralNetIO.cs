@@ -12,7 +12,7 @@ namespace CC_Library.Predictions
             string Folder = "NeuralNets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\NeuralNet_" + network.Datatype.ToString();
+            string FileName = Folder + "\\NeuralNet_" + network.Datatype;
             if(reference != Datatype.None)
                 FileName += "_" + reference.Datatype.ToString();
             FileName += ".bin";
