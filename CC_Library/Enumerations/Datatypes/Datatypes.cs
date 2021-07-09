@@ -2,6 +2,7 @@
 {
     public enum Datatype
     {
+        None,
         Dictionary,
         Alpha,
         AlphaContext,
