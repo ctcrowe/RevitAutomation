@@ -17,7 +17,7 @@ namespace CC_Library.Predictions
         void Forward (double[] Input, WriteToCMDLine Write);
         void Backward();
     }
-    public class ObjectStyleNetwork
+    public class ObjectStyleNetwork : INetworkPredUpdater
     {
         public NeuralNetwork Network { get; }
         public ObjectStyleNetwork(WriteToCMDLine write)
@@ -73,14 +73,14 @@ namespace CC_Library.Predictions
              Alpha a,
              AlphaContext ctxt,
              AlphaMem am,
-             NetworkMem ObjMem,
-             NetworkMem AlphaMem,
-             NetworkMem CtxtMem,
              WriteToCMDLine write)
         {
             double[] res = new double[net.Network.Layers.Last().Biases.Count()];
             res[correct] = 1;
             var DValues = res;
+            NetworkMem ObjMem = new NetworkMem(net.Network);
+            NetworkMem AlphaMem = new NetworkMem(a.Network);
+            NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
             for (int l = net.Network.Layers.Count() - 1; l >= 0; l--)
             {
@@ -91,6 +91,10 @@ namespace CC_Library.Predictions
             }
             DValues = DValues.ToList().Take(Alpha.DictSize).ToArray();
             a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+
+            ObjMem.Update(1, 0.0001, net.Network);
+            AlphaMem.Update(1, 0.00001, a.Network);
+            CtxtMem.Update(1, 0.0001, ctxt.Network);
         }
         public static void SinglePropogate
             (string Name, double[] Numbers, int correct, WriteToCMDLine write)
@@ -110,16 +114,8 @@ namespace CC_Library.Predictions
                     break;
 
                 error = F.Key;
-                //write("Prediction : " + Prediction + " : Actual : " + correct + " : Error : " + error.ToString());
                 
-                NetworkMem OBJMem = new NetworkMem(net.Network);
-                NetworkMem AlphaMem = new NetworkMem(a.Network);
-                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
-                
-                Backward(Name, F.Value, correct, net, a, ctxt, am, OBJMem, AlphaMem, CtxtMem, WriteNull);
-                OBJMem.Update(1, 0.0001, net.Network);
-                AlphaMem.Update(1, 0.00001, a.Network);
-                CtxtMem.Update(1, 0.0001, ctxt.Network);
+                Backward(Name, F.Value, correct, net, a, ctxt, am, WriteNull);
 
             }
 
