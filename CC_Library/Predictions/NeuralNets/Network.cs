@@ -12,7 +12,7 @@ namespace CC_Library.Predictions
     public class NeuralNetwork
     {
         public List<Layer> Layers { get; set; }
-        public string Datatype { get; set; }
+        public string Datatype { get; }
 
         public NeuralNetwork(Datatype datatype)
         {

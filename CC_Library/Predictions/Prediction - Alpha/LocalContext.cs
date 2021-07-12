@@ -15,13 +15,12 @@ namespace CC_Library.Predictions
         internal AlphaContext(Datatype dt, WriteToCMDLine write)
         {
             datatype = dt;
-            Network = Datatype.AlphaContext.LoadSpecialNetwork(dt, write);
+            Network = Datatype.AlphaContext.LoadNetwork(write, dt);
         }
         public void Save()
         {
             Network.Save(datatype);
         }
-        //This was previously always returning 0 accept A's returned as 1... I think this is fixed. Build and confirm tonight.
         public double Contextualize(char[] phrase, int c, AlphaMem am)
         {
             am.LocalContextOutputs[c].Add(Locate(phrase, c));

@@ -75,6 +75,7 @@
     <Compile Include="Parameters\Params_Project.cs" />
     <Compile Include="Parameters\Subcategory.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
+    <Compile Include="Predictions\INetworkPredUpdater.cs" />
     <Compile Include="Predictions\LossFunctions\Loss_BinaryCrossEntropy.cs" />
     <Compile Include="Predictions\NeuralNets\Layer.cs" />
     <Compile Include="Predictions\NeuralNets\LayerStorage.cs" />
@@ -120,15 +121,8 @@
     <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlResultantDatapoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Div8Type.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Div8Type_LocalContext.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Alpha.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Masterformat.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Masterformat_LocalContext.bin" />
+    <Folder Include="Predictions\BinaryFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
