@@ -55,17 +55,13 @@ namespace CC_Library.Predictions
         }
         
         internal static KeyValuePair<double, List<double[]>> Forward
-            (string Name,
+            (double[] input,
              int correct,
              MasterformatNetwork net,
-             Alpha a,
-             AlphaContext ctxt,
-             AlphaMem am,
              WriteToCMDLine write)
         {
             List<double[]> Results = new List<double[]>();
-            Results.Add(a.Forward(Name, ctxt, am, write));
-            
+            Results.Add(input);
             for (int k = 0; k < net.Network.Layers.Count(); k++)
             {
                 Results.Add(net.Network.Layers[k].Output(Results.Last()));
@@ -245,7 +241,8 @@ namespace CC_Library.Predictions
             while(true)
             {
                 AlphaMem am = new AlphaMem(Name.ToCharArray());
-                var F = Forward(Name, correct, net, a, ctxt, am, WriteNull);
+                double[] AlphaOutput = a.Forward(Name, ctxt, am, write));
+                var F = Forward(AlphaOutput, correct, net, a, ctxt, am, WriteNull);
                 Prediction = F.Value.Last().ToList().IndexOf(F.Value.Last().Max());
                 if(Prediction == correct)
                     break;
