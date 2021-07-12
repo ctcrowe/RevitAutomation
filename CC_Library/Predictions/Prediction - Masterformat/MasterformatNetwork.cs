@@ -242,7 +242,7 @@ namespace CC_Library.Predictions
             {
                 AlphaMem am = new AlphaMem(Name.ToCharArray());
                 double[] AlphaOutput = a.Forward(Name, ctxt, am, write));
-                var F = Forward(AlphaOutput, correct, net, a, ctxt, am, WriteNull);
+                var F = Forward(AlphaOutput, correct, net, WriteNull);
                 Prediction = F.Value.Last().ToList().IndexOf(F.Value.Last().Max());
                 if(Prediction == correct)
                     break;
