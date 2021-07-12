@@ -75,17 +75,12 @@ namespace CC_Library.Predictions
             double error = result.Sum();
             return new KeyValuePair<double, List<double[]>> (error, Results);
         }
-        internal static void Backward
+        internal static double[] Backward
             (string Name,
              List<double[]> Results,
              int correct,
              MasterformatNetwork net,
-             Alpha a,
-             AlphaContext ctxt,
-             AlphaMem am,
-             NetworkMem ObjMem,
-             NetworkMem AlphaMem,
-             NetworkMem CtxtMem,
+             NetworkMem MFMem,
              WriteToCMDLine write)
         {
             double[] res = new double[net.Network.Layers.Last().Biases.Count()];
@@ -94,13 +89,12 @@ namespace CC_Library.Predictions
 
             for (int l = net.Network.Layers.Count() - 1; l >= 0; l--)
             {
-                DValues = ObjMem.Layers[l].DActivation(DValues, Results[l + 1]);
-                ObjMem.Layers[l].DBiases(DValues);
-                ObjMem.Layers[l].DWeights(DValues, Results[l]);
-                DValues = ObjMem.Layers[l].DInputs(DValues, net.Network.Layers[l]);
+                DValues = MFMem.Layers[l].DActivation(DValues, Results[l + 1]);
+                MFMem.Layers[l].DBiases(DValues);
+                MFMem.Layers[l].DWeights(DValues, Results[l]);
+                DValues = MFMem.Layers[l].DInputs(DValues, net.Network.Layers[l]);
             }
-            DValues = DValues.ToList().Take(Alpha.DictSize).ToArray();
-            a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+            return DValues.ToList().Take(Alpha.DictSize).ToArray();
         }
         internal static void SamplePropogate
             (
@@ -254,7 +248,8 @@ namespace CC_Library.Predictions
                 NetworkMem AlphaMem = new NetworkMem(a.Network);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
-                Backward(Name, F.Value, correct, net, a, ctxt, am, MFMem, AlphaMem, CtxtMem, WriteNull);
+                var DValues = Backward(Name, F.Value, correct, net, MFMem, WriteNull);
+                a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
                 MFMem.Update(1, 0.0001, net.Network);
                 AlphaMem.Update(1, 0.00001, a.Network);
                 CtxtMem.Update(1, 0.0001, ctxt.Network);
