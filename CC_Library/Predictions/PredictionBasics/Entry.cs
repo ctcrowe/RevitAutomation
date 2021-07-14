@@ -33,12 +33,10 @@ namespace CC_Library.Predictions
                 string subfolder = folder + "\\" + dt.ToString();
                 if(Directory.Exists(subfolder))
                 {
-                    Random r = new Random();
-                    
                     string[] Files = Directory.GetFiles(Folder);
                     if(Files.Any())
-                    if(!Files.Any())
                     {
+                        Random r = new Random();
                         Sample[] output = new Sample[(Count > Files.Count() * Files.Count()) + (!Count > Files.Count() * Count)];
                         for(int i = 0; i < output.Count(); i++)
                         {
@@ -50,32 +48,32 @@ namespace CC_Library.Predictions
             }
             return new Sample[1]{ new Sample(dt) };
         }
-        public static void Save(this Sample s)
-        {
-            string folder = "NetworkSamples".GetMyDocs();
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-            string subfolder = folder + "\\" + s.Datatype;
-            if (!Directory.Exists(subfolder))
-                Directory.CreateDirectory(subfolder);
-            string FileName = subfolder + "\\" + s.GUID + ".bin";
-            WriteToBinaryFile(FileName, s, true);
-        }
-        private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
-        {
-            using (Stream stream = File.Create(filePath))
+            public static void Save(this Sample s)
             {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                binaryFormatter.Serialize(stream, objectToWrite);
+                string folder = "NetworkSamples".GetMyDocs();
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string subfolder = folder + "\\" + s.Datatype;
+                if (!Directory.Exists(subfolder))
+                    Directory.CreateDirectory(subfolder);
+                string FileName = subfolder + "\\" + s.GUID + ".bin";
+                WriteToBinaryFile(FileName, s, true);
             }
-        }
-        public static T ReadFromBinaryFile<T>(this string filePath)
-        {
-            using (Stream stream = File.Open(filePath, FileMode.Open))
+            private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
             {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (T)binaryFormatter.Deserialize(stream);
+                using (Stream stream = File.Create(filePath))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    binaryFormatter.Serialize(stream, objectToWrite);
+                }
             }
-        }
+            public static T ReadFromBinaryFile<T>(this string filePath)
+            {
+                using (Stream stream = File.Open(filePath, FileMode.Open))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    return (T)binaryFormatter.Deserialize(stream);
+                }
+            }
     }
 }
