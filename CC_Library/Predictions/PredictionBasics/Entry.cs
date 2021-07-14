@@ -27,7 +27,20 @@ namespace CC_Library.Predictions
     {
         public static Sample[] ReadSamples(this Datatype dt, int Count = 16)
         {
+            string folder = "NetworkSamples".GetMyDocs();
+            if (Directory.Exists(Folder))
+            {
+                string subfolder = Directory.
+                string[] Files = Directory.GetFiles(Folder);
+                if (Files.Any(x => x.Contains(fn)))
+                {
+                    var doc = Files.Where(x => x.Contains(fn)).First();
+                    write("Loaded from MyDocs");
+                    return ReadFromBinaryFile<NeuralNetwork>(doc);
+                }
+            }
             Sample[] output = new Sample[Count];
+            string Folder
             return output;
         }
     }
