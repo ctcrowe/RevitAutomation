@@ -16,8 +16,7 @@ namespace CC_Library.Predictions
 {
     public class MasterformatNetwork : INetworkPredUpdater
     {
-        private const int MinSamples = 2000;
-        private const int RunSize = 16;
+        public Datatype datatype = Datatype.Masterformat;
         public NeuralNetwork Network { get; }
         public double[] Input { get; set; }
         public MasterformatNetwork(WriteToCMDLine write)
