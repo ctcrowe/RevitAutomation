@@ -8,6 +8,7 @@ namespace CC_Library.Predictions
 {
     public interface INetworkPredUpdater
     {
+        Datatype dt { get; }
         NeuralNetwork Network { get; }
         double[] Input { get; set; }
         List<double[]> Forward(WriteToCMDLine Write);
