@@ -16,9 +16,11 @@ namespace CC_Library.Predictions
         public double[] ValInput;
         public double[] ImgInput;
         public double[] DesiredOutput;
+        public string GUID;
         public Entry(Datatype dt)
         {
             this.Datatype = dt.ToString();
+            this.GUID = Guid.NewGuid().ToString();
         }
     }
 }
