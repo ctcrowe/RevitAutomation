@@ -30,18 +30,25 @@ namespace CC_Library.Predictions
             string folder = "NetworkSamples".GetMyDocs();
             if (Directory.Exists(Folder))
             {
-                string subfolder = Directory.
-                string[] Files = Directory.GetFiles(Folder);
-                if (Files.Any(x => x.Contains(fn)))
+                string subfolder = folder + "\\" + dt.ToString();
+                if(Directory.Exists(subfolder))
                 {
-                    var doc = Files.Where(x => x.Contains(fn)).First();
-                    write("Loaded from MyDocs");
-                    return ReadFromBinaryFile<NeuralNetwork>(doc);
+                    Random r = new Random();
+                    
+                    string[] Files = Directory.GetFiles(Folder);
+                    if(Files.Any())
+                    if(!Files.Any())
+                    {
+                        Sample[] output = new Sample[(Count > Files.Count() * Files.Count()) + (!Count > Files.Count() * Count)];
+                        for(int i = 0; i < output.Count(); i++)
+                        {
+                            output[i] = ReadFromBinaryFile<Sample>(Files[r.NextInt(Files.Count())]);
+                        }
+                        return output;
+                    }
                 }
             }
-            Sample[] output = new Sample[Count];
-            string Folder
-            return output;
+            return new Sample[1]{ new Sample(dt) };
         }
     }
 }
