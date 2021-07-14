@@ -65,7 +65,6 @@
     <Compile Include="Parameters\Parameter.cs" />
     <Compile Include="CMDGetMyDocs.cs" />
     <Compile Include="CC_CmdLibrary.cs" />
-    <Compile Include="CC_Command.cs" />
     <Compile Include="Enumerations\ObjectCategories.cs" />
     <Compile Include="Parameters\Params_Material.cs" />
     <Compile Include="Parameters\Params_Room.cs" />

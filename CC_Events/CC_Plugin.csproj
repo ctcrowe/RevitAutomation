@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CC_CeilingTypes">
-      <HintPath>..\CC_CeilingTypes\bin\Debug\CC_CeilingTypes.dll</HintPath>
-    </Reference>
     <Reference Include="CC_Library">
       <HintPath>..\CC_Library\bin\Debug\CC_Library.dll</HintPath>
     </Reference>
@@ -75,7 +72,6 @@
     <Compile Include="Events\UpdateOccLoad.cs" />
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="FamilyDB\Class1.cs" />
-    <Compile Include="GetParameter.cs" />
     <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
