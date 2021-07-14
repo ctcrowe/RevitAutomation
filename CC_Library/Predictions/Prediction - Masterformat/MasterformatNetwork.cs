@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 /// This system is specifically for creating and using a vocabulary.
 /// For this reason, it doesnt need all of the delegates that a typical network would.
 /// </summary>
+//https://stackoverflow.com/questions/26733/getting-all-types-that-implement-an-interface
 
 namespace CC_Library.Predictions
 {
