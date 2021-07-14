@@ -25,7 +25,7 @@ namespace CC_Library.Predictions
     }
     public static class ReadWriteSamples
     {
-        public static Sample[] ReadSamples(this Datatype dt, int Count)
+        public static Sample[] ReadSamples(this Datatype dt, int Count = 16)
         {
             Sample[] output = new Sample[Count];
             return output;
