@@ -248,11 +248,12 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
+            var Samples = Datatype.Masterformat.ReadSamples();
+            Samples[0] = s;
             int Prediction = -1;
             MasterformatNetwork net = new MasterformatNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
             AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
-            
             while(true)
             {
                 AlphaMem am = new AlphaMem(Name.ToCharArray());
