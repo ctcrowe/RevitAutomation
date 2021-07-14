@@ -71,7 +71,6 @@
     <Compile Include="Events\Subcategories\ObjStyleNetworkUpdater.cs" />
     <Compile Include="Events\UpdateOccLoad.cs" />
     <Compile Include="Families\FamilyUnpack.cs" />
-    <Compile Include="FamilyDB\Class1.cs" />
     <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
@@ -116,8 +115,6 @@
     <Compile Include="UpdateStudSize.cs" />
     <Compile Include="Timekeeper.cs" />
     <Compile Include="Events\Masterformat\SetMF.cs" />
-    <Compile Include="FamilyDB\CC_CheckNameUse.cs" />
-    <Compile Include="FamilyDB\CC_MoveFamiliesToDB.cs" />
     <Compile Include="QualityControl\CC_TextNoteTypes.cs" />
     <Compile Include="CC_RevitRibon.cs" />
     <Compile Include="UpdateLoadFactor.cs" />
@@ -128,9 +125,6 @@
     <Compile Include="CC_RevitTools.cs" />
     <Compile Include="Elevations\CC_Elevations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Families\MaterialInstance.rfa" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
