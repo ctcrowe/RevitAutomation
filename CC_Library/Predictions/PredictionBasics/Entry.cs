@@ -17,7 +17,7 @@ namespace CC_Library.Predictions
         public double[] ImgInput;
         public double[] DesiredOutput;
         public string GUID;
-        public Entry(Datatype dt)
+        public Sample(Datatype dt)
         {
             this.Datatype = dt.ToString();
             this.GUID = Guid.NewGuid().ToString();
