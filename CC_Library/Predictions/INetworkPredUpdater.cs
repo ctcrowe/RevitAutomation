@@ -12,5 +12,6 @@ namespace CC_Library.Predictions
         double[] Input { get; set; }
         List<double[]> Forward(WriteToCMDLine Write);
         double[] Backward(List<double[]> Results, int Correct, NetworkMem mem, WriteToCMDLine Write);
+        void Propogate(Sample s, WriteToCMDLine Write);
     }
 }
