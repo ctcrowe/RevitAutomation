@@ -245,6 +245,38 @@ namespace CC_Library.Predictions
             a.Network.Save();
             ctxt.Save();
         }
+        public void Propogate
+            (Sample s, WriteToCMDLine write)
+        {
+            int Prediction = -1;
+            MasterformatNetwork net = new MasterformatNetwork(WriteNull);
+            Alpha a = new Alpha(WriteNull);
+            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
+            
+            while(true)
+            {
+                AlphaMem am = new AlphaMem(Name.ToCharArray());
+                net.Input = a.Forward(Name, ctxt, am, write);
+                var F = net.Forward(write);
+                Prediction = F.Last().ToList().IndexOf(F.Last().Max());
+                if(Prediction == correct)
+                    break;
+                
+                NetworkMem MFMem = new NetworkMem(net.Network);
+                NetworkMem AlphaMem = new NetworkMem(a.Network);
+                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+                
+                var DValues = net.Backward(F, correct, MFMem, WriteNull);
+                a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+                MFMem.Update(1, 0.0001, net.Network);
+                AlphaMem.Update(1, 0.00001, a.Network);
+                CtxtMem.Update(1, 0.0001, ctxt.Network);
+            }
+
+            net.Network.Save();
+            a.Network.Save();
+            ctxt.Save();
+        }
         private static string WriteNull(string s) { return s; }
     }
 }
