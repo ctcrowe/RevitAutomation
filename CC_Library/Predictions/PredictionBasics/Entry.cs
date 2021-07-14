@@ -48,32 +48,32 @@ namespace CC_Library.Predictions
             }
             return new Sample[1]{ new Sample(dt) };
         }
-            public static void Save(this Sample s)
+        public static void Save(this Sample s)
+        {
+            string folder = "NetworkSamples".GetMyDocs();
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            string subfolder = folder + "\\" + s.Datatype;
+            if (!Directory.Exists(subfolder))
+                Directory.CreateDirectory(subfolder);
+            string FileName = subfolder + "\\" + s.GUID + ".bin";
+            WriteToBinaryFile(FileName, s, true);
+        }
+        private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+        {
+            using (Stream stream = File.Create(filePath))
             {
-                string folder = "NetworkSamples".GetMyDocs();
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-                string subfolder = folder + "\\" + s.Datatype;
-                if (!Directory.Exists(subfolder))
-                    Directory.CreateDirectory(subfolder);
-                string FileName = subfolder + "\\" + s.GUID + ".bin";
-                WriteToBinaryFile(FileName, s, true);
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                binaryFormatter.Serialize(stream, objectToWrite);
             }
-            private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+        }
+        public static T ReadFromBinaryFile<T>(this string filePath)
+        {
+            using (Stream stream = File.Open(filePath, FileMode.Open))
             {
-                using (Stream stream = File.Create(filePath))
-                {
-                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                    binaryFormatter.Serialize(stream, objectToWrite);
-                }
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                return (T)binaryFormatter.Deserialize(stream);
             }
-            public static T ReadFromBinaryFile<T>(this string filePath)
-            {
-                using (Stream stream = File.Open(filePath, FileMode.Open))
-                {
-                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                    return (T)binaryFormatter.Deserialize(stream);
-                }
-            }
+        }
     }
 }
