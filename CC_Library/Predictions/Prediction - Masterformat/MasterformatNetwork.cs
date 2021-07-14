@@ -13,13 +13,19 @@ using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
-    public class MasterformatNetwork
+    public class MasterformatNetwork : INetworkPredUpdater
     {
+        double[] input { get; set; }
         private const int MinSamples = 2000;
         private const int RunSize = 16;
         public NeuralNetwork Network { get; }
         public MasterformatNetwork(WriteToCMDLine write)
         {
+            Network = Datatype.Masterformat.LoadNetwork(write);
+        }
+        public MasterformatNetwork(double[] INPUT, WriteToCMDLine write)
+        {
+            input = INPUT;
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
         public static int Predict(string s)
@@ -53,46 +59,34 @@ namespace CC_Library.Predictions
             }
             return r;
         }
-        
-        internal static KeyValuePair<double, List<double[]>> Forward
-            (double[] input,
-             int correct,
-             MasterformatNetwork net,
-             WriteToCMDLine write)
+        public List<double[]> Forward(WriteToCMDLine write)
         {
             List<double[]> Results = new List<double[]>();
             Results.Add(input);
-            for (int k = 0; k < net.Network.Layers.Count(); k++)
+
+            for (int k = 0; k < Network.Layers.Count(); k++)
             {
-                Results.Add(net.Network.Layers[k].Output(Results.Last()));
+                Results.Add(Network.Layers[k].Output(Results.Last()));
             }
 
-            int choice = Results.Last().ToList().IndexOf(Results.Last().Max());
-            double[] res = new double[net.Network.Layers.Last().Biases.Count()];
-            res[correct] = 1;
-            
-            var result = CategoricalCrossEntropy.Forward(Results.Last(), res);
-            double error = result.Sum();
-            return new KeyValuePair<double, List<double[]>> (error, Results);
+            return Results;
         }
-        internal static double[] Backward
-            (string Name,
-             List<double[]> Results,
+        public double[] Backward
+            (List<double[]> Results,
              int correct,
-             MasterformatNetwork net,
-             NetworkMem MFMem,
-             WriteToCMDLine write)
+             NetworkMem mem,
+             WriteToCMDLine Write)
         {
-            double[] res = new double[net.Network.Layers.Last().Biases.Count()];
+            double[] res = new double[Network.Layers.Last().Biases.Count()];
             res[correct] = 1;
             var DValues = res;
 
-            for (int l = net.Network.Layers.Count() - 1; l >= 0; l--)
+            for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
-                DValues = MFMem.Layers[l].DActivation(DValues, Results[l + 1]);
-                MFMem.Layers[l].DBiases(DValues);
-                MFMem.Layers[l].DWeights(DValues, Results[l]);
-                DValues = MFMem.Layers[l].DInputs(DValues, net.Network.Layers[l]);
+                DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
+                mem.Layers[l].DBiases(DValues);
+                mem.Layers[l].DWeights(DValues, Results[l]);
+                DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
             }
             return DValues.ToList().Take(Alpha.DictSize).ToArray();
         }
@@ -235,20 +229,17 @@ namespace CC_Library.Predictions
             while(true)
             {
                 AlphaMem am = new AlphaMem(Name.ToCharArray());
-                double[] AlphaOutput = a.Forward(Name, ctxt, am, write));
-                var F = Forward(AlphaOutput, correct, net, WriteNull);
-                Prediction = F.Value.Last().ToList().IndexOf(F.Value.Last().Max());
+                double[] AlphaOutput = a.Forward(Name, ctxt, am, write);
+                var F = net.Forward(write);
+                Prediction = F.Last().ToList().IndexOf(F.Last().Max());
                 if(Prediction == correct)
                     break;
-
-                error = F.Key;
-                //write("Prediction : " + Prediction + " : Actual : " + correct + " : Error : " + error.ToString());
                 
                 NetworkMem MFMem = new NetworkMem(net.Network);
                 NetworkMem AlphaMem = new NetworkMem(a.Network);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
-                var DValues = Backward(Name, F.Value, correct, net, MFMem, WriteNull);
+                var DValues = net.Backward(F, correct, MFMem, WriteNull);
                 a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
                 MFMem.Update(1, 0.0001, net.Network);
                 AlphaMem.Update(1, 0.00001, a.Network);

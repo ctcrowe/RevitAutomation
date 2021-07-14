@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
-    internal class NetworkMem
+    public class NetworkMem
     {
         public LayerMem[] Layers { get; set; }
         public NetworkMem(NeuralNetwork net)
@@ -24,7 +24,7 @@ namespace CC_Library.Predictions
             });
         }
     }
-    internal class LayerMem
+    public class LayerMem
     {
         public double[] DeltaB { get; set; }
         public double[,] DeltaW { get; set; }

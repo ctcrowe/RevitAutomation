@@ -8,12 +8,8 @@ namespace CC_Library.Predictions
 {
     public interface INetworkPredUpdater
     {
-        string TextInput { get; }
-        double[] ImgInput { get; }
-        double[] OtherInput { get; }
         NeuralNetwork Network { get; }
-        List<double[]> Results { get; set; }
-        void Forward(WriteToCMDLine Write);
-        void Backward();
+        List<double[]> Forward(WriteToCMDLine Write);
+        double[] Backward(List<double[]> Results, int Correct, NetworkMem mem, WriteToCMDLine Write);
     }
 }
