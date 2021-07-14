@@ -9,7 +9,7 @@ using System.Reflection;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    public class Entry
+    public class Sample
     {
         public string Datatype;
         public string TextInput;
@@ -21,6 +21,14 @@ namespace CC_Library.Predictions
         {
             this.Datatype = dt.ToString();
             this.GUID = Guid.NewGuid().ToString();
+        }
+    }
+    public static class ReadWriteSamples
+    {
+        public static Sample[] ReadSamples(this Datatype dt, int Count)
+        {
+            Sample[] output = new Sample[Count];
+            return output;
         }
     }
 }
