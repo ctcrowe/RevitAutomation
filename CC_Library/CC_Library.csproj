@@ -88,7 +88,6 @@
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
     <Compile Include="Predictions\Prediction - Masterformat\MasterformatNetwork.cs" />
     <Compile Include="Predictions\Prediction - Object Style\StyleNetwork.cs" />
-    <Compile Include="Predictions\RevisePredictions.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
     <Compile Include="Predictions\Prediction - Dictionary\Dict.cs" />
@@ -98,14 +97,8 @@
     <Compile Include="Predictions\NeuralNets\Activations.cs" />
     <Compile Include="Predictions\NeuralNets\Cost.cs" />
     <Compile Include="Predictions\Prediction - Dictionary\DictionaryPrediction.cs" />
-    <Compile Include="Predictions\PredictionBasics\ArrayTranspose.cs" />
     <Compile Include="Predictions\PredictionBasics\Accuracy.cs" />
-    <Compile Include="Predictions\PredictionBasics\FindBestResult.cs" />
     <Compile Include="Predictions\PredictionBasics\Entry.cs" />
-    <Compile Include="Predictions\PredictionBasics\PredictionPossibleArrays.cs" />
-    <Compile Include="Predictions\PredictionBasics\PredictionQuantifyResults.cs" />
-    <Compile Include="Predictions\PredictionBasics\SplitTitle.cs" />
-    <Compile Include="Predictions\PredictionBasics\PredictionGetEntries.cs" />
     <Compile Include="Enumerations\Datatypes\CSVData.cs" />
     <Compile Include="Enumerations\Datatypes\Datatypes.cs" />
     <Compile Include="Predictions\PredictionDelegates.cs" />

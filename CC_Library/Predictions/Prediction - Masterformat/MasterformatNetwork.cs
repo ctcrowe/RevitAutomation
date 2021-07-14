@@ -15,17 +15,12 @@ namespace CC_Library.Predictions
 {
     public class MasterformatNetwork : INetworkPredUpdater
     {
-        double[] input { get; set; }
         private const int MinSamples = 2000;
         private const int RunSize = 16;
         public NeuralNetwork Network { get; }
+        public double[] Input { get; set; }
         public MasterformatNetwork(WriteToCMDLine write)
         {
-            Network = Datatype.Masterformat.LoadNetwork(write);
-        }
-        public MasterformatNetwork(double[] INPUT, WriteToCMDLine write)
-        {
-            input = INPUT;
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
         public static int Predict(string s)
@@ -62,7 +57,7 @@ namespace CC_Library.Predictions
         public List<double[]> Forward(WriteToCMDLine write)
         {
             List<double[]> Results = new List<double[]>();
-            Results.Add(input);
+            Results.Add(Input);
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
@@ -220,7 +215,6 @@ namespace CC_Library.Predictions
         public static void SinglePropogate
             (string Name, int correct, WriteToCMDLine write)
         {
-            double error = double.MaxValue;
             int Prediction = -1;
             MasterformatNetwork net = new MasterformatNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
@@ -229,7 +223,7 @@ namespace CC_Library.Predictions
             while(true)
             {
                 AlphaMem am = new AlphaMem(Name.ToCharArray());
-                double[] AlphaOutput = a.Forward(Name, ctxt, am, write);
+                net.Input = a.Forward(Name, ctxt, am, write);
                 var F = net.Forward(write);
                 Prediction = F.Last().ToList().IndexOf(F.Last().Max());
                 if(Prediction == correct)
@@ -244,7 +238,6 @@ namespace CC_Library.Predictions
                 MFMem.Update(1, 0.0001, net.Network);
                 AlphaMem.Update(1, 0.00001, a.Network);
                 CtxtMem.Update(1, 0.0001, ctxt.Network);
-
             }
 
             net.Network.Save();

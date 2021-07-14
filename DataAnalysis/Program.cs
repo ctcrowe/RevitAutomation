@@ -56,9 +56,6 @@ namespace DataAnalysis
                         case "SHOW":
                             PredOutput.OutputPredictions(new WriteToCMDLine(Write));
                             break;
-                        case "REVISE":
-                            PredRevise.RevisePredictions(new WriteToCMDLine(Write));
-                            break;
                         case "EXIT":
                         case "E":
                         case "X":

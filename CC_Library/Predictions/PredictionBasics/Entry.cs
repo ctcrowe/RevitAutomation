@@ -9,5 +9,4 @@ namespace CC_Library.Predictions
         public string[] Values;
         public bool correct;
     }
-    internal delegate Entry GetEntry(string s);
 }

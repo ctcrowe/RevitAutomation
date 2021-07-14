@@ -6,8 +6,6 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    internal delegate List<string>[] ChangedElements
-        (Entry[] entry);
     internal delegate double Initialize
         (Dictionary<string, string[]> Entries,
         WriteToCMDLine write,
