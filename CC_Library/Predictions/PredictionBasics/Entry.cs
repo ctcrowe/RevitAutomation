@@ -9,7 +9,7 @@ using System.Reflection;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class Entry
+    public class Entry
     {
         public string Datatype;
         public string TextInput;
