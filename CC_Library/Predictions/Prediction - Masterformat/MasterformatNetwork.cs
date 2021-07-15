@@ -63,34 +63,35 @@ namespace CC_Library.Predictions
         public void Propogate
             (WriteToCMDLine write)
         {
-            var Samples = datatype.ReadSamples();
-            Samples[0] = Input;
-            int Prediction = -1;
-            Alpha a = new Alpha(WriteNull);
-            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
-            while(true)
+            var check = Predict();
+            if(Input.DesiredOutput.ToList().IndexOf(Input.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max())
             {
-                AlphaMem am = new AlphaMem(Input.TextInput.ToCharArray());
-                Input.TextOutput = a.Forward(Input.TextInput, ctxt, am, write);
-                var F = Forward(write);
-                Prediction = F.Last().ToList().IndexOf(F.Last().Max());
-                if (Prediction == Input.DesiredOutput.ToList().IndexOf(Input.DesiredOutput.Max()))
-                    break;
-                
-                NetworkMem MFMem = new NetworkMem(net.Network);
-                NetworkMem AlphaMem = new NetworkMem(a.Network);
-                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
-                
-                var DValues = net.Backward(F, MFMem, WriteNull);
-                a.Backward(Input.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
-                MFMem.Update(1, 0.0001, net.Network);
-                AlphaMem.Update(1, 0.00001, a.Network);
-                CtxtMem.Update(1, 0.0001, ctxt.Network);
+                var Samples = datatype.ReadSamples();
+                Samples[0] = Input;
+                for(int i = 0; i < 5; i++)
+                {
+                    NetworkMem MFMem = new NetworkMem(net.Network);
+                    NetworkMem AlphaMem = new NetworkMem(a.Network);
+                    NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+                    
+                    Parallel.For(0, Samples.Count(), j =>
+                    {
+                        AlphaMem am = new AlphaMem(Input.TextInput.ToCharArray());
+                        Input.TextOutput = a.Forward(Input.TextInput, ctxt, am, write);
+                        var F = Forward(write);
+                    
+                        var DValues = net.Backward(F, MFMem, WriteNull);
+                        a.Backward(Input.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+                    });
+                    MFMem.Update(1, 0.0001, net.Network);
+                    AlphaMem.Update(1, 0.00001, a.Network);
+                    CtxtMem.Update(1, 0.0001, ctxt.Network);
+                }
+                net.Network.Save();
+                a.Network.Save();
+                ctxt.Save();
             }
-
-            net.Network.Save();
-            a.Network.Save();
-            ctxt.Save();
+            Input.Save();
         }
         private static string WriteNull(string s) { return s; }
     }
