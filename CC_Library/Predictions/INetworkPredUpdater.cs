@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
-    public abstract class NetworkPredUpdater
+    public interface INetworkPredUpdater
     {
-        public abstract Datatype datatype { get; }
-        internal abstract NeuralNetwork Network { get; }
-        public abstract Sample Input { get; set; }
-        internal abstract List<double[]> Forward(WriteToCMDLine Write);
-        internal abstract double[] Backward(List<double[]> Results, NetworkMem mem, WriteToCMDLine Write);
-        public abstract void Propogate(WriteToCMDLine write);
+        public Datatype datatype { get; }
+        public NeuralNetwork Network { get; }
+        public Sample Input { get; set; }
+        public List<double[]> Forward(WriteToCMDLine Write);
+        public double[] Backward(List<double[]> Results, NetworkMem mem, WriteToCMDLine Write);
+        public void Propogate(WriteToCMDLine write);
     }
 }
