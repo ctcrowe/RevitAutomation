@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
-    public class MasterformatNetwork : INetworkPredUpdater
+    public class MasterformatNetwork : NetworkPredUpdater
     {
-        public Datatype datatype { get { return Datatype.Masterformat; } }
-        public NeuralNetwork Network { get; }
-        public Sample Input { get; set; }
+        public override Datatype datatype { get { return Datatype.Masterformat; } }
+        internal override NeuralNetwork Network { get; }
+        public override Sample Input { get; set; }
         public MasterformatNetwork(WriteToCMDLine write)
         {
             Network = Datatype.Masterformat.LoadNetwork(write);
@@ -54,7 +54,7 @@ namespace CC_Library.Predictions
             }
             return r;
         }
-        public List<double[]> Forward(WriteToCMDLine write)
+        internal override List<double[]> Forward(WriteToCMDLine write)
         {
             List<double[]> Results = new List<double[]>();
             Results.Add(Input.TextOutput);
@@ -66,7 +66,7 @@ namespace CC_Library.Predictions
 
             return Results;
         }
-        public double[] Backward
+        internal override double[] Backward
             (List<double[]> Results,
              NetworkMem mem,
              WriteToCMDLine Write)
@@ -243,10 +243,10 @@ namespace CC_Library.Predictions
             a.Network.Save();
             ctxt.Save();
         }
-        public void Propogate
+        public override void Propogate
             (WriteToCMDLine write)
         {
-            var Samples = Datatype.Masterformat.ReadSamples();
+            var Samples = datatype.ReadSamples();
             Samples[0] = Input;
             int Prediction = -1;
             MasterformatNetwork net = new MasterformatNetwork(WriteNull);
