@@ -21,12 +21,11 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype = Datatype.Masterformat;
         public NeuralNetwork Network { get; }
-        public Sample Input { get; set; }
         public MasterformatNetwork(WriteToCMDLine write)
         {
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
-        public double[] Predict()
+        public double[] Predict(Sample s = new Sample(Datatype.None))
         {
             Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
             AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, new WriteToCMDLine(WriteNull));
