@@ -23,9 +23,9 @@ namespace CC_Library.Predictions
         {
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
-        public static double[] Predict(string s)
+        public static double[] Predict(Sample s)
         {
-            double[] Results = Alpha.Predict(Datatype.Masterformat, s);
+            double[] Results = a.Forward(Input.TextInput, ctxt, am, write);
             for(int i = 0; i < mf.Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
