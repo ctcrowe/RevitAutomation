@@ -28,6 +28,8 @@ namespace CC_Library.Predictions
         }
         public double[] Predict()
         {
+            Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
+            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, new WriteToCMDLine(WriteNull));
             double[] Results = a.Forward(Input.TextInput, ctxt, am, write);
             for(int i = 0; i < mf.Network.Layers.Count(); i++)
             {
