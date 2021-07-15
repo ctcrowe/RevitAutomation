@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
-    public class MasterformatNetwork : NetworkPredUpdater
+    public class MasterformatNetwork : INetworkPredUpdater
     {
         public Datatype datatype = Datatype.Masterformat;
         public NeuralNetwork Network { get; }
