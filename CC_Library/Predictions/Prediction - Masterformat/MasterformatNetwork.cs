@@ -16,23 +16,21 @@ namespace CC_Library.Predictions
 {
     public class MasterformatNetwork : NetworkPredUpdater
     {
-        public override Datatype datatype = Datatype.Masterformat;
-        internal override NeuralNetwork Network { get; }
-        public override Sample Input { get; set; }
+        public Datatype datatype = Datatype.Masterformat;
+        public NeuralNetwork Network { get; }
+        public Sample Input { get; set; }
         public MasterformatNetwork(WriteToCMDLine write)
         {
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
-        public static int Predict(string s)
+        public static double[] Predict(string s)
         {
-            MasterformatNetwork mf = new MasterformatNetwork(new WriteToCMDLine(WriteNull));
             double[] Results = Alpha.Predict(Datatype.Masterformat, s);
             for(int i = 0; i < mf.Network.Layers.Count(); i++)
             {
-                Results = mf.Network.Layers[i].Output(Results);
+                Results = Network.Layers[i].Output(Results);
             }
-            int Result = Results.ToList().IndexOf(Results.Max());
-            return Result;
+            return Results;
         }
         public static string[] PredictAll(string[] s, WriteToCMDLine write)
         {
@@ -54,7 +52,7 @@ namespace CC_Library.Predictions
             }
             return r;
         }
-        internal override List<double[]> Forward(WriteToCMDLine write)
+        public List<double[]> Forward(WriteToCMDLine write)
         {
             List<double[]> Results = new List<double[]>();
             Results.Add(Input.TextOutput);
@@ -66,7 +64,7 @@ namespace CC_Library.Predictions
 
             return Results;
         }
-        internal override double[] Backward
+        public double[] Backward
             (List<double[]> Results,
              NetworkMem mem,
              WriteToCMDLine Write)
@@ -243,20 +241,19 @@ namespace CC_Library.Predictions
             a.Network.Save();
             ctxt.Save();
         }
-        public override void Propogate
+        public void Propogate
             (WriteToCMDLine write)
         {
             var Samples = datatype.ReadSamples();
             Samples[0] = Input;
             int Prediction = -1;
-            MasterformatNetwork net = new MasterformatNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
             AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
             while(true)
             {
                 AlphaMem am = new AlphaMem(Input.TextInput.ToCharArray());
                 Input.TextOutput = a.Forward(Input.TextInput, ctxt, am, write);
-                var F = net.Forward(write);
+                var F = Forward(write);
                 Prediction = F.Last().ToList().IndexOf(F.Last().Max());
                 if (Prediction == Input.DesiredOutput.ToList().IndexOf(Input.DesiredOutput.Max()))
                     break;
