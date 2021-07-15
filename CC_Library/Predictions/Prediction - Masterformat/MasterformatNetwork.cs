@@ -18,9 +18,10 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype = Datatype.Masterformat;
         public NeuralNetwork Network { get; }
-        public double[] Input { get; set; }
-        public MasterformatNetwork(WriteToCMDLine write)
+        public Sample Input { get; set; }
+        public MasterformatNetwork(Sample s, WriteToCMDLine write)
         {
+            Input = s;
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
         public static int Predict(string s)
