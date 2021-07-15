@@ -11,6 +11,9 @@ using System.Runtime.InteropServices;
 /// For this reason, it doesnt need all of the delegates that a typical network would.
 /// </summary>
 //https://stackoverflow.com/questions/26733/getting-all-types-that-implement-an-interface
+//var results = from type in someAssembly.GetTypes()
+//              where typeof(IFoo).IsAssignableFrom(type)
+//              select type;
 
 namespace CC_Library.Predictions
 {
