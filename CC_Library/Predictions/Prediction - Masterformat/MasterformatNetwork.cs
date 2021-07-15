@@ -16,7 +16,7 @@ namespace CC_Library.Predictions
 {
     public class MasterformatNetwork : NetworkPredUpdater
     {
-        public override Datatype datatype { get { return Datatype.Masterformat; } }
+        public override Datatype datatype = Datatype.Masterformat;
         internal override NeuralNetwork Network { get; }
         public override Sample Input { get; set; }
         public MasterformatNetwork(WriteToCMDLine write)
