@@ -11,7 +11,7 @@ namespace CC_Library.Predictions
     [Serializable]
     public class Sample
     {
-        public string Datatype {get; set;}
+        public string Datatype { get; }
         public string TextInput;
         public double[] TextOutput { get; set; }
         public double[] ValInput;
