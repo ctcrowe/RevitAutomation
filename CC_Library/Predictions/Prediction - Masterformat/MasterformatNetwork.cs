@@ -16,12 +16,11 @@ namespace CC_Library.Predictions
 {
     public class MasterformatNetwork : INetworkPredUpdater
     {
-        public Datatype datatype = Datatype.Masterformat;
+        public Datatype datatype { get { return Datatype.Masterformat; } }
         public NeuralNetwork Network { get; }
         public Sample Input { get; set; }
-        public MasterformatNetwork(Sample s, WriteToCMDLine write)
+        public MasterformatNetwork(WriteToCMDLine write)
         {
-            Input = s;
             Network = Datatype.Masterformat.LoadNetwork(write);
         }
         public static int Predict(string s)
@@ -58,7 +57,7 @@ namespace CC_Library.Predictions
         public List<double[]> Forward(WriteToCMDLine write)
         {
             List<double[]> Results = new List<double[]>();
-            Results.Add(Input);
+            Results.Add(Input.TextOutput);
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
@@ -69,13 +68,10 @@ namespace CC_Library.Predictions
         }
         public double[] Backward
             (List<double[]> Results,
-             int correct,
              NetworkMem mem,
              WriteToCMDLine Write)
         {
-            double[] res = new double[Network.Layers.Last().Biases.Count()];
-            res[correct] = 1;
-            var DValues = res;
+            var DValues = Input.DesiredOutput;
 
             for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
@@ -139,7 +135,9 @@ namespace CC_Library.Predictions
             (string filepath,
             WriteToCMDLine write)
         {
-            MasterformatNetwork mf = new MasterformatNetwork(write);
+            int RunSize = 16;
+            int MinSamples = 2000;
+            MasterformatNetwork mf = new MasterformatNetwork(new WriteToCMDLine(WriteNull));
             Alpha a = new Alpha(write);
             AlphaContext lctxt = new AlphaContext(Datatype.Masterformat, write);
             NetworkMem MFMem = new NetworkMem(mf.Network);
@@ -224,7 +222,7 @@ namespace CC_Library.Predictions
             while(true)
             {
                 AlphaMem am = new AlphaMem(Name.ToCharArray());
-                net.Input = a.Forward(Name, ctxt, am, write);
+                net.Input.TextOutput = a.Forward(Name, ctxt, am, write);
                 var F = net.Forward(write);
                 Prediction = F.Last().ToList().IndexOf(F.Last().Max());
                 if(Prediction == correct)
@@ -234,7 +232,7 @@ namespace CC_Library.Predictions
                 NetworkMem AlphaMem = new NetworkMem(a.Network);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
-                var DValues = net.Backward(F, correct, MFMem, WriteNull);
+                var DValues = net.Backward(F, MFMem, WriteNull);
                 a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
                 MFMem.Update(1, 0.0001, net.Network);
                 AlphaMem.Update(1, 0.00001, a.Network);
@@ -249,26 +247,26 @@ namespace CC_Library.Predictions
             (WriteToCMDLine write)
         {
             var Samples = Datatype.Masterformat.ReadSamples();
-            Samples[0] = s;
+            Samples[0] = Input;
             int Prediction = -1;
             MasterformatNetwork net = new MasterformatNetwork(WriteNull);
             Alpha a = new Alpha(WriteNull);
             AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, WriteNull);
             while(true)
             {
-                AlphaMem am = new AlphaMem(Name.ToCharArray());
-                net.Input = a.Forward(Name, ctxt, am, write);
+                AlphaMem am = new AlphaMem(Input.TextInput.ToCharArray());
+                Input.TextOutput = a.Forward(Input.TextInput, ctxt, am, write);
                 var F = net.Forward(write);
                 Prediction = F.Last().ToList().IndexOf(F.Last().Max());
-                if(Prediction == correct)
+                if (Prediction == Input.DesiredOutput.ToList().IndexOf(Input.DesiredOutput.Max()))
                     break;
                 
                 NetworkMem MFMem = new NetworkMem(net.Network);
                 NetworkMem AlphaMem = new NetworkMem(a.Network);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
                 
-                var DValues = net.Backward(F, correct, MFMem, WriteNull);
-                a.Backward(Name, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+                var DValues = net.Backward(F, MFMem, WriteNull);
+                a.Backward(Input.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
                 MFMem.Update(1, 0.0001, net.Network);
                 AlphaMem.Update(1, 0.00001, a.Network);
                 CtxtMem.Update(1, 0.0001, ctxt.Network);

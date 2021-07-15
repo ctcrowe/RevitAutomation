@@ -13,6 +13,7 @@ namespace CC_Library.Predictions
     {
         public string Datatype;
         public string TextInput;
+        public double[] TextOutput { get; set; }
         public double[] ValInput;
         public double[] ImgInput;
         public double[] DesiredOutput;
@@ -28,19 +29,19 @@ namespace CC_Library.Predictions
         public static Sample[] ReadSamples(this Datatype dt, int Count = 16)
         {
             string folder = "NetworkSamples".GetMyDocs();
-            if (Directory.Exists(Folder))
+            if (Directory.Exists(folder))
             {
                 string subfolder = folder + "\\" + dt.ToString();
                 if(Directory.Exists(subfolder))
                 {
-                    string[] Files = Directory.GetFiles(Folder);
+                    string[] Files = Directory.GetFiles(folder);
                     if(Files.Any())
                     {
                         Random r = new Random();
-                        Sample[] output = new Sample[(Count > Files.Count() * Files.Count()) + (!Count > Files.Count() * Count)];
+                        Sample[] output = new Sample[(Count > Files.Count())? Files.Count() : Count];
                         for(int i = 0; i < output.Count(); i++)
                         {
-                            output[i] = ReadFromBinaryFile<Sample>(Files[r.NextInt(Files.Count())]);
+                            output[i] = ReadFromBinaryFile<Sample>(Files[r.Next(Files.Count())]);
                         }
                         return output;
                     }
