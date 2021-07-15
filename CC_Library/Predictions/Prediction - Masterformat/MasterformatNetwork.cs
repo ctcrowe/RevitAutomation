@@ -246,7 +246,7 @@ namespace CC_Library.Predictions
             ctxt.Save();
         }
         public void Propogate
-            (Sample s, WriteToCMDLine write)
+            (WriteToCMDLine write)
         {
             var Samples = Datatype.Masterformat.ReadSamples();
             Samples[0] = s;
