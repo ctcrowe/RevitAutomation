@@ -101,8 +101,9 @@ namespace CC_Library.Predictions
                 Network.Save();
                 a.Network.Save();
                 ctxt.Save();
+                
+                s.Save();
             }
-            s.Save();
         }
         private static string WriteNull(string s) { return s; }
     }
