@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CC_Library.Datatypes;
 using System.Linq;
@@ -11,10 +11,9 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get; }
         public NeuralNetwork Network { get; }
-        public Sample Input { get; set; }
-        public double[] Predict()
+        public double[] Predict(Sample s)
         public List<double[]> Forward(WriteToCMDLine Write);
         public double[] Backward(List<double[]> Results, NetworkMem mem, WriteToCMDLine Write);
-        public void Propogate(WriteToCMDLine write);
+        public void Propogate(Sample s, WriteToCMDLine write);
     }
 }
