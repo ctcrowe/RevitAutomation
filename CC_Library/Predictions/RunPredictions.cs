@@ -32,7 +32,7 @@ namespace CC_Library.Predictions
                             //GeneralPrediction.Propogate(filepath, write);
                             break;
                         case Datatype.Masterformat:
-                            MasterformatNetwork.Propogate(filepath, write);
+                            //MasterformatNetwork.Propogate(filepath, write);
                             break;
                         case Datatype.Dictionary:
                             DictionaryNetwork.Propogate(filepath, write);

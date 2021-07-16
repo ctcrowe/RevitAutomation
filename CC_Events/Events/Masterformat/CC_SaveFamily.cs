@@ -31,7 +31,11 @@ namespace CC_Plugin
                 using (Transaction t = new Transaction(doc, "get ID"))
                 {
                     string fp = doc.PathName;
-                    string Division = "Division " + MasterformatNetwork.Predict(fp.Split('\\').Last().Split('.').First());
+                    Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                    s.TextInput = fp.Split('\\').Last().Split('.').First();
+
+                    MasterformatNetwork net = new MasterformatNetwork();
+                    string Division = "Division " + net.Predict(s);
                     string SubDir = folder + "\\" + Division;
                     if (!Directory.Exists(folder))
                         Directory.CreateDirectory(folder);

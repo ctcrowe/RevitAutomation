@@ -132,7 +132,13 @@ namespace CC_Plugin
                         try { name = ele.FamilyName + " " + ele.Name; } catch (Exception e) { e.OutputError(); }
                         if (name != "")
                         {
-                            try { MF = MasterformatNetwork.Predict(name); }
+                            try
+                            {
+                                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                                s.TextInput = name;
+                                var output = new MasterformatNetwork().Predict(s);
+                                MF = output.ToList().IndexOf(output.Max());
+                            }
                             catch (Exception e) { e.OutputError(); }
                         }
                         try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
@@ -144,7 +150,10 @@ namespace CC_Plugin
         {
             if (doc.IsFamilyDocument)
             {
-                var Masterformat = MasterformatNetwork.Predict(fn);
+                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                s.TextInput = fn;
+                var output = new MasterformatNetwork().Predict(s);
+                var Masterformat = output.ToList().IndexOf(output.Max());
                 using (TransactionGroup tg = new TransactionGroup(doc, "Set MF"))
                 {
                     tg.Start();

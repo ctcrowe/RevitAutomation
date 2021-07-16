@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CC_Library.Datatypes;
 using System.IO;
-
+/*
 namespace CC_Library.Predictions
 {
     public static class PredOutput
@@ -50,4 +50,4 @@ namespace CC_Library.Predictions
             }
         }
     }
-}
+}*/

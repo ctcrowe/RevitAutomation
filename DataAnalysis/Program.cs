@@ -54,7 +54,7 @@ namespace DataAnalysis
                             }
                             break;
                         case "SHOW":
-                            PredOutput.OutputPredictions(new WriteToCMDLine(Write));
+                            //PredOutput.OutputPredictions(new WriteToCMDLine(Write));
                             break;
                         case "EXIT":
                         case "E":
