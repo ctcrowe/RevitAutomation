@@ -19,9 +19,10 @@ namespace CC_Library.Predictions
 
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
-            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x));
-
-            return 0;
+            var NetType = a.GetTypes().Where(x => type.IsAssignableFrom(x)).Where(y => (y as INetworkPredUpdater).datatype == dt).First();
+            INetworkPredUpdater Network = NetType as INetworkPredUpdater;
+            var output = Network.Predict(entry);
+            return output.ToList().IndexOf(output.Max());
         }
     }
 }
