@@ -35,7 +35,8 @@ namespace CC_Plugin
                     s.TextInput = fp.Split('\\').Last().Split('.').First();
 
                     MasterformatNetwork net = new MasterformatNetwork();
-                    string Division = "Division " + net.Predict(s);
+                    var div = net.Predict(s);
+                    string Division = "Division " + div.ToList().IndexOf(div.Max());
                     string SubDir = folder + "\\" + Division;
                     if (!Directory.Exists(folder))
                         Directory.CreateDirectory(folder);

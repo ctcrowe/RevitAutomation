@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CC_Library.Datatypes;
+using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
@@ -25,8 +26,11 @@ namespace CC_Library.Predictions
         }
         public List<double[]> Forward(Sample s, WriteToCMDLine write)
         {
+            var input = s.TextOutput.ToList();
+            input.AddRange(s.ValInput);
+
             List<double[]> Results = new List<double[]>();
-            Results.Add(s.TextOutput);
+            Results.Add(input.ToArray()) ;
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
@@ -77,7 +81,7 @@ namespace CC_Library.Predictions
                         var DValues = Backward(s, F, ObjMem, WriteNull);
                         a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
                     });
-                    MFMem.Update(1, 0.0001, Network);
+                    ObjMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);
                     CtxtMem.Update(1, 0.0001, ctxt.Network);
                 }

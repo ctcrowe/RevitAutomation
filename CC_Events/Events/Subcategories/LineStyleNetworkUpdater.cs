@@ -6,6 +6,7 @@ using Autodesk.Revit.UI;
 
 using CC_Library;
 using CC_Library.Predictions;
+using CC_Library.Datatypes;
 using CC_Library.Parameters;
 
 using CC_Plugin.Parameters;
@@ -74,7 +75,7 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            int prediction = ObjectStyleNetwork.Predict(name, dims);
+                            int prediction = Datatype.ObjectStyle.PredictSingle(name, dims);
                             /*
                             if (ele.Subcategory.Name != Enum.GetNames(typeof(ObjectCategory))[prediction])
                             {

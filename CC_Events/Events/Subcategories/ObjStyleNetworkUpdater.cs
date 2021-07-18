@@ -6,6 +6,7 @@ using Autodesk.Revit.UI;
 
 using CC_Library;
 using CC_Library.Predictions;
+using CC_Library.Datatypes;
 using CC_Library.Parameters;
 
 using CC_Plugin.Parameters;
@@ -37,6 +38,10 @@ namespace CC_Plugin
         private static string Write(string s)
         {
             TaskDialog.Show("CHECKING ERROR", s);
+            return s;
+        }
+        private static string WriteNull(string s)
+        {
             return s;
         }
         private double[] GetDims(BoundingBoxXYZ bbox)
@@ -79,7 +84,7 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name), new WriteToCMDLine(Write));
+                            Datatype.ObjectStyle.PropogateSingle(Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name), new WriteToCMDLine(WriteNull), name, dims);
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter

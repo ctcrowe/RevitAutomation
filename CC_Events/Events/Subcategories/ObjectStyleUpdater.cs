@@ -1,14 +1,11 @@
 ﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Events;
 using System.Linq;
 using System;
 using Autodesk.Revit.UI;
 
 using CC_Library;
 using CC_Library.Predictions;
-using CC_Library.Parameters;
-
-using CC_Plugin.Parameters;
+using CC_Library.Datatypes;
 
 namespace CC_Plugin
 {
@@ -74,7 +71,7 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            int prediction = ObjectStyleNetwork.Predict(name, dims);
+                            int prediction = Datatype.ObjectStyle.PredictSingle(name, dims);
                             var subcat = doc.AddCategories(prediction);
                             ele.Subcategory = subcat;
                         }
