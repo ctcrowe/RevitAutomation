@@ -8,7 +8,26 @@
         A4,
         A5,
         B,
-        H1
+        E,
+        F1,
+        F2.
+        H1,
+        H2,
+        H3,
+        H4,
+        H5,
+        I1,
+        I2,
+        I3,
+        R1,
+        R2,
+        R3,
+        R4,
+        S1,
+        S2,
+        U,
+        L,
+        C
     }
     public enum ObjectCategory
     {
