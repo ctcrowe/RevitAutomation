@@ -18,5 +18,19 @@ namespace CC_Library.Parameters
             ParamType.Material,
             false,
             true );
+        public static readonly Param AreaPerOccupant = new Param
+            ("Area Per Occupant",
+             new Guid("..."),
+             Subcategory.Rooms,
+             ParamType.Area,
+             true,
+             true );
+        public static readonly Param Occupancy Group = new Param
+            ("Occupancy Group",
+             new Guid("..."),
+             Subcategory.Rooms,
+             ParamType.Text,
+             true,
+             true );
     }
 }
