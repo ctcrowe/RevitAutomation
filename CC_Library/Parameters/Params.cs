@@ -25,7 +25,7 @@ namespace CC_Library.Parameters
              ParamType.Area,
              true,
              true );
-        public static readonly Param Occupancy Group = new Param
+        public static readonly Param OccupancyGroup = new Param
             ("Occupancy Group",
              new Guid("..."),
              Subcategory.Rooms,
