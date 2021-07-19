@@ -1,5 +1,15 @@
 ﻿namespace CC_Library
 {
+    public enum OccGroup
+    {
+        A1,
+        A2,
+        A3,
+        A4,
+        A5,
+        B,
+        H1
+    }
     public enum ObjectCategory
     {
     //Door and Window
