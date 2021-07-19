@@ -28,6 +28,7 @@ namespace CC_Library.Predictions
                 {
                     var output = Network.Predict(entry);
                     prediction = output.ToList().IndexOf(output.Max());
+                    break;
                 }
             }
             return prediction;
@@ -41,11 +42,18 @@ namespace CC_Library.Predictions
 
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
-            var NetType = a.GetTypes().Where(x => type.IsAssignableFrom(x)).Where(y => (y as INetworkPredUpdater).datatype == dt).First();
-            INetworkPredUpdater Network = NetType as INetworkPredUpdater;
-            entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
-            entry.DesiredOutput[correct] = 1;
-            Network.Propogate(entry, write);
+            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x));
+            for(int i = 0; i < NetTypes.Count(); i++)
+            {
+                INetworkPredUpdater Network = NetTypes[i] as INetworkPredUpdater;
+                if(Network.datatype == dt)
+                {
+                    entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
+                    entry.DesiredOutput[correct] = 1;
+                    Network.Propogate(entry, write);
+                    break;
+                }
+            }
         }
     }
 }
