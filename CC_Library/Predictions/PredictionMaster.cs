@@ -19,10 +19,18 @@ namespace CC_Library.Predictions
 
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
-            var NetType = a.GetTypes().Where(x => type.IsAssignableFrom(x)).Where(y => (y as INetworkPredUpdater).datatype == dt).First();
-            INetworkPredUpdater Network = NetType as INetworkPredUpdater;
-            var output = Network.Predict(entry);
-            return output.ToList().IndexOf(output.Max());
+            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x));
+            int prediction = null;
+            for(int i = 0; i < NetTypes.Count(); i++)
+            {
+                INetworkPredUpdater Network = NetTypes[i] as INetworkPredUpdater;
+                if(Network.datatype == dt)
+                {
+                    var output = Network.Predict(entry);
+                    prediction = output.ToList().IndexOf(output.Max());
+                }
+            }
+            return prediction;
         }
         public static void PropogateSingle(this Datatype dt, int correct, WriteToCMDLine write, string s = null, double[] other = null, double[] img = null)
         {
