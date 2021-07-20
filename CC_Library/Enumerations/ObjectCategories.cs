@@ -1,5 +1,25 @@
 ﻿namespace CC_Library
 {
+    public enum OccLoadFactor
+    {
+        A5,
+        A7,
+        A11,
+        A15,
+        A20,
+        A30,
+        A35,
+        A40,
+        A50,
+        A60,
+        A100,
+        A120,
+        A150,
+        A200,
+        A240,
+        A300,
+        A500
+    }
     public enum OccGroup
     {
         A1,
