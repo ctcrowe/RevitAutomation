@@ -9,9 +9,9 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get { return Datatype.ObjectStyle; } }
         public NeuralNetwork Network { get; }
-        public ObjectStyleNetwork(WriteToCMDLine write)
+        public ObjectStyleNetwork()
         {
-            Network = Datatype.ObjectStyle.LoadNetwork(write);
+            Network = Datatype.ObjectStyle.LoadNetwork(new WriteToCMDLine(WriteNull));
         }
         public double[] Predict(Sample s)
         {
