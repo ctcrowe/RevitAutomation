@@ -10,9 +10,9 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get { return Datatype.OccupantLoadFactor; } }
         public NeuralNetwork Network { get; }
-        public ObjectStyleNetwork(WriteToCMDLine write)
+        public ObjectStyleNetwork()
         {
-            Network = Datatype.OccupantLoadFactor.LoadNetwork(write);
+            Network = Datatype.OccupantLoadFactor.LoadNetwork(new WriteToCMDLine(WriteNull));
         }
         public double[] Predict(Sample s)
         {
