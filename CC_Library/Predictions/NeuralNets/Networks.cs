@@ -21,6 +21,8 @@ namespace CC_Library.Predictions
                     return DictNetwork();
                 case Datatype.ObjectStyle:
                     return ObjectStyleNetwork();
+                case Datatype.OccupantLoadFactor:
+                    return LoadFactorNetwork();
             }
         }
         private static NeuralNetwork AlphaNetwork()
@@ -62,6 +64,16 @@ namespace CC_Library.Predictions
             NeuralNetwork network = new NeuralNetwork(Datatype.ObjectStyle);
 
             network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize + 18, Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+            network.Layers.Add(new Layer(Enum.GetNames(typeof(ObjectCategory)).Count(), network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+
+            return network;
+        }
+        private static NeuralNetwork LoadFactorNetwork()
+        {
+            NeuralNetwork network = new NeuralNetwork(Datatype.OccupantLoadFactor);
+
+            network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize + 1, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
             network.Layers.Add(new Layer(Enum.GetNames(typeof(ObjectCategory)).Count(), network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
 
