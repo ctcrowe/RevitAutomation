@@ -19,8 +19,8 @@ namespace CC_Library.Predictions
 
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
-            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x));
-            int prediction = null;
+            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x)).ToList();
+            int prediction = -1;
             for(int i = 0; i < NetTypes.Count(); i++)
             {
                 INetworkPredUpdater Network = NetTypes[i] as INetworkPredUpdater;
@@ -42,7 +42,7 @@ namespace CC_Library.Predictions
 
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
-            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x));
+            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x)).ToList();
             for(int i = 0; i < NetTypes.Count(); i++)
             {
                 INetworkPredUpdater Network = NetTypes[i] as INetworkPredUpdater;
