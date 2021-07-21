@@ -119,28 +119,6 @@ namespace CC_Library.Predictions
 
             return doc;
         }
-        public static XDocument GetXDoc(this Datatype datatype, WriteToCMDLine write)
-        {
-            var assembly = typeof(ReadWriteXML).GetTypeInfo().Assembly;
-            if (assembly.GetManifestResourceNames().Any(z => z.Contains(datatype.ToString())))
-            {
-                string name = assembly.GetManifestResourceNames().Where(z => z.Contains(datatype.ToString())).First();
-                write(name);
-
-                using (Stream stream = assembly.GetManifestResourceStream(name))
-                {
-                    var xdoc = new XmlDocument();
-                    xdoc.Load(stream);
-
-                    return xdoc.ToXDocument();
-                }
-            }
-            XDocument doc = new XDocument(new XElement(datatype.ToString()))
-            {
-                Declaration = new XDeclaration("1.0", "utf-8", "yes")
-            };
-            return doc;
-        }
         public static void Write(this XDocument doc)
         {
             string Dir = doc.Root.Attribute("Datatype").Value.ToString();
