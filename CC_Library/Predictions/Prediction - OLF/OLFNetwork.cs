@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using CC_Library.Datatypes;
 using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
@@ -10,7 +9,7 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get { return Datatype.OccupantLoadFactor; } }
         public NeuralNetwork Network { get; }
-        public ObjectStyleNetwork()
+        public OLFNetwork()
         {
             Network = Datatype.OccupantLoadFactor.LoadNetwork(new WriteToCMDLine(WriteNull));
         }
