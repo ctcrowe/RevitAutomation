@@ -23,6 +23,15 @@ namespace CC_Library.Predictions
             this.Datatype = dt.ToString();
             this.GUID = Guid.NewGuid().ToString();
         }
+        public Sample(Datatype dt, string s = null, double[] other = null, double[] img = null)
+        {
+            this.Datatype = dt.ToString();
+            this.GUID = Guid.NewGuid().ToString();
+            if(s != null) { this.TextInput = s; }
+            if(other != null) { this.ValInput = other; }
+            if (img != null) { this.ImgInput = img; }
+
+        }
     }
     public static class ReadWriteSamples
     {
