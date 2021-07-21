@@ -61,36 +61,6 @@ namespace CC_Library.Predictions
             doc.Write();
             return doc;
         }
-        public static List<XDocument> GetXMLElements(this Datatype datatype)
-        {
-            List<XDocument> docs = new List<XDocument>();
-            string Folder = datatype.ToString().GetMyDocs();
-            if (Directory.Exists(Folder))
-            {
-                string[] Files = Directory.GetFiles(Folder);
-                if (Files.Any(x => x.Split('\\').Last().Split('_').First() == datatype.ToString()))
-                {
-                    var xdocs = Files.Where(x => x.Split('\\').Last().Split('_').First() == datatype.ToString());
-                    for(int i = 0; i < xdocs.Count(); i++)
-                    {
-                        docs.Add(XDocument.Load(xdocs.ElementAt(i)));
-                    }
-                }
-            }
-
-            var assembly = typeof(ReadWriteXML).GetTypeInfo().Assembly;
-            if (assembly.GetManifestResourceNames().Any(x => x.Contains(datatype.ToString() + "_")))
-            {
-                foreach(string name in assembly.GetManifestResourceNames().Where(x => x.Contains(datatype.ToString() + "_")))
-                using (Stream stream = assembly.GetManifestResourceStream(name))
-                {
-                    var xdoc = XDocument.Load(stream);
-                        if (!docs.Any(x => x.Root.Name == xdoc.Root.Name))
-                            docs.Add(xdoc);
-                }
-            }
-            return docs;
-        }
         public static XDocument CreateXDoc(this Datatype type, string ElementName)
         {
             Random r = new Random();
