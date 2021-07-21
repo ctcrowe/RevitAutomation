@@ -14,6 +14,8 @@ using CC_Library.Datatypes;
 //New complexity: Element Location as Input
 //This will require an attention mechanism and name input
 //Attention input can be same as element input - 1 input fed into 2 hidden layers
+//The input will be the name in 100D space, followed by the location (start XY, end XY)
+//if the location is a single point, location is (start XY, start XY)
 //One outputs a position in 100 dimensional space
 //The second outputs a focus value - an interpretation of the significance of that location...
 
