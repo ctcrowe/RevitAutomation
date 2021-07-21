@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
             int prediction = -1;
             for(int i = 0; i < NetTypes.Count(); i++)
             {
-                INetworkPredUpdater Network = Activator.CreatInstance(NetTypes[i]) as INetworkPredUpdater;
+                var Network = Activator.CreatInstance(NetTypes[i]) as INetworkPredUpdater;
                 if(Network.datatype == dt)
                 {
                     var output = Network.Predict(entry);
@@ -45,7 +45,7 @@ namespace CC_Library.Predictions
             var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x)).ToList();
             for(int i = 0; i < NetTypes.Count(); i++)
             {
-                INetworkPredUpdater Network = Activator.CreatInstance(NetTypes[i]) as INetworkPredUpdater;
+                var Network = Activator.CreatInstance(NetTypes[i]) as INetworkPredUpdater;
                 if(Network.datatype == dt)
                 {
                     entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
