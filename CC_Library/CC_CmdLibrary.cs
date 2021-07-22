@@ -14,6 +14,19 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static string GetMyDocs(this string Subdir, WriteToCMDLine wo)
+        {
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string subdir = directory +"\\" + Subdir;
+            wo(subdir);
+            return subdir;
+        }
+        public static string GetMyDocs(this string Subdir)
+        {
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string subdir = directory + "\\" + Subdir;
+            return subdir;
+        }
         public static double[,] Dot(this double[,] x, double[,] y)
         {
             if (x.GetLength(0) == y.GetLength(1) && x.GetLength(1) == y.GetLength(0))
