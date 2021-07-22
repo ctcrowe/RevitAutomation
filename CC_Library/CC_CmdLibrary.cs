@@ -14,6 +14,23 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double[] Clipped(this double[] X)
+        {
+            double[] result = new double[X.Count()];
+            for(int i = 0; i < X.Count(); i++)
+            {
+                if (X[i] <= 0)
+                    result[i] = 1e-7;
+                else
+                {
+                    if (X[i] >= 1)
+                        result[i] = 1 - (1e-7);
+                    else
+                        result[i] = X[i];
+                }
+            }
+            return result;
+        }
         public static double[,] DiagFlat(this double[] X)
         {
             double[,] result = new double[X.Count(), X.Count()];
