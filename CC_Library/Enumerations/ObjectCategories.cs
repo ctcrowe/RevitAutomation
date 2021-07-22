@@ -53,6 +53,7 @@
     {
     //Door and Window
         Swing,
+        Frame,
         Head,
         Jamb,
         Sill,
