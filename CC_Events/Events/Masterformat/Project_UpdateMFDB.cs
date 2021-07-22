@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using CC_Library.Parameters;
+using CC_Library.Datatypes;
 using System.Threading;
 using CC_Plugin.Parameters;
 
