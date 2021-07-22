@@ -14,6 +14,15 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double[,] DiagFlat(this double[] X)
+        {
+            double[,] result = new double[X.Count(), X.Count()];
+            for(int i = 0; i < X.Count(); i++)
+            {
+                result[i, i] = X[i];
+            }
+            return result;
+        }
         public static string GetMyDocs(this string Subdir, WriteToCMDLine wo)
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
