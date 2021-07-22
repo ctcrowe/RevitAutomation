@@ -10,6 +10,15 @@ using CC_Library.Datatypes;
 ///     This last input will be the distance between them.
 /// 2) Actual location of characters
 ///     This will be DictSize and represents the N Dimensional encoding of the letter where N is the DictSize in the class.
+
+//New complexity: Element Location as Input
+//This will require an attention mechanism and name input
+//Attention input can be same as element input - 1 input fed into 2 hidden layers
+//The input will be the name in 100D space, followed by the location (start XY, end XY)
+//if the location is a single point, location is (start XY, start XY)
+//One outputs a position in 100 dimensional space
+//The second outputs a focus value - an interpretation of the significance of that location...
+
 namespace CC_Library.Predictions
 {
     internal class Alpha
