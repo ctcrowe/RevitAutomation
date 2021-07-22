@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
                     return ReadFromBinaryFile<NeuralNetwork>(doc);
                 }
             }
-            var assembly = typeof(ReadWriteXML).GetTypeInfo().Assembly;
+            var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
             if (assembly.GetManifestResourceNames().Any(x => x.Contains(fn)))
             {
                 string name = assembly.GetManifestResourceNames().Where(x => x.Contains(fn)).First();

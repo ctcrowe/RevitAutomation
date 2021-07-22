@@ -104,15 +104,6 @@
     <Compile Include="Enumerations\Datatypes\Datatypes.cs" />
     <Compile Include="Predictions\PredictionDelegates.cs" />
     <Compile Include="Predictions\RunPredictions.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\ReadWriteXml.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlCollectChangedElements.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlCorrelateArrays.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XMLDistance.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlElementToChange.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlFindNearest.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlMoveElement.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XMLPossibleArrays.cs" />
-    <Compile Include="Predictions\PredictionBasics\Predictions_XML\XmlResultantDatapoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

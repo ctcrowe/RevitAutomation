@@ -19,12 +19,12 @@ namespace CC_Library.Predictions
 
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
-            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x)).ToList();
+            var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
             int prediction = -1;
             for(int i = 0; i < NetTypes.Count(); i++)
             {
-                var Network = Activator.CreatInstance(NetTypes[i]) as INetworkPredUpdater;
-                if(Network.datatype == dt)
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                if (Network.datatype == dt)
                 {
                     var output = Network.Predict(entry);
                     prediction = output.ToList().IndexOf(output.Max());
@@ -42,11 +42,11 @@ namespace CC_Library.Predictions
 
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
-            var NetTypes = a.GetTypes().Where(x => type.IsAssignableFrom(x)).ToList();
-            for(int i = 0; i < NetTypes.Count(); i++)
+            var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
+            for (int i = 0; i < NetTypes.Count(); i++)
             {
-                var Network = Activator.CreatInstance(NetTypes[i]) as INetworkPredUpdater;
-                if(Network.datatype == dt)
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                if (Network.datatype == dt)
                 {
                     entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
                     entry.DesiredOutput[correct] = 1;
