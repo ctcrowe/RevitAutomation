@@ -12,8 +12,7 @@ using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
-    /*
-    internal class ObjStyleUpdater : IUpdater
+    internal class LineStyleUpdater : IUpdater
     {
         public static Result OnStartup(UIControlledApplication app)
         {
@@ -22,16 +21,16 @@ namespace CC_Plugin
         }
         public static Result OnShutdown(UIControlledApplication app)
         {
-            ObjStyleUpdater updater = new ObjStyleUpdater(app.ActiveAddInId);
+            LineStyleUpdater updater = new LineStyleUpdater(app.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
             return Result.Succeeded;
         }
         public static void RegisterUpdater(AddInId id)
         {
-            ObjStyleUpdater updater = new ObjStyleUpdater(id);
+            LineStyleUpdater updater = new LineStyleUpdater(id);
             UpdaterRegistry.RegisterUpdater(updater, true);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
-                new ElementClassFilter(typeof(GenericForm)),
+                new ElementClassFilter(typeof(CurveElement)),
                 Element.GetChangeTypeAny());
         }
         private double[] GetDims(BoundingBoxXYZ bbox)
@@ -70,8 +69,9 @@ namespace CC_Plugin
                     //Get form location info (Varies by type?)
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
-                        GenericForm ele = doc.GetElement(e) as GenericForm;
+                        CurveElement ele = doc.GetElement(e) as CurveElement;
                         var bbox = ele.get_BoundingBox(null);
+                        Category linesCat = currentDoc.Settings.Categories.get_Item("Lines");
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
@@ -94,7 +94,7 @@ namespace CC_Plugin
         public ObjStyleUpdater(AddInId id)
         {
             appId = id;
-            updaterId = new UpdaterId(appId, new Guid("0df8fb78-134b-4d6d-a14e-15a70ac2de12"));
+            updaterId = new UpdaterId(appId, new Guid("d78ca253-faaa-49c8-8cb5-66057d8e15df"));
         }
         static AddInId appId;
         static UpdaterId updaterId;
