@@ -46,24 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Array_Clipped.cs" />
-    <Compile Include="Array_DiagFlat.cs" />
     <Compile Include="Enumerations\Datatypes\CountDatatype.cs" />
     <Compile Include="Enumerations\Datatypes\CreateCSVInputData.cs" />
     <Compile Include="Enumerations\Datatypes\CreateDataFolder.cs" />
-    <Compile Include="DotProduct.cs" />
     <Compile Include="Enumerations\Commands.cs" />
-    <Compile Include="GetFileLocation.cs" />
     <Compile Include="Materials\CCMaterial.cs" />
     <Compile Include="OpenFile.cs" />
-    <Compile Include="OutputError.cs" />
     <Compile Include="Parameters\CoordinateGUID.cs" />
     <Compile Include="Parameters\Params.cs" />
     <Compile Include="Parameters\Params_Door.cs" />
     <Compile Include="Parameters\Param.cs" />
     <Compile Include="Parameters\ParamGUIDs.cs" />
     <Compile Include="Parameters\Parameter.cs" />
-    <Compile Include="CMDGetMyDocs.cs" />
     <Compile Include="CC_CmdLibrary.cs" />
     <Compile Include="Enumerations\ObjectCategories.cs" />
     <Compile Include="Parameters\Params_Material.cs" />

@@ -115,7 +115,7 @@ namespace CC_Plugin
             string fn = null;
             while (fn == null)
             {
-                fn = GetFileLocation.GetFile();
+                fn = Files.GetFile();
             }
             File.AppendAllLines(fn + "_Elevation.csv", Lines);
 

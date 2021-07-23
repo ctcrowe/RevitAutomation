@@ -89,7 +89,7 @@ namespace CC_Plugin
             var panels = uiapp.GetRibbonPanels(CCRibbon.tabName);
             var box = panels.Where(x => x.Name == "Objects").First().GetItems().Where(x => x.Name == "Object Tools").First() as ComboBox;
             var current = box.Current.Name;
-            var filepath = OpenFile.Run();
+            var filepath = Files.Open();
             switch (current)
             {
                 default:

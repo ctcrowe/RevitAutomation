@@ -115,7 +115,7 @@ namespace CC_Plugin
             string fn = null;
             while (fn == null)
             {
-                fn = GetFileLocation.GetFile();
+                fn = Files.GetFile();
             }
             TaskDialog.Show("Max Bounds", boundcount.ToString());
             File.WriteAllLines(fn + "_Boundary.csv", Lines);
