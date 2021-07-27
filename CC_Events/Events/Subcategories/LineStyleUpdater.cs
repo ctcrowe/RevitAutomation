@@ -78,7 +78,14 @@ namespace CC_Plugin
                             var dims = GetDims(bbox);
                             int prediction = Datatype.ObjectStyle.PredictSingle(name, dims);
                             var subcat = doc.AddCategories(prediction);
-                            //ele.LineStyle = subcat;
+                            var linetypes = linesCat.SubCategories;
+
+                            foreach(Category ltc in linetypes)
+                            {
+                                if(ltc.Name.Contains(subcat.Name))
+                                {
+                                }
+                            }
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
