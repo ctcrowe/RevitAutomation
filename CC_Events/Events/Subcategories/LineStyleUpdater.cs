@@ -5,6 +5,7 @@ using System;
 using Autodesk.Revit.UI;
 
 using CC_Library;
+using CC_Library.Datatypes;
 using CC_Library.Predictions;
 using CC_Library.Parameters;
 
@@ -71,13 +72,13 @@ namespace CC_Plugin
                     {
                         CurveElement ele = doc.GetElement(e) as CurveElement;
                         var bbox = ele.get_BoundingBox(null);
-                        Category linesCat = currentDoc.Settings.Categories.get_Item("Lines");
+                        Category linesCat = doc.Settings.Categories.get_Item("Lines");
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            int prediction = ObjectStyleNetwork.Predict(name, dims);
+                            int prediction = Datatype.ObjectStyle.PredictSingle(name, dims);
                             var subcat = doc.AddCategories(prediction);
-                            ele.Subcategory = subcat;
+                            //ele.LineStyle = subcat;
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter
@@ -91,18 +92,16 @@ namespace CC_Plugin
             }
 
         }
-        public ObjStyleUpdater(AddInId id)
+        public LineStyleUpdater(AddInId id)
         {
             appId = id;
-            updaterId = new UpdaterId(appId, new Guid("d78ca253-faaa-49c8-8cb5-66057d8e15df"));
+            updaterId = new UpdaterId(appId, new Guid("fac9403f-393e-4544-b787-3877aa0351bf"));
         }
         static AddInId appId;
         static UpdaterId updaterId;
-        public string GetAdditionalInformation() { return "Updates an Elements Object Style"; }
+        public string GetAdditionalInformation() { return "Updates an Elements Line Style"; }
         public ChangePriority GetChangePriority() { return ChangePriority.FreeStandingComponents; }
         public UpdaterId GetUpdaterId() { return updaterId; }
-        public string GetUpdaterName() { return "Update Object Styles"; }
-
+        public string GetUpdaterName() { return "Update Line Styles"; }
     }
-    */
 }

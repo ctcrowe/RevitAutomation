@@ -77,7 +77,7 @@ namespace CC_Plugin
                         MasterformatNetwork net = new MasterformatNetwork(new WriteToCMDLine(WriteNull));
                         var ele = doc.GetElement(eid) as FamilySymbol;
                         try { s.TextInput = ele.FamilyName + " " + ele.Name; }
-                        catch (Exception e { e.OutputError(); }
+                        catch (Exception e) { e.OutputError(); }
                         s.DesiredOutput = new double[net.Network.Layers.Last().Biases.Count()];
                         s.DesiredOutput[int.Parse(ele.GetElementParam(Params.Masterformat))] = 1;
                         net.Propogate(s, new WriteToCMDLine(Write));
