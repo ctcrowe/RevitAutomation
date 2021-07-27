@@ -87,10 +87,7 @@ namespace CC_Plugin
                                 }
                             }
                         }
-                        //run info through neural network (slightly larger than mf network.
-                        //update object style parameter
                     }
-                    //profit
                 }
                 catch(Exception e)
                 {
