@@ -76,18 +76,15 @@ namespace CC_Plugin
                         {
                             var dims = GetDims(bbox);
                             int prediction = Datatype.ObjectStyle.PredictSingle(name, dims);
-                            /*
-                            if (ele.Subcategory.Name != Enum.GetNames(typeof(ObjectCategory))[prediction])
+                            var gs = ele.LineStyle as GraphicsStyle
+                            if (!gs.Name.Contains(Enum.GetNames(typeof(ObjectCategory))[prediction]))
                             {
-                                if (Enum.GetNames(typeof(ObjectCategory)).Contains(ele.Subcategory.Name))
-                                    ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(ele.Subcategory.Name));
+                                if (Enum.GetNames(typeof(ObjectCategory))Any(x => gs.Name.Contains(x))
+                                    ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(
+                                        Enum.GetNames(typeof(ObjectCategory)).Where(x => gs.Name.Contains(x)).First()));
                             }
-                            */
                         }
-                        //run info through neural network (slightly larger than mf network.
-                        //update object style parameter
                     }
-                    //profit
                 }
                 catch (Exception e)
                 {
