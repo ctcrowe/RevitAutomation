@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using System;
 using Autodesk.Revit.UI;
+using CC_Library;
 using CC_Plugin.TypeNaming;
 using CC_Plugin.Details;
 
@@ -42,6 +44,12 @@ namespace CC_Plugin
 
             try
             {
+                LineStyleUpdater.OnStartup(uiApp);
+            }
+            catch (Exception e)
+            { e.OutputError(); }
+            try
+            {
                 SetMF.OnStartup(uiApp);
                 TypeNamingUpdater.OnStartup(uiApp);
                 DocumentSaved.OnStartup(uiApp);
@@ -63,6 +71,7 @@ namespace CC_Plugin
         }
         public Result OnShutdown(UIControlledApplication uiApp)
         {
+            LineStyleUpdater.OnShutdown(uiApp);
             SetMF.OnShutdown(uiApp);
             TypeNamingUpdater.OnShutdown(uiApp);
             DocumentSaved.OnShutdown(uiApp);

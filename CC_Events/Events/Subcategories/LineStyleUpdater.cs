@@ -84,6 +84,7 @@ namespace CC_Plugin
                             {
                                 if(ltc.Name.Contains(subcat.Name))
                                 {
+                                    ele.LineStyle = subcat.GetGraphicsStyle(GraphicsStyleType.Projection);
                                 }
                             }
                         }
