@@ -42,12 +42,7 @@ namespace CC_Plugin
             //SchduleTab.SchedulePanel(uiApp, tabName);
             //uiApp.LoadFamPanel(tabName);
 
-            try
-            {
-                LineStyleUpdater.OnStartup(uiApp);
-            }
-            catch (Exception e)
-            { e.OutputError(); }
+            try { LineStyleUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try
             {
                 SetMF.OnStartup(uiApp);
@@ -56,15 +51,6 @@ namespace CC_Plugin
                 PlaneTypeUpdater.OnStartup(uiApp);
                 ObjStyleUpdater.OnStartup(uiApp);
                 ObjStyleNetworkUpdater.OnStartup(uiApp);
-
-                //ViewChanged.OnStartup(uiApp);
-                //RefPlaneMaker.OnStartup(uiApp);
-                //UpdateLoadFactor.OnStartup(uiApp);
-                //UpdateStudSize.OnStartup(uiApp);
-                //FamLoadedEvent.OnStartup(uiApp);
-                //DocSavingAs.OnStartup(uiApp);
-                //DocClosing.OnStartup(uiApp);
-                //AddParameterEvents.OnStartup(uiApp);
             }
             catch { TaskDialog.Show("Setup Failed", "Setup Failed"); }
             return Result.Succeeded;
@@ -78,15 +64,6 @@ namespace CC_Plugin
             PlaneTypeUpdater.OnShutdown(uiApp);
             ObjStyleUpdater.OnShutdown(uiApp);
             ObjStyleNetworkUpdater.OnShutdown(uiApp);
-
-            //ViewChanged.OnShutdown(uiApp);
-            //RefPlaneMaker.OnShutdown(uiApp);
-            //UpdateLoadFactor.OnShutdown(uiApp);
-            //UpdateStudSize.OnShutdown(uiApp);
-            //FamLoadedEvent.OnShutdown(uiApp);
-            //DocSavingAs.OnShutdown(uiApp);
-            //DocClosing.OnShutdown(uiApp);
-            //AddParameterEvents.OnShutdown(uiApp);
             return Result.Succeeded;
         }
     }
