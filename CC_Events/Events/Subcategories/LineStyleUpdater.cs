@@ -72,7 +72,6 @@ namespace CC_Plugin
                     {
                         CurveElement ele = doc.GetElement(e) as CurveElement;
                         var bbox = ele.get_BoundingBox(null);
-                        Category linesCat = doc.Settings.Categories.get_Item("Lines");
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
