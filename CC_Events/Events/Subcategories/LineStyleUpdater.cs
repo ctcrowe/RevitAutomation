@@ -32,7 +32,7 @@ namespace CC_Plugin
             UpdaterRegistry.RegisterUpdater(updater, true);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(CurveElement)),
-                Element.GetChangeTypeAny());
+                Element.GetChangeTypeGeometry());
         }
         private double[] GetDims(BoundingBoxXYZ bbox)
         {
