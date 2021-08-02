@@ -33,6 +33,9 @@ namespace CC_Plugin
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(CurveElement)),
                 Element.GetChangeTypeGeometry());
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
+                new ElementClassFilter(typeof(CurveElement)),
+                Element.GetChangeTypeElementAddition());
         }
         private double[] GetDims(BoundingBoxXYZ bbox)
         {
@@ -68,7 +71,7 @@ namespace CC_Plugin
                         name = "null";
 
                     //Get form location info (Varies by type?)
-                    foreach (ElementId e in data.GetModifiedElementIds())
+                    foreach (ElementId e in data.GetModifiedElementIds().Concat(data.GetAddedElementIds()))
                     {
                         CurveElement ele = doc.GetElement(e) as CurveElement;
                         var bbox = ele.get_BoundingBox(null);
