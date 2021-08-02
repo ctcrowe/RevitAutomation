@@ -76,12 +76,13 @@ namespace CC_Plugin
                         {
                             var dims = GetDims(bbox);
                             int prediction = Datatype.ObjectStyle.PredictSingle(name, dims);
-                            var gs = ele.LineStyle as GraphicsStyle
+                            var gs = ele.LineStyle as GraphicsStyle;
                             if (!gs.Name.Contains(Enum.GetNames(typeof(ObjectCategory))[prediction]))
                             {
-                                if (Enum.GetNames(typeof(ObjectCategory))Any(x => gs.Name.Contains(x))
-                                    ObjectStyleNetwork.SinglePropogate(name, dims, Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(
-                                        Enum.GetNames(typeof(ObjectCategory)).Where(x => gs.Name.Contains(x)).First()));
+                                if (Enum.GetNames(typeof(ObjectCategory)).Any(x => gs.Name.Contains(x)))
+                                    Datatype.ObjectStyle.PropogateSingle(Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(
+                                        Enum.GetNames(typeof(ObjectCategory)).Where(x => gs.Name.Contains(x)).First()),
+                                        new WriteToCMDLine(WriteNull), name, dims);
                             }
                         }
                     }
@@ -93,6 +94,7 @@ namespace CC_Plugin
             }
 
         }
+        private static string WriteNull(string s) { return s; }
         public LineStyleNetworkUpdater(AddInId id)
         {
             appId = id;
