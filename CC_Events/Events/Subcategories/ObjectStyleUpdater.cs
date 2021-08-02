@@ -67,7 +67,7 @@ namespace CC_Plugin
                         name = "null";
 
                     //Get form location info (Varies by type?)
-                    foreach (ElementId e in data.GetModifiedElementIds())
+                    foreach (ElementId e in data.GetModifiedElementIds().Concat(data.GetAddedElementIds()))
                     {
                         GenericForm ele = doc.GetElement(e) as GenericForm;
                         var bbox = ele.get_BoundingBox(null);
