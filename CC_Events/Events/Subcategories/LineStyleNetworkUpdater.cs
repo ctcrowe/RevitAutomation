@@ -34,6 +34,9 @@ namespace CC_Plugin
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(CurveElement)),
                 Element.GetChangeTypeParameter(pid));
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
+                new ElementClassFilter(typeof(CurveElement)),
+                Element.GetChangeTypeElementAddition());
         }
         private double[] GetDims(BoundingBoxXYZ bbox)
         {
