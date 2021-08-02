@@ -29,6 +29,9 @@ namespace CC_Plugin
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(GenericForm)),
                 Element.GetChangeTypeGeometry());
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
+                new ElementClassFilter(typeof(GenericForm)),
+                Element.GetChangeTypeElementAddition());
         }
         private double[] GetDims(BoundingBoxXYZ bbox)
         {
