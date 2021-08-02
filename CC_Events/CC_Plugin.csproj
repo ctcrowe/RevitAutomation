@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaptureWallTypes.cs" />
+    <Compile Include="Events\FamilyReorginize.cs" />
     <Compile Include="Events\Subcategories\AddCategories.cs" />
     <Compile Include="Details\CreateDetailImage.cs" />
     <Compile Include="Details\DetailTab.cs" />
