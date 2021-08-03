@@ -11,20 +11,6 @@ namespace CC_Plugin
     {
         public const string tabName = "CCrowe";
         private static string dllpath = Assembly.GetExecutingAssembly().Location;
-        private static void PrintPanel(UIControlledApplication uiApp)
-        {
-            RibbonPanel PSPanel = uiApp.CreateRibbonPanel(tabName, "Print Sets");
-
-            PushButtonData RevPrintdata = new PushButtonData(
-            "Active Revision Sets",
-            "Active \r\n Revision \r\n Print Sets",
-            @dllpath,
-            "CCRevitTools.PrintSets");
-
-            PushButton pbrpd = PSPanel.AddItem(RevPrintdata) as PushButton;
-            pbrpd.ToolTip = "Create sheet sets for printing for each active revision";
-        }
-
         public Result OnStartup(UIControlledApplication uiApp)
         {
             uiApp.CreateRibbonTab(tabName);
@@ -36,7 +22,6 @@ namespace CC_Plugin
             //DetailPanel.DetailTab(uiApp, tabName);
             //ObjStylesTab.ObjTab(uiApp, tabName);
             //QCTab.QCPanel(uiApp, tabName);
-            //PrintPanel(uiApp);
             // MFPanel.MFTab(uiApp, tabName);
             //AnalysisTab.AnalysisPanel(uiApp, tabName);
             //SchduleTab.SchedulePanel(uiApp, tabName);
