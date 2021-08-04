@@ -55,5 +55,22 @@ namespace CC_Library.Predictions
                 }
             }
         }
+        public static void PropogateSingle(this Datatype dt, int correct, WriteToCMDLine write, Sample entry)
+        {
+            var type = typeof(INetworkPredUpdater);
+            Assembly a = type.Assembly;
+            var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
+            for (int i = 0; i < NetTypes.Count(); i++)
+            {
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                if (Network.datatype == dt)
+                {
+                    entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
+                    entry.DesiredOutput[correct] = 1;
+                    Network.Propogate(entry, write);
+                    break;
+                }
+            }
+        }
     }
 }
