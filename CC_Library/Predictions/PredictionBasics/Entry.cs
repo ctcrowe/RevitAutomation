@@ -12,12 +12,12 @@ namespace CC_Library.Predictions
     public class Sample
     {
         public string Datatype { get; }
-        public string TextInput;
+        public string TextInput { get; set; }
         public double[] TextOutput { get; set; }
-        public double[] ValInput;
-        public double[] ImgInput;
-        public double[] DesiredOutput;
-        public string GUID;
+        public double[] ValInput { get; set; }
+        public double[] ImgInput { get; set; }
+        public double[] DesiredOutput { get; set; }
+        public string GUID { get; }
         public Sample(Datatype dt)
         {
             this.Datatype = dt.ToString();
