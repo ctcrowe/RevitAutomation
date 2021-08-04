@@ -30,7 +30,8 @@ namespace CC_Plugin
         {
             LineStyleNetworkUpdater updater = new LineStyleNetworkUpdater(id);
             UpdaterRegistry.RegisterUpdater(updater, true);
-            ElementId pid = new ElementId(BuiltInParameter.CLINE_SUBCATEGORY);
+            //ElementId pid = new ElementId(BuiltInParameter.CLINE_SUBCATEGORY);
+            ElementId pid = new ElementId(BuiltInParameter.FAMILY_ELEM_SUBCATEGORY);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(CurveElement)),
                 Element.GetChangeTypeParameter(pid));
