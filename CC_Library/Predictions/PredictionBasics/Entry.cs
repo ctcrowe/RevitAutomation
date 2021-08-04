@@ -26,7 +26,7 @@ namespace CC_Library.Predictions
     }
     public static class ReadWriteSamples
     {
-        public static Sample[] ReadSamples(this Datatype dt, int Count = 16)
+        public static Sample[] ReadSamples(this Datatype dt, Sample sample, int Count = 16)
         {
             string folder = "NetworkSamples".GetMyDocs();
             if (Directory.Exists(folder))
@@ -39,9 +39,14 @@ namespace CC_Library.Predictions
                     {
                         Random r = new Random();
                         Sample[] output = new Sample[(Count > Files.Count())? Files.Count() : Count];
-                        for(int i = 0; i < output.Count(); i++)
+                        output[0] = sample;
+                        for(int i = 1; i < output.Count(); i++)
                         {
-                            output[i] = ReadFromBinaryFile<Sample>(Files[r.Next(Files.Count())]);
+                            Sample s = ReadFromBinaryFile<Sample>(Files[r.Next(Files.Count())]);
+                            if(s.Datatype == dt.ToSTring())
+                                output[i] = s;
+                            else
+                                output[i] = sample
                         }
                         return output;
                     }
