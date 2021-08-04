@@ -65,8 +65,6 @@ namespace CC_Library.Predictions
                 var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
                 if (Network.datatype == dt)
                 {
-                    entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
-                    entry.DesiredOutput[correct] = 1;
                     Network.Propogate(entry, write);
                     break;
                 }
