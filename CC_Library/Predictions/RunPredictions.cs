@@ -23,28 +23,10 @@ namespace CC_Library.Predictions
 
                 if (Enum.GetNames(typeof(Datatype)).Any(x => filepath.Contains(x)))
                 {
-                    Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), Enum.GetNames(typeof(Datatype)).Where(x => filepath.Contains(x)).First());
+                    Sample s = ReadFromBinaryFile<Sample>(filepath);
+                    Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), s.Datatype);
                     write("Network Type : " + datatype.ToString());
-
-                    switch (datatype)
-                    {
-                        default:
-                            //GeneralPrediction.Propogate(filepath, write);
-                            break;
-                        case Datatype.Masterformat:
-                            //MasterformatNetwork.Propogate(filepath, write);
-                            break;
-                        case Datatype.Dictionary:
-                            DictionaryNetwork.Propogate(filepath, write);
-                            break;
-                            /*
-                        case Datatype.Boundary:
-                        case Datatype.Elevation:
-                        case Datatype.OccupantLoadFactor:
-                        case Datatype.StudLayer:
-                            break;
-                            */
-                    }
+                    datatype.PropogateSingle(s);
                 }
             }
         }
