@@ -120,25 +120,20 @@ namespace CC_Library
                 }
             }
         }
-        public static void OutputError(this Datatype dt, Sample s, double[] e)
+        public static void OutputError(this Sample s, double[] e)
         {
-            string f = "Error.txt";
+            string f = "PredictionError.txt";
             string filepath = f.GetMyDocs();
 
             using (StreamWriter writer = new StreamWriter(filepath, true))
             {
                 writer.WriteLine("-----------------------------------------------------------------------------");
                 writer.WriteLine("Date : " + DateTime.Now.ToString());
+                writer.WriteLine("Datatype : " +  s.Datatype);
+                writer.WriteLine("Sample Text : " + s.TextInput);
+                writer.WriteLine("Desired Output : " + s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()));
+                writer.WriteLine("Error : " + e.SumError());
                 writer.WriteLine();
-
-                while (ex != null)
-                {
-                    writer.WriteLine(ex.GetType().FullName);
-                    writer.WriteLine("Message : " + ex.Message);
-                    writer.WriteLine("StackTrace : " + ex.StackTrace);
-
-                    ex = ex.InnerException;
-                }
             }
         }
         public static double[] GetRank(this double[,] D, int l)
