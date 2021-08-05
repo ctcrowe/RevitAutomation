@@ -83,6 +83,9 @@ namespace CC_Plugin
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(FamilySymbol)),
                 Element.GetChangeTypeParameter(FamName));
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
+                new ElementClassFilter(typeof(FamilyInstance)),
+                Element.GetChangeTypeElementAddition());
         }
         public static void ProjectStartup(Document doc)
         {
@@ -121,7 +124,7 @@ namespace CC_Plugin
             Document doc = data.GetDocument();
             if (!doc.IsFamilyDocument)
             {
-                var Eles = data.GetModifiedElementIds().ToList();
+                var Eles = data.GetModifiedElementIds().Concat(data.GetAddedElementIds()).ToList();
                 foreach (var eid in Eles)
                 {
                     var ele = doc.GetElement(eid) as FamilySymbol;
@@ -142,6 +145,29 @@ namespace CC_Plugin
                             catch (Exception e) { e.OutputError(); }
                         }
                         try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
+                    }
+                    else
+                    {
+                        var inst = doc.GetElement(eid) as FamilyInstance;
+                        if(inst != null)
+                        {
+                            ele = inst.Symbol;
+                            string name = "";
+                            int MF = 0;
+                            try { name = ele.FamilyName + " " + ele.Name; } catch (Exception e) { e.OutputError(); }
+                            if (name != "")
+                            {
+                                try
+                                {
+                                    Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                                    s.TextInput = name;
+                                    var output = new MasterformatNetwork().Predict(s);
+                                    MF = output.ToList().IndexOf(output.Max());
+                                }
+                                catch (Exception e) { e.OutputError(); }
+                            }
+                            try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
+                        }
                     }
                 }
             }
