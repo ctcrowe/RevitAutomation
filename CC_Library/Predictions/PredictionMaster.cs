@@ -55,7 +55,7 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        public static void PropogateSingle(this Datatype dt, int correct, WriteToCMDLine write, Sample entry)
+        public static void PropogateSingle(this Sample entry, WriteToCMDLine write)
         {
             var type = typeof(INetworkPredUpdater);
             Assembly a = type.Assembly;
@@ -63,7 +63,7 @@ namespace CC_Library.Predictions
             for (int i = 0; i < NetTypes.Count(); i++)
             {
                 var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
-                if (Network.datatype == dt)
+                if (Network.datatype.ToString() == entry.Datatype)
                 {
                     Network.Propogate(entry, write);
                     break;

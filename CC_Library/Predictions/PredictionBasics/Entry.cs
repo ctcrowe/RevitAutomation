@@ -43,10 +43,10 @@ namespace CC_Library.Predictions
                         for(int i = 1; i < output.Count(); i++)
                         {
                             Sample s = ReadFromBinaryFile<Sample>(Files[r.Next(Files.Count())]);
-                            if(s.Datatype == dt.ToSTring())
+                            if (s.Datatype == dt.ToString())
                                 output[i] = s;
                             else
-                                output[i] = sample
+                                output[i] = sample;
                         }
                         return output;
                     }
