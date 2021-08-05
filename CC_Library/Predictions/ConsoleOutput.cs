@@ -14,6 +14,10 @@ namespace CC_Library
         {
             Console.Clear();
         }
+        public static void OutputError(double[] e)
+        {
+            
+        }
         public static void Update(string epoch, Accuracy acc)
         {
             string[] l = acc.Get();
