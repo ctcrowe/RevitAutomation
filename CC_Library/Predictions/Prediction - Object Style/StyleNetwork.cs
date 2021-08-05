@@ -76,6 +76,7 @@ namespace CC_Library.Predictions
                         AlphaMem am = new AlphaMem(s.TextInput.ToCharArray());
                         s.TextOutput = a.Forward(s.TextInput, ctxt, am, write);
                         var F = Forward(s, write);
+                        COutput.OutputError(CategoricalCrossEntropy.Forward(F.Last()));
                     
                         var DValues = Backward(s, F, ObjMem, WriteNull);
                         a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
