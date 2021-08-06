@@ -82,13 +82,13 @@ namespace CC_Library.Predictions
                     
                     Parallel.For(0, Samples.Count(), j =>
                     {
-                        AlphaMem am = new AlphaMem(s.TextInput.ToCharArray());
-                        s.TextOutput = a.Forward(s.TextInput, ctxt, am, write);
-                        var F = Forward(s, write);
-                        s.OutputError(CategoricalCrossEntropy.Forward(F.Last()));
+                        AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am, write);
+                        var F = Forward(Samples[j], write);
+                        Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput));
                     
-                        var DValues = Backward(s, F, MFMem, WriteNull);
-                        a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+                        var DValues = Backward(Samples[j], F, MFMem, WriteNull);
+                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
                     });
                     MFMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);
