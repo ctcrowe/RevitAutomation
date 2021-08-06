@@ -52,7 +52,7 @@ namespace CC_Library.Predictions
                     }
                 }
             }
-            return new Sample[1]{ new Sample(dt) };
+            return new Sample[1]{ sample };
         }
         public static void Save(this Sample s)
         {
