@@ -31,27 +31,28 @@ namespace CC_Library.Predictions
     }
     public static class ReadWriteSamples
     {
-        public static Sample[] ReadSamples(this Datatype dt, Sample sample, int Count = 16)
+        private const string fname = "NetworkSamples;
+        public static Sample[] ReadSamples(this Sample s, int Count = 16)
         {
-            string folder = "NetworkSamples".GetMyDocs();
+            string folder = fname.GetMyDocs();
             if (Directory.Exists(folder))
             {
-                string subfolder = folder + "\\" + dt.ToString();
+                string subfolder = folder + "\\" + s.Datatype;
                 if(Directory.Exists(subfolder))
                 {
-                    string[] Files = Directory.GetFiles(folder);
+                    string[] Files = Directory.GetFiles(subfolder);
                     if(Files.Any())
                     {
                         Random r = new Random();
                         Sample[] output = new Sample[(Count > Files.Count())? Files.Count() : Count];
-                        output[0] = sample;
+                        output[0] = s;
                         for(int i = 1; i < output.Count(); i++)
                         {
-                            Sample s = ReadFromBinaryFile<Sample>(Files[r.Next(Files.Count())]);
-                            if (s.Datatype == dt.ToString())
-                                output[i] = s;
-                            else
+                            Sample sample = ReadFromBinaryFile<Sample>(Files[r.Next(Files.Count())]);
+                            if (sample.Datatype == s.Datatype)
                                 output[i] = sample;
+                            else
+                                output[i] = s;
                         }
                         return output;
                     }
@@ -61,7 +62,7 @@ namespace CC_Library.Predictions
         }
         public static void Save(this Sample s)
         {
-            string folder = "NetworkSamples".GetMyDocs();
+            string folder = fname.GetMyDocs();
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             string subfolder = folder + "\\" + s.Datatype;
@@ -70,7 +71,7 @@ namespace CC_Library.Predictions
             string FileName = subfolder + "\\" + s.GUID + ".bin";
             WriteToBinaryFile(FileName, s, true);
         }
-        private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+        public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
         {
             using (Stream stream = File.Create(filePath))
             {
