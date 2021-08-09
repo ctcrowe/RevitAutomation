@@ -31,10 +31,10 @@ namespace CC_Library.Predictions
     }
     public static class ReadWriteSamples
     {
-        private const string fname = "NetworkSamples;
+        private const string fname = "NetworkSamples";
+        private static string folder = fname.GetMyDocs();
         public static Sample[] ReadSamples(this Sample s, int Count = 16)
         {
-            string folder = fname.GetMyDocs();
             if (Directory.Exists(folder))
             {
                 string subfolder = folder + "\\" + s.Datatype;
@@ -62,7 +62,6 @@ namespace CC_Library.Predictions
         }
         public static void Save(this Sample s)
         {
-            string folder = fname.GetMyDocs();
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             string subfolder = folder + "\\" + s.Datatype;
