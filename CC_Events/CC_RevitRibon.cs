@@ -27,13 +27,13 @@ namespace CC_Plugin
             //SchduleTab.SchedulePanel(uiApp, tabName);
             //uiApp.LoadFamPanel(tabName);
 
-            try { LineStyleUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
+            //try { LineStyleUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { LineStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { SetMF.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { TypeNamingUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { DocumentSaved.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { PlaneTypeUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
-            try { ObjStyleUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
+            //try { ObjStyleUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { ObjStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             return Result.Succeeded;
         }

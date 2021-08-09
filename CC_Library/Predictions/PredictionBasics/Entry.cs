@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
             this.Datatype = dt.ToString();
             this.GUID = Guid.NewGuid().ToString();
             this.TextOutput = new double[1]{0};
-            this.TetxtInput = "";
+            this.TextInput = "";
             this.ValInput = new double[1]{0};
             this.ImgInput = new double[1]{0};
             this.DesiredOutput = new double[1]{0};
