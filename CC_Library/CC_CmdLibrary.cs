@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using CC_Library.Predictions;
+using CC_Library.Datatypes;
 
 namespace CC_Library
 {
