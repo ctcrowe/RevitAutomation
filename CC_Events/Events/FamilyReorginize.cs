@@ -8,5 +8,9 @@ namespace CC_Plugin.Events
 {
     class FamilyReorginize
     {
+        //foreach(string s in x)
+        //create keyvaluepair that is starting and finishing location.
+        //move files to correct location
+        //profit.
     }
 }
