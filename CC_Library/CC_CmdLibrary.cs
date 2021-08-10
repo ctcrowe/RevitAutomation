@@ -137,21 +137,24 @@ namespace CC_Library
                 }
             }
         }
-        public static void OutputError(this Sample s, double[] e)
+        public static List<string> OutputError(this Sample s, double[] e)
         {
+            List<string> lines = new List<string>();
+            lines.Add("-----------------------------------------------------------------------------");
+            lines.Add("Date : " + DateTime.Now.ToString());
+            lines.Add("Datatype : " +  s.Datatype);
+            lines.Add("Sample Text : " + s.TextInput);
+            lines.Add("Desired Output : " + s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()));
+            lines.Add("Error : " + e.SumError());
+            return lines;
             string f = "PredictionError.txt";
             string filepath = f.GetMyDocs();
-
-            using (StreamWriter writer = new StreamWriter(filepath, true))
-            {
-                writer.WriteLine("-----------------------------------------------------------------------------");
-                writer.WriteLine("Date : " + DateTime.Now.ToString());
-                writer.WriteLine("Datatype : " +  s.Datatype);
-                writer.WriteLine("Sample Text : " + s.TextInput);
-                writer.WriteLine("Desired Output : " + s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()));
-                writer.WriteLine("Error : " + e.SumError());
-                writer.WriteLine();
-            }
+        }
+        public static void ShowErrorOutput(this List<string> lines)
+        {
+            string f = "PredictionError.txt";
+            string fp = f.GetMyDocs():
+            File.WriteAllLines(fp, lines);
         }
         public static double[] GetRank(this double[,] D, int l)
         {
