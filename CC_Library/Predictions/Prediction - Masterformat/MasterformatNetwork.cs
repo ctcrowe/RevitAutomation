@@ -74,6 +74,7 @@ namespace CC_Library.Predictions
                 Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
                 AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, new WriteToCMDLine(WriteNull));
                 var Samples = s.ReadSamples();
+                List<string> lines;
                 for(int i = 0; i < 5; i++)
                 {
                     NetworkMem MFMem = new NetworkMem(Network);
@@ -85,7 +86,7 @@ namespace CC_Library.Predictions
                         AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
                         Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am, write);
                         var F = Forward(Samples[j], write);
-                        Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput));
+                        lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
                     
                         var DValues = Backward(Samples[j], F, MFMem, WriteNull);
                         a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
@@ -94,6 +95,7 @@ namespace CC_Library.Predictions
                     AlphaMem.Update(1, 0.00001, a.Network);
                     CtxtMem.Update(1, 0.0001, ctxt.Network);
                 }
+                lines.ShowErrorOutput();
                 Network.Save();
                 a.Network.Save();
                 ctxt.Save();
