@@ -17,8 +17,6 @@ namespace CC_Library.Predictions
                     return AlphaNetwork();
                 case Datatype.AlphaContext:
                     return AlphaContextNetwork();
-                case Datatype.Dictionary:
-                    return DictNetwork();
                 case Datatype.ObjectStyle:
                     return ObjectStyleNetwork();
                 case Datatype.OccupantLoadFactor:
@@ -37,16 +35,6 @@ namespace CC_Library.Predictions
         {
             NeuralNetwork network = new NeuralNetwork(Datatype.AlphaContext);
             network.Layers.Add(new Layer(1, Alpha.CharCount() * Alpha.SearchSize, Activation.Linear));
-            return network;
-        }
-        private static NeuralNetwork DictNetwork()
-        {
-            NeuralNetwork network = new NeuralNetwork(Datatype.Dictionary);
-
-            network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.ReLu));
-            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-            network.Layers.Add(new Layer(Enum.GetNames(typeof(Dict)).GetLength(0), network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
-
             return network;
         }
         private static NeuralNetwork MFNetwork()

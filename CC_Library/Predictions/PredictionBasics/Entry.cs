@@ -48,7 +48,7 @@ namespace CC_Library.Predictions
                         output[0] = s;
                         for(int i = 1; i < output.Count(); i++)
                         {
-                            Sample sample = ReadFromBinaryFile<Sample>(Files[r.Next(Files.Count())]);
+                            Sample sample = Files[r.Next(Files.Count())].ReadFromBinaryFile<Sample>();
                             if (sample.Datatype == s.Datatype)
                                 output[i] = sample;
                             else
@@ -58,7 +58,7 @@ namespace CC_Library.Predictions
                     }
                 }
             }
-            return new Sample[1]{ sample };
+            return new Sample[1]{ s };
         }
         public static void Save(this Sample s)
         {
@@ -68,7 +68,7 @@ namespace CC_Library.Predictions
             if (!Directory.Exists(subfolder))
                 Directory.CreateDirectory(subfolder);
             string FileName = subfolder + "\\" + s.GUID + ".bin";
-            WriteToBinaryFile(FileName, s, true);
+            FileName.WriteToBinaryFile(s, true);
         }
     }
 }

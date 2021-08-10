@@ -85,13 +85,11 @@
     <Compile Include="Predictions\PredictionMaster.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
-    <Compile Include="Predictions\Prediction - Dictionary\Dict.cs" />
     <Compile Include="Predictions\LossFunctions\Loss.cs" />
     <Compile Include="Predictions\LossFunctions\Loss_MeanSquared.cs" />
     <Compile Include="Predictions\LossFunctions\Loss_CategoricalCrossEntropy.cs" />
     <Compile Include="Predictions\NeuralNets\Activations.cs" />
     <Compile Include="Predictions\NeuralNets\Cost.cs" />
-    <Compile Include="Predictions\Prediction - Dictionary\DictionaryPrediction.cs" />
     <Compile Include="Predictions\PredictionBasics\Accuracy.cs" />
     <Compile Include="Predictions\PredictionBasics\Entry.cs" />
     <Compile Include="Enumerations\Datatypes\CSVData.cs" />

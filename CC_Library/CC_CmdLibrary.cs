@@ -15,7 +15,7 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
-        public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+        public static void WriteToBinaryFile<T>(this string filePath, T objectToWrite, bool append = false)
         {
             using (Stream stream = File.Create(filePath))
             {

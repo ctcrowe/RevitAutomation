@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
 
                 if (Enum.GetNames(typeof(Datatype)).Any(x => filepath.Contains(x)))
                 {
-                    Sample s = ReadWriteSamples.ReadFromBinaryFile<Sample>(filepath);
+                    Sample s = filepath.ReadFromBinaryFile<Sample>();
                     Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), s.Datatype);
                     write("Network Type : " + datatype.ToString());
                     s.PropogateSingle(write);

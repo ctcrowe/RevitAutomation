@@ -64,7 +64,7 @@ namespace CC_Library.Predictions
             {
                 Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
                 AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
-                var Samples = datatype.ReadSamples(s);
+                var Samples = s.ReadSamples();
                 for(int i = 0; i < 5; i++)
                 {
                     NetworkMem ObjMem = new NetworkMem(Network);
