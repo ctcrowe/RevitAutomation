@@ -10,6 +10,8 @@ namespace CC_Plugin.Events
     {
         public static void Run()
         {
+                string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+                string folder = f + "\\CC_Families";
             
         }
         //foreach(string s in x)
