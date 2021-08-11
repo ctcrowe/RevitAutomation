@@ -10,8 +10,8 @@ namespace CC_Plugin.Events
     {
         public static void Run()
         {
-            string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-            string folder = f + "\\CC_Families";
+            string mainfolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            string folder = mainfolder + "\\CC_Families";
             Dictionary<string, string> fnames = new Dictionary<string, string>();
             List<string> Delete = new List<string>();
             foreach(string dir in Directory.GetDirectories(folder))
@@ -19,13 +19,16 @@ namespace CC_Plugin.Events
                 foreach(string subdir in Directory.GetDirectories(dir))
                 {
                     string subname = subdir.Split('\\').Last();
+                    foreach(string file in Directory.GetFiles(subdir))
+                    {
+                    }
                 }
                 foreach(string file in Directory.GetFiles(dir))
                 {
                     Delete.Add(file);
                 }
             }
-            foreach(strign f in Delete)
+            foreach(string f in Delete)
             {
                 File.Delete(f);
             }
