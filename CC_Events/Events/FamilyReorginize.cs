@@ -12,7 +12,7 @@ namespace CC_Plugin.Events
         {
             string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             string folder = f + "\\CC_Families";
-            List<KeyValuePair<string, string>> fnames = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> fnames = new Dictionary<string, string>();
             foreach(string dir in Directory.GetDirectories(folder))
             {
                 foreach(string file in Directory.GetFiles(dir))
@@ -23,6 +23,7 @@ namespace CC_Plugin.Events
         }
         //foreach(string s in x)
         //create keyvaluepair that is starting and finishing location.
+        //if there are overlaps, move one to deletion list (older file)
         //move files to correct location
         //profit.
     }
