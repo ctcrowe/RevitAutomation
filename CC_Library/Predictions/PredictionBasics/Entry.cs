@@ -44,7 +44,7 @@ namespace CC_Library.Predictions
                     if(Files.Any())
                     {
                         Random r = new Random();
-                        Sample[] output = new Sample[(Count > Files.Count())? Files.Count() : Count];
+                        Sample[] output = new Sample[(Count > (Files.Count() + 1))? (Files.Count() + 1) : Count];
                         output[0] = s;
                         for(int i = 1; i < output.Count(); i++)
                         {
