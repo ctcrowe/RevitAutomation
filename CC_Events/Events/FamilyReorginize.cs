@@ -16,9 +16,13 @@ namespace CC_Plugin.Events
             List<string> Delete = new List<string>();
             foreach(string dir in Directory.GetDirectories(folder))
             {
+                foreach(string subdir in Directory.GetDirectories(dir))
+                {
+                    string subname = subdir.Split('\\').Last();
+                }
                 foreach(string file in Directory.GetFiles(dir))
                 {
-                    
+                    Delete.Add(file);
                 }
             }
             foreach(strign f in Delete)
