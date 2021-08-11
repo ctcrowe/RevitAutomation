@@ -10,9 +10,16 @@ namespace CC_Plugin.Events
     {
         public static void Run()
         {
-                string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-                string folder = f + "\\CC_Families";
-            
+            string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            string folder = f + "\\CC_Families";
+            List<KeyValuePair<string, string>> fnames = new List<KeyValuePair<string, string>>();
+            foreach(string dir in Directory.GetDirectories(folder))
+            {
+                foreach(string file in Directory.GetFiles(dir))
+                {
+                    
+                }
+            }
         }
         //foreach(string s in x)
         //create keyvaluepair that is starting and finishing location.
