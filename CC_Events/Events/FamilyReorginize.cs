@@ -13,12 +13,17 @@ namespace CC_Plugin.Events
             string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             string folder = f + "\\CC_Families";
             Dictionary<string, string> fnames = new Dictionary<string, string>();
+            List<string> Delete = new List<string>();
             foreach(string dir in Directory.GetDirectories(folder))
             {
                 foreach(string file in Directory.GetFiles(dir))
                 {
                     
                 }
+            }
+            foreach(strign f in Delete)
+            {
+                File.Delete(f);
             }
         }
         //foreach(string s in x)
