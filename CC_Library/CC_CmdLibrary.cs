@@ -147,13 +147,11 @@ namespace CC_Library
             lines.Add("Desired Output : " + s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()));
             lines.Add("Error : " + e.SumError());
             return lines;
-            string f = "PredictionError.txt";
-            string filepath = f.GetMyDocs();
         }
         public static void ShowErrorOutput(this List<string> lines)
         {
             string f = "PredictionError.txt";
-            string fp = f.GetMyDocs():
+            string fp = f.GetMyDocs();
             File.WriteAllLines(fp, lines);
         }
         public static double[] GetRank(this double[,] D, int l)

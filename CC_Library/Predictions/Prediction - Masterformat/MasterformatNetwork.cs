@@ -74,7 +74,7 @@ namespace CC_Library.Predictions
                 Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
                 AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, new WriteToCMDLine(WriteNull));
                 var Samples = s.ReadSamples();
-                List<string> lines;
+                List<string> lines = new List<string>();
                 for(int i = 0; i < 5; i++)
                 {
                     NetworkMem MFMem = new NetworkMem(Network);

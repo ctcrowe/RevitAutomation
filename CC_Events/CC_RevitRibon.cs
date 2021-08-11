@@ -10,13 +10,9 @@ namespace CC_Plugin
     public class CCRibbon : IExternalApplication
     {
         public const string tabName = "CCrowe";
-        private static string dllpath = Assembly.GetExecutingAssembly().Location;
         public Result OnStartup(UIControlledApplication uiApp)
         {
             uiApp.CreateRibbonTab(tabName);
-            //https://spiderinnet.typepad.com/blog/2016/09/revit-net-api-get-all-line-styles.html
-            //Used to get linestyles for linestyle updating.
-            
             CCPaintPanel.PaintPanel(uiApp);
 
             //DetailPanel.DetailTab(uiApp, tabName);
@@ -39,13 +35,13 @@ namespace CC_Plugin
         }
         public Result OnShutdown(UIControlledApplication uiApp)
         {
-            LineStyleUpdater.OnShutdown(uiApp);
+            //LineStyleUpdater.OnShutdown(uiApp);
             LineStyleNetworkUpdater.OnShutdown(uiApp);
             SetMF.OnShutdown(uiApp);
             TypeNamingUpdater.OnShutdown(uiApp);
             DocumentSaved.OnShutdown(uiApp);
             PlaneTypeUpdater.OnShutdown(uiApp);
-            ObjStyleUpdater.OnShutdown(uiApp);
+            //ObjStyleUpdater.OnShutdown(uiApp);
             ObjStyleNetworkUpdater.OnShutdown(uiApp);
             return Result.Succeeded;
         }
