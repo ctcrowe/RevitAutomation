@@ -46,10 +46,5 @@ namespace CC_Plugin.Events
                 File.Delete(f);
             }
         }
-        //foreach(string s in x)
-        //create keyvaluepair that is starting and finishing location.
-        //if there are overlaps, move one to deletion list (older file)
-        //move files to correct location
-        //profit.
     }
 }
