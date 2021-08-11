@@ -27,7 +27,15 @@ namespace CC_Plugin.Events
                         {
                             if(fnames.Keys.Any(x => x.split('\\').Last() == file.Split('\\').Last()))
                             {
-                                
+                                //check date modified
+                                //compare to fnames.keys
+                                //replace as required
+                                if(...)
+                                {
+                                    Delete.Add(fnames.Keys.Where(x => x.Split('\\').Last() == file.Split('\\').Last()).First());
+                                }
+                                else
+                                    Delete.Add(file);
                             }
                             else
                             {
