@@ -12,7 +12,7 @@ namespace CC_Plugin.Events
         {
             string mainfolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             string folder = mainfolder + "\\CC_Families";
-            Dictionary<string, string> fnames = new Dictionary<string, string>();
+            Dictionary<string, int> fnames = new Dictionary<string, string>();
             List<string> Delete = new List<string>();
             foreach(string dir in Directory.GetDirectories(folder))
             {
@@ -21,6 +21,19 @@ namespace CC_Plugin.Events
                     string subname = subdir.Split('\\').Last();
                     foreach(string file in Directory.GetFiles(subdir))
                     {
+                        if(file.Split('.').Count() > 2)
+                            Delete.Add(file);
+                        else
+                        {
+                            if(fnames.Keys.Any(x => x.split('\\').Last() == file.Split('\\').Last()))
+                            {
+                                
+                            }
+                            else
+                            {
+                                fnames.Add(file, Datatype.Masterformat.PredictSingle(file.Split('\\').Last().Split('.').First()));
+                            }
+                        }
                     }
                 }
                 foreach(string file in Directory.GetFiles(dir))
