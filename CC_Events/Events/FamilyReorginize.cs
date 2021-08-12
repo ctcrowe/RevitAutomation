@@ -32,13 +32,10 @@ namespace CC_Plugin.Events
                             if(fnames.ContainsKey(key)
                             {
                                 var orig = fnames[key];
-                                var rep = file;
-                                //check date modified
-                                //compare to fnames.keys
-                                //replace as required
-                                if(...)
+                                if(DateTime.Compare(File.GetLastWriteTime(orig), File.GetLastWriteTime(file)) < 0)
                                 {
-                                    Delete.Add(fnames.Keys.Where(x => x.Split('\\').Last() == file.Split('\\').Last()).First());
+                                    Delete.Add(fnames[key]);
+                                    fnames[key] = file;
                                 }
                                 else
                                     Delete.Add(file);
