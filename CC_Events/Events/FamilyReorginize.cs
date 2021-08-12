@@ -15,7 +15,7 @@ namespace CC_Plugin.Events
         {
             string mainfolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             string folder = mainfolder + "\\CC_Families";
-            Dictionary<string, int> fnames = new Dictionary<string, string>();
+            Dictionary<string, string> fnames = new Dictionary<string, string>();
             List<string> Delete = new List<string>();
             foreach(string dir in Directory.GetDirectories(folder))
             {
@@ -28,8 +28,11 @@ namespace CC_Plugin.Events
                             Delete.Add(file);
                         else
                         {
-                            if(fnames.Keys.Any(x => x.split('\\').Last() == file.Split('\\').Last()))
+                            var key = file.Split('\\').Last().Split('.').First();
+                            if(fnames.ContainsKey(key)
                             {
+                                var orig = fnames[key];
+                                var rep = file;
                                 //check date modified
                                 //compare to fnames.keys
                                 //replace as required
@@ -42,7 +45,7 @@ namespace CC_Plugin.Events
                             }
                             else
                             {
-                                fnames.Add(file, Datatype.Masterformat.PredictSingle(file.Split('\\').Last().Split('.').First()));
+                                fnames.Add(file.Split('\\').Last().Split('.').First(), file);
                             }
                         }
                     }
