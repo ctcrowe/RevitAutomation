@@ -57,8 +57,8 @@ namespace CC_Plugin.Events
                 File.Delete(f);
             }
             foeach(var f in fnames)
-                               {
-                               }
+            {
+            }
         }
     }
 }
