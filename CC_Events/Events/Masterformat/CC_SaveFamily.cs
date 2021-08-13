@@ -7,8 +7,12 @@ using CC_Library.Predictions;
 
 namespace CC_Plugin
 {
-    class SaveFamily
+    internal static class SaveFamilyClass
     {
+        public static void SaveFamily(this string filename, string prefix = "test")
+        {
+            
+        }
         public static void Main(Document doc)
         {
             if (doc.IsFamilyDocument)
