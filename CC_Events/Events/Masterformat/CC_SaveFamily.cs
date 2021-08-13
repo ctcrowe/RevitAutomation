@@ -17,13 +17,13 @@ namespace CC_Plugin
                 switch(doc.OwnerFamily.FamilyCategoryId.IntegerValue)
                 {
                     default:
-                        ftype = "Element";
+                        ftype = "Ele";
                         break;
                     case (int)BuiltInCategory.OST_DetailComponents:
-                        ftype = "Detail";
+                        ftype = "Det";
                         break;
                     case (int)BuiltInCategory.OST_ProfileFamilies:
-                        ftype = "Profile";
+                        ftype = "Pro";
                         break;
                 }
                 string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
@@ -42,11 +42,16 @@ namespace CC_Plugin
                         Directory.CreateDirectory(folder);
                     if (!Directory.Exists(SubDir))
                         Directory.CreateDirectory(SubDir);
-                    string SubSubDir = SubDir + "\\" + ftype;
-                    if (!Directory.Exists(SubSubDir))
-                        Directory.CreateDirectory(SubSubDir);
-                    string nf = SubSubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
-                    File.Copy(fp, nf, true);
+                    if(!fp.Split('\\').Last().StartsWith(ftype + "_"))
+                    {
+                        string nf = SubDir + "\\" + ftype + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa";
+                        File.Copy(fp, nf, true);
+                    }
+                    else
+                    {
+                        string nf = SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
+                        File.Copy(fp, nf, true);
+                    }
                 }
             }
         }
