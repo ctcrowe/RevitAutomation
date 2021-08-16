@@ -18,10 +18,14 @@ namespace CC_Library.Predictions
             Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
             AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
             double[] Results = a.Forward(s.TextInput, ctxt, new WriteToCMDLine(WriteNull));
+            Results.AddRange(a.Forward(s.SecondaryText, ctxt, new WriteToCMDLine(WriteNull));
+            Results.AddRange(s.ValInput);
+            
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
             }
+            
             return Results;
         }
         public List<double[]> Forward(Sample s, WriteToCMDLine write)
