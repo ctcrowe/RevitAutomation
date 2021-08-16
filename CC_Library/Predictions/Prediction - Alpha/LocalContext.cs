@@ -12,10 +12,21 @@ namespace CC_Library.Predictions
     {
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
-        internal AlphaContext(Datatype dt, WriteToCMDLine write)
+        internal AlphaContext(Datatype dt, WriteToCMDLine write, int numb = 0)
         {
             datatype = dt;
-            Network = Datatype.AlphaContext.LoadNetwork(write, dt);
+            sqitch(numb)
+            {
+                default:
+                case 0:
+                    Network = Datatype.AlphaContextPrimary.LoadNetwork(write, dt);
+                    break;
+                case 1:
+                    Network = Datatype.AlphaContextSecondary.LoadNetwork(write, dt);
+                    break;
+                case 2:
+                    Network = Datatype.AlphaContextTertiary.LoadNetwork(write, dt);
+            }
         }
         public void Save()
         {
