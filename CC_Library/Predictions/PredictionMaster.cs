@@ -10,10 +10,11 @@ namespace CC_Library.Predictions
 {
     public static class PredictionMaster
     {
-        public static int PredictSingle(this Datatype dt, string s = null, double[] other = null, double[] img = null)
+        public static int PredictSingle(this Datatype dt, string s, string s2 = null, double[] other = null, double[] img = null)
         {
             Sample entry = new Sample(dt);
-            if(s != null) { entry.TextInput = s; }
+            entry.TextInput = s;
+            if(s2 != null) { entry.SecondaryText = s2; }
             if(other != null) { entry.ValInput = other; }
             if (img != null) { entry.ImgInput = img; }
 
@@ -33,10 +34,11 @@ namespace CC_Library.Predictions
             }
             return prediction;
         }
-        public static void PropogateSingle(this Datatype dt, int correct, WriteToCMDLine write, string s = null, double[] other = null, double[] img = null)
+        public static void PropogateSingle(this Datatype dt, int correct, WriteToCMDLine write, string s, string s2 = null, double[] other = null, double[] img = null)
         {
             Sample entry = new Sample(dt);
-            if(s != null) { entry.TextInput = s; }
+            entry.TextInput = s;
+            if(s2 != null) { entry.SecondaryText = s2; }
             if(other != null) { entry.ValInput = other; }
             if (img != null) { entry.ImgInput = img; }
 
