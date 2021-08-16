@@ -65,14 +65,9 @@ namespace CC_Library.Predictions
                         mem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i]);
                         cdv = mem.Layers[i].DInputs(cdv, Network.Layers[i]);
                     }
-                    catch
+                    catch (Exception e)
                     {
-                        write("J is " + j);
-                        write("CDV count " + cdv.Count());
-                        write("ContextOutputs count " + am.LocalContextOutputs.Count());
-                        write("ContextOutputs [j] count " + am.LocalContextOutputs[j].Count());
-                        write("ContextOutputs [j][i+1] count " + am.LocalContextOutputs[j][i+1].Count());
-                        write("ContextOutputs [j][i] count " + am.LocalContextOutputs[j][i].Count());
+                        e.OutputError();
                     }
                 }
             });
