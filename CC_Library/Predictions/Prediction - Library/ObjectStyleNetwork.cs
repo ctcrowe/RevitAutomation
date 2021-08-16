@@ -68,14 +68,16 @@ namespace CC_Library.Predictions
             if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
                 Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
-                AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
+                AlphaContext ctxt1 = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
+                AlphaContext ctxt2 = new AlphaContext(datatype, new WriteToCMDLine(WriteNull), 1);
                 var Samples = s.ReadSamples();
                 List<string> lines = new List<string>();
                 for(int i = 0; i < 5; i++)
                 {
                     NetworkMem ObjMem = new NetworkMem(Network);
                     NetworkMem AlphaMem = new NetworkMem(a.Network);
-                    NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+                    NetworkMem CtxtMem1 = new NetworkMem(ctxt1.Network);
+                    NetworkMem CtxtMem2 = new NetworkMem(ctxt2.Network);
                     
                     Parallel.For(0, Samples.Count(), j =>
                     {
@@ -89,17 +91,19 @@ namespace CC_Library.Predictions
                         var DValues = Backward(Samples[j], F, ObjMem, WriteNull);
                         var DV1 = DValues.ToList().Take(Alpha.DictSize).ToArray();
                         var DV2 = Enumerable.Reverse(DValues).Take(Alpha.DictSize).Reverse().ToArray();
-                        a.Backward(Samples[j].TextInput, DV1, ctxt, am, AlphaMem, CtxtMem, write);
-                        a.Backward(Samples[j].SecondaryText, DV2, ctxt, am2, AlphaMem, CtxtMem, write);
+                        a.Backward(Samples[j].TextInput, DV1, ctxt1, am, AlphaMem, CtxtMem1, write);
+                        a.Backward(Samples[j].SecondaryText, DV2, ctxt2, am2, AlphaMem, CtxtMem2, write);
                     });
                     ObjMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);
-                    CtxtMem.Update(1, 0.0001, ctxt.Network);
+                    CtxtMem1.Update(1, 0.0001, ctxt1.Network);
+                    CtxtMem2.Update(1, 0.0001, ctxt2.Network);
                 }
                 lines.ShowErrorOutput();
                 Network.Save();
                 a.Network.Save();
-                ctxt.Save();
+                ctxt1.Save();
+                ctxt2.Save();
                 
                 s.Save();
             }
