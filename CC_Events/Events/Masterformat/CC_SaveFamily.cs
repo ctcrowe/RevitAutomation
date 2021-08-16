@@ -25,9 +25,9 @@ namespace CC_Plugin
                 Directory.CreateDirectory(folder);
             if (!Directory.Exists(SubDir))
                 Directory.CreateDirectory(SubDir);
-            if(!fp.Split('\\').Last().StartsWith(ftype + "_"))
+            if(!fp.Split('\\').Last().StartsWith(prefix + "_"))
             {
-                string nf = SubDir + "\\" + ftype + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa";
+                string nf = SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa";
                 File.Copy(fp, nf, true);
             }
             else

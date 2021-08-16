@@ -29,7 +29,7 @@ namespace CC_Plugin.Events
                         else
                         {
                             var key = file.Split('\\').Last().Split('.').First();
-                            if(fnames.ContainsKey(key)
+                            if(fnames.ContainsKey(key))
                             {
                                 var orig = fnames[key];
                                 if(DateTime.Compare(File.GetLastWriteTime(orig), File.GetLastWriteTime(file)) < 0)
@@ -56,7 +56,7 @@ namespace CC_Plugin.Events
             {
                 File.Delete(f);
             }
-            foeach(var f in fnames)
+            foreach(var f in fnames)
             {
             }
         }
