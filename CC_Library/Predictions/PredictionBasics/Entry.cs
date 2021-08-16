@@ -13,7 +13,9 @@ namespace CC_Library.Predictions
     {
         public string Datatype { get; }
         public string TextInput { get; set; }
+        public string SecondaryText { get; set; }
         public double[] TextOutput { get; set; }
+        public double[] SecondaryTextOutput { get; set; }
         public double[] ValInput { get; set; }
         public double[] ImgInput { get; set; }
         public double[] DesiredOutput { get; set; }
@@ -23,7 +25,9 @@ namespace CC_Library.Predictions
             this.Datatype = dt.ToString();
             this.GUID = Guid.NewGuid().ToString();
             this.TextOutput = new double[1]{0};
+            this.SecondaryTextOutput = new double[1]{0};
             this.TextInput = "";
+            this.SecondaryText = "";
             this.ValInput = new double[1]{0};
             this.ImgInput = new double[1]{0};
             this.DesiredOutput = new double[1]{0};
