@@ -87,8 +87,10 @@ namespace CC_Library.Predictions
                         lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
                     
                         var DValues = Backward(Samples[j], F, ObjMem, WriteNull);
-                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
-                        a.Backward(Samples[j].SecondaryText, DValues, ctxt, am2, AlphaMem, CtxtMem, write);
+                        var DV1 = DValues.ToList().Take(Alpha.DictSize).ToArray();
+                        var DV2 = Enumerable.Reverse(DValues).Take(Alpha.DictSize).Reverse().ToArray();
+                        a.Backward(Samples[j].TextInput, DV1, ctxt, am, AlphaMem, CtxtMem, write);
+                        a.Backward(Samples[j].SecondaryText, DV2, ctxt, am2, AlphaMem, CtxtMem, write);
                     });
                     ObjMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);
