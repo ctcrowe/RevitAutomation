@@ -27,6 +27,7 @@ namespace CC_Library.Predictions
         public List<double[]> Forward(Sample s, WriteToCMDLine write)
         {
             var input = s.TextOutput.ToList();
+            inpit.AddRange(s.SecondaryTextOutput);
             input.AddRange(s.ValInput);
 
             List<double[]> Results = new List<double[]>();
@@ -54,7 +55,7 @@ namespace CC_Library.Predictions
                 mem.Layers[l].DWeights(DValues, Results[l]);
                 DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
             }
-            return DValues.ToList().Take(Alpha.DictSize).ToArray();
+            return DValues.ToList().Take(2 * Alpha.DictSize).ToArray();
         }
         public void Propogate
             (Sample s, WriteToCMDLine write)
@@ -76,11 +77,14 @@ namespace CC_Library.Predictions
                     {
                         AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
                         Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am, write);
+                        AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.ToCharArray());
+                        Samples[j].SecondaryTextOuptut = a.Forward(Samples[j].SecondaryText, ctxt, am2, write);
                         var F = Forward(Samples[j], write);
                         lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
                     
                         var DValues = Backward(Samples[j], F, ObjMem, WriteNull);
                         a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+                        a.Backward(Samples[j].SecondaryText, DValues, ctxt, am2, AlphaMem, CtxtMem, write);
                     });
                     ObjMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);
