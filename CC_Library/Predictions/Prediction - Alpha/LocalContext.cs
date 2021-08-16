@@ -26,6 +26,7 @@ namespace CC_Library.Predictions
                     break;
                 case 2:
                     Network = Datatype.AlphaContextTertiary.LoadNetwork(write, dt);
+                    break;
             }
         }
         public void Save()
