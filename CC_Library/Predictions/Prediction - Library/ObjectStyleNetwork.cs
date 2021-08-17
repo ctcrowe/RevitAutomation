@@ -17,9 +17,10 @@ namespace CC_Library.Predictions
         {
             Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
             AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
-            double[] Results = a.Forward(s.TextInput, ctxt, new WriteToCMDLine(WriteNull));
-            Results.AddRange(a.Forward(s.SecondaryText, ctxt, new WriteToCMDLine(WriteNull));
-            Results.AddRange(s.ValInput);
+            var input = a.Forward(s.TextInput, ctxt, new WriteToCMDLine(WriteNull)).ToList();
+            input.AddRange(a.Forward(s.SecondaryText, ctxt, new WriteToCMDLine(WriteNull)));
+            input.AddRange(s.ValInput);
+            var Results = input.ToArray();
             
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
@@ -31,7 +32,7 @@ namespace CC_Library.Predictions
         public List<double[]> Forward(Sample s, WriteToCMDLine write)
         {
             var input = s.TextOutput.ToList();
-            inpit.AddRange(s.SecondaryTextOutput);
+            input.AddRange(s.SecondaryTextOutput);
             input.AddRange(s.ValInput);
 
             List<double[]> Results = new List<double[]>();
@@ -82,9 +83,9 @@ namespace CC_Library.Predictions
                     Parallel.For(0, Samples.Count(), j =>
                     {
                         AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am, write);
+                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt1, am, write);
                         AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.ToCharArray());
-                        Samples[j].SecondaryTextOuptut = a.Forward(Samples[j].SecondaryText, ctxt, am2, write);
+                        Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText, ctxt2, am2, write);
                         var F = Forward(Samples[j], write);
                         lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
                     

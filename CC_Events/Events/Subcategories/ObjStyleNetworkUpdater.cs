@@ -85,7 +85,7 @@ namespace CC_Plugin
                         {
                             var dims = GetDims(bbox);
                             int Correct = Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(Enum.GetNames(typeof(ObjectCategory)).ToList().Where(x => ele.Subcategory.Name.Contains(x)).First());
-                            Datatype.ObjectStyle.PropogateSingle(Correct, new WriteToCMDLine(WriteNull), name, dims);
+                            Datatype.ObjectStyle.PropogateSingle(Correct, new WriteToCMDLine(WriteNull), name, "", dims);
                         }
                         //run info through neural network (slightly larger than mf network.
                         //update object style parameter

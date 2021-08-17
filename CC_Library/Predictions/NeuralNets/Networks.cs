@@ -15,7 +15,9 @@ namespace CC_Library.Predictions
                     return MFNetwork();
                 case Datatype.Alpha:
                     return AlphaNetwork();
-                case Datatype.AlphaContext:
+                case Datatype.AlphaContextPrimary:
+                case Datatype.AlphaContextSecondary:
+                case Datatype.AlphaContextTertiary:
                     return AlphaContextNetwork();
                 case Datatype.ObjectStyle:
                     return ObjectStyleNetwork();
@@ -31,9 +33,16 @@ namespace CC_Library.Predictions
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             return network;
         }
-        private static NeuralNetwork AlphaContextNetwork()
+        private static NeuralNetwork AlphaContextNetwork(int i = 0)
         {
-            NeuralNetwork network = new NeuralNetwork(Datatype.AlphaContext);
+            NeuralNetwork network;
+            switch(i)
+            {
+                default:
+                case 0: network = new NeuralNetwork(Datatype.AlphaContextPrimary); break;
+                case 1: network = new NeuralNetwork(Datatype.AlphaContextSecondary); break;
+                case 2: network = new NeuralNetwork(Datatype.AlphaContextTertiary); break;
+            }
             network.Layers.Add(new Layer(1, Alpha.CharCount() * Alpha.SearchSize, Activation.Linear));
             return network;
         }
@@ -51,7 +60,7 @@ namespace CC_Library.Predictions
         {
             NeuralNetwork network = new NeuralNetwork(Datatype.ObjectStyle);
 
-            network.Layers.Add(new Layer(Alpha.DictSize, (2 * Alpha.DictSize + 18, Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, (2 * Alpha.DictSize) + 18, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
             network.Layers.Add(new Layer(Enum.GetNames(typeof(ObjectCategory)).Count(), network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
 

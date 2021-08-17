@@ -15,7 +15,7 @@ namespace CC_Library.Predictions
         internal AlphaContext(Datatype dt, WriteToCMDLine write, int numb = 0)
         {
             datatype = dt;
-            sqitch(numb)
+            switch(numb)
             {
                 default:
                 case 0:
