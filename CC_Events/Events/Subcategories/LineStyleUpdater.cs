@@ -78,7 +78,7 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            int prediction = Datatype.ObjectStyle.PredictSingle(name, "", dims);
+                            int prediction = Datatype.ObjectStyle.PredictSingle(name, "line", dims);
                             var subcat = doc.AddCategories(prediction);
                             ele.LineStyle = subcat.GetGraphicsStyle(GraphicsStyleType.Projection);
                         }

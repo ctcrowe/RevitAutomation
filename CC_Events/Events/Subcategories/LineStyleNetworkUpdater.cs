@@ -76,14 +76,14 @@ namespace CC_Plugin
                         if (bbox != null)
                         {
                             var dims = GetDims(bbox);
-                            int prediction = Datatype.ObjectStyle.PredictSingle(name, "", dims);
+                            int prediction = Datatype.ObjectStyle.PredictSingle(name, "line", dims);
                             var gs = ele.LineStyle as GraphicsStyle;
                             if (!gs.Name.Contains(Enum.GetNames(typeof(ObjectCategory))[prediction]))
                             {
                                 if (Enum.GetNames(typeof(ObjectCategory)).Any(x => gs.Name.Contains(x)))
                                     Datatype.ObjectStyle.PropogateSingle(Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(
                                         Enum.GetNames(typeof(ObjectCategory)).Where(x => gs.Name.Contains(x)).First()),
-                                        new WriteToCMDLine(WriteNull), name, "", dims);
+                                        new WriteToCMDLine(WriteNull), name, "line", dims);
                             }
                         }
                     }
