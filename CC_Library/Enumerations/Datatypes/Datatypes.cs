@@ -15,6 +15,7 @@
         ObjectStyle,
         ObjectCategory,
         Subcategory,
+        LineWeight,
         RoomPrivacy
     }
 }
