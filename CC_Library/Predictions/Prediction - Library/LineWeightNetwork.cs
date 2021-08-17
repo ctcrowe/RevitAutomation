@@ -8,15 +8,12 @@ namespace CC_Library.Predictions
 {
     class LineWeightNetwork : INetworkPredUpdater
     {
-        public Datatype datatype { get { return Datatype.ObjectStyle; } }
-    }
-        public class ObjectStyleNetwork : INetworkPredUpdater
-    {
-        public Datatype datatype { get { return Datatype.ObjectStyle; } }
+        public Datatype datatype { get { return Datatype.LineWeight; } }
         public NeuralNetwork Network { get; }
-        public ObjectStyleNetwork()
+        
+        public LineWeightNetwork()
         {
-            Network = Datatype.ObjectStyle.LoadNetwork(new WriteToCMDLine(WriteNull));
+            Network = Datatype.LineWeight.LoadNetwork(new WriteToCMDLine(WriteNull));
         }
         public double[] Predict(Sample s)
         {
