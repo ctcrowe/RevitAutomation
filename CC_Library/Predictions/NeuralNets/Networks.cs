@@ -16,9 +16,11 @@ namespace CC_Library.Predictions
                 case Datatype.Alpha:
                     return AlphaNetwork();
                 case Datatype.AlphaContextPrimary:
+                    return AlphaContextNetwork(0);
                 case Datatype.AlphaContextSecondary:
+                    return AlphaContextNetwork(1);
                 case Datatype.AlphaContextTertiary:
-                    return AlphaContextNetwork();
+                    return AlphaContextNetwork(2);
                 case Datatype.ObjectStyle:
                     return ObjectStyleNetwork();
                 case Datatype.OccupantLoadFactor:
