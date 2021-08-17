@@ -74,26 +74,35 @@ namespace CC_Plugin
                 {
                     //Get document Name
                     string name = doc.Title;
+                    string n2 = "null";
                     if(String.IsNullOrEmpty(name))
                         name = "null";
                     //Get form location info (Varies by type?)
                     foreach (ElementId e in data.GetModifiedElementIds())
                     {
                         GenericForm ele = doc.GetElement(e) as GenericForm;
-                        var bbox = ele.get_BoundingBox(null);
-                        if (bbox != null)
+                        if (ele != null)
                         {
-                            var dims = GetDims(bbox);
-                            if (Enum.GetNames(typeof(ObjectCategory)).ToList().Any(x => ele.Subcategory.Name.Contains(x)))
+                            Sweep sweep = doc.GetElement(e) as Sweep;
+                            if (sweep != null)
                             {
-                                int Correct = Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(Enum.GetNames(typeof(ObjectCategory)).ToList().Where(x => ele.Subcategory.Name.Contains(x)).First());
-                                Datatype.ObjectStyle.PropogateSingle(Correct, new WriteToCMDLine(WriteNull), name, "null", dims);
+                                if(sweep.ProfileSymbol != null)
+                                {
+                                    n2 = sweep.ProfileSymbol.Profile.Name;
+                                }
+                            }
+                            var bbox = ele.get_BoundingBox(null);
+                            if (bbox != null)
+                            {
+                                var dims = GetDims(bbox);
+                                if (Enum.GetNames(typeof(ObjectCategory)).ToList().Any(x => ele.Subcategory.Name.Contains(x)))
+                                {
+                                    int Correct = Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(Enum.GetNames(typeof(ObjectCategory)).ToList().Where(x => ele.Subcategory.Name.Contains(x)).First());
+                                    Datatype.ObjectStyle.PropogateSingle(Correct, new WriteToCMDLine(WriteNull), name, n2, dims);
+                                }
                             }
                         }
-                        //run info through neural network (slightly larger than mf network.
-                        //update object style parameter
                     }
-                    //profit
                 }
                 catch (Exception e)
                 {
