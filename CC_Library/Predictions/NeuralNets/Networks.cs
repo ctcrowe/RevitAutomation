@@ -25,6 +25,8 @@ namespace CC_Library.Predictions
                     return ObjectStyleNetwork();
                 case Datatype.OccupantLoadFactor:
                     return LoadFactorNetwork();
+                case Datatype.LineWeight:
+                    return LineWeightNetwork();
             }
         }
         private static NeuralNetwork AlphaNetwork()
