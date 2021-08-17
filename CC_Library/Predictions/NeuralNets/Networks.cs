@@ -68,6 +68,16 @@ namespace CC_Library.Predictions
 
             return network;
         }
+        private static NeuralNetwork LineWeightNetwork()
+        {
+            NeuralNetwork network = new NeuralNetwork(Datatype.ObjectStyle);
+
+            network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+            network.Layers.Add(new Layer(16, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+
+            return network;
+        }
         private static NeuralNetwork LoadFactorNetwork()
         {
             NeuralNetwork network = new NeuralNetwork(Datatype.OccupantLoadFactor);
