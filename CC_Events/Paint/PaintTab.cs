@@ -47,6 +47,19 @@ namespace CC_Plugin
             return Result.Succeeded;
         }
     }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
+    public class OrganizeFamilies : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
+        {
+            FamilyReorginize.Run();
+            return Result.Succeeded;
+        }
+    }
     internal class CCPaintPanel
     {
         //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
@@ -62,16 +75,23 @@ namespace CC_Plugin
                 @dllpath,
                 "CC_Plugin.PaintObjectByFinishMat");
             b1Data.ToolTip = "Paint all Surfaces of an Object a the Finish Material Parameter";
-
             PushButton PB1 = Panel.AddItem(b1Data) as PushButton;
+            
             PushButtonData b2Data = new PushButtonData(
                 "Add All Categories",
                 "Add All\r\nCategories",
                 @dllpath,
                 "CC_Plugin.AddObjectStyles");
             b1Data.ToolTip = "Add all predefined subcategories to the document.";
-
             PushButton PB2 = Panel.AddItem(b2Data) as PushButton;
+
+            PushButtonData b3Data = new PushButtonData(
+                "Organize Families",
+                "Organize\r\nFamilies",
+                @dllpath,
+                "CC_Plugin.OrganizeFamilies");
+            b1Data.ToolTip = "Organize all families in the mydocuments folder.";
+            PushButton PB3 = Panel.AddItem(b3Data) as PushButton;
         }
         public static void PaintByMaterial(UIDocument uidoc, Param par)
         {
