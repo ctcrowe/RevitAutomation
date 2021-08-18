@@ -14,13 +14,19 @@ namespace CC_Library.Predictions
     }
     public static class SinglePrediction
     {
+        WriteToCMDLine write = new WriteToCMDLine(WriteNull);
+        AlphaContext ctxt1;
+        AlphaContext ctxt2;
+        AlphaContext ctxt3;
         public static double[] Predict(this PredictionBasis basis, Sample s)
         {
-            Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
+            Alpha a = new Alpha(write);
             if(basis.TextCount > 0)
-                AlphaContext ctxt1 = new AlphaContext(basis.Datatype, new WriteToCMDLine(WriteNull));
+                ctxt1 = new AlphaContext(basis.Datatype, write);
             if(basis.TextCount > 1)
-                AlphaContext ctxt2 = new AlphaContext(basis.Datatype, new WriteToCMDLine(WriteNull));
+                ctxt2 = new AlphaContext(basis.datatype, write, 1);
+            if(basis.TextCount > 2)
+                ctxt3 = new AlphaContext(basis.datatype, write, 2);
         }
     }
         public class ObjectStyleNetwork : INetworkPredUpdater
@@ -34,6 +40,7 @@ namespace CC_Library.Predictions
         public double[] Predict(Sample s)
         {
             Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
+            AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
             AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
             var input = a.Forward(s.TextInput, ctxt, new WriteToCMDLine(WriteNull)).ToList();
             input.AddRange(a.Forward(s.SecondaryText, ctxt, new WriteToCMDLine(WriteNull)));
