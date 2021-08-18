@@ -14,8 +14,10 @@ namespace CC_Library.Predictions
         public string Datatype { get; }
         public string TextInput { get; set; }
         public string SecondaryText { get; set; }
+        public string TertiaryText { get; set; }
         public double[] TextOutput { get; set; }
         public double[] SecondaryTextOutput { get; set; }
+        public double[] TertiaryTextOutput { get; set; }
         public double[] ValInput { get; set; }
         public double[] ImgInput { get; set; }
         public double[] DesiredOutput { get; set; }
