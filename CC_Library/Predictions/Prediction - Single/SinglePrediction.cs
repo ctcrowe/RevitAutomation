@@ -11,8 +11,11 @@ namespace CC_Library.Predictions
         public Datatype datatype;
         public NeuralNetwork network {get; set;}
     }
-    class SinglePrediction
+    public static class SinglePrediction
     {
+        public static double[] Predict(this PredictionBasis basis, Sample s)
+        {
+        }
     }
 }
     public class OLFNetwork : INetworkPredUpdater
