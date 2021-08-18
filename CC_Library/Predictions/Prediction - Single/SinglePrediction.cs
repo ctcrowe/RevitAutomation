@@ -27,6 +27,8 @@ namespace CC_Library.Predictions
                 ctxt2 = new AlphaContext(basis.datatype, write, 1);
             if(basis.TextCount > 2)
                 ctxt3 = new AlphaContext(basis.datatype, write, 2);
+            
+            var input = a.Forward(s.TextInput, ctxt1, new WriteToCMDLine(WriteNull)).ToList();
         }
     }
         public class ObjectStyleNetwork : INetworkPredUpdater
