@@ -18,6 +18,10 @@ namespace CC_Library.Predictions
     {
         WriteToCMDLine write = new WriteToCMDLine(WriteNull);
 
+        public static double[] CompileInputs(this PredictionBasis basis, Sample s)
+        {
+            
+        }
         public static double[] Predict(this PredictionBasis basis, Sample s)
         {
             AlphaContext ctxt1;
@@ -48,9 +52,9 @@ namespace CC_Library.Predictions
             }
             
             var Results = input.ToArray();
-            for(int i = 0; i < Network.Layers.Count(); i++)
+            for(int i = 0; i < basis.network.Layers.Count(); i++)
             {
-                Results = Network.Layers[i].Output(Results);
+                Results = basis.metwork.Layers[i].Output(Results);
             }
             return Results;
         }
