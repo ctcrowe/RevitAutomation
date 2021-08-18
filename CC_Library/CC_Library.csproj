@@ -83,6 +83,7 @@
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ObjectStyleNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\OLFNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Single\SinglePrediction.cs" />
     <Compile Include="Predictions\PredictionMaster.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
