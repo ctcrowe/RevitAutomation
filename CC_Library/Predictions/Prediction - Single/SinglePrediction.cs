@@ -11,6 +11,7 @@ namespace CC_Library.Predictions
         public Datatype datatype;
         public NeuralNetwork network {get; set;}
         public int TextCount {get; set;}
+        public bool ValueInput {get; set;}
     }
     public static class SinglePrediction
     {
@@ -33,39 +34,27 @@ namespace CC_Library.Predictions
             if(basis.TextCount > 1)
             {
                 ctxt2 = new AlphaContext(basis.datatype, write, 1);
-                input.AddRange(a.Forward(s.SecondaryTextInput, ctxt2, write);
+                input.AddRange(a.Forward(s.SecondaryText, ctxt2, write));
             }
             if(basis.TextCount > 2)
+            {
                 ctxt3 = new AlphaContext(basis.datatype, write, 2);
-            var input = a.Forward(s.TextInput, ctxt1, new WriteToCMDLine(WriteNull)).ToList();
-        }
-    }
-        public class ObjectStyleNetwork : INetworkPredUpdater
-    {
-        public Datatype datatype { get { return Datatype.ObjectStyle; } }
-        public NeuralNetwork Network { get; }
-        public ObjectStyleNetwork()
-        {
-            Network = Datatype.ObjectStyle.LoadNetwork(new WriteToCMDLine(WriteNull));
-        }
-        public double[] Predict(Sample s)
-        {
-            Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
-            AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
-            AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
-            var input = a.Forward(s.TextInput, ctxt, new WriteToCMDLine(WriteNull)).ToList();
-            input.AddRange(a.Forward(s.SecondaryText, ctxt, new WriteToCMDLine(WriteNull)));
-            input.AddRange(s.ValInput);
-            var Results = input.ToArray();
+                input.AddRange(a.Forward(s.TertiaryText, ctxt3, write));
+            }
+            if(basis.ValueInput)
+            {
+                input.AddRange(s.ValInput);
+            }
             
+            var Results = input.ToArray();
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
             }
-            
             return Results;
         }
-        public List<double[]> Forward(Sample s, WriteToCMDLine write)
+    }
+        List<double[]> Forward(Sample s, WriteToCMDLine write)
         {
             var input = s.TextOutput.ToList();
             input.AddRange(s.SecondaryTextOutput);
