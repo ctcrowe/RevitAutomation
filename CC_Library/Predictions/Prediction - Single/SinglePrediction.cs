@@ -15,21 +15,28 @@ namespace CC_Library.Predictions
     public class SinglePrediction
     {
         WriteToCMDLine write = new WriteToCMDLine(WriteNull);
-        AlphaContext ctxt1;
-        AlphaContext ctxt2;
-        AlphaContext ctxt3;
-        List<double[]> input;
+
         public double[] Predict(this PredictionBasis basis, Sample s)
         {
+            AlphaContext ctxt1;
+            AlphaContext ctxt2;
+            AlphaContext ctxt3;
+            List<double[]> input;
             Alpha a = new Alpha(write);
+            
             input = new List<double[]>();
             if(basis.TextCount > 0)
+            {
                 ctxt1 = new AlphaContext(basis.Datatype, write);
+                input.AddRange(a.Forward(s.TextInput, ctxt1, write));
+            }
             if(basis.TextCount > 1)
+            {
                 ctxt2 = new AlphaContext(basis.datatype, write, 1);
+                input.AddRange(a.Forward(s.SecondaryTextInput, ctxt2, write);
+            }
             if(basis.TextCount > 2)
                 ctxt3 = new AlphaContext(basis.datatype, write, 2);
-            
             var input = a.Forward(s.TextInput, ctxt1, new WriteToCMDLine(WriteNull)).ToList();
         }
     }
