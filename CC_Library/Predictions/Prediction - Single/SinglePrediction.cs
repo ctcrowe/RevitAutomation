@@ -20,10 +20,6 @@ namespace CC_Library.Predictions
 
         public static double[] CompileInputs(this PredictionBasis basis, Sample s)
         {
-            
-        }
-        public static double[] Predict(this PredictionBasis basis, Sample s)
-        {
             AlphaContext ctxt1;
             AlphaContext ctxt2;
             AlphaContext ctxt3;
@@ -52,6 +48,11 @@ namespace CC_Library.Predictions
             }
             
             var Results = input.ToArray();
+            return Results;
+        }
+        public static double[] Predict(this PredictionBasis basis, Sample s)
+        {
+            var Results = basis.CompileInputs(s);
             for(int i = 0; i < basis.network.Layers.Count(); i++)
             {
                 Results = basis.metwork.Layers[i].Output(Results);
