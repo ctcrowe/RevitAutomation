@@ -12,6 +12,7 @@ namespace CC_Library.Predictions
         public NeuralNetwork network {get; set;}
         public int TextCount {get; set;}
         public bool ValueInput {get; set;}
+        public bool ImgInput {get; set;}
     }
     public static class SinglePrediction
     {
