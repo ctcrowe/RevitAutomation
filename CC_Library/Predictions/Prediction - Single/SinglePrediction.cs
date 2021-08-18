@@ -12,11 +12,11 @@ namespace CC_Library.Predictions
         public NeuralNetwork network {get; set;}
         public int TextCount {get; set;}
     }
-    public class SinglePrediction
+    public static class SinglePrediction
     {
         WriteToCMDLine write = new WriteToCMDLine(WriteNull);
 
-        public double[] Predict(this PredictionBasis basis, Sample s)
+        public static double[] Predict(this PredictionBasis basis, Sample s)
         {
             AlphaContext ctxt1;
             AlphaContext ctxt2;
