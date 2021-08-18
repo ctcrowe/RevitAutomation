@@ -19,37 +19,27 @@ namespace CC_Plugin.Events
             List<string> Delete = new List<string>();
             foreach(string dir in Directory.GetDirectories(folder))
             {
-                foreach(string subdir in Directory.GetDirectories(dir))
-                {
-                    string subname = subdir.Split('\\').Last();
-                    foreach(string file in Directory.GetFiles(subdir))
-                    {
-                        if(file.Split('.').Count() > 2)
-                            Delete.Add(file);
-                        else
-                        {
-                            var key = file.Split('\\').Last().Split('.').First();
-                            if(fnames.ContainsKey(key))
-                            {
-                                var orig = fnames[key];
-                                if(DateTime.Compare(File.GetLastWriteTime(orig), File.GetLastWriteTime(file)) < 0)
-                                {
-                                    Delete.Add(fnames[key]);
-                                    fnames[key] = file;
-                                }
-                                else
-                                    Delete.Add(file);
-                            }
-                            else
-                            {
-                                fnames.Add(file.Split('\\').Last().Split('.').First(), file);
-                            }
-                        }
-                    }
-                }
                 foreach(string file in Directory.GetFiles(dir))
                 {
-                    Delete.Add(file);
+                    if(file.Split('.').Count() > 2)
+                        Delete.Add(file);
+                    else
+                    {
+                        var key = file.Split('\\').Last().Split('.').First();
+                        if(fnames.ContainsKey(key))
+                        {
+                            var orig = fnames[key];
+                            if(DateTime.Compare(File.GetLastWriteTime(orig), File.GetLastWriteTime(file)) < 0)
+                            {
+                                Delete.Add(fnames[key]);
+                                fnames[key] = file;
+                            }
+                            else
+                                Delete.Add(file);
+                        }
+                        else
+                            fnames.Add(file.Split('\\').Last().Split('.').First(), file);
+                    }
                 }
             }
             foreach(string f in Delete)
@@ -58,6 +48,11 @@ namespace CC_Plugin.Events
             }
             foreach(var f in fnames)
             {
+                int numb = Datatype.Masterformat.PredictSingle(f.Key);
+                string subfolder = folder + "\\Division " + numb;
+                if(!Directory.Exists(subfolder)
+                   Directory.CreateDirectory(subfolder);
+                File.Move(f.Value, subfolder + f.Key + ".rfa");
             }
         }
     }
