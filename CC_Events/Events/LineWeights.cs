@@ -12,7 +12,19 @@ namespace CC_Plugin.Events
         public static void Learn(Document doc)
         {
             View v = doc.ActiveView;
-            
+            Categories cats = doc.Settings.Categories;
+            foreach (Category c in cats)
+            {
+                if (c.CategoryType == CategoryType.Model)
+                {
+                    if (!c.SubCategories.IsEmpty)
+                    {
+                        foreach (Category cs in c.SubCategories)
+                        {
+                        }
+                    }
+                }
+            }
         }
     }
 }
