@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
+using CC_Library.Predictions;
+using CC_Library.Datatypes;
 
 namespace CC_Plugin.Events
 {
