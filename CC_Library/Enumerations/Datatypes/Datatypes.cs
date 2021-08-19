@@ -15,7 +15,10 @@
         ObjectStyle,
         ObjectCategory,
         Subcategory,
-        LineWeight,
+        CutLineWeight,
+        ProjectedLineWeight,
+        CutLinePattern,
+        ProjectedLinePattern,
         RoomPrivacy
     }
 }
