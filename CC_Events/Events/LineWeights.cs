@@ -22,6 +22,8 @@ namespace CC_Plugin.Events
                         foreach (Category cs in c.SubCategories)
                         {
                             var override = v.GetCategoryOverrides(cs.Id);
+                            int CutLineWeight;
+                            int ProjectedLineWeight;
                         }
                     }
                 }
