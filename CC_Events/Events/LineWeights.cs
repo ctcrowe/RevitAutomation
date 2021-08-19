@@ -42,6 +42,9 @@ namespace CC_Plugin.Events
                             {
                                 ProjectedLineWeight = override.ProjectionLineWeight;
                             }
+                            string name1 = cs.Name;
+                            string name2 = v.Title;
+                            Datatype.CutLineWeight.PropogateSingle(CutLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
                         }
                     }
                 }
