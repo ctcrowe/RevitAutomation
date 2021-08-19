@@ -21,25 +21,20 @@ namespace CC_Plugin
             {
                 foreach(string file in Directory.GetFiles(dir))
                 {
-                    if(file.Split('.').Count() > 2)
-                        Delete.Add(file);
-                    else
+                    var key = file.Split('\\').Last().Split('.').First();
+                    if(fnames.ContainsKey(key))
                     {
-                        var key = file.Split('\\').Last().Split('.').First();
-                        if(fnames.ContainsKey(key))
+                        var orig = fnames[key];
+                        if(DateTime.Compare(File.GetLastWriteTime(orig), File.GetLastWriteTime(file)) < 0)
                         {
-                            var orig = fnames[key];
-                            if(DateTime.Compare(File.GetLastWriteTime(orig), File.GetLastWriteTime(file)) < 0)
-                            {
-                                Delete.Add(fnames[key]);
-                                fnames[key] = file;
-                            }
-                            else
-                                Delete.Add(file);
+                            Delete.Add(fnames[key]);
+                            fnames[key] = file;
                         }
                         else
-                            fnames.Add(file.Split('\\').Last().Split('.').First(), file);
+                            Delete.Add(file);
                     }
+                    else
+                        fnames.Add(file.Split('\\').Last().Split('.').First(), file);
                 }
             }
             foreach(string f in Delete)
