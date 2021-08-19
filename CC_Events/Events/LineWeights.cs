@@ -26,16 +26,19 @@ namespace CC_Plugin.Events
                             int ProjectedLineWeight;
                             if(override.CutLineWeight == OverrideGraphicSettings.InvalidPenNumber)
                             {
-                                
+                                CutLineWeight = cs.GetLineWeight(GraphicsStyleType.Cut);
                             }
                             else
                             {
+                                CutLineWeight = override.CutLineWeight;
                             }
                             if(override.ProjectionLineWeight == OvverideGraphicSettings.InvalidPenNumber)
                             {
+                                ProjectedLineWeight = cs.GetLineWeight(GraphicsStyleType.Projection);
                             }
                             else
                             {
+                                ProjectedLineWeight = override.ProjectionLineWeight;
                             }
                         }
                     }
