@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
-    class LineWeightNetwork : INetworkPredUpdater
+    class CutLineWeightNetwork : INetworkPredUpdater
     {
         public Datatype datatype { get { return Datatype.LineWeight; } }
         public NeuralNetwork Network { get; }
         
-        public LineWeightNetwork()
+        public CutLineWeightNetwork()
         {
-            Network = Datatype.LineWeight.LoadNetwork(new WriteToCMDLine(WriteNull));
+            Network = Datatype.CutLineWeight.LoadNetwork(new WriteToCMDLine(WriteNull));
         }
         public double[] Predict(Sample s)
         {
