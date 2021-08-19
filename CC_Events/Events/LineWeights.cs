@@ -31,7 +31,7 @@ namespace CC_Plugin.Events
                             else
                             {
                             }
-                            if(override.ProjectedLineWeight == OvverideGraphicSettings.InvalidPenNumber)
+                            if(override.ProjectionLineWeight == OvverideGraphicSettings.InvalidPenNumber)
                             {
                             }
                             else
