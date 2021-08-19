@@ -24,6 +24,19 @@ namespace CC_Plugin.Events
                             var override = v.GetCategoryOverrides(cs.Id);
                             int CutLineWeight;
                             int ProjectedLineWeight;
+                            if(override.CutLineWeight == OverrideGraphicSettings.InvalidPenNumber)
+                            {
+                                
+                            }
+                            else
+                            {
+                            }
+                            if(override.ProjectedLineWeight == OvverideGraphicSettings.InvalidPenNumber)
+                            {
+                            }
+                            else
+                            {
+                            }
                         }
                     }
                 }
