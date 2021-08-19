@@ -8,7 +8,7 @@ namespace CC_Library.Predictions
 {
     class CutLineWeightNetwork : INetworkPredUpdater
     {
-        public Datatype datatype { get { return Datatype.LineWeight; } }
+        public Datatype datatype { get { return Datatype.CutLineWeight; } }
         public NeuralNetwork Network { get; }
         
         public CutLineWeightNetwork()

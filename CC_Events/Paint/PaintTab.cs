@@ -56,7 +56,7 @@ namespace CC_Plugin
             ref string message,
             ElementSet elements)
         {
-            FamilyReorginize.Run();
+            FamilyReorganize.Run();
             return Result.Succeeded;
         }
     }

@@ -7,9 +7,9 @@ using System.IO;
 using CC_Library.Predictions;
 using CC_Library.Datatypes;
 
-namespace CC_Plugin.Events
+namespace CC_Plugin
 {
-    public class FamilyReorginize
+    public class FamilyReorganize
     {
         public static void Run()
         {
@@ -50,7 +50,7 @@ namespace CC_Plugin.Events
             {
                 int numb = Datatype.Masterformat.PredictSingle(f.Key);
                 string subfolder = folder + "\\Division " + numb;
-                if(!Directory.Exists(subfolder)
+                if(!Directory.Exists(subfolder))
                    Directory.CreateDirectory(subfolder);
                 File.Move(f.Value, subfolder + f.Key + ".rfa");
             }
