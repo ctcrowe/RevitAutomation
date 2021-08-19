@@ -25,8 +25,10 @@ namespace CC_Library.Predictions
                     return ObjectStyleNetwork();
                 case Datatype.OccupantLoadFactor:
                     return LoadFactorNetwork();
-                case Datatype.LineWeight:
-                    return LineWeightNetwork();
+                case Datatype.CutLineWeight:
+                    return CutLineWeightNetwork();
+                case Datatype.ProjectedLineWeight:
+                    return ProjectedLineWeightNetwork();
             }
         }
         private static NeuralNetwork AlphaNetwork()
@@ -70,9 +72,19 @@ namespace CC_Library.Predictions
 
             return network;
         }
-        private static NeuralNetwork LineWeightNetwork()
+        private static NeuralNetwork CutLineWeightNetwork()
         {
-            NeuralNetwork network = new NeuralNetwork(Datatype.ObjectStyle);
+            NeuralNetwork network = new NeuralNetwork(Datatype.CutLineWeight);
+
+            network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+            network.Layers.Add(new Layer(17, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+
+            return network;
+        }
+        private static NeuralNetwork ProjectedLineWeightNetwork()
+        {
+            NeuralNetwork network = new NeuralNetwork(Datatype.ProjectedLineWeight);
 
             network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
