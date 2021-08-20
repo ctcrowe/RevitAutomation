@@ -31,8 +31,7 @@ namespace CC_Plugin.Events
                                 int CutLineWeight = ovrride.CutLineWeight == OverrideGraphicsSettings.InvalidPenNumner?
                                     (int)cs.GetLineWeight(GraphicsStyleType.Cut) :
                                     ovrride.CutLineWeight;
-                                if(cs.GetLineWeight(GraphicsStyleType.Cut) != null)
-                                    Datatype.CutLineWeight.PropogateSingle(CutLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
+                                Datatype.CutLineWeight.PropogateSingle(CutLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
                             }
                             if(cs.GetLineWeight(GraphicsStyleType.Projection) != null)
                             {
