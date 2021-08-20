@@ -47,7 +47,7 @@ namespace CC_Plugin
                 string subfolder = folder + "\\Division " + numb;
                 if(!Directory.Exists(subfolder))
                    Directory.CreateDirectory(subfolder);
-                File.Move(f.Value, subfolder + f.Key + ".rfa");
+                File.Move(f.Value, subfolder + "\\" + f.Key + ".rfa");
             }
         }
     }
