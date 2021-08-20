@@ -23,32 +23,37 @@ namespace CC_Plugin.Events
                     {
                         foreach (Category cs in c.SubCategories)
                         {
-                            var override = v.GetCategoryOverrides(cs.Id);
+                            var ovrride = v.GetCategoryOverrides(cs.Id);
                             int CutLineWeight;
                             int ProjectedLineWeight;
-                            if(override.CutLineWeight == OverrideGraphicSettings.InvalidPenNumber)
+                            if(ovrride.CutLineWeight == OverrideGraphicSettings.InvalidPenNumber && cs.GetLineWeight(GraphicsStyleType.Cut) != null)
                             {
-                                CutLineWeight = cs.GetLineWeight(GraphicsStyleType.Cut);
+                                CutLineWeight = (int)cs.GetLineWeight(GraphicsStyleType.Cut);
                             }
                             else
                             {
-                                CutLineWeight = override.CutLineWeight;
+                                CutLineWeight = ovrride.CutLineWeight;
                             }
-                            if(override.ProjectionLineWeight == OvverideGraphicSettings.InvalidPenNumber)
+                            if(ovrride.ProjectionLineWeight == OverrideGraphicSettings.InvalidPenNumber && cs.GetLineWeight(GraphicsStyleType.Cut) != null)
                             {
-                                ProjectedLineWeight = cs.GetLineWeight(GraphicsStyleType.Projection);
+                                ProjectedLineWeight = (int)cs.GetLineWeight(GraphicsStyleType.Projection);
                             }
                             else
                             {
-                                ProjectedLineWeight = override.ProjectionLineWeight;
+                                ProjectedLineWeight = ovrride.ProjectionLineWeight;
                             }
                             string name1 = cs.Name;
                             string name2 = v.Title;
-                            Datatype.CutLineWeight.PropogateSingle(CutLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
+                            if(cs.GetLineWeight(GraphicsStyleType.Cut) != null)
+                                Datatype.CutLineWeight.PropogateSingle(CutLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
                         }
                     }
                 }
             }
+        }
+        public static string WriteNull(string s)
+        {
+            return s;
         }
     }
 }
