@@ -38,6 +38,7 @@ namespace CC_Plugin.Events
                                 int ProjectedLineWeight = ovrride.ProjectionLineWeight ==OverrideGraphicSettings.InvalidPenNumber?
                                     (int) cs.GetLineWeight(GraphicStyleType.Projection):
                                     ovrride.ProjectionLineWeight;
+                                Datatype.ProjectedLineWeight.PropogateSingle(ProjectedLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
                             }
                         }
                     }
