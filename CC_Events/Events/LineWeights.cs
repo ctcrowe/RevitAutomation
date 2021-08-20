@@ -35,16 +35,9 @@ namespace CC_Plugin.Events
                             }
                             if(cs.GetLineWeight(GraphicsStyleType.Projection) != null)
                             {
-                                int ProjectedLineWeight;
-                            }
-
-                            if(ovrride.ProjectionLineWeight == OverrideGraphicSettings.InvalidPenNumber && cs.GetLineWeight(GraphicsStyleType.Cut) != null)
-                            {
-                                ProjectedLineWeight = (int)cs.GetLineWeight(GraphicsStyleType.Projection);
-                            }
-                            else
-                            {
-                                ProjectedLineWeight = ovrride.ProjectionLineWeight;
+                                int ProjectedLineWeight = ovrride.ProjectionLineWeight ==OverrideGraphicSettings.InvalidPenNumber?
+                                    (int) cs.GetLineWeight(GraphicStyleType.Projection):
+                                    ovrride.ProjectionLineWeight;
                             }
                         }
                     }
