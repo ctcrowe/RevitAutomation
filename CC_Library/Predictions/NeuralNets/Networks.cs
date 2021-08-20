@@ -78,7 +78,7 @@ namespace CC_Library.Predictions
 
             network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-            network.Layers.Add(new Layer(17, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+            network.Layers.Add(new Layer(16, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
 
             return network;
         }
@@ -88,7 +88,7 @@ namespace CC_Library.Predictions
 
             network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-            network.Layers.Add(new Layer(17, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+            network.Layers.Add(new Layer(16, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
 
             return network;
         }
