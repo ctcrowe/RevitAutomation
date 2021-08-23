@@ -29,6 +29,8 @@ namespace CC_Library.Predictions
                     return CutLineWeightNetwork();
                 case Datatype.ProjectedLineWeight:
                     return ProjectedLineWeightNetwork();
+                case Datatype.CategoryVisibility:
+                    return CategoryVisibilityNetwork();
             }
         }
         private static NeuralNetwork AlphaNetwork()
