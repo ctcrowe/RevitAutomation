@@ -96,7 +96,7 @@ namespace CC_Library.Predictions
         }
         private static NeuralNetwork CategoryVisibilityNetwork()
         {
-            NeuralNetwork network = new NeuralNetwork(Datatype.ProjectedLineWeight);
+            NeuralNetwork network = new NeuralNetwork(Datatype.CategoryVisibility);
 
             network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
