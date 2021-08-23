@@ -19,6 +19,7 @@
         ProjectedLineWeight,
         CutLinePattern,
         ProjectedLinePattern,
+        CategoryVisibility,
         RoomPrivacy
     }
 }
