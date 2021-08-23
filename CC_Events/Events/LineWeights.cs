@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
+using CC_Library;
 using CC_Library.Predictions;
 using CC_Library.Datatypes;
 
-namespace CC_Plugin.Events
+namespace CC_Plugin
 {
     public class LineWeights
     {
@@ -30,7 +31,7 @@ namespace CC_Plugin.Events
                                 string name2 = v.Title;
                                 if(cs.GetLineWeight(GraphicsStyleType.Cut) != null)
                                 {
-                                    int CutLineWeight = ovrride.CutLineWeight == OverrideGraphicsSettings.InvalidPenNumner?
+                                    int CutLineWeight = ovrride.CutLineWeight == OverrideGraphicSettings.InvalidPenNumber?
                                         (int)cs.GetLineWeight(GraphicsStyleType.Cut) :
                                         ovrride.CutLineWeight;
                                     Datatype.CutLineWeight.PropogateSingle(CutLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
@@ -38,7 +39,7 @@ namespace CC_Plugin.Events
                                 if(cs.GetLineWeight(GraphicsStyleType.Projection) != null)
                                 {
                                     int ProjectedLineWeight = ovrride.ProjectionLineWeight ==OverrideGraphicSettings.InvalidPenNumber?
-                                        (int) cs.GetLineWeight(GraphicStyleType.Projection):
+                                        (int) cs.GetLineWeight(GraphicsStyleType.Projection):
                                         ovrride.ProjectionLineWeight;
                                     Datatype.ProjectedLineWeight.PropogateSingle(ProjectedLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
                                 }
