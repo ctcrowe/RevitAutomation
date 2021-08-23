@@ -32,20 +32,20 @@ namespace CC_Plugin
                         doc.AddParam(Params.Masterformat);
                         t.Commit();
                     }
-                }
-                try
-                {
-                    Element symb = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_GenericModel).FirstOrDefault();
-                    if (symb != null)
+                    try
                     {
-                        Parameter p = symb.get_Parameter(Params.Masterformat.Guid);
-                        UpdateMFDB updater = new UpdateMFDB(id);
-                        UpdaterRegistry.RegisterUpdater(updater, doc, true);
-                        ElementClassFilter symbs = new ElementClassFilter(typeof(FamilySymbol));
-                        UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), symbs, Element.GetChangeTypeParameter(p.Id));
+                        Element symb = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_GenericModel).FirstOrDefault();
+                        if (symb != null)
+                        {
+                            Parameter p = symb.get_Parameter(Params.Masterformat.Guid);
+                            UpdateMFDB updater = new UpdateMFDB(id);
+                            UpdaterRegistry.RegisterUpdater(updater, doc, true);
+                            ElementClassFilter symbs = new ElementClassFilter(typeof(FamilySymbol));
+                            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(), symbs, Element.GetChangeTypeParameter(p.Id));
+                        }
                     }
+                    catch (Exception e) { e.OutputError(); }
                 }
-                catch (Exception e) { e.OutputError(); }
                 tg.Commit();
             }
         }
