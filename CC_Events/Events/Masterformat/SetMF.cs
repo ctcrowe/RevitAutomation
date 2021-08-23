@@ -89,34 +89,16 @@ namespace CC_Plugin
         }
         public static void ProjectStartup(Document doc)
         {
-            if (!doc.IsFamilyDocument)
+            using (TransactionGroup tg = new TransactionGroup(doc, "Preupdater Registration"))
             {
-                using (TransactionGroup tg = new TransactionGroup(doc, "Preupdater Registration"))
+                tg.Start();
+                using (Transaction t = new Transaction(doc, "Add MF Param"))
                 {
-                    tg.Start();
-                    using (Transaction t = new Transaction(doc, "Add MF Param"))
-                    {
-                        t.Start();
-                        try { doc.AddParam(Params.Masterformat); } catch (Exception e) { e.OutputError(); }
-                        t.Commit();
-                    }
-                    tg.Commit();
+                    t.Start();
+                    try { doc.AddParam(Params.Masterformat); } catch (Exception e) { e.OutputError(); }
+                    t.Commit();
                 }
-            }
-            else
-            {
-                using (TransactionGroup tg = new TransactionGroup(doc, "Preupdater Registration"))
-                {
-                    tg.Start();
-                    using (Transaction t = new Transaction(doc, "Add MF Param"))
-                    {
-                        t.Start();
-                        try { doc.AddParam(Params.Masterformat); }
-                        catch (Exception e) { e.OutputError(); }
-                        t.Commit();
-                    }
-                    tg.Commit();
-                }
+                tg.Commit();
             }
         }
         public void Execute(UpdaterData data)
