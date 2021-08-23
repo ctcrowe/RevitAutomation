@@ -27,7 +27,7 @@ namespace CC_Plugin
                             try
                             {
                                 var ovrride = v.GetCategoryOverrides(cs.Id);
-                                string name1 = cs.Name;
+                                string name1 = cs.Parent.Name + "." + cs.Name;
                                 string name2 = v.Title;
                                 if(cs.GetLineWeight(GraphicsStyleType.Cut) != null)
                                 {
@@ -43,6 +43,7 @@ namespace CC_Plugin
                                         ovrride.ProjectionLineWeight;
                                     Datatype.ProjectedLineWeight.PropogateSingle(ProjectedLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
                                 }
+                                Datatype.CategoryVisibility.PropogateSingle(cs.Visible? 1 : 0, new WriteToCMDLine(WriteNull), name1, name2);
                             }
                             catch(Exception e) {e.OutputError();}
                         }
