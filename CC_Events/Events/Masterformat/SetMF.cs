@@ -106,7 +106,7 @@ namespace CC_Plugin
             Document doc = data.GetDocument();
             if (!doc.IsFamilyDocument)
             {
-                var Eles = data.GetModifiedElementIds().Concat(data.GetAddedElementIds()).ToList();
+                var Eles = data.GetModifiedElementIds().ToList();
                 foreach (var eid in Eles)
                 {
                     var ele = doc.GetElement(eid) as FamilySymbol;
@@ -128,7 +128,12 @@ namespace CC_Plugin
                         }
                         try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
                     }
-                    else
+                }
+                Eles = data.GetAddedElementIds().ToList();
+                foreach (var eid in Eles)
+                {
+                    var ele = doc.GetElement(eid) as FamilySymbol;
+                    if (ele != null)
                     {
                         var inst = doc.GetElement(eid) as FamilyInstance;
                         if(inst != null)
