@@ -14,12 +14,15 @@ namespace CC_Plugin
     {
         public static void Learn(Document doc)
         {
+            List<string> lines = new List<string>();
             View v = doc.ActiveView;
             Categories cats = doc.Settings.Categories;
             foreach (Category c in cats)
             {
                 if (c.CategoryType == CategoryType.Model)
                 {
+                    lines.Add(c.Name);
+                    /*
                     if (!c.SubCategories.IsEmpty)
                     {
                         foreach (Category cs in c.SubCategories)
@@ -48,7 +51,9 @@ namespace CC_Plugin
                             catch(Exception e) {e.OutputError();}
                         }
                     }
+                    */
                 }
+                lines.ShowErrorOutput();
             }
         }
         public static string WriteNull(string s)
