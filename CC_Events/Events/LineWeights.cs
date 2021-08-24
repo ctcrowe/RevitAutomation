@@ -43,7 +43,7 @@ namespace CC_Plugin
                                         ovrride.ProjectionLineWeight;
                                     Datatype.ProjectedLineWeight.PropogateSingle(ProjectedLineWeight, new WriteToCMDLine(WriteNull), name1, name2);
                                 }
-                                Datatype.CategoryVisibility.PropogateSingle(v.GetCategoryHidden(cs.Id)? 0 :0 , new WriteToCMDLine(WriteNull), name1, name2);
+                                Datatype.CategoryVisibility.PropogateSingle(v.GetCategoryHidden(cs.Id)? 0 : 1 , new WriteToCMDLine(WriteNull), name1, name2);
                             }
                             catch(Exception e) {e.OutputError();}
                         }
