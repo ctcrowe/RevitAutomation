@@ -79,11 +79,12 @@
     <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaMem.cs" />
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
-    <Compile Include="Predictions\Prediction - Library\LineWeightNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\CategoryVisNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\CutLineWeightNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ObjectStyleNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\OLFNetwork.cs" />
-    <Compile Include="Predictions\Prediction - Single\SinglePrediction.cs" />
+    <Compile Include="Predictions\Prediction - Library\ProjectedLineWeightNetwork.cs" />
     <Compile Include="Predictions\PredictionMaster.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />

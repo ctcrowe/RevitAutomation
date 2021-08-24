@@ -72,6 +72,7 @@
     <Compile Include="Events\Subcategories\LineStyleNetworkUpdater.cs" />
     <Compile Include="Events\Subcategories\ObjStyleNetworkUpdater.cs" />
     <Compile Include="Events\UpdateOccLoad.cs" />
+    <Compile Include="Events\ViewChangeLineWeights.cs" />
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
