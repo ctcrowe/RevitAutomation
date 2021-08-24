@@ -15,6 +15,15 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double[] Clone(this double[] x)
+        {
+            double[] y = new double[x.Count()];
+            for(int i = 0; i < x.Count(); i++)
+            {
+                y[i] = x[i];
+            }
+            return y;
+        }
         public static void WriteToBinaryFile<T>(this string filePath, T objectToWrite, bool append = false)
         {
             using (Stream stream = File.Create(filePath))
