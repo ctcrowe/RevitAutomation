@@ -96,6 +96,7 @@ namespace CC_Library.Predictions
                         var DValues = Backward(Samples[j], F, MFMem, WriteNull);
                         a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
                     });
+                    lines.AddRange(Acc.Get());
                     MFMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);
                     CtxtMem.Update(1, 0.0001, ctxt.Network);
