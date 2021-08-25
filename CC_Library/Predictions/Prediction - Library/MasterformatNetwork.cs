@@ -97,12 +97,12 @@ namespace CC_Library.Predictions
                     CtxtMem.Update(1, 0.0001, ctxt.Network);
                 }
                 lines.ShowErrorOutput();
-                Network.Save();
-                a.Network.Save();
-                ctxt.Save();
-                
-                s.Save();
             }
+            Network.Save();
+            a.Network.Save();
+            ctxt.Save();
+                
+            s.Save();
         }
         private static string WriteNull(string s) { return s; }
     }
