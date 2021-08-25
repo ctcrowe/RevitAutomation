@@ -32,7 +32,6 @@ namespace CC_Library.Predictions
             s[4] = "Min Error : " + Error.Min() + " : " + inputs[MinError];
             s[5] = "Max Error : " + Error.Max() + " : " + inputs[MaxError];
             s[6] = "Average Error : " + (Error.Sum() / Error.Count());
-            s[9] = "";
             s[10] = "Accuracy : " + Correct.Sum() + " / " + Correct.Count() + " = " + Acc;
             s[12] = "";
 
