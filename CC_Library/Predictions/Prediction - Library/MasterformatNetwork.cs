@@ -6,11 +6,6 @@ using System.IO;
 using CC_Library.Datatypes;
 using System.Runtime.InteropServices;
 
-/// <summary>
-/// This system is specifically for creating and using a vocabulary.
-/// For this reason, it doesnt need all of the delegates that a typical network would.
-/// </summary>
-
 namespace CC_Library.Predictions
 {
     public class MasterformatNetwork : INetworkPredUpdater
