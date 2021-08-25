@@ -49,27 +49,5 @@ namespace CC_Library.Predictions
 
             return s;
         }
-        public bool CheckError()
-        {
-            double e = Error.Sum() / Error.Count();
-            if(e < StoredError)
-            {
-                StoredError = e;
-                return true;
-            }
-            return false;
-        }
-        public double RoughError()
-        {
-            return Error.Sum() / Error.Count();
-        }
-        public void SetAcc()
-        {
-            Acc = 1.0 * Correct.Sum() / Correct.Count();
-        }
-        public void SetStartingError()
-        {
-            StartingError = Error.Sum() / Error.Count();
-        }
     }
 }
