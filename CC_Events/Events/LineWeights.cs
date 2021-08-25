@@ -10,6 +10,9 @@ using CC_Library.Datatypes;
 
 namespace CC_Plugin
 {
+    public enum ModelCats
+    {
+    }
     public class LineWeights
     {
         public static void Learn(Document doc)
