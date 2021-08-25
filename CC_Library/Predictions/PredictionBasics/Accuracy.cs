@@ -27,13 +27,13 @@ namespace CC_Library.Predictions
         }
         public string[] Get()
         {
-            string[] s = new string[13];
+            string[] s = new string[5];
             Acc = 1.0 * Correct.Sum() / Correct.Count();
-            s[4] = "Min Error : " + Error.Min() + " : " + inputs[MinError];
-            s[5] = "Max Error : " + Error.Max() + " : " + inputs[MaxError];
-            s[6] = "Average Error : " + (Error.Sum() / Error.Count());
-            s[10] = "Accuracy : " + Correct.Sum() + " / " + Correct.Count() + " = " + Acc;
-            s[12] = "";
+            s[0] = "Min Error : " + Error.Min() + " : " + inputs[MinError];
+            s[1] = "Max Error : " + Error.Max() + " : " + inputs[MaxError];
+            s[2] = "Average Error : " + (Error.Sum() / Error.Count());
+            s[3] = "Accuracy : " + Correct.Sum() + " / " + Correct.Count() + " = " + Acc;
+            s[4] = "";
 
             return s;
         }
