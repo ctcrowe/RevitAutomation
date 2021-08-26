@@ -83,10 +83,10 @@ namespace CC_Library.Predictions
                         AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
                         Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am, write);
                         var F = Forward(Samples[j], write);
-                        Acc.Add( j,
-                            CategoricalCrossEntropy.Forward(F.Last()),
-                            F.Last().ToList().IndexOf(F.Last.Max()),
-                            Samples[j].DesiredOutput.ToList().IndexOf(DesiredOutput.Max()));
+                        Acc.Add(j,
+                            CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
+                            F.Last().ToList().IndexOf(F.Last().Max()),
+                            Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
                     
                         var DValues = Backward(Samples[j], F, MFMem, WriteNull);
                         a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
@@ -97,12 +97,12 @@ namespace CC_Library.Predictions
                     CtxtMem.Update(1, 0.0001, ctxt.Network);
                 }
                 lines.ShowErrorOutput();
+                Network.Save();
+                a.Network.Save();
+                ctxt.Save();
+
+                s.Save();
             }
-            Network.Save();
-            a.Network.Save();
-            ctxt.Save();
-                
-            s.Save();
         }
         private static string WriteNull(string s) { return s; }
     }
