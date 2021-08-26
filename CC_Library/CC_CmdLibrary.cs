@@ -15,6 +15,10 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static string WriteNull(string s)
+        {
+            return s;
+        }
         public static double[] Clone(this double[] x)
         {
             double[] y = new double[x.Count()];
