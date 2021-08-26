@@ -73,10 +73,7 @@ namespace CC_Plugin
                         s.DesiredOutput[int.Parse(ele.GetElementParam(Params.Masterformat))] = 1;
                         net.Propogate(s, new WriteToCMDLine(CMDLibrary.WriteMull));
                     }
-                    catch (Exception e)
-                    {
-                        e.OutputError();
-                    }
+                    catch (Exception e) { e.OutputError(); }
                 }
             }
             catch (Exception e)
