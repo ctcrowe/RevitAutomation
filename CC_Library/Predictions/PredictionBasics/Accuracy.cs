@@ -7,7 +7,6 @@ namespace CC_Library.Predictions
     {
         public double Acc;
         private int[] Correct;
-        private int[] Predicted;
         private double[] Error;
 
         public Accuracy(Sample[] s)
@@ -21,7 +20,6 @@ namespace CC_Library.Predictions
 
         public void Add(int numb, double error, int pred, int actual)
         {
-            Predicted[numb] = pred;
             if (pred == actual) Correct[numb] = 1;
             else Correct[numb] = 0;
             Error[numb] = error;
