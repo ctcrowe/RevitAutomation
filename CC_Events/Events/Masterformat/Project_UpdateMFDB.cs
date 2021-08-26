@@ -54,15 +54,6 @@ namespace CC_Plugin
             UpdateMFDB updater = new UpdateMFDB(id);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId(), doc);
         }
-        private static string Write(string s)
-        {
-            TaskDialog.Show("Testing Error Change", s);
-            return s;
-        }
-        private static string WriteNull(string s)
-        {
-            return s;
-        }
         public void Execute(UpdaterData data)
         {
             try
@@ -74,13 +65,13 @@ namespace CC_Plugin
                     try
                     {
                         Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                        MasterformatNetwork net = new MasterformatNetwork(new WriteToCMDLine(WriteNull));
+                        MasterformatNetwork net = new MasterformatNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
                         var ele = doc.GetElement(eid) as FamilySymbol;
                         try { s.TextInput = ele.FamilyName + " " + ele.Name; }
                         catch (Exception e) { e.OutputError(); }
                         s.DesiredOutput = new double[net.Network.Layers.Last().Biases.Count()];
                         s.DesiredOutput[int.Parse(ele.GetElementParam(Params.Masterformat))] = 1;
-                        net.Propogate(s, new WriteToCMDLine(Write));
+                        net.Propogate(s, new WriteToCMDLine(CMDLibrary.WriteMull));
                     }
                     catch (Exception e)
                     {
