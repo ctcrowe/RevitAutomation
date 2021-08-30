@@ -29,10 +29,6 @@ namespace CC_Plugin
                         file: fnames[key];
                 }
             }
-            foreach(string f in Delete)
-            {
-                File.Delete(f);
-            }
             foreach(var f in allfiles)
             {
                 if(!fnames.Values.Contains(f))
