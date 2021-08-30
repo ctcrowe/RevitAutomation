@@ -30,7 +30,7 @@ namespace CC_Library.Predictions
             
             return Results;
         }
-        public List<double[]> Forward(Sample s, WriteToCMDLine write)
+        public List<double[]> Forward(Sample s)
         {
             var input = s.TextOutput.ToList();
             input.AddRange(s.SecondaryTextOutput);
@@ -49,8 +49,7 @@ namespace CC_Library.Predictions
         public double[] Backward
             (Sample s,
             List<double[]> Results,
-             NetworkMem mem,
-             WriteToCMDLine Write)
+             NetworkMem mem)
         {
             var DValues = s.DesiredOutput;
 
@@ -87,10 +86,10 @@ namespace CC_Library.Predictions
                         Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt1, am, write);
                         AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.ToCharArray());
                         Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText, ctxt2, am2, write);
-                        var F = Forward(Samples[j], write);
+                        var F = Forward(Samples[j]);
                         lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
                     
-                        var DValues = Backward(Samples[j], F, ObjMem, WriteNull);
+                        var DValues = Backward(Samples[j], F, ObjMem);
                         var DV1 = DValues.ToList().Take(Alpha.DictSize).ToArray();
                         var DV2 = Enumerable.Reverse(DValues).Take(Alpha.DictSize).Reverse().ToArray();
                         a.Backward(Samples[j].TextInput, DV1, ctxt1, am, AlphaMem, CtxtMem1, write);
