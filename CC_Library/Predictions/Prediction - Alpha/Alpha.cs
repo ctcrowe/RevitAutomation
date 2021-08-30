@@ -23,9 +23,9 @@ namespace CC_Library.Predictions
 {
     internal class Alpha
     {
-        internal Alpha(WriteToCMDLine write)
+        internal Alpha()
         {
-            Network = Datatype.Alpha.LoadNetwork(write);
+            Network = Datatype.Alpha.LoadNetwork();
             this.Results = new List<double[]>();
         }
         public List<double[]> Results { get; set; }
@@ -39,13 +39,7 @@ namespace CC_Library.Predictions
             'V', 'W', 'X', 'Y', 'Z', '0', '1',
             '2', '3', '4', '5', '6', '7', '8',
             '9', ' ', '_'};
-        public static double[] Predict(Datatype dt, string s)
-        {
-            Alpha a = new Alpha(Delegates.WriteNull);
-            AlphaContext context = new AlphaContext(dt, Delegates.WriteNull);
-            return a.Forward(s, context, Delegates.WriteNull);
-        }
-        public double[] Forward(string s, AlphaContext context, WriteToCMDLine write)
+        public double[] Forward(string s, AlphaContext context)
         {
             char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
