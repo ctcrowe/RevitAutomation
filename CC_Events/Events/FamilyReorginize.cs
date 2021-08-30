@@ -16,39 +16,36 @@ namespace CC_Plugin
         {
             string mainfolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             string folder = mainfolder + "\\CC_Families";
-            Dictionary<string, string> fnames = new Dictionary<string, string>();
-            List<string> Delete = new List<string>();
+            Hashtable fnames = new Hashtable();
+            List<string> allfiles = new List<string>();
             foreach(string dir in Directory.GetDirectories(folder))
             {
                 foreach(string file in Directory.GetFiles(dir))
                 {
+                    allfiles.Add(file);
                     var key = file.Split('\\').Last().Split('.').First();
-                    if(fnames.ContainsKey(key))
-                    {
-                        var orig = fnames[key];
-                        if(DateTime.Compare(File.GetLastWriteTime(orig), File.GetLastWriteTime(file)) < 0)
-                        {
-                            Delete.Add(fnames[key]);
-                            fnames[key] = file;
-                        }
-                        else
-                            Delete.Add(file);
-                    }
-                    else
-                        fnames.Add(file.Split('\\').Last().Split('.').First(), file);
+                    fnames[key] = fnames[key] == null?
+                        file, DateTime.Compare(File.GetLastWriteTime(fnames[key]), File.GetLastWriteTime(file)) < 0?
+                        file: fnames[key];
                 }
             }
             foreach(string f in Delete)
             {
                 File.Delete(f);
             }
-            foreach(var f in fnames)
+            foreach(var f in allfiles)
             {
-                int numb = Datatype.Masterformat.PredictSingle(f.Key);
-                string subfolder = folder + "\\Division " + numb;
-                if(!Directory.Exists(subfolder))
-                   Directory.CreateDirectory(subfolder);
-                File.Move(f.Value, subfolder + "\\" + f.Key + ".rfa");
+                if(!fnames.Values.Contains(f))
+                    File.Delete(f);
+                else
+                {
+                    string val = f.Split('\\').Last().Split('.').First();
+                    int numb = Datatype.Masterformat.PredictSingle(val);
+                    string subfolder = folder + "\\Division " + numb;
+                    if(!Directory.Exists(subfolder))
+                        Directory.CreateDirectory(subfolder);
+                    File.Move(fnames[val], subfolder + "\\" + val + ".rfa");
+                }
             }
         }
     }
