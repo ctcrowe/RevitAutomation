@@ -110,21 +110,6 @@ namespace CC_Library.Predictions
             return a;
         }
         public NeuralNetwork Network { get; }
-
-        public static string GenerateTypo(string input, Random r, int ErrorCount = 2)
-        {
-            var array = input.ToCharArray().ToList();
-            for (int i = 0; i < ErrorCount; i++)
-            {
-                int c = r.Next(0, Alpha.CharCount() + 10);
-                if (c >= Alpha.CharCount())
-                    array.RemoveAt(r.Next(0, array.Count()));
-                else
-                    array[r.Next(0, array.Count())] = Chars[c];
-            }
-            return new string(array.ToArray());
-        }
-
         private static char[] GetChars(string s)
         {
             string a = s.ToUpper();
