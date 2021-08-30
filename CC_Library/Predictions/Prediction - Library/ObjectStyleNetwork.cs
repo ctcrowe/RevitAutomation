@@ -11,14 +11,15 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public ObjectStyleNetwork()
         {
-            Network = Datatype.ObjectStyle.LoadNetwork(new WriteToCMDLine(WriteNull));
+            Network = Datatype.ObjectStyle.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
-            AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
-            var input = a.Forward(s.TextInput, ctxt, new WriteToCMDLine(WriteNull)).ToList();
-            input.AddRange(a.Forward(s.SecondaryText, ctxt, new WriteToCMDLine(WriteNull)));
+            Alpha a = new Alpha(new WriteToCMDLine(CMDLibrary.WriteNull));
+            AlphaContext ctxt1 = new AlphaContext(datatype, new WriteToCMDLine(CMDLibrary.WriteNull));
+            AlphaContext ctxt2 = new AlphaContext(datatype, new WriteToCMDLine(CMDLibrary.WriteNull), 1);
+            var input = a.Forward(s.TextInput, ctxt1, new WriteToCMDLine(WriteNull)).ToList();
+            input.AddRange(a.Forward(s.SecondaryText, ctxt2, new WriteToCMDLine(CMDLibrary.WriteNull)));
             input.AddRange(s.ValInput);
             var Results = input.ToArray();
             
@@ -109,6 +110,5 @@ namespace CC_Library.Predictions
                 s.Save();
             }
         }
-        private static string WriteNull(string s) { return s; }
     }
 }
