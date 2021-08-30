@@ -53,7 +53,7 @@ namespace CC_Library.Predictions
             var output = Multiply(loc, Activations.SoftMax(ctxt));
             return output;
         }
-        public double[] Forward(string s, AlphaContext context, AlphaMem am, WriteToCMDLine write)
+        public double[] Forward(string s, AlphaContext context, AlphaMem am)
         {
             char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
