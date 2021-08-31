@@ -78,7 +78,7 @@ namespace CC_Library.Predictions
             result[Alpha.LocationOf(phrase[numb])] = 1;
             int imin = numb < (Alpha.SeachSize / 2)? (Alpha.SearchSize / 2) - numb : 0;
             int imax = numb + (Alpha.SearchSize / 2) < phrase.Count()? Alpha.SearchSize / 2 : phrase.Count() - (numb + (Alpha.SearchSize / 2));
-            for (int i = imin; i < Alpha.SearchSize / 2; i++)
+            for (int i = 0; i < imin; i++)
             {
                     result[((i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1;
             }
