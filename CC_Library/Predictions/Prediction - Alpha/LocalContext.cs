@@ -12,20 +12,20 @@ namespace CC_Library.Predictions
     {
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
-        internal AlphaContext(Datatype dt, WriteToCMDLine write, int numb = 0)
+        internal AlphaContext(Datatype dt, int numb = 0)
         {
             datatype = dt;
             switch(numb)
             {
                 default:
                 case 0:
-                    Network = Datatype.AlphaContextPrimary.LoadNetwork(write, dt);
+                    Network = Datatype.AlphaContextPrimary.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull), dt);
                     break;
                 case 1:
-                    Network = Datatype.AlphaContextSecondary.LoadNetwork(write, dt);
+                    Network = Datatype.AlphaContextSecondary.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull), dt);
                     break;
                 case 2:
-                    Network = Datatype.AlphaContextTertiary.LoadNetwork(write, dt);
+                    Network = Datatype.AlphaContextTertiary.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull), dt);
                     break;
             }
         }
@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
             }
             return result.First();
         }
-        public void Backward(double[] DValues, int runs, AlphaMem am, NetworkMem mem, WriteToCMDLine write)
+        public void Backward(double[] DValues, int runs, AlphaMem am, NetworkMem mem)
         {
             Parallel.For(0, runs, j =>
             {

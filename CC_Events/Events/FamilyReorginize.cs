@@ -25,13 +25,13 @@ namespace CC_Plugin
                     allfiles.Add(file);
                     var key = file.Split('\\').Last().Split('.').First();
                     fnames[key] = fnames[key] == null?
-                        file, DateTime.Compare(File.GetLastWriteTime(fnames[key]), File.GetLastWriteTime(file)) < 0?
+                        file: DateTime.Compare(File.GetLastWriteTime((string)fnames[key]), File.GetLastWriteTime(file)) < 0?
                         file: fnames[key];
                 }
             }
             foreach(var f in allfiles)
             {
-                if(!fnames.Values.Contains(f))
+                if(!fnames.ContainsValue(f))
                     File.Delete(f);
                 else
                 {
@@ -40,7 +40,7 @@ namespace CC_Plugin
                     string subfolder = folder + "\\Division " + numb;
                     if(!Directory.Exists(subfolder))
                         Directory.CreateDirectory(subfolder);
-                    File.Move(fnames[val], subfolder + "\\" + val + ".rfa");
+                    File.Move((string)fnames[val], subfolder + "\\" + val + ".rfa");
                 }
             }
         }

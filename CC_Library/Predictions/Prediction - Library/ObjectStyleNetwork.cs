@@ -15,7 +15,7 @@ namespace CC_Library.Predictions
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha(new WriteToCMDLine(CMDLibrary.WriteNull));
+            Alpha a = new Alpha(new WriteToCMDLine());
             AlphaContext ctxt1 = new AlphaContext(datatype, new WriteToCMDLine(CMDLibrary.WriteNull));
             AlphaContext ctxt2 = new AlphaContext(datatype, new WriteToCMDLine(CMDLibrary.WriteNull), 1);
             var input = a.Forward(s.TextInput, ctxt1, new WriteToCMDLine(WriteNull)).ToList();

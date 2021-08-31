@@ -25,7 +25,7 @@ namespace CC_Library.Predictions
     {
         internal Alpha()
         {
-            Network = Datatype.Alpha.LoadNetwork();
+            Network = Datatype.Alpha.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
             this.Results = new List<double[]>();
         }
         public List<double[]> Results { get; set; }
@@ -68,13 +68,13 @@ namespace CC_Library.Predictions
             var output = Multiply(loc, am.GlobalContextOutputs);
             return output;
         }
-        public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem, WriteToCMDLine write)
+        public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
         {
             char[] chars = GetChars(s);
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
-            context.Backward(DValues, chars.Count(), am, CtxtMem, write);
+            context.Backward(DValues, chars.Count(), am, CtxtMem);
             Parallel.For(0, chars.Count(), j =>
             {
                 var ldv = LocDValues[j];
