@@ -114,7 +114,7 @@ namespace CC_Plugin
                     {
                         string name = "";
                         int MF = 0;
-                        try { name = ele.FamilyName + " " + ele.Name; } catch (Exception e) { e.OutputError(); }
+                        try { name = ele.FamilyName; } catch (Exception e) { e.OutputError(); }
                         if (name != "")
                         {
                             try
@@ -141,7 +141,7 @@ namespace CC_Plugin
                             ele = inst.Symbol;
                             string name = "";
                             int MF = 0;
-                            try { name = ele.FamilyName + " " + ele.Name; } catch (Exception e) { e.OutputError(); }
+                            try { name = ele.FamilyName; } catch (Exception e) { e.OutputError(); }
                             if (name != "")
                             {
                                 try
