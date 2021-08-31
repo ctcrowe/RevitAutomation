@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static NeuralNetwork LoadNetwork(this Datatype datatype, WriteToCMDLine write, Datatype reference = Datatype.None)
+        public static NeuralNetwork LoadNetwork(this Datatype datatype, Datatype reference = Datatype.None)
         {
             string fn = "NeuralNet_";
             if(reference != Datatype.None)
@@ -47,7 +47,6 @@ namespace CC_Library.Predictions
                 if (Files.Any(x => x.Contains(fn)))
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
-                    write("Loaded from MyDocs");
                     return ReadFromBinaryFile<NeuralNetwork>(doc);
                 }
             }
@@ -57,12 +56,10 @@ namespace CC_Library.Predictions
                 string name = assembly.GetManifestResourceNames().Where(x => x.Contains(fn)).First();
                 using (Stream stream = assembly.GetManifestResourceStream(name))
                 {
-                    write("Loaded From Assembly");
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                     return (NeuralNetwork)binaryFormatter.Deserialize(stream);
                 }
             }
-            write("New Neural Net");
             return NeuralNets.NewNeuralNet(datatype);
         }
     }
