@@ -83,6 +83,10 @@ namespace CC_Library
             string subdir = directory + "\\" + Subdir;
             return subdir;
         }
+        public static string GetDir(this string FolderName)
+        {
+            return !Directory.Exists(FolderName)? Directory.CreateDirectory(FolderName).FullPath : FolderName;
+        }
         public static double[,] Dot(this double[,] x, double[,] y)
         {
             if (x.GetLength(0) == y.GetLength(1) && x.GetLength(1) == y.GetLength(0))
