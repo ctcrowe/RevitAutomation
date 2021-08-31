@@ -54,7 +54,7 @@ namespace CC_Plugin
                         prefix = "Pro";
                         break;
                 }
-                string folder = "\\"CC_Familys".GetMyDocs().GetDir();
+                string folder = "CC_Families".GetMyDocs().GetDir();
                 string fp = doc.PathName;
                 Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
                 s.TextInput = fp.Split('\\').Last().Split('.').First();
