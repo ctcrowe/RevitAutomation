@@ -30,7 +30,7 @@ namespace CC_Library.Predictions
         }
         public List<double[]> Results { get; set; }
         public const int DictSize = 100;
-        public const int SearchSize = 8;
+        public const int SearchSize = 4;
         public static int CharCount() { return Chars.Count(); }
         private static List<char> Chars = new List<char>() {
             'A', 'B', 'C', 'D', 'E', 'F', 'G',
