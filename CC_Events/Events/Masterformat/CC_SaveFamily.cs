@@ -67,16 +67,11 @@ namespace CC_Plugin
                     Directory.CreateDirectory(folder);
                 if (!Directory.Exists(SubDir))
                     Directory.CreateDirectory(SubDir);
-                if(!fp.Split('\\').Last().StartsWith(ftype + "_"))
-                {
-                    string nf = SubDir + "\\" + ftype + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa";
-                    File.Copy(fp, nf, true);
-                }
-                else
-                {
-                    string nf = SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
-                    File.Copy(fp, nf, true);
-                }
+                
+                string nf = !fp.Split('\\').Last().StartsWith(ftype + "_")?
+                    Subdir + "\\" + ftpye + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
+                    SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
+                File.Copy(fp, nf, true);
             }
         }
     }
