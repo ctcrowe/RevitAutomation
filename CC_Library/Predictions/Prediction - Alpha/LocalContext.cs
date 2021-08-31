@@ -65,10 +65,7 @@ namespace CC_Library.Predictions
                         mem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i]);
                         cdv = mem.Layers[i].DInputs(cdv, Network.Layers[i]);
                     }
-                    catch (Exception e)
-                    {
-                        e.OutputError();
-                    }
+                    catch (Exception e) { e.OutputError(); }
                 }
             });
         }
