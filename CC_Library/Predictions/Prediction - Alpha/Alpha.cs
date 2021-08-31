@@ -25,7 +25,7 @@ namespace CC_Library.Predictions
     {
         internal Alpha(Datatype dt, int i = 0;)
         {
-            Network = Datatype.Alpha.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
+            Network = Datatype.Alpha.LoadNetwork();
             this.Results = new List<double[]>();
         }
         public List<double[]> Results { get; set; }
