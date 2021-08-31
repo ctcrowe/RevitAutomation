@@ -4,6 +4,7 @@ using Autodesk.Revit.UI;
 using System.Linq;
 
 using CC_Library.Predictions;
+using CC_Library;
 
 namespace CC_Plugin
 {
@@ -53,20 +54,14 @@ namespace CC_Plugin
                         prefix = "Pro";
                         break;
                 }
-                string f = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-                string folder = f + "\\CC_Families";
+                string folder = "\\"CC_Familys".GetMyDocs().GetDir();
                 string fp = doc.PathName;
                 Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
                 s.TextInput = fp.Split('\\').Last().Split('.').First();
 
                 MasterformatNetwork net = new MasterformatNetwork();
                 var div = net.Predict(s);
-                string Division = "Division " + div.ToList().IndexOf(div.Max());
-                string SubDir = folder + "\\" + Division;
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-                if (!Directory.Exists(SubDir))
-                    Directory.CreateDirectory(SubDir);
+                string SubDir = (folder + "\\" + div.ToList().IndexOf(div.Max()).GetDir();
                 
                 string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
                     Subdir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
