@@ -76,19 +76,15 @@ namespace CC_Library.Predictions
         {
             double[] result = new double[Alpha.CharCount() * (Alpha.SearchSize + 1)];
             result[Alpha.LocationOf(phrase[numb])] = 1;
-            for (int i = 0; i < Alpha.SearchSize / 2; i++)
+            int imin = numb < (Alpha.SeachSize / 2)? (Alpha.SearchSize / 2) - numb : 0;
+            int imax = numb + (Alpha.SearchSize / 2) < phrase.Count()? Alpha.SearchSize / 2 : phrase.Count() - (numb + (Alpha.SearchSize / 2));
+            for (int i = imin; i < Alpha.SearchSize / 2; i++)
             {
-                if (numb - i >= 0)
-                {
-                    result[(i + 1 * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1;
-                }
+                    result[((i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1;
             }
-            for (int i = 0; i < Alpha.SearchSize / 2; i++)
+            for (int i = 0; i < imax; i++)
             {
-                if (numb + i < phrase.Count())
-                {
                     result[(((Alpha.SearchSize / 2) + i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb + i])] = 1;
-                }
             }
             return result;
         }
