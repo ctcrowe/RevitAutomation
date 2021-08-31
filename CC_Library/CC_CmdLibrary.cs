@@ -207,12 +207,7 @@ namespace CC_Library
             }
             return a / X.Count();
         }
-        public static int Abs(this int x)
-        {
-            if (x < 0)
-                return x * -1;
-            return x;
-        }
+        public static int Abs(this int x) { return x < 0? x * -1 : x; }
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (T element in source)
