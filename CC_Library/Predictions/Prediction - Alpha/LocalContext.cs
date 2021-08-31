@@ -74,18 +74,15 @@ namespace CC_Library.Predictions
         }
         private static double[] Locate(char[] phrase, int numb)
         {
-            double[] result = new double[Alpha.CharCount() * (Alpha.SearchSize + 1)];
+            double[] result = new double[Alpha.CharCount() * ((2 * Alpha.SearchSize) + 1)];
             result[Alpha.LocationOf(phrase[numb])] = 1;
-            int imin = numb < (Alpha.SeachSize / 2)? (Alpha.SearchSize / 2) - numb : 0;
-            int imax = numb + (Alpha.SearchSize / 2) < phrase.Count()? Alpha.SearchSize / 2 : phrase.Count() - (numb + (Alpha.SearchSize / 2));
-            for (int i = 0; i < imin; i++)
-            {
-                    result[((i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1;
-            }
-            for (int i = 0; i < imax; i++)
-            {
-                    result[(((Alpha.SearchSize / 2) + i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb + i])] = 1;
-            }
+            
+            int imin = numb < Alpha.SeachSize? Alpha.SearchSize - numb : Alpha.SearchSize;
+            int imax = numb + Alpha.SearchSize < phrase.Count()? Alpha.SearchSize : phrase.Count() - (numb + Alpha.SearchSize);
+            
+            Parallel.For(0, imin, i => result[((i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1);
+            Parallel.For(0, imax, i => result[((Alpha.SearchSize + i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb + i])] = 1);
+
             return result;
         }
     }
