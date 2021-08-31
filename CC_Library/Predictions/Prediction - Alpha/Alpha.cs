@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
 {
     internal class Alpha
     {
-        internal Alpha()
+        internal Alpha(Datatype dt, int i = 0;)
         {
             Network = Datatype.Alpha.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
             this.Results = new List<double[]>();
