@@ -74,7 +74,7 @@ namespace CC_Library.Predictions
             double[] result = new double[Alpha.CharCount() * ((2 * Alpha.SearchSize) + 1)];
             result[Alpha.LocationOf(phrase[numb])] = 1;
             
-            int imin = numb < Alpha.SearchSize? Alpha.SearchSize - numb : Alpha.SearchSize;
+            int imin = numb < Alpha.SearchSize? Alpha.SearchSize - (Alpha.SearchSize - numb) : Alpha.SearchSize;
             int imax = numb + Alpha.SearchSize < phrase.Count()? Alpha.SearchSize : Alpha.SearchSize - ((numb + Alpha.SearchSize) - phrase.Count());
             
             Parallel.For(0, imin, i => result[((i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1);
