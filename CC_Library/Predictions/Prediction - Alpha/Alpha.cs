@@ -19,14 +19,6 @@ using CC_Library.Datatypes;
 //One outputs a position in 100 dimensional space
 //The second outputs a focus value - an interpretation of the significance of that location...
 
-/// TODO:
-/// revise alpha network to have a 4 * DictSize unit output
-/// first DictSize will be "SENDER" as the context vector
-/// second DictSize will be "OBJECT" as the context vector
-/// third DictSize will be "RECEIVER" as the vector
-/// fourth DictSize will be "ACTION" as the vector
-/// input will still be DictSize length
-
 namespace CC_Library.Predictions
 {
     internal class Alpha
@@ -52,16 +44,6 @@ namespace CC_Library.Predictions
             char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
             
-            //AlphaContext AlphaSender = new AlphaContext();
-            //AlphaContext AlphaObject = new AlphaContext();
-            //AlphaContext AlphaReceiver = new AlphaContext();
-            //AlphaContext AlphaAction = new AlphaContext();
-            
-            //double ctxt1 = new double[chars.Count()];
-            //double ctxt2 = new double[chars.Count()];
-            //double ctxt3 = new double[chars.Count()];
-            //double ctxt4 = new double[chars.Count()];
-            
             double[,] loc = new double[chars.Count(), DictSize];
             Parallel.For(0, chars.Count(), j =>
             {
@@ -73,10 +55,6 @@ namespace CC_Library.Predictions
                 //ctxt4[j] = AlphaAction.Contextualize(chars, j);
                 ctxt[j] = context.Contextualize(chars, j);
             });
-            //var out1 = Multiply(loc, Activations.SoftMax(ctxt1));
-            //var out2 = Multiply(loc, Activations.SoftMax(ctxt2));
-            //var out3 = Multiply(loc, Activations.SoftMax(ctxt3));
-            //var out4 = Multiply(loc, Activations.SoftMax(ctxt4));
             var output = Multiply(loc, Activations.SoftMax(ctxt));
             return output;
         }
