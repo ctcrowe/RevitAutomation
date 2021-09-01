@@ -20,10 +20,11 @@ using CC_Library.Datatypes;
 //The second outputs a focus value - an interpretation of the significance of that location...
 
 /// TODO:
-/// revise alpha network to have a 400 unit output
-/// first 100 will be "SUBJECT" as the context vector
+/// revise alpha network to have a 4 * DictSize unit output
+/// first 100 will be "SENDER" as the context vector
 /// second 100 will be "OBJECT" as the context vector
-/// third 100 will be "VERB" as the vector
+/// third 100 will be "RECEIVER" as the vector
+/// fourth DictSize will be "ACTION" as the vector
 
 namespace CC_Library.Predictions
 {
