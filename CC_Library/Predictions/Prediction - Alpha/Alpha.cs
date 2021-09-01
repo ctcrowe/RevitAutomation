@@ -19,6 +19,12 @@ using CC_Library.Datatypes;
 //One outputs a position in 100 dimensional space
 //The second outputs a focus value - an interpretation of the significance of that location...
 
+/// TODO:
+/// revise alpha network to have a 400 unit output
+/// first 100 will be "SUBJECT" as the context vector
+/// second 100 will be "OBJECT" as the context vector
+/// third 100 will be "VERB" as the vector
+
 namespace CC_Library.Predictions
 {
     internal class Alpha
