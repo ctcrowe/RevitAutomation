@@ -25,6 +25,7 @@ using CC_Library.Datatypes;
 /// second DictSize will be "OBJECT" as the context vector
 /// third DictSize will be "RECEIVER" as the vector
 /// fourth DictSize will be "ACTION" as the vector
+/// input will still be DictSize length
 
 namespace CC_Library.Predictions
 {
