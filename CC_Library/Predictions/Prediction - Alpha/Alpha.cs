@@ -120,13 +120,7 @@ namespace CC_Library.Predictions
             string a = s.ToUpper();
             return a.ToCharArray();
         }
-        public static int LocationOf(char c)
-        {
-            if (Chars.Contains(c))
-                return Chars.IndexOf(c);
-            else
-                return Chars.Count() - 1;
-        }
+        public static int LocationOf(char c) { return Chars.Contains(c)? Chars.IndexOf(c) : Chars.Count() - 1; }
         private static double[] GetLocation(char[] c, int numb)
         {
             double[] a = new double[3 * Chars.Count()];
