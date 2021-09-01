@@ -51,13 +51,32 @@ namespace CC_Library.Predictions
         {
             char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
+            
+            //AlphaContext AlphaSender = new AlphaContext();
+            //AlphaContext AlphaObject = new AlphaContext();
+            //AlphaContext AlphaReceiver = new AlphaContext();
+            //AlphaContext AlphaAction = new AlphaContext();
+            
+            //double ctxt1 = new double[chars.Count()];
+            //double ctxt2 = new double[chars.Count()];
+            //double ctxt3 = new double[chars.Count()];
+            //double ctxt4 = new double[chars.Count()];
+            
             double[,] loc = new double[chars.Count(), DictSize];
             Parallel.For(0, chars.Count(), j =>
             {
                 var location = Locate(chars, j);
                 loc.SetRank(location, j);
+                //ctxt1[j] = AlphaSender.Contextualize(chars, j);
+                //ctxt2[j] = AlphaObject.Contextualize(chars, j);
+                //ctxt3[j] = AlphaReceiver.Contextualize(chars, j);
+                //ctxt4[j] = AlphaAction.Contextualize(chars, j);
                 ctxt[j] = context.Contextualize(chars, j);
             });
+            //var out1 = Multiply(loc, Activations.SoftMax(ctxt1));
+            //var out2 = Multiply(loc, Activations.SoftMax(ctxt2));
+            //var out3 = Multiply(loc, Activations.SoftMax(ctxt3));
+            //var out4 = Multiply(loc, Activations.SoftMax(ctxt4));
             var output = Multiply(loc, Activations.SoftMax(ctxt));
             return output;
         }
