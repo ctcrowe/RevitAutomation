@@ -11,7 +11,7 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public OLFNetwork()
         {
-            Network = Datatype.OccupantLoadFactor.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
+            Network = Datatype.OccupantLoadFactor.LoadNetwork();
         }
         public double[] Predict(Sample s)
         {

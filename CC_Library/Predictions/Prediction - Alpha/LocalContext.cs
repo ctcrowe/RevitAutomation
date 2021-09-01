@@ -19,13 +19,13 @@ namespace CC_Library.Predictions
             {
                 default:
                 case 0:
-                    Network = Datatype.AlphaContextPrimary.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull), dt);
+                    Network = Datatype.AlphaContextPrimary.LoadNetwork(dt);
                     break;
                 case 1:
-                    Network = Datatype.AlphaContextSecondary.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull), dt);
+                    Network = Datatype.AlphaContextSecondary.LoadNetwork(dt);
                     break;
                 case 2:
-                    Network = Datatype.AlphaContextTertiary.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull), dt);
+                    Network = Datatype.AlphaContextTertiary.LoadNetwork(dt);
                     break;
             }
         }
@@ -74,7 +74,7 @@ namespace CC_Library.Predictions
             double[] result = new double[Alpha.CharCount() * ((2 * Alpha.SearchSize) + 1)];
             result[Alpha.LocationOf(phrase[numb])] = 1;
             
-            int imin = numb < Alpha.SeachSize? Alpha.SearchSize - numb : Alpha.SearchSize;
+            int imin = numb < Alpha.SearchSize? Alpha.SearchSize - numb : Alpha.SearchSize;
             int imax = numb + Alpha.SearchSize < phrase.Count()? Alpha.SearchSize : phrase.Count() - (numb + Alpha.SearchSize);
             
             Parallel.For(0, imin, i => result[((i + 1) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1);

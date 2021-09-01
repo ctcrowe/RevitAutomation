@@ -65,13 +65,13 @@ namespace CC_Plugin
                     try
                     {
                         Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                        MasterformatNetwork net = new MasterformatNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
+                        MasterformatNetwork net = new MasterformatNetwork();
                         var ele = doc.GetElement(eid) as FamilySymbol;
                         try { s.TextInput = ele.FamilyName; }
                         catch (Exception e) { e.OutputError(); }
                         s.DesiredOutput = new double[net.Network.Layers.Last().Biases.Count()];
                         s.DesiredOutput[int.Parse(ele.GetElementParam(Params.Masterformat))] = 1;
-                        net.Propogate(s, new WriteToCMDLine(CMDLibrary.WriteNull));
+                        net.Propogate(s);
                     }
                     catch (Exception e) { e.OutputError(); }
                 }

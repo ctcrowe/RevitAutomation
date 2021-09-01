@@ -52,7 +52,7 @@ namespace CC_Library.Predictions
                 {
                     entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
                     entry.DesiredOutput[correct] = 1;
-                    Network.Propogate(entry, write);
+                    Network.Propogate(entry);
                     break;
                 }
             }
@@ -67,7 +67,7 @@ namespace CC_Library.Predictions
                 var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
                 if (Network.datatype.ToString() == entry.Datatype)
                 {
-                    Network.Propogate(entry, write);
+                    Network.Propogate(entry);
                     break;
                 }
             }
