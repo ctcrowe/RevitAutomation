@@ -11,15 +11,15 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public ObjectStyleNetwork()
         {
-            Network = Datatype.ObjectStyle.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
+            Network = Datatype.ObjectStyle.LoadNetwork();
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha(new WriteToCMDLine());
-            AlphaContext ctxt1 = new AlphaContext(datatype, new WriteToCMDLine(CMDLibrary.WriteNull));
-            AlphaContext ctxt2 = new AlphaContext(datatype, new WriteToCMDLine(CMDLibrary.WriteNull), 1);
-            var input = a.Forward(s.TextInput, ctxt1, new WriteToCMDLine(WriteNull)).ToList();
-            input.AddRange(a.Forward(s.SecondaryText, ctxt2, new WriteToCMDLine(CMDLibrary.WriteNull)));
+            Alpha a = new Alpha();
+            AlphaContext ctxt1 = new AlphaContext(datatype);
+            AlphaContext ctxt2 = new AlphaContext(datatype, 1);
+            var input = a.Forward(s.TextInput, ctxt1).ToList();
+            input.AddRange(a.Forward(s.SecondaryText, ctxt2));
             input.AddRange(s.ValInput);
             var Results = input.ToArray();
             
@@ -63,14 +63,14 @@ namespace CC_Library.Predictions
             return DValues.ToList().Take(2 * Alpha.DictSize).ToArray();
         }
         public void Propogate
-            (Sample s, WriteToCMDLine write)
+            (Sample s)
         {
             var check = Predict(s);
             if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
-                AlphaContext ctxt1 = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
-                AlphaContext ctxt2 = new AlphaContext(datatype, new WriteToCMDLine(WriteNull), 1);
+                Alpha a = new Alpha();
+                AlphaContext ctxt1 = new AlphaContext(datatype);
+                AlphaContext ctxt2 = new AlphaContext(datatype, 1);
                 var Samples = s.ReadSamples();
                 List<string> lines = new List<string>();
                 for(int i = 0; i < 5; i++)
@@ -83,17 +83,17 @@ namespace CC_Library.Predictions
                     Parallel.For(0, Samples.Count(), j =>
                     {
                         AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt1, am, write);
+                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt1, am);
                         AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.ToCharArray());
-                        Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText, ctxt2, am2, write);
+                        Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText, ctxt2, am2);
                         var F = Forward(Samples[j]);
                         lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
                     
                         var DValues = Backward(Samples[j], F, ObjMem);
                         var DV1 = DValues.ToList().Take(Alpha.DictSize).ToArray();
                         var DV2 = Enumerable.Reverse(DValues).Take(Alpha.DictSize).Reverse().ToArray();
-                        a.Backward(Samples[j].TextInput, DV1, ctxt1, am, AlphaMem, CtxtMem1, write);
-                        a.Backward(Samples[j].SecondaryText, DV2, ctxt2, am2, AlphaMem, CtxtMem2, write);
+                        a.Backward(Samples[j].TextInput, DV1, ctxt1, am, AlphaMem, CtxtMem1);
+                        a.Backward(Samples[j].SecondaryText, DV2, ctxt2, am2, AlphaMem, CtxtMem2);
                     });
                     ObjMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);

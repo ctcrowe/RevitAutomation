@@ -20,10 +20,10 @@ namespace CC_Plugin
             MasterformatNetwork net = new MasterformatNetwork();
             var div = net.Predict(s);
             string Division = "Division " + div.ToList().IndexOf(div.Max());
-            string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max()).GetDir();
+            string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
                 
             string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
-                Subdir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
+                SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
                 SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
             File.Copy(fp, nf, true);
         }
@@ -51,10 +51,10 @@ namespace CC_Plugin
 
                 MasterformatNetwork net = new MasterformatNetwork();
                 var div = net.Predict(s);
-                string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max()).GetDir();
+                string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
                 
                 string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
-                    Subdir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
+                    SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
                     SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
                 File.Copy(fp, nf, true);
             }

@@ -14,24 +14,20 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public MasterformatNetwork()
         {
-            Network = Datatype.Masterformat.LoadNetwork(new WriteToCMDLine(WriteNull));
-        }
-        public MasterformatNetwork(WriteToCMDLine write)
-        {
-            Network = Datatype.Masterformat.LoadNetwork(write);
+            Network = Datatype.Masterformat.LoadNetwork();
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
-            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, new WriteToCMDLine(WriteNull));
-            double[] Results = a.Forward(s.TextInput, ctxt, new WriteToCMDLine(WriteNull));
+            Alpha a = new Alpha();
+            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat);
+            double[] Results = a.Forward(s.TextInput, ctxt);
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
             }
             return Results;
         }
-        public List<double[]> Forward(Sample s, WriteToCMDLine write)
+        public List<double[]> Forward(Sample s)
         {
             List<double[]> Results = new List<double[]>();
             Results.Add(s.TextOutput);
@@ -46,8 +42,7 @@ namespace CC_Library.Predictions
         public double[] Backward
             (Sample s,
             List<double[]> Results,
-             NetworkMem mem,
-             WriteToCMDLine Write)
+             NetworkMem mem)
         {
             var DValues = s.DesiredOutput;
 
@@ -61,13 +56,13 @@ namespace CC_Library.Predictions
             return DValues.ToList().Take(Alpha.DictSize).ToArray();
         }
         public void Propogate
-            (Sample s, WriteToCMDLine write)
+            (Sample s)
         {
             var check = Predict(s);
             if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                Alpha a = new Alpha(new WriteToCMDLine(WriteNull));
-                AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, new WriteToCMDLine(WriteNull));
+                Alpha a = new Alpha();
+                AlphaContext ctxt = new AlphaContext(Datatype.Masterformat);
                 List<string> lines = new List<string>();
                 
                 for(int i = 0; i < 5; i++)
@@ -81,15 +76,15 @@ namespace CC_Library.Predictions
                     Parallel.For(0, Samples.Count(), j =>
                     {
                         AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am, write);
-                        var F = Forward(Samples[j], write);
+                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am);
+                        var F = Forward(Samples[j]);
                         Acc.Add(j,
                             CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
                             F.Last().ToList().IndexOf(F.Last().Max()),
                             Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
                     
-                        var DValues = Backward(Samples[j], F, MFMem, WriteNull);
-                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem, write);
+                        var DValues = Backward(Samples[j], F, MFMem);
+                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                     });
                     lines.AddRange(Acc.Get());
                     MFMem.Update(1, 0.0001, Network);
@@ -104,6 +99,5 @@ namespace CC_Library.Predictions
                 s.Save();
             }
         }
-        private static string WriteNull(string s) { return s; }
     }
 }

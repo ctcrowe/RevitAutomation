@@ -12,12 +12,12 @@ namespace CC_Library.Predictions
 
         public CategoryVisibilityNetwork()
         {
-            Network = Datatype.CategoryVisibility.LoadNetwork(new WriteToCMDLine(WriteNull));
+            Network = Datatype.CategoryVisibility.LoadNetwork();
         }
         public double[] Predict(Sample s)
         {
             Alpha a = new Alpha();
-            AlphaContext ctxt = new AlphaContext(datatype, new WriteToCMDLine(WriteNull));
+            AlphaContext ctxt = new AlphaContext(datatype);
             var input = a.Forward(s.TextInput, ctxt).ToList();
             input.AddRange(a.Forward(s.SecondaryText, ctxt));
             input.AddRange(s.ValInput);

@@ -48,7 +48,7 @@ namespace CC_Library
         {
             double[] result = new double[X.Count()];
             Parallel.For(0, X.Count(), i =>
-                result[i] = X[i] <= 0? 1e-7 : X[i] >= 1? 1 - (1e-7) : X[i];
+                result[i] = X[i] <= 0? 1e-7 : X[i] >= 1? 1 - (1e-7) : X[i]);
             return result;
         }
         public static double[,] DiagFlat(this double[] X)
@@ -75,7 +75,7 @@ namespace CC_Library
         }
         public static string GetDir(this string FolderName)
         {
-            return !Directory.Exists(FolderName)? Directory.CreateDirectory(FolderName).FullPath : FolderName;
+            return !Directory.Exists(FolderName)? Directory.CreateDirectory(FolderName).FullName : FolderName;
         }
         public static double[,] Dot(this double[,] x, double[,] y)
         {
