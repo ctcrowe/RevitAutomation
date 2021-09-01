@@ -21,9 +21,9 @@ using CC_Library.Datatypes;
 
 /// TODO:
 /// revise alpha network to have a 4 * DictSize unit output
-/// first 100 will be "SENDER" as the context vector
-/// second 100 will be "OBJECT" as the context vector
-/// third 100 will be "RECEIVER" as the vector
+/// first DictSize will be "SENDER" as the context vector
+/// second DictSize will be "OBJECT" as the context vector
+/// third DictSize will be "RECEIVER" as the vector
 /// fourth DictSize will be "ACTION" as the vector
 
 namespace CC_Library.Predictions
