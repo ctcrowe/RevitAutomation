@@ -75,7 +75,7 @@ namespace CC_Library.Predictions
                     break;
                 }
             }*/
-            return NeuralNets.NewNeuralNet(datatype);
+            return NeuralNets.NewNeuralNet(Datatype.None);
         }
     }
 }
