@@ -60,6 +60,20 @@ namespace CC_Library.Predictions
                     return (NeuralNetwork)binaryFormatter.Deserialize(stream);
                 }
             }
+            var type = typeof(INetworkPredUpdater);
+            Assembly a = type.Assembly;
+            var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
+            for (int i = 0; i < NetTypes.Count(); i++)
+            {
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                if (Network.datatype == dt)
+                {
+                    entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
+                    entry.DesiredOutput[correct] = 1;
+                    Network.Propogate(entry);
+                    break;
+                }
+            }
             return NeuralNets.NewNeuralNet(datatype);
         }
     }
