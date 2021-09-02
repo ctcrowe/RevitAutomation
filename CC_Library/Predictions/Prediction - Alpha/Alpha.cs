@@ -45,6 +45,7 @@ namespace CC_Library.Predictions
         public const int DictSize = 100;
         public const int SearchSize = 4;
         public const int SearchRange = 3;
+        public NeuralNetwork Network { get; }
         private static List<char> Chars = new List<char>() {
             'A', 'B', 'C', 'D', 'E', 'F', 'G',
             'H', 'I', 'J', 'K', 'L', 'M', 'N',
@@ -69,12 +70,19 @@ namespace CC_Library.Predictions
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
         {
-            char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
             double[,] loc = new double[chars.Count(), DictSize];
+            
             Parallel.For(0, chars.Count(), j =>
             {
-                loc.SetRank(Locate(chars, am, j), j);
+                double[] a = s.Locate(j, SearchRange);
+                am.LocationOutputs[numb].Add(a);
+                for (int i = 0; i < Network.Layers.Count(); i++)
+                {
+                    a = Network.Layers[i].Output(a);
+                    am.LocationOutputs[numb].Add(a);
+                }
+                loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(chars, j, am);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
@@ -98,20 +106,6 @@ namespace CC_Library.Predictions
                 }
             });
         }
-        private double[] Locate(char[] c, AlphaMem am, int numb)
-        {
-            double[] a = GetLocation(c, numb);
-            am.LocationOutputs[numb].Add(a);
-
-            for (int i = 0; i < Network.Layers.Count(); i++)
-            {
-                a = Network.Layers[i].Output(a);
-                am.LocationOutputs[numb].Add(a);
-            }
-
-            return a;
-        }
-        public NeuralNetwork Network { get; }
         private static char[] GetChars(string s)
         {
             string a = s.ToUpper();
