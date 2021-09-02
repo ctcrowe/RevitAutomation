@@ -34,6 +34,8 @@ namespace CC_Library.Predictions
         
         public static double[] Locate(this string s, int numb, int range)
         {
+            string a = s.ToUpper();
+            return a.ToCharArray();
         }
         private static int LocationOf(char c) { return Chars.Contains(c)? Chars.IndexOf(c) : Chars.Count() - 1; }
     }
