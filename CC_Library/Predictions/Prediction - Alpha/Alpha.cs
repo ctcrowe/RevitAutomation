@@ -23,6 +23,7 @@ namespace CC_Library.Predictions
 {
     internal class CharSet
     {
+        private static HashTable Chars = new HashTable() {'A' = 1, 'B' = 2};
     }
     internal class Alpha
     {
