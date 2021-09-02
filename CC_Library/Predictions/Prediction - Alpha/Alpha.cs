@@ -100,25 +100,5 @@ namespace CC_Library.Predictions
                 }
             });
         }
-        private static char[] GetChars(string s)
-        {
-            string a = s.ToUpper();
-            return a.ToCharArray();
-        }
-        public static int LocationOf(char c) { return Chars.Contains(c)? Chars.IndexOf(c) : Chars.Count() - 1; }
-        private static double[] GetLocation(char[] c, int numb)
-        {
-            double[] a = new double[3 * Chars.Count()];
-            if (numb > 0)
-            {
-                a[Chars.Count() + LocationOf(c[numb - 1])] = 1;
-            }
-            a[Chars.Count() + LocationOf(c[numb])] = 1;
-            if (numb < c.Count() - 1)
-            {
-                a[(2 * Chars.Count()) + LocationOf(c[numb + 1])] = 1;
-            }
-            return a;
-        }
     }
 }
