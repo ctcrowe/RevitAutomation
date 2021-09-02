@@ -12,6 +12,7 @@ namespace CC_Library.Predictions
     {
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
+        public const int SearchRange = 5;
         internal AlphaContext(Datatype dt, int numb = 0)
         {
             datatype = dt;
