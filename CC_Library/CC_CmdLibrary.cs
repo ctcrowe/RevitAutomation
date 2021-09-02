@@ -327,6 +327,21 @@ namespace CC_Library
             }
             return NewMatrix;
         }
+        public static double[] Multiply(this double[,] a, double[] b)
+        {
+            double[] c = new double[a.GetLength(1)];
+            if (a.GetLength(0) == b.GetLength(0))
+            {
+                for (int i = 0; i < a.GetLength(0); i++)
+                {
+                    for (int j = 0; j < a.GetLength(1); j++)
+                    {
+                        c[j] += a[i, j] * b[i];
+                    }
+                }
+            }
+            return c;
+        }
         public static XDocument ToXDocument(this XmlDocument xmlDocument)
         {
             using (var nodeReader = new XmlNodeReader(xmlDocument))
