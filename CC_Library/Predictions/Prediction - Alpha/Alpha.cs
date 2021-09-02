@@ -32,10 +32,20 @@ namespace CC_Library.Predictions
             '2', '3', '4', '5', '6', '7', '8',
             '9', ' ', '_'};
         
-        public static double[] Locate(this string s, int numb, int range)
+        public static double[] Locate(this string s, int numb, int range = 3)
         {
+            double[] result = new double[CharCount() * ((2 * range) + 1)];
             string a = s.ToUpper();
-            return a.ToCharArray();
+            char[] chars = a.ToCharArray();
+            
+            int imin = numb < range? range - (range - numb) : range;
+            int imax = numb + range < chars.Count()? range : range - ((numb + range) - chars.Count());
+            
+            result[LocationOf(phrase[numb])] = 1;
+            Parallel.For(1, imin + 1, i => result[(i * CharCount) + LocationOf(chars[numb - i])] = 1);
+            Parallel.For(1, imax + 1, i => result[((range + i) * CharCount()) + LocationOf(chars[numb + i])] = 1);
+
+            return result;
         }
         private static int LocationOf(char c) { return Chars.Contains(c)? Chars.IndexOf(c) : Chars.Count() - 1; }
     }
