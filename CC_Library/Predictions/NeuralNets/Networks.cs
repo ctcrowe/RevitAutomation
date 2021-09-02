@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
                 case 1: network = new NeuralNetwork(Datatype.AlphaContextSecondary); break;
                 case 2: network = new NeuralNetwork(Datatype.AlphaContextTertiary); break;
             }
-            network.Layers.Add(new Layer(1, Alpha.CharCount() * Alpha.SearchSize, Activation.Linear));
+            network.Layers.Add(new Layer(1, CharSet.CharCount() * (1 + (2 * AlphaContext.SearchRange)), Activation.Linear));
             return network;
         }
         private static NeuralNetwork MFNetwork()
