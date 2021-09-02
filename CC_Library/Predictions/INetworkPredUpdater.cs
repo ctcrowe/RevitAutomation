@@ -9,6 +9,7 @@ namespace CC_Library.Predictions
 {
     public interface INetworkPredUpdater
     {
+        static Datatype dtype { get; }
         Datatype datatype { get; }
         NeuralNetwork Network { get; }
         double[] Predict(Sample s);
