@@ -21,6 +21,9 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
+    internal class CharSet
+    {
+    }
     internal class Alpha
     {
         internal Alpha()
