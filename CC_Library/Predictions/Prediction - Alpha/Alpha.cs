@@ -111,15 +111,6 @@ namespace CC_Library.Predictions
 
             return a;
         }
-        private double[] Locate(char[] c, int numb)
-        {
-            double[] a = GetLocation(c, numb);
-            for (int i = 0; i < Network.Layers.Count(); i++)
-            {
-                a = Network.Layers[i].Output(a);
-            }
-            return a;
-        }
         public NeuralNetwork Network { get; }
         private static char[] GetChars(string s)
         {
