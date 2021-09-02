@@ -17,7 +17,7 @@ namespace CC_Library.Predictions
             '2', '3', '4', '5', '6', '7', '8',
             '9', ' ', '_'};
         
-        public static double[] Locate(this string s, int numb, int range = 3)
+        public static double[] Locate(this string s, int numb, int range)
         {
             double[] result = new double[CharCount() * ((2 * range) + 1)];
             string a = s.ToUpper();
