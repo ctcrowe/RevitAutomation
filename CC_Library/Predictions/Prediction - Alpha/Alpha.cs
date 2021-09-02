@@ -54,10 +54,9 @@ namespace CC_Library.Predictions
             '9', ' ', '_'};
         public double[] Forward(string s, AlphaContext context)
         {
-            char[] chars = GetChars(s);
             double[] ctxt = new double[chars.Count()];
-            
             double[,] loc = new double[chars.Count(), DictSize];
+            
             Parallel.For(0, chars.Count(), j =>
             {
                 double[] a = s.Locate(j, SearchRange);
@@ -65,6 +64,7 @@ namespace CC_Library.Predictions
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(chars, j);
             });
+            
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
