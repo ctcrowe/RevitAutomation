@@ -41,18 +41,12 @@ namespace CC_Library.Predictions
             Network = Datatype.Alpha.LoadNetwork();
             this.Results = new List<double[]>();
         }
+        
         public List<double[]> Results { get; set; }
         public const int DictSize = 100;
-        public const int SearchSize = 4;
         public const int SearchRange = 3;
         public NeuralNetwork Network { get; }
-        private static List<char> Chars = new List<char>() {
-            'A', 'B', 'C', 'D', 'E', 'F', 'G',
-            'H', 'I', 'J', 'K', 'L', 'M', 'N',
-            'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-            'V', 'W', 'X', 'Y', 'Z', '0', '1',
-            '2', '3', '4', '5', '6', '7', '8',
-            '9', ' ', '_'};
+        
         public double[] Forward(string s, AlphaContext context)
         {
             double[] ctxt = new double[chars.Count()];
