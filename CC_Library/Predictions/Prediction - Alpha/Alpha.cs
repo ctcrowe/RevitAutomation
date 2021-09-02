@@ -60,7 +60,9 @@ namespace CC_Library.Predictions
             double[,] loc = new double[chars.Count(), DictSize];
             Parallel.For(0, chars.Count(), j =>
             {
-                loc.SetRank(Locate(chars, j), j);
+                double[] a = s.Locate(j, SearchRange);
+                for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
+                loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(chars, j);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
