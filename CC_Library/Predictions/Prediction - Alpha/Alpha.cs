@@ -4,21 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
 
-/// <summary>
-/// 2 Vectors
-/// 1) Sparce Context Vector (input is 2 * Chars.Count() + 1)
-///     This last input will be the distance between them.
-/// 2) Actual location of characters
-///     This will be DictSize and represents the N Dimensional encoding of the letter where N is the DictSize in the class.
-
-//New complexity: Element Location as Input
-//This will require an attention mechanism and name input
-//Attention input can be same as element input - 1 input fed into 2 hidden layers
-//The input will be the name in 100D space, followed by the location (start XY, end XY)
-//if the location is a single point, location is (start XY, start XY)
-//One outputs a position in 100 dimensional space
-//The second outputs a focus value - an interpretation of the significance of that location...
-
 namespace CC_Library.Predictions
 {
     internal static class CharSet
@@ -59,6 +44,7 @@ namespace CC_Library.Predictions
         public List<double[]> Results { get; set; }
         public const int DictSize = 100;
         public const int SearchSize = 4;
+        public const int SearchRange = 3;
         public static int CharCount() { return Chars.Count(); }
         private static List<char> Chars = new List<char>() {
             'A', 'B', 'C', 'D', 'E', 'F', 'G',
