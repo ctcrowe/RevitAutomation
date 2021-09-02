@@ -65,12 +65,10 @@ namespace CC_Library.Predictions
             double[,] loc = new double[chars.Count(), DictSize];
             Parallel.For(0, chars.Count(), j =>
             {
-                var location = Locate(chars, am, j);
-                loc.SetRank(location, j);
+                loc.SetRank(Locate(chars, am, j), j);
                 ctxt[j] = context.Contextualize(chars, j, am);
             });
-            am.GlobalContextOutputs = Activations.SoftMax(ctxt);
-            var output = Multiply(loc, am.GlobalContextOutputs);
+            var output = Multiply(loc, Activations.SoftMax(ctxt));
             return output;
         }
         public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
