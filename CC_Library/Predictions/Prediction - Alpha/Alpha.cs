@@ -39,6 +39,13 @@ namespace CC_Library.Predictions
         internal Alpha()
         {
             Network = Datatype.Alpha.LoadNetwork();
+            if(Network.Datatype == Datatype.None)
+            {
+                Network = new NeuralNetwork(Datatype.Alpha);
+                Network.Layers.Add(new Layer(Alpha.DictSize, ((2 * Alpha.SearchRange) + 1) * CharSet.CharCount(), Activation.LRelu));
+                Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.Linear));
+            }
             this.Results = new List<double[]>();
         }
         
