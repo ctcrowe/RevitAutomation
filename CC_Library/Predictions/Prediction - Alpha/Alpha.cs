@@ -46,10 +46,8 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             }
-            this.Results = new List<double[]>();
         }
         
-        public List<double[]> Results { get; set; }
         public const int DictSize = 100;
         public const int SearchRange = 3;
         public NeuralNetwork Network { get; }
