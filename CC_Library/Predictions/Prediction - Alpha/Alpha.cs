@@ -78,7 +78,7 @@ namespace CC_Library.Predictions
                 loc.SetRank(Locate(chars, j), j);
                 ctxt[j] = context.Contextualize(chars, j);
             });
-            return Multiply(loc, Activations.SoftMax(ctxt));
+            return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
         {
@@ -90,7 +90,7 @@ namespace CC_Library.Predictions
                 loc.SetRank(Locate(chars, am, j), j);
                 ctxt[j] = context.Contextualize(chars, j, am);
             });
-            return Multiply(loc, Activations.SoftMax(ctxt));
+            return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
         {
@@ -153,21 +153,6 @@ namespace CC_Library.Predictions
                 a[(2 * Chars.Count()) + LocationOf(c[numb + 1])] = 1;
             }
             return a;
-        }
-        private static double[] Multiply(double[,] a, double[] b)
-        {
-            double[] c = new double[a.GetLength(1)];
-            if (a.GetLength(0) == b.GetLength(0))
-            {
-                for (int i = 0; i < a.GetLength(0); i++)
-                {
-                    for (int j = 0; j < a.GetLength(1); j++)
-                    {
-                        c[j] += a[i, j] * b[i];
-                    }
-                }
-            }
-            return c;
         }
     }
 }
