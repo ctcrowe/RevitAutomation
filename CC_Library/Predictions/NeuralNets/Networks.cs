@@ -36,7 +36,7 @@ namespace CC_Library.Predictions
         private static NeuralNetwork AlphaNetwork()
         {
             NeuralNetwork network = new NeuralNetwork(Datatype.Alpha);
-            network.Layers.Add(new Layer(Alpha.DictSize, 3 * Alpha.CharCount(), Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, ((2 * Alpha.SearchRange) + 1) * Alpha.CharCount(), Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             return network;
