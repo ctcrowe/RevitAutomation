@@ -32,7 +32,9 @@ namespace CC_Library.Predictions
             '2', '3', '4', '5', '6', '7', '8',
             '9', ' ', '_'};
         
-        public static double[] Locate(
+        public static double[] Locate(this string s, int numb, int range)
+        {
+        }
         private static int LocationOf(char c) { return Chars.Contains(c)? Chars.IndexOf(c) : Chars.Count() - 1; }
     }
     internal class Alpha
