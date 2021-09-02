@@ -21,7 +21,7 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    internal class CharSet
+    internal static class CharSet
     {
         public const int CharCount = 38;
         private static char[] Chars = new char[38] {
@@ -31,6 +31,9 @@ namespace CC_Library.Predictions
             'V', 'W', 'X', 'Y', 'Z', '0', '1',
             '2', '3', '4', '5', '6', '7', '8',
             '9', ' ', '_'};
+        
+        public static double[] Locate(
+        private static int LocationOf(char c) { return Chars.Contains(c)? Chars.IndexOf(c) : Chars.Count() - 1; }
     }
     internal class Alpha
     {
@@ -58,16 +61,10 @@ namespace CC_Library.Predictions
             double[,] loc = new double[chars.Count(), DictSize];
             Parallel.For(0, chars.Count(), j =>
             {
-                var location = Locate(chars, j);
-                loc.SetRank(location, j);
-                //ctxt1[j] = AlphaSender.Contextualize(chars, j);
-                //ctxt2[j] = AlphaObject.Contextualize(chars, j);
-                //ctxt3[j] = AlphaReceiver.Contextualize(chars, j);
-                //ctxt4[j] = AlphaAction.Contextualize(chars, j);
+                loc.SetRank(Locate(chars, j), j);
                 ctxt[j] = context.Contextualize(chars, j);
             });
-            var output = Multiply(loc, Activations.SoftMax(ctxt));
-            return output;
+            return Multiply(loc, Activations.SoftMax(ctxt));
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
         {
@@ -79,8 +76,7 @@ namespace CC_Library.Predictions
                 loc.SetRank(Locate(chars, am, j), j);
                 ctxt[j] = context.Contextualize(chars, j, am);
             });
-            var output = Multiply(loc, Activations.SoftMax(ctxt));
-            return output;
+            return Multiply(loc, Activations.SoftMax(ctxt));
         }
         public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
         {
