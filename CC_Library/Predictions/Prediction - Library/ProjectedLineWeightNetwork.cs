@@ -13,6 +13,13 @@ namespace CC_Library.Predictions
         public ProjectedLineWeightNetwork()
         {
             Network = Datatype.ProjectedLineWeight.LoadNetwork();
+            if(Network.Datatype == Datatype.None)
+            {
+                Network = new NeuralNetwork(Datatype.ProjectedLineWeight);
+                Network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
+                Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(17, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+            }
         }
         public double[] Predict(Sample s)
         {
