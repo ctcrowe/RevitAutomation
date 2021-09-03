@@ -24,9 +24,8 @@ namespace CC_Library.Predictions
         public double[] Predict(Sample s)
         {
             Alpha a = new Alpha();
-            AlphaContext ctxt = new AlphaContext(datatype);
-            var input = a.Forward(s.TextInput, ctxt).ToList();
-            input.AddRange(a.Forward(s.SecondaryText, ctxt));
+            var input = a.Forward(s.TextInput, mew AlphaContext(datatype)).ToList();
+            input.AddRange(a.Forward(s.SecondaryText, new AlphaContext(datatype, 1)));
             input.AddRange(s.ValInput);
             var Results = input.ToArray();
 
