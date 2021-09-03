@@ -15,6 +15,13 @@ namespace CC_Library.Predictions
         public MasterformatNetwork()
         {
             Network = Datatype.Masterformat.LoadNetwork();
+            if(Network.Datatype == Datatype.None)
+            {
+                Network = new NeuralNetwork(Datatype.Masterformat);
+                Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
+                Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(40, network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+            }
         }
         public double[] Predict(Sample s)
         {
