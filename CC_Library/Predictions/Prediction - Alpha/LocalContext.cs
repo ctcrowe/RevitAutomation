@@ -19,15 +19,20 @@ namespace CC_Library.Predictions
             switch(numb)
             {
                 default:
-                case 0:
-                    Network = Datatype.AlphaContextPrimary.LoadNetwork(dt);
-                    break;
-                case 1:
-                    Network = Datatype.AlphaContextSecondary.LoadNetwork(dt);
-                    break;
-                case 2:
-                    Network = Datatype.AlphaContextTertiary.LoadNetwork(dt);
-                    break;
+                case 0: Network = Datatype.AlphaContextPrimary.LoadNetwork(dt); break;
+                case 1: Network = Datatype.AlphaContextSecondary.LoadNetwork(dt); break;
+                case 2: Network = Datatype.AlphaContextTertiary.LoadNetwork(dt); break;
+            }
+            if(Network.Datatype == Datatype.None)
+            {
+                switch(numb)
+                {
+                    default:
+                    case 0: Network = new NeuralNetwork(Datatype.AlphaContextPrimary); break;
+                    case 1: Network = new NeuralNetwork(Datatype.AlphaContextSecondary); break;
+                    case 2: Network = new NeuralNetwork(Datatype.AlphaContextTertiary); break;
+                }
+                Network.Layers.Add(new Layer(1, CharSet.CharCount() * (1 + (2 * AlphaContext.SearchRange)), Activation.Linear));
             }
         }
         public void Save()
