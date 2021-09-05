@@ -36,7 +36,7 @@ namespace CC_Library.Predictions
         private static NeuralNetwork AlphaNetwork()
         {
             NeuralNetwork network = new NeuralNetwork(Datatype.Alpha);
-            network.Layers.Add(new Layer(Alpha.DictSize, ((2 * Alpha.SearchRange) + 1) * CharSet.CharCount(), Activation.LRelu));
+            network.Layers.Add(new Layer(Alpha.DictSize, ((2 * Alpha.SearchRange) + 1) * CharSet.CharCount, Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
             network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             return network;
@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
                 case 1: network = new NeuralNetwork(Datatype.AlphaContextSecondary); break;
                 case 2: network = new NeuralNetwork(Datatype.AlphaContextTertiary); break;
             }
-            network.Layers.Add(new Layer(1, CharSet.CharCount() * (1 + (2 * AlphaContext.SearchRange)), Activation.Linear));
+            network.Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * AlphaContext.SearchRange)), Activation.Linear));
             return network;
         }
         private static NeuralNetwork MFNetwork()

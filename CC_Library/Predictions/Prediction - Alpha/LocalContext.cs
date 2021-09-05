@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
                 case 1: Network = Datatype.AlphaContextSecondary.LoadNetwork(dt); break;
                 case 2: Network = Datatype.AlphaContextTertiary.LoadNetwork(dt); break;
             }
-            if(Network.Datatype == Datatype.None)
+            if(Network.Datatype == Datatype.None.ToString())
             {
                 switch(numb)
                 {
@@ -32,25 +32,25 @@ namespace CC_Library.Predictions
                     case 1: Network = new NeuralNetwork(Datatype.AlphaContextSecondary); break;
                     case 2: Network = new NeuralNetwork(Datatype.AlphaContextTertiary); break;
                 }
-                Network.Layers.Add(new Layer(1, CharSet.CharCount() * (1 + (2 * AlphaContext.SearchRange)), Activation.Linear));
+                Network.Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * AlphaContext.SearchRange)), Activation.Linear));
             }
         }
         public void Save()
         {
             Network.Save(datatype);
         }
-        public double Contextualize(char[] phrase, int c, AlphaMem am)
+        public double Contextualize(string s, int c, AlphaMem am)
         {
-            am.LocalContextOutputs[c].Add(Locate(phrase, c));
+            am.LocalContextOutputs[c].Add(CharSet.Locate(s, c, SearchRange));
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 am.LocalContextOutputs[c].Add(Network.Layers[i].Output(am.LocalContextOutputs[c].Last()));
             }
             return am.LocalContextOutputs[c].Last().First();
         }
-        public double Contextualize(char[] phrase, int c)
+        public double Contextualize(string s, int c)
         {
-            var result = Locate(phrase, c);
+            var result = CharSet.Locate(s, c, SearchRange);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);
@@ -74,19 +74,6 @@ namespace CC_Library.Predictions
                     catch (Exception e) { e.OutputError(); }
                 }
             });
-        }
-        private static double[] Locate(char[] phrase, int numb)
-        {
-            double[] result = new double[Alpha.CharCount() * ((2 * Alpha.SearchSize) + 1)];
-            result[Alpha.LocationOf(phrase[numb])] = 1;
-            
-            int imin = numb < Alpha.SearchSize? Alpha.SearchSize - (Alpha.SearchSize - numb) : Alpha.SearchSize;
-            int imax = numb + Alpha.SearchSize < phrase.Count()? Alpha.SearchSize : Alpha.SearchSize - ((numb + Alpha.SearchSize) - phrase.Count());
-            
-            Parallel.For(1, imin + 1, i => result[(i * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb - i])] = 1);
-            Parallel.For(1, imax + 1, i => result[((Alpha.SearchSize + i) * Alpha.CharCount()) + Alpha.LocationOf(phrase[numb + i])] = 1);
-
-            return result;
         }
     }
 }

@@ -19,32 +19,32 @@ namespace CC_Library.Predictions
         
         public static double[] Locate(this string s, int numb, int range)
         {
-            double[] result = new double[CharCount() * ((2 * range) + 1)];
+            double[] result = new double[CharCount * ((2 * range) + 1)];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
             
             int imin = numb < range? range - (range - numb) : range;
             int imax = numb + range < chars.Count()? range : range - ((numb + range) - chars.Count());
             
-            result[LocationOf(phrase[numb])] = 1;
+            result[LocationOf(chars[numb])] = 1;
             Parallel.For(1, imin + 1, i => result[(i * CharCount) + LocationOf(chars[numb - i])] = 1);
-            Parallel.For(1, imax + 1, i => result[((range + i) * CharCount()) + LocationOf(chars[numb + i])] = 1);
+            Parallel.For(1, imax + 1, i => result[((range + i) * CharCount) + LocationOf(chars[numb + i])] = 1);
 
             return result;
         }
-        private static int LocationOf(char c) { return Chars.Contains(c)? Chars.IndexOf(c) : Chars.Count() - 1; }
+        private static int LocationOf(char c) { return Chars.Contains(c)? Chars.ToList().IndexOf(c) : Chars.Count() - 1; }
     }
     internal class Alpha
     {
         internal Alpha()
         {
             Network = Datatype.Alpha.LoadNetwork();
-            if(Network.Datatype == Datatype.None)
+            if(Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.Alpha);
-                Network.Layers.Add(new Layer(Alpha.DictSize, ((2 * Alpha.SearchRange) + 1) * CharSet.CharCount(), Activation.LRelu));
-                Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(Alpha.DictSize, network.Layers.Last().Weights.GetLength(0), Activation.Linear));
+                Network.Layers.Add(new Layer(Alpha.DictSize, ((2 * Alpha.SearchRange) + 1) * CharSet.CharCount, Activation.LRelu));
+                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             }
         }
         
@@ -54,46 +54,45 @@ namespace CC_Library.Predictions
         
         public double[] Forward(string s, AlphaContext context)
         {
-            double[] ctxt = new double[chars.Count()];
-            double[,] loc = new double[chars.Count(), DictSize];
+            double[] ctxt = new double[CharSet.CharCount];
+            double[,] loc = new double[CharSet.CharCount, DictSize];
             
-            Parallel.For(0, chars.Count(), j =>
+            Parallel.For(0, CharSet.CharCount, j =>
             {
                 double[] a = s.Locate(j, SearchRange);
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(chars, j);
+                ctxt[j] = context.Contextualize(s, j);
             });
             
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
         {
-            double[] ctxt = new double[chars.Count()];
-            double[,] loc = new double[chars.Count(), DictSize];
+            double[] ctxt = new double[CharSet.CharCount];
+            double[,] loc = new double[CharSet.CharCount, DictSize];
             
-            Parallel.For(0, chars.Count(), j =>
+            Parallel.For(0, CharSet.CharCount, j =>
             {
                 double[] a = s.Locate(j, SearchRange);
-                am.LocationOutputs[numb].Add(a);
+                am.LocationOutputs[j].Add(a);
                 for (int i = 0; i < Network.Layers.Count(); i++)
                 {
                     a = Network.Layers[i].Output(a);
-                    am.LocationOutputs[numb].Add(a);
+                    am.LocationOutputs[j].Add(a);
                 }
                 loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(chars, j, am);
+                ctxt[j] = context.Contextualize(s, j, am);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
         {
-            char[] chars = GetChars(s);
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
-            context.Backward(DValues, chars.Count(), am, CtxtMem);
-            Parallel.For(0, chars.Count(), j =>
+            context.Backward(DValues, CharSet.CharCount, am, CtxtMem);
+            Parallel.For(0, CharSet.CharCount, j =>
             {
                 var ldv = LocDValues[j];
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
