@@ -32,7 +32,7 @@ namespace CC_Library.Predictions
                     case 1: Network = new NeuralNetwork(Datatype.AlphaContextSecondary); break;
                     case 2: Network = new NeuralNetwork(Datatype.AlphaContextTertiary); break;
                 }
-                Network.Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * AlphaContext.SearchRange)), Activation.Linear));
+                Network.Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * SearchRange)), Activation.Linear));
             }
         }
         public void Save()
