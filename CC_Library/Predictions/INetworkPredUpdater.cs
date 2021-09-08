@@ -14,6 +14,6 @@ namespace CC_Library.Predictions
         double[] Predict(Sample s);
         List<double[]> Forward(Sample s);
         double[] Backward(Sample s, List<double[]> Results, NetworkMem mem);
-        void Propogate(Sample s);
+        void Propogate(Sample s, WritetoCMDLine write);
     }
 }
