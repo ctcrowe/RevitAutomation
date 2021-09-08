@@ -78,6 +78,7 @@
     <Compile Include="Predictions\NeuralNets\OutputStor.cs" />
     <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaMem.cs" />
+    <Compile Include="Predictions\Prediction - Alpha\CharSet.cs" />
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
     <Compile Include="Predictions\Prediction - Library\CategoryVisNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\CutLineWeightNetwork.cs" />

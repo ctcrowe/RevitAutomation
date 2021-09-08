@@ -54,7 +54,12 @@ namespace DataAnalysis
                             }
                             break;
                         case "SHOW":
-                            //PredOutput.OutputPredictions(new WriteToCMDLine(Write));
+                            string s = "";
+                            while(s != "X")
+                            {
+                                s = Console.ReadLine();
+                                s.TestChars(new WriteToCMDLine(Write));
+                            }
                             break;
                         case "EXIT":
                         case "E":

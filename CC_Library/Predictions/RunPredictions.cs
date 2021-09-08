@@ -30,5 +30,9 @@ namespace CC_Library.Predictions
                 }
             }
         }
+        public static void FormatOutput()
+        {
+            
+        }
     }
 }
