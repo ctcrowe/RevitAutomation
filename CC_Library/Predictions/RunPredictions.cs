@@ -10,21 +10,24 @@ namespace CC_Library.Predictions
     {
         public static void RunPredictions(WriteToCMDLine write)
         {
-            while(true)
+            OpenFileDialog ofd = new OpenFileDialog()
             {
-                OpenFileDialog ofd = new OpenFileDialog()
+                FileName = "Select a binary file",
+                Filter = "BIN files (*.bin)|*.bin",
+                Title = "Open bin file"
+            };
+            if(ofd.ShowDialog() == DialogResult.OK)
+            {
+                var filepath = ofd.FileName;
+                var dir = Path.GetDirectoryName(filepath);
+                var Files = Directory.GetFiles(dir);
+                Random random = new Random();
+                while(true)
                 {
-                    FileName = "Select a binary file",
-                    Filter = "BIN files (*.bin)|*.bin",
-                    Title = "Open bin file"
-                };
-                if(ofd.ShowDialog() == DialogResult.OK)
-                {
-                    var filepath = ofd.FileName;
-                    Random random = new Random();
+                    string f = Files[random.Next(Files.Count())];
                     try
                     {
-                        Sample s = filepath.ReadFromBinaryfile<Sample>();
+                        Sample s = f.ReadFromBinaryfile<Sample>();
                         Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), s.Datatype);
                         write("Network Type : " + datatype.ToString());
                         s.PropogateSingle(write);
