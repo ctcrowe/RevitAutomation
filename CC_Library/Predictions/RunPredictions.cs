@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -10,29 +10,28 @@ namespace CC_Library.Predictions
     {
         public static void RunPredictions(WriteToCMDLine write)
         {
-            OpenFileDialog ofd = new OpenFileDialog()
+            while(true)
             {
-                FileName = "Select a csv file",
-                Filter = "CSV files (*.csv)|*.csv",
-                Title = "Open csv file"
-            };
-            if(ofd.ShowDialog() == DialogResult.OK)
-            {
-                var filepath = ofd.FileName;
-                Random random = new Random();
-
-                if (Enum.GetNames(typeof(Datatype)).Any(x => filepath.Contains(x)))
+                OpenFileDialog ofd = new OpenFileDialog()
                 {
-                    Sample s = filepath.ReadFromBinaryFile<Sample>();
-                    Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), s.Datatype);
-                    write("Network Type : " + datatype.ToString());
-                    s.PropogateSingle(write);
+                    FileName = "Select a binary file",
+                    Filter = "BIN files (*.bin)|*.bin",
+                    Title = "Open bin file"
+                };
+                if(ofd.ShowDialog() == DialogResult.OK)
+                {
+                    var filepath = ofd.FileName;
+                    Random random = new Random();
+                    try
+                    {
+                        Sample s = filepath.ReadFromBinaryfile<Sample>();
+                        Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), s.Datatype);
+                        write("Network Type : " + datatype.ToString());
+                        s.PropogateSingle(write);
+                    }
+                    catch (Exception e) { e.OutputError(); }
                 }
             }
-        }
-        public static void FormatOutput()
-        {
-            
         }
     }
 }
