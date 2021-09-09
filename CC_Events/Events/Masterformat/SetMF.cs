@@ -12,7 +12,80 @@ using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
-    internal class SetMF : IUpdater
+    internal class MFElePlaced : IUpdater
+    {
+        private static void RegisterUpdater(AddInId id)
+        {
+            ElementId FamName = new ElementId(BuiltInParameter.SYMBOL_NAME_PARAM);
+            SetMF updater = new SetMF(id);
+            UpdaterRegistry.RegisterUpdater(updater, true);
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
+                new ElementClassFilter(typeof(FamilySymbol)),
+                Element.GetChangeTypeParameter(FamName));
+            UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
+                new ElementClassFilter(typeof(FamilyInstance)),
+                Element.GetChangeTypeElementAddition());
+        }
+        public void Execute(UpdaterData data)
+        {
+            Document doc = data.GetDocument();
+            if (!doc.IsFamilyDocument)
+            {
+                var Eles = data.GetModifiedElementIds().ToList();
+                foreach (var eid in Eles)
+                {
+                    var ele = doc.GetElement(eid) as FamilySymbol;
+                    if (ele != null)
+                    {
+                        string name = "";
+                        int MF = 0;
+                        try { name = ele.FamilyName; } catch (Exception e) { e.OutputError(); }
+                        if (name != "")
+                        {
+                            try
+                            {
+                                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                                s.TextInput = name;
+                                var output = new MasterformatNetwork().Predict(s);
+                                MF = output.ToList().IndexOf(output.Max());
+                            }
+                            catch (Exception e) { e.OutputError(); }
+                        }
+                        try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
+                    }
+                }
+                Eles = data.GetAddedElementIds().ToList();
+                foreach (var eid in Eles)
+                {
+                    var ele = doc.GetElement(eid) as FamilySymbol;
+                    if (ele != null)
+                    {
+                        var inst = doc.GetElement(eid) as FamilyInstance;
+                        if(inst != null)
+                        {
+                            ele = inst.Symbol;
+                            string name = "";
+                            int MF = 0;
+                            try { name = ele.FamilyName; } catch (Exception e) { e.OutputError(); }
+                            if (name != "")
+                            {
+                                try
+                                {
+                                    Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                                    s.TextInput = name;
+                                    var output = new MasterformatNetwork().Predict(s);
+                                    MF = output.ToList().IndexOf(output.Max());
+                                }
+                                catch (Exception e) { e.OutputError(); }
+                            }
+                            try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    internal class MFTypeNameChange : IUpdater
     {
         public static Result OnStartup(UIControlledApplication app)
         {
