@@ -71,7 +71,7 @@ namespace CC_Plugin
                         catch (Exception e) { e.OutputError(); }
                         s.DesiredOutput = new double[net.Network.Layers.Last().Biases.Count()];
                         s.DesiredOutput[int.Parse(ele.GetElementParam(Params.Masterformat))] = 1;
-                        net.Propogate(s);
+                        net.Propogate(s, CMDLibrary.WriteNull);
                     }
                     catch (Exception e) { e.OutputError(); }
                 }

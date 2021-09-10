@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using CC_Library.Datatypes;
@@ -27,9 +28,9 @@ namespace CC_Library.Predictions
                     string f = Files[random.Next(Files.Count())];
                     try
                     {
-                        Sample s = f.ReadFromBinaryfile<Sample>();
-                        Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), s.Datatype);
-                        write("Network Type : " + datatype.ToString());
+                        Sample s = f.ReadFromBinaryFile<Sample>();
+                        string datatype = s.Datatype;
+                        write("Network Type : " + datatype);
                         s.PropogateSingle(write);
                     }
                     catch (Exception e) { e.OutputError(); }

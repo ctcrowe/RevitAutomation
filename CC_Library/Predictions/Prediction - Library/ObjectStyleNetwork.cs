@@ -63,7 +63,7 @@ namespace CC_Library.Predictions
             return DValues.ToList().Take(2 * Alpha.DictSize).ToArray();
         }
         public void Propogate
-            (Sample s)
+            (Sample s, WriteToCMDLine write)
         {
             var check = Predict(s);
             if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
