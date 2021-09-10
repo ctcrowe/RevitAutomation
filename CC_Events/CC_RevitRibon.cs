@@ -26,7 +26,7 @@ namespace CC_Plugin
 
             //try { LineStyleUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { LineStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
-            try { SetMF.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
+            try { MFTypeNameChange.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { TypeNamingUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { DocumentSaved.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { PlaneTypeUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
@@ -38,7 +38,7 @@ namespace CC_Plugin
         {
             //LineStyleUpdater.OnShutdown(uiApp);
             LineStyleNetworkUpdater.OnShutdown(uiApp);
-            SetMF.OnShutdown(uiApp);
+            MFTypeNameChange.OnShutdown(uiApp);
             TypeNamingUpdater.OnShutdown(uiApp);
             DocumentSaved.OnShutdown(uiApp);
             PlaneTypeUpdater.OnShutdown(uiApp);
