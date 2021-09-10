@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CC_Plugin.Events.Masterformat
 {
-    class Class2
+    class AddMF
     {
     }
 }

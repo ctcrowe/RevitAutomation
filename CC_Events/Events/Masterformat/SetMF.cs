@@ -17,7 +17,7 @@ namespace CC_Plugin
         private static void RegisterUpdater(AddInId id)
         {
             ElementId FamName = new ElementId(BuiltInParameter.SYMBOL_NAME_PARAM);
-            SetMF updater = new SetMF(id);
+            MFElePlaced updater = new MFElePlaced(id);
             UpdaterRegistry.RegisterUpdater(updater, true);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(FamilySymbol)),
