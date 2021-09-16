@@ -7,10 +7,14 @@ using CC_Library.Datatypes;
 using System.Runtime.InteropServices;
 
 /// SUMMARY
-/// Input : Candlestick data from last 3 days APPLE
+/// Input : Candlestick data from last 3 days (AAPL)
 /// Input : Candlestick data from last 3 days Nasdaq (ONEQ)
-/// Input : Candlestick data from last 3 days VTI
-
+/// Input : Candlestick data from last 3 days (VTI)
+/// Input : Current value (AAPL)
+/// Output : Likelyhood the value is trending down.
+/// Output : Likelyhood the value is trending up.
+/// Final output used if trending down and higher than purchase value, sell.
+/// Final output used if trending up, and funds available, buy.
 
 namespace CC_Library.Predictions
 {
