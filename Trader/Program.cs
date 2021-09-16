@@ -8,7 +8,6 @@ namespace Trader
         {
             while (true)
             {
-                Console.WriteLine("Hello World!");
                 _ = TestingClass.Main();
 
                 string line = Console.ReadLine();

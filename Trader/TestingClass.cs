@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Alpaca.Markets;
 using System.Threading.Tasks;
+using CC_Library;
 
 namespace Trader
 {
@@ -12,21 +14,50 @@ namespace Trader
 
         public static async Task Main()
         {
+
+            Console.WriteLine("Test");
             // First, open the API connection
             var client = Alpaca.Markets.Environments.Paper
-                .GetAlpacaTradingClient(new SecretKey(API_KEY, API_SECRET));
+                .GetAlpacaDataClient(new SecretKey(API_KEY, API_SECRET));
+
+            Console.WriteLine("Test");
+
+            var into = DateTime.Now;
+            into = into.AddDays(-1);
+            var from = into.AddDays(-3);
+
+            Console.WriteLine("Test");
+            try
+            {
+                var bars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
+                var items = bars.Items;
+
+                Console.WriteLine("Test");
+
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    Console.WriteLine("Bar Number : " + i);
+                    Console.WriteLine("High : " + (double)items[i].High);
+                    Console.WriteLine("Low : " + (double)items[i].Low);
+                    Console.WriteLine();
+                }
+            }
+            catch(Exception e)
+            {
+                e.OutputError();
+            }
 
             // Get our account information.
-            var account = await client.GetAccountAsync();
 
             // Check if our account is restricted from trading.
+            /*
             if (account.IsTradingBlocked)
             {
                 Console.WriteLine("Account is currently restricted from trading.");
             }
 
             Console.WriteLine(account.BuyingPower + " is available as buying power.");
-
+            */
             Console.Read();
         }
     }

@@ -20,6 +20,7 @@
         CutLinePattern,
         ProjectedLinePattern,
         CategoryVisibility,
-        RoomPrivacy
+        RoomPrivacy,
+        AAPL
     }
 }

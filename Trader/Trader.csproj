@@ -9,4 +9,8 @@
     <PackageReference Include="Alpaca.Markets" Version="5.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CC_Library\CC_Library.csproj" />
+  </ItemGroup>
+
 </Project>
