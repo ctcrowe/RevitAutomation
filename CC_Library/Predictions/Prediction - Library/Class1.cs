@@ -28,8 +28,9 @@ namespace CC_Library.Predictions
             if(Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.AAPL);
-                Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
-                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(200, 193, Activation.LRelu));
+                Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             }
         }
