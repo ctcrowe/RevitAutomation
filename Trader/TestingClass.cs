@@ -23,7 +23,7 @@ namespace Trader
             Console.WriteLine("Test");
 
             var into = DateTime.Now;
-            into = into.AddDays(-1);
+            into = into.AddHours(-1);
             var from = into.AddDays(-3);
 
             Console.WriteLine("Test");
