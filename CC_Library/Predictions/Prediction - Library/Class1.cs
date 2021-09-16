@@ -36,9 +36,7 @@ namespace CC_Library.Predictions
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha();
-            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat);
-            double[] Results = a.Forward(s.TextInput, ctxt);
+            double[] Results = s.ValInput;
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
@@ -48,7 +46,7 @@ namespace CC_Library.Predictions
         public List<double[]> Forward(Sample s)
         {
             List<double[]> Results = new List<double[]>();
-            Results.Add(s.TextOutput);
+            Results.Add(s.ValInput);
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
