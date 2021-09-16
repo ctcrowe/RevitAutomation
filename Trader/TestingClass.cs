@@ -6,11 +6,11 @@ namespace Trader
 {
     class TestingClass
     {
-        private static string API_KEY = "your_api_key";
+        private static string API_KEY = "PK2CPPF4DJ29SX61712T";
 
-        private static string API_SECRET = "your_secret_key";
+        private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
 
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             // First, open the API connection
             var client = Alpaca.Markets.Environments.Paper

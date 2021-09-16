@@ -6,7 +6,15 @@ namespace Trader
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            while (true)
+            {
+                Console.WriteLine("Hello World!");
+                _ = TestingClass.Main();
+
+                string line = Console.ReadLine();
+                if (line == "x")
+                    break;
+            }
         }
     }
 }
