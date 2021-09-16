@@ -69,7 +69,7 @@ namespace CC_Library.Predictions
                 mem.Layers[l].DWeights(DValues, Results[l]);
                 DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
             }
-            return DValues.ToList().Take(Alpha.DictSize).ToArray();
+            return DValues;
         }
         public void Propogate
             (Sample s, WriteToCMDLine write)
@@ -77,22 +77,16 @@ namespace CC_Library.Predictions
             var check = Predict(s);
             if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                Alpha a = new Alpha();
-                AlphaContext ctxt = new AlphaContext(Datatype.Masterformat);
                 List<string> lines = new List<string>();
                 
                 for(int i = 0; i < 5; i++)
                 {
                     var Samples = s.ReadSamples(24);
                     Accuracy Acc = new Accuracy(Samples);
-                    NetworkMem MFMem = new NetworkMem(Network);
-                    NetworkMem AlphaMem = new NetworkMem(a.Network);
-                    NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+                    NetworkMem mem = new NetworkMem(Network);
                     
                     Parallel.For(0, Samples.Count(), j =>
                     {
-                        AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am);
                         var F = Forward(Samples[j]);
                         Acc.Add(j,
                             CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
@@ -100,17 +94,12 @@ namespace CC_Library.Predictions
                             Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
                     
                         var DValues = Backward(Samples[j], F, MFMem);
-                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                     });
                     lines.AddRange(Acc.Get());
-                    MFMem.Update(1, 0.0001, Network);
-                    AlphaMem.Update(1, 0.00001, a.Network);
-                    CtxtMem.Update(1, 0.0001, ctxt.Network);
+                    mem.Update(1, 0.0001, Network);
                 }
                 lines.ShowErrorOutput();
                 Network.Save();
-                a.Network.Save();
-                ctxt.Save();
 
                 s.Save();
             }
