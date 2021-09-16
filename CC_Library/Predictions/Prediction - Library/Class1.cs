@@ -6,6 +6,12 @@ using System.IO;
 using CC_Library.Datatypes;
 using System.Runtime.InteropServices;
 
+/// SUMMARY
+/// Input : Candlestick data from last 3 days APPLE
+/// Input : Candlestick data from last 3 days Nasdaq (ONEQ)
+/// Input : Candlestick data from last 3 days VTI
+
+
 namespace CC_Library.Predictions
 {
     public class AppleNetwork : INetworkPredUpdater
