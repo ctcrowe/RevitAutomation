@@ -7,9 +7,9 @@ using CC_Library.Datatypes;
 using System.Runtime.InteropServices;
 
 /// SUMMARY
-/// Input : Candlestick data from last 3 days (AAPL)
-/// Input : Candlestick data from last 3 days Nasdaq (ONEQ)
-/// Input : Candlestick data from last 3 days (VTI)
+/// Input : Candlestick data from last 3 days (AAPL) (64 values)
+/// Input : Candlestick data from last 3 days Nasdaq (ONEQ) (64 values)
+/// Input : Candlestick data from last 3 days (VTI) (64 values)
 /// Input : Current value (AAPL)
 /// Output : Likelyhood the value is trending down.
 /// Output : Likelyhood the value is trending up.
@@ -30,7 +30,7 @@ namespace CC_Library.Predictions
                 Network = new NeuralNetwork(Datatype.AAPL);
                 Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
                 Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(40, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+                Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             }
         }
         public double[] Predict(Sample s)
