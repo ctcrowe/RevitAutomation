@@ -29,8 +29,10 @@ namespace Trader
             Console.WriteLine("Test");
             try
             {
-                var bars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
-                var items = bars.Items;
+                var aaplbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
+                var oneqbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("ONEQ", from, into, BarTimeFrame.Hour));
+                var vtibars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
+                var items = aaplbars.Items;
 
                 Console.WriteLine("Test");
 
