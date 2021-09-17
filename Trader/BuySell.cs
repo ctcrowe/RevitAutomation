@@ -39,6 +39,7 @@ namespace Trader
                 for(int i = 0; i < vtibars.Items.Count(); i++)
                 {
                     inputs.Add((double)vtibars.Items[i].High);
+                    inputs.Add((double)vtibars.Items[i].Low);
                 }
                 var quote = await client.GetLatestQuoteAsync("AAPL");
                 var ask = (double)quote.AskPrice;
