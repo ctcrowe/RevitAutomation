@@ -33,6 +33,12 @@ namespace Trader
                 }
                 for(int i = 0; i < qqqbars.Items.Count(); i++)
                 {
+                    input.Add((double)qqqbars.Items[i].High);
+                    input.Add((double)qqqbars.Items[i].Low);
+                }
+                for(int i = 0; i < vtibars.Items.Count(); i++)
+                {
+                    inputs.Add((double)vtibars.Items[i].High);
                 }
                 var quote = await client.GetLatestQuoteAsync("AAPL");
                 var ask = (double)quote.AskPrice;
