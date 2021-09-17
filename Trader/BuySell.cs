@@ -12,24 +12,24 @@ namespace Trader
 
         public static async Task Main()
         {
-
-            Console.WriteLine("Test");
-            // First, open the API connection
+            List<double> input = new List<double>();
             var client = Alpaca.Markets.Environments.Paper
                 .GetAlpacaDataClient(new SecretKey(API_KEY, API_SECRET));
-
-            Console.WriteLine("Test");
 
             var into = DateTime.Now;
             into = into.AddHours(-1);
             var from = into.AddDays(-3);
 
-            Console.WriteLine("Test");
             try
             {
                 var aaplbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
                 var qqqbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Hour));
                 var vtibars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
+                
+                for(int i = 0; i < aaplbars.Items.Count(); i++)
+                {
+                    
+                }
                 var quote = await client.GetLatestQuoteAsync("AAPL");
                 var ask = (double)quote.AskPrice;
                 var bid = (double)quote.BidPrice;
