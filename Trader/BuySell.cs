@@ -44,21 +44,8 @@ namespace Trader
                 }
                 inputs.Add((double)quote.AskPrice);
                 inputs.Add((double)quote.BidPrice);
-                var ask = (double)quote.AskPrice;
-                var bid = (double)quote.BidPrice;
 
-                var items = vtibars.Items;
-
-                Console.WriteLine("Test");
-
-                for (int i = 0; i < items.Count(); i++)
-                {
-                    Console.WriteLine("Bar Number : " + i);
-                    Console.WriteLine("High : " + (double)items[i].High);
-                    Console.WriteLine("Low : " + (double)items[i].Low);
-                    Console.WriteLine();
-                }
-                Console.Write("Quote AAPL : " + ask + ", " + bid);
+                Console.WriteLine("Test, " + inputs.Count());
             }
             catch(Exception e)
             {
