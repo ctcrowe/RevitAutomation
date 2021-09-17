@@ -6,8 +6,13 @@ namespace Trader
 {
     public class PriceData
     {
-        public double Ask {get; set;}
-        public double Bid {get; set;}
+        public double[] Ask {get; set;}
+        public double[] Bid {get; set;}
+        public PriceData()
+        {
+            this.Ask = new double[50];
+            this.Bid = new double[50];
+        }
     }
     internal static class RecordData
     {
