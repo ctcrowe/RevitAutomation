@@ -4,7 +4,11 @@ using System.Text;
 
 namespace Trader
 {
-    class BuySell
+    internal static class RecordData
+    {
+        
+    }
+    internal class BuySell
     {
         //private const int count = 1234;
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
