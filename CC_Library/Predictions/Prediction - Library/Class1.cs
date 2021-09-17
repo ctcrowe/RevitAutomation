@@ -93,7 +93,7 @@ namespace CC_Library.Predictions
                             F.Last().ToList().IndexOf(F.Last().Max()),
                             Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
                     
-                        var DValues = Backward(Samples[j], F, MFMem);
+                        var DValues = Backward(Samples[j], F, mem);
                     });
                     lines.AddRange(Acc.Get());
                     mem.Update(1, 0.0001, Network);

@@ -30,9 +30,13 @@ namespace Trader
             try
             {
                 var aaplbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
-                var oneqbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("ONEQ", from, into, BarTimeFrame.Hour));
+                var qqqbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Hour));
                 var vtibars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
-                var items = aaplbars.Items;
+                var quote = await client.GetLatestQuoteAsync("AAPL");
+                var ask = (double)quote.AskPrice;
+                var bid = (double)quote.BidPrice;
+
+                var items = vtibars.Items;
 
                 Console.WriteLine("Test");
 
@@ -43,6 +47,7 @@ namespace Trader
                     Console.WriteLine("Low : " + (double)items[i].Low);
                     Console.WriteLine();
                 }
+                Console.Write("Quote AAPL : " + ask + ", " + bid);
             }
             catch(Exception e)
             {
