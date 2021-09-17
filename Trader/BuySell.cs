@@ -4,6 +4,11 @@ using System.Text;
 
 namespace Trader
 {
+    public class PriceData
+    {
+        public double Ask {get; set;}
+        public double Bid {get; set;}
+    }
     internal static class RecordData
     {
         
