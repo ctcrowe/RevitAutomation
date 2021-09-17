@@ -25,6 +25,7 @@ namespace Trader
                 var aaplbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
                 var qqqbars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Hour));
                 var vtibars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
+                var quote = await client.GetLatestQuoteAsync("AAPL");
                 
                 for(int i = 0; i < aaplbars.Items.Count(); i++)
                 {
@@ -41,7 +42,8 @@ namespace Trader
                     inputs.Add((double)vtibars.Items[i].High);
                     inputs.Add((double)vtibars.Items[i].Low);
                 }
-                var quote = await client.GetLatestQuoteAsync("AAPL");
+                inputs.Add((double)quote.AskPrice);
+                inputs.Add((double)quote.BidPrice);
                 var ask = (double)quote.AskPrice;
                 var bid = (double)quote.BidPrice;
 
