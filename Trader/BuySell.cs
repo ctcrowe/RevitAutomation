@@ -6,8 +6,8 @@ namespace Trader
 {
     class BuySell
     {
+        //private const int count = 1234;
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
-
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
 
         public static async Task Main()
@@ -27,7 +27,6 @@ namespace Trader
                 var vtibars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
                 var quote = await client.GetLatestQuoteAsync("AAPL");
                 //Future version
-                //int count = ##;
                 //double[] input = new double[5 * count + 1];
                 //Parallel.For(0, aaplbars.Items.Count(); j =>
                 //{
