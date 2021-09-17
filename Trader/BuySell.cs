@@ -32,6 +32,10 @@ namespace Trader
                 //{
                 //  input[j] = (double)aaplbars.Items[j].High;
                 //  input[j + ##] = (double)aaplbars.Items[j].Low;
+                //  input[j + (2 * ##)] = (double)qqqbars.Items[j].High;
+                //  input[j + (3 * ##)] = (double)qqqbars.Items[j].Low;
+                //  input[j + (4 * ##)] = (double)vtibars.Items[j].High;
+                //  input[j + (5 * ##)] = (double)vtibars.Items[j].Low;
                 //});
                 for(int i = 0; i < aaplbars.Items.Count(); i++)
                 {
