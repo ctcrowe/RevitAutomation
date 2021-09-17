@@ -27,7 +27,7 @@ namespace Trader
                 var vtibars = await client.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
                 var quote = await client.GetLatestQuoteAsync("AAPL");
                 //Future version
-                //double[] input = new double[5 * count + 1];
+                //double[] input = new double[5 * count + 2];
                 //Parallel.For(0, aaplbars.Items.Count(); j =>
                 //{
                 //  input[j] = (double)aaplbars.Items[j].High;
@@ -37,6 +37,9 @@ namespace Trader
                 //  input[j + (4 * count)] = (double)vtibars.Items[j].High;
                 //  input[j + (5 * count)] = (double)vtibars.Items[j].Low;
                 //});
+                //  input[6 * count] = (double)quote.AskPrice;
+                //  input[(6 * count) + 1] = (double)quote.BidPrice;
+                
                 for(int i = 0; i < aaplbars.Items.Count(); i++)
                 {
                     input.Add((double)aaplbars.Items[i].High);
