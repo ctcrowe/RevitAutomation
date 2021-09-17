@@ -18,7 +18,7 @@ namespace Trader
 
             var into = DateTime.Now;
             into = into.AddHours(-1);
-            var from = into.AddDays(-3);
+            var from = into.AddDays(-7);
 
             try
             {
@@ -28,7 +28,11 @@ namespace Trader
                 
                 for(int i = 0; i < aaplbars.Items.Count(); i++)
                 {
-                    
+                    input.Add((double)aaplbars.Items[i].High);
+                    input.Add((double)aaplebars.Items[i].Low);
+                }
+                for(int i = 0; i < qqqbars.Items.Count(); i++)
+                {
                 }
                 var quote = await client.GetLatestQuoteAsync("AAPL");
                 var ask = (double)quote.AskPrice;
