@@ -96,7 +96,7 @@ namespace CC_Library.Predictions
                         var DValues = Backward(Samples[j], F, mem);
                     });
                     lines.AddRange(Acc.Get());
-                    mem.Update(1, 0.000001, Network);
+                    mem.Update(1, 1e-8, Network);
                 }
                 lines.ShowErrorOutput();
                 Network.Save();
