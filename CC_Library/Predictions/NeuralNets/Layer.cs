@@ -22,9 +22,8 @@ namespace CC_Library.Predictions
             {
                 for (int j = 0; j < WeightCount; j++)
                 {
-                    this.Weights[i, j] = random.NextDouble();
-                    if (random.NextDouble() < 0.5)
-                        this.Weights[i, j] *= -1;
+                    this.Weights[i, j] = random.NextDouble() > 0.5 ? 
+                        random.NextDouble() : (-1 * random.NextDouble());
                 }
             }
         }
@@ -38,9 +37,6 @@ namespace CC_Library.Predictions
             {
                 for (int j = 0; j < PreviousLayer.Weights.GetLength(0); j++)
                 {
-                    this.Weights[i, j] = random.NextDouble();
-                    if (random.NextDouble() < 0.5)
-                        this.Weights[i, j] *= -1;
                 }
             }
         }
