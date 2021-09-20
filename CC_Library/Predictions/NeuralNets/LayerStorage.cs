@@ -68,7 +68,7 @@ namespace CC_Library.Predictions
                         layer.Biases[i] - adjustment : DeltaB[i] <= -1?
                         layer.Biases[i] + adjustment : layer.Biases[i] - (adjustment * DeltaB[i]);
             });
-            Parallel.For(0, layer.Weights.GetLength(0), i =
+            Parallel.For(0, layer.Weights.GetLength(0), i =>
             {
                 Parallel.For(0, layer.Weights.GetLength(1), j =>
                 {
@@ -77,7 +77,7 @@ namespace CC_Library.Predictions
                         layer.Weights[i, j] - adjustment : DeltaW[i, j] <= -1?
                         layer.Weights[i, j] + adjustment : layer.Weights[i, j] - (adjustment * DeltaW[i, j]);
                 });
-            }
+            });
             Reset();
         });
         public void Reset()
