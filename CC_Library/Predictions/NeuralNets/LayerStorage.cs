@@ -72,15 +72,13 @@ namespace CC_Library.Predictions
             }
             for (int i = 0; i < layer.Weights.GetLength(0); i++)
             {
-                for (int j = 0; j < layer.Weights.GetLength(1); j++)
+                Parallel.For(0, layer.Weights.GetLength(1), j =>
                 {
-                    if(!double.IsNaN(DeltaW[i, j]))
-                    {
-                        layer.Weights[i, j] = DeltaW[i, j] >= 1 ?
-                            layer.Weights[i, j] - adjustment : DeltaW[i, j] <= -1?
-                            layer.Weights[i, j] + adjustment : layer.Weights[i, j] - (adjustment * DeltaW[i, j]);
-                    }
-                }
+                    layer.Weights[i, j] = Double.IsNan(DeltaW[i, j]) ? 
+                        layer.Weights[i, j] : DeltaW[i, j] >= 1 ?
+                        layer.Weights[i, j] - adjustment : DeltaW[i, j] <= -1?
+                        layer.Weights[i, j] + adjustment : layer.Weights[i, j] - (adjustment * DeltaW[i, j]);
+                });
             }
             Reset();
         }
