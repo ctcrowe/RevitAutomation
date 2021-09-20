@@ -167,13 +167,9 @@ namespace CC_Library.Predictions
             double[] output = new double[input.Count()];
             for (int i = 0; i < input.Count(); i++)
             {
-                if (input[i] >= double.MaxValue)
-                    input[i] = double.MaxValue;
-                else
-                {
-                    if (input[i] <= double.MinValue)
-                        input[i] = double.MinValue;
-                }
+                input[i] = input[i] >= double.MaxValue ?
+                    double.MaxValue : input[i] <= double.MinValue ?
+                        double.MinValue : input[i];
             }
             double max = input.Max();
             for (int i = 0; i < output.Count(); i++)
