@@ -109,10 +109,8 @@ namespace CC_Library.Predictions
             double[] dinput = new double[outputs.Count()];
             for (int j = 0; j < outputs.Count(); j++)
             {
-                if (outputs[j] <= 0)
-                    dinput[j] = dvalues[j] / 100;
-                else
-                    dinput[j] = dvalues[j];
+                dinput[j] = outputs[j] <= 0?
+                    dvalues[j] / 100 : dvalues[j];
             }
             return dinput;
         }
