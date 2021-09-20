@@ -70,36 +70,7 @@ namespace CC_Library.Predictions
         public double[] Output(double[] Input)
         {
             double[] Output = new double[Weights.GetLength(0)];
-            if(Input.Count() != Weights.GetLength(1))
-            {
-                double[,] NewWeights = new double[Output.Count(), Input.Count()];
-                double[] NewBiases = new double[Output.Count()];
-                if (Input.Count() < Weights.GetLength(1))
-                {
-                    for (int i = 0; i < Output.Count(); i++)
-                    {
-                        NewBiases[i] = Biases[i];
-                        for (int j = 0; j < Input.Count(); j++)
-                        {
-                            NewWeights[i, j] = Weights[i, j];
-                        }
-                    }
-                    Weights = NewWeights;
-                    Biases = NewBiases;
-                }
-                else
-                {
-                    for(int i = 0; i < Output.Count(); i++)
-                    {
-                        NewBiases[i] = Biases[i];
-                        for (int j = 0; j < Weights.GetLength(1); j++)
-                        {
-                            NewWeights[i, j] = Weights[i, j];
-                        }
-                    }
-                }
-            }
-            if (Input.Count() == Weights.GetLength(1))
+            try
             {
                 for (int i = 0; i < Output.Count(); i++)
                 {
@@ -112,6 +83,7 @@ namespace CC_Library.Predictions
                     Output[i] = result;
                 }
             }
+            catch(Exception e) { e.OutputError(); }
             var func = Function.GetFunction();
             return func(Output);
         }
