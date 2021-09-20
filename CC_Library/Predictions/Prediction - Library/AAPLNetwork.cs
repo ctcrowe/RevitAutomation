@@ -6,16 +6,6 @@ using System.IO;
 using CC_Library.Datatypes;
 using System.Runtime.InteropServices;
 
-/// SUMMARY
-/// Input : Candlestick data from last 3 days (AAPL) (64 values)
-/// Input : Candlestick data from last 3 days Nasdaq (ONEQ) (64 values)
-/// Input : Candlestick data from last 3 days (VTI) (64 values)
-/// Input : Current value (AAPL)
-/// Output : Likelyhood the value is trending down.
-/// Output : Likelyhood the value is trending up.
-/// Final output used if trending down and higher than purchase value, sell.
-/// Final output used if trending up, and funds available, buy.
-
 namespace CC_Library.Predictions
 {
     public class AppleNetwork : INetworkPredUpdater
