@@ -37,6 +37,8 @@ namespace CC_Library.Predictions
             {
                 for (int j = 0; j < PreviousLayer.Weights.GetLength(0); j++)
                 {
+                    this.Weights[i, j] = random.NextDouble() > 0.5 ? 
+                        random.NextDouble() : (-1 * random.NextDouble());
                 }
             }
         }
