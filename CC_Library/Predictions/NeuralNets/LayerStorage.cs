@@ -63,18 +63,17 @@ namespace CC_Library.Predictions
         {
             for (int i = 0; i < DeltaB.Count(); i++)
             {
-                if(!double.IsNaN(DeltaB[i]))
-                {
-                    layer.Biases[i] = DeltaB[i] >= 1 ?
+
+                    layer.Biases[i] = double.IsNan(DeltaB[i]) ? 
+                        layer.Biases[i] : DeltaB[i] >= 1 ?
                         layer.Biases[i] - adjustment : DeltaB[i] <= -1?
                         layer.Biases[i] + adjustment : layer.Biases[i] - (adjustment * DeltaB[i]);
-                }
             }
             for (int i = 0; i < layer.Weights.GetLength(0); i++)
             {
                 Parallel.For(0, layer.Weights.GetLength(1), j =>
                 {
-                    layer.Weights[i, j] = Double.IsNan(DeltaW[i, j]) ? 
+                    layer.Weights[i, j] = double.IsNan(DeltaW[i, j]) ? 
                         layer.Weights[i, j] : DeltaW[i, j] >= 1 ?
                         layer.Weights[i, j] - adjustment : DeltaW[i, j] <= -1?
                         layer.Weights[i, j] + adjustment : layer.Weights[i, j] - (adjustment * DeltaW[i, j]);
