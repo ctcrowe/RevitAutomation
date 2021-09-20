@@ -61,14 +61,13 @@ namespace CC_Library.Predictions
         }
         public void Update(Layer layer, double adjustment)
         {
-            for (int i = 0; i < DeltaB.Count(); i++)
+            Parallel.For(0, DeltaB.Count(), i =>
             {
-
                     layer.Biases[i] = double.IsNan(DeltaB[i]) ? 
                         layer.Biases[i] : DeltaB[i] >= 1 ?
                         layer.Biases[i] - adjustment : DeltaB[i] <= -1?
                         layer.Biases[i] + adjustment : layer.Biases[i] - (adjustment * DeltaB[i]);
-            }
+            });
             for (int i = 0; i < layer.Weights.GetLength(0); i++)
             {
                 Parallel.For(0, layer.Weights.GetLength(1), j =>
