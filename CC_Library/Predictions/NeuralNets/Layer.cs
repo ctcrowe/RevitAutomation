@@ -42,29 +42,7 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        public Layer(XElement ele)
-        {
-            int Neurons = ele.Elements("Neuron").Count();
-            int Weight = ele.Elements("Neuron").First().Elements("Weight").Count();
-            this.Function = (Activation)Enum.Parse(typeof(Activation), ele.Attribute("Function").Value);
-
-            this.Biases = new double[Neurons];
-            this.Weights = new double[Neurons, Weight];
-
-            for (int i = 0; i < Neurons; i++)
-            {
-                XElement n = ele.Elements("Neuron").Where(x => x.Attribute("Location").Value == i.ToString()).First();
-                this.Biases[i] = double.Parse(n.Attribute("Bias").Value);
-                for (int j = 0; j < Weight; j++)
-                {
-                    this.Weights[i, j] = double.Parse(n.Elements("Weight")
-                        .Where(x => x.Attribute("Number").Value == j.ToString()).First()
-                        .Attribute("Value").Value);
-                }
-            }
-        }
         #endregion
-        //Input must be equal to number of Weights, Output equal to number of nodes / biases.
         public double[] Output(double[] Input)
         {
             double[] Output = new double[Weights.GetLength(0)];
