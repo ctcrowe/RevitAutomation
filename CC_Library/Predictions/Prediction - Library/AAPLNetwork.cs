@@ -31,7 +31,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(200, 482, Activation.LRelu));
                 Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+                Network.Layers.Add(new Layer(16, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
             }
         }
         public double[] Predict(Sample s)
@@ -61,6 +61,7 @@ namespace CC_Library.Predictions
              NetworkMem mem)
         {
             var DValues = s.DesiredOutput;
+            DValues = MeanSquared.Backward(Results.Last(), DValues);
 
             for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
@@ -74,35 +75,26 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
-            var check = Predict(s);
-            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
-            {
-                List<string> lines = new List<string>();
-                
-                for(int i = 0; i < 5; i++)
-                {
-                    var Samples = s.ReadSamples(24);
-                    Accuracy Acc = new Accuracy(Samples);
-                    NetworkMem mem = new NetworkMem(Network);
-                    
-                    Parallel.For(0, Samples.Count(), j =>
-                    {
-                        var F = Forward(Samples[j]);
-                        Acc.Add(j,
-                            CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
-                            F.Last().ToList().IndexOf(F.Last().Max()),
-                            Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
-                    
-                        var DValues = Backward(Samples[j], F, mem);
-                    });
-                    lines.AddRange(Acc.Get());
-                    mem.Update(1, 0.0001, Network);
-                }
-                lines.ShowErrorOutput();
-                Network.Save();
+            var Samples = s.ReadSamples(24);
+            Accuracy Acc = new Accuracy(Samples);
+            NetworkMem mem = new NetworkMem(Network);
 
-                s.Save();
-            }
+            Parallel.For(0, Samples.Count(), j =>
+            {
+                var F = Forward(Samples[j]);
+                var Error = MeanSquared.Forward(F.Last(), Samples[j].DesiredOutput);
+                string st = Error.First().ToString();
+                for(int i = 1; i < Error.Count(); i++)
+                {
+                    st += ", " + Error[i];
+                }
+                write(st);
+                var DValues = Backward(Samples[j], F, mem);
+            });
+            mem.Update(1, 0.0001, Network);
+            Network.Save();
+
+            s.Save();
         }
     }
 }

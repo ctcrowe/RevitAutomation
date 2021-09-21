@@ -30,7 +30,7 @@ namespace Trader
 
             var timer = new Timer(x =>
             {
-                _ = BuySell.GetMarketData();
+                _ = TestingClass.Main();
             }, null, timeToGo, TimeSpan.FromHours(intervalInHour));
 
             timers.Add(timer);

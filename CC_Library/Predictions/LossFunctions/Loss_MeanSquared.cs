@@ -13,7 +13,9 @@ namespace CC_Library.Predictions
             double[] Result = new double[predicted.Count()];
             for (int i = 0; i < predicted.Count(); i++)
             {
-                Result[i] = (1 / 2) * Math.Pow((predicted[i] - actual[i]), 2);
+                var x = Math.Abs(actual[i] - predicted[i]);
+                var y = Math.Pow(x, 2);
+                Result[i] = y / 2;
             }
             return Result;
         }
@@ -22,7 +24,8 @@ namespace CC_Library.Predictions
             double[] dinput = new double[DValues.Length];
             for(int i = 0; i < DValues.Length; i++)
             {
-                dinput[i] = -2 * (DValues[i] - actual[i]);
+                dinput[i] = -2 * (actual[i] - DValues[i]);
+                dinput[i] /= dinput.Count();
             }
 
             return dinput;

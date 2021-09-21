@@ -2,30 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using Alpaca.Markets;
 using CC_Library;
+using CC_Library.Datatypes;
+using CC_Library.Predictions;
 
 namespace Trader
 {
-    public class PriceData
-    {
-        public List<double> Ask {get; set;}
-        public List<double> Bid {get; set;}
-        public PriceData()
-        {
-            this.Ask = new List<double>();
-            this.Bid = new List<double>();
-        }
-    }
-    internal static class RecordData
-    {
-        public static void Run()
-        {
-
-        }
-    }
     internal class BuySell
     {
+
         private const int items = 80;
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
@@ -41,11 +28,17 @@ namespace Trader
 
             var clock = await TClient.GetClockAsync();
 
-            if (clock.IsOpen)
+            if (true )//clock.IsOpen)
             {
                 var into = DateTime.Now;
                 into = into.AddHours(-1);
                 var from = into.AddDays(-7);
+                Random r = new Random();
+                var rinto = r.Next(5, 1000);
+                var testinto = from.AddDays(-rinto);
+                var testfom = testinto.AddDays(-7);
+                //for training data : inputs are going to be the data from 1 week prior starting at 2 days prior.
+                //for training data : outputs are going to be the data from the past 2 days (8 bars total).
 
                 try
                 {
@@ -53,8 +46,9 @@ namespace Trader
                     var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Hour));
                     var vtibars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
                     var quote = await DClient.GetLatestQuoteAsync("AAPL");
-
-
+                    var barstest = aaplbars.Items.First().Open;
+                    Console.WriteLine("Open Test : " + barstest);
+                    
                     Parallel.For(0, aaplbars.Items.Count(), j =>
                     {
                         input[j] = (double)aaplbars.Items[j].High;
@@ -67,12 +61,21 @@ namespace Trader
                     input[6 * items] = (double)quote.AskPrice;
                     input[(6 * items) + 1] = (double)quote.BidPrice;
 
-                    string s = input[0].ToString();
-                    for (int i = 1; i < input.Count(); i++)
+                    //Datatype.AAPL.PropogateSingle(input, outputs, new WriteToCMDLine(Write));
+                    var Prediction = Datatype.AAPL.PredictMulti(input, new WriteToCMDLine(CMDLibrary.WriteNull));
+
+                    if (!Prediction.Any(x => x <= (double)quote.AskPrice))
                     {
-                        s += ", " + input[i];
+                        Console.WriteLine("Buy");
                     }
-                    Console.WriteLine(s);
+                    else if (!Prediction.Any(x => x >= (double)quote.AskPrice))
+                    {
+                        Console.WriteLine("Sell");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Hold");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -96,6 +99,11 @@ namespace Trader
                 Console.WriteLine("Market Closed");
                 Console.Read();
             }
+        }
+        public static string Write(string s)
+        {
+            Console.WriteLine(s);
+            return s;
         }
     }
 }
