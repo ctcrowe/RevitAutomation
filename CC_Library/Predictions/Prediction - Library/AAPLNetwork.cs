@@ -72,6 +72,8 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, Samples.Count(), j =>
             {
+                List<string> l = new List<string>();
+                l.Add("--------------------------------------------------------");
                 var F = Forward(Samples[j]);
                 write(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum().ToString());
 
