@@ -22,9 +22,8 @@ namespace CC_Library.Predictions
             {
                 for (int j = 0; j < WeightCount; j++)
                 {
-                    this.Weights[i, j] = random.NextDouble();
-                    if (random.NextDouble() < 0.5)
-                        this.Weights[i, j] *= -1;
+                    this.Weights[i, j] = random.NextDouble() > 0.5 ? 
+                        random.NextDouble() : (-1 * random.NextDouble());
                 }
             }
         }
@@ -38,68 +37,16 @@ namespace CC_Library.Predictions
             {
                 for (int j = 0; j < PreviousLayer.Weights.GetLength(0); j++)
                 {
-                    this.Weights[i, j] = random.NextDouble();
-                    if (random.NextDouble() < 0.5)
-                        this.Weights[i, j] *= -1;
-                }
-            }
-        }
-        public Layer(XElement ele)
-        {
-            int Neurons = ele.Elements("Neuron").Count();
-            int Weight = ele.Elements("Neuron").First().Elements("Weight").Count();
-            this.Function = (Activation)Enum.Parse(typeof(Activation), ele.Attribute("Function").Value);
-
-            this.Biases = new double[Neurons];
-            this.Weights = new double[Neurons, Weight];
-
-            for (int i = 0; i < Neurons; i++)
-            {
-                XElement n = ele.Elements("Neuron").Where(x => x.Attribute("Location").Value == i.ToString()).First();
-                this.Biases[i] = double.Parse(n.Attribute("Bias").Value);
-                for (int j = 0; j < Weight; j++)
-                {
-                    this.Weights[i, j] = double.Parse(n.Elements("Weight")
-                        .Where(x => x.Attribute("Number").Value == j.ToString()).First()
-                        .Attribute("Value").Value);
+                    this.Weights[i, j] = random.NextDouble() > 0.5 ? 
+                        random.NextDouble() : (-1 * random.NextDouble());
                 }
             }
         }
         #endregion
-        //Input must be equal to number of Weights, Output equal to number of nodes / biases.
         public double[] Output(double[] Input)
         {
             double[] Output = new double[Weights.GetLength(0)];
-            if(Input.Count() != Weights.GetLength(1))
-            {
-                double[,] NewWeights = new double[Output.Count(), Input.Count()];
-                double[] NewBiases = new double[Output.Count()];
-                if (Input.Count() < Weights.GetLength(1))
-                {
-                    for (int i = 0; i < Output.Count(); i++)
-                    {
-                        NewBiases[i] = Biases[i];
-                        for (int j = 0; j < Input.Count(); j++)
-                        {
-                            NewWeights[i, j] = Weights[i, j];
-                        }
-                    }
-                    Weights = NewWeights;
-                    Biases = NewBiases;
-                }
-                else
-                {
-                    for(int i = 0; i < Output.Count(); i++)
-                    {
-                        NewBiases[i] = Biases[i];
-                        for (int j = 0; j < Weights.GetLength(1); j++)
-                        {
-                            NewWeights[i, j] = Weights[i, j];
-                        }
-                    }
-                }
-            }
-            if (Input.Count() == Weights.GetLength(1))
+            try
             {
                 for (int i = 0; i < Output.Count(); i++)
                 {
@@ -112,6 +59,7 @@ namespace CC_Library.Predictions
                     Output[i] = result;
                 }
             }
+            catch(Exception e) { e.OutputError(); }
             var func = Function.GetFunction();
             return func(Output);
         }

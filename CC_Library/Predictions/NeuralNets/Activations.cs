@@ -109,10 +109,8 @@ namespace CC_Library.Predictions
             double[] dinput = new double[outputs.Count()];
             for (int j = 0; j < outputs.Count(); j++)
             {
-                if (outputs[j] <= 0)
-                    dinput[j] = dvalues[j] / 100;
-                else
-                    dinput[j] = dvalues[j];
+                dinput[j] = outputs[j] <= 0?
+                    dvalues[j] / 100 : dvalues[j];
             }
             return dinput;
         }
@@ -167,13 +165,9 @@ namespace CC_Library.Predictions
             double[] output = new double[input.Count()];
             for (int i = 0; i < input.Count(); i++)
             {
-                if (input[i] >= double.MaxValue)
-                    input[i] = double.MaxValue;
-                else
-                {
-                    if (input[i] <= double.MinValue)
-                        input[i] = double.MinValue;
-                }
+                input[i] = input[i] >= double.MaxValue ?
+                    double.MaxValue : input[i] <= double.MinValue ?
+                        double.MinValue : input[i];
             }
             double max = input.Max();
             for (int i = 0; i < output.Count(); i++)
