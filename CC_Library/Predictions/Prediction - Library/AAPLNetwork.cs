@@ -33,14 +33,26 @@ namespace CC_Library.Predictions
             }
             return Results;
         }
-        public List<double[]> Forward(Sample s)
+        public List<double[]> Forward(Sample s, List<string> l)
         {
             List<double[]> Results = new List<double[]>();
             Results.Add(s.ValInput);
+            string st = Results.Last()[0];
+            for(int i = 1; i < Results.Last().Count; i++)
+            {
+                st += ", " + Results.Last()[i];
+            }
+            l.Add(st);
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
                 Results.Add(Network.Layers[k].Output(Results.Last()));
+                string st = Results.Last()[0];
+                for(int i = 1; i < Results.Last().Count; i++)
+                {
+                    st += ", " + Results.Last()[i];
+                }
+                l.Add(st);
             }
 
             return Results;
@@ -74,7 +86,7 @@ namespace CC_Library.Predictions
             {
                 List<string> l = new List<string>();
                 l.Add("--------------------------------------------------------");
-                var F = Forward(Samples[j]);
+                var F = Forward(Samples[j], l);
                 write(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum().ToString());
 
                 var DValues = Backward(Samples[j], F, mem);
