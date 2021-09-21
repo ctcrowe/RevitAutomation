@@ -35,6 +35,7 @@ namespace CC_Library.Predictions
         }
         public List<double[]> Forward(Sample s)
         {
+            var fn = "ForwardTest.txt".GetMyDocs();
             List<string> l = new List<string>();
             List<double[]> Results = new List<double[]>();
             Results.Add(s.ValInput);
@@ -55,6 +56,7 @@ namespace CC_Library.Predictions
                 }
                 l.Add(st);
             }
+            File.WriteAllLines(fn, l);
 
             return Results;
         }
