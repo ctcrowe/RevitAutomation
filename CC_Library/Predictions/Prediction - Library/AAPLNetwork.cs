@@ -33,14 +33,15 @@ namespace CC_Library.Predictions
             }
             return Results;
         }
-        public List<double[]> Forward(Sample s, List<string> l)
+        public List<double[]> Forward(Sample s)
         {
+            List<string> l = new List<string>();
             List<double[]> Results = new List<double[]>();
             Results.Add(s.ValInput);
-            string st = Results.Last()[0];
+            string st1 = Results.Last()[0];
             for(int i = 1; i < Results.Last().Count; i++)
             {
-                st += ", " + Results.Last()[i];
+                st1 += ", " + Results.Last()[i];
             }
             l.Add(st);
 
@@ -77,15 +78,11 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
-            List<string> lines = new List<string>();
-
             var Samples = s.ReadSamples(8);
             NetworkMem mem = new NetworkMem(Network);
 
             Parallel.For(0, Samples.Count(), j =>
             {
-                List<string> l = new List<string>();
-                l.Add("--------------------------------------------------------");
                 var F = Forward(Samples[j], l);
                 write(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum().ToString());
 
