@@ -79,7 +79,7 @@ namespace CC_Library.Predictions
         {
             List<string> lines = new List<string>();
 
-            var Samples = s.ReadSamples(24);
+            var Samples = s.ReadSamples(8);
             NetworkMem mem = new NetworkMem(Network);
 
             Parallel.For(0, Samples.Count(), j =>
