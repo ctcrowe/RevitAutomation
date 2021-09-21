@@ -15,7 +15,7 @@ namespace CC_Library.Predictions
         public AppleNetwork()
         {
             Network = datatype.LoadNetwork();
-            if(Network.Datatype == Datatype.None.ToString())
+            if (Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.AAPL);
                 Network.Layers.Add(new Layer(200, 482, Activation.LRelu));
@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
         public double[] Predict(Sample s)
         {
             double[] Results = s.ValInput;
-            for(int i = 0; i < Network.Layers.Count(); i++)
+            for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
             }
@@ -65,32 +65,20 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
-            var check = Predict(s);
-            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
+            List<string> lines = new List<string>();
+
+            var Samples = s.ReadSamples(24);
+            NetworkMem mem = new NetworkMem(Network);
+
+            Parallel.For(0, Samples.Count(), j =>
             {
-                List<string> lines = new List<string>();
-                
-                for(int i = 0; i < 5; i++)
-                {
-                    var Samples = s.ReadSamples(24);
-                    Accuracy Acc = new Accuracy(Samples);
-                    NetworkMem mem = new NetworkMem(Network);
-                    
-                    Parallel.For(0, Samples.Count(), j =>
-                    {
-                        var F = Forward(Samples[j]);
-                        Acc.Add(j,
-                            CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
-                            F.Last().ToList().IndexOf(F.Last().Max()),
-                            Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
-                    
-                        var DValues = Backward(Samples[j], F, mem);
-                    });
-                    lines.AddRange(Acc.Get());
-                    mem.Update(1, 0.0001, Network);
-                }
-                lines.ShowErrorOutput();
-                Network.Save();
+                var F = Forward(Samples[j]);
+                write(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum().ToString());
+
+                var DValues = Backward(Samples[j], F, mem);
+            });
+            mem.Update(1, 1e-4, Network);
+            Network.Save();
 
             s.Save();
         }
