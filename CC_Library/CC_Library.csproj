@@ -82,6 +82,7 @@
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
     <Compile Include="Predictions\Prediction - Library\CategoryVisNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\AAPLNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\Class1.cs" />
     <Compile Include="Predictions\Prediction - Library\CutLineWeightNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ObjectStyleNetwork.cs" />
