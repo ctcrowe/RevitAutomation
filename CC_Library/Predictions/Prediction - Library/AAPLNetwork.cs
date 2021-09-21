@@ -6,16 +6,6 @@ using System.IO;
 using CC_Library.Datatypes;
 using System.Runtime.InteropServices;
 
-/// SUMMARY
-/// Input : Candlestick data from last 3 days (AAPL) (64 values)
-/// Input : Candlestick data from last 3 days Nasdaq (ONEQ) (64 values)
-/// Input : Candlestick data from last 3 days (VTI) (64 values)
-/// Input : Current value (AAPL)
-/// Output : Likelyhood the value is trending down.
-/// Output : Likelyhood the value is trending up.
-/// Final output used if trending down and higher than purchase value, sell.
-/// Final output used if trending up, and funds available, buy.
-
 namespace CC_Library.Predictions
 {
     public class AppleNetwork : INetworkPredUpdater
@@ -75,24 +65,32 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
-            var Samples = s.ReadSamples(24);
-            Accuracy Acc = new Accuracy(Samples);
-            NetworkMem mem = new NetworkMem(Network);
-
-            Parallel.For(0, Samples.Count(), j =>
+            var check = Predict(s);
+            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                var F = Forward(Samples[j]);
-                var Error = MeanSquared.Forward(F.Last(), Samples[j].DesiredOutput);
-                string st = Error.First().ToString();
-                for(int i = 1; i < Error.Count(); i++)
+                List<string> lines = new List<string>();
+                
+                for(int i = 0; i < 5; i++)
                 {
-                    st += ", " + Error[i];
+                    var Samples = s.ReadSamples(24);
+                    Accuracy Acc = new Accuracy(Samples);
+                    NetworkMem mem = new NetworkMem(Network);
+                    
+                    Parallel.For(0, Samples.Count(), j =>
+                    {
+                        var F = Forward(Samples[j]);
+                        Acc.Add(j,
+                            CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
+                            F.Last().ToList().IndexOf(F.Last().Max()),
+                            Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
+                    
+                        var DValues = Backward(Samples[j], F, mem);
+                    });
+                    lines.AddRange(Acc.Get());
+                    mem.Update(1, 0.0001, Network);
                 }
-                write(st);
-                var DValues = Backward(Samples[j], F, mem);
-            });
-            mem.Update(1, 0.0001, Network);
-            Network.Save();
+                lines.ShowErrorOutput();
+                Network.Save();
 
             s.Save();
         }
