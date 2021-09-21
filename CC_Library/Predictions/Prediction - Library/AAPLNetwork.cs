@@ -43,7 +43,7 @@ namespace CC_Library.Predictions
             {
                 st1 += ", " + Results.Last()[i];
             }
-            l.Add(st);
+            l.Add(st1);
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
