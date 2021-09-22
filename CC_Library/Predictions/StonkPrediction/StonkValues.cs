@@ -24,4 +24,13 @@ namespace CC_Library.Predictions.StonkPrediction
         public double[] hours { get; set; }
         public double[] volume { get; set; }
     }
+    public StonkValues()
+    {
+        this.indices = new int[1] {0};
+        this.change = new double[1] {0};
+        this.variability = new double[1] {0};
+        this.secondary = new double[1] {0};
+        this.hours = new double[1] {0};
+        this.volume = new double[1] {0};
+    }
 }
