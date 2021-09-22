@@ -21,6 +21,8 @@
         ProjectedLinePattern,
         CategoryVisibility,
         RoomPrivacy,
+        Stonk,
+        StonkContext,
         AAPL
     }
 }

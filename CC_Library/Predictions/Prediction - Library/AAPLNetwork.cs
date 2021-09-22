@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using CC_Library.Datatypes;
-using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
@@ -12,7 +11,7 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get { return Datatype.AAPL; } }
         public NeuralNetwork Network { get; }
-        public AppleNetwork()
+        public AppleNetwork(Sample s)
         {
             Network = datatype.LoadNetwork();
             if (Network.Datatype == Datatype.None.ToString())
@@ -22,6 +21,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(16, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Pretrain(s);
             }
         }
         public double[] Predict(Sample s)
@@ -39,8 +39,8 @@ namespace CC_Library.Predictions
             List<string> l = new List<string>();
             List<double[]> Results = new List<double[]>();
             Results.Add(s.ValInput);
-            string st1 = Results.Last()[0];
-            for(int i = 1; i < Results.Last().Count; i++)
+            string st1 = Results.Last()[0].ToString();
+            for(int i = 1; i < Results.Last().Count(); i++)
             {
                 st1 += ", " + Results.Last()[i];
             }
@@ -49,14 +49,14 @@ namespace CC_Library.Predictions
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
                 Results.Add(Network.Layers[k].Output(Results.Last()));
-                string st = Results.Last()[0];
-                for(int i = 1; i < Results.Last().Count; i++)
+                string st = Results.Last()[0].ToString();
+                for(int i = 1; i < Results.Last().Count(); i++)
                 {
                     st += ", " + Results.Last()[i];
                 }
                 l.Add(st);
             }
-            File.WriteAllLines(fn, l);
+            try { File.WriteAllLines(fn, l); } catch (Exception e) {  }
 
             return Results;
         }
@@ -85,15 +85,23 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, Samples.Count(), j =>
             {
-                var F = Forward(Samples[j], l);
+                var F = Forward(Samples[j]);
                 write(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum().ToString());
 
                 var DValues = Backward(Samples[j], F, mem);
             });
-            mem.Update(1, 1e-4, Network);
+            mem.Update(Samples.Count(), 1e-4, Network);
             Network.Save();
 
             s.Save();
+        }
+        public void Pretrain(Sample s)
+        {
+            NetworkMem mem = new NetworkMem(Network);
+            var F = Forward(s);
+            var DValues = Backward(s, F, mem);
+            mem.Update(1, 1, Network);
+            Network.Save();
         }
     }
 }

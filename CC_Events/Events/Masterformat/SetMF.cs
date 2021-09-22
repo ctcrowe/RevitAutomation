@@ -46,7 +46,7 @@ namespace CC_Plugin
                                 {
                                     Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
                                     s.TextInput = name;
-                                    var output = new MasterformatNetwork().Predict(s);
+                                    var output = new MasterformatNetwork(s).Predict(s);
                                     MF = output.ToList().IndexOf(output.Max());
                                 }
                                 catch (Exception e) { e.OutputError(); }
@@ -153,7 +153,7 @@ namespace CC_Plugin
                             {
                                 Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
                                 s.TextInput = name;
-                                var output = new MasterformatNetwork().Predict(s);
+                                var output = new MasterformatNetwork(s).Predict(s);
                                 MF = output.ToList().IndexOf(output.Max());
                             }
                             catch (Exception e) { e.OutputError(); }

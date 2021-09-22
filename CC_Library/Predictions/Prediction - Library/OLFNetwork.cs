@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get { return Datatype.OccupantLoadFactor; } }
         public NeuralNetwork Network { get; }
-        public OLFNetwork()
+        public OLFNetwork(Sample s)
         {
             Network = Datatype.OccupantLoadFactor.LoadNetwork();
         }

@@ -23,13 +23,12 @@ namespace Trader
             var client = Alpaca.Markets.Environments.Paper
                 .GetAlpacaDataClient(new SecretKey(API_KEY, API_SECRET));
 
-            Console.WriteLine("Test");
             Random r = new Random();
             var rinto = r.Next(5, 1000);
 
             var into = DateTime.Now;
             into = into.AddDays(-rinto);
-            var from = into.AddDays(-7);
+            var from = into.AddDays(-3);
             var output = into.AddDays(5);
 
             try
@@ -41,6 +40,9 @@ namespace Trader
                 var quote = await client.GetLatestQuoteAsync("AAPL");
                 var ask = (double)quote.AskPrice;
                 var bid = (double)quote.BidPrice;
+                var item = aaplbars.Items[0];
+                item.
+                var vol = (double)item.Volume;
 
                 Parallel.For(0, aaplbars.Items.Count(), j =>
                 {

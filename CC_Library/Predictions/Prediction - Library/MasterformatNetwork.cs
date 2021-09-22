@@ -12,7 +12,7 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get { return Datatype.Masterformat; } }
         public NeuralNetwork Network { get; }
-        public MasterformatNetwork()
+        public MasterformatNetwork(Sample s)
         {
             Network = Datatype.Masterformat.LoadNetwork();
             if(Network.Datatype == Datatype.None.ToString())

@@ -24,7 +24,7 @@ namespace CC_Library.Predictions
             int prediction = -1;
             for(int i = 0; i < NetTypes.Count(); i++)
             {
-                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i], entry);
                 if (Network.datatype == dt)
                 {
                     var output = Network.Predict(entry);
@@ -47,7 +47,7 @@ namespace CC_Library.Predictions
             var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
             for (int i = 0; i < NetTypes.Count(); i++)
             {
-                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i], entry);
                 if (Network.datatype == dt)
                 {
                     entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
@@ -64,7 +64,7 @@ namespace CC_Library.Predictions
             var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
             for (int i = 0; i < NetTypes.Count(); i++)
             {
-                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i], entry);
                 var dt = Network.datatype.ToString();
                 if (dt == entry.Datatype)
                 {
@@ -83,7 +83,7 @@ namespace CC_Library.Predictions
             var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
             for (int i = 0; i < NetTypes.Count(); i++)
             {
-                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i], entry);
                 if (Network.datatype == dt)
                 {
                     return Network.Predict(entry);
@@ -102,7 +102,7 @@ namespace CC_Library.Predictions
             var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
             for (int i = 0; i < NetTypes.Count(); i++)
             {
-                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
+                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i], entry);
                 if (Network.datatype == dt)
                 {
                     Network.Propogate(entry, write);

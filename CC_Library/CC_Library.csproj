@@ -82,13 +82,16 @@
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
     <Compile Include="Predictions\Prediction - Library\CategoryVisNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\AAPLNetwork.cs" />
-    <Compile Include="Predictions\Prediction - Library\Class1.cs" />
+    <Compile Include="Predictions\StonkPrediction\StonkContextNetwork.cs" />
+    <Compile Include="Predictions\StonkPrediction\StonkMemory.cs" />
+    <Compile Include="Predictions\StonkPrediction\StonkNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\CutLineWeightNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ObjectStyleNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\OLFNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ProjectedLineWeightNetwork.cs" />
     <Compile Include="Predictions\PredictionMaster.cs" />
+    <Compile Include="Predictions\StonkPrediction\Stonks.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
     <Compile Include="Predictions\LossFunctions\Loss.cs" />

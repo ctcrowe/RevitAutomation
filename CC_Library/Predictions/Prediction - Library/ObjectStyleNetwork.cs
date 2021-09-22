@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
     {
         public Datatype datatype { get { return Datatype.ObjectStyle; } }
         public NeuralNetwork Network { get; }
-        public ObjectStyleNetwork()
+        public ObjectStyleNetwork(Sample s)
         {
             Network = Datatype.ObjectStyle.LoadNetwork();
         }

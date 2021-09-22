@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
         public Datatype datatype { get { return Datatype.CategoryVisibility; } }
         public NeuralNetwork Network { get; }
 
-        public CategoryVisibilityNetwork()
+        public CategoryVisibilityNetwork(Sample s)
         {
             Network = Datatype.CategoryVisibility.LoadNetwork();
         }

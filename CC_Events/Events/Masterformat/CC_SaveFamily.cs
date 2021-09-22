@@ -17,7 +17,7 @@ namespace CC_Plugin
             Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
             s.TextInput = fp.Split('\\').Last().Split('.').First();
 
-            MasterformatNetwork net = new MasterformatNetwork();
+            MasterformatNetwork net = new MasterformatNetwork(s);
             var div = net.Predict(s);
             string Division = "Division " + div.ToList().IndexOf(div.Max());
             string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
@@ -49,7 +49,7 @@ namespace CC_Plugin
                 Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
                 s.TextInput = fp.Split('\\').Last().Split('.').First();
 
-                MasterformatNetwork net = new MasterformatNetwork();
+                MasterformatNetwork net = new MasterformatNetwork(s);
                 var div = net.Predict(s);
                 string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
                 

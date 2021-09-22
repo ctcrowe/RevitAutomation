@@ -11,7 +11,7 @@ namespace CC_Library.Predictions
         public Datatype datatype { get { return Datatype.CutLineWeight; } }
         public NeuralNetwork Network { get; }
         
-        public CutLineWeightNetwork()
+        public CutLineWeightNetwork(Sample s)
         {
             Network = Datatype.CutLineWeight.LoadNetwork();
         }

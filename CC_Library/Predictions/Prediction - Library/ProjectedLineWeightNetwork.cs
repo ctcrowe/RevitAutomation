@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
         public Datatype datatype { get { return Datatype.ProjectedLineWeight; } }
         public NeuralNetwork Network { get; }
 
-        public ProjectedLineWeightNetwork()
+        public ProjectedLineWeightNetwork(Sample s)
         {
             Network = Datatype.ProjectedLineWeight.LoadNetwork();
             if(Network.Datatype == Datatype.None.ToString())

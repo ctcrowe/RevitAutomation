@@ -19,7 +19,7 @@ namespace Trader
             DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, hour, min, 0, 0);
             if (now > firstRun)
             {
-                firstRun = firstRun.AddDays(1);
+                firstRun = now.AddSeconds(10);
             }
 
             TimeSpan timeToGo = firstRun - now;
