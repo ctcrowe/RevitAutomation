@@ -39,7 +39,6 @@ namespace CC_Library.Predictions
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
         {
-            double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, DictSize];
             
             Parallel.For(0, s.Length, j =>
@@ -52,9 +51,9 @@ namespace CC_Library.Predictions
                     am.LocationOutputs[j].Add(a);
                 }
                 loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(s, j, am);
+                am.GlobalContextOutputs[j] = context.Contextualize(s, j, am);
             });
-            return loc.Multiply(Activations.SoftMax(ctxt));
+            return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
         }
         public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
         {
