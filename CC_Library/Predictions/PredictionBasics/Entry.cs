@@ -35,6 +35,7 @@ namespace CC_Library.Predictions
             this.TertiaryText = "";
             this.ValInput = new double[1]{0};
             this.ImgInput = new double[1]{0};
+            this.MktVals = new StonkValues();
             this.DesiredOutput = new double[1]{0};
         }
     }
