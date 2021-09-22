@@ -31,6 +31,15 @@ namespace CC_Library.Predictions.StonkPrediction
         this.variability = new double[1] {0};
         this.secondary = new double[1] {0};
         this.hours = new double[1] {0};
-        this.volume = new double[1] {0};
+        this.volume = new double[1];
+    }
+    public StonkValues(int ct)
+    {
+        this.indices = new int[ct];
+        this.change = new double[ct];
+        this.variability = new double[ct];
+        this.secondary = new double[ct];
+        this.hours = new double[ct];
+        this.volume = new double[ct];
     }
 }
