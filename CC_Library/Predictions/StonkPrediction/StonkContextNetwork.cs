@@ -27,12 +27,12 @@ namespace CC_Library.Predictions
         {
             Network.Save(datatype);
         }
-        public double Contextualize(string s, int c, AlphaMem am)
+        public double Contextualize(string s, int c, StonkMem sm)
         {
             am.LocalContextOutputs[c].Add(CharSet.Locate(s, c, SearchRange));
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
-                am.LocalContextOutputs[c].Add(Network.Layers[i].Output(am.LocalContextOutputs[c].Last()));
+                am.LocalContextOutputs[c].Add(Network.Layers[i].Output(sm.LocalContextOutputs[c].Last()));
             }
             return am.LocalContextOutputs[c].Last().First();
         }
@@ -45,7 +45,7 @@ namespace CC_Library.Predictions
             }
             return result.First();
         }
-        public void Backward(double[] DValues, int runs, AlphaMem am, NetworkMem mem)
+        public void Backward(double[] DValues, int runs, StonkMem sm, NetworkMem mem)
         {
             Parallel.For(0, runs, j =>
             {
@@ -54,9 +54,9 @@ namespace CC_Library.Predictions
                 {
                     try
                     {
-                        cdv = mem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1]);
+                        cdv = mem.Layers[i].DActivation(cdv, sm.LocalContextOutputs[j][i + 1]);
                         mem.Layers[i].DBiases(cdv);
-                        mem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i]);
+                        mem.Layers[i].DWeights(cdv, sm.LocalContextOutputs[j][i]);
                         cdv = mem.Layers[i].DInputs(cdv, Network.Layers[i]);
                     }
                     catch (Exception e) { e.OutputError(); }
