@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
         }
 
         public const int MktSize = 30;
-        public const int SearchRange = 3;
+        public const int SearchRange = 1;
         public NeuralNetwork Network { get; }
 
         public double[] Forward(string s, AlphaContext context)
