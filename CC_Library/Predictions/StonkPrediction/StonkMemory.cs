@@ -36,7 +36,7 @@ namespace CC_Library.Predictions
             double[] result = new double[LocationOutputs.Count()];
             for (int i = 0; i < result.Count(); i++)
             {
-                for (int j = 0; j < Alpha.DictSize; j++)
+                for (int j = 0; j < Stonk.MktSize; j++)
                 {
                     if (LocationOutputs[i].Any())
                         result[i] += dvalues[j] * LocationOutputs[i].Last()[j];
@@ -49,7 +49,7 @@ namespace CC_Library.Predictions
             List<double[]> result = new List<double[]>();
             for (int i = 0; i < GlobalOutputs.Count(); i++)
             {
-                double[] res = new double[Alpha.DictSize];
+                double[] res = new double[Stonk.MktSize];
                 for (int j = 0; j < res.Count(); j++)
                 {
                     res[j] = dvalues[j] * GlobalOutputs[i];
