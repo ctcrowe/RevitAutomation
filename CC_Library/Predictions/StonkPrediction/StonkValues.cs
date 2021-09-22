@@ -15,13 +15,13 @@ namespace CC_Library.Predictions.StonkPrediction
     /// Volume
     /// </summary>
     [Serializable]
-    class StonkValues
+    public class StonkValues
     {
-        int[] indices;
-        double[] change;
-        double[] variability;
-        double[] secondary;
-        double[] hours;
-        double[] volume;
+        public int[] indices { get; set; }
+        public double[] change { get; set; }
+        public double[] variability { get; set }
+        public double[] secondary { get; set; }
+        public double[] hours { get; set; }
+        public double[] volume { get; set; }
     }
 }
