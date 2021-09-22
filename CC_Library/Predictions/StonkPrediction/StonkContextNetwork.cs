@@ -16,7 +16,7 @@ namespace CC_Library.Predictions
         internal StonkContext(Datatype dt)
         {
             datatype = dt;
-            Network = Datatype.Stonk.LoadNetwork();
+            Network = Datatype.StonkContext.LoadNetwork(dt);
             if (Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.StonkContext);
