@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
         public AppleNetwork(Sample s)
         {
             Network = datatype.LoadNetwork();
-            if (Network.Datatype == Datatype.None.ToString())
+            if (Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype)
             {
                 Network = new NeuralNetwork(Datatype.AAPL);
                 Network.Layers.Add(new Layer(200, 482, Activation.LRelu));
