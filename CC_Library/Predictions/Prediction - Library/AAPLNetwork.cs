@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(200, 482, Activation.LRelu));
                 Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(16, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Pretrain(s);
             }
         }
