@@ -20,13 +20,13 @@ namespace CC_Library.Predictions
     {
         public List<double[]>[] LocationOutputs { get; set; }
         public List<double[]>[] LocalContextOutputs { get; set; }
-        public double[] GlobalContextOutputs { get; set; }
+        public double[] GlobalOutputs { get; set; }
 
-        public StonkMem(char[] Phrase)
+        public StonkMem(StonkValues vals)
         {
-            LocationOutputs = new List<double[]>[Phrase.Count()]; // Old = PhraseLength, DictSize
-            LocalContextOutputs = new List<double[]>[Phrase.Count()];
-            GlobalContextOutputs = new double[Phrase.Count()];
+            LocationOutputs = new List<double[]>[vals.indices.Count()];
+            LocalContextOutputs = new List<double[]>[vals.indices.Count()];
+            GlobalOutputs = new double[vals.indices.Count()];
 
             Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[]>());
             Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[]>());
