@@ -13,7 +13,7 @@ namespace CC_Library.Predictions
         public ProjectedLineWeightNetwork(Sample s)
         {
             Network = Datatype.ProjectedLineWeight.LoadNetwork();
-            if(Network.Datatype == Datatype.None.ToString())
+            if(Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype.ToString())
             {
                 Network = new NeuralNetwork(Datatype.ProjectedLineWeight);
                 Network.Layers.Add(new Layer(Alpha.DictSize, 2 * Alpha.DictSize, Activation.LRelu));
