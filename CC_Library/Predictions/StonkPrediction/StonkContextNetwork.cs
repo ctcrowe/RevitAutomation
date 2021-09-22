@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
             if (Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.StonkContext);
-                Network.Layers.Add(new Layer(1, 6 * (1 + (2 * SearchRange)), Activation.Linear));
+                Network.Layers.Add(new Layer(1, 9 * (1 + (2 * SearchRange)), Activation.Linear));
             }
         }
         public void Save()
