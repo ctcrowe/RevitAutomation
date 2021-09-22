@@ -20,6 +20,7 @@ namespace CC_Library.Predictions
         public double[] TertiaryTextOutput { get; set; }
         public double[] ValInput { get; set; }
         public double[] ImgInput { get; set; }
+        public StonkValues MktVals { get; set; }
         public double[] DesiredOutput { get; set; }
         public string GUID { get; }
         public Sample(Datatype dt)
