@@ -17,10 +17,10 @@ namespace CC_Library.Predictions
             if (Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype.ToString())
             {
                 Network = new NeuralNetwork(Datatype.AAPL);
-                Network.Layers.Add(new Layer(200, 482, Activation.LRelu));
-                Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(200, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
                 Pretrain(s);
             }
         }
