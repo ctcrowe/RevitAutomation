@@ -45,7 +45,7 @@ namespace CC_Library.Predictions
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(string s, AlphaContext context, AlphaMem am)
+        public double[] Forward(string s, AlphaContext context, StonkMem sm)
         {
             double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, MktSize];
@@ -64,20 +64,20 @@ namespace CC_Library.Predictions
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(string s, double[] DValues, AlphaContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
         {
-            var LocDValues = am.DLocation(DValues);
-            DValues = am.DGlobalContext(DValues);
-            DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
-            context.Backward(DValues, s.Length, am, CtxtMem);
+            var LocDValues = sm.DLocation(DValues);
+            DValues = sm.DGlobalContext(DValues);
+            DValues = Activations.InverseSoftMax(DValues, sm.GlobalContextOutputs);
+            context.Backward(DValues, s.Length, sm, CtxtMem);
             Parallel.For(0, s.Length, j =>
             {
                 var ldv = LocDValues[j];
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
-                    ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
+                    ldv = mem.Layers[i].DActivation(ldv, sm.LocationOutputs[j][i + 1]);
                     mem.Layers[i].DBiases(ldv);
-                    mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i]);
+                    mem.Layers[i].DWeights(ldv, sm.LocationOutputs[j][i]);
                     ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
                 }
             });
