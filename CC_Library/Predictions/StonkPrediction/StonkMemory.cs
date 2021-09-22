@@ -47,12 +47,12 @@ namespace CC_Library.Predictions
         public List<double[]> DLocation(double[] dvalues)
         {
             List<double[]> result = new List<double[]>();
-            for (int i = 0; i < GlobalContextOutputs.Count(); i++)
+            for (int i = 0; i < GlobalOutputs.Count(); i++)
             {
                 double[] res = new double[Alpha.DictSize];
                 for (int j = 0; j < res.Count(); j++)
                 {
-                    res[j] = dvalues[j] * GlobalContextOutputs[i];
+                    res[j] = dvalues[j] * GlobalOutputs[i];
                 }
                 result.Add(res);
             }
