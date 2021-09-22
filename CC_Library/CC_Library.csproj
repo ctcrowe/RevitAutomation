@@ -82,7 +82,7 @@
     <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
     <Compile Include="Predictions\Prediction - Library\CategoryVisNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\AAPLNetwork.cs" />
-    <Compile Include="Predictions\StonkPrediction\Class1.cs" />
+    <Compile Include="Predictions\StonkPrediction\StonkValues.cs" />
     <Compile Include="Predictions\StonkPrediction\StonkContextNetwork.cs" />
     <Compile Include="Predictions\StonkPrediction\StonkMemory.cs" />
     <Compile Include="Predictions\StonkPrediction\StonkNetwork.cs" />
