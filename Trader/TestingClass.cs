@@ -41,7 +41,6 @@ namespace Trader
                 var ask = (double)quote.AskPrice;
                 var bid = (double)quote.BidPrice;
                 var item = aaplbars.Items[0];
-                item.
                 var vol = (double)item.Volume;
 
                 Parallel.For(0, aaplbars.Items.Count(), j =>
