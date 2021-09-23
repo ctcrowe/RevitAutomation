@@ -37,28 +37,15 @@ namespace CC_Library.Predictions
         }
         public List<double[]> Forward(Sample s)
         {
-            var fn = "ForwardTest.txt".GetMyDocs();
-            List<string> l = new List<string>();
             List<double[]> Results = new List<double[]>();
-            Results.Add(s.ValInput);
-            string st1 = Results.Last()[0].ToString();
-            for(int i = 1; i < Results.Last().Count(); i++)
-            {
-                st1 += ", " + Results.Last()[i];
-            }
-            l.Add(st1);
+            Stonk stk = new Stonk();
+            StonkContext ctxt = new StonkContext(Datatype.AAPL);
+            Results.Add(stk.Forward(s.MktVals, ctxt))
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
                 Results.Add(Network.Layers[k].Output(Results.Last()));
-                string st = Results.Last()[0].ToString();
-                for(int i = 1; i < Results.Last().Count(); i++)
-                {
-                    st += ", " + Results.Last()[i];
-                }
-                l.Add(st);
             }
-            try { File.WriteAllLines(fn, l); } catch (Exception e) {  }
 
             return Results;
         }
