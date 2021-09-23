@@ -55,7 +55,6 @@ namespace CC_Library.Predictions
              NetworkMem mem)
         {
             var DValues = s.DesiredOutput;
-            DValues = MeanSquared.Backward(Results.Last(), DValues);
 
             for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
