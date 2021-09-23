@@ -29,12 +29,12 @@ namespace CC_Library.Predictions
         }
         public double Contextualize(string s, int c, StonkMem sm)
         {
-            am.LocalContextOutputs[c].Add(CharSet.Locate(s, c, SearchRange));
+            sm.LocalContextOutputs[c].Add(CharSet.Locate(s, c, SearchRange));
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
-                am.LocalContextOutputs[c].Add(Network.Layers[i].Output(sm.LocalContextOutputs[c].Last()));
+                sm.LocalContextOutputs[c].Add(Network.Layers[i].Output(sm.LocalContextOutputs[c].Last()));
             }
-            return am.LocalContextOutputs[c].Last().First();
+            return sm.LocalContextOutputs[c].Last().First();
         }
         public double Contextualize(string s, int c)
         {

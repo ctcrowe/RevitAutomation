@@ -22,11 +22,11 @@ namespace CC_Library.Predictions
         public List<double[]>[] LocalContextOutputs { get; set; }
         public double[] GlobalOutputs { get; set; }
 
-        public StonkMem(StonkValues vals)
+        public StonkMem(Sample s)
         {
-            LocationOutputs = new List<double[]>[vals.indices.Count()];
-            LocalContextOutputs = new List<double[]>[vals.indices.Count()];
-            GlobalOutputs = new double[vals.indices.Count()];
+            LocationOutputs = new List<double[]>[s.MktVals.Count()];
+            LocalContextOutputs = new List<double[]>[s.MktVals.Count()];
+            GlobalOutputs = new double[s.MktVals.Count()];
 
             Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[]>());
             Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[]>());

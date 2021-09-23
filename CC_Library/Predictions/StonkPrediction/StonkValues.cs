@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CC_Library.Predictions.StonkPrediction
+namespace CC_Library.Predictions
 {
     /// <summary>
     /// index of stonk in enum [enum size]
@@ -19,18 +19,18 @@ namespace CC_Library.Predictions.StonkPrediction
     {
         public int indices { get; set; }
         public double change { get; set; }
-        public double variability { get; set }
+        public double variability { get; set; }
         public double secondary { get; set; }
         public double hours { get; set; }
         public double volume { get; set; }
-    }
-    public StonkValues()
-    {
-        this.indices = 0;
-        this.change = 0;
-        this.variability = 0;
-        this.secondary = 0;
-        this.hours = 0;
-        this.volume = 0;
+        public StonkValues()
+        {
+            this.indices = 0;
+            this.change = 0;
+            this.variability = 0;
+            this.secondary = 0;
+            this.hours = 0;
+            this.volume = 0;
+        }
     }
 }

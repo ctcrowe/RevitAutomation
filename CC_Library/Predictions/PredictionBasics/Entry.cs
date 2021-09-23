@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
         public double[] TertiaryTextOutput { get; set; }
         public double[] ValInput { get; set; }
         public double[] ImgInput { get; set; }
-        public StonkValues MktVals { get; set; }
+        public StonkValues[] MktVals { get; set; }
         public double[] DesiredOutput { get; set; }
         public string GUID { get; }
         public Sample(Datatype dt)
@@ -35,7 +35,7 @@ namespace CC_Library.Predictions
             this.TertiaryText = "";
             this.ValInput = new double[1]{0};
             this.ImgInput = new double[1]{0};
-            this.MktVals = new StonkValues();
+            this.MktVals = new StonkValues[0];
             this.DesiredOutput = new double[1]{0};
         }
     }

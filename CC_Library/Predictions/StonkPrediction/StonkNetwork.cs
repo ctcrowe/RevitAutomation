@@ -30,7 +30,7 @@ namespace CC_Library.Predictions
         public const int SearchRange = 1;
         public NeuralNetwork Network { get; }
 
-        public double[] Forward(string s, AlphaContext context)
+        public double[] Forward(string s, StonkContext context)
         {
             double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, MktSize];
@@ -45,7 +45,7 @@ namespace CC_Library.Predictions
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(string s, AlphaContext context, StonkMem sm)
+        public double[] Forward(string s, StonkContext context, StonkMem sm)
         {
             double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, MktSize];
@@ -53,22 +53,22 @@ namespace CC_Library.Predictions
             Parallel.For(0, s.Length, j =>
             {
                 double[] a = s.Locate(j, SearchRange);
-                am.LocationOutputs[j].Add(a);
+                sm.LocationOutputs[j].Add(a);
                 for (int i = 0; i < Network.Layers.Count(); i++)
                 {
                     a = Network.Layers[i].Output(a);
-                    am.LocationOutputs[j].Add(a);
+                    sm.LocationOutputs[j].Add(a);
                 }
                 loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(s, j, am);
+                ctxt[j] = context.Contextualize(s, j, sm);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public void Backward(string s, double[] DValues, AlphaContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(string s, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
         {
             var LocDValues = sm.DLocation(DValues);
             DValues = sm.DGlobalContext(DValues);
-            DValues = Activations.InverseSoftMax(DValues, sm.GlobalContextOutputs);
+            DValues = Activations.InverseSoftMax(DValues, sm.GlobalOutputs);
             context.Backward(DValues, s.Length, sm, CtxtMem);
             Parallel.For(0, s.Length, j =>
             {
