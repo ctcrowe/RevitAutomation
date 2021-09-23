@@ -26,8 +26,10 @@ namespace CC_Library.Predictions
         }
         public double[] Predict(Sample s)
         {
-            double[] Results = s.ValInput;
-            for (int i = 0; i < Network.Layers.Count(); i++)
+            Stonk stk = new Stonk();
+            StonkContext ctxt = new StonkContext(Datatype.AAPL);
+            double[] Results = stk.Forward(s.MktVals, ctxt);
+            for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
             }
