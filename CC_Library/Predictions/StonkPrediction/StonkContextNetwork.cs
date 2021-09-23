@@ -27,18 +27,18 @@ namespace CC_Library.Predictions
         {
             Network.Save(datatype);
         }
-        public double Contextualize(string s, int c, StonkMem sm)
+        public double Contextualize(StonkValues vals, int c, StonkMem sm)
         {
-            sm.LocalContextOutputs[c].Add(CharSet.Locate(s, c, SearchRange));
+            sm.LocalContextOutputs[c].Add(vals.Locate(c));
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 sm.LocalContextOutputs[c].Add(Network.Layers[i].Output(sm.LocalContextOutputs[c].Last()));
             }
             return sm.LocalContextOutputs[c].Last().First();
         }
-        public double Contextualize(string s, int c)
+        public double Contextualize(StonkValues vals, int c)
         {
-            var result = CharSet.Locate(s, c, SearchRange);
+            var result = vals.Locate(c);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);

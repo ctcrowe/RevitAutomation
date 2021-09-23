@@ -14,45 +14,44 @@ namespace CC_Library.Predictions
         /// hours since change
         /// Volume
         /// </summary>
-        internal Stonk()
+        internal Stonk(StonkValues vals)
         {
             Network = Datatype.Stonk.LoadNetwork();
             if (Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.Stonk);
-                Network.Layers.Add(new Layer(MktSize, ((2 * SearchRange) + 1) * 6, Activation.LRelu));
+                Network.Layers.Add(new Layer(MktSize, 8, Activation.LRelu));
                 Network.Layers.Add(new Layer(MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             }
         }
 
         public const int MktSize = 30;
-        public const int SearchRange = 1;
         public NeuralNetwork Network { get; }
 
-        public double[] Forward(string s, StonkContext context)
+        public double[] Forward(StonkValues vals, StonkContext context)
         {
-            double[] ctxt = new double[s.Length];
-            double[,] loc = new double[s.Length, MktSize];
+            double[] ctxt = new double[vals.indices.Count()];
+            double[,] loc = new double[vals.indices.Count(), MktSize];
 
-            Parallel.For(0, s.Length, j =>
+            Parallel.For(0, vals.indices.Count(), j =>
             {
-                double[] a = s.Locate(j, SearchRange);
+                double[] a = vals.Locate(j);
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(s, j);
+                ctxt[j] = context.Contextualize(vals, j);
             });
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(string s, StonkContext context, StonkMem sm)
+        public double[] Forward(StonkValues vals, StonkContext context, StonkMem sm)
         {
-            double[] ctxt = new double[s.Length];
-            double[,] loc = new double[s.Length, MktSize];
+            double[] ctxt = new double[vals.indices.Count()];
+            double[,] loc = new double[vals.indices.Count(), MktSize];
 
-            Parallel.For(0, s.Length, j =>
+            Parallel.For(0, vals.indices.Count(), j =>
             {
-                double[] a = s.Locate(j, SearchRange);
+                double[] a = vals.Locate(j);
                 sm.LocationOutputs[j].Add(a);
                 for (int i = 0; i < Network.Layers.Count(); i++)
                 {
@@ -60,7 +59,7 @@ namespace CC_Library.Predictions
                     sm.LocationOutputs[j].Add(a);
                 }
                 loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(s, j, sm);
+                ctxt[j] = context.Contextualize(vals, j, sm);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
