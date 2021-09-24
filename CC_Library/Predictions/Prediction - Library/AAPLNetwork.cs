@@ -26,7 +26,7 @@ namespace CC_Library.Predictions
         }
         public double[] Predict(Sample s)
         {
-            Stonk stk = new Stonk();
+            Stonk stk = new Stonk(s.MktVals);
             StonkContext ctxt = new StonkContext(Datatype.AAPL);
             double[] Results = stk.Forward(s.MktVals, ctxt);
             for(int i = 0; i < Network.Layers.Count(); i++)
@@ -38,9 +38,7 @@ namespace CC_Library.Predictions
         public List<double[]> Forward(Sample s)
         {
             List<double[]> Results = new List<double[]>();
-            Stonk stk = new Stonk();
-            StonkContext ctxt = new StonkContext(Datatype.AAPL);
-            Results.Add(stk.Forward(s.MktVals, ctxt))
+            Results.Add(s.MktOutput);
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
@@ -68,18 +66,37 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
-            var Samples = s.ReadSamples(8);
-            NetworkMem mem = new NetworkMem(Network);
+            Stonk stk = new Stonk(s.MktVals);
+            StonkContext ctxt = new StonkContext(Datatype.AAPL);
 
-            Parallel.For(0, Samples.Count(), j =>
+            for (int i = 0; i < 5; i++)
             {
-                var F = Forward(Samples[j]);
-                write(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum().ToString());
+                var Samples = s.ReadSamples(24);
+                Accuracy Acc = new Accuracy(Samples);
+                NetworkMem AAPLMem = new NetworkMem(Network);
+                NetworkMem StkMem = new NetworkMem(stk.Network);
+                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
-                var DValues = Backward(Samples[j], F, mem);
-            });
-            mem.Update(Samples.Count(), 1e-4, Network);
+                Parallel.For(0, Samples.Count(), j =>
+                {
+                    StonkMem am = new StonkMem(Samples[j]);
+                    Samples[j].MktOutput = stk.Forward(Samples[j].MktVals, ctxt, am);
+                    var F = Forward(Samples[j]);
+                    Acc.Add(j,
+                        CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
+                        F.Last().ToList().IndexOf(F.Last().Max()),
+                        Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
+
+                    var DValues = Backward(Samples[j], F, AAPLMem);
+                    stk.Backward(Samples[j].TextInput, DValues, ctxt, am, StkMem, CtxtMem);
+                });
+                AAPLMem.Update(1, 0.0001, Network);
+                StkMem.Update(1, 0.00001, stk.Network);
+                CtxtMem.Update(1, 0.0001, ctxt.Network);
+            }
             Network.Save();
+            stk.Network.Save();
+            ctxt.Save();
 
             s.Save();
         }

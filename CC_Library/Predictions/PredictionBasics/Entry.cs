@@ -21,6 +21,7 @@ namespace CC_Library.Predictions
         public double[] ValInput { get; set; }
         public double[] ImgInput { get; set; }
         public StonkValues MktVals { get; set; }
+        public double[] MktOutput { get; set; }
         public double[] DesiredOutput { get; set; }
         public string GUID { get; }
         public Sample(Datatype dt)
@@ -35,8 +36,9 @@ namespace CC_Library.Predictions
             this.TertiaryText = "";
             this.ValInput = new double[1]{0};
             this.ImgInput = new double[1]{0};
-            this.MktVals = new StonkValues[0];
+            this.MktVals = new StonkValues();
             this.DesiredOutput = new double[1]{0};
+            this.MktOutput = new double[1] { 0 };
         }
     }
     public static class ReadWriteSamples
