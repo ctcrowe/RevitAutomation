@@ -18,7 +18,7 @@ namespace Trader
 
         public double[,] StockValues(List<Item> items)
         {
-            
+            double[,] output = new double[items.Count(), 8];
         }
         
         public static async Task Main()
