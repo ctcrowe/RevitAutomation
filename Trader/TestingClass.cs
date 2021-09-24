@@ -19,6 +19,12 @@ namespace Trader
         public double[,] StockValues(List<Item> items)
         {
             double[,] output = new double[items.Count(), 8];
+            Parallel.For(0, items.Count(), j =>
+                         {
+                             output[j, 0] = 0;
+                             output[j, 1] = 0;
+                             output[j, 2] = 0;
+                         });
         }
         
         public static async Task Main()
