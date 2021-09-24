@@ -16,6 +16,11 @@ namespace Trader
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
 
+        public double[,] StockValues(List<Item> items)
+        {
+            
+        }
+        
         public static async Task Main()
         {
             double[] input = new double[(6 * items) + 2];
