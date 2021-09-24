@@ -21,9 +21,13 @@ namespace Trader
             double[,] output = new double[items.Count(), 8];
             Parallel.For(0, items.Count(), j =>
                          {
-                             output[j, 0] = 0;
-                             output[j, 1] = 0;
-                             output[j, 2] = 0;
+                             output[j, 0] = items[J].Thing == "AAPL" ? 1 : 0;
+                             output[j, 1] = items[J].Thing == "QQQ" ? 1 : 0;
+                             output[j, 2] = items[J].Thing == "VTI" ? 1 : 0;
+                             output[j, 3] = items[j].Thing;
+                             output[j, 4] = items[j].Thing;
+                             output[j, 5] = items[j].Thing;
+                             output[j, 6] = items[j].Thing;
                          });
         }
         
