@@ -24,11 +24,13 @@ namespace Trader
                              output[j, 0] = items[J].Thing == "AAPL" ? 1 : 0;
                              output[j, 1] = items[J].Thing == "QQQ" ? 1 : 0;
                              output[j, 2] = items[J].Thing == "VTI" ? 1 : 0;
-                             output[j, 3] = items[j].Thing;
-                             output[j, 4] = items[j].Thing;
-                             output[j, 5] = items[j].Thing;
-                             output[j, 6] = items[j].Thing;
+                             output[j, 3] = (items[j].Close - items[j].Open) / items[j].Close;
+                             output[j, 4] = (items[j].High - items[j].Low) / items[j].Close;
+                             output[j, 5] = (items[j].Close - items[j].Vwap) / items[j].Close;
+                             output[j, 6] = items[j].Time - DateTime.Now();
+                             output[j, 7] = items[j].Volume;
                          });
+            return output;
         }
         
         public static async Task Main()
