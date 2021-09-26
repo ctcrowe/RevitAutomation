@@ -47,7 +47,7 @@ namespace Trader
             var into = DateTime.Now;
             into = into.AddDays(-rinto);
             var from = into.AddDays(-3);
-            var outto = into.AddHours(1.5);
+            var outto = into.AddDays(3);
 
             try
             {
