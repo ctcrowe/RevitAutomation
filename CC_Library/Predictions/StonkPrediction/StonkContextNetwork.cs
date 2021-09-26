@@ -38,7 +38,7 @@ namespace CC_Library.Predictions
         }
         public double Contextualize(double[,] vals, int c)
         {
-            sm.LocalContextOutputs[c].Add(vals.GetRank(c));
+            var result = vals.GetRank(c);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);

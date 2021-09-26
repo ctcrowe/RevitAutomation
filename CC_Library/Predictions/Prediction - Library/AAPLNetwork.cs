@@ -21,7 +21,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
-                Pretrain(s);
+                //Pretrain(s);
             }
         }
         public double[] Predict(Sample s)
@@ -72,7 +72,6 @@ namespace CC_Library.Predictions
             for (int i = 0; i < 5; i++)
             {
                 var Samples = s.ReadSamples(24);
-                Accuracy Acc = new Accuracy(Samples);
                 NetworkMem AAPLMem = new NetworkMem(Network);
                 NetworkMem StkMem = new NetworkMem(stk.Network);
                 NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
@@ -82,10 +81,8 @@ namespace CC_Library.Predictions
                     StonkMem am = new StonkMem(Samples[j]);
                     Samples[j].MktOutput = stk.Forward(Samples[j].MktVals, ctxt, am);
                     var F = Forward(Samples[j]);
-                    Acc.Add(j,
-                        CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
-                        F.Last().ToList().IndexOf(F.Last().Max()),
-                        Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
+                    var Error = CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum();
+                    write("Test Error : " + Error);
 
                     var DValues = Backward(Samples[j], F, AAPLMem);
                     stk.Backward(Samples[j].TextInput, DValues, ctxt, am, StkMem, CtxtMem);

@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
         /// hours since change
         /// Volume
         /// </summary>
-        internal Stonk(StonkValues vals)
+        internal Stonk(double[,] vals)
         {
             Network = Datatype.Stonk.LoadNetwork();
             if (Network.Datatype == Datatype.None.ToString())
@@ -29,14 +29,14 @@ namespace CC_Library.Predictions
         public const int MktSize = 30;
         public NeuralNetwork Network { get; }
 
-        public double[] Forward(StonkValues vals, StonkContext context)
+        public double[] Forward(double[,] vals, StonkContext context)
         {
-            double[] ctxt = new double[vals.indices.Count()];
-            double[,] loc = new double[vals.indices.Count(), MktSize];
+            double[] ctxt = new double[vals.GetLength(0)];
+            double[,] loc = new double[vals.GetLength(0), MktSize];
 
-            Parallel.For(0, vals.indices.Count(), j =>
+            Parallel.For(0, vals.GetLength(0), j =>
             {
-                double[] a = vals.Locate(j);
+                double[] a = vals.GetRank(j);
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(vals, j);
@@ -44,14 +44,14 @@ namespace CC_Library.Predictions
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(StonkValues vals, StonkContext context, StonkMem sm)
+        public double[] Forward(double[,] vals, StonkContext context, StonkMem sm)
         {
-            double[] ctxt = new double[vals.indices.Count()];
-            double[,] loc = new double[vals.indices.Count(), MktSize];
+            double[] ctxt = new double[vals.GetLength(0)];
+            double[,] loc = new double[vals.GetLength(0), MktSize];
 
-            Parallel.For(0, vals.indices.Count(), j =>
+            Parallel.For(0, vals.GetLength(0), j =>
             {
-                double[] a = vals.Locate(j);
+                double[] a = vals.GetRank(j);
                 sm.LocationOutputs[j].Add(a);
                 for (int i = 0; i < Network.Layers.Count(); i++)
                 {

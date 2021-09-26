@@ -24,9 +24,9 @@ namespace CC_Library.Predictions
 
         public StonkMem(Sample s)
         {
-            LocationOutputs = new List<double[]>[s.MktVals.indices.Count()] ;
-            LocalContextOutputs = new List<double[]>[s.MktVals.indices.Count()];
-            GlobalOutputs = new double[s.MktVals.indices.Count()];
+            LocationOutputs = new List<double[]>[s.MktVals.GetLength(0)] ;
+            LocalContextOutputs = new List<double[]>[s.MktVals.GetLength(0)];
+            GlobalOutputs = new double[s.MktVals.GetLength(0)];
 
             Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[]>());
             Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[]>());
