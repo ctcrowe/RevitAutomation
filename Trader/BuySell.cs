@@ -16,6 +16,13 @@ namespace Trader
         private const int items = 80;
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
+        
+        private static StonkValues GetValues(var quote)
+        {
+            return new StonkValues(quote.Symbol, quote.Time,
+                                   (double)quote.AskPrice, (double)quote.AskSize,
+                                   (double)quote.BidPrice, (double)quote.BidSuze);
+        }
 
 
         public static async Task GetMarketData()
