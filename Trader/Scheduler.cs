@@ -13,13 +13,13 @@ namespace Trader
 
         public static TaskScheduler Instance => _instance ?? (_instance = new TaskScheduler());
 
-        public void ScheduleCycle(int hour, int min, double intervalInHour)
+        public void ScheduleCycle(double intervalInHour)
         {
             DateTime now = DateTime.Now;
-            DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, hour, min, 0, 0);
+            DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, now.Hour, min, 0, 0);
             if (now > firstRun)
             {
-                firstRun = now.AddSeconds(10);
+                firstRun = now.AddHours(1);
             }
 
             TimeSpan timeToGo = firstRun - now;
