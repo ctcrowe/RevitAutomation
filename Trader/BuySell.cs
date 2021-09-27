@@ -26,7 +26,6 @@ namespace Trader
             return vals;
         }
 
-
         public static async Task GetMarketData()
         {
             double[] input = new double[(6 * items) + 2];
