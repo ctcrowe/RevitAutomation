@@ -45,6 +45,8 @@ namespace Trader
             var rinto = r.Next(5, 1000);
 
             var into = DateTime.Now;
+            into = into.AddHours(-1);
+            var from2 = into.AddDays(-500);
             into = into.AddDays(-rinto);
             var from = into.AddDays(-3);
             var outto = into.AddDays(3);
@@ -77,7 +79,7 @@ namespace Trader
             {
                 e.OutputError();
             }
-
+            
             Console.Read();
         }
         public static string Write(string s)
