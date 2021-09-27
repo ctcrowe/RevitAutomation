@@ -34,5 +34,16 @@ namespace CC_Library.Predictions
             this.BidPrice = bidprice;
             this.BidSize = bidsize;
         }
+        public void Save()
+        {
+            string folder = "StockValues".GetMyDocs();
+            if(!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            string subfolder = folder + "\\" + Symbol;
+            if(!Directory.Exists(subfolder))
+                Directory.CreateDirectory(subfolder);
+            
+            
+        }
     }
 }
