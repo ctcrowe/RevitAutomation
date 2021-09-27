@@ -35,6 +35,13 @@ namespace Trader
                     var AAPLQuote = await DClient.GetLatestQuoteAsync("AAPL");
                     var QQQQuote = await DClient.GetLatestQuoteAsync("QQQ");
                     var VTIQuote = await DClient.GetLatestQuoteAsync("VTI");
+                    
+                    StonkValues AAPLVals = new StonkValues("AAPL", AAPLQuote.Time,
+                                                           (double) AAPLQuote.AskPrice, (double)
+                }
+                catch (Exception e)
+                {
+                    e.OutputError();
                 }
                 var into = DateTime.Now;
                 into = into.AddHours(-1);
