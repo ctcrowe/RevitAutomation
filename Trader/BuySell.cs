@@ -39,13 +39,9 @@ namespace Trader
             {
                 try
                 {
-                    var AAPLQuote = await DClient.GetLatestQuoteAsync("AAPL");
-                    var QQQQuote = await DClient.GetLatestQuoteAsync("QQQ");
-                    var VTIQuote = await DClient.GetLatestQuoteAsync("VTI");
-                    
-                    StonkValues AAPLVals = new StonkValues("AAPL", AAPLQuote.Time,
-                                                           (double) AAPLQuote.AskPrice, (double)AAPLQuote.AskSize,
-                                                           (double) AAPLQuote.BidPrice, (double)AAPLQuote.BidSize);
+                    var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
+                    var QQQQuote = GetValues(await DClient.GetLatestQuoteAsync("QQQ"));
+                    var VTIQuote = GetValues(await DClient.GetLatestQuoteAsync("VTI"));
                 }
                 catch (Exception e)
                 {
