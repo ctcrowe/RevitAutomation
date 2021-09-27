@@ -37,7 +37,8 @@ namespace Trader
                     var VTIQuote = await DClient.GetLatestQuoteAsync("VTI");
                     
                     StonkValues AAPLVals = new StonkValues("AAPL", AAPLQuote.Time,
-                                                           (double) AAPLQuote.AskPrice, (double)
+                                                           (double) AAPLQuote.AskPrice, (double)AAPLQuote.AskSize,
+                                                           (double) AAPLQuote.BidPrice, (double)AAPLQuote.BidSize);
                 }
                 catch (Exception e)
                 {
