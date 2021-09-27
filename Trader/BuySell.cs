@@ -19,9 +19,11 @@ namespace Trader
         
         private static StonkValues GetValues(var quote)
         {
-            return new StonkValues(quote.Symbol, quote.Time,
+            StonkValues vals = new StonkValues(quote.Symbol, quote.Time,
                                    (double)quote.AskPrice, (double)quote.AskSize,
                                    (double)quote.BidPrice, (double)quote.BidSuze);
+            vals.Save();
+            return vals;
         }
 
 
