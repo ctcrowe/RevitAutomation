@@ -43,8 +43,7 @@ namespace CC_Library.Predictions
             if(!Directory.Exists(subfolder))
                 Directory.CreateDirectory(subfolder);
             string fn = subfolder + "\\" + Symbol + "_" + Time.ToString("yyyyMMddhhmmss") + ".bin";
-            
-            
+            fn.WriteToBinaryFile<StonkValues>(this);            
         }
     }
 }
