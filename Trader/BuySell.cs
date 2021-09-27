@@ -28,8 +28,14 @@ namespace Trader
 
             var clock = await TClient.GetClockAsync();
 
-            if (true )//clock.IsOpen)
+            if (clock.IsOpen)
             {
+                try
+                {
+                    var AAPLQuote = await DClient.GetLatestQuoteAsync("AAPL");
+                    var QQQQuote = await DClient.GetLatestQuoteAsync("QQQ");
+                    var VTIQuote = await DClient.GetLatestQuoteAsync("VTI");
+                }
                 var into = DateTime.Now;
                 into = into.AddHours(-1);
                 var from = into.AddDays(-7);
