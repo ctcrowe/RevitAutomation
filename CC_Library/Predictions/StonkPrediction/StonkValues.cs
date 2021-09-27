@@ -42,6 +42,7 @@ namespace CC_Library.Predictions
             string subfolder = folder + "\\" + Symbol;
             if(!Directory.Exists(subfolder))
                 Directory.CreateDirectory(subfolder);
+            string fn = subfolder + "\\" + Symbol + "_" + Time.ToString("yyyyMMddhhmmss") + ".bin";
             
             
         }
