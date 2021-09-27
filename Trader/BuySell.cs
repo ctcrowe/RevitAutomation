@@ -48,6 +48,7 @@ namespace Trader
                 {
                     e.OutputError();
                 }
+                /*
                 var into = DateTime.Now;
                 into = into.AddHours(-1);
                 var from = into.AddDays(-7);
@@ -98,7 +99,7 @@ namespace Trader
                 catch (Exception e)
                 {
                     e.OutputError();
-                }
+                }*/
 
                 // Get our account information.
 
