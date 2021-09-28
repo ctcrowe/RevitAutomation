@@ -56,7 +56,7 @@ namespace CC_Library.Predictions
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(double[,] vals, StonkContext context, StonkMem sm)
+        public double[] Forward(List<StonkValues> vals, StonkContext context, StonkMem sm)
         {
             double[] ctxt = new double[vals.GetLength(0)];
             double[,] loc = new double[vals.GetLength(0), MktSize];
