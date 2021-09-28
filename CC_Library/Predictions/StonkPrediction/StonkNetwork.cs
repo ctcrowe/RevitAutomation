@@ -63,7 +63,7 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, vals.GetLength(0), j =>
             {
-                double[] a = vals.GetRank(j);
+                double[] a = vals[j].Coordinate(vals[j + 1]);
                 sm.LocationOutputs[j].Add(a);
                 for (int i = 0; i < Network.Layers.Count(); i++)
                 {
