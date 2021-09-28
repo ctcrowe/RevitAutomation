@@ -14,13 +14,13 @@ namespace CC_Library.Predictions
         /// hours since change
         /// Volume
         /// </summary>
-        internal Stonk(double[,] vals)
+        internal Stonk()
         {
             Network = Datatype.Stonk.LoadNetwork();
             if (Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.Stonk);
-                Network.Layers.Add(new Layer(MktSize, 8, Activation.LRelu));
+                Network.Layers.Add(new Layer(MktSize, 5, Activation.LRelu));
                 Network.Layers.Add(new Layer(MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             }
