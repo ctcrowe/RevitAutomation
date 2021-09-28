@@ -28,6 +28,16 @@ namespace CC_Library.Predictions
 
         public const int MktSize = 30;
         public NeuralNetwork Network { get; }
+        
+        public static double[] Coordinate(StonkValues v1,StonkValues v2)
+        {
+            double[] vals = new double[5];
+            vals[0] = DateTime.TotalHours(v1, v2);
+            vals[1] = (v2.AskPrice - v1.AskPrice) / v1.AskPrice;
+            vals[2] = (v2.AskSize - v1.AskSize) / v1.AskSize;
+            vals[3] = (v2.BidPrice - v1.BidPrice) / v1.BidPrice;
+            vals[4] = (v2.BidSize - v1.BidSize) / v1.BidSize;
+        }
 
         public double[] Forward(List<StonkValues> vals, StonkContext context)
         {
