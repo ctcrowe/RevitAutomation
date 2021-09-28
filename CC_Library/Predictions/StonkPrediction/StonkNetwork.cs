@@ -29,12 +29,13 @@ namespace CC_Library.Predictions
         public const int MktSize = 30;
         public NeuralNetwork Network { get; }
 
-        public double[] Forward(double[,] vals, StonkContext context)
+        public double[] Forward(List<StonkValues> vals, StonkContext context)
         {
-            double[] ctxt = new double[vals.GetLength(0)];
-            double[,] loc = new double[vals.GetLength(0), MktSize];
+            double[] ctxt = new double[vals.Count()];
+            double[,] loc = new double[vals.Count(), MktSize];
+            var newvals = vals.OrderBy(x => x.Time);
 
-            Parallel.For(0, vals.GetLength(0), j =>
+            Parallel.For(0, vals.Count(), j =>
             {
                 double[] a = vals.GetRank(j);
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
