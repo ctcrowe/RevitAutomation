@@ -29,6 +29,7 @@ namespace CC_Library.Predictions
         public const int MktSize = 30;
         public NeuralNetwork Network { get; }
         
+        //TODO! Move to StonkValues tonight!
         public static double[] Coordinate(StonkValues v1,StonkValues v2)
         {
             double[] vals = new double[5];
