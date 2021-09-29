@@ -18,6 +18,8 @@ namespace CC_Library.Predictions
         /// </summary>
         internal Stonk()
         {
+            this.Context = new List<double>();
+            this.Locations = new List<double[]>();
             Network = Datatype.Stonk.LoadNetwork();
             if (Network.Datatype == Datatype.None.ToString())
             {
@@ -30,6 +32,8 @@ namespace CC_Library.Predictions
 
         public const int MktSize = 30;
         public NeuralNetwork Network { get; }
+        public List<double> Context {get; set;}
+        public List<double[]> Locations {get; set;}
 
         public double[] Forward(List<StonkValues> vals, StonkContext context)
         {
