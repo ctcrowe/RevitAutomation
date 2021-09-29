@@ -15,6 +15,8 @@ namespace Trader
 
         public void ScheduleCycle(double intervalInHour)
         {
+            Stonk stonk = new Stonk();
+            StonkMem mem = new StonkMem();
             DateTime now = DateTime.Now;
             DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, 0);
             if (now > firstRun)
@@ -30,7 +32,7 @@ namespace Trader
 
             var timer = new Timer(x =>
             {
-                _ = BuySell.GetMarketData();
+                _ = BuySell.GetMarketData(stonk, mem);
             }, null, timeToGo, TimeSpan.FromHours(intervalInHour));
 
             timers.Add(timer);
