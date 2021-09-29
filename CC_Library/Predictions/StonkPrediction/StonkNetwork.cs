@@ -30,8 +30,6 @@ namespace CC_Library.Predictions
 
         public const int MktSize = 30;
         public NeuralNetwork Network { get; }
-        
-        //TODO! Move to StonkValues tonight!
 
         public double[] Forward(List<StonkValues> vals, StonkContext context)
         {
