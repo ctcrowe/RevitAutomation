@@ -17,18 +17,18 @@ namespace Trader
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
         
-        private static StonkValues GetValues(var quote)
+        private static StonkValues GetValues(IQuote quote)
         {
-            StonkValues vals = new StonkValues(quote.Symbol, quote.Time,
+            StonkValues vals = new StonkValues(quote.Symbol, quote.TimestampUtc,
                                    (double)quote.AskPrice, (double)quote.AskSize,
-                                   (double)quote.BidPrice, (double)quote.BidSuze);
+                                   (double)quote.BidPrice, (double)quote.BidSize);
             vals.Save();
             return vals;
         }
 
         public static async Task GetMarketData()
         {
-            double[] input = new double[(6 * items) + 2];
+            Console.WriteLine("Test");
             var DClient = Alpaca.Markets.Environments.Paper
                 .GetAlpacaDataClient(new SecretKey(API_KEY, API_SECRET));
             var TClient = Alpaca.Markets.Environments.Paper
@@ -48,6 +48,7 @@ namespace Trader
                 {
                     e.OutputError();
                 }
+                Console.WriteLine("Test");
                 /*
                 var into = DateTime.Now;
                 into = into.AddHours(-1);

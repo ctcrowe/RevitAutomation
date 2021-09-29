@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,13 +18,13 @@ namespace CC_Library.Predictions
     [Serializable]
     public class StonkValues
     {
-        Guid id { get; }
-        string Symbol { get; }
-        DateTime Time { get; }
-        double AskPrice { get; set; }
-        double AskSize { get; set; }
-        double BidPrice { get; set; }
-        double BidSize { get; set; }
+        public Guid id { get; }
+        public string Symbol { get; }
+        public DateTime Time { get; }
+        public double AskPrice { get; set; }
+        public double AskSize { get; set; }
+        public double BidPrice { get; set; }
+        public double BidSize { get; set; }
         public StonkValues(string symbol, DateTime dt, double askprice, double asksize, double bidprice, double bidsize)
         {
             this.id = new Guid();
@@ -33,6 +34,16 @@ namespace CC_Library.Predictions
             this.AskSize = asksize;
             this.BidPrice = bidprice;
             this.BidSize = bidsize;
+        }
+        public double[] Coordinate(StonkValues v1)
+        {
+            double[] vals = new double[5];
+            vals[0] = (this.Time - v1.Time).TotalHours;
+            vals[1] = (this.AskPrice - v1.AskPrice) / v1.AskPrice;
+            vals[2] = (this.AskSize - v1.AskSize) / v1.AskSize;
+            vals[3] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
+            vals[4] = (this.BidSize - v1.BidSize) / v1.BidSize;
+            return vals;
         }
         public void Save()
         {

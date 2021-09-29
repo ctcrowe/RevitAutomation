@@ -16,10 +16,10 @@ namespace Trader
         public void ScheduleCycle(double intervalInHour)
         {
             DateTime now = DateTime.Now;
-            DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, now.Hour, min, 0, 0);
+            DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, 0);
             if (now > firstRun)
             {
-                firstRun = now.AddHours(1);
+                firstRun = firstRun.AddHours(1);
             }
 
             TimeSpan timeToGo = firstRun - now;
@@ -30,7 +30,7 @@ namespace Trader
 
             var timer = new Timer(x =>
             {
-                _ = BuySell.Main();
+                _ = BuySell.GetMarketData();
             }, null, timeToGo, TimeSpan.FromHours(intervalInHour));
 
             timers.Add(timer);

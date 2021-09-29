@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
 
@@ -30,15 +32,6 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         
         //TODO! Move to StonkValues tonight!
-        public static double[] Coordinate(StonkValues v1,StonkValues v2)
-        {
-            double[] vals = new double[5];
-            vals[0] = DateTime.TotalHours(v1, v2);
-            vals[1] = (v2.AskPrice - v1.AskPrice) / v1.AskPrice;
-            vals[2] = (v2.AskSize - v1.AskSize) / v1.AskSize;
-            vals[3] = (v2.BidPrice - v1.BidPrice) / v1.BidPrice;
-            vals[4] = (v2.BidSize - v1.BidSize) / v1.BidSize;
-        }
 
         public double[] Forward(List<StonkValues> vals, StonkContext context)
         {
@@ -46,22 +39,22 @@ namespace CC_Library.Predictions
             double[,] loc = new double[vals.Count(), MktSize];
             var newvals = vals.OrderBy(x => x.Time);
 
-            Parallel.For(0, vals.Count() - 1, j =>
+            for(int j = 0; j < vals.Count() - 1; j++)
             {
                 double[] a = vals[j].Coordinate(vals[j + 1]);
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(vals, j);
-            });
+            }
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public double[] Forward(List<StonkValues> vals, StonkContext context, StonkMem sm)
         {
-            double[] ctxt = new double[vals.GetLength(0)];
-            double[,] loc = new double[vals.GetLength(0), MktSize];
+            double[] ctxt = new double[vals.Count()];
+            double[,] loc = new double[vals.Count(), MktSize];
 
-            Parallel.For(0, vals.GetLength(0), j =>
+            for(int j = 0; j < vals.Count() - 1; j++)
             {
                 double[] a = vals[j].Coordinate(vals[j + 1]);
                 sm.LocationOutputs[j].Add(a);
@@ -72,14 +65,14 @@ namespace CC_Library.Predictions
                 }
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(vals, j, sm);
-            });
+            }
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public void Backward(string s, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
         {
             var LocDValues = sm.DLocation(DValues);
             DValues = sm.DGlobalContext(DValues);
-            DValues = Activations.InverseSoftMax(DValues, sm.GlobalOutputs);
+            DValues = Activations.InverseSoftMax(DValues, sm.GlobalOutputs.ToArray());
             context.Backward(DValues, s.Length, sm, CtxtMem);
             Parallel.For(0, s.Length, j =>
             {

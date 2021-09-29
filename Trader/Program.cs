@@ -8,8 +8,7 @@ namespace Trader
         {
             while (true)
             {
-                _ = TestingClass.Main();
-                TaskScheduler.Instance.ScheduleCycle(07, 39, .005);
+                TaskScheduler.Instance.ScheduleCycle(.005);
 
                 string line = Console.ReadLine();
                 if (line == "x")

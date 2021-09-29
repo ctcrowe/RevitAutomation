@@ -27,18 +27,20 @@ namespace CC_Library.Predictions
         {
             Network.Save(datatype);
         }
-        public double Contextualize(double[,] vals, int c, StonkMem sm)
+        public double Contextualize(List<StonkValues> vals, int c, StonkMem sm)
         {
-            sm.LocalContextOutputs[c].Add(vals.GetRank(c));
+            sm.LocalContextOutputs.Add(new List<double[]>());
+            double[] a = vals[c].Coordinate(vals[c + 1]);
+            sm.LocalContextOutputs.Last().Add(vals[c].Coordinate(vals[c + 1]));
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
-                sm.LocalContextOutputs[c].Add(Network.Layers[i].Output(sm.LocalContextOutputs[c].Last()));
+                sm.LocalContextOutputs.Last().Add(Network.Layers[i].Output(sm.LocalContextOutputs.Last().Last()));
             }
-            return sm.LocalContextOutputs[c].Last().First();
+            return sm.LocalContextOutputs.Last().Last().First();
         }
-        public double Contextualize(double[,] vals, int c)
+        public double Contextualize(List<StonkValues> vals, int c)
         {
-            var result = vals.GetRank(c);
+            var result = vals[c].Coordinate(vals[c + 1]);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);
