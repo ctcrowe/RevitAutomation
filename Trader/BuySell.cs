@@ -26,7 +26,7 @@ namespace Trader
             return vals;
         }
 
-        public static async Task GetMarketData()
+        public static async Task GetMarketData(Stonk stonk)
         {
             Console.WriteLine("Test");
             var DClient = Alpaca.Markets.Environments.Paper
