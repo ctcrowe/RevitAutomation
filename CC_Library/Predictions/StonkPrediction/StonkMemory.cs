@@ -22,7 +22,7 @@ namespace CC_Library.Predictions
         public List<List<double[]>> LocalContextOutputs { get; set; }
         public List<double> GlobalOutputs { get; set; }
 
-        public StonkMem(Sample s)
+        public StonkMem()
         {
             LocationOutputs = new List<List<double[]>>();
             LocalContextOutputs = new List<List<double[]>>();
