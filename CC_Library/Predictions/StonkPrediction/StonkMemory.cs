@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace CC_Library.Predictions
 {
-    internal class StonkMem
+    public class StonkMem
     {
         public List<List<double[]>> LocationOutputs { get; set; }
         public List<List<double[]>> LocalContextOutputs { get; set; }
