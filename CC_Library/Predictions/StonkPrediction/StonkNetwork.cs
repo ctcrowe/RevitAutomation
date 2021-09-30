@@ -47,24 +47,17 @@ namespace CC_Library.Predictions
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(List<StonkValues> vals, StonkContext context, StonkMem sm)
+        public double[] Forward(StonkValues v1, StonkValues v2, StonkContext ctxt, StonkMem sm)
         {
-            double[] ctxt = new double[vals.Count()];
-            double[,] loc = new double[vals.Count(), MktSize];
-
-            for(int j = 0; j < vals.Count() - 1; j++)
+            List<double[]> Location = new List<double[]>();
+            Location.Add(v1.Coordinate(v2));
+            for(int i = 0; i < Network.Layers.Count(); i++)
             {
-                double[] a = vals[j].Coordinate(vals[j + 1]);
-                sm.LocationOutputs[j].Add(a);
-                for (int i = 0; i < Network.Layers.Count(); i++)
-                {
-                    a = Network.Layers[i].Output(a);
-                    sm.LocationOutputs[j].Add(a);
-                }
-                loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(vals, j, sm);
+                Location.Add(Network.Layers[i].Output(Location.Last()));
             }
-            return loc.Multiply(Activations.SoftMax(ctxt));
+            sm.LocationOutputs.Add(Location);
+            ctxt.Contextualize(Location.First(), sm);
+            return sm.Multiply(); loc.Multiply(Activations.SoftMax(ctxt));
         }
         public void Backward(string s, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
         {

@@ -20,16 +20,34 @@ namespace CC_Library.Predictions
     {
         public List<List<double[]>> LocationOutputs { get; set; }
         public List<List<double[]>> LocalContextOutputs { get; set; }
-        public List<double> GlobalOutputs { get; set; }
+        public double[] GlobalOutputs { get; set; }
 
         public StonkMem()
         {
             LocationOutputs = new List<List<double[]>>();
             LocalContextOutputs = new List<List<double[]>>();
-            GlobalOutputs = new List<double>();
+            GlobalOutputs = new double[0];
 
             Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[]>());
             Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[]>());
+        }
+        public double[] Multiply()
+        {
+            if(LocationOutputs.Count() == LocalContextOutputs.Count())
+            {
+                double[] output = new double[LocationOutputs.Last().Last().Count()];
+                double[] ctxt = new double[LocalContextOutputs.Count()];
+                Parallel.For(0, ctxt.Count(), j => ctxt[j] = LocalContextOutputs[j].Last().First());
+                this.GlobalOutputs = Activations.SoftMax(ctxt);
+                Parallel.For(0, LocationOutputs.Count(), j =>
+                {
+                    for (int i = 0; i < output.Count(); i++)
+                    {
+                        output[i] = LocationOutputs[j].Last()[i] * GlobalOutputs[j];
+                    }
+                });
+            }
+            return null;
         }
         public double[] DGlobalContext(double[] dvalues)
         {
