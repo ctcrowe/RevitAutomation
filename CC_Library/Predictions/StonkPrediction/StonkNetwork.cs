@@ -32,15 +32,15 @@ namespace CC_Library.Predictions
         public const int MktSize = 30;
         public NeuralNetwork Network { get; }
 
-        public double[] Forward(List<StonkValues> vals, StonkContext context)
+        public double[] Forward(List<Comparison> vals, StonkContext context)
         {
             double[] ctxt = new double[vals.Count()];
             double[,] loc = new double[vals.Count(), MktSize];
             var newvals = vals.OrderBy(x => x.Time);
 
-            Parallel.For(0, vals.Count() - 1, j =>
+            Parallel.For(0, vals.Count(), j =>
             {
-                double[] a = vals[j].Coordinate(vals[j + 1]);
+                double[] a = vals[j].Values;
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(vals, j);
@@ -48,9 +48,9 @@ namespace CC_Library.Predictions
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(List<StonkValues> vals, StonkContext ctxt, StonkMem sm)
+        public double[] Forward(List<Comparison> vals, StonkContext ctxt, StonkMem sm)
         {
-            Parallel.For(0, vals.Count() - 1, j =>
+            Parallel.For(0, vals.Count(), j =>
             {
                 sm.LocationOutputs[j].Add(vals[j].Coordinate(vals[j + 1]));
                 for(int i = 0; i < Network.Layers.Count(); i++)
