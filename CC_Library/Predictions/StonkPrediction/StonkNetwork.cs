@@ -61,12 +61,12 @@ namespace CC_Library.Predictions
             }
             return sm.Multiply();
         }
-        public void Backward(string s, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(int ValueCount, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
         {
             var LocDValues = sm.DLocation(DValues);
             DValues = sm.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, sm.GlobalOutputs.ToArray());
-            context.Backward(DValues, s.Length, sm, CtxtMem);
+            context.Backward(DValues, ValueCount, sm, CtxtMem);
             Parallel.For(0, s.Length, j =>
             {
                 var ldv = LocDValues[j];
