@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
         {
             Network.Save(datatype);
         }
-        public void Contextualize(double[] Comparison, StonkMem sm)
+        public void Contextualize(double[] Comparison, int number, StonkMem sm)
         {
             sm.LocalContextOutputs.Add(new List<double[]>());
             sm.LocalContextOutputs.Last().Add(Comparison);
