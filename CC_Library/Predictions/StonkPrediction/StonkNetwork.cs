@@ -38,13 +38,13 @@ namespace CC_Library.Predictions
             double[,] loc = new double[vals.Count(), MktSize];
             var newvals = vals.OrderBy(x => x.Time);
 
-            for(int j = 0; j < vals.Count() - 1; j++)
+            Parallel.For(0, vals.Count() - 1, j =>
             {
                 double[] a = vals[j].Coordinate(vals[j + 1]);
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(vals, j);
-            }
+            });
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
