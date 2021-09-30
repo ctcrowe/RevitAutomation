@@ -35,19 +35,18 @@ namespace CC_Library.Predictions
             this.BidPrice = bidprice;
             this.BidSize = bidsize;
         }
-        public double[] Coordinate(StonkValues v1)
+        public Comparison Coordinate(StonkValues v1)
         {
-            double[] vals = new double[9];
-            vals[0] = Symbol == "AAPL" ? 1 : 0;
-            vals[1] = Symbol = "QQQ" ? 1 : 0;
-            vals[2] = Symbol = "VTI" ? 1 : 0;
-            vals[3] = (this.Time - v1.Time).TotalHours;
-            vals[4] = v1.Time.Hours / 24.0;
-            vals[5] = (this.AskPrice - v1.AskPrice) / v1.AskPrice;
-            vals[6] = (this.AskSize - v1.AskSize) / v1.AskSize;
-            vals[7] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
-            vals[8] = (this.BidSize - v1.BidSize) / v1.BidSize;
-            return vals;
+            Comparison Comp = new Comparison();
+            Comp.Values[0] = Symbol == "AAPL" ? 1 : 0;
+            Comp.Values[1] = Symbol = "QQQ" ? 1 : 0;
+            Comp.Values[2] = Symbol = "VTI" ? 1 : 0;
+            Comp.Values[3] = (this.Time - v1.Time).TotalHours;
+            Comp.Values[4] = v1.Time.Hours / 24.0;
+            Comp.Values[6] = (this.AskSize - v1.AskSize) / v1.AskSize;
+            Comp.Values[7] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
+            Comp.Values[8] = (this.BidSize - v1.BidSize) / v1.BidSize;
+            return Comp;
         }
         public void Save()
         {
@@ -59,6 +58,14 @@ namespace CC_Library.Predictions
                 Directory.CreateDirectory(subfolder);
             string fn = subfolder + "\\" + Symbol + "_" + Time.ToString("yyyyMMddhhmmss") + ".bin";
             fn.WriteToBinaryFile<StonkValues>(this);            
+        }
+    }
+    public class Comparison
+    {
+        public double[] Values {get; set;}
+        public Comparison()
+        {
+            this.Values = new double[9];
         }
     }
 }
