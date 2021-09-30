@@ -77,7 +77,7 @@ namespace CC_Library.Predictions
             write("Test Error : " + Error);
 
             var DValues = Backward(Samples[j], F, AAPLMem);
-            stk.Backward(Samples[j].TextInput, DValues, ctxt, am, StkMem, CtxtMem);
+            stk.Backward(vals, DValues, ctxt, am, StkMem, CtxtMem);
 
             AAPLMem.Update(1, 0.0001, Network);
             StkMem.Update(1, 0.00001, stk.Network);
