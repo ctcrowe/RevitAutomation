@@ -14,6 +14,7 @@ namespace CC_Library.Predictions
         /// variability ratio (high - low) / price at close
         /// secondary ratio (price at close - vwap / price at close
         /// hours since change
+        /// Time of Day = double.Parse(TimeUTC Hours) / 24
         /// Volume
         /// </summary>
         public Stonk()
