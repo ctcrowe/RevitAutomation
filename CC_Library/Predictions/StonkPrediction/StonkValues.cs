@@ -70,9 +70,16 @@ namespace CC_Library.Predictions
         
         public static List<Comparison> GenerateComparisons(List<StonkValue> Vals)
         {
+            List<Comparison> comps = new List<Comparison>();
             foreach(StonkValue val in Vals)
             {
+                if(Vals.Any(x => x.Symbol == val.Symbol).Any(y => DateTime.Compare(y.Time, v1.Time) > 0))
+                {
+                    var V1 = Vals.Where(x => x.Symbol == val.Symbol).Where(y => DateTime.Compare(y.Time, v1.Time) > 0).OrderBy(z => z.Time).First();
+                    comps.Add(val.Coordinate(V1));
+                }
             }
+            return comps;
         }
     }
 }
