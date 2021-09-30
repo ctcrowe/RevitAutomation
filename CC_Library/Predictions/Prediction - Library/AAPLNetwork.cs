@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
         }
-        public double[] Predict(List<StonkValues> vals)
+        public int Predict(List<StonkValues> vals)
         {
             Stonk st = new Stonk();
             StonkContext ctxt = new StonkContext();
@@ -32,7 +32,7 @@ namespace CC_Library.Predictions
             {
                 Results = Network.Layers[i].Output(Results);
             }
-            return Results;
+            return Results.ToList().IndexOf(Results.Max());
         }
         public List<double[]> Forward(Sample s)
         {
