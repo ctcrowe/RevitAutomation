@@ -29,11 +29,10 @@ namespace CC_Library.Predictions
         }
         public void Contextualize(double[] Comparison, int number, StonkMem sm)
         {
-            sm.LocalContextOutputs.Add(new List<double[]>());
-            sm.LocalContextOutputs.Last().Add(Comparison);
+            sm.LocalContextOutputs[number].Add(Comparison);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
-                sm.LocalContextOutputs.Last().Add(Network.Layers[i].Output(sm.LocalContextOutputs.Last().Last()));
+                sm.LocalContextOutputs[number].Add(Network.Layers[i].Output(sm.LocalContextOutputs.Last().Last()));
             }
         }
         public double Contextualize(List<StonkValues> vals, int c)
