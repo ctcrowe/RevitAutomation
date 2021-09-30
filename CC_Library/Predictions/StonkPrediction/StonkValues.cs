@@ -67,5 +67,12 @@ namespace CC_Library.Predictions
         {
             this.Values = new double[9];
         }
+        
+        public static List<Comparison> GenerateComparisons(List<StonkValue> Vals)
+        {
+            foreach(StonkValue val in Vals)
+            {
+            }
+        }
     }
 }
