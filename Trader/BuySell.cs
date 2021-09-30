@@ -24,7 +24,7 @@ namespace Trader
             return vals;
         }
 
-        public static async Task GetMarketData(Stonk stonk, StonkContext ctxt, StonkMem mem)
+        public static async Task GetMarketData(List<StonkValues> AAPLVals, List<StonkValues> QQQVals, List<StonkValues> VTIVals)
         {
             Console.WriteLine("Test");
             var DClient = Alpaca.Markets.Environments.Paper
@@ -33,6 +33,7 @@ namespace Trader
                 .GetAlpacaTradingClient(new SecretKey(API_KEY, API_SECRET));
 
             var clock = await TClient.GetClockAsync();
+            
 
             if (clock.IsOpen)
             {
