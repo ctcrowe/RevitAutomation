@@ -25,7 +25,9 @@ namespace CC_Library.Predictions
         }
         public double[] Predict(List<StonkValues> vals)
         {
-            double[] Results = s.ValInput;
+            Stonk st = new Stonk();
+            StonkContext ctxt = new StonkContext();
+            double[] Results = st.Forward(vals, ctxt);
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
