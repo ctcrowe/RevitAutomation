@@ -78,7 +78,7 @@ namespace CC_Library.Predictions
 
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    StonkMem am = new StonkMem(Samples[j]);
+                    StonkMem am = new StonkMem();
                     Samples[j].MktOutput = stk.Forward(Samples[j].MktVals, ctxt, am);
                     var F = Forward(Samples[j]);
                     var Error = CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum();
