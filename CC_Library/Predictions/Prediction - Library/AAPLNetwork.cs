@@ -61,20 +61,24 @@ namespace CC_Library.Predictions
             return DValues;
         }
         public void Propogate
-            (List<StonkValues> vals, WriteToCMDLine write)
+            (List<StonkValues> vals, bool increase, WriteToCMDLine write)
         {
+            Stonk stk = new Stonk();
+            StonkContext ctxt = new StonkContext(datatype);
+            
             NetworkMem AAPLMem = new NetworkMem(Network);
+            NetworkMem StkMem = new NetworkMem(stk.Network);
+            NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
-            Parallel.For(0, Samples.Count(), j =>
-            {
-                Samples[j].MktOutput = stk.Forward(Samples[j].MktVals, ctxt, am);
-                var F = Forward(Samples[j]);
-                var Error = CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum();
-                write("Test Error : " + Error);
+            var MktOutput = stk.Forward(vals, ctxt, am);
+            var F = Forward(MktOutput);
+            double[] inc = new double[2] { increase ? 1 : 0, increase? 0 : 1 };
+            var Error = CategoricalCrossEntropy.Forward(F.Last(), inc).Sum();
+            write("Test Error : " + Error);
 
-                var DValues = Backward(Samples[j], F, AAPLMem);
-                stk.Backward(Samples[j].TextInput, DValues, ctxt, am, StkMem, CtxtMem);
-            });
+            var DValues = Backward(Samples[j], F, AAPLMem);
+            stk.Backward(Samples[j].TextInput, DValues, ctxt, am, StkMem, CtxtMem);
+
             AAPLMem.Update(1, 0.0001, Network);
             StkMem.Update(1, 0.00001, stk.Network);
             CtxtMem.Update(1, 0.0001, ctxt.Network);
