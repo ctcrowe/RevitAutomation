@@ -18,15 +18,15 @@ namespace CC_Library.Predictions
 {
     public class StonkMem
     {
-        public List<List<double[]>> LocationOutputs { get; set; }
-        public List<List<double[]>> LocalContextOutputs { get; set; }
+        public List<double[]>[] LocationOutputs { get; set; }
+        public List<double[]>[] LocalContextOutputs { get; set; }
         public double[] GlobalOutputs { get; set; }
 
-        public StonkMem()
+        public StonkMem(int Count)
         {
-            LocationOutputs = new List<List<double[]>>();
-            LocalContextOutputs = new List<List<double[]>>();
-            GlobalOutputs = new double[0];
+            LocationOutputs = new List<double[]>[Count]();
+            LocalContextOutputs = new List<double[]>[Count]();
+            GlobalOutputs = new double[Count];
 
             Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[]>());
             Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[]>());
