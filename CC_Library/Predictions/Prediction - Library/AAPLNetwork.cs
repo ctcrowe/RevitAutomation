@@ -34,16 +34,14 @@ namespace CC_Library.Predictions
             }
             return Results.ToList().IndexOf(Results.Max());
         }
-        public List<double[]> Forward(Sample s)
+        public List<double[]> Forward(double[] vals)
         {
             List<double[]> Results = new List<double[]>();
-            Results.Add(s.MktOutput);
-
+            Results.Add(vals);
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
                 Results.Add(Network.Layers[k].Output(Results.Last()));
             }
-
             return Results;
         }
         public double[] Backward
@@ -63,41 +61,29 @@ namespace CC_Library.Predictions
             return DValues;
         }
         public void Propogate
-            (Sample s, WriteToCMDLine write)
+            (List<StonkValues> vals, WriteToCMDLine write)
         {
+            NetworkMem AAPLMem = new NetworkMem(Network);
 
-            for (int i = 0; i < 5; i++)
+            Parallel.For(0, Samples.Count(), j =>
             {
-                var Samples = s.ReadSamples(24);
-                NetworkMem AAPLMem = new NetworkMem(Network);
+                Samples[j].MktOutput = stk.Forward(Samples[j].MktVals, ctxt, am);
+                var F = Forward(Samples[j]);
+                var Error = CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum();
+                write("Test Error : " + Error);
 
-                Parallel.For(0, Samples.Count(), j =>
-                {
-                    Samples[j].MktOutput = stk.Forward(Samples[j].MktVals, ctxt, am);
-                    var F = Forward(Samples[j]);
-                    var Error = CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum();
-                    write("Test Error : " + Error);
-
-                    var DValues = Backward(Samples[j], F, AAPLMem);
-                    stk.Backward(Samples[j].TextInput, DValues, ctxt, am, StkMem, CtxtMem);
-                });
-                AAPLMem.Update(1, 0.0001, Network);
-                StkMem.Update(1, 0.00001, stk.Network);
-                CtxtMem.Update(1, 0.0001, ctxt.Network);
-            }
+                var DValues = Backward(Samples[j], F, AAPLMem);
+                stk.Backward(Samples[j].TextInput, DValues, ctxt, am, StkMem, CtxtMem);
+            });
+            AAPLMem.Update(1, 0.0001, Network);
+            StkMem.Update(1, 0.00001, stk.Network);
+            CtxtMem.Update(1, 0.0001, ctxt.Network);
+         
             Network.Save();
             stk.Network.Save();
             ctxt.Save();
 
             s.Save();
-        }
-        public void Pretrain(Sample s)
-        {
-            NetworkMem mem = new NetworkMem(Network);
-            var F = Forward(s);
-            var DValues = Backward(s, F, mem);
-            mem.Update(1, 1, Network);
-            Network.Save();
         }
     }
 }
