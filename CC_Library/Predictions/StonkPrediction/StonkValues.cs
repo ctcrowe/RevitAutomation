@@ -37,12 +37,13 @@ namespace CC_Library.Predictions
         }
         public double[] Coordinate(StonkValues v1)
         {
-            double[] vals = new double[5];
+            double[] vals = new double[6];
             vals[0] = (this.Time - v1.Time).TotalHours;
-            vals[1] = (this.AskPrice - v1.AskPrice) / v1.AskPrice;
-            vals[2] = (this.AskSize - v1.AskSize) / v1.AskSize;
-            vals[3] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
-            vals[4] = (this.BidSize - v1.BidSize) / v1.BidSize;
+            vals[1] = v1.Time.Hours / 24.0;
+            vals[2] = (this.AskPrice - v1.AskPrice) / v1.AskPrice;
+            vals[3] = (this.AskSize - v1.AskSize) / v1.AskSize;
+            vals[4] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
+            vals[5] = (this.BidSize - v1.BidSize) / v1.BidSize;
             return vals;
         }
         public void Save()
