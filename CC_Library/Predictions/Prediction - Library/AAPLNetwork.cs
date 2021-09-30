@@ -7,11 +7,11 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    public class AppleNetwork : INetworkPredUpdater
+    public class AppleNetwork
     {
         public Datatype datatype { get { return Datatype.AAPL; } }
         public NeuralNetwork Network { get; }
-        public AppleNetwork(Sample s)
+        public AppleNetwork()
         {
             Network = datatype.LoadNetwork();
             if (Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype.ToString())
@@ -21,10 +21,9 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
-                //Pretrain(s);
             }
         }
-        public double[] Predict(Sample s)
+        public double[] Predict(List<StonkValues> vals)
         {
             double[] Results = s.ValInput;
             for(int i = 0; i < Network.Layers.Count(); i++)
