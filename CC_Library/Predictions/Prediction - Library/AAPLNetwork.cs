@@ -26,9 +26,7 @@ namespace CC_Library.Predictions
         }
         public double[] Predict(Sample s)
         {
-            Stonk stk = new Stonk(s.MktVals);
-            StonkContext ctxt = new StonkContext(Datatype.AAPL);
-            double[] Results = stk.Forward(s.MktVals, ctxt);
+            double[] Results = s.ValInput;
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
@@ -66,19 +64,14 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
-            Stonk stk = new Stonk(s.MktVals);
-            StonkContext ctxt = new StonkContext(Datatype.AAPL);
 
             for (int i = 0; i < 5; i++)
             {
                 var Samples = s.ReadSamples(24);
                 NetworkMem AAPLMem = new NetworkMem(Network);
-                NetworkMem StkMem = new NetworkMem(stk.Network);
-                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    StonkMem am = new StonkMem();
                     Samples[j].MktOutput = stk.Forward(Samples[j].MktVals, ctxt, am);
                     var F = Forward(Samples[j]);
                     var Error = CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum();
