@@ -59,7 +59,6 @@ namespace CC_Library.Predictions
                 }
                 ctxt.Contextualize(sm.LocationsOutputs[j].First(), j, sm);
             }
-            Sample s = new Sample(Datatype.AAPL);
             return sm.Multiply();
         }
         public void Backward(string s, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
