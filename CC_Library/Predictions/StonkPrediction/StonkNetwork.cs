@@ -48,22 +48,19 @@ namespace CC_Library.Predictions
 
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public Sample Forward(List<StonkValues> vals, StonkContext ctxt, StonkMem sm)
+        public double[] Forward(List<StonkValues> vals, StonkContext ctxt, StonkMem sm)
         {
             Parallel.For(0, vals.Count() - 1, j =>
             {
-                List<double[]> Location = new List<double[]>();
-                Location.Add(vals[j].Coordinate(vals[j + 1]));
+                sm.LocationOutputs[j].Add(vals[j].Coordinate(vals[j + 1]));
                 for(int i = 0; i < Network.Layers.Count(); i++)
                 {
-                    Location.Add(Network.Layers[i].Output(Location.Last()));
+                    sm.LocationOutputs[j].Add(Network.Layers[i].Output(sm.LocationOutputs[j].Last()));
                 }
-                sm.LocationOutputs.Add(Location);
-                ctxt.Contextualize(Location.First(), sm);
+                ctxt.Contextualize(sm.LocationsOutputs[j].First(), j, sm);
             }
             Sample s = new Sample(Datatype.AAPL);
-            s.ValInput = sm.Multiply();
-            return s;
+            return sm.Multiply();
         }
         public void Backward(string s, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
         {
