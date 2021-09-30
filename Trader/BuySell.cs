@@ -12,8 +12,6 @@ namespace Trader
 {
     internal class BuySell
     {
-
-        private const int items = 80;
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
         
@@ -26,7 +24,7 @@ namespace Trader
             return vals;
         }
 
-        public static async Task GetMarketData(Stonk stonk, StonkMem mem)
+        public static async Task GetMarketData(Stonk stonk, StonkContext ctxt, StonkMem mem)
         {
             Console.WriteLine("Test");
             var DClient = Alpaca.Markets.Environments.Paper

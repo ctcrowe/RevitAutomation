@@ -6,7 +6,7 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    internal class Stonk
+    public class Stonk
     {
         /// <summary>
         /// index of stonk in enum [enum size]
@@ -16,7 +16,7 @@ namespace CC_Library.Predictions
         /// hours since change
         /// Volume
         /// </summary>
-        internal Stonk()
+        public Stonk()
         {
             Network = Datatype.Stonk.LoadNetwork();
             if (Network.Datatype == Datatype.None.ToString())

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using CC_Library.Predictions;
 
 namespace Trader
 {
@@ -16,6 +17,7 @@ namespace Trader
         public void ScheduleCycle(double intervalInHour)
         {
             Stonk stonk = new Stonk();
+            StonkContext ctxt = new StonkContext(CC_Library.Datatypes.Datatype.AAPL);
             StonkMem mem = new StonkMem();
             DateTime now = DateTime.Now;
             DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, 0);
@@ -32,7 +34,7 @@ namespace Trader
 
             var timer = new Timer(x =>
             {
-                _ = BuySell.GetMarketData(stonk, mem);
+                _ = BuySell.GetMarketData(stonk, ctxt, mem);
             }, null, timeToGo, TimeSpan.FromHours(intervalInHour));
 
             timers.Add(timer);

@@ -8,12 +8,12 @@ using CC_Library.Predictions;
 
 namespace CC_Library.Predictions
 {
-    internal class StonkContext
+    public class StonkContext
     {
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
         public const int SearchRange = 2;
-        internal StonkContext(Datatype dt)
+        public StonkContext(Datatype dt)
         {
             datatype = dt;
             Network = Datatype.StonkContext.LoadNetwork(dt);
