@@ -45,11 +45,11 @@ namespace CC_Library.Predictions
             return Results;
         }
         public double[] Backward
-            (Sample s,
-            List<double[]> Results,
+            (List<double[]> Results,
+             double[] desired,
              NetworkMem mem)
         {
-            var DValues = s.DesiredOutput;
+            var DValues = desired;
 
             for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
@@ -76,7 +76,7 @@ namespace CC_Library.Predictions
             var Error = CategoricalCrossEntropy.Forward(F.Last(), inc).Sum();
             write("Test Error : " + Error);
 
-            var DValues = Backward(Samples[j], F, AAPLMem);
+            var DValues = Backward(F, inc, AAPLMem);
             stk.Backward(vals, DValues, ctxt, am, StkMem, CtxtMem);
 
             AAPLMem.Update(1, 0.0001, Network);
