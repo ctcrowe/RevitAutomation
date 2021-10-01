@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
         public AppleNetwork()
         {
             Network = datatype.LoadNetwork();
-            if (Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype.ToString())
+            if (Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.AAPL);
                 Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
@@ -26,8 +26,9 @@ namespace CC_Library.Predictions
         public int Predict(List<StonkValues> vals)
         {
             Stonk st = new Stonk();
-            StonkContext ctxt = new StonkContext();
-            double[] Results = st.Forward(vals, ctxt);
+            StonkContext ctxt = new StonkContext(Datatype.AAPL);
+            var comps = Comparison.GenerateComparisons(vals);
+            double[] Results = st.Forward(comps, ctxt);
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
@@ -63,21 +64,24 @@ namespace CC_Library.Predictions
         public void Propogate
             (List<StonkValues> vals, bool increase, WriteToCMDLine write)
         {
+            List<Comparison> comps = Comparison.GenerateComparisons(vals);
+
             Stonk stk = new Stonk();
             StonkContext ctxt = new StonkContext(datatype);
+            StonkMem sm = new StonkMem(comps.Count());
             
             NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
-            var MktOutput = stk.Forward(vals, ctxt, am);
+            var MktOutput = stk.Forward(comps, ctxt, sm);
             var F = Forward(MktOutput);
             double[] inc = new double[2] { increase ? 1 : 0, increase? 0 : 1 };
             var Error = CategoricalCrossEntropy.Forward(F.Last(), inc).Sum();
             write("Test Error : " + Error);
 
             var DValues = Backward(F, inc, AAPLMem);
-            stk.Backward(vals, DValues, ctxt, am, StkMem, CtxtMem);
+            stk.Backward(DValues, ctxt, sm, StkMem, CtxtMem);
 
             AAPLMem.Update(1, 0.0001, Network);
             StkMem.Update(1, 0.00001, stk.Network);
@@ -86,8 +90,6 @@ namespace CC_Library.Predictions
             Network.Save();
             stk.Network.Save();
             ctxt.Save();
-
-            s.Save();
         }
     }
 }

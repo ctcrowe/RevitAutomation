@@ -35,9 +35,9 @@ namespace CC_Library.Predictions
                 sm.LocalContextOutputs[number].Add(Network.Layers[i].Output(sm.LocalContextOutputs.Last().Last()));
             }
         }
-        public double Contextualize(List<StonkValues> vals, int c)
+        public double Contextualize(List<Comparison> vals, int c)
         {
-            var result = vals[c].Coordinate(vals[c + 1]);
+            var result = vals[c].Values;
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);

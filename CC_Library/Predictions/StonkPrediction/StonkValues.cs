@@ -39,10 +39,10 @@ namespace CC_Library.Predictions
         {
             Comparison Comp = new Comparison();
             Comp.Values[0] = Symbol == "AAPL" ? 1 : 0;
-            Comp.Values[1] = Symbol = "QQQ" ? 1 : 0;
-            Comp.Values[2] = Symbol = "VTI" ? 1 : 0;
+            Comp.Values[1] = Symbol == "QQQ" ? 1 : 0;
+            Comp.Values[2] = Symbol == "VTI" ? 1 : 0;
             Comp.Values[3] = (this.Time - v1.Time).TotalHours;
-            Comp.Values[4] = v1.Time.Hours / 24.0;
+            Comp.Values[4] = (v1.Time.Hour + (v1.Time.Minute / 60)) / 24.0;
             Comp.Values[6] = (this.AskSize - v1.AskSize) / v1.AskSize;
             Comp.Values[7] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
             Comp.Values[8] = (this.BidSize - v1.BidSize) / v1.BidSize;
@@ -68,15 +68,19 @@ namespace CC_Library.Predictions
             this.Values = new double[9];
         }
         
-        public static List<Comparison> GenerateComparisons(List<StonkValue> Vals)
+        public static List<Comparison> GenerateComparisons(List<StonkValues> Vals)
         {
             List<Comparison> comps = new List<Comparison>();
-            foreach(StonkValue val in Vals)
+            foreach(StonkValues val in Vals)
             {
-                if(Vals.Any(x => x.Symbol == val.Symbol).Any(y => DateTime.Compare(y.Time, v1.Time) > 0))
+                if (Vals.Any(x => x.Symbol == val.Symbol))
                 {
-                    var V1 = Vals.Where(x => x.Symbol == val.Symbol).Where(y => DateTime.Compare(y.Time, v1.Time) < 0).OrderBy(z => z.Time).First();
-                    comps.Add(val.Coordinate(V1));
+                    var v = Vals.Where(x => x.Symbol == val.Symbol).ToList();
+                    if(v.Any(y => DateTime.Compare(y.Time, val.Time) > 0))
+                    {
+                        var V1 = v.Where(z => DateTime.Compare(z.Time, val.Time) < 0).OrderBy(z => z.Time).First();
+                        comps.Add(val.Coordinate(V1));
+                    }
                 }
             }
             return comps;

@@ -71,8 +71,8 @@ namespace Trader
                     (double)aaploutput.Items.First().Open > (double)aaploutput.Items.First().Close ? 0 : 1,
                     (double)aaploutput.Items.First().Open > (double)aaploutput.Items.First().Close ? 1 : 0
                     };
-                    AppleNetwork net = new AppleNetwork(s);
-                    net.Propogate(s, new WriteToCMDLine(Write));
+                    AppleNetwork net = new AppleNetwork();
+                    //net.Propogate(s, new WriteToCMDLine(Write));
                 }
             }
             catch(Exception e)

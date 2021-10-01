@@ -24,7 +24,7 @@ namespace Trader
             return vals;
         }
 
-        public static async Task GetMarketData(List<StonkValues> AAPLVals, List<StonkValues> QQQVals, List<StonkValues> VTIVals)
+        public static async Task GetMarketData(List<StonkValues> vals)
         {
             Console.WriteLine("Test");
             var DClient = Alpaca.Markets.Environments.Paper

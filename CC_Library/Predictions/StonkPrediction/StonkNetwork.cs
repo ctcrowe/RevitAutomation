@@ -36,7 +36,6 @@ namespace CC_Library.Predictions
         {
             double[] ctxt = new double[vals.Count()];
             double[,] loc = new double[vals.Count(), MktSize];
-            var newvals = vals.OrderBy(x => x.Time);
 
             Parallel.For(0, vals.Count(), j =>
             {
@@ -52,22 +51,22 @@ namespace CC_Library.Predictions
         {
             Parallel.For(0, vals.Count(), j =>
             {
-                sm.LocationOutputs[j].Add(vals[j].Coordinate(vals[j + 1]));
-                for(int i = 0; i < Network.Layers.Count(); i++)
+                sm.LocationOutputs[j].Add(vals[j].Values);
+                for (int i = 0; i < Network.Layers.Count(); i++)
                 {
                     sm.LocationOutputs[j].Add(Network.Layers[i].Output(sm.LocationOutputs[j].Last()));
                 }
-                ctxt.Contextualize(sm.LocationsOutputs[j].First(), j, sm);
-            }
+                ctxt.Contextualize(sm.LocationOutputs[j].First(), j, sm);
+            });
             return sm.Multiply();
         }
-        public void Backward(int ValueCount, double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(double[] DValues, StonkContext context, StonkMem sm, NetworkMem mem, NetworkMem CtxtMem)
         {
             var LocDValues = sm.DLocation(DValues);
             DValues = sm.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, sm.GlobalOutputs.ToArray());
-            context.Backward(DValues, ValueCount, sm, CtxtMem);
-            Parallel.For(0, s.Length, j =>
+            context.Backward(DValues, sm.LocationOutputs.Count(), sm, CtxtMem);
+            Parallel.For(0, sm.GlobalOutputs.Count(), j =>
             {
                 var ldv = LocDValues[j];
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
