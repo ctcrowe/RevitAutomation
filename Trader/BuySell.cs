@@ -47,6 +47,8 @@ namespace Trader
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
                             var val = vals.Where(x => x.Symbol == "AAPL").OrderByDescending(x => x.Time).First();
+                            bool inc = (AAPLQuote.AskPrice + AAPLQuote.BidPrice) > (val.AskPrice + val.BidPrice);
+                            
                         }
                     }
                 }
