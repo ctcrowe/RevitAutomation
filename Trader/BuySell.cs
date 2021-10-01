@@ -50,6 +50,10 @@ namespace Trader
                             var val = vals.Where(x => x.Symbol == "AAPL").OrderByDescending(x => x.Time).First();
                             bool inc = (AAPLQuote.AskPrice + AAPLQuote.BidPrice) > (val.AskPrice + val.BidPrice);
                             net.Propogate(vals, inc, new WriteToCMDLine(Write));
+                            if(inc)
+                                Write("Result : Buy");
+                            else
+                                Write("Result : Sell");
                         }
                     }
                     vals.Add(AAPLQuote);
@@ -58,9 +62,9 @@ namespace Trader
                     
                     var prediction = net.Predict(vals);
                     if(prediction = 0)
-                        Write("Buy");
+                        Write("Prediction : Buy");
                     else
-                        Write("Sell");
+                        Write("Prediction : Sell");
                 }
                 catch (Exception e)
                 {
