@@ -42,6 +42,12 @@ namespace Trader
                     var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
                     var QQQQuote = GetValues(await DClient.GetLatestQuoteAsync("QQQ"));
                     var VTIQuote = GetValues(await DClient.GetLatestQuoteAsync("VTI"));
+                    if(vals.Any())
+                    {
+                        if(vals.Any(x => x.Symbol == "AAPL"))
+                        {
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
