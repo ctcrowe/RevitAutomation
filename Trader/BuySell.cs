@@ -34,11 +34,12 @@ namespace Trader
 
             var clock = await TClient.GetClockAsync();
             
-
             if (clock.IsOpen)
             {
                 try
                 {
+                    AppleNetwork net = new AppleNetwork();
+                    
                     var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
                     var QQQQuote = GetValues(await DClient.GetLatestQuoteAsync("QQQ"));
                     var VTIQuote = GetValues(await DClient.GetLatestQuoteAsync("VTI"));
@@ -48,7 +49,7 @@ namespace Trader
                         {
                             var val = vals.Where(x => x.Symbol == "AAPL").OrderByDescending(x => x.Time).First();
                             bool inc = (AAPLQuote.AskPrice + AAPLQuote.BidPrice) > (val.AskPrice + val.BidPrice);
-                            
+                            net.Propogate(vals, inc, new WriteToCMDLine(Write));
                         }
                     }
                 }
