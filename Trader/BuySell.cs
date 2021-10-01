@@ -57,6 +57,10 @@ namespace Trader
                     vals.Add(VTIQuote);
                     
                     var prediction = net.Predict(vals);
+                    if(prediction = 0)
+                        Write("Buy");
+                    else
+                        Write("Sell");
                 }
                 catch (Exception e)
                 {
