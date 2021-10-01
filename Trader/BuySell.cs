@@ -52,6 +52,11 @@ namespace Trader
                             net.Propogate(vals, inc, new WriteToCMDLine(Write));
                         }
                     }
+                    vals.Add(AAPLQuote);
+                    vals.Add(QQQQuote);
+                    vals.Add(VTIQuote);
+                    
+                    var prediction = net.Predict(vals);
                 }
                 catch (Exception e)
                 {
