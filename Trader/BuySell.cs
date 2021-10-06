@@ -36,14 +36,15 @@ namespace Trader
             
             if (clock.IsOpen)
             {
+                AppleNetwork net = new AppleNetwork();
+                    
+                var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
+                var QQQQuote = GetValues(await DClient.GetLatestQuoteAsync("QQQ"));
+                var VTIQuote = GetValues(await DClient.GetLatestQuoteAsync("VTI"));
+                    
                 try
                 {
-                    AppleNetwork net = new AppleNetwork();
-                    
-                    var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
-                    var QQQQuote = GetValues(await DClient.GetLatestQuoteAsync("QQQ"));
-                    var VTIQuote = GetValues(await DClient.GetLatestQuoteAsync("VTI"));
-                    if(vals.Any())
+                    if(vals.Count() > 3)
                     {
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
@@ -56,21 +57,32 @@ namespace Trader
                                 Write("Result : Sell");
                         }
                     }
-                    vals.Add(AAPLQuote);
-                    vals.Add(QQQQuote);
-                    vals.Add(VTIQuote);
+                }
+                catch (Exception e) { e.OutputError(); }
+                
+                vals.Add(AAPLQuote);
+                vals.Add(QQQQuote);
+                vals.Add(VTIQuote);
+                
+                try
+                {
                     
-                    var prediction = net.Predict(vals);
-                    if(prediction == 0)
-                        Write("Prediction : Buy");
-                    else
-                        Write("Prediction : Sell");
+                    if(vals.Count() > 3)
+                    {
+                        if(vals.Any(x => x.Symbol == "AAPL"))
+                        {
+                            var prediction = net.Predict(vals);
+                            if(prediction == 0)
+                                Write("Prediction : Buy");
+                            else
+                                Write("Prediction : Sell");
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
                     e.OutputError();
                 }
-                Console.WriteLine("Test");
                 /*
                 var into = DateTime.Now;
                 into = into.AddHours(-1);
