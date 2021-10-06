@@ -20,9 +20,9 @@ namespace Trader
 
             DateTime now = DateTime.Now;
             DateTime firstRun = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, 0);
-            if (now > firstRun)
+            while (now > firstRun)
             {
-                firstRun = firstRun.AddHours(1);
+                firstRun = firstRun.AddHours(intervalInHour);
             }
 
             TimeSpan timeToGo = firstRun - now;

@@ -61,7 +61,7 @@ namespace Trader
                     vals.Add(VTIQuote);
                     
                     var prediction = net.Predict(vals);
-                    if(prediction = 0)
+                    if(prediction == 0)
                         Write("Prediction : Buy");
                     else
                         Write("Prediction : Sell");
