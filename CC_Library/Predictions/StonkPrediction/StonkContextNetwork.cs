@@ -37,9 +37,9 @@ namespace CC_Library.Predictions
                 sm.LocalContextOutputs[number].Add(result);
             }
         }
-        public double Contextualize(List<Comparison> vals, int c)
+        public double Contextualize(Comparison val)
         {
-            var result = vals[c].Values.Clone();
+            var result = val.Values.Clone();
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);
