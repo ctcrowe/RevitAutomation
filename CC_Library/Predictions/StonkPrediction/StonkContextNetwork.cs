@@ -29,11 +29,12 @@ namespace CC_Library.Predictions
         }
         public void Contextualize(Comparison comp, int number, StonkMem sm)
         {
-            //copy the comparison and create a new array that is used here.
-            sm.LocalContextOutputs[number].Add(comp.Values.Clone());
+            var result = comp.Values.Clone();
+            sm.LocalContextOutputs[number].Add(result);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
-                sm.LocalContextOutputs[number].Add(Network.Layers[i].Output(sm.LocalContextOutputs.Last().Last()));
+                result = Network.Layers[i].Output(result);
+                sm.LocalContextOutputs[number].Add(result);
             }
         }
         public double Contextualize(List<Comparison> vals, int c)
