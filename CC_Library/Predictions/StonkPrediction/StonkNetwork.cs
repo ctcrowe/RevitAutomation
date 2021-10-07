@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, vals.Count(), j =>
             {
-                double[] a = vals[j].Values;
+                double[] a = vals[j].Values.Clone();
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(vals, j);
@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
         {
             Parallel.For(0, vals.Count(), j =>
             {
-                sm.LocationOutputs[j].Add(vals[j].Values);
+                sm.LocationOutputs[j].Add(vals[j].Values.Clone());
                 for (int i = 0; i < Network.Layers.Count(); i++)
                 {
                     sm.LocationOutputs[j].Add(Network.Layers[i].Output(sm.LocationOutputs[j].Last()));
