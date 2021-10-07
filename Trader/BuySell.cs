@@ -44,7 +44,7 @@ namespace Trader
                     
                 try
                 {
-                    if(vals.Count() > 3)
+                    if(vals.Count() > 6)
                     {
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
@@ -66,8 +66,7 @@ namespace Trader
                 
                 try
                 {
-                    
-                    if(vals.Count() > 3)
+                    if(vals.Count() > 6)
                     {
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
