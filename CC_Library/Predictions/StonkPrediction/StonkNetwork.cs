@@ -42,7 +42,7 @@ namespace CC_Library.Predictions
                 double[] a = vals[j].Values.Clone();
                 for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
                 loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(vals, j);
+                ctxt[j] = context.Contextualize(vals[j]);
             });
 
             return loc.Multiply(Activations.SoftMax(ctxt));
