@@ -29,6 +29,7 @@ namespace CC_Library.Predictions
         }
         public void Contextualize(double[] Comparison, int number, StonkMem sm)
         {
+            //copy the comparison and create a new array that is used here.
             sm.LocalContextOutputs[number].Add(Comparison);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
