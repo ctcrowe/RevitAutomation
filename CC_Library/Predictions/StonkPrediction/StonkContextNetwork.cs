@@ -27,10 +27,10 @@ namespace CC_Library.Predictions
         {
             Network.Save(datatype);
         }
-        public void Contextualize(double[] Comparison, int number, StonkMem sm)
+        public void Contextualize(Comparison comp, int number, StonkMem sm)
         {
             //copy the comparison and create a new array that is used here.
-            sm.LocalContextOutputs[number].Add(Comparison);
+            sm.LocalContextOutputs[number].Add(comp.Values.Clone());
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 sm.LocalContextOutputs[number].Add(Network.Layers[i].Output(sm.LocalContextOutputs.Last().Last()));
@@ -38,7 +38,7 @@ namespace CC_Library.Predictions
         }
         public double Contextualize(List<Comparison> vals, int c)
         {
-            var result = vals[c].Values;
+            var result = vals[c].Values.Clone();
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);
