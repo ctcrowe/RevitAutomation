@@ -78,7 +78,7 @@ namespace CC_Library.Predictions
                     var v = Vals.Where(x => x.Symbol == val.Symbol).ToList();
                     if(v.Any(y => DateTime.Compare(y.Time, val.Time) > 0))
                     {
-                        var V1 = v.Where(z => DateTime.Compare(z.Time, val.Time) < 0).OrderBy(z => z.Time).First();
+                        var V1 = v.Where(z => DateTime.Compare(z.Time, val.Time) > 0).OrderBy(z => z.Time).First();
                         comps.Add(val.Coordinate(V1));
                     }
                 }

@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
             if (Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.Stonk);
-                Network.Layers.Add(new Layer(MktSize, 6, Activation.LRelu));
+                Network.Layers.Add(new Layer(MktSize, 9, Activation.LRelu));
                 Network.Layers.Add(new Layer(MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.Linear));
             }
