@@ -29,7 +29,7 @@ namespace CC_Library.Predictions
         }
         public void Contextualize(Comparison comp, int number, StonkMem sm)
         {
-            var result = comp.Values.Clone();
+            var result = comp.Values.Duplicate();
             sm.LocalContextOutputs[number].Add(result);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
         }
         public double Contextualize(Comparison val)
         {
-            var result = val.Values.Clone();
+            double[] result = val.Values.Duplicate();
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);

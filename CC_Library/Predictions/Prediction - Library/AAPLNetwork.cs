@@ -77,15 +77,16 @@ namespace CC_Library.Predictions
             var MktOutput = stk.Forward(comps, ctxt, sm);
             var F = Forward(MktOutput);
             double[] inc = new double[2] { increase ? 1 : 0, increase? 0 : 1 };
+            write(increase ? "Price Increse" : "Price Decrease");
             var Error = CategoricalCrossEntropy.Forward(F.Last(), inc).Sum();
             write("Test Error : " + Error);
 
             var DValues = Backward(F, inc, AAPLMem);
             stk.Backward(DValues, ctxt, sm, StkMem, CtxtMem);
 
-            AAPLMem.Update(1, 0.0001, Network);
-            StkMem.Update(1, 0.00001, stk.Network);
-            CtxtMem.Update(1, 0.0001, ctxt.Network);
+            AAPLMem.Update(1, 0.1, Network);
+            StkMem.Update(1, 0.1, stk.Network);
+            CtxtMem.Update(1, 0.1, ctxt.Network);
          
             Network.Save();
             stk.Network.Save();
