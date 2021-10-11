@@ -46,6 +46,7 @@ namespace CC_Library.Predictions
                         output[i] = LocationOutputs[j].Last()[i] * GlobalOutputs[j];
                     }
                 });
+                return output;
             }
             return null;
         }

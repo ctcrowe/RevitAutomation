@@ -29,7 +29,7 @@ namespace CC_Library.Predictions
             StonkContext ctxt = new StonkContext(Datatype.AAPL);
             var comps = Comparison.GenerateComparisons(vals);
             double[] Results = st.Forward(comps, ctxt);
-            for(int i = 0; i < Network.Layers.Count(); i++)
+            for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
             }
@@ -48,16 +48,25 @@ namespace CC_Library.Predictions
         public double[] Backward
             (List<double[]> Results,
              double[] desired,
-             NetworkMem mem)
+             NetworkMem mem,
+             WriteToCMDLine write)
         {
             var DValues = desired;
 
             for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
-                DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
-                mem.Layers[l].DBiases(DValues);
-                mem.Layers[l].DWeights(DValues, Results[l]);
-                DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
+                try
+                {
+                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
+                    mem.Layers[l].DBiases(DValues);
+                    mem.Layers[l].DWeights(DValues, Results[l]);
+                    DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
+                }
+                catch (Exception e)
+                {
+                    write("Failed at Layer : " + l);
+                    e.OutputError();
+                }
             }
             return DValues;
         }
@@ -69,19 +78,20 @@ namespace CC_Library.Predictions
             Stonk stk = new Stonk();
             StonkContext ctxt = new StonkContext(datatype);
             StonkMem sm = new StonkMem(comps.Count());
-            
+
             NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
             var MktOutput = stk.Forward(comps, ctxt, sm);
             var F = Forward(MktOutput);
-            double[] inc = new double[2] { increase ? 1 : 0, increase? 0 : 1 };
+            double[] inc = increase ? new double[2] { 1 , 0 } : new double[2] { 0 , 1};
             write(increase ? "Price Increse" : "Price Decrease");
             var Error = CategoricalCrossEntropy.Forward(F.Last(), inc).Sum();
+            write("test Forward Count : " + F.Count());
             write("Test Error : " + Error);
 
-            var DValues = Backward(F, inc, AAPLMem);
+            var DValues = Backward(F, inc, AAPLMem, write);
             stk.Backward(DValues, ctxt, sm, StkMem, CtxtMem);
 
             AAPLMem.Update(1, 0.1, Network);

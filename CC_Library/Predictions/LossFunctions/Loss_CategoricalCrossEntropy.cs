@@ -12,19 +12,12 @@ namespace CC_Library.Predictions
         {
             double[] Result = new double[predicted.Count()];
             int amax = actual.ToList().IndexOf(actual.Max());
-            double pmax = 1;
             double min = 1e-6;
             double max = 1 - min;
-            if (predicted[amax] <= min)
-                pmax = min;
-            else
-            {
-                if (predicted[amax] >= max)
-                    pmax = max;
-                else
-                    pmax = predicted[amax];
-            }
+
+            double pmax = predicted[amax] <= min ? min : predicted[amax] >= max ? max : predicted[amax];
             var afin = -1 * Math.Log(pmax);
+
             Result[amax] = afin;
             return Result;
         }
