@@ -23,6 +23,8 @@
         RoomPrivacy,
         Stonk,
         StonkContext,
+        MaxValue,
+        MinValue,
         AAPL
     }
 }
