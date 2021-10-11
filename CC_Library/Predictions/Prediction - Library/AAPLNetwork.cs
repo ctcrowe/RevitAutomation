@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(9, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
+                Network.Layers.Add(new Layer(24, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
         }
         public int Predict(List<StonkValues> vals)
@@ -85,7 +85,7 @@ namespace CC_Library.Predictions
 
             var MktOutput = stk.Forward(comps, ctxt, sm);
             var F = Forward(MktOutput);
-            double[] desired = StonkValues.GetMax(vals);
+            double[] desired = StonkValues.GetMax(vals, true);
             var Error = CategoricalCrossEntropy.Forward(F.Last(), desired).Sum();
             write("test Forward Count : " + F.Count());
             write("Test Error : " + Error);
