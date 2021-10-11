@@ -48,13 +48,15 @@ namespace CC_Library.Predictions
             Comp.Values[8] = (this.BidSize - v1.BidSize) / v1.BidSize;
             return Comp;
         }
-        public static double[] GetMax(List<StonkValues> vals)
+        public static double[] GetMax(List<StonkValues> vals, bool minmax)
         {
-            
-        }
-        public static double[] GetMin(List<StonkValues> vals)
-        {
-            
+            Dictionary<StonkValue, double> data = new Dictioanry<StonkValue, double>();
+            Parallel.For(0, vals.Count, j => data.Add(vals, vals.BidPrice + vals.AskPrice));
+            double[] output = new double[24];
+            var valuetosearch = minmax ? Math.Max(data.Values) : Math.Min(data.Values);
+            int time = data.Where(x => x.Value == valuetosearch).Time.Hours;
+            output[time] = 1;
+            return output;
         }
         public void Save()
         {
