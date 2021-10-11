@@ -29,7 +29,7 @@ namespace CC_Library.Predictions
             }
         }
 
-        public const int MktSize = 30;
+        public const int MktSize = 80;
         public NeuralNetwork Network { get; }
 
         public double[] Forward(List<Comparison> vals, StonkContext context)
