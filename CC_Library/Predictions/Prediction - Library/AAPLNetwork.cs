@@ -10,17 +10,28 @@ namespace CC_Library.Predictions
     public class AppleNetwork
     {
         public Datatype datatype { get { return Datatype.AAPL; } }
-        public NeuralNetwork Network { get; }
+        public NeuralNetwork MaxNetwork { get; }
+        public NeuralNetwork MinNetwork { get; }
         public AppleNetwork()
         {
-            Network = datatype.LoadNetwork();
-            if (Network.Datatype == Datatype.None.ToString())
+            MaxNetwork = Datatype.MaxValue.LoadNetwork(datatype);
+            if (MaxNetwork.Datatype == Datatype.None.ToString())
             {
-                Network = new NeuralNetwork(Datatype.AAPL);
-                Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(24, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
+                MaxNetwork = new NeuralNetwork(Datatype.MaxValue);
+                MaxNetwork.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
+                MaxNetwork.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                MaxNetwork.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                MaxNetwork.Layers.Add(new Layer(24, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
+            }
+            
+            MinNetwork = Datatype.MinValue.LoadNetwork(datatype);
+            if (MinNetwork.Datatype == Datatype.None.ToString())
+            {
+                MinNetwork = new NeuralNetwork(Datatype.MinValue);
+                MinNetwork.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
+                MinNetwork.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                MinNetwork.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                MinNetwork.Layers.Add(new Layer(24, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
         }
         public int Predict(List<StonkValues> vals)
