@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(8, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
+                Network.Layers.Add(new Layer(9, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
         }
         public int Predict(List<StonkValues> vals)
