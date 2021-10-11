@@ -48,6 +48,14 @@ namespace CC_Library.Predictions
             Comp.Values[8] = (this.BidSize - v1.BidSize) / v1.BidSize;
             return Comp;
         }
+        public static double[] GetMax(List<StonkValues> vals)
+        {
+            
+        }
+        public static double[] GetMin(List<StonkValues> vals)
+        {
+            
+        }
         public void Save()
         {
             string folder = "StockValues".GetMyDocs();
