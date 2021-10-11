@@ -71,7 +71,7 @@ namespace CC_Library.Predictions
             return DValues;
         }
         public void Propogate
-            (List<StonkValues> vals, bool increase, WriteToCMDLine write)
+            (List<StonkValues> vals, int min, int max, WriteToCMDLine write)
         {
             List<Comparison> comps = Comparison.GenerateComparisons(vals);
 
