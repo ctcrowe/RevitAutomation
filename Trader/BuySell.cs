@@ -82,6 +82,26 @@ namespace Trader
                 {
                     e.OutputError();
                 }
+
+            }
+            else
+            {
+                Random r = new Random();
+                var newvals = vals.Take(r.NextInt(vals.Count()).ToList();
+                var Low = ;
+                                        var High = ;
+                                        
+                Console.WriteLine("Market Closed");
+            }
+            Console.Read();
+        }
+        public static string Write(string s)
+        {
+            Console.WriteLine(s);
+            return s;
+        }
+    }
+}
                 /*
                 var into = DateTime.Now;
                 into = into.AddHours(-1);
@@ -145,18 +165,3 @@ namespace Trader
                 }
                 Console.WriteLine(account.BuyingPower + " is available as buying power.");
                 */
-                Console.Read();
-            }
-            else
-            {
-                Console.WriteLine("Market Closed");
-                Console.Read();
-            }
-        }
-        public static string Write(string s)
-        {
-            Console.WriteLine(s);
-            return s;
-        }
-    }
-}
