@@ -17,6 +17,10 @@ namespace Trader
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
         
+        private static StonkValues GetValues(IBar bar)
+        {
+            return null;
+        }
         private static StonkValues GetValues(IQuote quote)
         {
             StonkValues vals = new StonkValues(quote.Symbol, quote.TimestampUtc,
