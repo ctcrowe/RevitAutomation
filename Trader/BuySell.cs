@@ -8,6 +8,8 @@ using CC_Library;
 using CC_Library.Datatypes;
 using CC_Library.Predictions;
 
+//ToDo : Generate samples of value prediction using bars (similar to before) only feed it into a list of stonk values
+// Then take the first n samples of that list and predict the high / low using the n samples from the list.
 namespace Trader
 {
     internal class BuySell
@@ -83,15 +85,6 @@ namespace Trader
                     e.OutputError();
                 }
 
-            }
-            else
-            {
-                Random r = new Random();
-                var newvals = vals.Take(r.NextInt(vals.Count()).ToList();
-                var Low = ;
-                                        var High = ;
-                                        
-                Console.WriteLine("Market Closed");
             }
             Console.Read();
         }
