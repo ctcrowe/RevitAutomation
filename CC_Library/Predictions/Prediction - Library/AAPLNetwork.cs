@@ -123,7 +123,7 @@ namespace CC_Library.Predictions
             return DValues;
         }
         public void Propogate
-            (List<StonkValues> vals, int min, int max, WriteToCMDLine write)
+            (List<StonkValues> vals, double[] max, double[] min, WriteToCMDLine write)
         {
             List<Comparison> comps = Comparison.GenerateComparisons(vals);
 
@@ -140,8 +140,8 @@ namespace CC_Library.Predictions
             var MaxF = MaxForward(MktOutput);
             var MinF = MinForward(MktOutput);
 
-            var MaxD = MaxBackward(MaxF, StonkValues.GetMax(vals, true), MaxAAPLMem, write);
-            var MinD = MinBackward(MinF, StonkValues.GetMax(vals, false), MinAAPLMem, write);
+            var MaxD = MaxBackward(MaxF, max/*StonkValues.GetMax(vals, true)*/, MaxAAPLMem, write);
+            var MinD = MinBackward(MinF, min/*StonkValues.GetMax(vals, false)*/, MinAAPLMem, write);
             stk.Backward(MaxD, ctxt, sm, StkMem, CtxtMem);
             stk.Backward(MinD, ctxt, sm, StkMem, CtxtMem);
 
