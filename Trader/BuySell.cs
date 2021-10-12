@@ -19,7 +19,7 @@ namespace Trader
         
         private static async List<StonkValues> GetBars(DateTime dt)
         {
-            
+            DateTime date = new DateTime(dt.Year, dt.Month, dt.Day);
         }
         private static StonkValues GetValues(IBar bar)
         {
