@@ -17,6 +17,10 @@ namespace Trader
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
         
+        private static async List<StonkValues> GetBars(DateTime dt)
+        {
+            
+        }
         private static StonkValues GetValues(IBar bar)
         {
             return null;
