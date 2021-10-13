@@ -44,7 +44,10 @@ namespace Trader
             try
             {
                 Random r = new Random();
-                var into = DateTime.Now;
+                var now = DateTime.Now;
+                var into = new DateTime(now.Year, now.Month, now.Day);
+                var from = into.AddDays(-1 * r.Next(1, 500));
+                into = from.AddDays(1);
                 
                 var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
                 var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Hour));
