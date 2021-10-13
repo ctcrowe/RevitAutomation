@@ -43,6 +43,7 @@ namespace Trader
             
             try
             {
+                Random r = new Random();
                 var into = DateTime.Now;
                 
                 var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
