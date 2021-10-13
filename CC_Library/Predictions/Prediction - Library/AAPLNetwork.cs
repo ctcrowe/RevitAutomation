@@ -140,8 +140,8 @@ namespace CC_Library.Predictions
             var MaxF = MaxForward(MktOutput);
             var MinF = MinForward(MktOutput);
 
-            var MaxD = MaxBackward(MaxF, max/*StonkValues.GetMax(vals, true)*/, MaxAAPLMem, write);
-            var MinD = MinBackward(MinF, min/*StonkValues.GetMax(vals, false)*/, MinAAPLMem, write);
+            var MaxD = MaxBackward(MaxF, max, MaxAAPLMem, write);
+            var MinD = MinBackward(MinF, min, MinAAPLMem, write);
             stk.Backward(MaxD, ctxt, sm, StkMem, CtxtMem);
             stk.Backward(MinD, ctxt, sm, StkMem, CtxtMem);
 
