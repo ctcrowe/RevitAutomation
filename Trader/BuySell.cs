@@ -20,12 +20,19 @@ namespace Trader
         private static StonkValues GetValues(IQuote quote)
         {
             StonkValues vals = new StonkValues(quote.Symbol, quote.TimestampUtc,
-                                   (double)quote.AskPrice, (double)quote.AskSize,
+                                   (double)quote.AskPrice,
+                                   (double)quote.BidPrice);
+            vals.Save();
+            return vals;
+        }
+        private static StonkValues GetValues(IBar bar)
+        {
+            StonkValues vals = new StonkValues(bar.Symbol, bar.TimestampUtc,
+                                   (double)bar.AskPrice, (double)quote.AskSize,
                                    (double)quote.BidPrice, (double)quote.BidSize);
             vals.Save();
             return vals;
         }
-
         public static async Task GetMarketData(List<StonkValues> vals)
         {
             Console.WriteLine("Test");
