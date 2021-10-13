@@ -49,7 +49,6 @@ namespace Trader
                     {
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
-                            Random r = new Random();
                             var sv = vals.Where(x => x.Symbol == "AAPL").ToList();
                             var testmax = StonkValues.GetMax(sv, true);
                             var testmin = StonkValues.GetMax(sv, true);
