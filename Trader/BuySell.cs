@@ -27,9 +27,7 @@ namespace Trader
         }
         private static StonkValues GetValues(IBar bar)
         {
-            StonkValues vals = new StonkValues(bar.Symbol, bar.TimestampUtc,
-                                   (double)bar.AskPrice, (double)quote.AskSize,
-                                   (double)quote.BidPrice, (double)quote.BidSize);
+            StonkValues vals = new StonkValues(bar.Symbol, bar.TimestampUtc, (double)bar.AskPrice);
             vals.Save();
             return vals;
         }
