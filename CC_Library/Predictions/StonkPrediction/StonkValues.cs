@@ -22,18 +22,22 @@ namespace CC_Library.Predictions
         public string Symbol { get; }
         public DateTime Time { get; }
         public double AskPrice { get; set; }
-        public double AskSize { get; set; }
         public double BidPrice { get; set; }
-        public double BidSize { get; set; }
-        public StonkValues(string symbol, DateTime dt, double askprice, double asksize, double bidprice, double bidsize)
+        public StonkValues(string symbol, DateTime dt, double askprice, double bidprice)
         {
             this.id = new Guid();
             this.Symbol = symbol;
             this.Time = dt;
             this.AskPrice = askprice;
-            this.AskSize = asksize;
             this.BidPrice = bidprice;
-            this.BidSize = bidsize;
+        }
+        public StonkValues(string symbol, DateTime dt, double price)
+        {
+            this.id = new Guid();
+            this.Symbol = symbol;
+            this.Time = dt;
+            this.AskPrice = price;
+            this.BidPrice = price;
         }
         public Comparison Coordinate(StonkValues v1)
         {
@@ -43,9 +47,8 @@ namespace CC_Library.Predictions
             Comp.Values[2] = Symbol == "VTI" ? 1 : 0;
             Comp.Values[3] = (this.Time - v1.Time).TotalHours;
             Comp.Values[4] = (v1.Time.Hour + (v1.Time.Minute / 60)) / 24.0;
-            Comp.Values[6] = (this.AskSize - v1.AskSize) / v1.AskSize;
+            Comp.Values[6] = (this.AskPrice - v1.AskPrice) / v1.AskPrice;
             Comp.Values[7] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
-            Comp.Values[8] = (this.BidSize - v1.BidSize) / v1.BidSize;
             return Comp;
         }
         public static double[] GetMax(List<StonkValues> vals, bool minmax)
@@ -75,7 +78,7 @@ namespace CC_Library.Predictions
         public double[] Values {get; set;}
         public Comparison()
         {
-            this.Values = new double[9];
+            this.Values = new double[8];
         }
         
         public static List<Comparison> GenerateComparisons(List<StonkValues> Vals)
