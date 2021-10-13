@@ -17,14 +17,6 @@ namespace Trader
         private static string API_KEY = "PK2CPPF4DJ29SX61712T";
         private static string API_SECRET = "0XJpuQJ5QamtvrdlMsjxFj3YFPQ2Kqp3yNh9PnVx";
         
-        private static async List<StonkValues> GetBars(DateTime dt)
-        {
-            DateTime date = new DateTime(dt.Year, dt.Month, dt.Day);
-        }
-        private static StonkValues GetValues(IBar bar)
-        {
-            return null;
-        }
         private static StonkValues GetValues(IQuote quote)
         {
             StonkValues vals = new StonkValues(quote.Symbol, quote.TimestampUtc,
@@ -47,7 +39,6 @@ namespace Trader
             if (clock.IsOpen)
             {
                 AppleNetwork net = new AppleNetwork();
-                    
                 var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
                 var QQQQuote = GetValues(await DClient.GetLatestQuoteAsync("QQQ"));
                 var VTIQuote = GetValues(await DClient.GetLatestQuoteAsync("VTI"));
@@ -58,13 +49,12 @@ namespace Trader
                     {
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
-                            var val = vals.Where(x => x.Symbol == "AAPL").OrderByDescending(x => x.Time).First();
-                            bool inc = (AAPLQuote.AskPrice + AAPLQuote.BidPrice) > (val.AskPrice + val.BidPrice);
-                            net.Propogate(vals, inc, new WriteToCMDLine(Write));
-                            if(inc)
-                                Write("Result : Buy");
-                            else
-                                Write("Result : Sell");
+                            Random r = new Random();
+                            var sv = vals.Where(x => x.Symbol == "AAPL").ToList();
+                            var testmax = StonkValues.GetMax(sv, true);
+                            var testmin = StonkValues.GetMax(sv, true);
+
+                            net.Propogate(vals, testmax, testmin, new WriteToCMDLine(Write));
                         }
                     }
                 }
@@ -81,10 +71,7 @@ namespace Trader
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
                             var prediction = net.Predict(vals);
-                            if(prediction == 0)
-                                Write("Prediction : Buy");
-                            else
-                                Write("Prediction : Sell");
+                            Write("Prediction : " + prediction[0] + ", " + prediction[1]);
                         }
                     }
                 }
