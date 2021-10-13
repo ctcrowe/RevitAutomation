@@ -41,6 +41,14 @@ namespace Trader
 
             var clock = await TClient.GetClockAsync();
             
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                e.OutputError();
+            }
+            
             if (clock.IsOpen)
             {
                 AppleNetwork net = new AppleNetwork();
