@@ -65,7 +65,7 @@ namespace CC_Plugin
         public MFElePlaced(AddInId id)
         {
             appId = id;
-            updaterId = new UpdaterId(appId, new Guid("f9c5b860-7761-4cd3-9a22-0d1915d88314"));
+            updaterId = new UpdaterId(appId, new Guid("0517c3c7-3812-4689-9ff8-70b3444cab27"));
         }
         static AddInId appId;
         static UpdaterId updaterId;
