@@ -14,13 +14,18 @@ namespace CC_Plugin
 {
     internal class MFElePlaced : IUpdater
     {
-        public static void RegisterUpdater(AddInId id)
+        public static void StartUp(AddInId id)
         {
             MFElePlaced updater = new MFElePlaced(id);
             UpdaterRegistry.RegisterUpdater(updater, true);
             UpdaterRegistry.AddTrigger(updater.GetUpdaterId(),
                 new ElementClassFilter(typeof(FamilyInstance)),
                 Element.GetChangeTypeElementAddition());
+        }
+        public static void ShutDown(AddInId id)
+        {
+            MFElePlaced updater = new MFElePlaced(id);
+            UpdaterRegistry.UnregisterUpdater(updater, true);
         }
         public void Execute(UpdaterData data)
         {
@@ -73,6 +78,7 @@ namespace CC_Plugin
     {
         public static Result OnStartup(UIControlledApplication app)
         {
+            MFElePlaced.StartUp(app.ActiveAddInId);
             app.ControlledApplication.DocumentOpened += new EventHandler<DocumentOpenedEventArgs>(OpenedEvent);
             app.ControlledApplication.DocumentClosing += new EventHandler<DocumentClosingEventArgs>(ClosingEvent);
             app.ControlledApplication.DocumentCreated += new EventHandler<DocumentCreatedEventArgs>(CreatedEvent);
@@ -81,6 +87,7 @@ namespace CC_Plugin
         }
         public static Result OnShutdown(UIControlledApplication app)
         {
+            MFElePlaced.ShutDown(app.ActiveAddInId);
             app.ControlledApplication.DocumentOpened -= new EventHandler<DocumentOpenedEventArgs>(OpenedEvent);
             app.ControlledApplication.DocumentClosing -= new EventHandler<DocumentClosingEventArgs>(ClosingEvent);
             app.ControlledApplication.DocumentCreated -= new EventHandler<DocumentCreatedEventArgs>(CreatedEvent);
