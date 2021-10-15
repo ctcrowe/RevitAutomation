@@ -15,6 +15,15 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static string GenText(this double[] x)
+        {
+            string s = x[0];
+            for(int i = 1; i < x.Count(); i++)
+            {
+                s+= ", " + x[i];
+            }
+            return s;
+        }
         public static string WriteNull(string s)
         {
             return s;
