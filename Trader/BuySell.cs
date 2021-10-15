@@ -22,13 +22,11 @@ namespace Trader
             StonkValues vals = new StonkValues(quote.Symbol, quote.TimestampUtc,
                                    (double)quote.AskPrice,
                                    (double)quote.BidPrice);
-            vals.Save();
             return vals;
         }
         private static StonkValues GetValues(IBar bar)
         {
             StonkValues vals = new StonkValues(bar.Symbol, bar.TimeUtc, (double)bar.Open);
-            vals.Save();
             return vals;
         }
         public static async Task GetMarketData(List<StonkValues> vals)
@@ -101,7 +99,7 @@ namespace Trader
                     {
                         if(vals.Any(x => x.Symbol == "AAPL"))
                         {
-                            var prediction = net.Predict(vals);
+                            var prediction = net.Predict(vals, new WriteToCMDLine(Write));
                             Write("Prediction : " + prediction[0] + ", " + prediction[1]);
                         }
                     }

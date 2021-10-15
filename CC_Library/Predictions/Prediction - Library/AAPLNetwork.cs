@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 MinNetwork.Layers.Add(new Layer(24, MinNetwork.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
         }
-        public int[] Predict(List<StonkValues> vals)
+        public int[] Predict(List<StonkValues> vals, WriteToCMDLine write)
         {
             Stonk st = new Stonk();
             StonkContext ctxt = new StonkContext(Datatype.AAPL);
@@ -46,6 +46,8 @@ namespace CC_Library.Predictions
                 MaxResults = MaxNetwork.Layers[i].Output(MaxResults);
                 MinResults = MinNetwork.Layers[i].Output(MinResults);
             }
+            write("Test Max Count : " + MaxResults.Count());
+            write("Test Min Count : " + MinResults.Count());
             return new int[2]
             {
                 MaxResults.ToList().IndexOf(MaxResults.Max()),

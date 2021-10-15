@@ -53,9 +53,12 @@ namespace CC_Library.Predictions
         }
         public static double[] GetMax(List<StonkValues> vals, bool minmax)
         {
-            Dictionary<StonkValues, double> data = new Dictionary<StonkValues, double>();
-            Parallel.For(0, vals.Count, j => data.Add(vals[j], vals[j].BidPrice + vals[j].AskPrice));
             double[] output = new double[24];
+            Dictionary<StonkValues, double> data = new Dictionary<StonkValues, double>();
+            for(int j = 0; j < vals.Count(); j++)
+            {
+                data.Add(vals[j], vals[j].BidPrice + vals[j].AskPrice);
+            }
             var valuetosearch = minmax ? data.Values.Max() : data.Values.Min();
             int time = data.Where(x => x.Value == valuetosearch).First().Key.Time.Hour;
             output[time] = 1;
