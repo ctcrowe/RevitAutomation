@@ -25,7 +25,7 @@ namespace CC_Plugin
         public static void ShutDown(AddInId id)
         {
             MFElePlaced updater = new MFElePlaced(id);
-            UpdaterRegistry.UnregisterUpdater(updater, true);
+            UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
         }
         public void Execute(UpdaterData data)
         {

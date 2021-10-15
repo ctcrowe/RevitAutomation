@@ -27,13 +27,14 @@ namespace Trader
         }
         private static StonkValues GetValues(IBar bar)
         {
-            StonkValues vals = new StonkValues(bar.Symbol, bar.TimestampUtc, (double)bar.AskPrice);
+            StonkValues vals = new StonkValues(bar.Symbol, bar.TimeUtc, (double)bar.Open);
             vals.Save();
             return vals;
         }
         public static async Task GetMarketData(List<StonkValues> vals)
         {
-            Console.WriteLine("Test");
+            AppleNetwork net = new AppleNetwork();
+
             var DClient = Alpaca.Markets.Environments.Paper
                 .GetAlpacaDataClient(new SecretKey(API_KEY, API_SECRET));
             var TClient = Alpaca.Markets.Environments.Paper
@@ -47,11 +48,37 @@ namespace Trader
                 var now = DateTime.Now;
                 var into = new DateTime(now.Year, now.Month, now.Day);
                 var from = into.AddDays(-1 * r.Next(1, 500));
+                while (from.DayOfWeek == DayOfWeek.Sunday || from.DayOfWeek == DayOfWeek.Saturday)
+                    from.AddDays(1);
                 into = from.AddDays(1);
                 
                 var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
                 var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Hour));
                 var vtibars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
+
+                var bars = new List<StonkValues>();
+                var aapl = new List<StonkValues>();
+                
+                foreach(var b in aaplbars.Items.Take(r.Next(2, aaplbars.Items.Count())))
+                {
+                    bars.Add(GetValues(b));
+                    aapl.Add(GetValues(b));
+                }
+                foreach(var b in qqqbars.Items.Take(r.Next(2, qqqbars.Items.Count())))
+                {
+                    bars.Add(GetValues(b));
+                }
+                foreach(var b in vtibars.Items.Take(r.Next(2, vtibars.Items.Count())))
+                {
+                    bars.Add(GetValues(b));
+                }
+                var testaapl = aapl.Take(r.Next(2, aapl.Count()));
+                var testmax = StonkValues.GetMax(aapl, true);
+                var testmin = StonkValues.GetMax(aapl, false);
+
+                net.Propogate(bars, testmax, testmin, new WriteToCMDLine(Write));
+
+
             }
             catch (Exception e)
             {
@@ -60,26 +87,9 @@ namespace Trader
             
             if (clock.IsOpen)
             {
-                AppleNetwork net = new AppleNetwork();
                 var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
                 var QQQQuote = GetValues(await DClient.GetLatestQuoteAsync("QQQ"));
                 var VTIQuote = GetValues(await DClient.GetLatestQuoteAsync("VTI"));
-                    
-                try
-                {
-                    if(vals.Count() > 6)
-                    {
-                        if(vals.Any(x => x.Symbol == "AAPL"))
-                        {
-                            var sv = vals.Where(x => x.Symbol == "AAPL").ToList();
-                            var testmax = StonkValues.GetMax(sv, true);
-                            var testmin = StonkValues.GetMax(sv, true);
-
-                            net.Propogate(vals, testmax, testmin, new WriteToCMDLine(Write));
-                        }
-                    }
-                }
-                catch (Exception e) { e.OutputError(); }
                 
                 vals.Add(AAPLQuote);
                 vals.Add(QQQQuote);
