@@ -142,6 +142,12 @@ namespace CC_Library.Predictions
             var MaxF = MaxForward(MktOutput);
             var MinF = MinForward(MktOutput);
 
+            var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last(), max).SumError();
+            write("Max Error : " + MaxError);
+            var MinError = CategoricalCrossEntropy.Forward(MinF.Last(), min).SumError();
+            write("Min Error : " + MinError);
+
+
             var MaxD = MaxBackward(MaxF, max, MaxAAPLMem, write);
             var MinD = MinBackward(MinF, min, MinAAPLMem, write);
             stk.Backward(MaxD, ctxt, sm, StkMem, CtxtMem);

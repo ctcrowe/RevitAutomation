@@ -17,7 +17,7 @@ namespace CC_Library
     {
         public static string GenText(this double[] x)
         {
-            string s = x[0];
+            string s = x[0].ToString();
             for(int i = 1; i < x.Count(); i++)
             {
                 s+= ", " + x[i];
