@@ -70,11 +70,9 @@ namespace Trader
                 {
                     bars.Add(GetValues(b));
                 }
-                var testaapl = aapl.Take(r.Next(2, aapl.Count()));
+                
                 var testmax = StonkValues.GetMax(aapl, true);
-                Write("Max Values Test : " + testmax.GenText());
                 var testmin = StonkValues.GetMax(aapl, false);
-                Write("Min Values Test : " + testmin.GenText());
 
                 net.Propogate(bars, testmax, testmin, new WriteToCMDLine(Write));
 
