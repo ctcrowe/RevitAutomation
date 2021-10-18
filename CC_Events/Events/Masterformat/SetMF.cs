@@ -6,6 +6,7 @@ using Autodesk.Revit.UI;
 
 using CC_Library;
 using CC_Library.Predictions;
+using CC_Library.Datatypes;
 using CC_Library.Parameters;
 
 using CC_Plugin.Parameters;
@@ -30,34 +31,18 @@ namespace CC_Plugin
         public void Execute(UpdaterData data)
         {
             Document doc = data.GetDocument();
-            if (!doc.IsFamilyDocument)
+            var Eles = data.GetAddedElementIds().ToList();
+            foreach (var eid in Eles)
             {
-                var Eles = data.GetAddedElementIds().ToList();
-                foreach (var eid in Eles)
+                var ele = doc.GetElement(eid) as FamilyInstance;
+                if (ele != null)
                 {
-                    var ele = doc.GetElement(eid) as FamilySymbol;
-                    if (ele != null)
+                    var symb = ele.Symbol;
+                    if (symb != null)
                     {
-                        var inst = doc.GetElement(eid) as FamilyInstance;
-                        if (inst != null)
-                        {
-                            ele = inst.Symbol;
-                            string name = "";
-                            int MF = 0;
-                            try { name = ele.FamilyName; } catch (Exception e) { e.OutputError(); }
-                            if (name != "")
-                            {
-                                try
-                                {
-                                    Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                                    s.TextInput = name;
-                                    var output = new MasterformatNetwork(s).Predict(s);
-                                    MF = output.ToList().IndexOf(output.Max());
-                                }
-                                catch (Exception e) { e.OutputError(); }
-                            }
-                            try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
-                        }
+                        string name = symb.FamilyName == null ? "preset" : symb.FamilyName;
+                        int MF = Datatype.Masterformat.PredictSingle(name);
+                        try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
                     }
                 }
             }
