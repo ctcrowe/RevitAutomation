@@ -147,10 +147,10 @@ namespace CC_Library.Predictions
             write("Max Desired : " + max.GenText());
             write("Min Desired : " + min.GenText());
             
-            var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last(), max).SumError();
-            write("Max Error : " + MaxError);
-            var MinError = CategoricalCrossEntropy.Forward(MinF.Last(), min).SumError();
-            write("Min Error : " + MinError);
+            var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last(), max);
+            write("Max Error : " + MaxError.GenText());
+            var MinError = CategoricalCrossEntropy.Forward(MinF.Last(), min);
+            write("Min Error : " + MinError.GenText());
 
 
             var MaxD = MaxBackward(MaxF, max, MaxAAPLMem, write);
