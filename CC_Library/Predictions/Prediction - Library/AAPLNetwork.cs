@@ -144,6 +144,9 @@ namespace CC_Library.Predictions
             write("Max Predictions : " + MaxF.Last().GenText());
             write("Min Predictions : " + MinF.Last().GenText());
 
+            write("Max Desired : " + max.GenText());
+            write("Min Desired : " + min.GenText());
+            
             var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last(), max).SumError();
             write("Max Error : " + MaxError);
             var MinError = CategoricalCrossEntropy.Forward(MinF.Last(), min).SumError();
