@@ -141,6 +141,8 @@ namespace CC_Library.Predictions
             var MktOutput = stk.Forward(comps, ctxt, sm);
             var MaxF = MaxForward(MktOutput);
             var MinF = MinForward(MktOutput);
+            write("Max Predictions : " + MaxF.Last().GenText());
+            write("Min Predictions : " + MinF.Last().GenText());
 
             var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last(), max).SumError();
             write("Max Error : " + MaxError);
