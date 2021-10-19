@@ -63,19 +63,19 @@ namespace CC_Library.Predictions
         {
             Parallel.For(0, DeltaB.Count(), i =>
             {
-                    layer.Biases[i] = double.IsNaN(DeltaB[i]) ? 
-                        layer.Biases[i] : DeltaB[i] >= 1 ?
-                        layer.Biases[i] - adjustment : DeltaB[i] <= -1?
-                        layer.Biases[i] + adjustment : layer.Biases[i] - (adjustment * DeltaB[i]);
+                    layer.BMomentum[i] = double.IsNaN(DeltaB[i]) ? 
+                        layer.BMomentum[i] : DeltaB[i] >= 1 ?
+                        layer.BMomentum[i] - adjustment : DeltaB[i] <= -1 ?
+                        layer.BMomentum[i] + adjustment : layer.BMomentum [i] - (adjustment * DeltaB[i]);
             });
             Parallel.For(0, layer.Weights.GetLength(0), i =>
             {
                 Parallel.For(0, layer.Weights.GetLength(1), j =>
                 {
-                    layer.Weights[i, j] = double.IsNaN(DeltaW[i, j]) ? 
-                        layer.Weights[i, j] : DeltaW[i, j] >= 1 ?
-                        layer.Weights[i, j] - adjustment : DeltaW[i, j] <= -1?
-                        layer.Weights[i, j] + adjustment : layer.Weights[i, j] - (adjustment * DeltaW[i, j]);
+                    layer.WMomentum[i, j] = double.IsNaN(DeltaW[i, j]) ? 
+                        layer.WMomentum[i, j] : DeltaW[i, j] >= 1 ?
+                        layer.WMomentum[i, j] - adjustment : DeltaW[i, j] <= -1?
+                        layer.WMomentum[i, j] + adjustment : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
                 });
             });
             Reset();
