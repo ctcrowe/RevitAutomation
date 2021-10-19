@@ -36,6 +36,8 @@ namespace CC_Library.Predictions
             Random random = new Random();
             this.Weights = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
             this.Biases = new double[NeuronCount];
+            this.WMomentum = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
+            this.BMomentum = new double[NeuronCount];
             this.Function = function;
             for (int i = 0; i < NeuronCount; i++)
             {
