@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
@@ -68,6 +69,22 @@ namespace CC_Library.Predictions
             catch(Exception e) { e.OutputError(); }
             var func = Function.GetFunction();
             return func(Output);
+        }
+        public void Update()
+        {
+            Parallel.For(0, Weights.GetLength(0), j =>
+                         { Parallel.For(0, Weights.GetLength(1), i => 
+                                        {
+                                            Weights[j, i] += WMomentum[j, i];
+                                            WMomentum[j, i] /= 2;
+                                        });
+                         });
+            Parallel.For(0, Biases.Count(), j =>
+                         {
+                             Biases[j] += BMomemtum[j];
+                             BMomentum[j] /= 2;
+                         });
+            
         }
     }
 }
