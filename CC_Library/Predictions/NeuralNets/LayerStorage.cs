@@ -78,6 +78,7 @@ namespace CC_Library.Predictions
                         layer.WMomentum[i, j] + adjustment : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
                 });
             });
+            layer.Update();
             Reset();
         }
         public void Reset()
