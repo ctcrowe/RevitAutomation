@@ -9,6 +9,8 @@ namespace CC_Library.Predictions
     {
         public double[,] Weights { get; set; }
         public double[] Biases { get; set; }
+        public double[,] WMomentum { get; set; }
+        public double[] BMomentum { get; set; }
         public Activation Function { get; set; }
 
         #region Overloads
@@ -17,6 +19,8 @@ namespace CC_Library.Predictions
             Random random = new Random();
             this.Weights = new double[NeuronCount, WeightCount];
             this.Biases = new double[NeuronCount];
+            this.WMomentum = new double[NeuronCount, WeightCount];
+            this.BMomentum = new double[NeuronCount];
             this.Function = function;
             for (int i = 0; i < NeuronCount; i++)
             {
