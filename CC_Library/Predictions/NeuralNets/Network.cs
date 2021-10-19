@@ -11,7 +11,7 @@ namespace CC_Library.Predictions
         public List<Layer> Layers { get; set; }
         public string Datatype { get; }
 
-        public double[] Predict(double[] results)
+        public double[] Forward(double[] results)
         {
             for(int i = 0; i < Layers.Count(); i++)
             {
@@ -19,7 +19,7 @@ namespace CC_Library.Predictions
             }
             return results;
         }
-        public List<double[]> Forward(double[] input)
+        public List<double[]> Forward(double[] input, double dropout)
         {
             List<double[]> Results = new List<double[]>();
             Results.Add(input);
