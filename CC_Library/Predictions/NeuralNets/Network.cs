@@ -29,7 +29,7 @@ namespace CC_Library.Predictions
             {
                 double[,] output = new double[2, Layers[k].Biases.Count()];
                 output.SetRank(Layers[k].Output(Results.Last().GetRank(0)), 0);
-                output.SetRank(Dropout(output.GetRank(0), 1));
+                output.SetRank(Dropout(output.GetRank(0), dropout), 1));
                 Results.Add(output);
             }
             return Results;
