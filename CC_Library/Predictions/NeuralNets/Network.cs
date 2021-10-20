@@ -26,8 +26,48 @@ namespace CC_Library.Predictions
             for (int k = 0; k < Layers.Count(); k++)
             {
                 Results.Add(Layers[k].Output(Results.Last()));
+                if(k != Layers.Count() - 1)
+                {
+                    Results.Add(DropOut(Results.Last(), dropout));
+                }
             }
             return Results;
+        }
+        public double[] Backkward(List<double[]> Results, double[] desired, NetworkMem mem, WriteToCMDLine write)
+        {
+            var DValues = desired;
+
+            for (int l = Layers.Count() - 1; l >= 0; l--)
+            {
+                try
+                {
+                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]); //no longer Results[ l + 1]
+                    //now its going to be something like 2 * l + 1
+                    mem.Layers[l].DBiases(DValues);
+                    mem.Layers[l].DWeights(DValues, Results[l]);
+                    DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
+                }
+                catch (Exception e)
+                {
+                    write("Failed at Layer : " + l);
+                    e.OutputError();
+                }
+            }
+            return DValues;
+        }
+        private static double[] DropOut(double[] input, double rate)
+        {
+            Random r = new Random();
+            double[] output = input.Duplicate();
+            while ((double)output.Where(x => x == 0).Count() / (double)output.Count() < rate)
+            {
+                output[r.Next(0, output.Count() - 1)] = 0;
+            }
+            for(int i = 0; i < input.Count(); i++)
+            {
+                output[i] /= (1 - rate);
+            }
+            return output;
         }
         public NeuralNetwork(Datatype datatype)
         {

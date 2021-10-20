@@ -9,6 +9,7 @@ namespace CC_Library.Predictions
 {
     public class AppleNetwork
     {
+        private const double dropout = 0.2;
         public Datatype datatype { get { return Datatype.AAPL; } }
         public NeuralNetwork MaxNetwork { get; }
         public NeuralNetwork MinNetwork { get; }
@@ -41,38 +42,13 @@ namespace CC_Library.Predictions
             var comps = Comparison.GenerateComparisons(vals);
             double[] MaxResults = st.Forward(comps, ctxt);
             double[] MinResults = MaxResults.Duplicate();
-            for (int i = 0; i < MaxNetwork.Layers.Count(); i++)
-            {
-                MaxResults = MaxNetwork.Layers[i].Output(MaxResults);
-                MinResults = MinNetwork.Layers[i].Output(MinResults);
-            }
-            write("Test Max Count : " + MaxResults.Count());
-            write("Test Min Count : " + MinResults.Count());
+            MaxResults = MaxNetwork.Forward(MaxResults);
+            MinResults = MinNetwork.Forward(MinResults);
             return new int[2]
             {
                 MaxResults.ToList().IndexOf(MaxResults.Max()),
                 MinResults.ToList().IndexOf(MinResults.Max())
             };
-        }
-        public List<double[]> MaxForward(double[] vals)
-        {
-            List<double[]> Results = new List<double[]>();
-            Results.Add(vals);
-            for (int k = 0; k < MaxNetwork.Layers.Count(); k++)
-            {
-                Results.Add(MaxNetwork.Layers[k].Output(Results.Last()));
-            }
-            return Results;
-        }
-        public List<double[]> MinForward(double[] vals)
-        {
-            List<double[]> Results = new List<double[]>();
-            Results.Add(vals);
-            for (int k = 0; k < MinNetwork.Layers.Count(); k++)
-            {
-                Results.Add(MinNetwork.Layers[k].Output(Results.Last()));
-            }
-            return Results;
         }
         public double[] MaxBackward
             (List<double[]> Results,
@@ -139,8 +115,9 @@ namespace CC_Library.Predictions
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
             var MktOutput = stk.Forward(comps, ctxt, sm);
-            var MaxF = MaxForward(MktOutput);
-            var MinF = MinForward(MktOutput);
+            var MaxF = MaxNetwork.Forward(MktOutput, dropout);
+            var MinF = MinNetwork.Forward(MktOutput, dropout);
+
             write("Max Predictions : " + MaxF.Last().GenText());
             write("Min Predictions : " + MinF.Last().GenText());
 
