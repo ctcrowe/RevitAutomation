@@ -35,7 +35,7 @@ namespace CC_Library.Predictions
             }
             return Results;
         }
-        public double[] Backkward(List<double[]> Results, double[] desired, NetworkMem mem, WriteToCMDLine write)
+        public double[] Backkward(List<double[,]> Results, double[] desired, NetworkMem mem, WriteToCMDLine write)
         {
             var DValues = desired;
 
@@ -43,8 +43,7 @@ namespace CC_Library.Predictions
             {
                 try
                 {
-                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]); //no longer Results[ l + 1]
-                    //now its going to be something like 2 * l + 1
+                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
                     mem.Layers[l].DBiases(DValues);
                     mem.Layers[l].DWeights(DValues, Results[l]);
                     DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
