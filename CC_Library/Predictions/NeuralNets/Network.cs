@@ -43,9 +43,9 @@ namespace CC_Library.Predictions
             {
                 try
                 {
-                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
+                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank[0]);
                     mem.Layers[l].DBiases(DValues);
-                    mem.Layers[l].DWeights(DValues, Results[l]);
+                    mem.Layers[l].DWeights(DValues, Results[l].GetRank[0]);
                     DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
                 }
                 catch (Exception e)
