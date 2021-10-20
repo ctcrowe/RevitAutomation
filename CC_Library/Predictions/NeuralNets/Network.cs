@@ -23,15 +23,14 @@ namespace CC_Library.Predictions
         {
             List<double[]> Results = new List<double[]>();
             double[,] resultinput = new double[1,input.Count()];
-            resultinput.SetRank(0, input);
+            resultinput.SetRank(input, 0);
             Results.Add(resultinput);
             for (int k = 0; k < Layers.Count(); k++)
             {
-                Results.Add(Layers[k].Output(Results.Last()));
-                if(k != Layers.Count() - 1)
-                {
-                    Results.Add(DropOut(Results.Last(), dropout));
-                }
+                double[,] output = new double[2, Layers[k].Biases.Count()];
+                output.SetRank(Layers[k].Output(Results.Last().GetRank(0)), 0);
+                output.SetRank(Dropout(output.GetRank(0), 1));
+                Results.Add(output);
             }
             return Results;
         }
