@@ -50,9 +50,9 @@ namespace Trader
                     from.AddDays(1);
                 into = from.AddDays(1);
                 
-                var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Hour));
-                var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Hour));
-                var vtibars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Hour));
+                var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Minute));
+                var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Minute));
+                var vtibars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Minute));
 
                 var bars = new List<StonkValues>();
                 var aapl = new List<StonkValues>();
@@ -82,7 +82,7 @@ namespace Trader
             {
                 e.OutputError();
             }
-            
+            /*
             if (clock.IsOpen)
             {
                 var AAPLQuote = GetValues(await DClient.GetLatestQuoteAsync("AAPL"));
@@ -109,7 +109,7 @@ namespace Trader
                     e.OutputError();
                 }
 
-            }
+            }*/
             Console.Read();
         }
         public static string Write(string s)

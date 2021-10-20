@@ -151,17 +151,17 @@ namespace CC_Library.Predictions
             write("Max Error : " + MaxError.GenText());
             var MinError = CategoricalCrossEntropy.Forward(MinF.Last(), min);
             write("Min Error : " + MinError.GenText());
-
+            write("");
 
             var MaxD = MaxBackward(MaxF, max, MaxAAPLMem, write);
             var MinD = MinBackward(MinF, min, MinAAPLMem, write);
             stk.Backward(MaxD, ctxt, sm, StkMem, CtxtMem);
             stk.Backward(MinD, ctxt, sm, StkMem, CtxtMem);
 
-            MaxAAPLMem.Update(1, 1e-7, MaxNetwork);
-            MinAAPLMem.Update(1, 1e-7, MinNetwork);
-            StkMem.Update(1, 1e-7, stk.Network);
-            CtxtMem.Update(1, 1e-7, ctxt.Network);
+            MaxAAPLMem.Update(1, 0.1, MaxNetwork);
+            MinAAPLMem.Update(1, 0.1, MinNetwork);
+            StkMem.Update(1, 0.1, stk.Network);
+            CtxtMem.Update(1, 0.1, ctxt.Network);
 
             MaxNetwork.Save();
             MinNetwork.Save();
