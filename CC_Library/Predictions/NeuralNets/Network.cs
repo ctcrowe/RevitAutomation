@@ -19,10 +19,12 @@ namespace CC_Library.Predictions
             }
             return results;
         }
-        public List<double[]> Forward(double[] input, double dropout)
+        public List<double[,]> Forward(double[] input, double dropout)
         {
             List<double[]> Results = new List<double[]>();
-            Results.Add(input);
+            double[,] resultinput = new double[1,input.Count()];
+            resultinput.SetRank(0, input);
+            Results.Add(resultinput);
             for (int k = 0; k < Layers.Count(); k++)
             {
                 Results.Add(Layers[k].Output(Results.Last()));
