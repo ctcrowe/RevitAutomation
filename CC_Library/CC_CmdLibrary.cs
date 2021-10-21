@@ -15,6 +15,21 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double[] RandomBinomial(this double[] Similar, double dropout)
+        {
+            Random r = new Random();
+            double[] output = new double[Similar.Count()];
+            double todropout = output.Count() * dropout;
+            Parallel.For(0, output.Count(), i => output[i] = i);
+            for(int i = 0; i < todropout; i++)
+            {
+                var test = output.Where(x => x != 0).ToList();
+                int numb = (int)test[r.Next(0, test.Count() - 1)];
+                output[numb] = 0;
+            }
+            Parallel.For(0, output.Count(), i => output[i] = output[i] == 0 ? 0 : 1);
+            return output;
+        }
         public static string GenText(this double[] x)
         {
             string s = x[0].ToString();

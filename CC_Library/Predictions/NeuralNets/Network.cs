@@ -29,8 +29,8 @@ namespace CC_Library.Predictions
             {
                 double[,] output = new double[2, Layers[k].Biases.Count()];
                 output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
-                if(k != Layers.Count() - 1)
-                    output.SetRank(DropOut(output.GetRank(0), dropout, write), 1);
+                var drop = DropOut(output.GetRank(0), dropout, write);
+                output.SetRank(drop, 1);
                 Results.Add(output);
             }
             return Results;
@@ -60,24 +60,12 @@ namespace CC_Library.Predictions
         }
         private static double[] DropOut(double[] input, double rate, WriteToCMDLine write)
         {
-            Random r = new Random();
-            double[] output = input.Duplicate();
-            int changecount = (int)Math.Ceiling(output.Count() * rate);
-            int updated = 0;
-            write("changecount : " + changecount);
-            write("output count : " + output.Count());
-            while (updated < changecount)
+            double[] output = new double[input.Count()];
+            var DOLayer = input.RandomBinomial(rate);
+            write("DOLayer Test : " + DOLayer.GenText());
+            for(int i = 0; i < output.Count(); i++)
             {
-                int i = r.Next(0, output.Count() - 1);
-                if(output[i] != 0)
-                {
-                    output[i] = 0;
-                    updated++;
-                }
-            }
-            for(int i = 0; i < input.Count(); i++)
-            {
-                output[i] /= (1 - rate);
+                output[i] = input[i] * DOLayer[i] / (1 - rate);
             }
             return output;
         }
