@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 using System.IO;
 using CC_Library.Datatypes;
 
+//Next Generation
+//Reduce outputs to 2, inflection / non inflection.
+//Inflection when price is at top 10% or bottom 10% per day.
+//Run buy / sell based on number being high or low.
+
 namespace CC_Library.Predictions
 {
     public class AppleNetwork
