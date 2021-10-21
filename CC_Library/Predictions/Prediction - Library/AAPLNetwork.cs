@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
 {
     public class AppleNetwork
     {
-        private const double dropout = 0.2;
+        private const double dropout = 0.1;
         public Datatype datatype { get { return Datatype.AAPL; } }
         public NeuralNetwork MaxNetwork { get; }
         public NeuralNetwork MinNetwork { get; }
@@ -115,23 +115,27 @@ namespace CC_Library.Predictions
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
             var MktOutput = stk.Forward(comps, ctxt, sm);
-            var MaxF = MaxNetwork.Forward(MktOutput, dropout);
-            var MinF = MinNetwork.Forward(MktOutput, dropout);
+            var MaxF = MaxNetwork.Forward(MktOutput, dropout, write);
+            var MinF = MinNetwork.Forward(MktOutput, dropout, write);
 
-            write("Max Predictions : " + MaxF.Last().GenText());
-            write("Min Predictions : " + MinF.Last().GenText());
+            write("Test : " + MaxF.First().GetRank(0).GenText());
+            write("Test : " + MaxF.First().GetRank(1).GenText());
+
+            write("Max Predictions : " + MaxF.Last().GetRank(0).GenText());
+            write("Min Predictions : " + MinF.Last().GetRank(0).GenText());
 
             write("Max Desired : " + max.GenText());
             write("Min Desired : " + min.GenText());
             
-            var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last(), max);
+            var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last().GetRank(0), max);
             write("Max Error : " + MaxError.GenText());
-            var MinError = CategoricalCrossEntropy.Forward(MinF.Last(), min);
+            var MinError = CategoricalCrossEntropy.Forward(MinF.Last().GetRank(0), min);
             write("Min Error : " + MinError.GenText());
             write("");
 
-            var MaxD = MaxBackward(MaxF, max, MaxAAPLMem, write);
-            var MinD = MinBackward(MinF, min, MinAAPLMem, write);
+            var MaxD = MaxNetwork.Backward(MaxF, max, MaxAAPLMem, write);
+            var MinD = MinNetwork.Backward(MinF, min, MinAAPLMem, write);
+
             stk.Backward(MaxD, ctxt, sm, StkMem, CtxtMem);
             stk.Backward(MinD, ctxt, sm, StkMem, CtxtMem);
 

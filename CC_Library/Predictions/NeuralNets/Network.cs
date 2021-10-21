@@ -19,9 +19,9 @@ namespace CC_Library.Predictions
             }
             return results;
         }
-        public List<double[,]> Forward(double[] input, double dropout)
+        public List<double[,]> Forward(double[] input, double dropout, WriteToCMDLine write)
         {
-            List<double[]> Results = new List<double[]>();
+            List<double[,]> Results = new List<double[,]>();
             double[,] resultinput = new double[1,input.Count()];
             resultinput.SetRank(input, 0);
             Results.Add(resultinput);
@@ -29,13 +29,13 @@ namespace CC_Library.Predictions
             {
                 double[,] output = new double[2, Layers[k].Biases.Count()];
                 output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
-                if(k != Layer.Count() - 1)
-                    output.SetRank(Dropout(output.GetRank(0), dropout), 1);
+                if(k != Layers.Count() - 1)
+                    output.SetRank(DropOut(output.GetRank(0), dropout, write), 1);
                 Results.Add(output);
             }
             return Results;
         }
-        public double[] Backkward(List<double[,]> Results, double[] desired, NetworkMem mem, WriteToCMDLine write)
+        public double[] Backward(List<double[,]> Results, double[] desired, NetworkMem mem, WriteToCMDLine write)
         {
             var DValues = desired;
 
@@ -43,9 +43,11 @@ namespace CC_Library.Predictions
             {
                 try
                 {
-                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank[0]);
+                    if (l != Layers.Count() - 1)
+                        DValues = InverseDropOut(DValues, Results[l].GetRank(1));
+                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank(0));
                     mem.Layers[l].DBiases(DValues);
-                    mem.Layers[l].DWeights(DValues, Results[l].GetRank[0]);
+                    mem.Layers[l].DWeights(DValues, Results[l].GetRank(0));
                     DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
                 }
                 catch (Exception e)
@@ -56,17 +58,35 @@ namespace CC_Library.Predictions
             }
             return DValues;
         }
-        private static double[] DropOut(double[] input, double rate)
+        private static double[] DropOut(double[] input, double rate, WriteToCMDLine write)
         {
             Random r = new Random();
             double[] output = input.Duplicate();
-            while ((double)output.Where(x => x == 0).Count() / (double)output.Count() < rate)
+            int changecount = (int)Math.Ceiling(output.Count() * rate);
+            int updated = 0;
+            write("changecount : " + changecount);
+            write("output count : " + output.Count());
+            while (updated < changecount)
             {
-                output[r.Next(0, output.Count() - 1)] = 0;
+                int i = r.Next(0, output.Count() - 1);
+                if(output[i] != 0)
+                {
+                    output[i] = 0;
+                    updated++;
+                }
             }
             for(int i = 0; i < input.Count(); i++)
             {
                 output[i] /= (1 - rate);
+            }
+            return output;
+        }
+        private static double[] InverseDropOut(double[] DValues, double[] DropOutRank)
+        {
+            double[] output = new double[DValues.Count()];
+            for(int i = 0; i < DValues.Count(); i++)
+            {
+                output[i] = DropOutRank[i] == 0 ? 0 : DValues[i];
             }
             return output;
         }

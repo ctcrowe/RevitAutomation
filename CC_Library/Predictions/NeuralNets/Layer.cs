@@ -81,7 +81,7 @@ namespace CC_Library.Predictions
                          });
             Parallel.For(0, Biases.Count(), j =>
                          {
-                             Biases[j] += BMomemtum[j];
+                             Biases[j] += BMomentum[j];
                              BMomentum[j] /= 2;
                          });
             
