@@ -22,8 +22,9 @@ namespace CC_Library.Predictions
         public List<double[,]> Forward(double[] input, double dropout, WriteToCMDLine write)
         {
             List<double[,]> Results = new List<double[,]>();
-            double[,] resultinput = new double[1,input.Count()];
+            double[,] resultinput = new double[2,input.Count()];
             resultinput.SetRank(input, 0);
+            resultinput.SetRank(input, 1);
             Results.Add(resultinput);
             for (int k = 0; k < Layers.Count(); k++)
             {
