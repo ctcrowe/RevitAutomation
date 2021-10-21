@@ -30,6 +30,7 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(3, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
+            /*
             MaxNetwork = Datatype.MaxValue.LoadNetwork(datatype);
             if (MaxNetwork.Datatype == Datatype.None.ToString())
             {
@@ -49,6 +50,7 @@ namespace CC_Library.Predictions
                 MinNetwork.Layers.Add(new Layer(Stonk.MktSize, MinNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 MinNetwork.Layers.Add(new Layer(24, MinNetwork.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
+            */
         }
         public int[] Predict(List<StonkValues> vals, WriteToCMDLine write)
         {
@@ -124,43 +126,45 @@ namespace CC_Library.Predictions
             StonkContext ctxt = new StonkContext(datatype);
             StonkMem sm = new StonkMem(comps.Count());
 
-            NetworkMem MaxAAPLMem = new NetworkMem(MaxNetwork);
-            NetworkMem MinAAPLMem = new NetworkMem(MinNetwork);
+            //NetworkMem MaxAAPLMem = new NetworkMem(MaxNetwork);
+            //NetworkMem MinAAPLMem = new NetworkMem(MinNetwork);
+            NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
             var MktOutput = stk.Forward(comps, ctxt, sm);
-            var MaxF = MaxNetwork.Forward(MktOutput, dropout, write);
-            var MinF = MinNetwork.Forward(MktOutput, dropout, write);
+            var F = Network.Forward(MktOutput, dropout, write);
+            //var MaxF = MaxNetwork.Forward(MktOutput, dropout, write);
+            //var MinF = MinNetwork.Forward(MktOutput, dropout, write);
 
-            write("Test : " + MaxF.First().GetRank(0).GenText());
-            write("Test : " + MaxF.First().GetRank(1).GenText());
+            write("Test : " + F.First().GetRank(0).GenText());
+            write("Test : " + F.First().GetRank(1).GenText());
 
-            write("Max Predictions : " + MaxF.Last().GetRank(0).GenText());
-            write("Min Predictions : " + MinF.Last().GetRank(0).GenText());
+            write("F Predictions : " + F.Last().GetRank(0).GenText());
+            //write("Min Predictions : " + MinF.Last().GetRank(0).GenText());
 
-            write("Max Desired : " + max.GenText());
-            write("Min Desired : " + min.GenText());
+            write("F Desired : " + F.GenText());
+            //write("Min Desired : " + min.GenText());
             
-            var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last().GetRank(0), max);
-            write("Max Error : " + MaxError.GenText());
-            var MinError = CategoricalCrossEntropy.Forward(MinF.Last().GetRank(0), min);
-            write("Min Error : " + MinError.GenText());
+            //var MaxError = CategoricalCrossEntropy.Forward(MaxF.Last().GetRank(0), max);
+            //write("Max Error : " + MaxError.GenText());
+            //var MinError = CategoricalCrossEntropy.Forward(MinF.Last().GetRank(0), min);
+            //write("Min Error : " + MinError.GenText());
             write("");
 
-            var MaxD = MaxNetwork.Backward(MaxF, max, MaxAAPLMem, write);
-            var MinD = MinNetwork.Backward(MinF, min, MinAAPLMem, write);
+            //var MaxD = MaxNetwork.Backward(MaxF, max, MaxAAPLMem, write);
+            //var MinD = MinNetwork.Backward(MinF, min, MinAAPLMem, write);
 
-            stk.Backward(MaxD, ctxt, sm, StkMem, CtxtMem);
-            stk.Backward(MinD, ctxt, sm, StkMem, CtxtMem);
+            //stk.Backward(MaxD, ctxt, sm, StkMem, CtxtMem);
+            //stk.Backward(MinD, ctxt, sm, StkMem, CtxtMem);
 
-            MaxAAPLMem.Update(1, 0.1, MaxNetwork);
-            MinAAPLMem.Update(1, 0.1, MinNetwork);
+            //MaxAAPLMem.Update(1, 0.1, MaxNetwork);
+            //MinAAPLMem.Update(1, 0.1, MinNetwork);
             StkMem.Update(1, 0.1, stk.Network);
             CtxtMem.Update(1, 0.1, ctxt.Network);
 
-            MaxNetwork.Save();
-            MinNetwork.Save();
+            //MaxNetwork.Save();
+            //MinNetwork.Save();
             stk.Network.Save();
             ctxt.Save();
         }
