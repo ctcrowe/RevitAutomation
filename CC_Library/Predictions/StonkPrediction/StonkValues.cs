@@ -57,6 +57,7 @@ namespace CC_Library.Predictions
             var sv = vals.OrderByDescending(x => x.AskPrice + x.BidPrice).ToList();
             var max = sv.Take(Math.RoundUp(sv.Count() * 0.1));
             var min = sv.Reverse().Take(Math.RoundUp(sv.Count() * 0.1));
+            return new double[3] { 1, 0, 0 }
             Dictionary<StonkValues, double> data = new Dictionary<StonkValues, double>();
             for(int j = 0; j < vals.Count(); j++)
             {
