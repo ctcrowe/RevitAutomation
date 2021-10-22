@@ -56,11 +56,16 @@ namespace Trader
 
                 var bars = new List<StonkValues>();
                 var aapl = new List<StonkValues>();
+                StonkValue sv;
                 
+                foreach(var b in aaplbars.Items)
+                {
+                    aapl.Add(GetValues(b));
+                }
                 foreach(var b in aaplbars.Items.Take(r.Next(2, aaplbars.Items.Count())))
                 {
-                    bars.Add(GetValues(b));
-                    aapl.Add(GetValues(b));
+                    sv = GetValues(b);
+                    bars.Add(sv);
                 }
                 foreach(var b in qqqbars.Items.Take(r.Next(2, qqqbars.Items.Count())))
                 {
@@ -71,8 +76,7 @@ namespace Trader
                     bars.Add(GetValues(b));
                 }
                 
-                var testmax = StonkValues.GetMax(aapl, true);
-                var testmin = StonkValues.GetMax(aapl, false);
+                var testmax = StonkValues.GetMax(aapl, sv);
 
                 net.Propogate(bars, testmax, new WriteToCMDLine(Write));
 
