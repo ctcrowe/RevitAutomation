@@ -74,7 +74,7 @@ namespace Trader
                 var testmax = StonkValues.GetMax(aapl, true);
                 var testmin = StonkValues.GetMax(aapl, false);
 
-                net.Propogate(bars, testmax, testmin, new WriteToCMDLine(Write));
+                net.Propogate(bars, testmax, new WriteToCMDLine(Write));
 
 
             }
