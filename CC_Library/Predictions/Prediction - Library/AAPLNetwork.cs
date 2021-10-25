@@ -39,14 +39,6 @@ namespace CC_Library.Predictions
             //double[] MinResults = MaxResults.Duplicate();
             Results = Network.Forward(Results);
             return Results.ToList().IndexOf(Results.Max());
-            /*
-            MinResults = MinNetwork.Forward(MinResults);
-            return new int[2]
-            {
-                MaxResults.ToList().IndexOf(MaxResults.Max()),
-                MinResults.ToList().IndexOf(MinResults.Max())
-            };
-            */
         }
         public void Propogate
             (List<StonkValues> vals, double[] max, WriteToCMDLine write)
