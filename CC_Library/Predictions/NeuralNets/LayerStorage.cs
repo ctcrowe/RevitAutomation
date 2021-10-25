@@ -28,6 +28,8 @@ namespace CC_Library.Predictions
     {
         public double[] DeltaB { get; set; }
         public double[,] DeltaW { get; set; }
+        public double RegularizationL1 { get; set; }
+        public double RegularizationL2 { get; set; }
         public Activation Function { get; set; }
         public LayerMem(Layer l)
         {
@@ -36,7 +38,10 @@ namespace CC_Library.Predictions
             Function = l.Function;
         }
         public double[] DActivation(double[] dvalues, double[] output) { return Function.InvertFunction()(dvalues, output); }
-        public void DBiases(double[] dvalues) { DeltaB.Add(dvalues); }
+        public void DBiases(double[] dvalues
+        {
+            DeltaB.Add(dvalues);
+        }
         public void DWeights(double[] dvalues, double[] inputs)
         {
             for (int i = 0; i < DeltaW.GetLength(0); i++)
