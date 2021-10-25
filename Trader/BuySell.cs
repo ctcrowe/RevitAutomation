@@ -56,7 +56,7 @@ namespace Trader
 
                 var bars = new List<StonkValues>();
                 var aapl = new List<StonkValues>();
-                StonkValue sv;
+                StonkValues sv = GetValues(aaplbars.Items[0]);
                 
                 foreach(var b in aaplbars.Items)
                 {

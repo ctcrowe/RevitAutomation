@@ -51,15 +51,14 @@ namespace CC_Library.Predictions
             Comp.Values[7] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
             return Comp;
         }
-        public static double[] GetMax(List<StonkValues> vals, StonkValue val)
+        public static double[] GetMax(List<StonkValues> vals, StonkValues val)
         {
             double[] output = new double[3];
-            var sv = vals.OrderByDescending(x => x.AskPrice + x.BidPrice).ToList();
-            var max = sv.Take(Math.RoundUp(sv.Count() * 0.1));
-            var min = sv.Reverse().Take(Math.RoundUp(sv.Count() * 0.1));
-            if(max.Any(x => x.AskPrice + Ask.BidPrice < val.AskPrice + val.BidPrice))
+            var max = vals.OrderByDescending(x => x.AskPrice).ToList().Take((int)Math.Ceiling(vals.Count() * 0.1));
+            var min = vals.OrderBy(x => x.AskPrice).ToList().Take((int)Math.Ceiling(vals.Count() * 0.1));
+            if (max.Any(x => x.AskPrice < val.AskPrice))
                 return new double[3] {0, 1, 0};
-            if(min.Any(x => x.AskPrice + Ask.BidPrice > val.AskPrice + val.BidPrice))
+            if(min.Any(x => x.AskPrice > val.AskPrice))
                 return new double[3] {0, 0, 1};
             return new double[3] { 1, 0, 0 };
         }

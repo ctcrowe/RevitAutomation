@@ -61,15 +61,12 @@ namespace CC_Library.Predictions
         }
         private static double[] DropOut(double[] input, double rate, WriteToCMDLine write)
         {
-            write("Input Test : " + input.GenText());
             double[] output = new double[input.Count()];
             var DOLayer = input.RandomBinomial(rate);
-            write("DOLayer Test : " + DOLayer.GenText());
             for(int i = 0; i < output.Count(); i++)
             {
                 output[i] = input[i] * DOLayer[i] / (1 - rate);
             }
-            write("Output Test : " + output.GenText());
             return output;
         }
         private static double[] InverseDropOut(double[] DValues, double[] DropOutRank)

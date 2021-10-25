@@ -110,10 +110,10 @@ namespace CC_Library.Predictions
             stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
             //stk.Backward(MinD, ctxt, sm, StkMem, CtxtMem);
 
-            AAPLMem.Update(1, 0.1, Network);
+            AAPLMem.Update(1, 0.01, Network);
             //MinAAPLMem.Update(1, 0.1, MinNetwork);
-            StkMem.Update(1, 0.1, stk.Network);
-            CtxtMem.Update(1, 0.1, ctxt.Network);
+            StkMem.Update(1, 0.01, stk.Network);
+            CtxtMem.Update(1, 0.01, ctxt.Network);
             /*
             MaxNetwork.Save();
             MinNetwork.Save();
