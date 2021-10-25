@@ -10,6 +10,7 @@ namespace CC_Library.Predictions
 {
     public class MasterformatNetwork : INetworkPredUpdater
     {
+        private const double dropout = 0.1;
         public Datatype datatype { get { return Datatype.Masterformat; } }
         public NeuralNetwork Network { get; }
         public MasterformatNetwork(Sample s)
@@ -65,46 +66,28 @@ namespace CC_Library.Predictions
         public void Propogate
             (Sample s, WriteToCMDLine write)
         {
-            var check = Predict(s);
-            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
+            Alpha a = new Alpha();
+            AlphaContext ctxt = new AlphaContext(datatype);
+            NetworkMem MFMem = new NetworkMem(Network);
+            NetworkMem AlphaMem = new NetworkMem(a.Network);
+            NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+            
+            s.TextOutput = a.Forward(s.TextInput, ctxt, am);
+            var F = network.Forward(s.TextOutput, dropout, write);
+            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max())
             {
-                Alpha a = new Alpha();
-                AlphaContext ctxt = new AlphaContext(Datatype.Masterformat);
-                List<string> lines = new List<string>();
+                var DValues = Network.Backward(F, s.DesiredOutput, MFMem, write);
+                a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 
-                for(int i = 0; i < 5; i++)
-                {
-                    var Samples = s.ReadSamples(24);
-                    Accuracy Acc = new Accuracy(Samples);
-                    NetworkMem MFMem = new NetworkMem(Network);
-                    NetworkMem AlphaMem = new NetworkMem(a.Network);
-                    NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
-                    
-                    Parallel.For(0, Samples.Count(), j =>
-                    {
-                        AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am);
-                        var F = Forward(Samples[j]);
-                        Acc.Add(j,
-                            CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
-                            F.Last().ToList().IndexOf(F.Last().Max()),
-                            Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
-                    
-                        var DValues = Backward(Samples[j], F, MFMem);
-                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
-                    });
-                    lines.AddRange(Acc.Get());
-                    MFMem.Update(1, 0.0001, Network);
-                    AlphaMem.Update(1, 0.00001, a.Network);
-                    CtxtMem.Update(1, 0.0001, ctxt.Network);
-                }
-                lines.ShowErrorOutput();
+                MFMem.Update(1, 0.0001, Network);
+                AlphaMem.Update(1, 0.00001, a.Network);
+                CtxtMem.Update(1, 0.0001, ctxt.Network);
+                
                 Network.Save();
                 a.Network.Save();
                 ctxt.Save();
-
-                s.Save();
             }
+            s.Save();
         }
     }
 }
