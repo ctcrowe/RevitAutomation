@@ -79,9 +79,9 @@ namespace CC_Library.Predictions
                 var DValues = Network.Backward(F, s.DesiredOutput, MFMem, write);
                 a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 
-                MFMem.Update(1, 0.0001, Network);
-                AlphaMem.Update(1, 0.00001, a.Network);
-                CtxtMem.Update(1, 0.0001, ctxt.Network);
+                MFMem.Update(1, 0.001, Network);
+                AlphaMem.Update(1, 0.001, a.Network);
+                CtxtMem.Update(1, 0.001, ctxt.Network);
                 
                 Network.Save();
                 a.Network.Save();
