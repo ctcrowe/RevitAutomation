@@ -87,9 +87,10 @@ namespace CC_Library.Predictions
             Parallel.For(0, DeltaB.Count(), i =>
             {
                     layer.BMomentum[i] = double.IsNaN(DeltaB[i]) ? 
-                        layer.BMomentum[i] : DeltaB[i] >= 1 ?
-                        layer.BMomentum[i] - adjustment : DeltaB[i] <= -1 ?
-                        layer.BMomentum[i] + adjustment : layer.BMomentum [i] - (adjustment * DeltaB[i]);
+                        layer.BMomentum[i] : layer.BMomentum[i] - (adjustment * DeltaB[i]);
+                //DeltaB[i] >= 1 ?
+                        //layer.BMomentum[i] - adjustment : DeltaB[i] <= -1 ?
+                        //layer.BMomentum[i] + adjustment : layer.BMomentum [i] - (adjustment * DeltaB[i]);
             });
             Parallel.For(0, layer.Weights.GetLength(0), i =>
             {
