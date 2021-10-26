@@ -53,6 +53,7 @@ namespace CC_Library.Predictions
                     DeltaW[i, j] += inputs[j] * dvalues[i];
                 }
             }
+            
         }
         public double[] DInputs(double[] dvalues, Layer layer)
         {
