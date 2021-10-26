@@ -15,6 +15,12 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double[] Ones(this double[] Similar)
+        {
+            double[] output = new double[Similar.Count()];
+            Parallel.For(0, output.Count(), i => output[i] = 1);
+            return output;
+        }
         public static double[] RandomBinomial(this double[] Similar, double dropout)
         {
             Random r = new Random();
