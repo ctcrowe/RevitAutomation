@@ -30,7 +30,6 @@ namespace CC_Library.Predictions
                     {
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
-                        write("Network Type : " + datatype);
                         s.PropogateSingle(write);
                     }
                     catch (Exception e) { e.OutputError(); }

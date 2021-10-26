@@ -28,27 +28,23 @@ namespace CC_Library.Predictions
     {
         public double[] DeltaB { get; set; }
         public double[,] DeltaW { get; set; }
-        public double RegularizationL1 { get; set; }
-        public double RegularizationL2 { get; set; }
         public Activation Function { get; set; }
-        public LayerMem(Layer l, double RL1 = 0, double RL2 = 0)
+        public LayerMem(Layer l)
         {
             DeltaW = new double[l.Weights.GetLength(0), l.Weights.GetLength(1)];
             DeltaB = new double[l.Biases.Count()];
-            RegularizationL1 = RL1;
-            RegularizationL2 = RL2;
             Function = l.Function;
         }
         public double[] DActivation(double[] dvalues, double[] output) { return Function.InvertFunction()(dvalues, output); }
         public void DBiases(double[] dvalues, Layer l)
         {
             DeltaB.Add(dvalues);
-            if (RegularizationL2 > 0)
+            if (l.L1Regularization > 0)
             {
                 Parallel.For(0, l.Biases.GetLength(0), i =>
                 {
-                    DeltaB[i] += l.Biases[i] >= 0 ? RegularizationL1 : (-1 * RegularizationL1);
-                    DeltaB[i] += 2 * RegularizationL2 * l.Biases[i];
+                    DeltaB[i] += l.Biases[i] >= 0 ? l.L1Regularization : (-1 * l.L1Regularization);
+                    DeltaB[i] += 2 * l.L2Regularizattion * l.Biases[i];
                 });
             }
         }
@@ -61,14 +57,14 @@ namespace CC_Library.Predictions
                     DeltaW[i, j] += inputs[j] * dvalues[i];
                 }
             }
-            if (RegularizationL1 > 0)
+            if (l.L1Regularization > 0)
             {
                 Parallel.For(0, l.Weights.GetLength(0), i =>
                 {
                     Parallel.For(0, l.Weights.GetLength(1), j =>
                     {
-                        DeltaW[i, j] += l.Weights[i, j] >= 0 ? RegularizationL1 : (-1 * RegularizationL1);
-                        DeltaW[i, j] += 2 * RegularizationL2 * l.Weights[i, j];
+                        DeltaW[i, j] += l.Weights[i, j] >= 0 ? l.L1Regularization : (-1 * l.L1Regularization);
+                        DeltaW[i, j] += 2 * l.L2Regularizattion * l.Weights[i, j];
                     });
                 });
             }

@@ -12,16 +12,20 @@ namespace CC_Library.Predictions
         public double[] Biases { get; set; }
         public double[,] WMomentum { get; set; }
         public double[] BMomentum { get; set; }
+        public double L1Regularization { get; set; }
+        public double L2Regularizattion { get; set; }
         public Activation Function { get; set; }
 
         #region Overloads
-        public Layer(int NeuronCount, int WeightCount, Activation function)
+        public Layer(int NeuronCount, int WeightCount, Activation function, double L1R = 0, double L2R = 0)
         {
             Random random = new Random();
             this.Weights = new double[NeuronCount, WeightCount];
             this.Biases = new double[NeuronCount];
             this.WMomentum = new double[NeuronCount, WeightCount];
             this.BMomentum = new double[NeuronCount];
+            this.L1Regularization = L1R;
+            this.L2Regularizattion = L2R;
             this.Function = function;
             for (int i = 0; i < NeuronCount; i++)
             {
@@ -32,13 +36,15 @@ namespace CC_Library.Predictions
                 }
             }
         }
-        public Layer(int NeuronCount, Layer PreviousLayer, Activation function)
+        public Layer(int NeuronCount, Layer PreviousLayer, Activation function, double L1R = 0, double L2R = 0)
         {
             Random random = new Random();
             this.Weights = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
             this.Biases = new double[NeuronCount];
             this.WMomentum = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
             this.BMomentum = new double[NeuronCount];
+            this.L1Regularization = L1R;
+            this.L2Regularizattion = L2R;
             this.Function = function;
             for (int i = 0; i < NeuronCount; i++)
             {

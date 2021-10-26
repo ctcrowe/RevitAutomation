@@ -19,8 +19,8 @@ namespace CC_Library.Predictions
             if(Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype.ToString())
             {
                 Network = new NeuralNetwork(Datatype.Masterformat);
-                Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu));
-                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 2e-5, 2e-5));
+                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 2e-5, 2e-5));
                 Network.Layers.Add(new Layer(40, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             }
         }
@@ -76,14 +76,20 @@ namespace CC_Library.Predictions
             
             s.TextOutput = a.Forward(s.TextInput, ctxt, am);
             var F = Network.Forward(s.TextOutput, dropout, write);
-            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()))
+            write("Predictions : " + F.Last().GetRank(0).GenText());
+            write("F Desired : " + s.DesiredOutput.GenText());
+            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), s.DesiredOutput);
+            write("Max Error : " + Error.Max());
+            write("");
+
+            if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()))
             {
                 var DValues = Network.Backward(F, s.DesiredOutput, MFMem, write);
                 a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 
-                MFMem.Update(1, 0.001, Network);
-                AlphaMem.Update(1, 0.001, a.Network);
-                CtxtMem.Update(1, 0.001, ctxt.Network);
+                MFMem.Update(1, 1e-8, Network);
+                AlphaMem.Update(1, 1e-8, a.Network);
+                CtxtMem.Update(1, 1e-8, ctxt.Network);
                 
                 Network.Save();
                 a.Network.Save();
