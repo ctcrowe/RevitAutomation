@@ -31,10 +31,12 @@ namespace CC_Library.Predictions
         public double RegularizationL1 { get; set; }
         public double RegularizationL2 { get; set; }
         public Activation Function { get; set; }
-        public LayerMem(Layer l)
+        public LayerMem(Layer l, double RL1 = 0, double RL2 = 0)
         {
             DeltaW = new double[l.Weights.GetLength(0), l.Weights.GetLength(1)];
             DeltaB = new double[l.Biases.Count()];
+            RegularizationL1 = RL1;
+            RegularizationL2 = RL2;
             Function = l.Function;
         }
         public double[] DActivation(double[] dvalues, double[] output) { return Function.InvertFunction()(dvalues, output); }
