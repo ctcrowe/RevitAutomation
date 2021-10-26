@@ -15,6 +15,15 @@ namespace CC_Library
 {
     public static class CMDLibrary
     {
+        public static double[,] Ones(this double[,] Similar)
+        {
+            double[,] output = new double[Similar.GetLength(0), Similar.GetLength(1)];
+            Parallel.For(0, output.GetLength(0), i =>
+                         {
+                             Parallel.For(0, output.GetLength(1), j => output[i, j] = 1;
+                         }
+            return output;
+        }
         public static double[] Ones(this double[] Similar)
         {
             double[] output = new double[Similar.Count()];
