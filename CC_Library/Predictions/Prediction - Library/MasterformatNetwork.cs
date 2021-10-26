@@ -95,6 +95,34 @@ namespace CC_Library.Predictions
                 a.Network.Save();
                 ctxt.Save();
             }
+            /*
+                            for(int i = 0; i < 5; i++)
+                {
+                    var Samples = s.ReadSamples(24);
+                    Accuracy Acc = new Accuracy(Samples);
+                    NetworkMem MFMem = new NetworkMem(Network);
+                    NetworkMem AlphaMem = new NetworkMem(a.Network);
+                    NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+
+                    Parallel.For(0, Samples.Count(), j =>
+                    {
+                        AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am);
+                        var F = Forward(Samples[j]);
+                        Acc.Add(j,
+                            CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
+                            F.Last().ToList().IndexOf(F.Last().Max()),
+                            Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
+
+                        var DValues = Backward(Samples[j], F, MFMem);
+                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
+                    });
+                    lines.AddRange(Acc.Get());
+                    MFMem.Update(1, 0.0001, Network);
+                    AlphaMem.Update(1, 0.00001, a.Network);
+                    CtxtMem.Update(1, 0.0001, ctxt.Network);
+                }
+            */
             s.Save();
         }
     }
