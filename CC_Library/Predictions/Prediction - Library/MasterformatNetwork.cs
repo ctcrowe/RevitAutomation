@@ -57,8 +57,8 @@ namespace CC_Library.Predictions
             for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
                 DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
-                mem.Layers[l].DBiases(DValues);
-                mem.Layers[l].DWeights(DValues, Results[l]);
+                mem.Layers[l].DBiases(DValues, Network.Layers[l]);
+                mem.Layers[l].DWeights(DValues, Results[l], Network.Layers[l]);
                 DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
             }
             return DValues.ToList().Take(Alpha.DictSize).ToArray();
@@ -71,13 +71,15 @@ namespace CC_Library.Predictions
             NetworkMem MFMem = new NetworkMem(Network);
             NetworkMem AlphaMem = new NetworkMem(a.Network);
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+
+            AlphaMem am = new AlphaMem(s.TextInput.ToCharArray());
             
             s.TextOutput = a.Forward(s.TextInput, ctxt, am);
-            var F = network.Forward(s.TextOutput, dropout, write);
-            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max())
+            var F = Network.Forward(s.TextOutput, dropout, write);
+            if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()))
             {
                 var DValues = Network.Backward(F, s.DesiredOutput, MFMem, write);
-                a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
+                a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 
                 MFMem.Update(1, 0.001, Network);
                 AlphaMem.Update(1, 0.001, a.Network);

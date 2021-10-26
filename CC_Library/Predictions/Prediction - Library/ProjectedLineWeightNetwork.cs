@@ -62,8 +62,8 @@ namespace CC_Library.Predictions
             for (int l = Network.Layers.Count() - 1; l >= 0; l--)
             {
                 DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
-                mem.Layers[l].DBiases(DValues);
-                mem.Layers[l].DWeights(DValues, Results[l]);
+                mem.Layers[l].DBiases(DValues, Network.Layers[l]);
+                mem.Layers[l].DWeights(DValues, Results[l], Network.Layers[l]);
                 DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
             }
             return DValues.ToList().Take(2 * Alpha.DictSize).ToArray();

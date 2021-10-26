@@ -40,11 +40,19 @@ namespace CC_Library.Predictions
             Function = l.Function;
         }
         public double[] DActivation(double[] dvalues, double[] output) { return Function.InvertFunction()(dvalues, output); }
-        public void DBiases(double[] dvalues
+        public void DBiases(double[] dvalues, Layer l)
         {
             DeltaB.Add(dvalues);
+            if (RegularizationL2 > 0)
+            {
+                Parallel.For(0, l.Biases.GetLength(0), i =>
+                {
+                    DeltaB[i] += l.Biases[i] >= 0 ? RegularizationL1 : (-1 * RegularizationL1);
+                    DeltaB[i] += 2 * RegularizationL2 * l.Biases[i];
+                });
+            }
         }
-        public void DWeights(double[] dvalues, double[] inputs)
+        public void DWeights(double[] dvalues, double[] inputs, Layer l)
         {
             for (int i = 0; i < DeltaW.GetLength(0); i++)
             {
@@ -53,7 +61,18 @@ namespace CC_Library.Predictions
                     DeltaW[i, j] += inputs[j] * dvalues[i];
                 }
             }
-            
+            if (RegularizationL1 > 0)
+            {
+                Parallel.For(0, l.Weights.GetLength(0), i =>
+                {
+                    Parallel.For(0, l.Weights.GetLength(1), j =>
+                    {
+                        DeltaW[i, j] += l.Weights[i, j] >= 0 ? RegularizationL1 : (-1 * RegularizationL1);
+                        DeltaW[i, j] += 2 * RegularizationL2 * l.Weights[i, j];
+                    });
+                });
+            }
+
         }
         public double[] DInputs(double[] dvalues, Layer layer)
         {

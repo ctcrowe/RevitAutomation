@@ -47,8 +47,8 @@ namespace CC_Library.Predictions
                     if (l != Layers.Count() - 1)
                         DValues = InverseDropOut(DValues, Results[l].GetRank(1));
                     DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank(0));
-                    mem.Layers[l].DBiases(DValues);
-                    mem.Layers[l].DWeights(DValues, Results[l].GetRank(0));
+                    mem.Layers[l].DBiases(DValues, Layers[l]);
+                    mem.Layers[l].DWeights(DValues, Results[l].GetRank(0), Layers[l]);
                     DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
                 }
                 catch (Exception e)
