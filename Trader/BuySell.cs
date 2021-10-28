@@ -82,10 +82,12 @@ namespace Trader
                         bars.Add(GetValues(b));
                     }
                 
-                    var testmax = StonkValues.GetMax(aapl, sv);
-                    multibars.Add(bars);
-                    maxes.Add(testmax);
-
+                    if(aapl.Any())
+                    {
+                        var testmax = StonkValues.GetMax(aapl, sv);
+                        multibars.Add(bars);
+                        maxes.Add(testmax);
+                    }
                 }
                 net.Propogate(multibars, maxes, new WriteToCMDLine(Write));
 
