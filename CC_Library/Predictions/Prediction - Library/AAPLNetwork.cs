@@ -41,7 +41,7 @@ namespace CC_Library.Predictions
             return Results.ToList().IndexOf(Results.Max());
         }
         public void Propogate
-            (List<List<StonkValues>> vals, double[] max, WriteToCMDLine write)
+            (List<List<StonkValues>> vals, List<double[]> max, WriteToCMDLine write)
         {
 
             Stonk stk = new Stonk();
@@ -61,13 +61,13 @@ namespace CC_Library.Predictions
 
                             write("Predictions : " + F.Last().GetRank(0).GenText());
 
-                            write("F Desired : " + max.GenText());
+                            write("F Desired : " + max[j].GenText());
             
-                            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max);
+                            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
                             write("Max Error : " + Error.GenText());
                             write("");
 
-                            var D = Network.Backward(F, max, AAPLMem, write);
+                            var D = Network.Backward(F, max[j], AAPLMem, write);
                             stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
                          });
 
