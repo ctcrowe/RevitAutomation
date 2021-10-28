@@ -71,9 +71,9 @@ namespace CC_Library.Predictions
                             stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
                          });
 
-            AAPLMem.Update(1, 0.01, Network);
-            StkMem.Update(1, 0.01, stk.Network);
-            CtxtMem.Update(1, 0.01, ctxt.Network);
+            AAPLMem.Update(vals.Count(), 0.01, Network);
+            StkMem.Update(vals.Count(), 0.01, stk.Network);
+            CtxtMem.Update(vals.Count(), 0.01, ctxt.Network);
             
             Network.Save();
             stk.Network.Save();
