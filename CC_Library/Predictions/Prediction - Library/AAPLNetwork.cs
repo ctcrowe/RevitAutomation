@@ -43,29 +43,33 @@ namespace CC_Library.Predictions
         public void Propogate
             (List<List<StonkValues>> vals, double[] max, WriteToCMDLine write)
         {
-            List<Comparison> comps = Comparison.GenerateComparisons(vals);
 
             Stonk stk = new Stonk();
             StonkContext ctxt = new StonkContext(datatype);
-            StonkMem sm = new StonkMem(comps.Count());
 
             NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
-            var MktOutput = stk.Forward(comps, ctxt, sm);
-            var F = Network.Forward(MktOutput, dropout, write);
-
-            write("Predictions : " + F.Last().GetRank(0).GenText());
-
-            write("F Desired : " + max.GenText());
+            Parallel.For(0, vals.Count, j =>
+                         {
+                            List<Comparison> comps = Comparison.GenerateComparisons(vals[j]);
+                            StonkMem sm = new StonkMem(comps.Count());
             
-            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max);
-            write("Max Error : " + Error.GenText());
-            write("");
+                            var MktOutput = stk.Forward(comps, ctxt, sm);
+                            var F = Network.Forward(MktOutput, dropout, write);
 
-            var D = Network.Backward(F, max, AAPLMem, write);
-            stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                            write("Predictions : " + F.Last().GetRank(0).GenText());
+
+                            write("F Desired : " + max.GenText());
+            
+                            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max);
+                            write("Max Error : " + Error.GenText());
+                            write("");
+
+                            var D = Network.Backward(F, max, AAPLMem, write);
+                            stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                         });
 
             AAPLMem.Update(1, 0.01, Network);
             StkMem.Update(1, 0.01, stk.Network);
