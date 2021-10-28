@@ -41,7 +41,7 @@ namespace CC_Library.Predictions
             return Results.ToList().IndexOf(Results.Max());
         }
         public void Propogate
-            (List<StonkValues> vals, double[] max, WriteToCMDLine write)
+            (List<List<StonkValues>> vals, double[] max, WriteToCMDLine write)
         {
             List<Comparison> comps = Comparison.GenerateComparisons(vals);
 
