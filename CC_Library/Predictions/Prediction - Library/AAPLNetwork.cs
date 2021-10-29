@@ -54,16 +54,20 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, vals.Count, j =>
                          {
-                            List<Comparison> comps = Comparison.GenerateComparisons(vals[j]);
-                            StonkMem sm = new StonkMem(comps.Count());
+                             try
+                             {
+                                List<Comparison> comps = Comparison.GenerateComparisons(vals[j]);
+                                StonkMem sm = new StonkMem(comps.Count());
             
-                            var MktOutput = stk.Forward(comps, ctxt, sm);
-                            var F = Network.Forward(MktOutput, dropout, write);
-            
-                            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
-                             e += Error.Max();
-                            var D = Network.Backward(F, max[j], AAPLMem, write);
-                            stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                                var MktOutput = stk.Forward(comps, ctxt, sm);
+                                var F = Network.Forward(MktOutput, dropout, write);
+                
+                                var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
+                                 e += Error.Max();
+                                var D = Network.Backward(F, max[j], AAPLMem, write);
+                                stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                             }
+                             catch { }
                          });
 
             write("Loss : " + e);
