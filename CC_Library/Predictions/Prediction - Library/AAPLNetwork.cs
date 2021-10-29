@@ -23,9 +23,9 @@ namespace CC_Library.Predictions
             {
                 Network = new NeuralNetwork(datatype);
                 Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
                 Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
                 Network.Layers.Add(new Layer(3, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
@@ -67,9 +67,9 @@ namespace CC_Library.Predictions
             var D = Network.Backward(F, max, AAPLMem, write);
             stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
 
-            AAPLMem.Update(1, 0.01, Network);
-            StkMem.Update(1, 0.01, stk.Network);
-            CtxtMem.Update(1, 0.01, ctxt.Network);
+            AAPLMem.Update(1, 3e-4, Network);
+            StkMem.Update(1, 3e-4, stk.Network);
+            CtxtMem.Update(1, 3e-4, ctxt.Network);
             
             Network.Save();
             stk.Network.Save();

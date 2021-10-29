@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
-    public class MasterformatNetwork : INetworkPredUpdater
+    public class MasterformatNetwork
     {
         private const double dropout = 0.1;
         public Datatype datatype { get { return Datatype.Masterformat; } }
@@ -63,9 +63,10 @@ namespace CC_Library.Predictions
             }
             return DValues.ToList().Take(Alpha.DictSize).ToArray();
         }
-        public void Propogate
+        public double Propogate
             (Sample s, WriteToCMDLine write)
         {
+            double error = 0;
             Alpha a = new Alpha();
             AlphaContext ctxt = new AlphaContext(datatype);
             NetworkMem MFMem = new NetworkMem(Network);
@@ -76,10 +77,11 @@ namespace CC_Library.Predictions
             
             s.TextOutput = a.Forward(s.TextInput, ctxt, am);
             var F = Network.Forward(s.TextOutput, dropout, write);
-            write("Predictions : " + F.Last().GetRank(0).GenText());
-            write("F Desired : " + s.DesiredOutput.GenText());
+            //write("Predictions : " + F.Last().GetRank(0).GenText());
+            //write("F Desired : " + s.DesiredOutput.GenText());
             var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), s.DesiredOutput);
-            write("Max Error : " + Error.Max());
+            error = Error.Max();
+            write("Max Error : " + error);
             write("");
 
             if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()))
@@ -87,9 +89,9 @@ namespace CC_Library.Predictions
                 var DValues = Network.Backward(F, s.DesiredOutput, MFMem, write);
                 a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 
-                MFMem.Update(1, 1e-3, Network);
-                AlphaMem.Update(1, 1e-3, a.Network);
-                CtxtMem.Update(1, 1e-3, ctxt.Network);
+                MFMem.Update(1, 1e-5, Network);
+                AlphaMem.Update(1, 1e-5, a.Network);
+                CtxtMem.Update(1, 1e-5, ctxt.Network);
                 
                 Network.Save();
                 a.Network.Save();
@@ -124,6 +126,7 @@ namespace CC_Library.Predictions
                 }
             */
             s.Save();
+            return error;
         }
     }
 }

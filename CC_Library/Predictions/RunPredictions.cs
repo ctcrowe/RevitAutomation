@@ -19,6 +19,8 @@ namespace CC_Library.Predictions
             };
             if(ofd.ShowDialog() == DialogResult.OK)
             {
+                int runs = 0;
+                double er = 0;
                 var filepath = ofd.FileName;
                 var dir = Path.GetDirectoryName(filepath);
                 var Files = Directory.GetFiles(dir);
@@ -28,9 +30,14 @@ namespace CC_Library.Predictions
                     string f = Files[random.Next(Files.Count())];
                     try
                     {
+                        runs++;
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
-                        s.PropogateSingle(write);
+                        Console.Clear();
+                        er += new MasterformatNetwork(s).Propogate(s, write);
+                        write("Error : " + er / runs);
+                        TimeSpan ts = new TimeSpan(100);
+                        System.Threading.Thread.Sleep(100);
                     }
                     catch (Exception e) { e.OutputError(); }
                 }
