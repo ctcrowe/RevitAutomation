@@ -23,10 +23,10 @@ namespace CC_Library.Predictions
             {
                 Network = new NeuralNetwork(datatype);
                 Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 2e-5, 2e-5));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 2e-5, 2e-5));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 2e-5, 2e-5));
+                Network.Layers.Add(new Layer(Stonk.MktSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 2e-5, 2e-5));
                 Network.Layers.Add(new Layer(3, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
         }
@@ -41,35 +41,39 @@ namespace CC_Library.Predictions
             return Results.ToList().IndexOf(Results.Max());
         }
         public void Propogate
-            (List<StonkValues> vals, double[] max, WriteToCMDLine write)
+            (List<List<StonkValues>> vals, List<double[]> max, WriteToCMDLine write)
         {
-            List<Comparison> comps = Comparison.GenerateComparisons(vals);
 
             Stonk stk = new Stonk();
             StonkContext ctxt = new StonkContext(datatype);
-            StonkMem sm = new StonkMem(comps.Count());
 
             NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
-            var MktOutput = stk.Forward(comps, ctxt, sm);
-            var F = Network.Forward(MktOutput, dropout, write);
-
-            write("Predictions : " + F.Last().GetRank(0).GenText());
-
-            write("F Desired : " + max.GenText());
+            Parallel.For(0, vals.Count, j =>
+                         {
+                            List<Comparison> comps = Comparison.GenerateComparisons(vals[j]);
+                            StonkMem sm = new StonkMem(comps.Count());
             
-            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max);
-            write("Max Error : " + Error.GenText());
-            write("");
+                            var MktOutput = stk.Forward(comps, ctxt, sm);
+                            var F = Network.Forward(MktOutput, dropout, write);
 
-            var D = Network.Backward(F, max, AAPLMem, write);
-            stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                            write("Predictions : " + F.Last().GetRank(0).GenText());
 
-            AAPLMem.Update(1, 3e-4, Network);
-            StkMem.Update(1, 3e-4, stk.Network);
-            CtxtMem.Update(1, 3e-4, ctxt.Network);
+                            write("F Desired : " + max[j].GenText());
+            
+                            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
+                            write("Max Error : " + Error.GenText());
+                            write("");
+
+                            var D = Network.Backward(F, max[j], AAPLMem, write);
+                            stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                         });
+
+            AAPLMem.Update(vals.Count(), 0.01, Network);
+            StkMem.Update(vals.Count(), 0.01, stk.Network);
+            CtxtMem.Update(vals.Count(), 0.01, ctxt.Network);
             
             Network.Save();
             stk.Network.Save();

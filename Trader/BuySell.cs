@@ -42,43 +42,54 @@ namespace Trader
             
             try
             {
+                List<List<StonkValues>> multibars = new List<List<StonkValues>>();
+                List<double[]> maxes = new List<double[]>();
+                
                 Random r = new Random();
                 var now = DateTime.Now;
-                var into = new DateTime(now.Year, now.Month, now.Day);
-                var from = into.AddDays(-1 * r.Next(1, 500));
-                while (from.DayOfWeek == DayOfWeek.Sunday || from.DayOfWeek == DayOfWeek.Saturday)
-                    from.AddDays(1);
-                into = from.AddDays(1);
                 
-                var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Minute));
-                var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Minute));
-                var vtibars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Minute));
+                for(int ct = 0; ct < 16; ct++)
+                {
+                    var into = new DateTime(now.Year, now.Month, now.Day);
+                    var from = into.AddDays(-1 * r.Next(1, 500));
+                    while (from.DayOfWeek == DayOfWeek.Sunday || from.DayOfWeek == DayOfWeek.Saturday)
+                        from.AddDays(1);
+                    into = from.AddDays(1);
+                
+                    var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Minute));
+                    var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Minute));
+                    var vtibars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("VTI", from, into, BarTimeFrame.Minute));
 
-                var bars = new List<StonkValues>();
-                var aapl = new List<StonkValues>();
-                StonkValues sv = GetValues(aaplbars.Items[0]);
+                    var bars = new List<StonkValues>();
+                    var aapl = new List<StonkValues>();
+                    StonkValues sv = GetValues(aaplbars.Items[0]);
                 
-                foreach(var b in aaplbars.Items)
-                {
-                    aapl.Add(GetValues(b));
-                }
-                foreach(var b in aaplbars.Items.Take(r.Next(2, aaplbars.Items.Count())))
-                {
-                    sv = GetValues(b);
-                    bars.Add(sv);
-                }
-                foreach(var b in qqqbars.Items.Take(r.Next(2, qqqbars.Items.Count())))
-                {
-                    bars.Add(GetValues(b));
-                }
-                foreach(var b in vtibars.Items.Take(r.Next(2, vtibars.Items.Count())))
-                {
-                    bars.Add(GetValues(b));
-                }
+                    foreach(var b in aaplbars.Items)
+                    {
+                        aapl.Add(GetValues(b));
+                    }
+                    foreach(var b in aaplbars.Items.Take(r.Next(2, aaplbars.Items.Count())))
+                    {
+                        sv = GetValues(b);
+                        bars.Add(sv);
+                    }
+                    foreach(var b in qqqbars.Items.Take(r.Next(2, qqqbars.Items.Count())))
+                    {
+                        bars.Add(GetValues(b));
+                    }
+                    foreach(var b in vtibars.Items.Take(r.Next(2, vtibars.Items.Count())))
+                    {
+                        bars.Add(GetValues(b));
+                    }
                 
-                var testmax = StonkValues.GetMax(aapl, sv);
-
-                net.Propogate(bars, testmax, new WriteToCMDLine(Write));
+                    if(aapl.Any())
+                    {
+                        var testmax = StonkValues.GetMax(aapl, sv);
+                        multibars.Add(bars);
+                        maxes.Add(testmax);
+                    }
+                }
+                net.Propogate(multibars, maxes, new WriteToCMDLine(Write));
 
 
             }
