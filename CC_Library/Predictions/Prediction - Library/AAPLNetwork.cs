@@ -36,7 +36,6 @@ namespace CC_Library.Predictions
             StonkContext ctxt = new StonkContext(Datatype.AAPL);
             var comps = Comparison.GenerateComparisons(vals);
             double[] Results = st.Forward(comps, ctxt);
-            //double[] MinResults = MaxResults.Duplicate();
             Results = Network.Forward(Results);
             return Results.ToList().IndexOf(Results.Max());
         }
