@@ -50,6 +50,7 @@ namespace CC_Library.Predictions
             NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+            double e = 0;
 
             Parallel.For(0, vals.Count, j =>
                          {
@@ -58,19 +59,14 @@ namespace CC_Library.Predictions
             
                             var MktOutput = stk.Forward(comps, ctxt, sm);
                             var F = Network.Forward(MktOutput, dropout, write);
-
-                            write("Predictions : " + F.Last().GetRank(0).GenText());
-
-                            write("F Desired : " + max[j].GenText());
             
                             var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
-                            write("Max Error : " + Error.GenText());
-                            write("");
-
+                             e += Error.Max();
                             var D = Network.Backward(F, max[j], AAPLMem, write);
                             stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
                          });
 
+            write("Loss : " + e);
             AAPLMem.Update(vals.Count(), 0.01, Network);
             StkMem.Update(vals.Count(), 0.01, stk.Network);
             CtxtMem.Update(vals.Count(), 0.01, ctxt.Network);
