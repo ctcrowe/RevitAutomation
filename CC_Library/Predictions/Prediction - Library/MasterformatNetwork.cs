@@ -96,6 +96,7 @@ namespace CC_Library.Predictions
                 Network.Save();
                 a.Network.Save();
                 ctxt.Save();
+                s.Save();
             }
             /*
                             for(int i = 0; i < 5; i++)
@@ -125,7 +126,6 @@ namespace CC_Library.Predictions
                     CtxtMem.Update(1, 0.0001, ctxt.Network);
                 }
             */
-            s.Save();
             return error;
         }
     }
