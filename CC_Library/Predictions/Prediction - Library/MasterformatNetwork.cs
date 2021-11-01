@@ -35,18 +35,6 @@ namespace CC_Library.Predictions
             }
             return Results;
         }
-        public List<double[]> Forward(Sample s)
-        {
-            List<double[]> Results = new List<double[]>();
-            Results.Add(s.TextOutput);
-
-            for (int k = 0; k < Network.Layers.Count(); k++)
-            {
-                Results.Add(Network.Layers[k].Output(Results.Last()));
-            }
-
-            return Results;
-        }
         public double[] Backward
             (Sample s,
             List<double[]> Results,
