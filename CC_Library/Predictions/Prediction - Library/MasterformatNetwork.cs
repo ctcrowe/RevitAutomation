@@ -35,22 +35,6 @@ namespace CC_Library.Predictions
             }
             return Results;
         }
-        public double[] Backward
-            (Sample s,
-            List<double[]> Results,
-             NetworkMem mem)
-        {
-            var DValues = s.DesiredOutput;
-
-            for (int l = Network.Layers.Count() - 1; l >= 0; l--)
-            {
-                DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
-                mem.Layers[l].DBiases(DValues, Network.Layers[l]);
-                mem.Layers[l].DWeights(DValues, Results[l], Network.Layers[l]);
-                DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
-            }
-            return DValues.ToList().Take(Alpha.DictSize).ToArray();
-        }
         public double Propogate
             (Sample s, WriteToCMDLine write)
         {
