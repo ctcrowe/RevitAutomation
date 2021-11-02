@@ -64,12 +64,22 @@ namespace CC_Library.Predictions
                 MFMem.Update(Samples.Count(), 0.01, Network);
                 AlphaMem.Update(Samples.Count(), 0.01, a.Network);
                 CtxtMem.Update(Samples.Count(), 0.01, ctxt.Network);
-
+                write("Pre Training Error : " + error);
+                
                 Network.Save();
                 a.Network.Save();
                 ctxt.Network.Save();
+                
+                error = 0;
+                Parallel.For(0, Samples.Count(), j =>
+                {
+                    AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    var F = Network.Forward(output, dropout, write);
+                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                }
+                write("Post Training Error : " + error);
             }
-            write("Max Error : " + error);
             return error;
         }
     }
