@@ -30,8 +30,12 @@ namespace CC_Library.Predictions
             {
                 double[,] output = new double[2, Layers[k].Biases.Count()];
                 output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
-                var drop = DropOut(output.GetRank(0), dropout, write);
-                output.SetRank(drop, 1);
+                if(dropout > 0)
+                {
+                    var drop = DropOut(output.GetRank(0), dropout, write);
+                    output.SetRank(drop, 1);
+                }
+                else { output.SetRank(output.GetRank(0), 1); }
                 Results.Add(output);
             }
             return Results;
