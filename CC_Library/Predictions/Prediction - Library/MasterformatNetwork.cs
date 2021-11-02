@@ -61,9 +61,9 @@ namespace CC_Library.Predictions
                     var DValues = Network.Backward(F, Samples[j].DesiredOutput, MFMem, write);
                     a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 });
-                MFMem.Update(24, 3e-5, Network);
-                AlphaMem.Update(24, 3e-5, a.Network);
-                CtxtMem.Update(24, 3e-5, ctxt.Network);
+                MFMem.Update(24, 0.01, Network);
+                AlphaMem.Update(24, 0.01, a.Network);
+                CtxtMem.Update(24, 0.01, ctxt.Network);
 
                 Network.Save();
                 a.Network.Save();
