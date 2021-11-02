@@ -82,13 +82,13 @@ namespace CC_Library.Predictions
                          { Parallel.For(0, Weights.GetLength(1), i => 
                                         {
                                             Weights[j, i] += WMomentum[j, i];
-                                            WMomentum[j, i] *= 0;
+                                            WMomentum[j, i] *= 0.5;
                                         });
                          });
             Parallel.For(0, Biases.Count(), j =>
                          {
                              Biases[j] += BMomentum[j];
-                             BMomentum[j] *= 0;
+                             BMomentum[j] *= 0.5;
                          });
             
         }
