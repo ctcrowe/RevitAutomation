@@ -91,7 +91,10 @@ namespace Trader
                             maxes.Add(testmax);
                         }
                     }
-                    catch { }
+                    catch (Exception e)
+                    {
+                        e.OutputError();
+                    }
                 }
                 net.Propogate(multibars, maxes, new WriteToCMDLine(Write));
 

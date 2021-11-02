@@ -19,8 +19,8 @@ namespace CC_Library.Predictions
             if(Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype.ToString())
             {
                 Network = new NeuralNetwork(Datatype.Masterformat);
-                Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 2e-5, 2e-5));
-                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 2e-5, 2e-5));
+                Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
                 Network.Layers.Add(new Layer(40, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             }
         }
@@ -36,68 +36,40 @@ namespace CC_Library.Predictions
             return Results;
         }
         public double Propogate
-            (Sample s, WriteToCMDLine write)
+            (Sample s, WriteToCMDLine write, bool tf = false)
         {
             double error = 0;
-            Alpha a = new Alpha();
-            AlphaContext ctxt = new AlphaContext(datatype);
-            NetworkMem MFMem = new NetworkMem(Network);
-            NetworkMem AlphaMem = new NetworkMem(a.Network);
-            NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
 
-            AlphaMem am = new AlphaMem(s.TextInput.ToCharArray());
-            
-            s.TextOutput = a.Forward(s.TextInput, ctxt, am);
-            var F = Network.Forward(s.TextOutput, dropout, write);
-            //write("Predictions : " + F.Last().GetRank(0).GenText());
-            //write("F Desired : " + s.DesiredOutput.GenText());
-            var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), s.DesiredOutput);
-            error = Error.Max();
-            write("Max Error : " + error);
-            write("");
+            var Pred = Predict(s);
 
-            if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()))
+            if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != Pred.ToList().IndexOf(Pred.Max()) || tf)
             {
-                var DValues = Network.Backward(F, s.DesiredOutput, MFMem, write);
-                a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
-                
-                MFMem.Update(1, 1e-5, Network);
-                AlphaMem.Update(1, 1e-5, a.Network);
-                CtxtMem.Update(1, 1e-5, ctxt.Network);
-                
+                var Samples = s.ReadSamples(24);
+                Alpha a = new Alpha();
+                AlphaContext ctxt = new AlphaContext(datatype);
+                NetworkMem MFMem = new NetworkMem(Network);
+                NetworkMem AlphaMem = new NetworkMem(a.Network);
+                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+
+                Parallel.For(0, Samples.Count(), j =>
+                {
+                    AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    var F = Network.Forward(output, dropout, write);
+                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+
+                    var DValues = Network.Backward(F, Samples[j].DesiredOutput, MFMem, write);
+                    a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
+                });
+                MFMem.Update(24, 3e-5, Network);
+                AlphaMem.Update(24, 3e-5, a.Network);
+                CtxtMem.Update(24, 3e-5, ctxt.Network);
+
                 Network.Save();
                 a.Network.Save();
-                ctxt.Save();
-                s.Save();
+                ctxt.Network.Save();
             }
-            /*
-                            for(int i = 0; i < 5; i++)
-                {
-                    var Samples = s.ReadSamples(24);
-                    Accuracy Acc = new Accuracy(Samples);
-                    NetworkMem MFMem = new NetworkMem(Network);
-                    NetworkMem AlphaMem = new NetworkMem(a.Network);
-                    NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
-
-                    Parallel.For(0, Samples.Count(), j =>
-                    {
-                        AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt, am);
-                        var F = Forward(Samples[j]);
-                        Acc.Add(j,
-                            CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput).Sum(),
-                            F.Last().ToList().IndexOf(F.Last().Max()),
-                            Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
-
-                        var DValues = Backward(Samples[j], F, MFMem);
-                        a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
-                    });
-                    lines.AddRange(Acc.Get());
-                    MFMem.Update(1, 0.0001, Network);
-                    AlphaMem.Update(1, 0.00001, a.Network);
-                    CtxtMem.Update(1, 0.0001, ctxt.Network);
-                }
-            */
+            write("Max Error : " + error);
             return error;
         }
     }

@@ -68,7 +68,7 @@ namespace CC_Library.Predictions
                              }
                              catch { }
                          });
-
+            write("Samples : " + vals.Count());
             write("Loss : " + e);
             AAPLMem.Update(vals.Count(), 1e-5, Network);
             StkMem.Update(vals.Count(), 1e-5, stk.Network);

@@ -30,14 +30,25 @@ namespace CC_Library.Predictions
                     string f = Files[random.Next(Files.Count())];
                     try
                     {
-                        runs++;
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
-                        Console.Clear();
-                        er += new MasterformatNetwork(s).Propogate(s, write);
-                        write("Error : " + er / runs);
-                        TimeSpan ts = new TimeSpan(100);
-                        System.Threading.Thread.Sleep(100);
+                        var error = new MasterformatNetwork(s).Propogate(s, write, true);
+                        if (error > 0)
+                        {
+                            runs++;
+                            er += error;
+
+                            write("Total Error : " + er);
+                            write("Total Runs : " + runs);
+                            write("Error : " + er / runs);
+                            write("");
+                        }
+                        else
+                        {
+                            write("");
+                            write("error was 0");
+                            write("");
+                        }
                     }
                     catch (Exception e) { e.OutputError(); }
                 }

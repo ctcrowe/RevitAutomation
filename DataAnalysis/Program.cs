@@ -61,6 +61,9 @@ namespace DataAnalysis
                                 s.TestChars(new WriteToCMDLine(Write));
                             }
                             break;
+                        case "READ":
+                            ReadSample.Read(new WriteToCMDLine(Write));
+                            break;
                         case "EXIT":
                         case "E":
                         case "X":

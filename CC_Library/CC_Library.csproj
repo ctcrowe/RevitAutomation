@@ -67,6 +67,7 @@
     <Compile Include="Parameters\ParamType.cs" />
     <Compile Include="Parameters\Params_Project.cs" />
     <Compile Include="Parameters\Subcategory.cs" />
+    <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
     <Compile Include="Predictions\INetworkPredUpdater.cs" />
     <Compile Include="Predictions\LossFunctions\Loss_BinaryCrossEntropy.cs" />
