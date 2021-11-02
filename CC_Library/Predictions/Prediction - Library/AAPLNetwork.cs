@@ -70,9 +70,9 @@ namespace CC_Library.Predictions
                          });
 
             write("Loss : " + e);
-            AAPLMem.Update(vals.Count(), 0.01, Network);
-            StkMem.Update(vals.Count(), 0.01, stk.Network);
-            CtxtMem.Update(vals.Count(), 0.01, ctxt.Network);
+            AAPLMem.Update(vals.Count(), 1e-5, Network);
+            StkMem.Update(vals.Count(), 1e-5, stk.Network);
+            CtxtMem.Update(vals.Count(), 1e-5, ctxt.Network);
             
             Network.Save();
             stk.Network.Save();
