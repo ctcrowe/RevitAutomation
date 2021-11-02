@@ -73,10 +73,8 @@ namespace CC_Library.Predictions
                 error = 0;
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
-                    var F = Network.Forward(output, dropout, write);
-                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                    var output = Predict(Samples[j]);
+                    error += CategoricalCrossEntropy.Forward(output, Samples[j].DesiredOutput);
                 }
                 write("Post Training Error : " + error);
             }
