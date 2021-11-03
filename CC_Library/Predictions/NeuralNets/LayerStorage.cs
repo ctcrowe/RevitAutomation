@@ -36,9 +36,12 @@ namespace CC_Library.Predictions
             Function = l.Function;
         }
         public double[] DActivation(double[] dvalues, double[] output) { return Function.InvertFunction()(dvalues, output); }
-        public void DBiases(double[] dvalues, Layer l)
+        public void DBiases(double[] dvalues, Layer l, double divisor = 1)
         {
-            DeltaB.Add(dvalues);
+            for (int j = 0; j < DeltaB.Count(); j++)
+            {
+                    DeltaB[j] += (dvalues[j] * 1 / divisor);
+            }
             if (l.L1Regularization > 0)
             {
                 Parallel.For(0, l.Biases.GetLength(0), i =>
@@ -48,13 +51,13 @@ namespace CC_Library.Predictions
                 });
             }
         }
-        public void DWeights(double[] dvalues, double[] inputs, Layer l)
+        public void DWeights(double[] dvalues, double[] inputs, Layer l, double divisor = 1)
         {
             for (int i = 0; i < DeltaW.GetLength(0); i++)
             {
                 for (int j = 0; j < DeltaW.GetLength(1); j++)
                 {
-                    DeltaW[i, j] += inputs[j] * dvalues[i];
+                    DeltaW[i, j] += (inputs[j] * dvalues[i] * 1 / divisor);
                 }
             }
             if (l.L1Regularization > 0)
