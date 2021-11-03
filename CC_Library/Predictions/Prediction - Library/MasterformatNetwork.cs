@@ -61,9 +61,9 @@ namespace CC_Library.Predictions
                     var DValues = Network.Backward(F, Samples[j].DesiredOutput, MFMem, write);
                     a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 });
-                MFMem.Update(Samples.Count(), 0.01, Network);
-                AlphaMem.Update(Samples.Count(), 0.01, a.Network);
-                CtxtMem.Update(Samples.Count(), 0.01, ctxt.Network);
+                MFMem.Update(Samples.Count(), 0.001, Network);
+                AlphaMem.Update(Samples.Count(), 0.0001, a.Network);
+                CtxtMem.Update(Samples.Count(), 0.001, ctxt.Network);
                 write("Pre Training Error : " + error);
                 
                 Network.Save();
@@ -73,9 +73,11 @@ namespace CC_Library.Predictions
                 error = 0;
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var output = Predict(Samples[j]);
-                    error += CategoricalCrossEntropy.Forward(output, Samples[j].DesiredOutput);
-                }
+                    AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    var F = Network.Forward(output, dropout, write);
+                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                });
                 write("Post Training Error : " + error);
             }
             return error;

@@ -29,6 +29,11 @@ namespace CC_Library.Predictions
             for (int k = 0; k < Layers.Count(); k++)
             {
                 double[,] output = new double[2, Layers[k].Biases.Count()];
+                var rank = Layers[k].Output(Results.Last().GetRank(1));
+                if(rank.Any(x => double.IsNaN(x)))
+                {
+                    write("Layer " + k + " in " + Datatype.ToString() + " Network  has NaN Values");
+                }
                 output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
                 var drop = DropOut(output.GetRank(0), dropout, write);
                 output.SetRank(drop, 1);
