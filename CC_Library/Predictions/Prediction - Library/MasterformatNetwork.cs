@@ -62,7 +62,7 @@ namespace CC_Library.Predictions
                     a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 });
                 MFMem.Update(Samples.Count(), 0.001, Network);
-                AlphaMem.Update(Samples.Count(), 0.0001, a.Network);
+                AlphaMem.Update(Samples.Count(), 0.001, a.Network);
                 CtxtMem.Update(Samples.Count(), 0.001, ctxt.Network);
                 write("Pre Training Error : " + error);
                 
@@ -78,6 +78,48 @@ namespace CC_Library.Predictions
                     var F = Network.Forward(output, dropout, write);
                     error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
                 });
+                write("Post Training Error : " + error);
+            }
+            return error;
+        }
+        public double PropogateSingle
+            (Sample s, WriteToCMDLine write, bool tf = false)
+        {
+            double error = 0;
+
+            var Pred = Predict(s);
+
+            if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != Pred.ToList().IndexOf(Pred.Max()) || tf)
+            {
+                Alpha a = new Alpha();
+                AlphaContext ctxt = new AlphaContext(datatype);
+                NetworkMem MFMem = new NetworkMem(Network);
+                NetworkMem AlphaMem = new NetworkMem(a.Network);
+                NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+
+
+                AlphaMem am = new AlphaMem(s.TextInput.ToCharArray());
+                var output = a.Forward(s.TextInput, ctxt, am);
+                var F = Network.Forward(output, dropout, write);
+                error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), s.DesiredOutput).Max();
+
+                var DValues = Network.Backward(F, s.DesiredOutput, MFMem, write);
+                a.Backward(s.TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
+
+                MFMem.Update(1, 0.0001, Network);
+                AlphaMem.Update(1, 0.0001, a.Network);
+                CtxtMem.Update(1, 0.0001, ctxt.Network);
+                write("Pre Training Error : " + error);
+
+                Network.Save();
+                a.Network.Save();
+                ctxt.Network.Save();
+
+                am = new AlphaMem(s.TextInput.ToCharArray());
+                output = a.Forward(s.TextInput, ctxt, am);
+                F = Network.Forward(output, dropout, write);
+                error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), s.DesiredOutput).Max();
+
                 write("Post Training Error : " + error);
             }
             return error;

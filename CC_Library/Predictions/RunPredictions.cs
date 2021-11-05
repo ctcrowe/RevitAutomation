@@ -33,6 +33,7 @@ namespace CC_Library.Predictions
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
                         var error = new MasterformatNetwork(s).Propogate(s, write, true);
+                        //var error = new MasterformatNetwork(s).PropogateSingle(s, write, true);
                         if (error > 0)
                         {
                             runs++;
