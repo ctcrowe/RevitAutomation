@@ -9,8 +9,8 @@ namespace Trader
     public class ValueSet
     {
         public GUID guid { get; set; }
-        public List<StonkValues> bars { get; set; }
-        public StonkValues TargetBar { get; set; }
+        public List<StonkValues> Values { get; set; }
+        public StonkValues Target { get; set; }
         public int Output { get; set; }
 
         public ValueSet()
