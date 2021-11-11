@@ -61,9 +61,9 @@ namespace CC_Library.Predictions
                     var DValues = Network.Backward(F, Samples[j].DesiredOutput, MFMem, write);
                     a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 });
-                MFMem.Update(Samples.Count(), 0.001, Network);
-                AlphaMem.Update(Samples.Count(), 0.001, a.Network);
-                CtxtMem.Update(Samples.Count(), 0.001, ctxt.Network);
+                MFMem.Update(Samples.Count(), 0.0005, Network);
+                AlphaMem.Update(Samples.Count(), 0.0005, a.Network);
+                CtxtMem.Update(Samples.Count(), 0.0005, ctxt.Network);
                 write("Pre Training Error : " + error);
                 
                 Network.Save();
