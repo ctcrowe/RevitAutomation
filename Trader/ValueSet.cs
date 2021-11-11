@@ -8,14 +8,15 @@ namespace Trader
     [Serializable]
     public class ValueSet
     {
-        public GUID guid { get; set; }
+        public Guid guid { get; set; }
         public List<StonkValues> Values { get; set; }
         public StonkValues Target { get; set; }
         public int Output { get; set; }
 
         public ValueSet()
         {
-            this.bars = new List<StonkValues>();
+            this.guid = Guid.NewGuid();
+            this.Values = new List<StonkValues>();
             this.Output = 0;
         }
         public void SaveTxt()

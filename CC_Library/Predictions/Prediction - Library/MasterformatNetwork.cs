@@ -79,6 +79,8 @@ namespace CC_Library.Predictions
                     error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
                 });
                 write("Post Training Error : " + error);
+
+                s.Save();
             }
             return error;
         }
