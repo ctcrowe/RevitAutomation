@@ -24,11 +24,11 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(40, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
             }
         }
-        public double[] Predict(Sample s)
+        public double[] Predict(string s)
         {
             Alpha a = new Alpha();
             AlphaContext ctxt = new AlphaContext(Datatype.Masterformat);
-            double[] Results = a.Forward(s.TextInput, ctxt);
+            double[] Results = a.Forward(s, ctxt);
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
                 Results = Network.Layers[i].Output(Results);
@@ -40,7 +40,7 @@ namespace CC_Library.Predictions
         {
             double error = 0;
 
-            var Pred = Predict(s);
+            var Pred = Predict(s.TextInput);
 
             if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != Pred.ToList().IndexOf(Pred.Max()) || tf)
             {
