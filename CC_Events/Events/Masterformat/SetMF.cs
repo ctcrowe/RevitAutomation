@@ -41,7 +41,7 @@ namespace CC_Plugin
                     if (symb != null)
                     {
                         string name = symb.FamilyName == null ? "preset" : symb.FamilyName;
-                        int MF = Datatype.Masterformat.PredictSingle(name);
+                        int MF = new MasterformatNetwork().Predict(name);
                         try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
                     }
                 }
