@@ -14,11 +14,9 @@ namespace CC_Plugin
         {
             string folder = "CC_Families".GetMyDocs().GetDir();
             
-            Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-            s.TextInput = fp.Split('\\').Last().Split('.').First();
 
-            MasterformatNetwork net = new MasterformatNetwork(s);
-            var div = net.Predict(s);
+            MasterformatNetwork net = new MasterformatNetwork();
+            var div = net.Predict(fp.Split('\\').Last().Split('.').First());
             string Division = "Division " + div.ToList().IndexOf(div.Max());
             string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
                 
@@ -46,11 +44,9 @@ namespace CC_Plugin
                 }
                 string folder = "CC_Families".GetMyDocs().GetDir();
                 string fp = doc.PathName;
-                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                s.TextInput = fp.Split('\\').Last().Split('.').First();
 
-                MasterformatNetwork net = new MasterformatNetwork(s);
-                var div = net.Predict(s);
+                MasterformatNetwork net = new MasterformatNetwork();
+                var div = net.Predict(fp.Split('\\').Last().Split('.').First());
                 string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
                 
                 string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?

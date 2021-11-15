@@ -65,7 +65,7 @@ namespace CC_Plugin
                     try
                     {
                         Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                        MasterformatNetwork net = new MasterformatNetwork(s);
+                        MasterformatNetwork net = new MasterformatNetwork();
                         var ele = doc.GetElement(eid) as FamilySymbol;
                         try { s.TextInput = ele.FamilyName; }
                         catch (Exception e) { e.OutputError(); }

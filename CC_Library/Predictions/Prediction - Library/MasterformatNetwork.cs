@@ -13,10 +13,10 @@ namespace CC_Library.Predictions
         private const double dropout = 0.1;
         public Datatype datatype { get { return Datatype.Masterformat; } }
         public NeuralNetwork Network { get; }
-        public MasterformatNetwork(Sample s)
+        public MasterformatNetwork()
         {
             Network = Datatype.Masterformat.LoadNetwork();
-            if(Network.Datatype == Datatype.None.ToString() && s.Datatype == datatype.ToString())
+            if(Network.Datatype == Datatype.None.ToString())
             {
                 Network = new NeuralNetwork(Datatype.Masterformat);
                 Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 1e-5, 1e-5));
