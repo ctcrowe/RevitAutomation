@@ -20,7 +20,11 @@ namespace Trader
         public void SaveTxt()
         {
             List<string> Lines = new List<string>();
-            Lines.Add("Input GUID " + guid.ToString());
+            Lines.Add("GUID : " + guid.ToString());
+        }
+        public string GetValueText(StonkValues value)
+        {
+            
         }
     }
 }
