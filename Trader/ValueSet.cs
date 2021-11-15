@@ -10,8 +10,6 @@ namespace Trader
     {
         public Guid guid { get; set; }
         public List<StonkValues> Values { get; set; }
-        public StonkValues Target { get; set; }
-        public int Output { get; set; }
 
         public ValueSet()
         {
