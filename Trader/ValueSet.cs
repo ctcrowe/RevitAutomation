@@ -24,13 +24,5 @@ namespace Trader
             List<string> Lines = new List<string>();
             Lines.Add("Input GUID " + guid.ToString());
         }
-        public ValueSet LoadTxt(string fn)
-        {
-            return new ValueSet();
-        }
-        public void SaveBin()
-        {
-
-        }
     }
 }
