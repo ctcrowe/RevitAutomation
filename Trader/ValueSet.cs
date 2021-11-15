@@ -34,5 +34,9 @@ namespace Trader
             l+= value.AskPrice.ToString() + ",";
             l+= value.BidPrice.ToString();
         }
+        public StonkValues GetValue(string s)
+        {
+            
+        }
     }
 }
