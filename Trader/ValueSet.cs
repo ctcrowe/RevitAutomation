@@ -21,6 +21,10 @@ namespace Trader
         {
             List<string> Lines = new List<string>();
             Lines.Add("GUID : " + guid.ToString());
+            foreach(var val in Values)
+            {
+                Lines.Add(GetValueText(val));
+            }
         }
         public string GetValueText(StonkValues value)
         {
