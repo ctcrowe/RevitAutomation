@@ -24,7 +24,11 @@ namespace Trader
         }
         public string GetValueText(StonkValues value)
         {
-            
+            string l = "";
+            l+= value.Symbol + ",";
+            l+= value.id + ",";
+            l+= value.AskPrice.ToString() + ",";
+            l+= value.BidPrice.ToString();
         }
     }
 }
