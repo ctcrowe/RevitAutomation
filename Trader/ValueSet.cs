@@ -17,7 +17,6 @@ namespace Trader
         {
             this.guid = Guid.NewGuid();
             this.Values = new List<StonkValues>();
-            this.Output = 0;
         }
         public void SaveTxt()
         {
