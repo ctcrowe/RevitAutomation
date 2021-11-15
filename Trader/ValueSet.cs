@@ -17,7 +17,7 @@ namespace Trader
             this.Values = new List<StonkValues>();
             this.Output = 0;
         }
-        public void SaveTxt()
+        public void SaveTxt(string s)
         {
             List<string> Lines = new List<string>();
             Lines.Add("GUID : " + guid.ToString());
@@ -25,6 +25,7 @@ namespace Trader
             {
                 Lines.Add(GetValueText(val));
             }
+            File.WriteAllLines(s, Lines);
         }
         public string GetValueText(StonkValues value)
         {
