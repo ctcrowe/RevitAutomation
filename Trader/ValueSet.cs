@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using CC_Librariy;
 using CC_Library.Predictions;
 
 namespace Trader
@@ -17,15 +19,20 @@ namespace Trader
             this.Values = new List<StonkValues>();
             this.Output = 0;
         }
-        public void SaveTxt(string s)
+        public void SaveTxt()
         {
+            string folder = "ValueSets".GetMyDocs();
+            if(!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            string filename = folder + "\\" + guid.ToString();
+            
             List<string> Lines = new List<string>();
             Lines.Add("GUID : " + guid.ToString());
             foreach(var val in Values)
             {
                 Lines.Add(GetValueText(val));
             }
-            File.WriteAllLines(s, Lines);
+            File.WriteAllLines(filename, Lines);
         }
         public string GetValueText(StonkValues value)
         {
