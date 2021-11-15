@@ -57,6 +57,8 @@ namespace Trader
                         while (from.DayOfWeek == DayOfWeek.Sunday || from.DayOfWeek == DayOfWeek.Saturday)
                             from.AddDays(1);
                         into = from.AddDays(1);
+                        
+                        ValueSet set = new ValueSet();
                 
                         var aaplbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("AAPL", from, into, BarTimeFrame.Minute));
                         var qqqbars = await DClient.ListHistoricalBarsAsync(new HistoricalBarsRequest("QQQ", from, into, BarTimeFrame.Minute));
@@ -68,28 +70,32 @@ namespace Trader
                 
                         foreach(var b in aaplbars.Items)
                         {
-                            aapl.Add(GetValues(b));
+                            set.Add(GetValues(b));
+                            //aapl.Add(GetValues(b));
                         }
                         foreach(var b in aaplbars.Items.Take(r.Next(2, aaplbars.Items.Count())))
                         {
-                            sv = GetValues(b);
-                            bars.Add(sv);
+                            set.Add(GetValues(b)(;
+                            //sv = GetValues(b);
+                            //bars.Add(sv);
                         }
                         foreach(var b in qqqbars.Items.Take(r.Next(2, qqqbars.Items.Count())))
                         {
-                            bars.Add(GetValues(b));
+                            set.Add(GetValues(b)(;
+                            //bars.Add(GetValues(b));
                         }
                         foreach(var b in vtibars.Items.Take(r.Next(2, vtibars.Items.Count())))
                         {
-                            bars.Add(GetValues(b));
+                            set.Add(GetValues(b));
+                            //bars.Add(GetValues(b));
                         }
-                
-                        if(aapl.Any())
-                        {
-                            var testmax = StonkValues.GetMax(aapl, sv);
-                            multibars.Add(bars);
-                            maxes.Add(testmax);
-                        }
+                        //if(aapl.Any())
+                        //{
+                            //var testmax = StonkValues.GetMax(aapl, sv);
+                            //multibars.Add(bars);
+                            //maxes.Add(testmax);
+                        //}
+                        set.SaveTxt();          
                     }
                     catch (Exception e)
                     {
