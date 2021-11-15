@@ -30,13 +30,18 @@ namespace Trader
         {
             string l = "";
             l+= value.Symbol + ",";
-            l+= value.id + ",";
+            l+= value.Time.ToString() + ",";
             l+= value.AskPrice.ToString() + ",";
             l+= value.BidPrice.ToString();
         }
         public StonkValues GetValue(string s)
         {
-            
+            var l = s.Split(',');
+            var symb = l[0];
+            var time = DateTime.Parse(l[2]);
+            var ask = double.Parse(l[3]);
+            var bid = double.Parse(l[4]);
+            StonkValues val = new StonkValue(symb, time, ask, bid);
         }
     }
 }
