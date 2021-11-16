@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
-using CC_Librariy;
+using CC_Library;
 using CC_Library.Predictions;
 
 namespace Trader
@@ -40,6 +40,7 @@ namespace Trader
             l+= value.Time.ToString() + ",";
             l+= value.AskPrice.ToString() + ",";
             l+= value.BidPrice.ToString();
+            return l;
         }
         public StonkValues GetValue(string s)
         {
@@ -48,7 +49,8 @@ namespace Trader
             var time = DateTime.Parse(l[2]);
             var ask = double.Parse(l[3]);
             var bid = double.Parse(l[4]);
-            StonkValues val = new StonkValue(symb, time, ask, bid);
+            StonkValues val = new StonkValues(symb, time, ask, bid);
+            return val;
         }
     }
 }

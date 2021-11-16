@@ -70,23 +70,24 @@ namespace Trader
                 
                         foreach(var b in aaplbars.Items)
                         {
-                            set.Add(GetValues(b));
+                            set.Values.Add(GetValues(b));
                             //aapl.Add(GetValues(b));
                         }
+                        /*
                         foreach(var b in aaplbars.Items.Take(r.Next(2, aaplbars.Items.Count())))
                         {
                             set.Add(GetValues(b)(;
                             //sv = GetValues(b);
                             //bars.Add(sv);
-                        }
-                        foreach(var b in qqqbars.Items.Take(r.Next(2, qqqbars.Items.Count())))
+                        }*/
+                        foreach(var b in qqqbars.Items) //.Take(r.Next(2, qqqbars.Items.Count())))
                         {
-                            set.Add(GetValues(b)(;
+                            set.Values.Add(GetValues(b));
                             //bars.Add(GetValues(b));
                         }
-                        foreach(var b in vtibars.Items.Take(r.Next(2, vtibars.Items.Count())))
+                        foreach(var b in vtibars.Items) //.Take(r.Next(2, vtibars.Items.Count())))
                         {
-                            set.Add(GetValues(b));
+                            set.Values.Add(GetValues(b));
                             //bars.Add(GetValues(b));
                         }
                         //if(aapl.Any())
