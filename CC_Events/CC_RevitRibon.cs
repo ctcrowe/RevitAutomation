@@ -14,6 +14,7 @@ namespace CC_Plugin
         {
             uiApp.CreateRibbonTab(tabName);
             CCPaintPanel.PaintPanel(uiApp);
+            UpdateTab.CreatePanel(uiApp);
             FamilyReorganize.Run();
 
             //DetailPanel.DetailTab(uiApp, tabName);

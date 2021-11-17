@@ -88,12 +88,12 @@ namespace CC_Plugin
             {
                 ProjectStartup(doc);
             }
-            UpdateMFDB.ProjectStartup(args.Document.Application.ActiveAddInId, args.Document);
+            //UpdateMFDB.ProjectStartup(args.Document.Application.ActiveAddInId, args.Document);
         }
         public static void ClosingEvent(object sender, DocumentClosingEventArgs args)
         {
             Document doc = args.Document;
-            UpdateMFDB.ProjectShutdown(args.Document.Application.ActiveAddInId, args.Document);
+            //UpdateMFDB.ProjectShutdown(args.Document.Application.ActiveAddInId, args.Document);
         }
         public static void CreatedEvent(object sender, DocumentCreatedEventArgs args)
         {
