@@ -11,6 +11,28 @@ namespace CC_Library.Parameters
             ParamType.Int,
             false,
             true);
+        /*
+        Add the below unfinished Params to Doors, Generic Models, and Stairs.
+        */
+        public static readonly Param ExitName = new Param
+            (
+            //Examples : "Exit Stair 01" "Exit Door 02"
+            );
+        public static readonly Param ExitCapacity = new Param
+            (
+            );
+        public static readonly Param ExitLoad = new Param
+            (
+            );
+        public static readonly Param ExitCapacityFactor = new Param
+            (
+            );
+        public static readonly Param EgressWidth = new Param
+            (
+            );
+        public static readonly Param RequiredEgressWidth = new Param
+            (
+            );
         public static readonly Param Finish = new Param
             ("Finish Material",
             new Guid("4848e7f4ee234755b9892deb5eef17b6"),
