@@ -5,6 +5,23 @@ using CC_Library;
 using CC_Plugin.TypeNaming;
 using CC_Plugin.Details;
 
+/* hatch editor
+// if(doc.IsFamilyDocument)
+// {
+//      if(doc.OwnerFamily.FamilyCategory == Detail Item)
+//      {
+            FilteredElementCollector LC = new FilteredElementCollector(doc);
+            Get Lines
+            Get Line Start Point
+            Get Line End Point
+            Add to List<string>Lines();
+            //Generate Title
+            //Write All Lines to File
+            //Profit
+//      }
+// }
+*/
+
 namespace CC_Plugin
 {
     public class CCRibbon : IExternalApplication
