@@ -9,6 +9,7 @@
         Rooms,
         Project,
         View,
-        Wall
+        Wall,
+        Egress
     }
 }
