@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace CC_Plugin
 {
-    class UpdateTab
+    internal class UpdateTab
     {
         private static string dllpath = Assembly.GetExecutingAssembly().Location;
 
