@@ -21,9 +21,15 @@ namespace CC_Plugin
         public static void CreatePanel(UIControlledApplication uiApp)
         {
             RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Text Modify");
+            
             TextBoxData tbd = new TextBoxData("Enter");
             TextBox tb = Panel.AddItem(tbd) as TextBox;
             tb.EnterPressed += CallTextCommand;
+            
+            PushButtonData MFBData = new PushButtonData
+                (
+                );
+            PushButton MFButton = Panel.AddItem(MFBData) as PushButton;
         }
         public static void CallTextCommand(object sender, TextBoxEnterPressedEventArgs args)
         {
@@ -55,17 +61,31 @@ namespace CC_Plugin
                 }
             }
         }
-        public class EleSelectionFilter : ISelectionFilter
+    }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
+    public class SetMasterformat : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
         {
-            public bool AllowElement(Element element)
-            {
-                FamilyInstance inst = element as FamilyInstance;
-                if (inst != null)
-                    return true;
-                else
-                    return false;
-            }
-            public bool AllowReference(Reference refer, XYZ point) { return true; }
+            UIDocument uiDoc = commandData.Application.ActiveUIDocument;
+            CCPaintPanel.PaintByMaterial(uiDoc, Params.Finish);
+            return Result.Succeeded;
         }
+    }
+    public class EleSelectionFilter : ISelectionFilter
+    {
+        public bool AllowElement(Element element)
+        {
+            FamilyInstance inst = element as FamilyInstance;
+            if (inst != null)
+                return true;
+            else
+                return false;
+        }
+        public bool AllowReference(Reference refer, XYZ point) { return true; }
     }
 }
