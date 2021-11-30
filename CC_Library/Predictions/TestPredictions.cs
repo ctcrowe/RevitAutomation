@@ -17,8 +17,9 @@ namespace CC_Library.Predictions
                 {
                     default:
                     case Datatype.Masterformat:
-                       // var output = MasterformatNetwork.Predict(phrase).ToString();
-                        //write(phrase + " : Division Number : " + output);
+                        var outputs = new MasterformatNetwork().Predict(phrase);
+                        var output = outputs.ToList().IndexOf(outputs.Max());
+                        write(phrase + " : Division Number : " + output.ToString());
                         break;
                 }
             }
