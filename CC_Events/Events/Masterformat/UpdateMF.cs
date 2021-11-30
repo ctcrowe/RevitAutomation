@@ -14,15 +14,17 @@ using System.Reflection;
 
 namespace CC_Plugin
 {
-    internal class UpdateTab
+    internal static class UpdateTab
     {
         private static string dllpath = Assembly.GetExecutingAssembly().Location;
+        public const string PName = "AI Update";
+        public const string TBName = "Parameter Value";
 
         public static void CreatePanel(UIControlledApplication uiApp)
         {
-            RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, "Text Modify");
+            RibbonPanel Panel = uiApp.CreateRibbonPanel(CCRibbon.tabName, PName);
             
-            TextBoxData tbd = new TextBoxData("Enter");
+            TextBoxData tbd = new TextBoxData(TBName);
             TextBox tb = Panel.AddItem(tbd) as TextBox;
             
             PushButtonData MFBData = new PushButtonData
@@ -32,6 +34,17 @@ namespace CC_Plugin
                 "CC_Plugin.SetMasterformat");
             MFBData.ToolTip = "Set Masterformat Value for an Element based on Text Box Entry.";
             PushButton MFButton = Panel.AddItem(MFBData) as PushButton;
+        }
+        public static string GetText(this UIApplication app)
+        {
+            try
+            {
+                var panel = app.GetRibbonPanels(CCRibon.tabName).Where(x => x.Name == PName).First();
+                var item = panel.GetItems().Where(x => x.Name == TBName).First() as TextBox;
+                var text = item.Value.ToString();
+                return text;
+            }
+            catch (Exception e) { e.OutputError(); }
         }
     }
     [TransactionAttribute(TransactionMode.Manual)]
@@ -43,14 +56,9 @@ namespace CC_Plugin
             ref string message,
             ElementSet elements)
         {
-            UIApplication app = commandData.Application;
-            var panels = app.GetRibbonPanels(CCRibbon.tabName)
-            var panel = panels.Where(x => x.Name == "Text Modify").First();
-            var item = panel.GetItems().Where(x => x.Name == "Enter").First() as TextBox;
-            var text = item.Value;
-            
+            var text = CommandData.Application.GetText();
             int numb;
-            if(int.TryParse(item.Value.ToString(), out numb))
+            if(int.TryParse(text, out numb))
             {
                 Selection sel = args.Application.ActiveUIDocument.Selection;
                 ISelectionFilter selectionFilter = new EleSelectionFilter();
