@@ -26,6 +26,7 @@ namespace CC_Plugin
             
             TextBoxData tbd = new TextBoxData(TBName);
             TextBox tb = Panel.AddItem(tbd) as TextBox;
+            tb.Width = 350;
             
             PushButtonData MFBData = new PushButtonData
                 "Set Masterformat",
