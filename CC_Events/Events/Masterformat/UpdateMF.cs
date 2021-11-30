@@ -26,8 +26,11 @@ namespace CC_Plugin
             TextBox tb = Panel.AddItem(tbd) as TextBox;
             
             PushButtonData MFBData = new PushButtonData
-                (
-                );
+                "Set Masterformat",
+                "Set Masterformat",
+                @dllpath,
+                "CC_Plugin.SetMasterformat");
+            MFBData.ToolTip = "Set Masterformat Value for an Element based on Text Box Entry.";
             PushButton MFButton = Panel.AddItem(MFBData) as PushButton;
         }
     }
