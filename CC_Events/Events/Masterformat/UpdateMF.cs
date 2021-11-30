@@ -24,42 +24,11 @@ namespace CC_Plugin
             
             TextBoxData tbd = new TextBoxData("Enter");
             TextBox tb = Panel.AddItem(tbd) as TextBox;
-            tb.EnterPressed += CallTextCommand;
             
             PushButtonData MFBData = new PushButtonData
                 (
                 );
             PushButton MFButton = Panel.AddItem(MFBData) as PushButton;
-        }
-        public static void CallTextCommand(object sender, TextBoxEnterPressedEventArgs args)
-        {
-            Autodesk.Revit.UI.TextBox tb = sender as Autodesk.Revit.UI.TextBox;
-            Document doc = args.Application.ActiveUIDocument.Document;
-
-            int numb;
-            if(int.TryParse(tb.Value.ToString(), out numb))
-            {
-                Selection sel = args.Application.ActiveUIDocument.Selection;
-                ISelectionFilter selectionFilter = new EleSelectionFilter();
-
-                Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
-                FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
-                FamilySymbol symb = inst.Symbol;
-                MasterformatNetwork net = new MasterformatNetwork();
-
-                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                s.TextInput = symb.Family.Name;
-                s.DesiredOutput = new double[net.Network.Layers.Last().Biases.Count()];
-                s.DesiredOutput[numb] = 1;
-                net.Propogate(s, CMDLibrary.WriteNull);
-
-                using (Transaction t = new Transaction(doc, "Set Param"))
-                {
-                    t.Start();
-                    symb.SetElementParam(Params.Masterformat, numb.ToString());
-                    t.Commit();
-                }
-            }
         }
     }
     [TransactionAttribute(TransactionMode.Manual)]
