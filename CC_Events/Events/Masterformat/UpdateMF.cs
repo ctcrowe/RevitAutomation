@@ -71,8 +71,36 @@ namespace CC_Plugin
             ref string message,
             ElementSet elements)
         {
-            UIDocument uiDoc = commandData.Application.ActiveUIDocument;
-            CCPaintPanel.PaintByMaterial(uiDoc, Params.Finish);
+            UIApplication app = commandData.Application;
+            var panels = app.GetRibbonPanels(CCRibbon.tabName)
+            var panel = panels.Where(x => x.Name == "Text Modify").First();
+            var item = panel.GetItems().Where(x => x.Name == "Enter").First() as TextBox;
+            var text = item.Value;
+            
+            int numb;
+            if(int.TryParse(item.Value.ToString(), out numb))
+            {
+                Selection sel = args.Application.ActiveUIDocument.Selection;
+                ISelectionFilter selectionFilter = new EleSelectionFilter();
+
+                Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
+                FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
+                FamilySymbol symb = inst.Symbol;
+                MasterformatNetwork net = new MasterformatNetwork();
+
+                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                s.TextInput = symb.Family.Name;
+                s.DesiredOutput = new double[net.Network.Layers.Last().Biases.Count()];
+                s.DesiredOutput[numb] = 1;
+                net.Propogate(s, CMDLibrary.WriteNull);
+
+                using (Transaction t = new Transaction(doc, "Set Param"))
+                {
+                    t.Start();
+                    symb.SetElementParam(Params.Masterformat, numb.ToString());
+                    t.Commit();
+                }
+            }
             return Result.Succeeded;
         }
     }
