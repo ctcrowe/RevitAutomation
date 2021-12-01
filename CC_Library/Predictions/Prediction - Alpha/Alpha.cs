@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
         internal Alpha()
         {
             Network = Datatype.Alpha.LoadNetwork();
-            if(Network.Datatype == Datatype.None.ToString())
+            if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Alpha);
                 Network.Layers.Add(new Layer(DictSize, ((2 * SearchRange) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));

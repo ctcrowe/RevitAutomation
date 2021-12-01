@@ -19,7 +19,7 @@ namespace CC_Library.Predictions
         public AppleNetwork()
         {
             Network = datatype.LoadNetwork();
-            if(Network.Datatype == Datatype.None.ToString())
+            if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(datatype);
                 Network.Layers.Add(new Layer(Stonk.MktSize, Stonk.MktSize, Activation.LRelu));

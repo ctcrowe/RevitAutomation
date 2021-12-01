@@ -20,7 +20,7 @@ namespace CC_Library.Predictions
         public Stonk()
         {
             Network = Datatype.Stonk.LoadNetwork();
-            if (Network.Datatype == Datatype.None.ToString())
+            if (Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Stonk);
                 Network.Layers.Add(new Layer(MktSize, 8, Activation.LRelu));

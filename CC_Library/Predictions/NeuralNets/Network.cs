@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
     public class NeuralNetwork
     {
         public List<Layer> Layers { get; set; }
-        public string Datatype { get; }
+        public Datatype Datatype { get; }
 
         public double[] Forward(double[] results)
         {
@@ -86,7 +86,7 @@ namespace CC_Library.Predictions
         public NeuralNetwork(Datatype datatype)
         {
             this.Layers = new List<Layer>();
-            this.Datatype = datatype.ToString();
+            this.Datatype = datatype;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace CC_Library.Predictions
         public MasterformatNetwork()
         {
             Network = Datatype.Masterformat.LoadNetwork();
-            if(Network.Datatype == Datatype.None.ToString())
+            if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Masterformat);
                 Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 1e-5, 1e-5));
@@ -68,7 +68,7 @@ namespace CC_Library.Predictions
                 
                 Network.Save();
                 a.Network.Save();
-                ctxt.Network.Save();
+                ctxt.Network.Save(Datatype.Masterformat);
                 
                 error = 0;
                 Parallel.For(0, Samples.Count(), j =>

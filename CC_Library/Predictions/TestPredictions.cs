@@ -13,12 +13,13 @@ namespace CC_Library.Predictions
             if(Enum.GetNames(typeof(Datatype)).Any(x => dt == x))
             {
                 Datatype dtype = (Datatype)Enum.Parse(typeof(Datatype), dt);
-                switch(dtype)
+                switch (dtype)
                 {
                     default:
                     case Datatype.Masterformat:
                         var outputs = new MasterformatNetwork().Predict(phrase);
                         var output = outputs.ToList().IndexOf(outputs.Max());
+                        try { outputs.WriteArray("Values", write); } catch (Exception e) { e.OutputError(); }
                         write(phrase + " : Division Number : " + output.ToString());
                         break;
                 }

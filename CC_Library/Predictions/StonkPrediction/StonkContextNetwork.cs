@@ -17,7 +17,7 @@ namespace CC_Library.Predictions
         {
             datatype = dt;
             Network = Datatype.StonkContext.LoadNetwork(dt);
-            if (Network.Datatype == Datatype.None.ToString())
+            if (Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.StonkContext);
                 Network.Layers.Add(new Layer(1, 8, Activation.Linear));

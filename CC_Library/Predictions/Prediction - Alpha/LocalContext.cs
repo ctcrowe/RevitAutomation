@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
                 case 1: Network = Datatype.AlphaContextSecondary.LoadNetwork(dt); break;
                 case 2: Network = Datatype.AlphaContextTertiary.LoadNetwork(dt); break;
             }
-            if(Network.Datatype == Datatype.None.ToString())
+            if(Network.Datatype == Datatype.None)
             {
                 switch(numb)
                 {
