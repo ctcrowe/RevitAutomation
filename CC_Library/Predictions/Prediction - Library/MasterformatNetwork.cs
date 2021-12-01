@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
                 return net;
             }
         }
-        public double[] Predict(string s, WriteToCMDLine write)
+        public static double[] Predict(string s, WriteToCMDLine write)
         {
             NeuralNetwork net = GetNetwork(write);
             Alpha a = new Alpha();
@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
             }
             return Results;
         }
-        public double Propogate
+        public static double Propogate
             (Sample s, WriteToCMDLine write, bool tf = false)
         {
             double error = 0;
