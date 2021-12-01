@@ -11,12 +11,20 @@ namespace CC_Library.Predictions
     public class MasterformatNetwork
     {
         private const double dropout = 0.1;
-        public Datatype datatype { get { return Datatype.Masterformat; } }
-        public NeuralNetwork GetNetwork(WriteToCMDLine write)
+        public static Datatype datatype { get { return Datatype.Masterformat; } }
+        public static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
             get
             {
-                NeuralNetwork net = datatype.LoadNetwork(
+                NeuralNetwork net = datatype.LoadNetwork(write);
+                if(net.Datatype == Datatype.None)
+                {
+                    net = new NeuralNetwork(datatype);
+                    net.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 1e-5, 1e-5));
+                    net.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
+                    net.Layers.Add(new Layer(40, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
+                }
+                return net;
             }
         }
         public MasterformatNetwork()
