@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
-    public class MasterformatNetwork
+    public static class MasterformatNetwork
     {
         private const double dropout = 0.1;
         public static Datatype datatype { get { return Datatype.Masterformat; } }
@@ -27,19 +27,9 @@ namespace CC_Library.Predictions
                 return net;
             }
         }
-        public MasterformatNetwork()
+        public double[] Predict(string s, WriteToCMDLine write)
         {
-            Network = datatype.LoadNetwork();
-            if(Network.Datatype == Datatype.None)
-            {
-                Network = new NeuralNetwork(datatype);
-                Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(40, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
-            }
-        }
-        public double[] Predict(string s)
-        {
+            NeuralNetwork net = GetNetwork(write);
             Alpha a = new Alpha();
             AlphaContext ctxt = new AlphaContext(Datatype.Masterformat);
             double[] Results = a.Forward(s, ctxt);
@@ -58,6 +48,7 @@ namespace CC_Library.Predictions
 
             if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != Pred.ToList().IndexOf(Pred.Max()) || tf)
             {
+                NeuralNetwork net = GetNetwork(write);
                 var Samples = s.ReadSamples(24);
                 Alpha a = new Alpha();
                 AlphaContext ctxt = new AlphaContext(datatype);
