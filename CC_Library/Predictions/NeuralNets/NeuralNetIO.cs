@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static NeuralNetwork LoadNetwork(this Datatype datatype, Datatype reference = Datatype.None)
+        public static NeuralNetwork LoadNetwork(this Datatype datatype, WriteToCMDLine write, Datatype reference = Datatype.None)
         {
             string fn = "NeuralNet_";
             if(reference != Datatype.None)
@@ -47,6 +47,7 @@ namespace CC_Library.Predictions
                 if (Files.Any(x => x.Contains(fn)))
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
+                    write("Datatype " + datatype.ToString() + " Read from My Docs");
                     return ReadFromBinaryFile<NeuralNetwork>(doc);
                 }
             }
@@ -57,24 +58,12 @@ namespace CC_Library.Predictions
                 using (Stream stream = assembly.GetManifestResourceStream(name))
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    write("Datatype " + datatype.ToString() + " Read from Assembly");
                     return (NeuralNetwork)binaryFormatter.Deserialize(stream);
                 }
             }
-            /*
-            var type = typeof(INetworkPredUpdater);
-            Assembly a = type.Assembly;
-            var NetTypes = a.GetTypes().Where(y => !y.IsInterface).Where(x => type.IsAssignableFrom(x)).ToList();
-            for (int i = 0; i < NetTypes.Count(); i++)
-            {
-                var Network = (INetworkPredUpdater)Activator.CreateInstance(NetTypes[i]);
-                if (Network.datatype == dt)
-                {
-                    entry.DesiredOutput = new double[Network.Network.Layers.Last().Biases.Count()];
-                    entry.DesiredOutput[correct] = 1;
-                    Network.Propogate(entry);
-                    break;
-                }
-            }*/
+                          
+            write("Datatype " + datatype.ToString() + " Not Found. New Network Created");
             return new NeuralNetwork(Datatype.None);
         }
     }
