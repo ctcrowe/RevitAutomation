@@ -15,10 +15,10 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public MasterformatNetwork()
         {
-            Network = Datatype.Masterformat.LoadNetwork();
+            Network = datatype.LoadNetwork();
             if(Network.Datatype == Datatype.None)
             {
-                Network = new NeuralNetwork(Datatype.Masterformat);
+                Network = new NeuralNetwork(datatype);
                 Network.Layers.Add(new Layer(Alpha.DictSize, Alpha.DictSize, Activation.LRelu, 1e-5, 1e-5));
                 Network.Layers.Add(new Layer(Alpha.DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
                 Network.Layers.Add(new Layer(40, Network.Layers.Last().Weights.GetLength(0), Activation.CombinedCrossEntropySoftmax));
