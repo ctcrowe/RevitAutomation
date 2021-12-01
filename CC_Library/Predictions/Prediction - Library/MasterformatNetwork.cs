@@ -12,7 +12,13 @@ namespace CC_Library.Predictions
     {
         private const double dropout = 0.1;
         public Datatype datatype { get { return Datatype.Masterformat; } }
-        public NeuralNetwork Network { get; }
+        public NeuralNetwork GetNetwork(WriteToCMDLine write)
+        {
+            get
+            {
+                NeuralNetwork net = datatype.LoadNetwork(
+            }
+        }
         public MasterformatNetwork()
         {
             Network = datatype.LoadNetwork();
