@@ -39,7 +39,8 @@ namespace CC_Plugin
                     else
                     {
                         string val = f.Split('\\').Last().Split('.').First();
-                        int numb = Datatype.Masterformat.PredictSingle(val);
+                        var vals = new MasterformatNetwork().Predict(val);
+                        int numb = vals.ToList().IndexOf(vals.Max());
                         string subfolder = folder + "\\Division " + numb;
                         if (!Directory.Exists(subfolder))
                             Directory.CreateDirectory(subfolder);

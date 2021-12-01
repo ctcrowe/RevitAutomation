@@ -28,7 +28,7 @@ namespace CC_Plugin
             TextBox tb = Panel.AddItem(tbd) as TextBox;
             tb.Width = 350;
             
-            PushButtonData MFBData = new PushButtonData
+            PushButtonData MFBData = new PushButtonData (
                 "Set Masterformat",
                 "Set Masterformat",
                 @dllpath,
@@ -38,14 +38,15 @@ namespace CC_Plugin
         }
         public static string GetText(this UIApplication app)
         {
+            string text = "";
             try
             {
-                var panel = app.GetRibbonPanels(CCRibon.tabName).Where(x => x.Name == PName).First();
+                var panel = app.GetRibbonPanels(CCRibbon.tabName).Where(x => x.Name == PName).First();
                 var item = panel.GetItems().Where(x => x.Name == TBName).First() as TextBox;
-                var text = item.Value.ToString();
-                return text;
+                text = item.Value.ToString();
             }
             catch (Exception e) { e.OutputError(); }
+            return text;
         }
     }
     [TransactionAttribute(TransactionMode.Manual)]
@@ -57,11 +58,12 @@ namespace CC_Plugin
             ref string message,
             ElementSet elements)
         {
-            var text = CommandData.Application.GetText();
+            var text = commandData.Application.GetText();
             int numb;
             if(int.TryParse(text, out numb))
             {
-                Selection sel = args.Application.ActiveUIDocument.Selection;
+                var doc = commandData.Application.ActiveUIDocument.Document;
+                Selection sel = commandData.Application.ActiveUIDocument.Selection;
                 ISelectionFilter selectionFilter = new EleSelectionFilter();
 
                 Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
