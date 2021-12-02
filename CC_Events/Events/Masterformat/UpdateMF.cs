@@ -41,8 +41,10 @@ namespace CC_Plugin
             string text = "";
             try
             {
-                var panel = app.GetRibbonPanels(CCRibbon.tabName).Where(x => x.Name == PName).First();
-                var item = panel.GetItems().Where(x => x.Name == TBName).First() as TextBox;
+                var panels = app.GetRibbonPanels(CCRibbon.tabName);
+                var panel = panels.Where(x => x.Name == PName).First();
+                var items = panel.GetItems();
+                var item = items.Where(x => x.Name == TBName).First() as TextBox;
                 text = item.Value.ToString();
             }
             catch (Exception e) { e.OutputError(); }
