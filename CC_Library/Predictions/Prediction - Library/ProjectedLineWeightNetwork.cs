@@ -12,7 +12,7 @@ namespace CC_Library.Predictions
 
         public ProjectedLineWeightNetwork(Sample s)
         {
-            Network = Datatype.ProjectedLineWeight.LoadNetwork();
+            Network = Datatype.ProjectedLineWeight.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
             if(Network.Datatype == Datatype.None && s.Datatype == datatype.ToString())
             {
                 Network = new NeuralNetwork(Datatype.ProjectedLineWeight);
@@ -23,9 +23,9 @@ namespace CC_Library.Predictions
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha();
-            var input = a.Forward(s.TextInput, new AlphaContext(datatype)).ToList();
-            input.AddRange(a.Forward(s.SecondaryText, new AlphaContext(datatype, 1)));
+            Alpha a = new Alpha(CMDLibrary.WriteNull);
+            var input = a.Forward(s.TextInput, new AlphaContext(datatype, CMDLibrary.WriteNull)).ToList();
+            input.AddRange(a.Forward(s.SecondaryText, new AlphaContext(datatype, CMDLibrary.WriteNull, 1)));
             input.AddRange(s.ValInput);
             var Results = input.ToArray();
 
@@ -74,9 +74,9 @@ namespace CC_Library.Predictions
             var check = Predict(s);
             if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                Alpha a = new Alpha();
-                AlphaContext ctxt1 = new AlphaContext(datatype);
-                AlphaContext ctxt2 = new AlphaContext(datatype, 1);
+                Alpha a = new Alpha(write);
+                AlphaContext ctxt1 = new AlphaContext(datatype, write);
+                AlphaContext ctxt2 = new AlphaContext(datatype, write, 1);
                 var Samples = s.ReadSamples();
                 List<string> lines = new List<string>();
 

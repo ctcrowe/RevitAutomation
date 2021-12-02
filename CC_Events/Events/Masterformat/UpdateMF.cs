@@ -69,13 +69,13 @@ namespace CC_Plugin
                 Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
                 FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
                 FamilySymbol symb = inst.Symbol;
-                MasterformatNetwork net = new MasterformatNetwork();
+                NeuralNetwork net = MasterformatNetwork.GetNetwork(CMDLibrary.WriteNull);
 
                 Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
                 s.TextInput = symb.Family.Name;
-                s.DesiredOutput = new double[net.Network.Layers.Last().Biases.Count()];
+                s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
                 s.DesiredOutput[numb] = 1;
-                net.Propogate(s, CMDLibrary.WriteNull);
+                MasterformatNetwork.Propogate(s, CMDLibrary.WriteNull);
 
                 using (Transaction t = new Transaction(doc, "Set Param"))
                 {

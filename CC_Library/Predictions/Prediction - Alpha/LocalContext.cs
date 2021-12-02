@@ -13,15 +13,15 @@ namespace CC_Library.Predictions
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
         public const int SearchRange = 3;
-        internal AlphaContext(Datatype dt, int numb = 0)
+        internal AlphaContext(Datatype dt, WriteToCMDLine write, int numb = 0)
         {
             datatype = dt;
             switch(numb)
             {
                 default:
-                case 0: Network = Datatype.AlphaContextPrimary.LoadNetwork(dt); break;
-                case 1: Network = Datatype.AlphaContextSecondary.LoadNetwork(dt); break;
-                case 2: Network = Datatype.AlphaContextTertiary.LoadNetwork(dt); break;
+                case 0: Network = Datatype.AlphaContextPrimary.LoadNetwork(write, dt); break;
+                case 1: Network = Datatype.AlphaContextSecondary.LoadNetwork(write, dt); break;
+                case 2: Network = Datatype.AlphaContextTertiary.LoadNetwork(write, dt); break;
             }
             if(Network.Datatype == Datatype.None)
             {
@@ -61,7 +61,7 @@ namespace CC_Library.Predictions
         {
             Parallel.For(0, runs, j =>
             {
-                double[] cdv = new double[1] { DValues[j] };
+                double[] cdv = new double[1] { DValues[j] / runs };
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
                     try

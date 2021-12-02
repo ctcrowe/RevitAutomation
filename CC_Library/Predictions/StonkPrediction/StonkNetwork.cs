@@ -19,7 +19,7 @@ namespace CC_Library.Predictions
         /// </summary>
         public Stonk()
         {
-            Network = Datatype.Stonk.LoadNetwork();
+            Network = Datatype.Stonk.LoadNetwork(new WriteToCMDLine(CMDLibrary.WriteNull));
             if (Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Stonk);

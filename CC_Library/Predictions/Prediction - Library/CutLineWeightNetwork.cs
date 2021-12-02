@@ -13,12 +13,12 @@ namespace CC_Library.Predictions
         
         public CutLineWeightNetwork(Sample s)
         {
-            Network = Datatype.CutLineWeight.LoadNetwork();
+            Network = Datatype.CutLineWeight.LoadNetwork(new WriteToCMDLine(WriteNull));
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha();
-            AlphaContext ctxt = new AlphaContext(datatype);
+            Alpha a = new Alpha(CMDLibrary.WriteNull);
+            AlphaContext ctxt = new AlphaContext(datatype, CMDLibrary.WriteNull);
             var input = a.Forward(s.TextInput, ctxt).ToList();
             input.AddRange(a.Forward(s.SecondaryText, ctxt));
             input.AddRange(s.ValInput);
@@ -69,9 +69,9 @@ namespace CC_Library.Predictions
             var check = Predict(s);
             if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                Alpha a = new Alpha();
-                AlphaContext ctxt1 = new AlphaContext(datatype);
-                AlphaContext ctxt2 = new AlphaContext(datatype, 1);
+                Alpha a = new Alpha(write);
+                AlphaContext ctxt1 = new AlphaContext(datatype, write);
+                AlphaContext ctxt2 = new AlphaContext(datatype, write, 1);
                 var Samples = s.ReadSamples();
                 List<string> lines = new List<string>();
 

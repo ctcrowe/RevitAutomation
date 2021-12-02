@@ -37,9 +37,10 @@ namespace CC_Library.Predictions
         public static NeuralNetwork LoadNetwork(this Datatype datatype, WriteToCMDLine write, Datatype reference = Datatype.None)
         {
             string fn = "NeuralNet_";
-            if(reference != Datatype.None)
-                fn += reference.ToString() + "_";
-            fn += datatype.ToString() + ".bin";
+            fn += datatype.ToString();
+            if (reference != Datatype.None)
+                fn += "_" + reference.ToString();
+            fn += ".bin";
             string Folder = "NeuralNets".GetMyDocs();
             if (Directory.Exists(Folder))
             {

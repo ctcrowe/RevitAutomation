@@ -18,7 +18,7 @@ namespace CC_Library.Predictions
         
         public AppleNetwork()
         {
-            Network = datatype.LoadNetwork();
+            Network = datatype.LoadNetwork(CMDLibrary.WriteNull);
             if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(datatype);

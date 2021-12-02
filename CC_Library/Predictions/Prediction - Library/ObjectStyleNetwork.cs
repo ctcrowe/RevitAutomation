@@ -11,13 +11,13 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public ObjectStyleNetwork(Sample s)
         {
-            Network = Datatype.ObjectStyle.LoadNetwork();
+            Network = Datatype.ObjectStyle.LoadNetwork(CMDLibrary.WriteNull);
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha();
-            AlphaContext ctxt1 = new AlphaContext(datatype);
-            AlphaContext ctxt2 = new AlphaContext(datatype, 1);
+            Alpha a = new Alpha(CMDLibrary.WriteNull);
+            AlphaContext ctxt1 = new AlphaContext(datatype, CMDLibrary.WriteNull);
+            AlphaContext ctxt2 = new AlphaContext(datatype, CMDLibrary.WriteNull, 1);
             var input = a.Forward(s.TextInput, ctxt1).ToList();
             input.AddRange(a.Forward(s.SecondaryText, ctxt2));
             input.AddRange(s.ValInput);
@@ -68,9 +68,9 @@ namespace CC_Library.Predictions
             var check = Predict(s);
             if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                Alpha a = new Alpha();
-                AlphaContext ctxt1 = new AlphaContext(datatype);
-                AlphaContext ctxt2 = new AlphaContext(datatype, 1);
+                Alpha a = new Alpha(write);
+                AlphaContext ctxt1 = new AlphaContext(datatype, write);
+                AlphaContext ctxt2 = new AlphaContext(datatype, write, 1);
                 var Samples = s.ReadSamples();
                 List<string> lines = new List<string>();
                 for(int i = 0; i < 5; i++)

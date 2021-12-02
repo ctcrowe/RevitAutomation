@@ -41,7 +41,7 @@ namespace CC_Plugin
                     if (symb != null)
                     {
                         string name = symb.FamilyName == null ? "preset" : symb.FamilyName;
-                        var p = new MasterformatNetwork().Predict(name);
+                        var p = MasterformatNetwork.Predict(name, new WriteToCMDLine(CMDLibrary.WriteNull));
                         var MF = p.ToList().IndexOf(p.Max());
                         try { ele.Set(Params.Masterformat, MF.ToString()); } catch (Exception e) { e.OutputError(); }
                     }
@@ -144,7 +144,7 @@ namespace CC_Plugin
                         {
                             try
                             {
-                                var output = new MasterformatNetwork().Predict(name);
+                                var output = MasterformatNetwork.Predict(name, new WriteToCMDLine(CMDLibrary.WriteNull));
                                 MF = output.ToList().IndexOf(output.Max());
                             }
                             catch (Exception e) { e.OutputError(); }

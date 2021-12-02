@@ -11,12 +11,12 @@ namespace CC_Library.Predictions
         public NeuralNetwork Network { get; }
         public OLFNetwork(Sample s)
         {
-            Network = Datatype.OccupantLoadFactor.LoadNetwork();
+            Network = Datatype.OccupantLoadFactor.LoadNetwork(CMDLibrary.WriteNull);
         }
         public double[] Predict(Sample s)
         {
-            Alpha a = new Alpha();
-            AlphaContext ctxt = new AlphaContext(datatype);
+            Alpha a = new Alpha(CMDLibrary.WriteNull);
+            AlphaContext ctxt = new AlphaContext(datatype, CMDLibrary.WriteNull);
             double[] Results = a.Forward(s.TextInput, ctxt);
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
@@ -61,8 +61,8 @@ namespace CC_Library.Predictions
             var check = Predict(s);
             if(s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
             {
-                Alpha a = new Alpha();
-                AlphaContext ctxt = new AlphaContext(datatype);
+                Alpha a = new Alpha(write);
+                AlphaContext ctxt = new AlphaContext(datatype, write);
                 var Samples = s.ReadSamples();
                 for(int i = 0; i < 5; i++)
                 {

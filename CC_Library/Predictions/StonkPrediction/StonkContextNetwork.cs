@@ -16,7 +16,7 @@ namespace CC_Library.Predictions
         public StonkContext(Datatype dt)
         {
             datatype = dt;
-            Network = Datatype.StonkContext.LoadNetwork(dt);
+            Network = Datatype.StonkContext.LoadNetwork(CMDLibrary.WriteNull, dt);
             if (Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.StonkContext);
