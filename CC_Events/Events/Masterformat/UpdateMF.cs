@@ -37,6 +37,14 @@ namespace CC_Plugin
         {
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
+            switch(args.Application.GetComboData())
+            {
+                default:
+                case "Masterformat":
+                    app.SetMasterformat(text);
+                    break;
+            }
+            /*
             int numb;
             if (int.TryParse(text, out numb))
             {
@@ -63,6 +71,7 @@ namespace CC_Plugin
                     t.Commit();
                 }
             }
+            */
         }
         private static string GetComboData(this UIApplication app)
         {
@@ -79,37 +88,19 @@ namespace CC_Plugin
             catch (Exception e) { e.OutputError(); }
             return val;
         }
-        public static string GetText(this UIApplication app)
-        {
-            string text = "";
-            try
-            {
-                var panels = app.GetRibbonPanels(CCRibbon.tabName);
-                var panel = panels.Where(x => x.Name == PName).First();
-                var items = panel.GetItems();
-                var item = items.Where(x => x.ItemType == RibbonItemType.TextBox).First();
-                TaskDialog.Show("Test", "Item Found");
-                var tb = item as TextBox;
-                text = tb.Value as string;
-                TaskDialog.Show("Test", "Value is " + text);
-            }
-            catch (Exception e) { e.OutputError(); }
-            return text;
-        }
     }
     public static class CMD_SetMasterformat
     {
-        public static void Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            ElementSet elements)
+        public static void SetMasterformat( this UIControlledApplication app, string text )
+            //ExternalCommandData commandData,
+            //ref string message,
+            //ElementSet elements)
         {
-            var text = commandData.Application.GetText();
             int numb;
             if(int.TryParse(text, out numb))
             {
-                var doc = commandData.Application.ActiveUIDocument.Document;
-                Selection sel = commandData.Application.ActiveUIDocument.Selection;
+                Document doc = app.ActiveUIDocument.Document;
+                Selection sel = app.ActiveUIDocument.Selection;
                 ISelectionFilter selectionFilter = new EleSelectionFilter();
 
                 Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
