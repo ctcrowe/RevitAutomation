@@ -109,8 +109,11 @@
     <Compile Include="Predictions\RunPredictions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Predictions\BinaryFiles\" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Alpha.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_AlphaContextPrimary_Masterformat.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Masterformat.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
