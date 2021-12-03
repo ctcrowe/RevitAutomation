@@ -32,16 +32,6 @@ namespace CC_Plugin
             ComboBoxData cbd = new ComboBoxData("Update Type");
             ComboBox box = Panel.AddItem(cbd) as ComboBox;
             box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
-
-            /*
-            PushButtonData MFBData = new PushButtonData (
-                "Set Masterformat",
-                "Set Masterformat",
-                @dllpath,
-                "CC_Plugin.SetMasterformat");
-            MFBData.ToolTip = "Set Masterformat Value for an Element based on Text Box Entry.";
-            PushButton MFButton = Panel.AddItem(MFBData) as PushButton;
-            */
         }
         private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
         {
@@ -107,11 +97,9 @@ namespace CC_Plugin
             return text;
         }
     }
-    [TransactionAttribute(TransactionMode.Manual)]
-    [RegenerationAttribute(RegenerationOption.Manual)]
-    public class SetMasterformat : IExternalCommand
+    public static class CMD_SetMasterformat
     {
-        public Result Execute(
+        public static void Execute(
             ExternalCommandData commandData,
             ref string message,
             ElementSet elements)
