@@ -121,7 +121,6 @@ namespace CC_Plugin
                     t.Commit();
                 }
             }
-            return Result.Succeeded;
         }
     }
     public class EleSelectionFilter : ISelectionFilter
