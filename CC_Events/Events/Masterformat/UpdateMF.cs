@@ -27,7 +27,13 @@ namespace CC_Plugin
             TextBoxData tbd = new TextBoxData(TBName);
             TextBox tb = Panel.AddItem(tbd) as TextBox;
             tb.Width = 350;
-            
+            tb.EnterPressed += EnterPressed;
+
+            ComboBoxData cbd = new ComboBoxData("Update Type");
+            ComboBox box = Panel.AddItem(cbd) as ComboBox;
+            box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
+
+            /*
             PushButtonData MFBData = new PushButtonData (
                 "Set Masterformat",
                 "Set Masterformat",
@@ -35,6 +41,53 @@ namespace CC_Plugin
                 "CC_Plugin.SetMasterformat");
             MFBData.ToolTip = "Set Masterformat Value for an Element based on Text Box Entry.";
             PushButton MFButton = Panel.AddItem(MFBData) as PushButton;
+            */
+        }
+        private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
+        {
+            TextBox textBox = sender as TextBox;
+            string text = textBox.Value as string;
+            int numb;
+            if (int.TryParse(text, out numb))
+            {
+                var doc = args.Application.ActiveUIDocument.Document;
+                args.Application.GetComboData();
+                Selection sel = args.Application.ActiveUIDocument.Selection;
+                ISelectionFilter selectionFilter = new EleSelectionFilter();
+
+                Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
+                FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
+                FamilySymbol symb = inst.Symbol;
+                NeuralNetwork net = MasterformatNetwork.GetNetwork(CMDLibrary.WriteNull);
+
+                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                s.TextInput = symb.Family.Name;
+                s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
+                s.DesiredOutput[numb] = 1;
+                MasterformatNetwork.Propogate(s, CMDLibrary.WriteNull);
+
+                using (Transaction t = new Transaction(doc, "Set Param"))
+                {
+                    t.Start();
+                    symb.SetElementParam(Params.Masterformat, numb.ToString());
+                    t.Commit();
+                }
+            }
+        }
+        private static string GetComboData(this UIApplication app)
+        {
+            string val = "";
+            try
+            {
+                var panels = app.GetRibbonPanels(CCRibbon.tabName);
+                var panel = panels.Where(x => x.Name == PName).First();
+                var items = panel.GetItems();
+                var item = items.Where(x => x.ItemType == RibbonItemType.ComboBox).First();
+                var tb = item as ComboBox;
+                TaskDialog.Show("Test", "Value is " + tb.Current.Name);
+            }
+            catch (Exception e) { e.OutputError(); }
+            return val;
         }
         public static string GetText(this UIApplication app)
         {
@@ -44,8 +97,11 @@ namespace CC_Plugin
                 var panels = app.GetRibbonPanels(CCRibbon.tabName);
                 var panel = panels.Where(x => x.Name == PName).First();
                 var items = panel.GetItems();
-                var item = items.Where(x => x.Name == TBName).First() as TextBox;
-                text = item.Value.ToString();
+                var item = items.Where(x => x.ItemType == RibbonItemType.TextBox).First();
+                TaskDialog.Show("Test", "Item Found");
+                var tb = item as TextBox;
+                text = tb.Value as string;
+                TaskDialog.Show("Test", "Value is " + text);
             }
             catch (Exception e) { e.OutputError(); }
             return text;
