@@ -37,7 +37,10 @@ namespace CC_Plugin
         {
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
-            switch(args.Application.GetComboData())
+            var combotype = args.Application.GetComboData();
+            if(combotype == "Predictive")
+                combotype = "Masterformat";
+            switch(combotype)
             {
                 default:
                 case "Masterformat":
