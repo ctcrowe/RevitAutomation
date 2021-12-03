@@ -83,8 +83,8 @@ namespace CC_Plugin
                 var panel = panels.Where(x => x.Name == PName).First();
                 var items = panel.GetItems();
                 var item = items.Where(x => x.ItemType == RibbonItemType.ComboBox).First();
-                var tb = item as ComboBox;
-                TaskDialog.Show("Test", "Value is " + tb.Current.Name);
+                var cb = item as ComboBox;
+                val = cb.Current.Name;
             }
             catch (Exception e) { e.OutputError(); }
             return val;
