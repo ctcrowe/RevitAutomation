@@ -32,21 +32,22 @@ namespace CC_Plugin
             ComboBoxData cbd = new ComboBoxData("Update Type");
             ComboBox box = Panel.AddItem(cbd) as ComboBox;
             box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
-
-            /*
-            PushButtonData MFBData = new PushButtonData (
-                "Set Masterformat",
-                "Set Masterformat",
-                @dllpath,
-                "CC_Plugin.SetMasterformat");
-            MFBData.ToolTip = "Set Masterformat Value for an Element based on Text Box Entry.";
-            PushButton MFButton = Panel.AddItem(MFBData) as PushButton;
-            */
         }
         private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
         {
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
+            var combotype = args.Application.GetComboData();
+            if(combotype == "Predictive")
+                combotype = "Masterformat";
+            switch(combotype)
+            {
+                default:
+                case "Masterformat":
+                    app.SetMasterformat(text);
+                    break;
+            }
+            /*
             int numb;
             if (int.TryParse(text, out numb))
             {
@@ -73,6 +74,7 @@ namespace CC_Plugin
                     t.Commit();
                 }
             }
+            */
         }
         private static string GetComboData(this UIApplication app)
         {
@@ -83,45 +85,25 @@ namespace CC_Plugin
                 var panel = panels.Where(x => x.Name == PName).First();
                 var items = panel.GetItems();
                 var item = items.Where(x => x.ItemType == RibbonItemType.ComboBox).First();
-                var tb = item as ComboBox;
-                TaskDialog.Show("Test", "Value is " + tb.Current.Name);
+                var cb = item as ComboBox;
+                val = cb.Current.Name;
             }
             catch (Exception e) { e.OutputError(); }
             return val;
         }
-        public static string GetText(this UIApplication app)
-        {
-            string text = "";
-            try
-            {
-                var panels = app.GetRibbonPanels(CCRibbon.tabName);
-                var panel = panels.Where(x => x.Name == PName).First();
-                var items = panel.GetItems();
-                var item = items.Where(x => x.ItemType == RibbonItemType.TextBox).First();
-                TaskDialog.Show("Test", "Item Found");
-                var tb = item as TextBox;
-                text = tb.Value as string;
-                TaskDialog.Show("Test", "Value is " + text);
-            }
-            catch (Exception e) { e.OutputError(); }
-            return text;
-        }
     }
-    [TransactionAttribute(TransactionMode.Manual)]
-    [RegenerationAttribute(RegenerationOption.Manual)]
-    public class SetMasterformat : IExternalCommand
+    public static class CMD_SetMasterformat
     {
-        public Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            ElementSet elements)
+        public static void SetMasterformat( this UIControlledApplication app, string text )
+            //ExternalCommandData commandData,
+            //ref string message,
+            //ElementSet elements)
         {
-            var text = commandData.Application.GetText();
             int numb;
             if(int.TryParse(text, out numb))
             {
-                var doc = commandData.Application.ActiveUIDocument.Document;
-                Selection sel = commandData.Application.ActiveUIDocument.Selection;
+                Document doc = app.ActiveUIDocument.Document;
+                Selection sel = app.ActiveUIDocument.Selection;
                 ISelectionFilter selectionFilter = new EleSelectionFilter();
 
                 Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
@@ -142,7 +124,6 @@ namespace CC_Plugin
                     t.Commit();
                 }
             }
-            return Result.Succeeded;
         }
     }
     public class EleSelectionFilter : ISelectionFilter
