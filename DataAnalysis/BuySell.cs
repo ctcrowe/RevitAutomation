@@ -10,7 +10,7 @@ using CC_Library.Predictions;
 
 //ToDo : Generate samples of value prediction using bars (similar to before) only feed it into a list of stonk values
 // Then take the first n samples of that list and predict the high / low using the n samples from the list.
-namespace Trader
+namespace DataAnalysis
 {
     internal class BuySell
     {

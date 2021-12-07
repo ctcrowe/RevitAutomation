@@ -5,7 +5,7 @@ using System.Text;
 using CC_Library;
 using CC_Library.Predictions;
 
-namespace Trader
+namespace DataAnalysis
 {
     [Serializable]
     public class ValueSet

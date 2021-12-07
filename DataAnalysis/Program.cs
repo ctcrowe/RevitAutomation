@@ -32,7 +32,19 @@ namespace DataAnalysis
                         default:
                             break;
                         case "TRAIN":
-                            Datasets.RunPredictions(new WriteToCMDLine(Write));
+                            Console.WriteLine("Enter a Datatype to Predict");
+                            string tl2 = Console.ReadLine();
+                            switch (tl2)
+                            {
+                                default:
+                                case "Masterformat":
+                                case "MASTERFORMAT":
+                                    Datasets.RunPredictions(new WriteToCMDLine(Write));
+                                    break;
+                                case "AAPL":
+                                case "APPLE":
+                                    break;
+                            }
                             break;
                         case "SORT":
                             Datatype.Masterformat.Sort();
@@ -63,6 +75,17 @@ namespace DataAnalysis
                             break;
                         case "READ":
                             ReadSample.Read(new WriteToCMDLine(Write));
+                            break;
+                        case "BUYSELL":
+                        case "BS":
+                            while (true)
+                            {
+                                TaskScheduler.Instance.ScheduleCycle(.001);
+
+                                string l1 = Console.ReadLine();
+                                if (l1 == "x")
+                                    break;
+                            }
                             break;
                         case "EXIT":
                         case "E":

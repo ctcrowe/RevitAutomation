@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Trader
 {
-    class Class2
+    class Class1
     {
     }
 }
