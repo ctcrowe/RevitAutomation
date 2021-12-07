@@ -82,10 +82,10 @@ namespace CC_Library.Predictions
             this.Values = new double[8];
         }
         
-        public static List<Comparison> GenerateComparisons(List<StonkValues> Vals)
+        public static List<Comparison> GenerateComparisons(ValueSet set)
         {
             List<Comparison> comps = new List<Comparison>();
-            foreach(StonkValues val in Vals)
+            foreach(StonkValues val in set.Values)
             {
                 if (Vals.Any(x => x.Symbol == val.Symbol))
                 {
