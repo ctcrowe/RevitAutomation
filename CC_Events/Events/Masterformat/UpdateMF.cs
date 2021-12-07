@@ -44,7 +44,7 @@ namespace CC_Plugin
             {
                 default:
                 case "Masterformat":
-                    app.SetMasterformat(text);
+                    args.Application.SetMasterformat(text);
                     break;
             }
             /*
@@ -94,7 +94,7 @@ namespace CC_Plugin
     }
     public static class CMD_SetMasterformat
     {
-        public static void SetMasterformat( this UIControlledApplication app, string text )
+        public static void SetMasterformat( this UIApplication app, string text )
             //ExternalCommandData commandData,
             //ref string message,
             //ElementSet elements)
