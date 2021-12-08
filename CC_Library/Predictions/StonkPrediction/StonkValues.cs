@@ -47,8 +47,8 @@ namespace CC_Library.Predictions
             Comp.Values[2] = Symbol == "VTI" ? 1 : 0;
             Comp.Values[3] = (this.Time - v1.Time).TotalHours;
             Comp.Values[4] = (v1.Time.Hour + (v1.Time.Minute / 60)) / 24.0;
-            Comp.Values[6] = (this.AskPrice - v1.AskPrice) / v1.AskPrice;
-            Comp.Values[7] = (this.BidPrice - v1.BidPrice) / v1.BidPrice;
+            Comp.Values[6] = (v1.AskPrice - this.AskPrice) / this.AskPrice;
+            Comp.Values[7] = (v1.BidPrice - this.BidPrice) / this.BidPrice;
             return Comp;
         }
         public static double[] GetMax(List<StonkValues> vals, StonkValues val)
