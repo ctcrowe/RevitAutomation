@@ -40,6 +40,9 @@ namespace DataAnalysis
             File.WriteAllLines(filename, Lines);
             this.Save();
         }
+        public static ValueSet Load(string filename)
+        {
+        }
         private string GetValueText(StonkValues value)
         {
             string l = "";
