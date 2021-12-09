@@ -40,8 +40,32 @@ namespace DataAnalysis
             File.WriteAllLines(filename, Lines);
             this.Save();
         }
-        public static ValueSet Load(string filename)
+        public ValueSet[] ReadValues(int Count = 16)
         {
+            if (Directory.Exists(folder))
+            {
+                string subfolder = folder + "\\" + s.Datatype;
+                if(Directory.Exists(subfolder))
+                {
+                    string[] Files = Directory.GetFiles(subfolder);
+                    if(Files.Any())
+                    {
+                        Random r = new Random();
+                        Sample[] output = new Sample[(Count > (Files.Count() + 1))? (Files.Count() + 1) : Count];
+                        output[0] = s;
+                        for(int i = 1; i < output.Count(); i++)
+                        {
+                            Sample sample = Files[r.Next(Files.Count())].ReadFromBinaryFile<Sample>();
+                            if (sample.Datatype == s.Datatype)
+                                output[i] = sample;
+                            else
+                                output[i] = s;
+                        }
+                        return output;
+                    }
+                }
+            }
+            return new Sample[1]{ s };
         }
         private string GetValueText(StonkValues value)
         {
