@@ -40,11 +40,12 @@ namespace CC_Library.Predictions
             return Results.ToList().IndexOf(Results.Max());
         }
         public void Propogate
-            (List<ValueSet> vals, WriteToCMDLine write)
+            (ValueSet val, WriteToCMDLine write)
         {
 
             Stonk stk = new Stonk();
             StonkContext ctxt = new StonkContext(datatype);
+            var vals = val.ReadValues(24);
 
             NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
