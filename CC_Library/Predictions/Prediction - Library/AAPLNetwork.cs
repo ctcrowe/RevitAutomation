@@ -6,7 +6,7 @@ using System.IO;
 using CC_Library.Datatypes;
 
 //Next Generation
-//Reduce outputs to 3, Mid, High, Low
+//Reduce outputs to 2, Lower, Higher
 
 namespace CC_Library.Predictions
 {
