@@ -40,7 +40,7 @@ namespace CC_Library.Predictions
             return Results.ToList().IndexOf(Results.Max());
         }
         public void Propogate
-            (List<List<ValueSet>> vals, WriteToCMDLine write)
+            (List<ValueSet> vals, WriteToCMDLine write)
         {
 
             Stonk stk = new Stonk();
