@@ -40,8 +40,10 @@ namespace DataAnalysis
             File.WriteAllLines(filename, Lines);
             this.Save();
         }
-        public ValueSet[] ReadValues(int Count = 16)
+        public ValueSet[] ReadValues(Datatype dt, int Count = 16)
         {
+            string fname = "Valuesets";
+            string folder = fname.GetMyDocs();
             if (Directory.Exists(folder))
             {
                 string subfolder = folder + "\\" + s.Datatype;
