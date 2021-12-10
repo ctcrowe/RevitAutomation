@@ -46,28 +46,24 @@ namespace DataAnalysis
             string folder = fname.GetMyDocs();
             if (Directory.Exists(folder))
             {
-                string subfolder = folder + "\\" + s.Datatype;
+                string subfolder = folder + "\\" + dt.ToString();
                 if(Directory.Exists(subfolder))
                 {
                     string[] Files = Directory.GetFiles(subfolder);
                     if(Files.Any())
                     {
                         Random r = new Random();
-                        Sample[] output = new Sample[(Count > (Files.Count() + 1))? (Files.Count() + 1) : Count];
-                        output[0] = s;
+                        ValueSet[] output = new ValueSet[(Count > (Files.Count() + 1))? (Files.Count() + 1) : Count];
+                        output[0] = this;
                         for(int i = 1; i < output.Count(); i++)
                         {
-                            Sample sample = Files[r.Next(Files.Count())].ReadFromBinaryFile<Sample>();
-                            if (sample.Datatype == s.Datatype)
-                                output[i] = sample;
-                            else
-                                output[i] = s;
+                            output[i] = Files[r.Next(Files.Count())].ReadFromBinaryFile<ValueSet>();
                         }
                         return output;
                     }
                 }
             }
-            return new Sample[1]{ s };
+            return new Sample[1]{ this };
         }
         private string GetValueText(StonkValues value)
         {
