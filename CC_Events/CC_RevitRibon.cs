@@ -9,10 +9,19 @@ namespace CC_Plugin
 {
     public class HatchEditor
     {
-        public void EditHatch(View v)
+        public void EditHatch(Document doc)
         {
-            Document doc = v.Document;
-            FilteredElementCollector lines = new FilteredElementCollector(doc, v.Id);
+            if(doc.OwnerFamily.FamilyCategory == FamilyCategories.DetailItem)
+            {
+                Document doc = v.Document;
+                var lines = new FilteredElementCollector(doc, v.Id).OfCategory(BuiltInCategory.OST_Lines).ToElements().ToList();
+                foreach(var line in lines)
+                {
+                }
+            }
+            else
+            {
+            }
         }
     }
 }
@@ -21,8 +30,6 @@ namespace CC_Plugin
 // {
 //      if(doc.OwnerFamily.FamilyCategory == Detail Item)
 //      {
-            FilteredElementCollector LC = new FilteredElementCollector(doc);
-            Get Lines
             Get Line Start Point
             Get Line End Point
             Add to List<string>Lines();
