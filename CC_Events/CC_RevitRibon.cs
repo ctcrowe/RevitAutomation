@@ -5,6 +5,16 @@ using CC_Library;
 using CC_Plugin.TypeNaming;
 using CC_Plugin.Details;
 
+namespace CC_Plugin
+{
+    public class HatchEditor
+    {
+        public void EditHatch()
+        {
+                    
+        }
+    }
+}
 /* hatch editor
 // if(doc.IsFamilyDocument)
 // {
