@@ -9,9 +9,10 @@ namespace CC_Plugin
 {
     public class HatchEditor
     {
-        public void EditHatch()
+        public void EditHatch(View v)
         {
-                    
+            Document doc = v.Document;
+            FilteredElementCollector lines = new FilteredElementCollector(doc, v.Id);
         }
     }
 }
