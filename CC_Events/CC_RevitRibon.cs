@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System;
 using Autodesk.Revit.UI;
+using Autodesk.Revit.DB;
 using CC_Library;
 using CC_Plugin.TypeNaming;
 using CC_Plugin.Details;
@@ -11,7 +12,7 @@ namespace CC_Plugin
     {
         public void EditHatch(Document doc)
         {
-            if(doc.OwnerFamily.FamilyCategory == FamilyCategories.DetailItem)
+            if(doc.OwnerFamily.FamilyCategory == BuiltInCategory.OST_DetailComponents)
             {
                 Document doc = v.Document;
                 var lines = new FilteredElementCollector(doc, v.Id).OfCategory(BuiltInCategory.OST_Lines).ToElements().ToList();
