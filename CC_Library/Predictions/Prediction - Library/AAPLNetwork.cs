@@ -45,7 +45,7 @@ namespace CC_Library.Predictions
 
             Stonk stk = new Stonk();
             StonkContext ctxt = new StonkContext(datatype);
-            var vals = val.ReadValues(24);
+            var vals = val.ReadValues(Datatypes.Datatype.AAPL, 24);
 
             NetworkMem AAPLMem = new NetworkMem(Network);
             NetworkMem StkMem = new NetworkMem(stk.Network);
@@ -62,10 +62,10 @@ namespace CC_Library.Predictions
                                 var MktOutput = stk.Forward(comps, ctxt, sm);
                                 var F = Network.Forward(MktOutput, dropout, write);
                 
-                                var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
-                                 e += Error.Max();
-                                var D = Network.Backward(F, max[j], AAPLMem, write);
-                                stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                                //var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
+                                 //e += Error.Max();
+                                //var D = Network.Backward(F, max[j], AAPLMem, write);
+                                //stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
                              }
                              catch { }
                          });

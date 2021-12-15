@@ -7,7 +7,7 @@ using CC_Library;
 using CC_Library.Datatypes;
 using CC_Library.Predictions;
 
-namespace DataAnalysis
+namespace CC_Library.Predictions
 {
     [Serializable]
     public class ValueSet

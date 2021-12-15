@@ -87,7 +87,7 @@ namespace CC_Library.Predictions
             List<Comparison> comps = new List<Comparison>();
             foreach(StonkValues val in set.Values)
             {
-                if (Vals.Any(x => x.Symbol == val.Symbol))
+                if (set.Values.Any(x => x.Symbol == val.Symbol))
                 {
                     var v = Vals.Where(x => x.Symbol == val.Symbol).ToList();
                     if(v.Any(y => DateTime.Compare(y.Time, val.Time) > 0))

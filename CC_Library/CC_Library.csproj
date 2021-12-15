@@ -94,6 +94,7 @@
     <Compile Include="Predictions\Prediction - Library\ProjectedLineWeightNetwork.cs" />
     <Compile Include="Predictions\PredictionMaster.cs" />
     <Compile Include="Predictions\StonkPrediction\Stonks.cs" />
+    <Compile Include="Predictions\StonkPrediction\ValueSet.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
     <Compile Include="Predictions\LossFunctions\Loss.cs" />
