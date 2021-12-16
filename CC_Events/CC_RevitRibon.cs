@@ -31,6 +31,9 @@ namespace CC_Plugin
             {
             }
         }
+        private static string ConvertToText(Line line)
+        {
+        }
     }
 }
 /* hatch editor
