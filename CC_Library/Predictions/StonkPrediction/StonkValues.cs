@@ -89,7 +89,7 @@ namespace CC_Library.Predictions
             {
                 if (set.Values.Any(x => x.Symbol == val.Symbol))
                 {
-                    var v = Vals.Where(x => x.Symbol == val.Symbol).ToList();
+                    var v = set.Values.Where(x => x.Symbol == val.Symbol).ToList();
                     if(v.Any(y => DateTime.Compare(y.Time, val.Time) > 0))
                     {
                         var V1 = v.Where(z => DateTime.Compare(z.Time, val.Time) > 0).OrderBy(y => y.Time).First();

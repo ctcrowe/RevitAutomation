@@ -30,11 +30,11 @@ namespace CC_Library.Predictions
                 Network.Layers.Add(new Layer(2, Network.Layers.Last().Weights.GetLength(0), Activation.SoftMax));
             }
         }
-        public int Predict(List<StonkValues> vals, WriteToCMDLine write)
+        public int Predict(ValueSet val, WriteToCMDLine write)
         {
             Stonk st = new Stonk();
             StonkContext ctxt = new StonkContext(Datatype.AAPL);
-            var comps = Comparison.GenerateComparisons(vals);
+            var comps = Comparison.GenerateComparisons(val);
             double[] Results = st.Forward(comps, ctxt);
             Results = Network.Forward(Results);
             return Results.ToList().IndexOf(Results.Max());
@@ -52,7 +52,7 @@ namespace CC_Library.Predictions
             NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
             double e = 0;
 
-            Parallel.For(0, vals.Count, j =>
+            Parallel.For(0, vals.Count(), j =>
                          {
                              try
                              {
