@@ -23,12 +23,15 @@ namespace CC_Library.Predictions
             this.guid = Guid.NewGuid();
             this.Values = new List<StonkValues>();
         }
-        public void SaveTxt()
+        public void SaveTxt(Datatype dt)
         {
             string folder = "ValueSets".GetMyDocs();
             if(!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            string filename = folder + "\\" + guid.ToString() + ".txt";
+            var subfolder = folder + "\\" + dt.ToString();
+            if (!Directory.Exists(subfolder))
+                Directory.CreateDirectory(subfolder);
+            string filename = subfolder + "\\" + guid.ToString() + ".txt";
 
             List<string> Lines = new List<string>();
             Lines.Add("GUID : " + guid.ToString());
@@ -40,7 +43,7 @@ namespace CC_Library.Predictions
                 Lines.Add(GetValueText(val));
             }
             File.WriteAllLines(filename, Lines);
-            this.Save();
+            this.Save(dt);
         }
         public ValueSet[] ReadValues(Datatype dt, int Count = 16)
         {
@@ -51,7 +54,7 @@ namespace CC_Library.Predictions
                 string subfolder = folder + "\\" + dt.ToString();
                 if(Directory.Exists(subfolder))
                 {
-                    string[] Files = Directory.GetFiles(subfolder);
+                    var Files = Directory.GetFiles(subfolder).Where(x => x.EndsWith(".bin")).ToList();
                     if(Files.Any())
                     {
                         Random r = new Random();
@@ -89,12 +92,15 @@ namespace CC_Library.Predictions
     }
     public static class SaveValueSet
     {
-        public static void Save(this ValueSet set)
+        public static void Save(this ValueSet set, Datatype dt)
         {
             string Folder = "ValueSets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\" + set.guid.ToString() + ".bin";
+            var subfolder = Folder + "\\" + dt.ToString();
+            if (!Directory.Exists(subfolder))
+                Directory.CreateDirectory(subfolder);
+            string FileName = subfolder + "\\" + set.guid.ToString() + ".bin";
             WriteToBinaryFile(FileName, set, true);
         }
         private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)

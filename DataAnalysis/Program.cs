@@ -80,7 +80,7 @@ namespace DataAnalysis
                         case "BS":
                             while (true)
                             {
-                                TaskScheduler.Instance.ScheduleCycle(.001);
+                                TaskScheduler.Instance.ScheduleCycle(.007);
 
                                 string l1 = Console.ReadLine();
                                 if (l1 == "x")

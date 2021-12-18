@@ -95,7 +95,8 @@ namespace DataAnalysis
                             }
                         }
 
-                        set.SaveTxt();    
+                        net.Propogate(set, Write);
+                        set.Save(Datatype.AAPL); 
                     }
                     catch (Exception e)
                     {

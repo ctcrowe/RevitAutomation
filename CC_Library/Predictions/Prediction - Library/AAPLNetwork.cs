@@ -61,11 +61,14 @@ namespace CC_Library.Predictions
             
                                 var MktOutput = stk.Forward(comps, ctxt, sm);
                                 var F = Network.Forward(MktOutput, dropout, write);
+                                var output = new double[2];
+                                int opnumb = vals[j].Increase ? 1 : 0;
+                                output[opnumb] = 1;
                 
-                                //var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), max[j]);
-                                 //e += Error.Max();
-                                //var D = Network.Backward(F, max[j], AAPLMem, write);
-                                //stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
+                                var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), output);
+                                e += Error.Max();
+                                var D = Network.Backward(F, output, AAPLMem, write);
+                                stk.Backward(D, ctxt, sm, StkMem, CtxtMem);
                              }
                              catch { }
                          });
