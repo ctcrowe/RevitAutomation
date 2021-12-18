@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
@@ -17,14 +18,18 @@ namespace CC_Plugin
             {
                 var v = doc.ActiveView;
                 var lines = new FilteredElementCollector(doc, v.Id).OfCategory(BuiltInCategory.OST_Lines).ToElementIds().ToList();
-                double[,] points = new double[lines.Count(), 4];
+                List<double[]> points = new List<double[]>();
                 for(int i = 0; i < lines.Count(); i++)
                 {
-                    var line = doc.GetElement(lines[i]) as Line;
-                    points[i, 0] = line.GetEndPoint(0).X;
-                    points[i, 1] = line.GetEndPoints(0).Y;
-                    points[i, 2] = line.GetEndPoints(1).X;
-                    points[i, 3] = line.GetEndPoints(1).Y;
+                    var line = doc.GetElement(lines[i]) as DetailLine;
+                    if (line != null)
+                    {
+                        var pt = new double[4];
+                        pt[0] = line.GeometryCurve.GetEndPoint(0).X;
+                        pt[1] = line.GeometryCurve.GetEndPoint(0).Y;
+                        pt[2] = line.GeometryCurve.GetEndPoint(1).X;
+                        pt[3] = line.GeometryCurve.GetEndPoint(1).Y;
+                    }
                 }
             }
             else
