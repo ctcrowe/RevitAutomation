@@ -57,6 +57,8 @@ namespace CC_Library.Predictions
                              try
                              {
                                 List<Comparison> comps = Comparison.GenerateComparisons(vals[j]);
+                                 if (j == 0 || j == 1)
+                                     write("Comparisons : " + comps.Count());
                                 StonkMem sm = new StonkMem(comps.Count());
             
                                 var MktOutput = stk.Forward(comps, ctxt, sm);
@@ -74,9 +76,9 @@ namespace CC_Library.Predictions
                          });
             write("Samples : " + vals.Count());
             write("Loss : " + e);
-            AAPLMem.Update(vals.Count(), 1e-5, Network);
-            StkMem.Update(vals.Count(), 1e-5, stk.Network);
-            CtxtMem.Update(vals.Count(), 1e-5, ctxt.Network);
+            AAPLMem.Update(vals.Count(), 1e-4, Network);
+            StkMem.Update(vals.Count(), 1e-4, stk.Network);
+            CtxtMem.Update(vals.Count(), 1e-4, ctxt.Network);
             
             Network.Save();
             stk.Network.Save();

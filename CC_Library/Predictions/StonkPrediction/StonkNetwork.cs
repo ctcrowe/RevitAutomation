@@ -72,8 +72,8 @@ namespace CC_Library.Predictions
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
                     ldv = mem.Layers[i].DActivation(ldv, sm.LocationOutputs[j][i + 1]);
-                    mem.Layers[i].DBiases(ldv, Network.Layers[i]);
-                    mem.Layers[i].DWeights(ldv, sm.LocationOutputs[j][i], Network.Layers[i]);
+                    mem.Layers[i].DBiases(ldv, Network.Layers[i], sm.GlobalOutputs.Count());
+                    mem.Layers[i].DWeights(ldv, sm.LocationOutputs[j][i], Network.Layers[i], sm.GlobalOutputs.Count());
                     ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
                 }
             });
