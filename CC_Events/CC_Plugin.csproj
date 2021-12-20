@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,6 +78,7 @@
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
+    <Compile Include="Patterns.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneTypeUpdater.cs" />
     <Compile Include="Automation\RefPlanes\PlaneTypeUpdater.cs" />
