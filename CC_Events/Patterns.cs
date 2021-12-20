@@ -110,7 +110,29 @@ namespace CC_Plugin
         }
         private static double IntersectLength(double[] point, double[] extents)
         {
+            var top = new double[4] {0, extents[1], extents[0], extents[1]};
+            var right = new double[4] {extents[0], 0, extents[0], extents[1]};
+            var intertop = 
             return 12;
+        }
+        private static double[] Intersection(double[] p1, double[] p2)
+        {
+            var a = p1[0] * p1[3];
+            var b = p1[1] * p1[2];
+            var c = p2[0] - p2[2];
+            var d = p1[0] - p1[2];
+            var e = p2[0] * p2[3];
+            var f = p2[1] * p2[2];
+            var g = p1[0] - p1[2];
+            var h = p2[1] - p2[3];
+            var i = p1[1] - p1[3];
+            var j = p2[0] - p2[2];
+            var denom = (g * h) - (i * j);
+            var enumx = ((a - b) * c) - (d * (e - f));
+            var enumy = ((a - b) * h) - (i * (e - f));
+            var x = enumx / denom;
+            var y = enumy / denom;
+            return new double[2] {x, y};
         }
     }
 }
