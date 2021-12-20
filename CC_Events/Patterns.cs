@@ -81,8 +81,8 @@ namespace CC_Plugin
         }
         private static string GetText(double[] point, double[] extents)
         {
-            var dir = 180 * Math.Atan2(point[3] - point[1], point[2] - point[0]) / Math.PI;
-            var origin = new double[2] { 0, 0 };
+            var dir = GetAngle(point);
+            var origin = GetOrigin(point);
             var shift = new double[2] { extents[0], extents[1] };
             var pendown = 3;
             var penup = -12;
@@ -90,6 +90,17 @@ namespace CC_Plugin
             return
                 dir + ", " + origin[0] + ", " + origin[1] + ", " +
                 shift[0] + ", " + shift[1] + ", " + pendown + ", " + penup;
+        }
+        private static double GetAngle(double[] line)
+        {
+            return 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI;
+        }
+        private static double[] GetOrigin(double[] line)
+        {
+            var dir = -1 * Math.Atan2(line[3] - line[1], line[2] - line[0]);
+            var rotx = (line[0] * Math.Cos(dir)) - (line[1] * Math.Sin(dir));
+            var roty = (line[1] * Math.Cos(dir)) + (line[0] * Math.Sin(dir));
+            return new double[2] { rotx, roty };
         }
     }
 }
