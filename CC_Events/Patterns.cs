@@ -102,19 +102,23 @@ namespace CC_Plugin
             var roty = (line[1] * Math.Cos(dir)) + (line[0] * Math.Sin(dir));
             return new double[2] { rotx, roty };
         }
+        private static double IntersectLength(double[] line, double[] extents)
+        {
+            var top = new double[4] {0, extents[1], extents[0], extents[1]};
+            var right = new double[4] {extents[0], 0, extents[0], extents[1]};
+            var bottom = new double[4] {0, 0, extents[0], 0};
+            var left = new double[4] {0, 0, 0, extents[1]};
+            var intertop = Intersection(line, top);
+            var interright = Intersection(line, right);
+            var upper = intertop[0] < interright[0] ? intertop : interright;
+            var lower = Intersection(line, left)[0] > Intersection(line, bottom)[0] ? Intersection(line, left) : Intersection(line, bottom);
+            return Length(new double[4] {lower[0], lower[1], upper[0], upper[1]};
+        }
         private static double Length(double[] point)
         {
             var x = (point[2] - point[0]) * (point[2] - point[0]);
             var y = (point[3] - point[1]) * (point[3] - point[1]);
             return Math.Sqrt(x + y);
-        }
-        private static double IntersectLength(double[] line, double[] extents)
-        {
-            var top = new double[4] {0, extents[1], extents[0], extents[1]};
-            var right = new double[4] {extents[0], 0, extents[0], extents[1]};
-            var intertop = Intersection(line, top);
-            var interright = Intersection(line, right);
-            return 12;
         }
         private static double[] Intersection(double[] p1, double[] p2)
         {
@@ -137,17 +141,3 @@ namespace CC_Plugin
         }
     }
 }
-/* hatch editor
-// if(doc.IsFamilyDocument)
-// {
-//      if(doc.OwnerFamily.FamilyCategory == Detail Item)
-//      {
-            Get Line Start Point
-            Get Line End Point
-            Add to List<string>Lines();
-            //Generate Title
-            //Write All Lines to File
-            //Profit
-//      }
-// }
-*/
