@@ -83,7 +83,7 @@ namespace CC_Plugin
         {
             var dir = GetAngle(point);
             var origin = GetOrigin(point);
-            var shift = GetShits(point, extents);
+            var shift = GetShift(point, extents);
             var pendown = Length(point);
             var penup = -1 * IntersectLength(point, extents);
 
