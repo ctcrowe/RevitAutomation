@@ -84,8 +84,8 @@ namespace CC_Plugin
             var dir = GetAngle(point);
             var origin = GetOrigin(point);
             var shift = new double[2] { extents[0], extents[1] };
-            var pendown = 3;
-            var penup = -12;
+            var pendown = Length(point);
+            var penup = -1 * IntersectLength(point, extents);
 
             return
                 dir + ", " + origin[0] + ", " + origin[1] + ", " +
@@ -101,6 +101,13 @@ namespace CC_Plugin
             var rotx = (line[0] * Math.Cos(dir)) - (line[1] * Math.Sin(dir));
             var roty = (line[1] * Math.Cos(dir)) + (line[0] * Math.Sin(dir));
             return new double[2] { rotx, roty };
+        }
+        private static double Length(double[] point)
+        {
+        }
+        private static double IntersectLength(double[] point, double[] extents)
+        {
+            return 12;
         }
     }
 }
