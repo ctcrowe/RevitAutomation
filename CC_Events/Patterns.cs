@@ -104,6 +104,9 @@ namespace CC_Plugin
         }
         private static double Length(double[] point)
         {
+            var x = (point[2] - point[0]) * (point[2] - point[0]);
+            var y = (point[3] - point[1]) * (point[3] - point[1]);
+            return Math.Sqrt(x + y);
         }
         private static double IntersectLength(double[] point, double[] extents)
         {
