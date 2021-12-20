@@ -108,11 +108,12 @@ namespace CC_Plugin
             var y = (point[3] - point[1]) * (point[3] - point[1]);
             return Math.Sqrt(x + y);
         }
-        private static double IntersectLength(double[] point, double[] extents)
+        private static double IntersectLength(double[] line, double[] extents)
         {
             var top = new double[4] {0, extents[1], extents[0], extents[1]};
             var right = new double[4] {extents[0], 0, extents[0], extents[1]};
-            var intertop = 
+            var intertop = Intersection(line, top);
+            var interright = Intersection(line, right);
             return 12;
         }
         private static double[] Intersection(double[] p1, double[] p2)
