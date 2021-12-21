@@ -119,7 +119,7 @@ namespace CC_Plugin
             var interright = Intersection(line, right);
             var upper = intertop[0] < interright[0] ? intertop : interright;
             var lower = Intersection(line, left)[0] > Intersection(line, bottom)[0] ? Intersection(line, left) : Intersection(line, bottom);
-            return Length(new double[4] {lower[0], lower[1], upper[0], upper[1]};
+            return Length(new double[4] { lower[0], lower[1], upper[0], upper[1] });
         }
         private static double Length(double[] point)
         {
