@@ -128,19 +128,9 @@ namespace CC_Plugin
 
             //distance across the length of the pattern that the line is
             var yprime = Math.Tan(ang * Math.PI / 180);
-            yprime = Math.Round(yprime, 6);
-
-            var gcom = gcd(1 * 1e6, yprime * 1e6);
-            var 
-            var xoffset = 1 / yprime;
-            var dist = (Math.Sin(ang * Math.PI / 180)) / xoffset;
-            return Length(line) - dist;
-        }
-        private static double gcd(double a, double b)
-        {
-            if (b == 0)
-                return a;
-            return (gcd(b, a % b));
+            var ydif = 1 / yprime;
+            var z = FindSmallestMultiplier(ydif, 5e-6);
+            return Length(line) - z;
         }
         private static double Length(double[] point)
         {
@@ -148,27 +138,8 @@ namespace CC_Plugin
             var y = (point[3] - point[1]) * (point[3] - point[1]);
             return Math.Sqrt(x + y);
         }
-        private static double[] Intersection(double[] p1, double[] p2)
-        {
-            var a = p1[0] * p1[3];
-            var b = p1[1] * p1[2];
-            var c = p2[0] - p2[2];
-            var d = p1[0] - p1[2];
-            var e = p2[0] * p2[3];
-            var f = p2[1] * p2[2];
-            var g = p1[0] - p1[2];
-            var h = p2[1] - p2[3];
-            var i = p1[1] - p1[3];
-            var j = p2[0] - p2[2];
-            var denom = (g * h) - (i * j);
-            var enumx = ((a - b) * c) - (d * (e - f));
-            var enumy = ((a - b) * h) - (i * (e - f));
-            var x = enumx / denom;
-            var y = enumy / denom;
-            return new double[2] {x, y};
-        }
         // Reconstructs a fraction from a continued fraction with the given coefficients
-        static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
+        private static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
         {
             int numerator = coefficients.Last();
             int denominator = 1;
@@ -184,8 +155,7 @@ namespace CC_Plugin
             }
             return new Tuple<int, int>(numerator, denominator);
         }
-
-        static int FindSmallestMultiplier(double input, double error)
+        private static int FindSmallestMultiplier(double input, double error)
         {
             double remainingToRepresent = input;
             List<int> coefficients = new List<int>();
