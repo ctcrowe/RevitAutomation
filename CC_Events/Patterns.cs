@@ -126,7 +126,7 @@ namespace CC_Plugin
         {
             var ang = GetAngle(line);
             if (ang == 0 || ang == 90 || ang == -90)
-                return 1 - Length(line);
+                return Length(Line) - 1;
 
             //distance across the length of the pattern that the line is
             var yprime = Math.Tan(ang * Math.PI / 180);
