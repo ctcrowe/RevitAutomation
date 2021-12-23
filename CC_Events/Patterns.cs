@@ -9,117 +9,147 @@ using CC_Library.Datatypes;
 
 namespace CC_Plugin
 {
+    //Reframe the hatch from 0 to 1, include a comment that tells the user what to scale it to!!!!
     public class HatchEditor
     {
-        public void EditHatch(Document doc)
+        public static void EditHatch(Document doc)
         {
-            if (doc.OwnerFamily.FamilyCategory == Category.GetCategory(doc, BuiltInCategory.OST_DetailComponents))
+            var v = doc.ActiveView;
+            var lines = new FilteredElementCollector(doc, v.Id).OfCategory(BuiltInCategory.OST_Lines).ToElementIds().ToList();
+            List<double[]> points = new List<double[]>();
+            for (int i = 0; i < lines.Count(); i++)
             {
-                var v = doc.ActiveView;
-                var lines = new FilteredElementCollector(doc, v.Id).OfCategory(BuiltInCategory.OST_Lines).ToElementIds().ToList();
-                List<double[]> points = new List<double[]>();
-                for (int i = 0; i < lines.Count(); i++)
+                var line = doc.GetElement(lines[i]) as DetailLine;
+                if (line != null)
                 {
-                    var line = doc.GetElement(lines[i]) as DetailLine;
-                    if (line != null)
-                    {
-                        var pt = new double[4];
-                        pt[0] = line.GeometryCurve.GetEndPoint(0).X;
-                        pt[1] = line.GeometryCurve.GetEndPoint(0).Y;
-                        pt[2] = line.GeometryCurve.GetEndPoint(1).X;
-                        pt[3] = line.GeometryCurve.GetEndPoint(1).Y;
-                        points.Add(pt);
-                    }
-                }
-                var ext = GetExtents(points);
-                var text = new List<string>();
-                text.Add("*Title");
-                text.Add(";%TYPE=MODEL,");
-                foreach (var pt in points)
-                    text.Add(GetText(pt, ext));
-                SaveFileDialog sfd = new SaveFileDialog()
-                {
-                    FileName = "Create a txt file",
-                    Filter = "TXT files (*.txt)|*.txt",
-                    Title = "Create a txt file"
-                };
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    var fp = sfd.FileName;
-                    text[0] = "*" + fp.Split('\\').Last().Split('.').First();
-                    File.WriteAllLines(fp, text);
+                    var pt = new double[4];
+                    pt[0] = Math.Round(line.GeometryCurve.GetEndPoint(0).X, 6);
+                    pt[1] = Math.Round(line.GeometryCurve.GetEndPoint(0).Y, 6);
+                    pt[2] = Math.Round(line.GeometryCurve.GetEndPoint(1).X, 6);
+                    pt[3] = Math.Round(line.GeometryCurve.GetEndPoint(1).Y, 6);
+                    points.Add(pt);
                 }
             }
-            else
+            var ext = GetExtents(points);
+            var text = new List<string>();
+            text.Add("*Title");
+            text.Add(";%TYPE=MODEL,");
+            foreach (var pt in points)
+                text.Add(GetText(pt, ext));
+            SaveFileDialog sfd = new SaveFileDialog()
             {
+                FileName = "Create a pattern file",
+                Filter = "PAT files (*.pat)|*.pat",
+                Title = "Create a pat file"
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                var fp = sfd.FileName;
+                if (fp.EndsWith(".txt"))
+                    fp.Replace(".txt", ".pat");
+                if(!fp.EndsWith(".pat"))
+                    fp += ".pat";
+                text[0] = "*" + fp.Split('\\').Last().Split('.').First();
+                File.WriteAllLines(fp, text);
             }
         }
         private static double[] GetExtents(List<double[]> Points)
         {
-            double[] extents = new double[4];
-            for(int i = 0; i < Points.Count(); i++)
+            double[] extents = new double[4] { Points[0][0], Points[0][1], Points[0][2], Points[0][3] };
+            for(int i = 1; i < Points.Count(); i++)
             {
-                if (Points[i][0] < extents[0])
-                    extents[0] = Points[i][0];
-                if (Points[i][2] < extents[0])
-                    extents[0] = Points[i][2];
-                if (Points[i][1] < extents[1])
-                    extents[1] = Points[i][1];
-                if (Points[i][3] < extents[1])
-                    extents[1] = Points[i][3];
-
-                if (Points[i][0] > extents[2])
-                    extents[2] = Points[i][0];
-                if (Points[i][2] > extents[2])
-                    extents[2] = Points[i][2];
-                if (Points[i][1] > extents[3])
-                    extents[3] = Points[i][1];
-                if (Points[i][3] > extents[3])
-                    extents[3] = Points[i][3];
+                extents[0] = Math.Min(extents[0], Math.Min(Points[i][0], Points[i][2]));
+                extents[1] = Math.Min(extents[1], Math.Min(Points[i][1], Points[i][3]));
+                extents[2] = Math.Max(extents[2], Math.Max(Points[i][0], Points[i][2]));
+                extents[3] = Math.Max(extents[3], Math.Max(Points[i][1], Points[i][3]));
             }
             return extents;
         }
         private static string GetText(double[] point, double[] extents)
         {
-            var dir = GetAngle(point);
-            var origin = GetOrigin(point);
-            var shift = GetShift(point, extents);
-            var pendown = Length(point);
-            var penup = -1 * IntersectLength(point, extents);
+            var pt = Reframe(point, extents);
+            var dir = GetAngle(pt);
+            var origin = GetOrigin(pt);
+            var shift = GetShift(pt);
+            var pendown = Length(pt);
+            var penup = -1 * RepLength(pt, extents);
 
             return
-                dir + ", " + origin[0] + ", " + origin[1] + ", " +
-                shift[0] + ", " + shift[1] + ", " + pendown + ", " + penup;
+                dir + ", " + Math.Round(origin[0], 6) + ", " + Math.Round(origin[1], 6) + ", " +
+                Math.Round(shift[0], 6) + ", " + Math.Round(shift[1], 6) + ", " + Math.Round(pendown, 6) + ", " + Math.Round(penup, 6);
+        }
+        private static double[] Reframe(double[] point, double[] extents)
+        {
+            var maxx = extents[2] - extents[0];
+            var maxy = extents[3] - extents[1];
+            var max = Math.Max(maxx, maxy);
+
+            var minx = extents[0];
+            var miny = extents[1];
+
+            var ang = GetAngle(point);
+            if(ang > 90 || ang < -90)
+            {
+                return new double[4]
+                {
+                    (point[2] - minx) / max,
+                    (point[3] - miny) / max,
+                    (point[0] - minx) / max,
+                    (point[1] - miny) / max
+                };
+            }
+            return new double[4]
+            {
+                (point[0] - minx) / max,
+                (point[1] - miny) / max,
+                (point[2] - minx) / max,
+                (point[3] - miny) / max
+            };
         }
         private static double GetAngle(double[] line)
         {
-            return 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI;
+            var angle = 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI;
+            angle = Math.Round(angle, 3);
+            return angle;
         }
         private static double[] GetOrigin(double[] line)
         {
+            return new double[2] { line[0], line[1] };
+            /*
             var dir = -1 * Math.Atan2(line[3] - line[1], line[2] - line[0]);
             var rotx = (line[0] * Math.Cos(dir)) - (line[1] * Math.Sin(dir));
             var roty = (line[1] * Math.Cos(dir)) + (line[0] * Math.Sin(dir));
             return new double[2] { rotx, roty };
+            */
         }
-        private static double[] GetShift(double[] line, double[] extents)
+        private static double[] GetShift(double[] line)
         {
-            var dir = -1 * Math.Atan2(line[3] - line[1], line[2] - line[0]);
-            var rotx = (extents[0] * Math.Cos(dir)) - (extents[1] * Math.Sin(dir));
-            var roty = (extents[1] * Math.Cos(dir)) + (extents[0] * Math.Sin(dir));
-            return new double[2] { rotx, roty };
+            var dir = GetAngle(line);
+            var X = Math.Sin(dir * Math.PI / 180);
+            var Y = Math.Cos(dir * Math.PI / 180);
+            return new double[2] { X, Y };
         }
-        private static double IntersectLength(double[] line, double[] extents)
+        private static double RepLength(double[] line, double[] extents)
         {
-            var top = new double[4] {0, extents[1], extents[0], extents[1]};
-            var right = new double[4] {extents[0], 0, extents[0], extents[1]};
-            var bottom = new double[4] {0, 0, extents[0], 0};
-            var left = new double[4] {0, 0, 0, extents[1]};
-            var intertop = Intersection(line, top);
-            var interright = Intersection(line, right);
-            var upper = intertop[0] < interright[0] ? intertop : interright;
-            var lower = Intersection(line, left)[0] > Intersection(line, bottom)[0] ? Intersection(line, left) : Intersection(line, bottom);
-            return Length(new double[4] { lower[0], lower[1], upper[0], upper[1] });
+            var ang = GetAngle(line);
+            if (ang == 0 || ang == 90 || ang == -90)
+                return 1 - Length(line);
+
+            //distance across the length of the pattern that the line is
+            var yprime = Math.Tan(ang * Math.PI / 180);
+            yprime = Math.Round(yprime, 6);
+
+            var gcom = gcd(1 * 1e6, yprime * 1e6);
+            var 
+            var xoffset = 1 / yprime;
+            var dist = (Math.Sin(ang * Math.PI / 180)) / xoffset;
+            return Length(line) - dist;
+        }
+        private static double gcd(double a, double b)
+        {
+            if (b == 0)
+                return a;
+            return (gcd(b, a % b));
         }
         private static double Length(double[] point)
         {

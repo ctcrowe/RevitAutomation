@@ -74,6 +74,20 @@ namespace CC_Plugin
             return Result.Succeeded;
         }
     }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
+    public class CreatePatternFile : IExternalCommand
+    {
+        public Result Execute(
+       ExternalCommandData commandData,
+       ref string message,
+       ElementSet elements)
+        {
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            HatchEditor.EditHatch(doc);
+            return Result.Succeeded;
+        }
+    }
     internal class CCPaintPanel
     {
         //https://www.revitapidocs.com/2015/f59f8872-e8d7-5d00-0e8c-44a36a843861.htm
@@ -114,6 +128,13 @@ namespace CC_Plugin
                 "CC_Plugin.LearnLineWeights");
             b4Data.ToolTip = "Learn from the line weights of the current view";
             PushButton PB4 = Panel.AddItem(b4Data) as PushButton;
+            PushButtonData b5Data = new PushButtonData(
+                "Create Pattern File",
+                "Create\r\nPattern File",
+                @dllpath,
+                "CC_Plugin.CreatePatternFile");
+            b4Data.ToolTip = "Learn from the line weights of the current view";
+            PushButton PB5 = Panel.AddItem(b5Data) as PushButton;
         }
         public static void PaintByMaterial(UIDocument uidoc, Param par)
         {
