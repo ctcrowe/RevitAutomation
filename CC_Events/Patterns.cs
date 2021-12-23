@@ -115,9 +115,11 @@ namespace CC_Plugin
         private static double[] GetOrigin(double[] line) { return new double[2] { line[0], line[1] }; }
         private static double[] GetShift(double[] line)
         {
+            var H = Math.Sqrt(2);
             var dir = GetAngle(line);
-            var X = Math.Sin(dir * Math.PI / 180);
-            var Y = Math.Cos(dir * Math.PI / 180);
+            var ang = 45 - dir;
+            var X = H * Math.Cos(ang * Math.PI / 180);
+            var Y = H * Math.Sin(ang * Math.PI / 180);
             return new double[2] { X, Y };
         }
         private static double RepLength(double[] line, double[] extents)
