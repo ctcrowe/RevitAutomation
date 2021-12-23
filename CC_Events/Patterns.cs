@@ -112,16 +112,7 @@ namespace CC_Plugin
             angle = Math.Round(angle, 3);
             return angle;
         }
-        private static double[] GetOrigin(double[] line)
-        {
-            return new double[2] { line[0], line[1] };
-            /*
-            var dir = -1 * Math.Atan2(line[3] - line[1], line[2] - line[0]);
-            var rotx = (line[0] * Math.Cos(dir)) - (line[1] * Math.Sin(dir));
-            var roty = (line[1] * Math.Cos(dir)) + (line[0] * Math.Sin(dir));
-            return new double[2] { rotx, roty };
-            */
-        }
+        private static double[] GetOrigin(double[] line) { return new double[2] { line[0], line[1] }; }
         private static double[] GetShift(double[] line)
         {
             var dir = GetAngle(line);
@@ -175,6 +166,45 @@ namespace CC_Plugin
             var x = enumx / denom;
             var y = enumy / denom;
             return new double[2] {x, y};
+        }
+        // Reconstructs a fraction from a continued fraction with the given coefficients
+        static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
+        {
+            int numerator = coefficients.Last();
+            int denominator = 1;
+
+            for(int i = coefficients.Count - 2; i >= 0; --i)
+            {
+                //swap numerator and denominator (= invert number)
+                var temp = numerator;
+                numerator = denominator;
+                denominator = temp;
+
+                numerator += denominator * coefficients[i];
+            }
+            return new Tuple<int, int>(numerator, denominator);
+        }
+
+        static int FindSmallestMultiplier(double input, double error)
+        {
+            double remainingToRepresent = input;
+            List<int> coefficients = new List<int>();
+            while (true)
+            {
+                //calculate the next coefficient
+                var integer = (int)Math.Floor(remainingToRepresent);                
+                remainingToRepresent -= integer;
+                remainingToRepresent = 1 / remainingToRepresent;
+                coefficients.Add(integer);
+
+                //check if we reached the desired accuracy
+                var reconstructed = ReconstructContinuedFraction(coefficients);
+
+                var multipliedInput = input * reconstructed.Item2;
+                var multipliedInputRounded = Math.Round(multipliedInput);
+                if (Math.Abs(multipliedInput - multipliedInputRounded) < error)
+                    return reconstructed.Item2;
+            }
         }
     }
 }
