@@ -109,7 +109,7 @@ namespace CC_Plugin
         private static double GetAngle(double[] line)
         {
             var angle = 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI;
-            angle = Math.Round(angle, 3);
+            angle = Math.Round(angle);
             return angle;
         }
         private static double[] GetOrigin(double[] line) { return new double[2] { line[0], line[1] }; }
@@ -119,20 +119,22 @@ namespace CC_Plugin
             var dir = GetAngle(line);
             var ang = 45 - dir;
             var X = H * Math.Cos(ang * Math.PI / 180);
+            X = X == 0 ? H : X;
             var Y = H * Math.Sin(ang * Math.PI / 180);
+            Y = Y == 0 ? H : Y;
             return new double[2] { X, Y };
         }
         private static double RepLength(double[] line, double[] extents)
         {
             var ang = GetAngle(line);
             if (ang == 0 || ang == 90 || ang == -90)
-                return Length(Line) - 1;
+                return Length(line) - 1;
 
             //distance across the length of the pattern that the line is
             var yprime = Math.Tan(ang * Math.PI / 180);
             var ydif = 1 / yprime;
-            var z = FindSmallestMultiplier(ydif, 5e-6);
-            return Length(line) - z;
+            var z = FindSmallestMultiplier(ydif, 5e-3);
+            return z - Length(line);
         }
         private static double Length(double[] point)
         {
