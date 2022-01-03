@@ -144,7 +144,7 @@ namespace CC_Plugin
         // Reconstructs a fraction from a continued fraction with the given coefficients
         public static double GCD(double a, double b)
         {
-            return !b ? a : gcd(b, a % b);
+            return !b ? a : GCD(b, a % b);
         }
         public static double LCM(double a, double b)
         {
