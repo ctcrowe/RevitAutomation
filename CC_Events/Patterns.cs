@@ -158,6 +158,12 @@ namespace CC_Plugin
         {
             return (a * b) / GCD(a, b);
         }
+        private static int[] CreateIntegers(double x, double y, int z == 0)
+        {
+            Return x % 10 == 0 && y % 10 == 0 ?
+                new int[3] {(int)(x / 10), (int)(y / 10), z} :
+                CreateIntegers(x * 10, y * 10, z++);
+        }
         private static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
         {
             int numerator = coefficients.Last();
