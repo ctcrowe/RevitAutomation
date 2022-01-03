@@ -156,12 +156,16 @@ namespace CC_Plugin
         }
         public static double LCM(double a, double b)
         {
-            return (a * b) / GCD(a, b);
+            var ints = CreateIntegers(a, b);
+            return a > b ?
+                (ints[0] * ints[1]) / GCD(ints[0], ints[1]) : 
+                (ints[0] * ints[1]) / GCD(ints[1], ints[0]);
+            return (ints[0] * ints[1]) / GCD(ints[0], ints[1]);
         }
         private static int[] CreateIntegers(double x, double y, int z == 0)
         {
             Return x % 10 == 0 && y % 10 == 0 ?
-                new int[3] {(int)(x / 10), (int)(y / 10), z} :
+                new int[3] {(int)(x / 10), (int)(y / 10), z - 1} :
                 CreateIntegers(x * 10, y * 10, z++);
         }
         private static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
