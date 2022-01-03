@@ -142,6 +142,14 @@ namespace CC_Plugin
             return Math.Sqrt(x + y);
         }
         // Reconstructs a fraction from a continued fraction with the given coefficients
+        public static double GCD(double a, double b)
+        {
+            return !b ? a : gcd(b, a % b);
+        }
+        public static double LCM(double a, double b)
+        {
+            return (a * b) / GCD(a, b);
+        }
         private static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
         {
             int numerator = coefficients.Last();
@@ -181,3 +189,31 @@ namespace CC_Plugin
         }
     }
 }
+/*
+function leastCommonMultiple(min, max) {
+    function range(min, max) {
+        var arr = [];
+        for (var i = min; i <= max; i++) {
+            arr.push(i);
+        }
+        return arr;
+    }
+
+    function gcd(a, b) {
+        return !b ? a : gcd(b, a % b);
+    }
+
+    function lcm(a, b) {
+        return (a * b) / gcd(a, b);   
+    }
+
+    var multiple = min;
+    range(min, max).forEach(function(n) {
+        multiple = lcm(multiple, n);
+    });
+
+    return multiple;
+}
+
+leastCommonMultiple(1, 13); // => 360360
+*/
