@@ -132,8 +132,7 @@ namespace CC_Plugin
 
             //distance across the length of the pattern that the line is
             var yprime = Math.Tan(ang * Math.PI / 180);
-            var ydif = 1 / yprime;
-            var z = FindSmallestMultiplier(ydif, 5e-3);
+            var z = FindSmallestMultiplier(yprime, 5e-3);
             return z - Length(line);
         }
         private static double Length(double[] point)
