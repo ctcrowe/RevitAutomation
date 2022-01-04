@@ -32,6 +32,7 @@ namespace CC_Plugin
             ComboBoxData cbd = new ComboBoxData("Update Type");
             ComboBox box = Panel.AddItem(cbd) as ComboBox;
             box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
+            box.AddItem(new ComboBoxMemberData("Occupant Load Factor", "Occupant Load Factor"));
         }
         private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
         {
@@ -46,35 +47,9 @@ namespace CC_Plugin
                 case "Masterformat":
                     args.Application.SetMasterformat(text);
                     break;
+                case "Occupant Load Factor":
+                    break;
             }
-            /*
-            int numb;
-            if (int.TryParse(text, out numb))
-            {
-                var doc = args.Application.ActiveUIDocument.Document;
-                args.Application.GetComboData();
-                Selection sel = args.Application.ActiveUIDocument.Selection;
-                ISelectionFilter selectionFilter = new EleSelectionFilter();
-
-                Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
-                FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
-                FamilySymbol symb = inst.Symbol;
-                NeuralNetwork net = MasterformatNetwork.GetNetwork(CMDLibrary.WriteNull);
-
-                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                s.TextInput = symb.Family.Name;
-                s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
-                s.DesiredOutput[numb] = 1;
-                MasterformatNetwork.Propogate(s, CMDLibrary.WriteNull);
-
-                using (Transaction t = new Transaction(doc, "Set Param"))
-                {
-                    t.Start();
-                    symb.SetElementParam(Params.Masterformat, numb.ToString());
-                    t.Commit();
-                }
-            }
-            */
         }
         private static string GetComboData(this UIApplication app)
         {
@@ -126,6 +101,40 @@ namespace CC_Plugin
             }
         }
     }
+    public static class CMD_SetOLF
+    {
+        public static void SetOLF( this UIApplication app, string text )
+            //ExternalCommandData commandData,
+            //ref string message,
+            //ElementSet elements)
+        {
+            int numb;
+            if(int.TryParse(text, out numb))
+            {
+                Document doc = app.ActiveUIDocument.Document;
+                Selection sel = app.ActiveUIDocument.Selection;
+                ISelectionFilter selectionFilter = new EleSelectionFilter();
+
+                Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
+                FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
+                FamilySymbol symb = inst.Symbol;
+                NeuralNetwork net = MasterformatNetwork.GetNetwork(CMDLibrary.WriteNull);
+
+                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
+                s.TextInput = symb.Family.Name;
+                s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
+                s.DesiredOutput[numb] = 1;
+                MasterformatNetwork.Propogate(s, CMDLibrary.WriteNull);
+
+                using (Transaction t = new Transaction(doc, "Set Param"))
+                {
+                    t.Start();
+                    symb.SetElementParam(Params.Masterformat, numb.ToString());
+                    t.Commit();
+                }
+            }
+        }
+    }
     public class EleSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element element)
@@ -135,6 +144,21 @@ namespace CC_Plugin
                 return true;
             else
                 return false;
+        }
+        public bool AllowReference(Reference refer, XYZ point) { return true; }
+    }
+    public class RoomSelectionFilter : ISelectionFilter
+    {
+        public bool AllowElement(Element element)
+        {
+            Room r = element as Room;
+            if (r != null) return true;
+            else
+            {
+                Area a = element as Area;
+                if(a != null) return true;
+                else return false;
+            }
         }
         public bool AllowReference(Reference refer, XYZ point) { return true; }
     }
