@@ -72,7 +72,7 @@ namespace CC_Plugin
             var origin = GetOrigin(pt);
             var shift = GetShift(pt);
             var pendown = Length(pt);
-            var penup = -1 * RepLength(pt, extents);
+            var penup = -1 * RepLength(pt);
 
             return
                 dir + ", " + Math.Round(origin[0], 6) + ", " + Math.Round(origin[1], 6) + ", " +
@@ -115,9 +115,10 @@ namespace CC_Plugin
         private static double[] GetOrigin(double[] line) { return new double[2] { line[0], line[1] }; }
         private static double[] GetShift(double[] line)
         {
-            var X = Math.Sin(ang * Math.PI / 180);
+            var dir = GetAngle(line);
+            var X = Math.Sin(dir * Math.PI / 180);
             X = X == 0 ? 1 : X;
-            var Y = Math.Cos(ang * Math.PI / 180);
+            var Y = Math.Cos(dir * Math.PI / 180);
             Y = Y == 0 ? 1 : Y;
             return new double[2] { X, Y };
             /*
@@ -131,7 +132,7 @@ namespace CC_Plugin
             return new double[2] { X, Y };
             */
         }
-        private static double RepLength(double[] line, double[] extents)
+        private static double RepLength(double[] line)
         {
             var ang = GetAngle(line);
             if (ang == 0 || ang == 90 || ang == -90)
@@ -141,7 +142,8 @@ namespace CC_Plugin
             var yprime = Math.Tan(ang * Math.PI / 180);
             //var z = FindSmallestMultiplier(yprime, 5e-3);
             var z = LCM(yprime, 1);
-            return z - Length(line);
+            var hyp = z * Math.Sin(ang * Math.PI / 180);
+            return hyp - Length(line);
         }
         private static double Length(double[] point)
         {
@@ -152,7 +154,7 @@ namespace CC_Plugin
         // Reconstructs a fraction from a continued fraction with the given coefficients
         public static double GCD(double a, double b)
         {
-            return !b ? a : GCD(b, a % b);
+            return b == 0 ? a : GCD(b, a % b);
         }
         public static double LCM(double a, double b)
         {
@@ -160,11 +162,10 @@ namespace CC_Plugin
             return a > b ?
                 (ints[0] * ints[1]) / GCD(ints[0], ints[1]) : 
                 (ints[0] * ints[1]) / GCD(ints[1], ints[0]);
-            return (ints[0] * ints[1]) / GCD(ints[0], ints[1]);
         }
-        private static int[] CreateIntegers(double x, double y, int z == 0)
+        private static int[] CreateIntegers(double x, double y, int z = 0)
         {
-            Return x % 10 == 0 && y % 10 == 0 ?
+            return x % 10 == 0 && y % 10 == 0 ?
                 new int[3] {(int)(x / 10), (int)(y / 10), z - 1} :
                 CreateIntegers(x * 10, y * 10, z++);
         }
@@ -204,6 +205,111 @@ namespace CC_Plugin
                 if (Math.Abs(multipliedInput - multipliedInputRounded) < error)
                     return reconstructed.Item2;
             }
+        }
+        private static string PointLn(double[] line, double[] extents)
+        {
+            double _AE = 0;
+
+            var MaxX = extents[2] - extents[0];
+            var MaxY = extents[3] - extents[1];
+            var Max = Math.Max(MaxX, MaxY);
+
+            var MinX = extents[0];
+            var MinY = extents[1];
+
+            line[0] = (line[0] - MinX) / Max;
+            line[1] = (line[1] - MinY) / Max;
+            line[2] = (line[2] - MinX) / Max;
+            line[3] = (line[3] - MinY) / Max;
+
+            var AngTo = Math.Atan2(line[3] - line[1], line[2] - line[0]);
+            var AngFrom = Math.Atan2(line[1] - line[3], line[0] - line[2]);
+            var Ang = AngTo < Math.PI ? AngTo : AngFrom;
+
+            int AngZone = (int)Math.Floor(Ang / (Math.PI / 4));
+            var XDir = line[2] - line[0];
+            var YDir = line[3] - line[1];
+            var Dist = Math.Sqrt((XDir * XDir) + (YDir * YDir));
+
+            var Factor = 1;
+            double Ratio = 0;
+            double RF = 1;
+            double DeltaY = 0;
+            double DeltaX = 0;
+            double Scaler = 0;
+            double Gap = 0;
+
+            switch(AngZone)
+            {
+                default:
+                case (0):
+                    DeltaY = Math.Abs(Math.Sin(Ang));
+                    DeltaX = Math.Abs(Math.Abs(1 / Math.Sin(Ang)) - Math.Abs(Math.Cos(Ang)));
+                    break;
+                case (1):
+                    DeltaY = Math.Abs(Math.Cos(Ang));
+                    DeltaX = Math.Abs(Math.Sin(Ang));
+                    break;
+                case (2):
+                    DeltaY = Math.Abs(Math.Cos(Ang));
+                    DeltaX = Math.Abs(Math.Abs(1 / Math.Cos(Ang)) - Math.Abs(Math.Sin(Ang)));
+                    break;
+                case (3):
+                    DeltaY = Math.Abs(Math.Sin(Ang));
+                    DeltaX = Math.Abs(Math.Cos(Ang));
+                    break;
+            }
+
+            if (Math.Abs(XDir - YDir) > 0.001)
+            {
+                Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
+                RF = Ratio * Factor;
+                Scaler = XDir < YDir ? 1 / XDir : 1 / YDir;
+
+                if (Math.Abs(Ratio - Math.Round(Ratio)) > 0.001)
+                {
+                    while (Factor <= 100 && Math.Abs(RF - Math.Round(RF)) > 0.001)
+                    {
+                        Factor += 1;
+                        RF = Ratio * Factor;
+                    }
+                    if (Factor > 1 && Factor <= 100)
+                    {
+                        var _AB = XDir * Scaler * Factor;
+                        var _BC = YDir * Scaler * Factor;
+                        var _AC = Math.Sqrt((_AB * _AB) + (_BC * _BC));
+                        double _EF = 1;
+                        double x = 1;
+
+                        while(x < _AB - 0.5)
+                        {
+                            double y = x * YDir / XDir;
+                            var h = Ang < Math.PI / 2 ? Math.Floor(y) + 1 - y : y - Math.Floor(y);
+
+                            if(h < _EF)
+                            {
+                                var _AD = x;
+                                var _DE = y;
+                                _AE = Math.Sqrt((x * x) + (y * y));
+                                _EF = h;
+                            }
+                            x++;
+                        }
+                        if(_EF < 1)
+                        {
+                            var _EH = _BC * _EF / _AC;
+                            var _FH = _AB * _EF / _AC;
+                            DeltaX = Ang > Math.PI / 2 ? _AE - _EH : _AE + _EH;
+                            //DeltaY = 1;
+                        }
+                    }
+                }
+            }
+            if(Factor == 1)
+            {
+                Gap = Dist - Math.Abs(1 / DeltaY);
+            }
+            return "";
         }
     }
 }
