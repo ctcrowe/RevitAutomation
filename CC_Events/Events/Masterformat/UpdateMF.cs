@@ -128,7 +128,8 @@ namespace CC_Plugin
                 using (Transaction t = new Transaction(doc, "Set Param"))
                 {
                     t.Start();
-                    symb.SetElementParam(Params.Masterformat, numb.ToString());
+                    Element e = r as Element;
+                    e.Set(Params.OLF, text);
                     t.Commit();
                 }
             }
