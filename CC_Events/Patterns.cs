@@ -105,12 +105,7 @@ namespace CC_Plugin
                 (point[3] - miny) / max
             };
         }
-        private static double Angle(double[] line)
-        {
-            var angle = 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI;
-            angle = Math.Round(angle);
-            return angle;
-        }
+        private static double Angle(double[] line) { return Math.Round(180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI); }
         private static double OriginX(double[] line) { return Math.Round(line[0], 6); }
         private static double OriginY(double[] line) { return Math.Round(line[0], 6); }
         private static double ShiftX(double[] line) { return Math.Sin(Angle(line) * Math.PI / 180) == 0 ? 1 : Math.Round(Math.Sin(Angle(line) * Math.PI / 180), 6); }
