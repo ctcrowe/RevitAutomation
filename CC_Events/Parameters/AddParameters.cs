@@ -45,6 +45,7 @@ namespace CC_Plugin.Parameters
                     break;
                 case Subcategory.Rooms:
                     cats.Add(Category.GetCategory(doc, BuiltInCategory.OST_Rooms));
+                    cats.Add(Category.GetCategory(doc, BuiltInCategory.OST_Areas));
                     break;
                 case Subcategory.View:
                     cats.Add(Category.GetCategory(doc, BuiltInCategory.OST_Views));

@@ -13,6 +13,25 @@ namespace CC_Plugin
 {
     [TransactionAttribute(TransactionMode.Manual)]
     [RegenerationAttribute(RegenerationOption.Manual)]
+    public class SetOLF : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
+        {
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            using (Transaction t = new Transaction(doc, "Set OLF"))
+            {
+                t.Start();
+                doc.UpdateLoadFactor();
+                t.Commit();
+            }
+            return Result.Succeeded;
+        }
+    }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
     public class PaintObjectByFinishMat : IExternalCommand
     {
         public Result Execute(
@@ -133,8 +152,14 @@ namespace CC_Plugin
                 "Create\r\nPattern File",
                 @dllpath,
                 "CC_Plugin.CreatePatternFile");
-            b4Data.ToolTip = "Learn from the line weights of the current view";
+            b5Data.ToolTip = "Learn from the line weights of the current view";
             PushButton PB5 = Panel.AddItem(b5Data) as PushButton;
+            PushButtonData b6Data = new PushButtonData(
+                "Update OLF",
+                "Update OLF",
+                @dllpath,
+                "CC_Plugin.SetOLF");
+            PushButton PB56 = Panel.AddItem(b6Data) as PushButton;
         }
         public static void PaintByMaterial(UIDocument uidoc, Param par)
         {

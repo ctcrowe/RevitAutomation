@@ -28,7 +28,7 @@ namespace CC_Library.Predictions
         {
             NeuralNetwork net = GetNetwork(write);
             Alpha a = new Alpha(write);
-            AlphaContext ctxt = new AlphaContext(Datatype.Masterformat, write);
+            AlphaContext ctxt = new AlphaContext(datatype, write);
             double[] Results = a.Forward(s, ctxt);
             Results.WriteArray("Alpha Results : ", write);
             for(int i = 0; i < net.Layers.Count(); i++)

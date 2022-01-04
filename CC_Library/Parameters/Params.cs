@@ -11,6 +11,13 @@ namespace CC_Library.Parameters
             ParamType.Int,
             false,
             true);
+        public static readonly Param OccupantLoadFactor = new Param
+            ("OLF",
+             new Guid("b285984d3699438eae7d5d663262636d"),
+             Subcategory.Rooms,
+             ParamType.Area,
+             true,
+             true);
         /*
         Add the below unfinished Params to Doors, Generic Models, and Stairs.
         */
@@ -65,13 +72,6 @@ namespace CC_Library.Parameters
             ParamType.Material,
             false,
             true );
-        public static readonly Param AreaPerOccupant = new Param
-            ("Area Per Occupant",
-             new Guid("793a29471a7c4255964dc616c0b785d6"),
-             Subcategory.Rooms,
-             ParamType.Area,
-             true,
-             true );
         public static readonly Param OccupancyGroup = new Param
             ("Occupancy Group",
              new Guid("733534473e214520bcdafc6093c787b1"),

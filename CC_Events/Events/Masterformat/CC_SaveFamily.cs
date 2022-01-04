@@ -48,7 +48,7 @@ namespace CC_Plugin
                 
                 string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
                     SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
-                    SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfssssssssssa";
+                    SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
                 File.Copy(fp, nf, true);
             }
         }

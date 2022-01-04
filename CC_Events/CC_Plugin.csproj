@@ -66,6 +66,7 @@
     <Compile Include="Events\LineWeights.cs" />
     <Compile Include="Events\Masterformat\UpdateMF.cs" />
     <Compile Include="Events\Masterformat\AddMF.cs" />
+    <Compile Include="Events\OccLoadFactor\Class1.cs" />
     <Compile Include="Events\Subcategories\AddCategories.cs" />
     <Compile Include="Details\CreateDetailImage.cs" />
     <Compile Include="Details\DetailTab.cs" />
@@ -96,7 +97,7 @@
     <Compile Include="MaterialLibrary\MaterialLibrary.cs" />
     <Compile Include="CC_DocClosing.cs" />
     <Compile Include="CaptureFamilies.cs" />
-    <Compile Include="Events\OccLoadFactor.cs" />
+    <Compile Include="Events\OccLoadFactor\UpdateOccupantLoad.cs" />
     <Compile Include="ObjStyles\CollectObjStyles.cs" />
     <Compile Include="ObjStyles\ObjStylesTab.cs" />
     <Compile Include="Parameters\AddParameters.cs" />

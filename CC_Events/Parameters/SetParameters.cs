@@ -217,6 +217,7 @@ namespace CC_Plugin.Parameters
                         par.Set(value);
                         break;
                     case ParamType.Double:
+                    case ParamType.Area:
                         par.Set(double.Parse(value));
                         break;
                     case ParamType.Int:

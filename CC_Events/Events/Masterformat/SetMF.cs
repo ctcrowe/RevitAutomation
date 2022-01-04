@@ -117,10 +117,11 @@ namespace CC_Plugin
             using (TransactionGroup tg = new TransactionGroup(doc, "Preupdater Registration"))
             {
                 tg.Start();
-                using (Transaction t = new Transaction(doc, "Add MF Param"))
+                using (Transaction t = new Transaction(doc, "Add Params"))
                 {
                     t.Start();
                     try { doc.AddParam(Params.Masterformat); } catch (Exception e) { e.OutputError(); }
+                    try { doc.AddParam(Params.OccupantLoadFactor); } catch (Exception e) { e.OutputError(); }
                     t.Commit();
                 }
                 tg.Commit();
