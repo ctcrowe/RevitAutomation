@@ -148,7 +148,7 @@ namespace CC_Plugin
         {
             var x = (point[2] - point[0]) * (point[2] - point[0]);
             var y = (point[3] - point[1]) * (point[3] - point[1]);
-            return Math.Round(Math.Sqrt(x + y), 4);
+            return Math.Round(Math.Sqrt(x + y), 6);
         }
         // Reconstructs a fraction from a continued fraction with the given coefficients
         public static double GCD(double a, double b)
