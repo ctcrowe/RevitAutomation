@@ -135,16 +135,13 @@ namespace CC_Plugin
         private static double GetGap(double[] line)
         {
             var ang = Math.Atan2(line[3] - line[1], line[2] - line[0]);
-            if (ang == 0 || ang == 90 || ang == -90)
+            var a2 = ang * Math.PI / 180;
+            if (a2 == 0 || a2 90 || a2 == -90)
                 return Length(line) - 1;
-
             //distance across the length of the pattern that the line is
-            var yprime = Math.Tan(ang * Math.PI / 180);
-            //var z = FindSmallestMultiplier(yprime, 5e-3);
+            var yprime = Math.Tan(ang);
             var z = LCM(yprime, 1);
-            var ypp = z * yprime;
-            var hyp = Math.Sqrt((z * z
-            var hyp = z * Math.Sin(ang * Math.PI / 180);
+            var hyp = z / Math.Sin(ang);
             return Length(line) - hyp;
         }
         private static double Length(double[] point)
