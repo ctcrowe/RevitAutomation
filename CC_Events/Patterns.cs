@@ -115,6 +115,12 @@ namespace CC_Plugin
         private static double[] GetOrigin(double[] line) { return new double[2] { line[0], line[1] }; }
         private static double[] GetShift(double[] line)
         {
+            var X = Math.Sin(ang * Math.PI / 180);
+            X = X == 0 ? 1 : X;
+            var Y = Math.Cos(ang * Math.PI / 180);
+            Y = Y == 0 ? 1 : Y;
+            return new double[2] { X, Y };
+            /*
             var H = Math.Sqrt(2);
             var dir = GetAngle(line);
             var ang = 45 - dir;
@@ -123,6 +129,7 @@ namespace CC_Plugin
             var Y = H * Math.Sin(ang * Math.PI / 180);
             Y = Y == 0 ? H : Y;
             return new double[2] { X, Y };
+            */
         }
         private static double RepLength(double[] line, double[] extents)
         {
@@ -132,8 +139,8 @@ namespace CC_Plugin
 
             //distance across the length of the pattern that the line is
             var yprime = Math.Tan(ang * Math.PI / 180);
-            var ydif = 1 / yprime;
-            var z = FindSmallestMultiplier(ydif, 5e-3);
+            //var z = FindSmallestMultiplier(yprime, 5e-3);
+            var z = LCM(yprime, 1);
             return z - Length(line);
         }
         private static double Length(double[] point)
@@ -143,6 +150,24 @@ namespace CC_Plugin
             return Math.Sqrt(x + y);
         }
         // Reconstructs a fraction from a continued fraction with the given coefficients
+        public static double GCD(double a, double b)
+        {
+            return !b ? a : GCD(b, a % b);
+        }
+        public static double LCM(double a, double b)
+        {
+            var ints = CreateIntegers(a, b);
+            return a > b ?
+                (ints[0] * ints[1]) / GCD(ints[0], ints[1]) : 
+                (ints[0] * ints[1]) / GCD(ints[1], ints[0]);
+            return (ints[0] * ints[1]) / GCD(ints[0], ints[1]);
+        }
+        private static int[] CreateIntegers(double x, double y, int z == 0)
+        {
+            Return x % 10 == 0 && y % 10 == 0 ?
+                new int[3] {(int)(x / 10), (int)(y / 10), z - 1} :
+                CreateIntegers(x * 10, y * 10, z++);
+        }
         private static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
         {
             int numerator = coefficients.Last();
@@ -182,3 +207,31 @@ namespace CC_Plugin
         }
     }
 }
+/*
+function leastCommonMultiple(min, max) {
+    function range(min, max) {
+        var arr = [];
+        for (var i = min; i <= max; i++) {
+            arr.push(i);
+        }
+        return arr;
+    }
+
+    function gcd(a, b) {
+        return !b ? a : gcd(b, a % b);
+    }
+
+    function lcm(a, b) {
+        return (a * b) / gcd(a, b);   
+    }
+
+    var multiple = min;
+    range(min, max).forEach(function(n) {
+        multiple = lcm(multiple, n);
+    });
+
+    return multiple;
+}
+
+leastCommonMultiple(1, 13); // => 360360
+*/
