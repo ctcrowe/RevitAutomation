@@ -121,11 +121,16 @@ namespace CC_Plugin
             var a2 = ang * Math.PI / 180;
             if (a2 == 0 || a2 90 || a2 == -90)
                 return Length(line) - 1;
-            //distance across the length of the pattern that the line is
+            
             var yprime = Math.Tan(ang);
-            var z = LCM(yprime, 1);
-            var hyp = z / Math.Sin(ang);
-            return Length(line) - hyp;
+            var zy = LCM(yprime, 1);
+            var hyp1 = zy / Math.Sin(ang);
+            
+            var xprime = 1 / Math.Tan(ang);
+            var zx = LCM(xprime, 1);
+            var hyp2 = zx / Math.Cos(ang);
+            
+            return hyp1 < hyp2 ? Length(line) - hyp1 : Length(line) - hyp2;
         }
         private static double Length(double[] point)
         {
