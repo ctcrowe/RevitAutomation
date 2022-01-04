@@ -68,15 +68,14 @@ namespace CC_Plugin
         private static string GetText(double[] point, double[] extents)
         {
             var pt = Reframe(point, extents);
-            var dir = GetAngle(pt);
-            var origin = GetOrigin(pt);
-            var shift = GetShift(pt);
-            var pendown = Length(pt);
-            var penup = GetGap(pt);
-
             return
-                dir + ", " + Math.Round(origin[0], 6) + ", " + Math.Round(origin[1], 6) + ", " +
-                Math.Round(shift[0], 6) + ", " + Math.Round(shift[1], 6) + ", " + Math.Round(pendown, 6) + ", " + Math.Round(penup, 6);
+                GetAngle(pt) + "," +
+                OriginX(pt) + "," +
+                OriginY(pt) + "," +
+                ShiftX(pt) + "," +
+                ShiftY(pt) + "," +
+                Length(pt) + "," +
+                Gap(pt);
         }
         private static double[] Reframe(double[] point, double[] extents)
         {
@@ -106,33 +105,17 @@ namespace CC_Plugin
                 (point[3] - miny) / max
             };
         }
-        private static double GetAngle(double[] line)
+        private static double Angle(double[] line)
         {
             var angle = 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI;
             angle = Math.Round(angle);
             return angle;
         }
-        private static double[] GetOrigin(double[] line) { return new double[2] { line[0], line[1] }; }
-        private static double[] GetShift(double[] line)
-        {
-            var dir = GetAngle(line);
-            var X = Math.Sin(dir * Math.PI / 180);
-            X = X == 0 ? 1 : X;
-            var Y = Math.Cos(dir * Math.PI / 180);
-            Y = Y == 0 ? 1 : Y;
-            return new double[2] { X, Y };
-            /*
-            var H = Math.Sqrt(2);
-            var dir = GetAngle(line);
-            var ang = 45 - dir;
-            var X = H * Math.Cos(ang * Math.PI / 180);
-            X = X == 0 ? H : X;
-            var Y = H * Math.Sin(ang * Math.PI / 180);
-            Y = Y == 0 ? H : Y;
-            return new double[2] { X, Y };
-            */
-        }
-        private static double GetGap(double[] line)
+        private static double OriginX(double[] line) { return Math.Round(line[0], 6); }
+        private static double OriginY(double[] line) { return Math.Round(line[0], 6); }
+        private static double ShiftX(double[] line) { return Math.Sin(Angle(line) * Math.PI / 180) == 0 ? 1 : Math.Round(Math.Sin(Angle(line) * Math.PI / 180), 6); }
+        private static double ShiftY(double[] line) { return Math.Cos(Angle(line) * Math.PI / 180) == 0 ? 1 : Math.Round(Math.Cos(Angle(line) * Math.PI / 180), 6); }
+        private static double Gap(double[] line)
         {
             var ang = Math.Atan2(line[3] - line[1], line[2] - line[0]);
             var a2 = ang * Math.PI / 180;
