@@ -113,18 +113,17 @@ namespace CC_Plugin
             {
                 Document doc = app.ActiveUIDocument.Document;
                 Selection sel = app.ActiveUIDocument.Selection;
-                ISelectionFilter selectionFilter = new EleSelectionFilter();
+                ISelectionFilter selectionFilter = new RoomSelectionFilter();
 
                 Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
-                FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
-                FamilySymbol symb = inst.Symbol;
-                NeuralNetwork net = MasterformatNetwork.GetNetwork(CMDLibrary.WriteNull);
+                Room r = doc.GetElement(ChangedObject.ElementId) as Room;
+                NeuralNetwork net = OLFNetwork.GetNetwork(CMDLibrary.WriteNull);
 
-                Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
-                s.TextInput = symb.Family.Name;
+                Sample s = new Sample(CC_Library.Datatypes.Datatype.OccupantLoadFactor);
+                s.TextInput = r.Name;
                 s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
                 s.DesiredOutput[numb] = 1;
-                MasterformatNetwork.Propogate(s, CMDLibrary.WriteNull);
+                OLFNetwork.Propogate(s, CMDLibrary.WriteNull);
 
                 using (Transaction t = new Transaction(doc, "Set Param"))
                 {
@@ -152,13 +151,10 @@ namespace CC_Plugin
         public bool AllowElement(Element element)
         {
             Room r = element as Room;
-            if (r != null) return true;
+            if (r != null)
+                return true;
             else
-            {
-                Area a = element as Area;
-                if(a != null) return true;
-                else return false;
-            }
+                return false;
         }
         public bool AllowReference(Reference refer, XYZ point) { return true; }
     }
