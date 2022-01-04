@@ -72,7 +72,7 @@ namespace CC_Plugin
             var origin = GetOrigin(pt);
             var shift = GetShift(pt);
             var pendown = Length(pt);
-            var penup = -1 * RepLength(pt);
+            var penup = GetGap(pt);
 
             return
                 dir + ", " + Math.Round(origin[0], 6) + ", " + Math.Round(origin[1], 6) + ", " +
@@ -132,9 +132,9 @@ namespace CC_Plugin
             return new double[2] { X, Y };
             */
         }
-        private static double RepLength(double[] line)
+        private static double GetGap(double[] line)
         {
-            var ang = GetAngle(line);
+            var ang = Math.Atan2(line[3] - line[1], line[2] - line[0]);
             if (ang == 0 || ang == 90 || ang == -90)
                 return Length(line) - 1;
 
@@ -142,14 +142,16 @@ namespace CC_Plugin
             var yprime = Math.Tan(ang * Math.PI / 180);
             //var z = FindSmallestMultiplier(yprime, 5e-3);
             var z = LCM(yprime, 1);
+            var ypp = z * yprime;
+            var hyp = Math.Sqrt((z * z
             var hyp = z * Math.Sin(ang * Math.PI / 180);
-            return hyp - Length(line);
+            return Length(line) - hyp;
         }
         private static double Length(double[] point)
         {
             var x = (point[2] - point[0]) * (point[2] - point[0]);
             var y = (point[3] - point[1]) * (point[3] - point[1]);
-            return Math.Sqrt(x + y);
+            return Math.Round(Math.Sqrt(x + y), 4);
         }
         // Reconstructs a fraction from a continued fraction with the given coefficients
         public static double GCD(double a, double b)
@@ -169,175 +171,5 @@ namespace CC_Plugin
                 new int[3] {(int)(x / 10), (int)(y / 10), z - 1} :
                 CreateIntegers(x * 10, y * 10, z++);
         }
-        private static Tuple<int, int> ReconstructContinuedFraction(List<int> coefficients)
-        {
-            int numerator = coefficients.Last();
-            int denominator = 1;
-
-            for(int i = coefficients.Count - 2; i >= 0; --i)
-            {
-                //swap numerator and denominator (= invert number)
-                var temp = numerator;
-                numerator = denominator;
-                denominator = temp;
-
-                numerator += denominator * coefficients[i];
-            }
-            return new Tuple<int, int>(numerator, denominator);
-        }
-        private static int FindSmallestMultiplier(double input, double error)
-        {
-            double remainingToRepresent = input;
-            List<int> coefficients = new List<int>();
-            while (true)
-            {
-                //calculate the next coefficient
-                var integer = (int)Math.Floor(remainingToRepresent);                
-                remainingToRepresent -= integer;
-                remainingToRepresent = 1 / remainingToRepresent;
-                coefficients.Add(integer);
-
-                //check if we reached the desired accuracy
-                var reconstructed = ReconstructContinuedFraction(coefficients);
-
-                var multipliedInput = input * reconstructed.Item2;
-                var multipliedInputRounded = Math.Round(multipliedInput);
-                if (Math.Abs(multipliedInput - multipliedInputRounded) < error)
-                    return reconstructed.Item2;
-            }
-        }
-        private static string PointLn(double[] line, double[] extents)
-        {
-            double _AE = 0;
-
-            var MaxX = extents[2] - extents[0];
-            var MaxY = extents[3] - extents[1];
-            var Max = Math.Max(MaxX, MaxY);
-
-            var MinX = extents[0];
-            var MinY = extents[1];
-
-            line[0] = (line[0] - MinX) / Max;
-            line[1] = (line[1] - MinY) / Max;
-            line[2] = (line[2] - MinX) / Max;
-            line[3] = (line[3] - MinY) / Max;
-
-            var AngTo = Math.Atan2(line[3] - line[1], line[2] - line[0]);
-            var AngFrom = Math.Atan2(line[1] - line[3], line[0] - line[2]);
-            var Ang = AngTo < Math.PI ? AngTo : AngFrom;
-
-            int AngZone = (int)Math.Floor(Ang / (Math.PI / 4));
-            var XDir = line[2] - line[0];
-            var YDir = line[3] - line[1];
-            var Dist = Math.Sqrt((XDir * XDir) + (YDir * YDir));
-
-            var Factor = 1;
-            double Ratio = 0;
-            double RF = 1;
-            double DeltaY = 0;
-            double DeltaX = 0;
-            double Scaler = 0;
-            double Gap = 0;
-
-            switch(AngZone)
-            {
-                default:
-                case (0):
-                    DeltaY = Math.Abs(Math.Sin(Ang));
-                    DeltaX = Math.Abs(Math.Abs(1 / Math.Sin(Ang)) - Math.Abs(Math.Cos(Ang)));
-                    break;
-                case (1):
-                    DeltaY = Math.Abs(Math.Cos(Ang));
-                    DeltaX = Math.Abs(Math.Sin(Ang));
-                    break;
-                case (2):
-                    DeltaY = Math.Abs(Math.Cos(Ang));
-                    DeltaX = Math.Abs(Math.Abs(1 / Math.Cos(Ang)) - Math.Abs(Math.Sin(Ang)));
-                    break;
-                case (3):
-                    DeltaY = Math.Abs(Math.Sin(Ang));
-                    DeltaX = Math.Abs(Math.Cos(Ang));
-                    break;
-            }
-
-            if (Math.Abs(XDir - YDir) > 0.001)
-            {
-                Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
-                RF = Ratio * Factor;
-                Scaler = XDir < YDir ? 1 / XDir : 1 / YDir;
-
-                if (Math.Abs(Ratio - Math.Round(Ratio)) > 0.001)
-                {
-                    while (Factor <= 100 && Math.Abs(RF - Math.Round(RF)) > 0.001)
-                    {
-                        Factor += 1;
-                        RF = Ratio * Factor;
-                    }
-                    if (Factor > 1 && Factor <= 100)
-                    {
-                        var _AB = XDir * Scaler * Factor;
-                        var _BC = YDir * Scaler * Factor;
-                        var _AC = Math.Sqrt((_AB * _AB) + (_BC * _BC));
-                        double _EF = 1;
-                        double x = 1;
-
-                        while(x < _AB - 0.5)
-                        {
-                            double y = x * YDir / XDir;
-                            var h = Ang < Math.PI / 2 ? Math.Floor(y) + 1 - y : y - Math.Floor(y);
-
-                            if(h < _EF)
-                            {
-                                var _AD = x;
-                                var _DE = y;
-                                _AE = Math.Sqrt((x * x) + (y * y));
-                                _EF = h;
-                            }
-                            x++;
-                        }
-                        if(_EF < 1)
-                        {
-                            var _EH = _BC * _EF / _AC;
-                            var _FH = _AB * _EF / _AC;
-                            DeltaX = Ang > Math.PI / 2 ? _AE - _EH : _AE + _EH;
-                            //DeltaY = 1;
-                        }
-                    }
-                }
-            }
-            if(Factor == 1)
-            {
-                Gap = Dist - Math.Abs(1 / DeltaY);
-            }
-            return "";
-        }
     }
 }
-/*
-function leastCommonMultiple(min, max) {
-    function range(min, max) {
-        var arr = [];
-        for (var i = min; i <= max; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
-
-    function gcd(a, b) {
-        return !b ? a : gcd(b, a % b);
-    }
-
-    function lcm(a, b) {
-        return (a * b) / gcd(a, b);   
-    }
-
-    var multiple = min;
-    range(min, max).forEach(function(n) {
-        multiple = lcm(multiple, n);
-    });
-
-    return multiple;
-}
-
-leastCommonMultiple(1, 13); // => 360360
-*/
