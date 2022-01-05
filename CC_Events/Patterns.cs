@@ -142,7 +142,7 @@ namespace CC_Plugin
 					DeltaX = Math.Abs(Math.Cos(Ang));
 					break;
 			}
-			if(XDir != YDir)
+			if(Math.Abs(XDir - YDir) > 0.001)
 			{
 				double Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
 				RF = Ratio * Factor;
