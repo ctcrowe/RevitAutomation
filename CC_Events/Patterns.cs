@@ -147,7 +147,7 @@ namespace CC_Plugin
 				double Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
 				RF = Ratio * Factor;
 				var Scaler = XDir < YDir ? 1 / XDir : 1 / YDir;
-				if(Ratio % 1 > 0.001)
+				if(Ratio % 1 > 0.001 && 1 - (Ratio % 1) > 0.001)
 				{
 					While(Factor <= 100 && RF % 1 > 0.001 && 1 - RF % 1 > 0.001)
 					{
