@@ -212,8 +212,8 @@ namespace CC_Plugin
 	    var y = Line[3] - Line[3];
             return Math.Sqrt((x * x) + (y * y));
         }
-        private static double Angle(double[] line) { return 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI; }
-	private static double InvAngle(double[] line) { return 180 * Math.Atan2(line[1] - line[3], line[0] - line[2]) / Math.PI; }
+        private static double Angle(double[] line) { return Math.Atan2(line[3] - line[1], line[2] - line[0]); }
+	private static double InvAngle(double[] line) { return Math.Atan2(line[1] - line[3], line[0] - line[2]); }
    	/*
 	private static string GetText(double[] point, double[] extents)
         {
