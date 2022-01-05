@@ -114,6 +114,8 @@ namespace CC_Plugin
 				Gap = Dist - 1;
 	    	    IsValid = true;
 		    }
+		else
+		{
 			
 			var Ang = AngTo < Math.PI ? AngTo : AngFrom;
 			var AngZone = Math.Floor(Ang / (Math.PI / 4));
@@ -193,6 +195,7 @@ namespace CC_Plugin
 					IsValid = true;
 				}
 			}
+		}
 			if(IsValid)
 			{
 				line += Math.Round(AngTo * 180 / Math.PI, 6) + ",";
