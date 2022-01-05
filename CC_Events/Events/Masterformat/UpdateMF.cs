@@ -108,9 +108,10 @@ namespace CC_Plugin
             //ref string message,
             //ElementSet elements)
         {
-            int numb;
-            if(int.TryParse(text, out numb))
+            var Factors = Enum.GetNames(typeof(OccLoadFactor)).ToList();
+            if(Factors.Any(x => x == "A" + text))
             {
+                int numb = Factors.IndexOf("A" + text);
                 Document doc = app.ActiveUIDocument.Document;
                 Selection sel = app.ActiveUIDocument.Selection;
                 ISelectionFilter selectionFilter = new RoomSelectionFilter();
