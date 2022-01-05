@@ -65,19 +65,7 @@ namespace CC_Plugin
             }
             return extents;
         }
-        private static string GetText(double[] point, double[] extents)
-        {
-            var pt = Reframe(point, extents);
-            return
-                Angle(pt) + "," +
-                OriginX(pt) + "," +
-                OriginY(pt) + "," +
-                ShiftX(pt) + "," +
-                ShiftY(pt) + "," +
-                Length(pt) + "," +
-                Gap(pt);
-        }
-        private static double[] Reframe(double[] point, double[] extents)
+	private static double[] Reframe(double[] point, double[] extents)
         {
             var maxx = extents[2] - extents[0];
             var maxy = extents[3] - extents[1];
@@ -105,67 +93,63 @@ namespace CC_Plugin
                 (point[3] - miny) / max
             };
         }
-        private static double Angle(double[] line) { return Math.Round(180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI); }
-        private static double OriginX(double[] line) { return Math.Round(line[0], 6); }
-        private static double OriginY(double[] line) { return Math.Round(line[0], 6); }
-        private static double ShiftX(double[] line)
+        private static string GetText(double[] _Line, double[] extents)
         {
-            var H = Math.Sqrt(2);
-            var dir = Angle(line);
-            var ang = 45 - dir;
-            var X = H * Math.Cos(ang * Math.PI / 180);
-            return X == 0 ? H : X;
+	    	var ln = Reframe(_Line, extents);
+		    var Dist = Length(ln);
+		    var AngTo = Angle(ln);
+		    var AngFrom = InvAngle(ln);
+			
+	    	bool IsValid = false;
+		    var DeltaX = 0;
+			var DeltaY = 0;
+			var Gap = Dist - 1;
+		
+		    if(Math.Abs(ln[0] - ln[2]) < 0.001 || Math.Abs(ln[3] - ln[1]) < 0.001)
+	    	{
+				DeltaX = 0;
+				DeltaY = 1;
+				Gap = Dist - 1;
+	    	    IsValid = true;
+		    }
+			
+			var Ang = AngTo < Math.PI ? AngTo : AngFrom;
+			var AngZone = Math.Floor(Ang / (Math.PI / 4));
+			var XDir = Math.Abs(pt2.X - pt1.X);
+			var YDir = Math.Abs(pt2.Y - pt1.Y);
+			var Factor = 1;
+			var RF = 1;
+			
+			Switch(AngZone)
+			{
+				default:
+				case 0:
+					DeltaY = Math.Abs(Sin(Ang));
+					DeltaX = Math.Abs(Math.Abs(1 / Math.Sin(Ang)) - Math.Abs(Math.Cos(Ang)));
+					break;
+				case 1:
+					DeltaY = Math.Abs(Math.Cos(Ang));
+					DeltaX = Math.Abs(Math.Sin(Ang));
+					break;
+				case 2:
+					DeltaY = Math.Abs(Math.Cos(Ang));
+					DeltaX = Math.Abs(Math.Abs(1 / Math.Cos(Ang)) - Math.Abs(Math.Sin(Ang)));
+					break;
+				case 3:
+					DeltaY = Math.Abs(Math.Sin(Ang));
+					DeltaX = Math.Abs(Math.Cos(Ang));
+					break;
+			}
         }
-        private static double ShiftY(double[] line)
-        {
-            var H = Math.Sqrt(2);
-            var dir = Angle(line);
-            var ang = 45 - dir;
-            var Y = H * Math.Sin(ang * Math.PI / 180);
-            return Y == 0 ? H : Y;
-        }
-        private static double Gap(double[] line)
-        {
-            var ang = Math.Atan2(line[3] - line[1], line[2] - line[0]);
-            var a2 = ang * Math.PI / 180;
-            if (a2 == 0 || a2 == 90 || a2 == -90)
-                return Length(line) - 1;
 
-            var yprime = Math.Abs(Math.Tan(ang));
-            var zy = LCM(yprime, 1);
-            var hyp1 = zy / Math.Abs(Math.Sin(ang));
-
-            var xprime = 1 / Math.Abs(Math.Tan(ang));
-            var zx = LCM(xprime, 1);
-            var hyp2 = zx / Math.Abs(Math.Cos(ang));
-            
-            return hyp1 < hyp2 ? Length(line) - hyp1 : Length(line) - hyp2;
-        }
-        private static double Length(double[] point)
+	private static double Length(double[] Line)
         {
-            var x = (point[2] - point[0]) * (point[2] - point[0]);
-            var y = (point[3] - point[1]) * (point[3] - point[1]);
-            return Math.Round(Math.Sqrt(x + y), 6);
+	    var x = Line[2] - Line[0];
+	    var y = Line[3] - Line[3];
+            return Math.Sqrt((x * x) + (y * y));
         }
-        public static double GCD(double a, double b)
-        {
-            return b == 0 ? a : GCD(b, a % b);
-        }
-        public static double LCM(double a, double b)
-        {
-            return a > b ?
-                (a * b) / GCD(a, b) : 
-                (a * b) / GCD(b, a);
-        }
-        private static int[] CreateIntegers(double x, double y, int z = 0)
-        {
-            return x % 10 == 0 && y % 10 == 0 ?
-                new int[3] {(int)(x / 10), (int)(y / 10), z - 1} :
-                CreateIntegers(x * 10, y * 10, z++);
-        }
-    }
-}
-
+        private static double Angle(double[] line) { return 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI; }
+	private static double InvAngle(double[] line) { return 180 * Math.Atan2(line[1] - line[3], line[0] - line[2]) / Math.PI; }
 /*
 while()
 {
@@ -177,47 +161,6 @@ while()
 	}
 	if(EntType == "LINE")
 	{
-		pt1 = dxf 10 EntInfo;
-		pt2 = dxf 11 EntInfo;
-		Dist = Distance(pt1, pt2);
-		AngTo = angle(pt1, pt2);
-		AngFrom = angle(pt2, pt1);
-		IsValid = false;
-
-		if(pt1.X == pt2.X || pt1.Y == pt2.Y)
-		{
-			DeltaX = 0;
-			DeltaY = 1;
-			Gap = Dist - 1;
-			IsValid = true;
-		}
-		
-		Ang = AngTo < pi ? AngTo : AngFrom;
-		AngZone = Math.Floor(Ang / (Math.PI / 4));
-		XDir = Math.Abs(pt2.X - pt1.X);
-		YDir = Math.Abs(pt2.Y - pt1.Y);
-		Factor = 1;
-		RF = 1;
-
-		Switch(AngZone)
-		{
-			case 0:
-				DeltaY = Math.Abs(Sin(Ang));
-				DeltaX = Math.Abs(Math.Abs(1 / Math.Sin(Ang)) - Math.Abs(Math.Cos(Ang)));
-				break;
-			case 1:
-				DeltaY = Math.Abs(Math.Cos(Ang));
-				DeltaX = Math.Abs(Math.Sin(Ang));
-				break;
-			case 2:
-				DeltaY = Math.Abs(Math.Cos(Ang));
-				DeltaX = Math.Abs(Math.Abs(1 / Math.Cos(Ang)) - Math.Abs(Math.Sin(Ang)));
-				break;
-			case 3:
-				DeltaY = Math.Abs(Math.Sin(Ang));
-				DeltaX = Math.Abs(Math.Cos(Ang));
-				break;
-		}
 		if(XDir != YDir)
 		{
 			Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
@@ -281,5 +224,79 @@ while()
 		line += Math.Round(Dist, 8) + ",";
 		line += Math.Round(Gap, 8);
 	}
+}
+*/
+	    	/*
+	private static string GetText(double[] point, double[] extents)
+        {
+            var pt = Reframe(point, extents);
+            return
+                Angle(pt) + "," +
+                OriginX(pt) + "," +
+                OriginY(pt) + "," +
+                ShiftX(pt) + "," +
+                ShiftY(pt) + "," +
+                Length(pt) + "," +
+                Gap(pt);
+        }
+        private static double Angle(double[] line) { return Math.Round(180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI); }
+        private static double OriginX(double[] line) { return Math.Round(line[0], 6); }
+        private static double OriginY(double[] line) { return Math.Round(line[0], 6); }
+        private static double ShiftX(double[] line)
+        {
+            var H = Math.Sqrt(2);
+            var dir = Angle(line);
+            var ang = 45 - dir;
+            var X = H * Math.Cos(ang * Math.PI / 180);
+            return X == 0 ? H : X;
+        }
+        private static double ShiftY(double[] line)
+        {
+            var H = Math.Sqrt(2);
+            var dir = Angle(line);
+            var ang = 45 - dir;
+            var Y = H * Math.Sin(ang * Math.PI / 180);
+            return Y == 0 ? H : Y;
+        }
+        private static double Gap(double[] line)
+        {
+            var ang = Math.Atan2(line[3] - line[1], line[2] - line[0]);
+            var a2 = ang * Math.PI / 180;
+            if (a2 == 0 || a2 == 90 || a2 == -90)
+                return Length(line) - 1;
+
+            var yprime = Math.Abs(Math.Tan(ang));
+            var zy = LCM(yprime, 1);
+            var hyp1 = zy / Math.Abs(Math.Sin(ang));
+
+            var xprime = 1 / Math.Abs(Math.Tan(ang));
+            var zx = LCM(xprime, 1);
+            var hyp2 = zx / Math.Abs(Math.Cos(ang));
+            
+            return hyp1 < hyp2 ? Length(line) - hyp1 : Length(line) - hyp2;
+        }
+        private static double Length(double[] point)
+        {
+            var x = (point[2] - point[0]) * (point[2] - point[0]);
+            var y = (point[3] - point[1]) * (point[3] - point[1]);
+            return Math.Round(Math.Sqrt(x + y), 6);
+        }
+        public static double GCD(double a, double b)
+        {
+            return b == 0 ? a : GCD(b, a % b);
+        }
+        public static double LCM(double a, double b)
+        {
+            return a > b ?
+                (a * b) / GCD(a, b) : 
+                (a * b) / GCD(b, a);
+        }
+        private static int[] CreateIntegers(double x, double y, int z = 0)
+        {
+            return x % 10 == 0 && y % 10 == 0 ?
+                new int[3] {(int)(x / 10), (int)(y / 10), z - 1} :
+                CreateIntegers(x * 10, y * 10, z++);
+        }
+    }
 }
 */
