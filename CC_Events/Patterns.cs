@@ -95,10 +95,12 @@ namespace CC_Plugin
         }
         private static string GetText(double[] _Line, double[] extents)
         {
-	    	var ln = Reframe(_Line, extents);
-		    var Dist = Length(ln);
-		    var AngTo = Angle(ln);
-		    var AngFrom = InvAngle(ln);
+			string line = "";
+			
+		    var ln = Reframe(_Line, extents);
+			var Dist = Length(ln);
+			var AngTo = Angle(ln);
+			var AngFrom = InvAngle(ln);
 			
 	    	bool IsValid = false;
 		    var DeltaX = 0;
@@ -117,8 +119,8 @@ namespace CC_Plugin
 			var AngZone = Math.Floor(Ang / (Math.PI / 4));
 			var XDir = Math.Abs(pt2.X - pt1.X);
 			var YDir = Math.Abs(pt2.Y - pt1.Y);
-			var Factor = 1;
-			var RF = 1;
+			double Factor = 1;
+			double RF = 1;
 			
 			Switch(AngZone)
 			{
@@ -140,6 +142,68 @@ namespace CC_Plugin
 					DeltaX = Math.Abs(Math.Cos(Ang));
 					break;
 			}
+			if(XDir != YDir)
+			{
+				double Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
+				RF = Ratio * Factor;
+				var Scaler = XDir < YDir ? 1 / XDir : 1 / YDir;
+				if(Ratio % 1 > 0.001)
+				{
+					While(Factor <= 100 && RF % 1 > 0.001 && 1 - RF % 1 > 0.001)
+					{
+						Factor++;
+						RF = Ratio * Factor;
+					}
+					if(Factor > 1 && Factor <= 100)
+					{
+						var AB = XDir * Scaler * Factor;
+						var BC = YDir * Scaler * Factor;
+						var AC = Math.Sqrt((AB * AB) + (BC * BC))
+						var EF = 1;
+						double x = 1;
+						While(x < AB - 0.5)
+						{
+							var y = x * YDir / XDir;
+							var h = Ang < pi / 2 ? 1 - (y % 1) : y % 1;
+
+							if(h < EF)
+							{
+								var AD = x;
+								var DE = y;
+								var AE = Math.Sqrt((x * x) + (y * y));
+								var EF = h;
+							}
+							x++;
+						}
+
+						if(EF < 1)
+						{
+							var EH = BC * EF / AC;
+							var FH = AB * EF / AC;
+							DeltaX = Ang > Math.PI / 2 ? AE - EH : AE + EH;
+							DeltaY = FH;
+							Gap = Dist - AC;
+							IsValid = true;
+						}
+					}
+				}
+				if(Factor == 1)
+				{
+					Gap = Dist - Math.Abs(Factor * 1 / DeltaY);
+					IsValid = true;
+				}
+			}
+			if(IsValid)
+			{
+				line += Math.Round(AngTo * 180 / Math.PI, 6) + ",";
+				line += Math.Round(X, 8) + ",";
+				line += Math.Round(Y, 8) + ",";
+				line += Math.Round(DeltaX, 8) + ",";
+				line += Math.Round(DeltaY, 8) + ",";
+				line += Math.Round(Dist, 8) + ",";
+				line += Math.Round(Gap, 8);
+			}
+			return line;
         }
 
 	private static double Length(double[] Line)
@@ -150,83 +214,7 @@ namespace CC_Plugin
         }
         private static double Angle(double[] line) { return 180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI; }
 	private static double InvAngle(double[] line) { return 180 * Math.Atan2(line[1] - line[3], line[0] - line[2]) / Math.PI; }
-/*
-while()
-{
-	if(EntType == "POINT")
-	{
-		pt1 = dxf 10 EntInfo;
-		FileLine = "0," X "," Y ",0,1,0,-1";
-		print "\n" FileLine;
-	}
-	if(EntType == "LINE")
-	{
-		if(XDir != YDir)
-		{
-			Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
-			RF = Ratio * Factor;
-			Scaler = XDir < YDir ? 1 / XDir : 1 / YDir;
-
-			if(Ratio % 1 > 0.001)
-			{
-				While(Factor <= 100 && RF % 1 > 0.001)
-				{
-					Factor++;
-					RF = Ratio * Factor;
-				}
-				if(Factor > 1 && Factor <= 100)
-				{
-					AB = XDir * Scaler * Factor;
-					BC = YDir * Scaler * Factor;
-					AC = Math.Sqrt((AB * AB) + (BC * BC))
-					EF = 1;
-					x = 1;
-					While(x < AB - 0.5)
-					{
-						y = x * YDir / XDir;
-						h = Ang < pi / 2 ? 1 - (y % 1) : y % 1;
-
-						if(h < EF)
-						{
-							AD = x;
-							DE = y;
-							AE = Math.Sqrt((x * x) + (y * y));
-							EF = h;
-						}
-						x++;
-					}
-
-					if(EF < 1)
-					{
-						EH = BC * EF / AC;
-						FH = AB * EF / AC;
-						DeltaX = Ang > Math.PI / 2 ? AE - EH : AE + EH;
-						DeltaY = FH;
-						Gap = Dist - AC;
-						IsValid = true;
-					}
-				}
-			}
-			if(Factor == 1)
-			{
-				Gap = Dist - Math.Abs(Factor * 1 / DeltaY);
-				IsValid = true;
-			}
-		}
-	}
-	if(IsValid)
-	{
-		string line = Math.Round(AngTo * 180 / Math.PI, 6) + ",";
-		line += Math.Round(X, 8) + ",";
-		line += Math.Round(Y, 8) + ",";
-		line += Math.Round(DeltaX, 8) + ",";
-		line += Math.Round(DeltaY, 8) + ",";
-		line += Math.Round(Dist, 8) + ",";
-		line += Math.Round(Gap, 8);
-	}
-}
-*/
-	    	/*
+   	/*
 	private static string GetText(double[] point, double[] extents)
         {
             var pt = Reframe(point, extents);
