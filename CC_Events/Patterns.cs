@@ -108,22 +108,36 @@ namespace CC_Plugin
         private static double Angle(double[] line) { return Math.Round(180 * Math.Atan2(line[3] - line[1], line[2] - line[0]) / Math.PI); }
         private static double OriginX(double[] line) { return Math.Round(line[0], 6); }
         private static double OriginY(double[] line) { return Math.Round(line[0], 6); }
-        private static double ShiftX(double[] line) { return Math.Sin(Angle(line) * Math.PI / 180) == 0 ? 1 : Math.Round(Math.Sin(Angle(line) * Math.PI / 180), 6); }
-        private static double ShiftY(double[] line) { return Math.Cos(Angle(line) * Math.PI / 180) == 0 ? 1 : Math.Round(Math.Cos(Angle(line) * Math.PI / 180), 6); }
+        private static double ShiftX(double[] line)
+        {
+            var H = Math.Sqrt(2);
+            var dir = Angle(line);
+            var ang = 45 - dir;
+            var X = H * Math.Cos(ang * Math.PI / 180);
+            return X == 0 ? H : X;
+        }
+        private static double ShiftY(double[] line)
+        {
+            var H = Math.Sqrt(2);
+            var dir = Angle(line);
+            var ang = 45 - dir;
+            var Y = H * Math.Sin(ang * Math.PI / 180);
+            return Y == 0 ? H : Y;
+        }
         private static double Gap(double[] line)
         {
             var ang = Math.Atan2(line[3] - line[1], line[2] - line[0]);
             var a2 = ang * Math.PI / 180;
             if (a2 == 0 || a2 == 90 || a2 == -90)
                 return Length(line) - 1;
-            
-            var yprime = Math.Tan(ang);
+
+            var yprime = Math.Abs(Math.Tan(ang));
             var zy = LCM(yprime, 1);
-            var hyp1 = zy / Math.Sin(ang);
-            
-            var xprime = 1 / Math.Tan(ang);
+            var hyp1 = zy / Math.Abs(Math.Sin(ang));
+
+            var xprime = 1 / Math.Abs(Math.Tan(ang));
             var zx = LCM(xprime, 1);
-            var hyp2 = zx / Math.Cos(ang);
+            var hyp2 = zx / Math.Abs(Math.Cos(ang));
             
             return hyp1 < hyp2 ? Length(line) - hyp1 : Length(line) - hyp2;
         }
@@ -139,10 +153,9 @@ namespace CC_Plugin
         }
         public static double LCM(double a, double b)
         {
-            var ints = CreateIntegers(a, b);
             return a > b ?
-                (ints[0] * ints[1]) / GCD(ints[0], ints[1]) : 
-                (ints[0] * ints[1]) / GCD(ints[1], ints[0]);
+                (a * b) / GCD(a, b) : 
+                (a * b) / GCD(b, a);
         }
         private static int[] CreateIntegers(double x, double y, int z = 0)
         {
