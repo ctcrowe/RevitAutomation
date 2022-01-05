@@ -165,3 +165,121 @@ namespace CC_Plugin
         }
     }
 }
+
+/*
+while()
+{
+	if(EntType == "POINT")
+	{
+		pt1 = dxf 10 EntInfo;
+		FileLine = "0," X "," Y ",0,1,0,-1";
+		print "\n" FileLine;
+	}
+	if(EntType == "LINE")
+	{
+		pt1 = dxf 10 EntInfo;
+		pt2 = dxf 11 EntInfo;
+		Dist = Distance(pt1, pt2);
+		AngTo = angle(pt1, pt2);
+		AngFrom = angle(pt2, pt1);
+		IsValid = false;
+
+		if(pt1.X == pt2.X || pt1.Y == pt2.Y)
+		{
+			DeltaX = 0;
+			DeltaY = 1;
+			Gap = Dist - 1;
+			IsValid = true;
+		}
+		
+		Ang = AngTo < pi ? AngTo : AngFrom;
+		AngZone = Math.Floor(Ang / (Math.PI / 4));
+		XDir = Math.Abs(pt2.X - pt1.X);
+		YDir = Math.Abs(pt2.Y - pt1.Y);
+		Factor = 1;
+		RF = 1;
+
+		Switch(AngZone)
+		{
+			case 0:
+				DeltaY = Math.Abs(Sin(Ang));
+				DeltaX = Math.Abs(Math.Abs(1 / Math.Sin(Ang)) - Math.Abs(Math.Cos(Ang)));
+				break;
+			case 1:
+				DeltaY = Math.Abs(Math.Cos(Ang));
+				DeltaX = Math.Abs(Math.Sin(Ang));
+				break;
+			case 2:
+				DeltaY = Math.Abs(Math.Cos(Ang));
+				DeltaX = Math.Abs(Math.Abs(1 / Math.Cos(Ang)) - Math.Abs(Math.Sin(Ang)));
+				break;
+			case 3:
+				DeltaY = Math.Abs(Math.Sin(Ang));
+				DeltaX = Math.Abs(Math.Cos(Ang));
+				break;
+		}
+		if(XDir != YDir)
+		{
+			Ratio = XDir < YDir ? YDir / XDir : XDir / YDir;
+			RF = Ratio * Factor;
+			Scaler = XDir < YDir ? 1 / XDir : 1 / YDir;
+
+			if(Ratio % 1 > 0.001)
+			{
+				While(Factor <= 100 && RF % 1 > 0.001)
+				{
+					Factor++;
+					RF = Ratio * Factor;
+				}
+				if(Factor > 1 && Factor <= 100)
+				{
+					AB = XDir * Scaler * Factor;
+					BC = YDir * Scaler * Factor;
+					AC = Math.Sqrt((AB * AB) + (BC * BC))
+					EF = 1;
+					x = 1;
+					While(x < AB - 0.5)
+					{
+						y = x * YDir / XDir;
+						h = Ang < pi / 2 ? 1 - (y % 1) : y % 1;
+
+						if(h < EF)
+						{
+							AD = x;
+							DE = y;
+							AE = Math.Sqrt((x * x) + (y * y));
+							EF = h;
+						}
+						x++;
+					}
+
+					if(EF < 1)
+					{
+						EH = BC * EF / AC;
+						FH = AB * EF / AC;
+						DeltaX = Ang > Math.PI / 2 ? AE - EH : AE + EH;
+						DeltaY = FH;
+						Gap = Dist - AC;
+						IsValid = true;
+					}
+				}
+			}
+			if(Factor == 1)
+			{
+				Gap = Dist - Math.Abs(Factor * 1 / DeltaY);
+				IsValid = true;
+			}
+		}
+	}
+	if(IsValid)
+	{
+		string line = Math.Round(AngTo * 180 / Math.PI, 6) + ",";
+		line += Math.Round(X, 8) + ",";
+		line += Math.Round(Y, 8) + ",";
+		line += Math.Round(DeltaX, 8) + ",";
+		line += Math.Round(DeltaY, 8) + ",";
+		line += Math.Round(Dist, 8) + ",";
+		line += Math.Round(Gap, 8);
+	}
+}
+*/
