@@ -49,6 +49,7 @@ namespace CC_Plugin
                     args.Application.SetMasterformat(text);
                     break;
                 case "Occupant Load Factor":
+                    args.Application.SetOLF(text);
                     break;
             }
         }
