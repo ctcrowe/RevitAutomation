@@ -69,7 +69,7 @@ namespace CC_Plugin
         {
             var pt = Reframe(point, extents);
             return
-                GetAngle(pt) + "," +
+                Angle(pt) + "," +
                 OriginX(pt) + "," +
                 OriginY(pt) + "," +
                 ShiftX(pt) + "," +
@@ -86,7 +86,7 @@ namespace CC_Plugin
             var minx = extents[0];
             var miny = extents[1];
 
-            var ang = GetAngle(point);
+            var ang = Angle(point);
             if(ang > 90 || ang < -90)
             {
                 return new double[4]
@@ -114,7 +114,7 @@ namespace CC_Plugin
         {
             var ang = Math.Atan2(line[3] - line[1], line[2] - line[0]);
             var a2 = ang * Math.PI / 180;
-            if (a2 == 0 || a2 90 || a2 == -90)
+            if (a2 == 0 || a2 == 90 || a2 == -90)
                 return Length(line) - 1;
             
             var yprime = Math.Tan(ang);

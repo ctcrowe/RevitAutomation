@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
 using CC_Library;
@@ -130,7 +131,7 @@ namespace CC_Plugin
                 {
                     t.Start();
                     Element e = r as Element;
-                    e.Set(Params.OLF, text);
+                    e.Set(Params.OccupantLoadFactor, text);
                     t.Commit();
                 }
             }
