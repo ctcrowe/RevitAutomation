@@ -79,7 +79,7 @@
     <Compile Include="Families\FamilyUnpack.cs" />
     <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
-    <Compile Include="Patterns.cs" />
+    <Compile Include="Patterns\Patterns.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneTypeUpdater.cs" />
     <Compile Include="Automation\RefPlanes\PlaneTypeUpdater.cs" />

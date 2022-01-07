@@ -68,7 +68,7 @@ namespace CC_Library.Predictions
 
                 net.Save();
                 a.Network.Save();
-                ctxt.Network.Save(Datatype.Masterformat);
+                ctxt.Network.Save(Datatype.OccupantLoadFactor);
 
                 error = 0;
                 Parallel.For(0, Samples.Count(), j =>
