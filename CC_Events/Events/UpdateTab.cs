@@ -34,6 +34,12 @@ namespace CC_Plugin
             ComboBox box = Panel.AddItem(cbd) as ComboBox;
             box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
             box.AddItem(new ComboBoxMemberData("Occupant Load Factor", "Occupant Load Factor"));
+            PushButtonData OLFButtonData = new PushButtonData(
+                "Update OLF",
+                "Update OLF",
+                @dllpath,
+                "CC_Plugin.SetOLF");
+            PushButton PBOccLoadFactor = Panel.AddItem(OLFButtonData) as PushButton;
         }
         private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
         {

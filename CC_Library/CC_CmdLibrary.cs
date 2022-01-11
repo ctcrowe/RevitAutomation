@@ -13,6 +13,7 @@ using CC_Library.Datatypes;
 
 namespace CC_Library
 {
+    public delegate string WriteToCMDLine(string s);
     public static class CMDLibrary
     {
         public static double[,] Ones(this double[,] Similar)

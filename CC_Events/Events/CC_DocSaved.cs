@@ -8,11 +8,11 @@ namespace CC_Plugin
     {
         public static void SavedEvent(object sender, DocumentSavedEventArgs args)
         {
-            SaveFamilyClass.Main(args.Document);
+            MFSaveFamily.Main(args.Document);
         }
         public static void SavedAsEvent(object sender, DocumentSavedAsEventArgs args)
         {
-            SaveFamilyClass.Main(args.Document);
+            MFSaveFamily.Main(args.Document);
         }
         public static Result OnStartup(UIControlledApplication app)
         {

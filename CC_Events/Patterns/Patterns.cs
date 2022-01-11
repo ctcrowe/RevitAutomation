@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System.Windows.Forms;
+
+using CC_Library;
 using CC_Library.Datatypes;
 
 namespace CC_Plugin
@@ -12,10 +15,32 @@ namespace CC_Plugin
     //Reframe the hatch from 0 to 1, include a comment that tells the user what to scale it to!!!!
     public class HatchEditor
     {
+        private static string write(string s)
+        {
+            TaskDialog.Show("Output", s);
+            return s;
+        }
         public static void EditHatch(Document doc)
         {
             var v = doc.ActiveView;
             var lines = new FilteredElementCollector(doc, v.Id).OfCategory(BuiltInCategory.OST_Lines).ToElementIds().ToList();
+
+            Pattern p = new Pattern();
+            for(int i = 0; i < lines.Count(); i++)
+            {
+                var line = doc.GetElement(lines[i]) as DetailLine;
+                if (line != null)
+                {
+                    p.AddLine(new double[4]
+                    {
+                        line.GeometryCurve.GetEndPoint(0).X,
+                        line.GeometryCurve.GetEndPoint(0).Y,
+                        line.GeometryCurve.GetEndPoint(1).X,
+                        line.GeometryCurve.GetEndPoint(1).Y
+                    });
+                }
+            }
+            p.CreatePattern(write);
             List<double[]> points = new List<double[]>();
             for (int i = 0; i < lines.Count(); i++)
             {
@@ -23,10 +48,10 @@ namespace CC_Plugin
                 if (line != null)
                 {
                     var pt = new double[4];
-                    pt[0] = Math.Round(line.GeometryCurve.GetEndPoint(0).X, 6);
-                    pt[1] = Math.Round(line.GeometryCurve.GetEndPoint(0).Y, 6);
-                    pt[2] = Math.Round(line.GeometryCurve.GetEndPoint(1).X, 6);
-                    pt[3] = Math.Round(line.GeometryCurve.GetEndPoint(1).Y, 6);
+                    pt[0] = Math.Round(line.GeometryCurve.GetEndPoint(0).X, 3);
+                    pt[1] = Math.Round(line.GeometryCurve.GetEndPoint(0).Y, 3);
+                    pt[2] = Math.Round(line.GeometryCurve.GetEndPoint(1).X, 3);
+                    pt[3] = Math.Round(line.GeometryCurve.GetEndPoint(1).Y, 3);
                     points.Add(pt);
                 }
             }
@@ -76,6 +101,7 @@ namespace CC_Plugin
 
             var minx = extents[0];
             var miny = extents[1];
+
             return new double[4]
             {
                 (point[0] - minx) / max,

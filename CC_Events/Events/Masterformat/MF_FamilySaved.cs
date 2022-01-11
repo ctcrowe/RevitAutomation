@@ -8,7 +8,7 @@ using CC_Library;
 
 namespace CC_Plugin
 {
-    internal static class SaveFamilyClass
+    internal static class MFSaveFamily
     {
         public static void SaveFamily(this string fp, string prefix = "test")
         {
@@ -40,16 +40,8 @@ namespace CC_Plugin
                         prefix = "Pro";
                         break;
                 }
-                string folder = "CC_Families".GetMyDocs().GetDir();
                 string fp = doc.PathName;
-
-                var div = MasterformatNetwork.Predict(fp.Split('\\').Last().Split('.').First(), new WriteToCMDLine(CMDLibrary.WriteNull));
-                string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
-                
-                string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
-                    SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
-                    SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
-                File.Copy(fp, nf, true);
+                fp.SaveFamily(prefix);
             }
         }
     }

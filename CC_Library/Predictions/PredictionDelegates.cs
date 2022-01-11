@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CC_Library;
 using CC_Library.Datatypes;
 
 
@@ -10,7 +11,6 @@ namespace CC_Library.Predictions
         (Dictionary<string, string[]> Entries,
         WriteToCMDLine write,
         Random random);
-    public delegate string WriteToCMDLine(string s);
     public delegate void WriteToOutput(List<string> s, string output);
     public delegate void Hold();
     public static class Delegates

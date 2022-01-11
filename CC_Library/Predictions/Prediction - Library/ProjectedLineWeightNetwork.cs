@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
+    //Use GeometryObject to get GraphicsStyleID
+    //Use GraphicsStyleID to get category
+    //Confirm if category is the subcategory or the parent category.
+    //learn the object style settings for the category if its the right category.
+    //learn the graphic overrides in the view for the category if its the right category.
+    //profit.
     class ProjectedLineWeightNetwork : INetworkPredUpdater
     {
         public Datatype datatype { get { return Datatype.ProjectedLineWeight; } }
