@@ -10,12 +10,12 @@ using System.Runtime.InteropServices;
 
 namespace CC_Library
 {
-    public class Pattern
+    public class DrawnPattern
     {
         private List<double[]> Lines;
         private double[] Extents;
         private double scalar;
-        public Pattern()
+        public DrawnPattern()
         {
             this.Extents = new double[4]
             { double.MaxValue, double.MaxValue, double.MinValue, double.MinValue};

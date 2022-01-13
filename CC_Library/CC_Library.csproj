@@ -67,7 +67,9 @@
     <Compile Include="Parameters\ParamType.cs" />
     <Compile Include="Parameters\Params_Project.cs" />
     <Compile Include="Parameters\Subcategory.cs" />
-    <Compile Include="Patterns\Pattern.cs" />
+    <Compile Include="Patterns\BrickPattern.cs" />
+    <Compile Include="Patterns\DrawnPattern.cs" />
+    <Compile Include="Patterns\HerringbonePattern.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
     <Compile Include="Predictions\INetworkPredUpdater.cs" />

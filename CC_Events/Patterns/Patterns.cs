@@ -25,7 +25,7 @@ namespace CC_Plugin
             var v = doc.ActiveView;
             var lines = new FilteredElementCollector(doc, v.Id).OfCategory(BuiltInCategory.OST_Lines).ToElementIds().ToList();
 
-            Pattern p = new Pattern();
+            DrawnPattern p = new DrawnPattern();
             for(int i = 0; i < lines.Count(); i++)
             {
                 var line = doc.GetElement(lines[i]) as DetailLine;

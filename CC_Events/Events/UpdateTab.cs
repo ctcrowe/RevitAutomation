@@ -34,6 +34,8 @@ namespace CC_Plugin
             ComboBox box = Panel.AddItem(cbd) as ComboBox;
             box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
             box.AddItem(new ComboBoxMemberData("Occupant Load Factor", "Occupant Load Factor"));
+            box.AddItem(new ComboBoxMemberData("Brick Pattern", "Brick Pattern"));
+            box.AddItem(new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern"));
             PushButtonData OLFButtonData = new PushButtonData(
                 "Update OLF",
                 "Update OLF",
@@ -57,6 +59,13 @@ namespace CC_Plugin
                 case "Occupant Load Factor":
                     args.Application.SetOLF(text);
                     break;
+                case "Brick Pattern":
+                    combotype.CreatePattern(text);
+                    break;
+                case "Herringbone Pattern":
+                    combotype.CreatePattern(text);
+                    break;
+
             }
         }
         private static string GetComboData(this UIApplication app)
@@ -141,6 +150,27 @@ namespace CC_Plugin
                     e.Set(Params.OccupantLoadFactor, text);
                     t.Commit();
                 }
+            }
+        }
+    }
+    public static class CMD_CreatePatterns
+    {
+        public static void CreatePattern(this string combotype, string text)
+        {
+            var numbs = text.Split(',');
+            double width = double.TryParse(numbs[0], out double a) ? a : 4;
+            double height = numbs.Count() >= 2 ? double.TryParse(numbs[1], out double b) ? b : 2 : 2;
+            double grout = numbs.Count() >= 3 ? double.TryParse(numbs[2], out double c) ? c : 0 : 0;
+            int ratio = numbs.Count() >= 4 ? int.TryParse(numbs[3], out int d) ? d : 2 : 2;
+            switch (combotype)
+            {
+                default:
+                case "Brick Pattern":
+                    BrickPattern.CreatePattern(width, height, grout, ratio);
+                    break;
+                case "Herringbone Pattern":
+                    HerringbonePattern.CreatePattern(width, height);
+                    break;
             }
         }
     }
