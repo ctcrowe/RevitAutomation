@@ -9,10 +9,10 @@ namespace CC_Library.Predictions
     public class OLFNetwork
     {
         private const double dropout = 0.1;
-        public static Datatype datatype { get { return Datatype.OccupantLoadFactor; } }
+        public static Datatype datatype { get { return Datatype.Command; } }
         public static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
-            var size = Enum.GetNames(typeof(OccLoadFactor)).Length;
+            var size = Enum.GetNames(typeof(Command)).Length;
             NeuralNetwork net = datatype.LoadNetwork(write);
             if (net.Datatype == Datatype.None)
             {
@@ -68,7 +68,7 @@ namespace CC_Library.Predictions
 
                 net.Save();
                 a.Network.Save();
-                ctxt.Network.Save(Datatype.OccupantLoadFactor);
+                ctxt.Network.Save(datatype);
 
                 error = 0;
                 Parallel.For(0, Samples.Count(), j =>
