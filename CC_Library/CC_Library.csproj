@@ -70,6 +70,7 @@
     <Compile Include="Patterns\BrickPattern.cs" />
     <Compile Include="Patterns\DrawnPattern.cs" />
     <Compile Include="Patterns\HerringbonePattern.cs" />
+    <Compile Include="Predictions\Prediction - Library\CommandNetwork.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
     <Compile Include="Predictions\INetworkPredUpdater.cs" />

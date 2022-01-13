@@ -3,6 +3,8 @@
     public enum Command
     {
         LoadFamily,
-        SetParameter
+        SetParameter,
+        BrickPattern,
+        HerringbonePattern
     }
 }
