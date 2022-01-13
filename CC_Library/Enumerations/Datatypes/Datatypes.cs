@@ -25,6 +25,7 @@
         StonkContext,
         MaxValue,
         MinValue,
-        AAPL
+        AAPL,
+        Command
     }
 }
