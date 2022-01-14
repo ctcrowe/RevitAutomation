@@ -61,13 +61,12 @@ namespace CC_Plugin
                     args.Application.SetOLF(text);
                     break;
                 case "Brick Pattern":
-                    combotype.CreatePattern(text);
-                    break;
                 case "Herringbone Pattern":
+                    combotype.CreatePattern(text);
                     combotype.CreatePattern(text);
                     break;
                 case "Command Training":
-                    combotype.CreatePattern(text);
+                    combotype.WriteCommandInfo(text);
                     break;
 
             }
