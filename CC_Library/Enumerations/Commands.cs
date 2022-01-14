@@ -3,8 +3,8 @@
     public enum Command
     {
         Unknown = 0,
-        LoadFamily = 1,
-        SetParameter = 2,
+        SetMasterformat = 1,
+        SetOLF = 2,
         BrickPattern = 3,
         HerringbonePattern = 4
     }
