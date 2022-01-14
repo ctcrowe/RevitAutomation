@@ -2,6 +2,7 @@
 {
     public enum Command
     {
+        Unknown,
         LoadFamily,
         SetParameter,
         BrickPattern,
