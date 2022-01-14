@@ -36,6 +36,7 @@ namespace CC_Plugin
             box.AddItem(new ComboBoxMemberData("Occupant Load Factor", "Occupant Load Factor"));
             box.AddItem(new ComboBoxMemberData("Brick Pattern", "Brick Pattern"));
             box.AddItem(new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern"));
+            box.AddItem(new ComboBoxMemberData("Command Training", "Command Training"));
             PushButtonData OLFButtonData = new PushButtonData(
                 "Update OLF",
                 "Update OLF",
@@ -63,6 +64,9 @@ namespace CC_Plugin
                     combotype.CreatePattern(text);
                     break;
                 case "Herringbone Pattern":
+                    combotype.CreatePattern(text);
+                    break;
+                case "Command Training":
                     combotype.CreatePattern(text);
                     break;
 
@@ -172,6 +176,19 @@ namespace CC_Plugin
                     HerringbonePattern.CreatePattern(width, height);
                     break;
             }
+        }
+    }
+    public static class CMD_ReadWriteCommandInfo
+    {
+        public static void WriteCommandInfo(this string combotype, string text)
+        {
+            var vals[] = text.Split(',');
+            Sample s = new Sample(Datatype.Command);
+            s.TextInput = vals[0];
+            var output = new double[Enum.GetNames(typeof(Command)).Count()];
+            output[int.Parse(vals[1])] = 1;
+            s.DesiredOutput = output;
+            CMDNetwork.Propogate(s, CMDLibrary.WriteNull, true);
         }
     }
     public class EleSelectionFilter : ISelectionFilter
