@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using CC_Library.Datatypes;
 using System.Threading.Tasks;
 
 namespace CC_Library.Predictions
 {
-    public class OLFNetwork
+    public class CmdNetwork
     {
         private const double dropout = 0.1;
         public static Datatype datatype { get { return Datatype.Command; } }
