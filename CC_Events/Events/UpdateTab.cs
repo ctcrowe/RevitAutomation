@@ -6,6 +6,7 @@ using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
 using CC_Library;
+using CC_Library.Datatypes;
 using CC_Library.Parameters;
 using CC_Library.Predictions;
 using CC_Plugin.Parameters;
@@ -181,13 +182,13 @@ namespace CC_Plugin
     {
         public static void WriteCommandInfo(this string combotype, string text)
         {
-            var vals[] = text.Split(',');
+            var vals = text.Split(',');
             Sample s = new Sample(Datatype.Command);
             s.TextInput = vals[0];
             var output = new double[Enum.GetNames(typeof(Command)).Count()];
             output[int.Parse(vals[1])] = 1;
             s.DesiredOutput = output;
-            CMDNetwork.Propogate(s, CMDLibrary.WriteNull, true);
+            CmdNetwork.Propogate(s, CMDLibrary.WriteNull, true);
         }
     }
     public class EleSelectionFilter : ISelectionFilter
