@@ -182,19 +182,22 @@ namespace CC_Plugin
     {
         public static void WriteCommandInfo(this string combotype, string text)
         {
+            var names = Enum.GetNames(typeof(Commands)).ToList();
             var vals = text.Split(',');
             List<string> Lines = new List<string>();
             lines.Add("Datatype Command");
             lines.Add(DateTime.Now.ToString("yyyyMMddhhmmss"));
             lines.Add(vals[0]);
-            if(int.TryParse(vals[1], out int x))
-                if(
-            Sample s = new Sample(Datatype.Command);
-            s.TextInput = vals[0];
-            var output = new double[Enum.GetNames(typeof(Command)).Count()];
-            output[int.Parse(vals[1])] = 1;
-            s.DesiredOutput = output;
-            CmdNetwork.Propogate(s, CMDLibrary.WriteNull, true);
+            var val = int.TryParse(vals[1], out int x) ? int.Parse(vals[1]) < names.Count() ?
+                int.Parse(vals[1]) : names.Contains(vals[1]) ? names.IndexOf(Lines[3]) : null;
+            if(val != null)
+            {
+                lines.Add(val.ToString());
+                var ID = Guid.NewGuid().ToString();
+                var fn = ID;
+                File.WriteAllLines(fn, lines);
+                CmdNetwork.Propogate(fn, CMDLibrary.WriteNull, true);
+            }
         }
     }
     public class EleSelectionFilter : ISelectionFilter
