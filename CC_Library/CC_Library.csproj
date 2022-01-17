@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\Uniformat.cs" />
     <Compile Include="Enumerations\Datatypes\CountDatatype.cs" />
     <Compile Include="Enumerations\Datatypes\CreateCSVInputData.cs" />
     <Compile Include="Enumerations\Datatypes\CreateDataFolder.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Patterns\DrawnPattern.cs" />
     <Compile Include="Patterns\HerringbonePattern.cs" />
     <Compile Include="Predictions\Prediction - Library\CommandNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\UniformatNetwork.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
     <Compile Include="Predictions\INetworkPredUpdater.cs" />
@@ -114,11 +116,8 @@
     <Compile Include="Predictions\RunPredictions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Alpha.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_AlphaContextPrimary_Masterformat.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\NeuralNet_Masterformat.bin" />
+    <Folder Include="Predictions\BinaryFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

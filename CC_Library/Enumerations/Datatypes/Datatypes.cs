@@ -26,6 +26,7 @@
         MaxValue,
         MinValue,
         AAPL,
+        Uniformat,
         Command
     }
 }

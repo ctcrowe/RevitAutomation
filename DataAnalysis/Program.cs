@@ -32,19 +32,7 @@ namespace DataAnalysis
                         default:
                             break;
                         case "TRAIN":
-                            Console.WriteLine("Enter a Datatype to Predict");
-                            string tl2 = Console.ReadLine();
-                            switch (tl2)
-                            {
-                                default:
-                                case "Masterformat":
-                                case "MASTERFORMAT":
-                                    Datasets.RunPredictions(new WriteToCMDLine(Write));
-                                    break;
-                                case "AAPL":
-                                case "APPLE":
-                                    break;
-                            }
+                            Datasets.RunPredictions(new WriteToCMDLine(Write));
                             break;
                         case "SORT":
                             Datatype.Masterformat.Sort();
