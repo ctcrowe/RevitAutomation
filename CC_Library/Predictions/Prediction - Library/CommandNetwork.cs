@@ -36,11 +36,12 @@ namespace CC_Library.Predictions
             return Results;
         }
         public static double Propogate
-            (Sample s, WriteToCMDLine write, bool tf = false)
+            (string fn, WriteToCMDLine write, bool tf = false)
         {
             double error = 0;
-            var Pred = Predict(s.TextInput, CMDLibrary.WriteNull);
-            if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != Pred.ToList().IndexOf(Pred.Max()) || tf)
+            var s = GetIO(fn);
+            var Pred = Predict(s.Key, CMDLibrary.WriteNull);
+            if (s.Value != Pred.ToList().IndexOf(Pred.Max()) || tf)
             {
                 NeuralNetwork net = GetNetwork(write);
                 var Samples = s.ReadSamples(24);
@@ -82,6 +83,26 @@ namespace CC_Library.Predictions
                 s.Save();
             }
             return error;
+        }
+        private static KeyValuePair<string, int> GetIO (string fn)
+        {
+            // Lines[0] = Datatype Command
+            // Lines[1] = DateTime.Now("yyyyMMddhhmmss")
+            // Lines[2] = input
+            // Lines[3] = output
+            if(File.Exists(fn))
+            {
+                var lines = File.ReadAllLines(fn);
+                if(lines[0] == "Datatype Command")
+                {
+                    var names = Enum.GetNames(typeof(Commands)).ToList();
+                    var key = lines[2];
+                    var val = int.TryParse(Lines[3], out int x) ? int.Parse(Lines[3]) < names.Count() ? int.Parse(Lines[3]) :
+                        Enum.GetNames(typeof(Commands)).Contains(Lines[3]) ? Enum.GetNames(typeof(Commands)).IndexOf(Lines[3]) : null;
+                    return val == null ? null : new KeyValuePair<string, int> { key, val };
+                }
+            }
+            return null;
         }
     }
 }
