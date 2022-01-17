@@ -183,6 +183,12 @@ namespace CC_Plugin
         public static void WriteCommandInfo(this string combotype, string text)
         {
             var vals = text.Split(',');
+            List<string> Lines = new List<string>();
+            lines.Add("Datatype Command");
+            lines.Add(DateTime.Now.ToString("yyyyMMddhhmmss"));
+            lines.Add(vals[0]);
+            if(int.TryParse(vals[1], out int x))
+                if(
             Sample s = new Sample(Datatype.Command);
             s.TextInput = vals[0];
             var output = new double[Enum.GetNames(typeof(Command)).Count()];
