@@ -44,7 +44,7 @@ namespace CC_Library.Predictions
             if (s.Value != Pred.ToList().IndexOf(Pred.Max()) || tf)
             {
                 NeuralNetwork net = GetNetwork(write);
-                var Samples = s.ReadSamples(24);
+                var Samples = ReadVals(24);
                 Alpha a = new Alpha(write);
                 AlphaContext ctxt = new AlphaContext(datatype, write);
                 NetworkMem OLFMem = new NetworkMem(net);
@@ -103,6 +103,33 @@ namespace CC_Library.Predictions
                 }
             }
             return null;
+        }
+        private static Dictionary<string, int> ReadVals(KeyValuePair<string, int> keypair, int Count = 16)
+        {
+            var dict = new Dictionary<string, int>();
+            dict.Add(keypair.Key, keypair.Value);
+            private const string fname = "NetworkSamples";
+            private static string folder = fname.GetMyDocs();
+            if (Directory.Exists(folder))
+            {
+                string subfolder = folder + "\\Command";
+                if(Directory.Exists(subfolder))
+                {
+                    string[] Files = Directory.GetFiles(subfolder);
+                    if(Files.Any())
+                    {
+                        Random r = new Random();
+                        for(int i = 1; i < Count; i++)
+                        {
+                            var kvp = GetIO(Files[r.Next(Files.Count())]);
+                            if(kvp != null)
+                                if(!Dictionary.ContainsKey(kvp.Key))
+                                    Dictionary.Add(kvp.Key, kvp.Value);
+                        }
+                    }
+                }
+            }
+            return dict;
         }
     }
 }
