@@ -18,6 +18,14 @@ namespace CC_Library.Parameters
              ParamType.Area,
              true,
              true);
+        public static readonly Param Uniformat = new Param
+            ("Uniformat Division",
+            new Guid("187d8e6e7df1459cbefc95eca642660b"),
+            Subcategory.Generic,
+            ParamType.Text,
+            false,
+            true
+            );
         /*
         Add the below unfinished Params to Doors, Generic Models, and Stairs.
         */

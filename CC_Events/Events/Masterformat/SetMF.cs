@@ -122,6 +122,7 @@ namespace CC_Plugin
                     t.Start();
                     try { doc.AddParam(Params.Masterformat); } catch (Exception e) { e.OutputError(); }
                     try { doc.AddParam(Params.OccupantLoadFactor); } catch (Exception e) { e.OutputError(); }
+                    try { doc.AddParam(Params.Uniformat); } catch (Exception e) { e.OutputError(); }
                     t.Commit();
                 }
                 tg.Commit();
