@@ -50,6 +50,12 @@ namespace DataAnalysis
                                                 CmdNetwork.Propogate(Write);
                                             }
                                             break;
+                                        case Datatype.OccupantLoadFactor:
+                                            for(int i = 0; i < 1000; i++)
+                                            {
+                                                OLFNetwork.Propogate(Write);
+                                            }
+                                            break;
                                     }
                                     Console.WriteLine("Continue? Y / N");
                                     string cont = Console.ReadLine().ToUpper();
