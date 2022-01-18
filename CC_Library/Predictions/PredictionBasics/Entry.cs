@@ -72,6 +72,28 @@ namespace CC_Library.Predictions
             }
             return new Sample[1]{ s };
         }
+        public static Sample[] ReadSamples(this Datatype dt, int Count = 16)
+        {
+            if (Directory.Exists(folder))
+            {
+                string subfolder = folder + "\\" + s.Datatype;
+                if(Directory.Exists(subfolder))
+                {
+                    string[] Files = Directory.GetFiles(subfolder);
+                    if(Files.Any())
+                    {
+                        Random r = new Random();
+                        Sample[] output = new Sample[(Count > (Files.Count() + 1))? (Files.Count() + 1) : Count];
+                        for(int i = 1; i < output.Count(); i++)
+                        {
+                            output[i] = Files[r.Next(Files.Count())].ReadFromBinaryFile<Sample>();
+                        }
+                        return output;
+                    }
+                }
+            }
+            return new Sample[1]{ new Sample(dt) };
+        }
         public static void Save(this Sample s)
         {
             if (!Directory.Exists(folder))
