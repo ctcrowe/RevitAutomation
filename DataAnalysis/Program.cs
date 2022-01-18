@@ -11,7 +11,6 @@ namespace DataAnalysis
     {
         public static string Write(string wo)
         {
-            var time = DateTime.UtcNow - Process.GetCurrentProcess().StartTime.ToUniversalTime();
             Console.WriteLine(wo);
             return wo;
         }
@@ -46,6 +45,10 @@ namespace DataAnalysis
                                         case Datatype.Masterformat:
                                             break;
                                         case Datatype.Command:
+                                            for(int i = 0; i < 1000; i++)
+                                            {
+                                                CmdNetwork.Propogate(Write);
+                                            }
                                             break;
                                     }
                                     Console.WriteLine("Continue? Y / N");
