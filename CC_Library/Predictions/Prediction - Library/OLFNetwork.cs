@@ -41,7 +41,7 @@ namespace CC_Library.Predictions
         {
             double error = 0;
             NeuralNetwork net = GetNetwork(write);
-            var Samples = s.ReadSamples(24);
+            var Samples = datatype.ReadSamples(24);
             Alpha a = new Alpha(write);
             AlphaContext ctxt = new AlphaContext(datatype, write);
             NetworkMem OLFMem = new NetworkMem(net);
