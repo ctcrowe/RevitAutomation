@@ -40,6 +40,14 @@ namespace DataAnalysis
                                 try
                                 {
                                     Datatype datatype = Enum.Parse(dt, typeof(Datatype));
+                                    switch(datatype)
+                                    {
+                                        default:
+                                        case Datatype.Masterformat:
+                                            break;
+                                        case Datatype.Command:
+                                            break;
+                                    }
                                     Console.WriteLine("Continue? Y / N");
                                     string cont = Console.ReadLine().ToUpper();
                                     if(cont == "N")
