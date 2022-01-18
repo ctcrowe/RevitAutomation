@@ -64,6 +64,7 @@
     <Compile Include="CaptureWallTypes.cs" />
     <Compile Include="Events\FamilyReorginize.cs" />
     <Compile Include="Events\LineWeights.cs" />
+    <Compile Include="Events\Masterformat\UpdateMF.cs" />
     <Compile Include="Events\UpdateTab.cs" />
     <Compile Include="Events\Masterformat\AddMF.cs" />
     <Compile Include="Events\OccLoadFactor\CMD_SetOLF.cs" />
