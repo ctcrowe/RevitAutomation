@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using CC_Library.Datatypes;
 using System.Threading.Tasks;
 
@@ -29,7 +31,7 @@ namespace CC_Library.Predictions
             AlphaContext ctxt = new AlphaContext(datatype, write);
             double[] Results = a.Forward(s, ctxt);
             Results.WriteArray("Alpha Results : ", write);
-            for(int i = 0; i < net.Layers.Count(); i++)
+            for (int i = 0; i < net.Layers.Count(); i++)
             {
                 Results = net.Layers[i].Output(Results);
             }
@@ -40,11 +42,11 @@ namespace CC_Library.Predictions
         {
             double error = 0;
             var s = GetIO(fn);
-            var Pred = Predict(s.Key, CMDLibrary.WriteNull);
-            if (s.Value != Pred.ToList().IndexOf(Pred.Max()) || tf)
+            var Pred = Predict(s.Item1, CMDLibrary.WriteNull);
+            if (s.Item2 != Pred.ToList().IndexOf(Pred.Max()) || tf)
             {
                 NeuralNetwork net = GetNetwork(write);
-                var Samples = ReadVals(24);
+                var Samples = ReadVals(s, 24);
                 Alpha a = new Alpha(write);
                 AlphaContext ctxt = new AlphaContext(datatype, write);
                 NetworkMem OLFMem = new NetworkMem(net);
@@ -53,13 +55,15 @@ namespace CC_Library.Predictions
 
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    AlphaMem am = new AlphaMem(Samples.Keys.ToList()[j].ToCharArray());
+                    var output = a.Forward(Samples.Keys.ToList()[j], ctxt, am);
                     var F = net.Forward(output, dropout, write);
-                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                    var desired = new double[Enum.GetNames(typeof(Command)).Length];
+                    desired[Samples.Values.ToList()[j]] = 1;
+                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), desired).Max();
 
-                    var DValues = net.Backward(F, Samples[j].DesiredOutput, OLFMem, write);
-                    a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
+                    var DValues = net.Backward(F, desired, OLFMem, write);
+                    a.Backward(Samples.Keys.ToList()[j], DValues, ctxt, am, AlphaMem, CtxtMem);
                 });
                 OLFMem.Update(Samples.Count(), 0.0001, net);
                 AlphaMem.Update(Samples.Count(), 0.0001, a.Network);
@@ -73,63 +77,65 @@ namespace CC_Library.Predictions
                 error = 0;
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    AlphaMem am = new AlphaMem(Samples.Keys.ToList()[j].ToCharArray());
+                    var output = a.Forward(Samples.Keys.ToList()[j], ctxt, am);
                     var F = net.Forward(output, dropout, write);
-                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                    var desired = new double[Enum.GetNames(typeof(Command)).Length];
+                    desired[Samples.Values.ToList()[j]] = 1;
+                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), desired).Max();
                 });
                 write("Post Training Error : " + error);
-
-                s.Save();
             }
             return error;
         }
-        private static KeyValuePair<string, int> GetIO (string fn)
+        private static Tuple<string, int> GetIO(string fn)
         {
             // Lines[0] = Datatype Command
             // Lines[1] = DateTime.Now("yyyyMMddhhmmss")
             // Lines[2] = input
             // Lines[3] = output
-            if(File.Exists(fn))
+            if (File.Exists(fn))
             {
                 var lines = File.ReadAllLines(fn);
-                if(lines[0] == "Datatype Command")
+                if (lines[0] == "Datatype Command")
                 {
-                    var names = Enum.GetNames(typeof(Commands)).ToList();
+                    var names = Enum.GetNames(typeof(Command)).ToList();
                     var key = lines[2];
-                    var val = int.TryParse(Lines[3], out int x) ? int.Parse(Lines[3]) < names.Count() ? int.Parse(Lines[3]) :
-                        Enum.GetNames(typeof(Commands)).Contains(Lines[3]) ? Enum.GetNames(typeof(Commands)).IndexOf(Lines[3]) : null;
-                    return val == null ? null : new KeyValuePair<string, int> { key, val };
+                    int val = int.TryParse(lines[3], out int x) ? x :
+                        Enum.GetNames(typeof(Command)).Contains(lines[3]) ? Enum.GetNames(typeof(Command)).ToList().IndexOf(lines[3]) : 0;
+                    return val == 0 ? null : new Tuple<string, int>(key, val);
                 }
             }
             return null;
         }
-        private static Dictionary<string, int> ReadVals(KeyValuePair<string, int> keypair, int Count = 16)
+        private static Dictionary<string, int> ReadVals(Tuple<string, int> keypair, int Count = 16)
         {
             var dict = new Dictionary<string, int>();
-            dict.Add(keypair.Key, keypair.Value);
-            private const string fname = "NetworkSamples";
-            private static string folder = fname.GetMyDocs();
-            if (Directory.Exists(folder))
+            dict.Add(keypair.Item1, keypair.Item2);
             {
-                string subfolder = folder + "\\Command";
-                if(Directory.Exists(subfolder))
+                string fname = "NetworkSamples";
+                string folder = fname.GetMyDocs();
+                if (Directory.Exists(folder))
                 {
-                    string[] Files = Directory.GetFiles(subfolder);
-                    if(Files.Any())
+                    string subfolder = folder + "\\Command";
+                    if (Directory.Exists(subfolder))
                     {
-                        Random r = new Random();
-                        for(int i = 1; i < Count; i++)
+                        string[] Files = Directory.GetFiles(subfolder);
+                        if (Files.Any())
                         {
-                            var kvp = GetIO(Files[r.Next(Files.Count())]);
-                            if(kvp != null)
-                                if(!Dictionary.ContainsKey(kvp.Key))
-                                    Dictionary.Add(kvp.Key, kvp.Value);
+                            Random r = new Random();
+                            for (int i = 1; i < Count; i++)
+                            {
+                                var kvp = GetIO(Files[r.Next(Files.Count())]);
+                                if (kvp != null)
+                                    if (!dict.ContainsKey(kvp.Item1))
+                                        dict.Add(kvp.Item1, kvp.Item2);
+                            }
                         }
                     }
                 }
+                return dict;
             }
-            return dict;
         }
     }
 }

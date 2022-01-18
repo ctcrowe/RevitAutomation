@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
@@ -180,22 +181,31 @@ namespace CC_Plugin
     }
     public static class CMD_ReadWriteCommandInfo
     {
+        private const string fname = "NetworkSamples";
+        private static string folder = fname.GetMyDocs();
         public static void WriteCommandInfo(this string combotype, string text)
         {
-            var names = Enum.GetNames(typeof(Commands)).ToList();
+            var names = Enum.GetNames(typeof(Command)).ToList();
             var vals = text.Split(',');
             List<string> Lines = new List<string>();
-            lines.Add("Datatype Command");
-            lines.Add(DateTime.Now.ToString("yyyyMMddhhmmss"));
-            lines.Add(vals[0]);
-            var val = int.TryParse(vals[1], out int x) ? int.Parse(vals[1]) < names.Count() ?
-                int.Parse(vals[1]) : names.Contains(vals[1]) ? names.IndexOf(Lines[3]) : null;
+            Lines.Add("Datatype Command");
+            Lines.Add(DateTime.Now.ToString("yyyyMMddhhmmss"));
+            Lines.Add(vals[0]);
+
+            var val = int.TryParse(vals[1], out int x) ? vals[1] :
+                Enum.GetNames(typeof(Command)).Contains(vals[1]) ?
+                Enum.GetNames(typeof(Command)).ToList().IndexOf(vals[1]).ToString() : "0";
             if(val != null)
             {
-                lines.Add(val.ToString());
+                Lines.Add(val);
                 var ID = Guid.NewGuid().ToString();
-                var fn = ID;
-                File.WriteAllLines(fn, lines);
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                string subfolder = folder + "\\Command";
+                if (!Directory.Exists(subfolder))
+                    Directory.CreateDirectory(subfolder);
+                string fn = subfolder + "\\" + ID + ".txt";
+                File.WriteAllLines(fn, Lines);
                 CmdNetwork.Propogate(fn, CMDLibrary.WriteNull, true);
             }
         }
