@@ -32,6 +32,23 @@ namespace DataAnalysis
                         default:
                             break;
                         case "TRAIN":
+                            bool c = true;
+                            while(c)
+                            {
+                                Console.WriteLine("Enter a Datatype to Predict");
+                                string dt = Console.ReadLine();
+                                try
+                                {
+                                    Datatype datatype = Enum.Parse(dt, typeof(Datatype));
+                                    Console.WriteLine("Continue? Y / N");
+                                    string cont = Console.ReadLine().ToUpper();
+                                    if(cont == "N")
+                                        c = false;
+                                }
+                                catch
+                                {
+                                }
+                            }
                             Datasets.RunPredictions(new WriteToCMDLine(Write));
                             break;
                         case "SORT":
