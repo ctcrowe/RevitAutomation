@@ -65,6 +65,10 @@
     <Compile Include="Events\FamilyReorginize.cs" />
     <Compile Include="Events\LineWeights.cs" />
     <Compile Include="Events\Masterformat\UpdateMF.cs" />
+    <Compile Include="Events\Uniformat\AddUniformat.cs" />
+    <Compile Include="Events\Uniformat\SetUniformat.cs" />
+    <Compile Include="Events\Uniformat\Uniformat_FamilySaved.cs" />
+    <Compile Include="Events\Uniformat\UpdateUniformat.cs" />
     <Compile Include="Events\UpdateTab.cs" />
     <Compile Include="Events\Masterformat\AddMF.cs" />
     <Compile Include="Events\OccLoadFactor\CMD_SetOLF.cs" />

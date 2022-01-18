@@ -33,6 +33,7 @@ namespace CC_Plugin
 
             ComboBoxData cbd = new ComboBoxData("Update Type");
             ComboBox box = Panel.AddItem(cbd) as ComboBox;
+            box.AddItem(new ComboBoxMemberData("Run Command", "Run Command"));
             box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
             box.AddItem(new ComboBoxMemberData("Occupant Load Factor", "Occupant Load Factor"));
             box.AddItem(new ComboBoxMemberData("Brick Pattern", "Brick Pattern"));
@@ -55,6 +56,9 @@ namespace CC_Plugin
             switch(combotype)
             {
                 default:
+                case "Run Command":
+                    combotype.ReadCommandInfo(text);
+                    break;
                 case "Masterformat":
                     args.Application.SetMasterformat(text);
                     break;
@@ -207,6 +211,13 @@ namespace CC_Plugin
                 File.WriteAllLines(fn, Lines);
                 CmdNetwork.Propogate(fn, CMDLibrary.WriteNull, true);
             }
+        }
+        public static void ReadCommandInfo(this string combotyp, string text)
+        {
+            var output = CmdNetwork.Predict(text, CMDLibrary.WriteNull);
+            var numb = output.ToList().IndexOf(output.Max());
+            var result = Enum.GetNames(typeof(Command)).ToList()[numb];
+            TaskDialog.Show("Result", result);
         }
     }
     public class EleSelectionFilter : ISelectionFilter
