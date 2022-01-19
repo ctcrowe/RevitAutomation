@@ -50,7 +50,7 @@ namespace CC_Patterns
 
             File.WriteAllLines(fn, lines);
         }
-        public static void CreatePattern(double W, double H)
+        public static string CreatePattern(double W, double H)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
@@ -67,7 +67,9 @@ namespace CC_Patterns
                     fp += ".pat";
                 HerringbonePattern p = new HerringbonePattern(W, H);
                 p.WritePattern(fp);
+                return fp;
             }
+            return null;
         }
     }
 }
