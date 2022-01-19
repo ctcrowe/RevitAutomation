@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
-using CC_Library;
-using CC_Plugin.TypeNaming;
-using CC_Plugin.Details;
 
 namespace CC_Patterns
 {
@@ -49,6 +46,24 @@ namespace CC_Patterns
             }
             catch (Exception e) { e.OutputError(); }
             return val;
+        }
+        public static void CreatePattern(this string combotype, string text)
+        {
+            var numbs = text.Split(',');
+            double width = double.TryParse(numbs[0], out double a) ? a : 4;
+            double height = numbs.Count() >= 2 ? double.TryParse(numbs[1], out double b) ? b : 2 : 2;
+            double grout = numbs.Count() >= 3 ? double.TryParse(numbs[2], out double c) ? c : 0 : 0;
+            int ratio = numbs.Count() >= 4 ? int.TryParse(numbs[3], out int d) ? d : 2 : 2;
+            switch (combotype)
+            {
+                default:
+                    case "Brick Pattern":
+                        BrickPattern.CreatePattern(width, height, grout, ratio);
+                        break;
+                    case "Herringbone Pattern":
+                        HerringbonePattern.CreatePattern(width, height);
+                        break;
+            }
         }
         public Result OnShutdown(UIControlledApplication uiApp)
         {
