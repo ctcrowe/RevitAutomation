@@ -49,7 +49,7 @@ namespace CC_Library.Predictions
         {
             if (Directory.Exists(folder))
             {
-                string subfolder = folder + "\\" + dt;
+                string subfolder = folder + "\\" + s.Datatype;
                 if(Directory.Exists(subfolder))
                 {
                     string[] Files = Directory.GetFiles(subfolder);
@@ -76,7 +76,7 @@ namespace CC_Library.Predictions
         {
             if (Directory.Exists(folder))
             {
-                string subfolder = folder + "\\" + s.Datatype;
+                string subfolder = folder + "\\" + dt;
                 if(Directory.Exists(subfolder))
                 {
                     string[] Files = Directory.GetFiles(subfolder);

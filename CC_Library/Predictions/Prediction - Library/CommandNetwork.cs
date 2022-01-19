@@ -127,8 +127,8 @@ namespace CC_Library.Predictions
                         }
                     }
                 }
-                return dict;
             }
+            return dict;
         }
     }
 }

@@ -149,7 +149,7 @@ namespace CC_Plugin
                 s.TextInput = r.Name;
                 s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
                 s.DesiredOutput[numb] = 1;
-                OLFNetwork.Propogate(s, CMDLibrary.WriteNull);
+                OLFNetwork.Propogate(CMDLibrary.WriteNull);
 
                 using (Transaction t = new Transaction(doc, "Set Param"))
                 {
@@ -209,7 +209,7 @@ namespace CC_Plugin
                     Directory.CreateDirectory(subfolder);
                 string fn = subfolder + "\\" + ID + ".txt";
                 File.WriteAllLines(fn, Lines);
-                CmdNetwork.Propogate(fn, CMDLibrary.WriteNull, true);
+                CmdNetwork.Propogate(CMDLibrary.WriteNull);
             }
         }
         public static void ReadCommandInfo(this string combotyp, string text)

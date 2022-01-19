@@ -38,7 +38,7 @@ namespace DataAnalysis
                                 string dt = Console.ReadLine();
                                 try
                                 {
-                                    Datatype datatype = Enum.Parse(dt, typeof(Datatype));
+                                    Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), dt);
                                     switch(datatype)
                                     {
                                         default:
@@ -74,8 +74,8 @@ namespace DataAnalysis
                         case "TEST":
                             Console.WriteLine("Enter a Datatype to Predict");
                             string l2 = Console.ReadLine();
-                            bool c = true;
-                            while (c)
+                            bool d = true;
+                            while (d)
                             {
                                 Console.WriteLine("Enter a phrase to predict.");
                                 string l3 = Console.ReadLine();
