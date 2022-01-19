@@ -18,8 +18,6 @@ namespace CC_Patterns
             uiApp.CreateRibbonTab(tabName);
             CCPaintPanel.PaintPanel(uiApp);
             UpdateTab.CreatePanel(uiApp);
-            FamilyReorganize.Run();
-
             return Result.Succeeded;
         }
         public Result OnShutdown(UIControlledApplication uiApp)
