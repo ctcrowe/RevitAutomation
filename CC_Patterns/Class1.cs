@@ -12,7 +12,7 @@ namespace CC_Patterns
 {
     public class CC_PatternRibbon : IExternalApplication
     {
-        public const string tabName = "CCrowe";
+        private const string tabName = "CCrowe";
         public Result OnStartup(UIControlledApplication uiApp)
         {
             uiApp.CreateRibbonTab(tabName);
