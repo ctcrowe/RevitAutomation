@@ -11,7 +11,6 @@ namespace DataAnalysis
     {
         public static string Write(string wo)
         {
-            var time = DateTime.UtcNow - Process.GetCurrentProcess().StartTime.ToUniversalTime();
             Console.WriteLine(wo);
             return wo;
         }
@@ -32,6 +31,41 @@ namespace DataAnalysis
                         default:
                             break;
                         case "TRAIN":
+                            bool c = true;
+                            while(c)
+                            {
+                                Console.WriteLine("Enter a Datatype to Predict");
+                                string dt = Console.ReadLine();
+                                try
+                                {
+                                    Datatype datatype = Enum.Parse(dt, typeof(Datatype));
+                                    switch(datatype)
+                                    {
+                                        default:
+                                        case Datatype.Masterformat:
+                                            break;
+                                        case Datatype.Command:
+                                            for(int i = 0; i < 1000; i++)
+                                            {
+                                                CmdNetwork.Propogate(Write);
+                                            }
+                                            break;
+                                        case Datatype.OccupantLoadFactor:
+                                            for(int i = 0; i < 1000; i++)
+                                            {
+                                                OLFNetwork.Propogate(Write);
+                                            }
+                                            break;
+                                    }
+                                    Console.WriteLine("Continue? Y / N");
+                                    string cont = Console.ReadLine().ToUpper();
+                                    if(cont == "N")
+                                        c = false;
+                                }
+                                catch
+                                {
+                                }
+                            }
                             Datasets.RunPredictions(new WriteToCMDLine(Write));
                             break;
                         case "SORT":
