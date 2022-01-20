@@ -25,7 +25,25 @@ namespace CC_Patterns
             cbox.AddItem(new ComboBoxMemberData("Brick Pattern", "Brick Pattern"));
             cbox.AddItem(new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern"));
             
+            tbox.EnterPressed += EnterPressed;
+            cbox.CurrentChanged += CurrentChanged;
             return Result.Succeeded;
+        }
+        private static void CurrentChanged(object sender, ComboBoxCurrentChangedEventArgs args)
+        {
+            ComboBox cbox = sender as ComboBox;
+            var combotype = GetComboData(args.Application);
+            switch(combotype)
+            {
+                default:
+                case "Brick Pattern":
+                    SetTB("Width, Height, Grout, Steps");
+                    break;
+                case "Herringbone Pattern":
+                    SetTB("Width, Height");
+                    break;
+            }
+            CreatePattern(combotype, text);
         }
         private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
         {
@@ -48,6 +66,19 @@ namespace CC_Patterns
             }
             catch (Exception e) { }
             return val;
+        }
+        private static void SetTB(UIApplication app, string val)
+        {
+            try
+            {
+                var panels = app.GetRibbonPanels(TabName);
+                var panel = panels.Where(x => x.Name == PanelName).First();
+                var items = panel.GetItems();
+                var item = items.Where(x => x.ItemType == RibbonItemType.TextBox).First();
+                var tb = item as TextBox;
+                tb.Value = val;
+            }
+            catch {}
         }
         public static void CreatePattern(string combotype, string text)
         {
