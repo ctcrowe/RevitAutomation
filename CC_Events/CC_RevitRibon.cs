@@ -15,7 +15,7 @@ namespace CC_Plugin
         public const string tabName = "CCrowe";
         public Result OnStartup(UIControlledApplication uiApp)
         {
-            uiApp.CreateRibbonTab(tabName);
+            try { uiApp.CreateRibbonTab(TabName); } catch {};
             CCPaintPanel.PaintPanel(uiApp);
             UpdateTab.CreatePanel(uiApp);
             FamilyReorganize.Run();
