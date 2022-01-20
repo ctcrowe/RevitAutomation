@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI.Events;
 
 namespace CC_Patterns
 {
@@ -29,10 +30,10 @@ namespace CC_Patterns
         {
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
-            var combotype = args.Application.GetComboData();
-            combotype.CreatePattern(text);
+            var combotype = GetComboData(args.Application);
+            CreatePattern(combotype, text);
         }
-        private static string GetComboData(this UIApplication app)
+        private static string GetComboData(UIApplication app)
         {
             string val = "";
             try
@@ -44,10 +45,10 @@ namespace CC_Patterns
                 var cb = item as ComboBox;
                 val = cb.Current.Name;
             }
-            catch (Exception e) { e.OutputError(); }
+            catch (Exception e) { }
             return val;
         }
-        public static void CreatePattern(this string combotype, string text)
+        public static void CreatePattern(string combotype, string text)
         {
             var numbs = text.Split(',');
             double width = double.TryParse(numbs[0], out double a) ? a : 4;
