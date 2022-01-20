@@ -14,6 +14,7 @@ namespace CC_Patterns
         private const string PanelName = "Patterns";
         public Result OnStartup(UIControlledApplication uiApp)
         {
+            uiApp.CreateRibbonTab(TabName);
             RibbonPanel Panel = uiApp.CreateRibbonPanel(TabName, PanelName);
             TextBoxData tbd = new TextBoxData("Pattern Entry");
             ComboBoxData cbd = new ComboBoxData("Pattern Type");
