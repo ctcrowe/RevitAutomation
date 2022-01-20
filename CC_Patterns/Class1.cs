@@ -37,10 +37,10 @@ namespace CC_Patterns
             {
                 default:
                 case "Brick Pattern":
-                    SetTB("Width, Height, Grout, Steps");
+                    SetTB(args.Application, "Width, Height, Grout, Steps");
                     break;
                 case "Herringbone Pattern":
-                    SetTB("Width, Height");
+                    SetTB(args.Application, "Width, Height");
                     break;
             }
             CreatePattern(combotype, text);
