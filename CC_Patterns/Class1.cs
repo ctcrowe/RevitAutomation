@@ -43,7 +43,6 @@ namespace CC_Patterns
                     SetTB(args.Application, "Width, Height");
                     break;
             }
-            CreatePattern(combotype, text);
         }
         private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
         {
