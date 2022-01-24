@@ -106,7 +106,7 @@ namespace CC_Patterns
                     BrickPattern.CreatePattern(doc, width, height, grout, ratio);
                     break;
                 case "Herringbone Pattern":
-                    HerringbonePattern.CreatePattern(width, height);
+                    HerringbonePattern.CreatePattern(doc, width, height);
                     break;
                 case "Basket Pattern":
                     BasketPattern.CreatePattern(width, height);
