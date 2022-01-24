@@ -34,16 +34,22 @@ namespace CC_Patterns
             var floor = Width > Height ? Math.Floor(Width / Height) : Math.Floor(Height / Width);
             var R = Width > Height ? Width % Height : Height % Width;
             Grout = Width == Height ? 0 : R / (floor - 1);
-            var offset = Height + Grout;
+            var offset = Width + Grout;
+            var h2 = Height + Grout;
 
             List<string> lines = new List<string>();
             lines.Add("*" + fn.Split('\\').Last().Split('.').First() + ",Width = " + Width + " Height = " + Height + " Grout Spacing = " + Grout);
             lines.Add(";%TYPE=MODEL,");
 
-            //lines.Add("0,0," + Grout + )
-
-            lines.Add("0,0,0," + offset + "," + offset + "," + Height + "," + -Grout + "," + Width + "," + -(Math.Abs(Grout + Width - Height)));
-            lines.Add("90," + Height + ",0," + offset + "," + -offset + "," + Width + "," + -Grout + "," + Height + "," + -(Math.Abs(Grout + Width - Height)));s
+            lines.Add("0,0,0" + offset + "," + offset + "," + Height + "," + -offset);
+            lines.Add("0," + h2 + ",0," + offset + "," + offset + "," + Height + "," + -offset);
+            lines.Add("0," + (2 * h2) + ",0," + offset + "," + offset + "," + Height + "," + -offset);
+            lines.Add("90,0,0," + offset + "," + offset + "," + Width + "," + -offset);
+            lines.Add("90," + Height + ",0," + offset + "," + offset + "," + Width + "," + -offset);
+            lines.Add("90," + h2 + ",0," + offset + "," + offset + "," + Width + "," + -offset);
+            lines.Add("90," + (h2 + Height) + ",0," + offset + "," + offset + "," + Width + "," + -offset);
+            lines.Add("90," + (2 * h2) + ",0," + offset + "," + offset + "," + Width + "," + -offset);
+            lines.Add("90," + ((2 * h2) + Height) + ",0," + offset + "," + offset + "," + Width + "," + -offset);
 
             File.WriteAllLines(fn, lines);
         }
