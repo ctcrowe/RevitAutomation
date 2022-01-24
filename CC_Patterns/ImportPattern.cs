@@ -35,5 +35,16 @@ namespace CC_Patterns
                 t.Commit();
             }
         }
+        public static void AddLine(this List<string> lines, double Angle, double X, double Y, double ShiftX, double ShiftY, double PenDown, double PenUp)
+        {
+            string s = Angle.ToString() + ",";
+            s += x + ",";
+            s += y + ",";
+            s += ShiftX + ",";
+            s += ShiftY + ",";
+            s += PenDown + ",";
+            var PU = -1 * Math.Abs(PenUp);
+            s += PU;
+        }
     }
 }
