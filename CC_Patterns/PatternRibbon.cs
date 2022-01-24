@@ -24,7 +24,10 @@ namespace CC_Patterns
             
             cbox.AddItem(new ComboBoxMemberData("Brick Pattern", "Brick Pattern"));
             cbox.AddItem(new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern"));
-            
+            cbox.AddItem(new ComboBoxMemberData("Basket Pattern", "Basket Pattern"));
+            cbox.AddItem(new ComboBoxMemberData("Plank Pattern", "Plank Pattern"));
+
+            tbox.PromptText = "Width, Height, Grout, Steps";
             tbox.EnterPressed += EnterPressed;
             cbox.CurrentChanged += CurrentChanged;
             return Result.Succeeded;
@@ -42,6 +45,15 @@ namespace CC_Patterns
                 case "Herringbone Pattern":
                     SetTB(args.Application, "Width, Height");
                     break;
+                case "Basket Pattern":
+                    SetTB(args.Application, "Width, Height");
+                    break;
+                case "Plank Pattern":
+                    SetTB(args.Application, "Width, Height, Grout");
+                    break;
+                case "Drawn Pattern":
+                    SetTB(args.Application, "Draw Detail Lines");
+                    break;
             }
         }
         private static void EnterPressed(object sender, TextBoxEnterPressedEventArgs args)
@@ -49,7 +61,7 @@ namespace CC_Patterns
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
             var combotype = GetComboData(args.Application);
-            CreatePattern(combotype, text);
+            CreatePattern(args.Application.ActiveUIDocument.Document, combotype, text);
         }
         private static string GetComboData(UIApplication app)
         {
@@ -75,11 +87,12 @@ namespace CC_Patterns
                 var items = panel.GetItems();
                 var item = items.Where(x => x.ItemType == RibbonItemType.TextBox).First();
                 var tb = item as TextBox;
-                tb.Value = val;
+                tb.PromptText = val;
+                tb.Value = string.Empty;
             }
             catch {}
         }
-        public static void CreatePattern(string combotype, string text)
+        public static void CreatePattern(Document doc, string combotype, string text)
         {
             var numbs = text.Split(',');
             double width = double.TryParse(numbs[0], out double a) ? a : 4;
@@ -89,12 +102,15 @@ namespace CC_Patterns
             switch (combotype)
             {
                 default:
-                    case "Brick Pattern":
-                        BrickPattern.CreatePattern(width, height, grout, ratio);
-                        break;
-                    case "Herringbone Pattern":
-                        HerringbonePattern.CreatePattern(width, height);
-                        break;
+                case "Brick Pattern":
+                    BrickPattern.CreatePattern(doc, width, height, grout, ratio);
+                    break;
+                case "Herringbone Pattern":
+                    HerringbonePattern.CreatePattern(width, height);
+                    break;
+                case "Basket Pattern":
+                    BasketPattern.CreatePattern(width, height);
+                    break;
             }
         }
         public Result OnShutdown(UIControlledApplication uiApp)

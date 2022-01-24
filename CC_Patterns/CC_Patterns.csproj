@@ -50,10 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs" />
-    <Compile Include="Class3.cs" />
-    <Compile Include="Class4.cs" />
+    <Compile Include="BasketPattern.cs" />
+    <Compile Include="ImportPattern.cs" />
+    <Compile Include="PatternRibbon.cs" />
+    <Compile Include="Herringbone.cs" />
+    <Compile Include="BrickPattern.cs" />
+    <Compile Include="CustomPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

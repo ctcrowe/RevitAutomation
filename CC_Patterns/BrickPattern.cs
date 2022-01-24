@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Windows.Forms;
+using Autodesk.Revit.DB;
 
 namespace CC_Patterns
 {
@@ -35,23 +36,26 @@ namespace CC_Patterns
         public void SetHeight(double H) { this.Height = Math.Abs(H); }
         public void SetGrout(double G) { this.Grout = Math.Abs(G); }
         public void SetRatio(int TR) { this.Ratio = TR == 0 ? 1 : Math.Abs(TR); }
-        public void WritePattern(string fn)
+        public void WritePattern(Document doc, string fn)
         {
             double XOffset = 1.0 - (1.0 / Ratio);
             List<string> lines = new List<string>();
+            List<string> grids = new List<string>();
             lines.Add("*" + fn.Split('\\').Last().Split('.').First());
             lines.Add(";%TYPE=MODEL,");
-            lines.Add("0,0,0," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
-            lines.Add("90,0,0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
+            grids.Add("0,0,0," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
+            grids.Add("90,0,0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
             if (Grout > 0)
             {
-                lines.Add("0,0," + Height + "," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
-                lines.Add("90," + Width + ",0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
+                grids.Add("0,0," + Height + "," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
+                grids.Add("90," + Width + ",0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
             }
-
+            lines.AddRange(grids);
             File.WriteAllLines(fn, lines);
+
+            doc.ImportPattern(fn.Split('\\').Last().Split('.').First(), grids);
         }
-        public static void CreatePattern(double W, double H, double G = 0, int ratio = 2)
+        public static void CreatePattern(Document doc, double W, double H, double G = 0, int ratio = 2)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
@@ -67,7 +71,7 @@ namespace CC_Patterns
                 if (!fp.EndsWith(".pat"))
                     fp += ".pat";
                 BrickPattern p = new BrickPattern(W, H, G, ratio);
-                p.WritePattern(fp);
+                p.WritePattern(doc, fp);
             }
         }
     }
