@@ -29,7 +29,7 @@ namespace CC_Patterns
         }
         public void SetWidth(double W) { this.Width = Math.Abs(W); }
         public void SetHeight(double H) { this.Height = Math.Abs(H); }
-        public void WritePattern(string fn)
+        public void WritePattern(Document doc, string fn)
         {
             var floor = Width > Height ? Math.Floor(Width / Height) : Math.Floor(Height / Width);
             var R = Width > Height ? Width % Height : Height % Width;
@@ -37,20 +37,23 @@ namespace CC_Patterns
             var offset = Height + Grout;
 
             List<string> lines = new List<string>();
+            List<string> grids = new List<string>();
+            
             lines.Add("*" + fn.Split('\\').Last().Split('.').First() + ",Width = " + Width + " Height = " + Height + " Grout Spacing = " + Grout);
             lines.Add(";%TYPE=MODEL,");
 
-            lines.Add("0,0,0," + offset + "," + offset + "," + Height + "," + -Grout + "," + Width + "," + -(Math.Abs(Grout + Width - Height)));
-            lines.Add("90," + Height + ",0," + offset + "," + -offset + "," + Width + "," + -Grout + "," + Height + "," + -(Math.Abs(Grout + Width - Height)));
+            grids.Add("0,0,0," + offset + "," + offset + "," + Height + "," + -Grout + "," + Width + "," + -(Math.Abs(Grout + Width - Height)));
+            grids.Add("90," + Height + ",0," + offset + "," + -offset + "," + Width + "," + -Grout + "," + Height + "," + -(Math.Abs(Grout + Width - Height)));
             if(Grout > 0)
             {
-                lines.Add("0," + offset + "," + Height + "," + offset + "," + offset + "," + Width + "," + -Grout + "," + Height + "," + -(Math.Abs(Grout + Width - Height)));
-                lines.Add("90," + offset + ",0," + offset + "," + -offset + "," + Height + "," + -Grout + "," + Width + "," + -(Math.Abs(Grout + Width - Height)));
+                grids.Add("0," + offset + "," + Height + "," + offset + "," + offset + "," + Width + "," + -Grout + "," + Height + "," + -(Math.Abs(Grout + Width - Height)));
+                grids.Add("90," + offset + ",0," + offset + "," + -offset + "," + Height + "," + -Grout + "," + Width + "," + -(Math.Abs(Grout + Width - Height)));
             }
 
             File.WriteAllLines(fn, lines);
+            doc.ImportPattern(fn.Split('\\').Last().Split('.').First(), grids);
         }
-        public static string CreatePattern(double W, double H)
+        public static void CreatePattern(Document doc, double W, double H)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
@@ -66,10 +69,8 @@ namespace CC_Patterns
                 if (!fp.EndsWith(".pat"))
                     fp += ".pat";
                 HerringbonePattern p = new HerringbonePattern(W, H);
-                p.WritePattern(fp);
-                return fp;
+                p.WritePattern(doc, fp);
             }
-            return null;
         }
     }
 }
