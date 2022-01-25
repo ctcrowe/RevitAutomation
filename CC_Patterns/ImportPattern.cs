@@ -38,8 +38,8 @@ namespace CC_Patterns
         public static void AddLine(this List<string> lines, double Angle, double X, double Y, double ShiftX, double ShiftY, double PenDown, double PenUp)
         {
             string s = Angle.ToString() + ",";
-            s += x + ",";
-            s += y + ",";
+            s += X + ",";
+            s += Y + ",";
             s += ShiftX + ",";
             s += ShiftY + ",";
             s += PenDown + ",";

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Windows.Forms;
+using Autodesk.Revit.DB;
 
 namespace CC_Patterns
 {
@@ -53,7 +54,7 @@ namespace CC_Patterns
 
             File.WriteAllLines(fn, lines);
         }
-        public static string CreatePattern(double W, double H)
+        public static string CreatePattern(Document doc, double W, double H)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
@@ -69,7 +70,7 @@ namespace CC_Patterns
                 if (!fp.EndsWith(".pat"))
                     fp += ".pat";
                 HerringbonePattern p = new HerringbonePattern(W, H);
-                p.WritePattern(fp);
+                p.WritePattern(doc, fp);
                 return fp;
             }
             return null;

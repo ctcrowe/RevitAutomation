@@ -26,6 +26,7 @@ namespace CC_Patterns
             cbox.AddItem(new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern"));
             cbox.AddItem(new ComboBoxMemberData("Basket Pattern", "Basket Pattern"));
             cbox.AddItem(new ComboBoxMemberData("Plank Pattern", "Plank Pattern"));
+            cbox.AddItem(new ComboBoxMemberData("Custom Pattern", "Custom Pattern"));
 
             tbox.PromptText = "Width, Height, Grout, Steps";
             tbox.EnterPressed += EnterPressed;
@@ -109,7 +110,7 @@ namespace CC_Patterns
                     HerringbonePattern.CreatePattern(doc, width, height);
                     break;
                 case "Basket Pattern":
-                    BasketPattern.CreatePattern(width, height);
+                    BasketPattern.CreatePattern(doc, width, height);
                     break;
             }
         }

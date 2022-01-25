@@ -36,8 +36,6 @@ namespace CC_Plugin
             box.AddItem(new ComboBoxMemberData("Run Command", "Run Command"));
             box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
             box.AddItem(new ComboBoxMemberData("Occupant Load Factor", "Occupant Load Factor"));
-            box.AddItem(new ComboBoxMemberData("Brick Pattern", "Brick Pattern"));
-            box.AddItem(new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern"));
             box.AddItem(new ComboBoxMemberData("Command Training", "Command Training"));
             PushButtonData OLFButtonData = new PushButtonData(
                 "Update OLF",
@@ -64,11 +62,6 @@ namespace CC_Plugin
                     break;
                 case "Occupant Load Factor":
                     args.Application.SetOLF(text);
-                    break;
-                case "Brick Pattern":
-                case "Herringbone Pattern":
-                    combotype.CreatePattern(text);
-                    combotype.CreatePattern(text);
                     break;
                 case "Command Training":
                     combotype.WriteCommandInfo(text);
