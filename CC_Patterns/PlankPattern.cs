@@ -24,20 +24,17 @@ namespace CC_Patterns
         private double Width { get; set; }
         private double Height { get; set; }
         private double Grout { get; set; }
-        public PlankPattern(double W, double H, double G = 0, int TR = 2)
+        public PlankPattern(double W, double H, double G = 0)
         {
             this.Width = Math.Abs(W);
             this.Height = Math.Abs(H);
             this.Grout = Math.Abs(G);
-            this.Ratio = TR == 0 ? 1 : Math.Abs(TR);
         }
         public void SetWidth(double W) { this.Width = Math.Abs(W); }
         public void SetHeight(double H) { this.Height = Math.Abs(H); }
         public void SetGrout(double G) { this.Grout = Math.Abs(G); }
-        public void SetRatio(int TR) { this.Ratio = TR == 0 ? 1 : Math.Abs(TR); }
         public void WritePattern(Document doc, string fn)
         {
-            double XOffset = 1.0 - (1.0 / Ratio);
             List<string> lines = new List<string>();
             List<string> grids = new List<string>();
             lines.Add("*" + fn.Split('\\').Last().Split('.').First());
