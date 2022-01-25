@@ -24,7 +24,6 @@ namespace CC_Patterns
         private double Width { get; set; }
         private double Height { get; set; }
         private double Grout { get; set; }
-        private int Ratio { get; set; }
         public PlankPattern(double W, double H, double G = 0, int TR = 2)
         {
             this.Width = Math.Abs(W);
