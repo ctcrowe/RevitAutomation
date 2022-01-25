@@ -46,15 +46,10 @@ namespace CC_Patterns
                 var rand = r.NextDouble();
                 grids.Add("0," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
                 grids.Add("0," + (rand * Width) + "," + (Height + (i * (Height + Grout))) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
-                grids.Add("90," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
+                grids.Add("90," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (10 * (Grout + Height)) + "," + (Width + Grout) + "," + Height + "," + (-1 * (10 * (Grout + Height)));
+                grids.Add("90," + (Width + (rand * Width)) + "," + (i * (Height + Grout)) + "," + (10 * (Grout + Height)) + "," + (Width + Grout) + "," + Height + "," + (-1 * (10 * (Grout + Height)));
             }
-            grids.Add("0,0,0," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
-            grids.Add("90,0,0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
-            if (Grout > 0)
-            {
-                grids.Add("0,0," + Height + "," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
-                grids.Add("90," + Width + ",0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
-            }
+                          
             lines.AddRange(grids);
             File.WriteAllLines(fn, lines);
 
