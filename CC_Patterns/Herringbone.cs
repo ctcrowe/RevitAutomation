@@ -51,6 +51,7 @@ namespace CC_Patterns
                 grids.Add("90," + offset + ",0," + offset + "," + -offset + "," + Height + "," + -Grout + "," + Width + "," + -(Math.Abs(Grout + Width - Height)));
             }
 
+            lines.AddRange(grids);
             File.WriteAllLines(fn, lines);
             doc.ImportPattern(fn.Split('\\').Last().Split('.').First(), grids);
         }
