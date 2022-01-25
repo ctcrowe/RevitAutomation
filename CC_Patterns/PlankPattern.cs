@@ -39,6 +39,12 @@ namespace CC_Patterns
             List<string> grids = new List<string>();
             lines.Add("*" + fn.Split('\\').Last().Split('.').First());
             lines.Add(";%TYPE=MODEL,");
+            
+            grids.Add("0,0,0," + 
+            for(int i = 0; i < 10; i++)
+            {
+                grids.Add("
+            }
             grids.Add("0,0,0," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
             grids.Add("90,0,0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
             if (Grout > 0)
