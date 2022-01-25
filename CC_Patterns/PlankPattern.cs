@@ -35,15 +35,18 @@ namespace CC_Patterns
         public void SetGrout(double G) { this.Grout = Math.Abs(G); }
         public void WritePattern(Document doc, string fn)
         {
+            Random r = new Random();
             List<string> lines = new List<string>();
             List<string> grids = new List<string>();
             lines.Add("*" + fn.Split('\\').Last().Split('.').First());
             lines.Add(";%TYPE=MODEL,");
             
-            grids.Add("0,0,0," + 
             for(int i = 0; i < 10; i++)
             {
-                grids.Add("
+                var rand = r.NextDouble();
+                grids.Add("0," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
+                grids.Add("0," + (rand * Width) + "," + (Height + (i * (Height + Grout))) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
+                grids.Add("90," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
             }
             grids.Add("0,0,0," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
             grids.Add("90,0,0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
