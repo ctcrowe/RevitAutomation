@@ -24,15 +24,15 @@ namespace CC_Patterns
             var cbox1 = items[0] as ComboBox;
             var cbox2 = items[2] as ComboBox;
             
-            cbox1.AddItem(new ComboBoxMemberData("1 - One", "1 - One"));
-            cbox1.AddItem(new ComboBoxMemberData("2 - Two", "2 - Two"));
-            cbox1.AddItem(new ComboBoxMemberData("3 - Three", "3 - Three"));
-            cbox1.AddItem(new ComboBoxMemberData("4 - Four", "4 - Four"));
+            cbox1.AddItem(new ComboBoxMemberData("Height - 1", "Height - 1"));
+            cbox1.AddItem(new ComboBoxMemberData("Height - 2", "Height - 2"));
+            cbox1.AddItem(new ComboBoxMemberData("Height - 3", "Height - 3"));
+            cbox1.AddItem(new ComboBoxMemberData("Height - 4", "Height - 4"));
             
-            cbox2.AddItem(new ComboBoxMemberData("1 - One", "1 - One"));
-            cbox2.AddItem(new ComboBoxMemberData("2 - Two", "2 - Two"));
-            cbox2.AddItem(new ComboBoxMemberData("3 - Three", "3 - Three"));
-            cbox2.AddItem(new ComboBoxMemberData("4 - Four", "4 - Four"));
+            cbox2.AddItem(new ComboBoxMemberData("Width - 1", "Width - 1"));
+            cbox2.AddItem(new ComboBoxMemberData("Width - 2", "Width - 2"));
+            cbox2.AddItem(new ComboBoxMemberData("Width - 3", "Width - 3"));
+            cbox2.AddItem(new ComboBoxMemberData("Width - 4", "Width - 4"));
             
             return Result.Succeeded;
         }
