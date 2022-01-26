@@ -31,10 +31,21 @@ namespace CC_ZeroPoint
             if(view.ViewType == ViewType.DraftingView)
             {
                 var scale = view.Scale;
+                var multiplier = GetComboData(app);
+                var adjw = Width * Scale * Multiplier[1];
+                var adjh = Height * Scale * Multiplier[0];
+                var ttlb = Title * Scale;
+                var note = adjw - (Notes * Scale);
+                
                 XYZ p1 = new XYZ(0,0,0);
-                XYZ p2 = new XYZ(Width * Scale, 0, 0);
-                XYZ p3 = new XYZ(0, Height * Scale, 0);
-                XYZ p4 = new XYZ(Width * Scale, Height * Scale, 0);
+                XYZ p2 = new XYZ(adjw, 0, 0);
+                XYZ p3 = new XYZ(0, adjh, 0);
+                XYZ p4 = new XYZ(adjw, adjh, 0);
+                
+                var p5 = new XYZ(0, ttlb, 0);
+                var p6 = new XYZ(adjw, ttlb, 0);
+                var p7 = new XYZ(note, ttlb, 0);
+                var p8 = new XYZ(note, adjh, 0);
                 
                 var cut = new XYZ(0, 0, 1);
                 
@@ -45,7 +56,9 @@ namespace CC_ZeroPoint
                     var rp1 = doc.Create.NewReferencePlane(p1, p2, cut, view);
                     var rp2 = doc.Create.NewReferencePlane(p1, p3, cut, view);
                     var rp3 = doc.Create.NewReferencePlane(p3, p4, cut, view);
-                    var rp4 = doc.Create.NewReferencePlane(p2, p4, cut. view);
+                    var rp4 = doc.Create.NewReferencePlane(p2, p4, cut, view);
+                    var rp5 = doc.Create.NewReferencePlane(p5, p6, cut, view);
+                    var rp6 = doc.Create.NewReferencePlane(p7, p8, cut, view);
                     
                     t.Commit();
                 }
