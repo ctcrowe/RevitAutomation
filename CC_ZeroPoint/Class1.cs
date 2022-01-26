@@ -46,9 +46,11 @@ namespace CC_Patterns
                 var items = panel.GetItems();
                 
                 var item1 = items.Where(x => x.ItemType == RibbonItemType.ComboBox)[0];
-                var item1 = items.Where(x => x.ItemType == RibbonItemType.ComboBox)[1];
-                var cb = item as ComboBox;
-                val = cb.Current.Name;
+                var item2 = items.Where(x => x.ItemType == RibbonItemType.ComboBox)[1];
+                var cb1 = item1 as ComboBox;
+                var cb2 = item2 as ComboBox;
+                val[0] = int.Parse(cb1.Current.Name.Split(' ').Last();
+                val[1] = int.Parse(cb2.Current.Name.Split(' ').Last();
             }
             catch (Exception e) { }
             return val;
