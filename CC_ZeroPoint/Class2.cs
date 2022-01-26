@@ -77,90 +77,31 @@ namespace CC_ZeroPoint
             var subcat = !map.Contains(name) ? doc.Settings.Categories.NewSubCategory(parent, name) : map.get_Item(name);
             subcat.SetLineWeight(1, GraphicsStyleType.Projection);
             subcat.LineColor = new Color(255, 128, 0);
-            subcat.SetLinePatternId([1], GraphicsStyleType.Projection);
+            subcat.SetLinePatternId(GetDash, GraphicsStyleType.Projection);
         }
-        private static ElementId[] GetLineStyles(this Document doc)
+        private static ElementId GetDash(this Document doc)
         {
-            ElementId[] eids = new ElementId[5];
             var collector = new FilteredElementCollector(doc)
                 .OfClass(typeof(LinePatternElement))
                 .ToElementIds().ToList();
-            bool[] check = new bool[5] { false, false, false, false, false };
             foreach(var id in collector)
             {
                 LinePatternElement lpe = doc.GetElement(id) as LinePatternElement;
                 string name = lpe.Name;
-                if (Names.Contains(name))
+                if (lpe.Name == "Dash")
                 {
-                    check[Names.ToList().IndexOf(name)] = true;
-                    eids[Names.ToList().IndexOf(name)] = lpe.Id;
+                    return lpe.Id;
                 }
             }
-            if(!check[0])
-            {
-                eids[0] = LinePatternElement.GetSolidPatternId();
-            }
-            if(!check[1])
-            {
-                TaskDialog.Show("Test", "Dash Trying to be Created");
-                LinePattern lp = new LinePattern("Dash");
-                lp.SetSegments(CreateDash());
-                LinePatternElement lpe = LinePatternElement.Create(doc, lp);
-                eids[1] = lpe.Id;
-            }
-            if(!check[2])
-            {
-                LinePattern lp = new LinePattern("Dot");
-                lp.SetSegments(CreateDot());
-                LinePatternElement lpe = LinePatternElement.Create(doc, lp);
-                eids[2] = lpe.Id;
-            }
-            if(!check[3])
-            {
-                LinePattern lp = new LinePattern("Center");
-                lp.SetSegments(CreateCenter());
-                LinePatternElement lpe = LinePatternElement.Create(doc, lp);
-                eids[3] = lpe.Id;
-            }
-            if(!check[4])
-            {
-                LinePattern lp = new LinePattern("Hidden");
-                lp.SetSegments(CreateHidden());
-                LinePatternElement lpe = LinePatternElement.Create(doc, lp);
-                eids[4] = lpe.Id;
-            }
-            return eids;
-        }
-        private static IList<LinePatternSegment> CreateDash()
-        {
+            LinePattern lp = new LinePattern("Dash");
+            
             List<LinePatternSegment> Segments = new List<LinePatternSegment>();
             Segments.Add(new LinePatternSegment(LinePatternSegmentType.Dash, 0.05));
             Segments.Add(new LinePatternSegment(LinePatternSegmentType.Space, 0.05));
-            return Segments;
+            lp.SetSegments(Segments);
+            
+            LinePatternElement lped = LinePatternElement.Create(doc, lp);
+            return lped.Id;
         }
-        private static IList<LinePatternSegment> CreateDot()
-        {
-            List<LinePatternSegment> Segments = new List<LinePatternSegment>();
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Dot, 0.01));
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Space, 0.05));
-            return Segments;
-        }
-        private static IList<LinePatternSegment> CreateCenter()
-        {
-            List<LinePatternSegment> Segments = new List<LinePatternSegment>();
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Dash, 0.05));
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Space, 0.05));
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Dot, 0.01));
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Space, 0.05));
-            return Segments;
-        }
-        private static IList<LinePatternSegment> CreateHidden()
-        {
-            List<LinePatternSegment> Segments = new List<LinePatternSegment>();
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Dash, 0.02));
-            Segments.Add(new LinePatternSegment(LinePatternSegmentType.Space, 0.02));
-            return Segments;
-        }
-        public static string[] Names = new string[5] { "Solid", "Dash", "Dot", "Center", "Hidden" };
     }
 }
