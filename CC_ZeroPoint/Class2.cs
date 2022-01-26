@@ -41,7 +41,15 @@ namespace CC_ZeroPoint
                 var p8 = new XYZ(note, adjh, 0);
                 
                 var cut = new XYZ(0, 0, 1);
-                
+                using(TransactionGroup tg = new TransactionGroup(doc, "Create Reference Planes"))
+                {
+                    tg.Start();
+                    using(Transaction t = new Transaction(doc, "Create Category"))
+                    {
+                        t.Start();
+                        CategorySetup(doc);
+                        t.Commit();
+                    }
                 using(Transaction t = new Transaction(doc, "Create Zeros"))
                 {
                     t.Start();
@@ -55,8 +63,19 @@ namespace CC_ZeroPoint
                     
                     t.Commit();
                 }
+                    tg.Commit();
+                }
             }
             else { TaskDialog.Show("Error", "Activate a Drafting View Before Use"); }
+        }
+        private void CategorySetup(Document doc)
+        {
+            string name = "View Outline";
+            
+            var parent = Category.GetCategory(doc, BuiltInCategories.OST_ReferencePlanes);
+            CategoryNameMap map = parent.SubCategories;
+            var subcat = !map.Contains(name) ? doc.Settings.Categories.NewSubCategory(parent, name) : map.get_Item(name);
+            setCategoryStyles(subcat, cat);
         }
     }
 }
