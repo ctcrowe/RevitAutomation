@@ -33,6 +33,7 @@ namespace CC_Patterns
             cbox2.AddItem(new ComboBoxMemberData("Width - 2", "Width - 2"));
             cbox2.AddItem(new ComboBoxMemberData("Width - 3", "Width - 3"));
             cbox2.AddItem(new ComboBoxMemberData("Width - 4", "Width - 4"));
+            cbox2.AddItem(new ComboBoxMemberData("Width - 5", "Width - 5"));
             
             return Result.Succeeded;
         }
