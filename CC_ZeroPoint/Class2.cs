@@ -25,10 +25,10 @@ namespace CC_ZeroPoint
             {
                 var scale = view.Scale;
                 var multiplier = GetComboData(app);
-                var adjw = Width * Scale * Multiplier[1];
-                var adjh = Height * Scale * Multiplier[0];
-                var ttlb = Title * Scale;
-                var note = adjw - (Notes * Scale);
+                var adjw = Width * scale * multiplier[1];
+                var adjh = Height * scale * multiplier[0];
+                var ttlb = Title * scale;
+                var note = adjw - (Notes * scale);
                 
                 XYZ p1 = new XYZ(0,0,0);
                 XYZ p2 = new XYZ(adjw, 0, 0);
@@ -47,7 +47,7 @@ namespace CC_ZeroPoint
                     using(Transaction t = new Transaction(doc, "Create Category"))
                     {
                         t.Start();
-                        CategorySetup(doc);
+                        subcat = CategorySetup(doc);
                         t.Commit();
                     }
                     using(Transaction t = new Transaction(doc, "Create Zeros"))
@@ -61,12 +61,12 @@ namespace CC_ZeroPoint
                         var rp5 = doc.Create.NewReferencePlane(p5, p6, cut, view);
                         var rp6 = doc.Create.NewReferencePlane(p7, p8, cut, view);
                         
-                        rp1.ParametersMap.Get_Item("Subcategory").Set("View Outline");
-                        rp2.ParametersMap.Get_Item("Subcategory").Set("View Outline");
-                        rp3.ParametersMap.Get_Item("Subcategory").Set("View Outline");
-                        rp4.ParametersMap.Get_Item("Subcategory").Set("View Outline");
-                        rp5.ParametersMap.Get_Item("Subcategory").Set("View Outline");
-                        rp6.ParametersMap.Get_Item("Subcategory").Set("View Outline");
+                        rp1.get_Parameter(BuiltInParameter.CLINE_SUBCATEGORY).Set(subcat);
+                        rp2.get_Parameter(BuiltInParameter.CLINE_SUBCATEGORY).Set(subcat);
+                        rp3.get_Parameter(BuiltInParameter.CLINE_SUBCATEGORY).Set(subcat);
+                        rp4.get_Parameter(BuiltInParameter.CLINE_SUBCATEGORY).Set(subcat);
+                        rp5.get_Parameter(BuiltInParameter.CLINE_SUBCATEGORY).Set(subcat);
+                        rp6.get_Parameter(BuiltInParameter.CLINE_SUBCATEGORY).Set(subcat);
                     
                         t.Commit();
                     }
@@ -75,7 +75,7 @@ namespace CC_ZeroPoint
             }
             else { TaskDialog.Show("Error", "Activate a Drafting View Before Use"); }
         }
-        private void CategorySetup(Document doc)
+        private ElementId CategorySetup(Document doc)
         {
             string name = "View Outline";
             
@@ -85,6 +85,7 @@ namespace CC_ZeroPoint
             subcat.SetLineWeight(1, GraphicsStyleType.Projection);
             subcat.LineColor = new Color(255, 128, 0);
             subcat.SetLinePatternId(GetDash, GraphicsStyleType.Projection);
+			return subcat.Id;
         }
         private static ElementId GetDash(this Document doc)
         {
