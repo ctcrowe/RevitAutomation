@@ -50,19 +50,19 @@ namespace CC_ZeroPoint
                         CategorySetup(doc);
                         t.Commit();
                     }
-                using(Transaction t = new Transaction(doc, "Create Zeros"))
-                {
-                    t.Start();
+                    using(Transaction t = new Transaction(doc, "Create Zeros"))
+                    {
+                        t.Start();
+                        
+                        var rp1 = doc.Create.NewReferencePlane(p1, p2, cut, view);
+                        var rp2 = doc.Create.NewReferencePlane(p1, p3, cut, view);
+                        var rp3 = doc.Create.NewReferencePlane(p3, p4, cut, view);
+                        var rp4 = doc.Create.NewReferencePlane(p2, p4, cut, view);
+                        var rp5 = doc.Create.NewReferencePlane(p5, p6, cut, view);
+                        var rp6 = doc.Create.NewReferencePlane(p7, p8, cut, view);
                     
-                    var rp1 = doc.Create.NewReferencePlane(p1, p2, cut, view);
-                    var rp2 = doc.Create.NewReferencePlane(p1, p3, cut, view);
-                    var rp3 = doc.Create.NewReferencePlane(p3, p4, cut, view);
-                    var rp4 = doc.Create.NewReferencePlane(p2, p4, cut, view);
-                    var rp5 = doc.Create.NewReferencePlane(p5, p6, cut, view);
-                    var rp6 = doc.Create.NewReferencePlane(p7, p8, cut, view);
-                    
-                    t.Commit();
-                }
+                        t.Commit();
+                    }
                     tg.Commit();
                 }
             }
