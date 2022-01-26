@@ -22,7 +22,7 @@ namespace CC_Patterns
             
             var items = Panel.AddStackedItems(cb1, cb2, b1d);
             var cbox1 = items[0] as ComboBox;
-            var cbox2 = items[2] as ComboBox;
+            var cbox2 = items[1] as ComboBox;
             
             cbox1.AddItem(new ComboBoxMemberData("Height - 1", "Height - 1"));
             cbox1.AddItem(new ComboBoxMemberData("Height - 2", "Height - 2"));
