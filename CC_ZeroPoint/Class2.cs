@@ -31,7 +31,24 @@ namespace CC_ZeroPoint
             if(view.ViewType == ViewType.DraftingView)
             {
                 var scale = view.Scale;
+                XYZ p1 = new XYZ(0,0,0);
+                XYZ p2 = new XYZ(Width * Scale, 0, 0);
+                XYZ p3 = new XYZ(0, Height * Scale, 0);
+                XYZ p4 = new XYZ(Width * Scale, Height * Scale, 0);
                 
+                var cut = new XYZ(0, 0, 1);
+                
+                using(Transaction t = new Transaction(doc, "Create Zeros"))
+                {
+                    t.Start();
+                    
+                    var rp1 = doc.Create.NewReferencePlane(p1, p2, cut, view);
+                    var rp2 = doc.Create.NewReferencePlane(p1, p3, cut, view);
+                    var rp3 = doc.Create.NewReferencePlane(p3, p4, cut, view);
+                    var rp4 = doc.Create.NewReferencePlane(p2, p4, cut. view);
+                    
+                    t.Commit();
+                }
             }
             else { TaskDialog.Show("Error", "Activate a Drafting View Before Use"); }
         }
