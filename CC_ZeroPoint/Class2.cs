@@ -60,6 +60,13 @@ namespace CC_ZeroPoint
                         var rp4 = doc.Create.NewReferencePlane(p2, p4, cut, view);
                         var rp5 = doc.Create.NewReferencePlane(p5, p6, cut, view);
                         var rp6 = doc.Create.NewReferencePlane(p7, p8, cut, view);
+                        
+                        rp1.ParametersMap.Get_Item("Subcategory").Set("View Outline");
+                        rp2.ParametersMap.Get_Item("Subcategory").Set("View Outline");
+                        rp3.ParametersMap.Get_Item("Subcategory").Set("View Outline");
+                        rp4.ParametersMap.Get_Item("Subcategory").Set("View Outline");
+                        rp5.ParametersMap.Get_Item("Subcategory").Set("View Outline");
+                        rp6.ParametersMap.Get_Item("Subcategory").Set("View Outline");
                     
                         t.Commit();
                     }
