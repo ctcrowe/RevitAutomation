@@ -44,6 +44,19 @@ namespace CC_ZeroPoint
                 using(TransactionGroup tg = new TransactionGroup(doc, "Create Reference Planes"))
                 {
                     tg.Start();
+					using(Transaction t = new Transaction(doc, "Purge RPs"))
+					{
+						t.Start();
+						var rps = new FilteredElementCollector(doc, view.Id).OfCategory(BuiltInCategory.OST_ReferencePlanes).ToList();
+						foreach(var rp in rps)
+						{
+							if(rp.Category.Name == "View Outline")
+							{
+								doc.Delete(rp.Id);
+							}
+						}
+						t.Commit();
+					}
                     using(Transaction t = new Transaction(doc, "Create Category"))
                     {
                         t.Start();
