@@ -44,10 +44,10 @@ namespace CC_Patterns
             for(int i = 0; i < 10; i++)
             {
                 var rand = r.NextDouble();
-                grids.Add("0," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
-                grids.Add("0," + (rand * Width) + "," + (Height + (i * (Height + Grout))) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout);
-                grids.Add("90," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (10 * (Grout + Height)) + "," + (Width + Grout) + "," + Height + "," + (-1 * (10 * (Grout + Height)));
-                grids.Add("90," + (Width + (rand * Width)) + "," + (i * (Height + Grout)) + "," + (10 * (Grout + Height)) + "," + (Width + Grout) + "," + Height + "," + (-1 * (10 * (Grout + Height)));
+                grids.Add("0," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout));
+                grids.Add("0," + (rand * Width) + "," + (Height + (i * (Height + Grout))) + "," + (Width + Grout) + "," + (10 * (Grout + Height)) + "," + Width + "," + (-1 * Grout));
+                grids.Add("90," + (rand * Width) + "," + (i * (Height + Grout)) + "," + (10 * (Grout + Height)) + "," + (Width + Grout) + "," + Height + "," + (-1 * (10 * (Grout + Height))));
+                grids.Add("90," + (Width + (rand * Width)) + "," + (i * (Height + Grout)) + "," + (10 * (Grout + Height)) + "," + (Width + Grout) + "," + Height + "," + (-1 * (10 * (Grout + Height))));
             }
                           
             lines.AddRange(grids);

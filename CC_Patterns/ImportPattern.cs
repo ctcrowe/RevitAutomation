@@ -45,6 +45,7 @@ namespace CC_Patterns
             s += PenDown + ",";
             var PU = -1 * Math.Abs(PenUp);
             s += PU;
+            lines.Add(s);
         }
     }
 }
