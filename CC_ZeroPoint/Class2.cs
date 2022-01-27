@@ -5,18 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Autodesk.Revit.DB;
-using Autodest.Revit.UI;
+using Autodesk.Revit.UI;
 
 namespace CC_ZeroPoint
 {
-    public class GetZeroPointBox
+    public static class GetZeroPointBox
     {
         private const double Width = 7.375 / 12;
         private const double Height = 7.25 / 12;
         private const double Title = 1.25 / 12;
         private const double Notes = 2.125 / 12;
         
-        public static void CreateBox(UIControlledApplication app)
+        public static void CreateBox(UIApplication app)
         {
             var doc = app.ActiveUIDocument.Document;
             var view = doc.ActiveView;
@@ -24,7 +24,7 @@ namespace CC_ZeroPoint
             if(view.ViewType == ViewType.DraftingView)
             {
                 var scale = view.Scale;
-                var multiplier = GetComboData(app);
+                var multiplier = CC_ZeroPointRibbon.GetComboData(app);
                 var adjw = Width * scale * multiplier[1];
                 var adjh = Height * scale * multiplier[0];
                 var ttlb = Title * scale;
@@ -41,6 +41,8 @@ namespace CC_ZeroPoint
                 var p8 = new XYZ(note, adjh, 0);
                 
                 var cut = new XYZ(0, 0, 1);
+                ElementId subcat;
+
                 using(TransactionGroup tg = new TransactionGroup(doc, "Create Reference Planes"))
                 {
                     tg.Start();
@@ -90,16 +92,16 @@ namespace CC_ZeroPoint
             }
             else { TaskDialog.Show("Error", "Activate a Drafting View Before Use"); }
         }
-        private ElementId CategorySetup(Document doc)
+        private static ElementId CategorySetup(Document doc)
         {
             string name = "View Outline";
             
-            var parent = Category.GetCategory(doc, BuiltInCategories.OST_ReferencePlanes);
+            var parent = Category.GetCategory(doc, BuiltInCategory.OST_CLines);
             CategoryNameMap map = parent.SubCategories;
-            var subcat = !map.Contains(name) ? doc.Settings.Categories.NewSubCategory(parent, name) : map.get_Item(name);
+            var subcat = !map.Contains(name) ? doc.Settings.Categories.NewSubcategory(parent, name) : map.get_Item(name);
             subcat.SetLineWeight(1, GraphicsStyleType.Projection);
             subcat.LineColor = new Color(255, 128, 0);
-            subcat.SetLinePatternId(GetDash, GraphicsStyleType.Projection);
+            subcat.SetLinePatternId(doc.GetDash(), GraphicsStyleType.Projection);
 			return subcat.Id;
         }
         private static ElementId GetDash(this Document doc)

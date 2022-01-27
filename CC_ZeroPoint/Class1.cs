@@ -1,12 +1,13 @@
-using System.Reflection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Revit.UI;
+using System.Collections.Generic;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Events;
+using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
+using Autodesk.Revit.Attributes;
+using System.Reflection;
 
-namespace CC_Patterns
+namespace CC_ZeroPoint
 {
     public class CC_ZeroPointRibbon : IExternalApplication
     {
@@ -23,7 +24,7 @@ namespace CC_Patterns
                 "Create Detail Border",
                 "Create Detail Border",
                 @dllpath,
-                "CC_Patterns.CreateDetailBorder");
+                "CC_ZeroPoint.CreateDetailBorder");
             b1d.ToolTip = "Create a reference border for the active detail view.";
             
             var items = Panel.AddStackedItems(cb1, cb2, b1d);
@@ -51,13 +52,13 @@ namespace CC_Patterns
                 var panels = app.GetRibbonPanels(TabName);
                 var panel = panels.Where(x => x.Name == PanelName).First();
                 var items = panel.GetItems();
-                
-                var item1 = items.Where(x => x.ItemType == RibbonItemType.ComboBox)[0];
-                var item2 = items.Where(x => x.ItemType == RibbonItemType.ComboBox)[1];
+
+                var item1 = items.Where(x => x.ItemType == RibbonItemType.ComboBox).ElementAt(0);
+                var item2 = items.Where(x => x.ItemType == RibbonItemType.ComboBox).ElementAt(1);
                 var cb1 = item1 as ComboBox;
                 var cb2 = item2 as ComboBox;
-                val[0] = int.Parse(cb1.Current.Name.Split(' ').Last();
-                val[1] = int.Parse(cb2.Current.Name.Split(' ').Last();
+                val[0] = int.Parse(cb1.Current.Name.Split(' ').Last());
+                val[1] = int.Parse(cb2.Current.Name.Split(' ').Last());
             }
             catch (Exception e) { }
             return val;
