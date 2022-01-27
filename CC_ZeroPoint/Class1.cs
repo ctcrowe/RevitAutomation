@@ -10,6 +10,7 @@ namespace CC_Patterns
 {
     public class CC_ZeroPointRibbon : IExternalApplication
     {
+        private static string dllpath = Assembly.GetExecutingAssembly().Location;
         private const string TabName = "CCrowe";
         private const string PanelName = "Zero Point";
         public Result OnStartup(UIControlledApplication uiApp)
@@ -18,7 +19,12 @@ namespace CC_Patterns
             RibbonPanel Panel = uiApp.CreateRibbonPanel(TabName, PanelName);
             ComboBoxData cb1 = new ComboBoxData("Height");
             ComboBoxData cb2 = new ComboBoxData("Width");
-            PushButtonData b1d = new PushButtonData();
+            PushButtonData b1d = new PushButtonData(
+                "Create Detail Border",
+                "Create Detail Border",
+                @dllpath,
+                "CC_Patterns.CreateDetailBorder");
+            b1d.ToolTip = "Create a reference border for the active detail view.";
             
             var items = Panel.AddStackedItems(cb1, cb2, b1d);
             var cbox1 = items[0] as ComboBox;
@@ -58,6 +64,19 @@ namespace CC_Patterns
         }
         public Result OnShutdown(UIControlledApplication uiApp)
         {
+            return Result.Succeeded;
+        }
+    }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
+    public class CreateDetailBorder : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
+        {
+            GetZeroPointBox.CreateBox(commandData.Application);
             return Result.Succeeded;
         }
     }
