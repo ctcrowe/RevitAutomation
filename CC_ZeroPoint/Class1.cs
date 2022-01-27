@@ -37,6 +37,7 @@ namespace CC_ZeroPoint
             cbox1.AddItem(new ComboBoxMemberData("Height - 4", "Height - 4"));
             
             cbox2.AddItem(new ComboBoxMemberData("Width - 1", "Width - 1"));
+            cbox2.AddItem(new ComboBoxMemberData("Width - 1.5", "Width - 1.5"));
             cbox2.AddItem(new ComboBoxMemberData("Width - 2", "Width - 2"));
             cbox2.AddItem(new ComboBoxMemberData("Width - 3", "Width - 3"));
             cbox2.AddItem(new ComboBoxMemberData("Width - 4", "Width - 4"));
@@ -44,9 +45,9 @@ namespace CC_ZeroPoint
             
             return Result.Succeeded;
         }
-        public static int[] GetComboData(UIApplication app)
+        public static double[] GetComboData(UIApplication app)
         {
-            int[] val = new int[2];
+            double[] val = new double[2];
             try
             {
                 var panels = app.GetRibbonPanels(TabName);
@@ -57,8 +58,8 @@ namespace CC_ZeroPoint
                 var item2 = items.Where(x => x.ItemType == RibbonItemType.ComboBox).ElementAt(1);
                 var cb1 = item1 as ComboBox;
                 var cb2 = item2 as ComboBox;
-                val[0] = int.Parse(cb1.Current.Name.Split(' ').Last());
-                val[1] = int.Parse(cb2.Current.Name.Split(' ').Last());
+                val[0] = double.Parse(cb1.Current.Name.Split(' ').Last());
+                val[1] = double.Parse(cb2.Current.Name.Split(' ').Last());
             }
             catch (Exception e) { }
             return val;
