@@ -88,16 +88,31 @@ namespace CC_Library.Predictions
         {
             try
             {
-                var Loc = s.Locate(3, 4);
-                var Loc = s.LocateScrabble(3, 4);
-                var Loc = s.LocateNumbs(3, 4);
-                var Loc = s.LocateLetters(3, 4);
+                var Loc1 = s.Locate(3, 4);
+                var Loc2 = s.LocateScrabble(3, 4);
+                var Loc3 = s.LocateNumbs(3, 4);
+                var Loc4 = s.LocateLetters(3, 4);
                 string l = "";
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < CharSet.CharCount; j++)
                     {
-                        l += Loc[(i * CharSet.CharCount) + j] + ", ";
+                        l += Loc1[(i * CharSet.CharCount) + j] + ", ";
+                    }
+                    l += "\r\n";
+                    for (int j = 0; j < CharSet.CharCount; j++)
+                    {
+                        l += Loc2[(i * CharSet.CharCount) + j] + ", ";
+                    }
+                    l += "\r\n";
+                    for (int j = 0; j < CharSet.CharCount; j++)
+                    {
+                        l += Loc3[(i * CharSet.CharCount) + j] + ", ";
+                    }
+                    l += "\r\n";
+                    for (int j = 0; j < CharSet.CharCount; j++)
+                    {
+                        l += Loc4[(i * CharSet.CharCount) + j] + ", ";
                     }
                     l += "\r\n";
                 }
