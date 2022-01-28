@@ -89,6 +89,9 @@ namespace CC_Library.Predictions
             try
             {
                 var Loc = s.Locate(3, 4);
+                var Loc = s.LocateScrabble(3, 4);
+                var Loc = s.LocateNumbs(3, 4);
+                var Loc = s.LocateLetters(3, 4);
                 string l = "";
                 for (int i = 0; i < 8; i++)
                 {
