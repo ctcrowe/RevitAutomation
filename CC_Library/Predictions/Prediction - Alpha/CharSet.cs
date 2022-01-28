@@ -93,6 +93,7 @@ namespace CC_Library.Predictions
                 var Loc3 = s.LocateNumbs(3, 4);
                 var Loc4 = s.LocateLetters(3, 4);
                 string l = "";
+                l += "Base Location : ";
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < CharSet.CharCount; j++)
@@ -102,6 +103,7 @@ namespace CC_Library.Predictions
                     l += "\r\n";
                 }
                 l += "\r\n\r\n\r\n";
+                l += "Scrabble Location : ";
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < CharSet.CharCount; j++)
@@ -111,6 +113,7 @@ namespace CC_Library.Predictions
                     l += "\r\n";
                 }
                 l += "\r\n\r\n\r\n";
+                l += "Number Location : ";
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < CharSet.CharCount; j++)
@@ -120,6 +123,7 @@ namespace CC_Library.Predictions
                     l += "\r\n";
                 }
                 l += "\r\n\r\n\r\n";
+                l += "Letter Location : ";
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < CharSet.CharCount; j++)
