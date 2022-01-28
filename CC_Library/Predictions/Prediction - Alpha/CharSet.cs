@@ -31,8 +31,51 @@ namespace CC_Library.Predictions
 
             return result;
         }
+        public static double[] LocateScrabble(this string s, int numb, int range)
+        {
+            double[] result = new double[CharCount * ((2 * range) + 1)];
+            string a = s.ToUpper();
+            char[] chars = a.ToCharArray();
+
+            int imin = numb < range ? numb : range;
+            int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
+
+            Parallel.For(0, imax, i => result[(i * CharCount) + LocationOfS(chars[numb + i])] = 1);
+            Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOfS(chars[numb - (i + 1)])] = 1);
+
+            return result;
+        }
+        public static double[] LocateNumbs(this string s, int numb, int range)
+        {
+            double[] result = new double[CharCount * ((2 * range) + 1)];
+            string a = s.ToUpper();
+            char[] chars = a.ToCharArray();
+
+            int imin = numb < range ? numb : range;
+            int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
+
+            Parallel.For(0, imax, i => result[(i * CharCount) + LocationOfN(chars[numb + i])] = 1);
+            Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOfN(chars[numb - (i + 1)])] = 1);
+
+            return result;
+        }
+        public static double[] LocateLetters(this string s, int numb, int range)
+        {
+            double[] result = new double[CharCount * ((2 * range) + 1)];
+            string a = s.ToUpper();
+            char[] chars = a.ToCharArray();
+
+            int imin = numb < range ? numb : range;
+            int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
+
+            Parallel.For(0, imax, i => result[(i * CharCount) + LocationOfC(chars[numb + i])] = 1);
+            Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOfC(chars[numb - (i + 1)])] = 1);
+
+            return result;
+        }
         private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : Chars.Keys.Count() - 1; }
         private static int LocationOfS(char c) { return Chars.Keys.Contains(c) ? Chars[c] : 0; }
+        private static int LocationOfN(char c) { return int.TryParse(c, out int x) ? x : 0; }
         private static int LocationOfC(char c) { return !Chars.Keys.Contains(c) ? Chars.Count() - 1 :
                                                 Chars[c] > 0? Chars.Keys.ToList().IndexOf(c) :
                                                 Chars.Keys.Count() - 1; }
