@@ -8,12 +8,12 @@ using CC_Library.Predictions;
 
 namespace CC_Library.Predictions
 {
-    internal class AlphaContext
+    internal class Filter1
     {
         private Datatype datatype { get; }
         public NeuralNetwork Network { get; }
         public const int SearchRange = 3;
-        internal AlphaContext(Datatype dt, WriteToCMDLine write, int numb = 0)
+        internal Filter1(Datatype dt, WriteToCMDLine write, int numb = 0)
         {
             datatype = dt;
             switch(numb)

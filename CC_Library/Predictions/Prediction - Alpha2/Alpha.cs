@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
+using System.Collections.Generic;
 
 namespace CC_Library.Predictions
 {
     internal class Alpha2
     {
+        private List<IAlphaFilter> Filters { get; }
         internal Alpha2(WriteToCMDLine write)
         {
             Network = Datatype.Alpha.LoadNetwork(write);

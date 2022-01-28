@@ -71,10 +71,10 @@
     <Compile Include="Patterns\BrickPattern.cs" />
     <Compile Include="Patterns\DrawnPattern.cs" />
     <Compile Include="Patterns\HerringbonePattern.cs" />
-    <Compile Include="Predictions\Prediction - Alpha - Copy\Alpha.cs" />
-    <Compile Include="Predictions\Prediction - Alpha - Copy\AlphaMem.cs" />
-    <Compile Include="Predictions\Prediction - Alpha - Copy\CharSet.cs" />
-    <Compile Include="Predictions\Prediction - Alpha - Copy\LocalContext.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\Alpha.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\Filter2.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\Filter1.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\IAlphaFilter.cs" />
     <Compile Include="Predictions\Prediction - Library\CommandNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\UniformatNetwork.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
