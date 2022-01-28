@@ -22,31 +22,35 @@ namespace CC_Library.Predictions
             ValueNetwork.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
-        private double ScoreAttention(double[] values)
+        private double ScoreAttention(double[] values, int j, AlphaMem am)
         {
             for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
             {
                 values = AttentionNetwork.Layers[i].Output(values);
+                am.LocalContextOutputs[j].Add(values);
             }
             return values.First();
         }
-        private double[] Locate(double[] values)
+        private double[] Locate(double[] values, int j, AlphaMem am)
         {
             for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
             {
                 values = ValueNetwork.Layers[i].Output(values);
+                am.LocationOutputs[j].Add(values);
             }
             return values;
         }
-        public double[] Forward(string s)
+        public double[] Forward(string s, AlphaMem am)
         {
             double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, Size];
             Parallel.For(0, s.Length, j =>
             {
                 var vals = s.Locate(j, Radius);
-                ctxt[j] = ScoreAttention(vals);
-                loc.SetRank(vals);
+                am.LocationOutputs[j].Add(vals);
+                am.LocalContextOutputs[j].Add(vals);
+                ctxt[j] = ScoreAttention(vals, j, am);
+                loc.SetRank(vals, j, am);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
