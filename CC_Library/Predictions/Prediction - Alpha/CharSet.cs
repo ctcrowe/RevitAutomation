@@ -9,6 +9,8 @@ namespace CC_Library.Predictions
     internal static class CharSet
     {
         public const int CharCount = 38;
+        public const int LetterCount = 27;
+        public const int NumbCount = 11;
         private static Dictionary<char, int> Chars = new Dictionary<char, int> {
             {'A', 1}, {'B', 3}, {'C', 3}, {'D', 2}, {'E', 1}, {'F', 4}, {'G', 2},
             {'H', 4}, {'I', 1}, {'J', 8}, {'K', 5}, {'L', 1}, {'M', 3}, {'N', 1},
@@ -33,15 +35,15 @@ namespace CC_Library.Predictions
         }
         public static double[] LocateScrabble(this string s, int numb, int range)
         {
-            double[] result = new double[CharCount * ((2 * range) + 1)];
+            double[] result = new double[((2 * range) + 1)];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
 
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
-            Parallel.For(0, imax, i => result[(i * CharCount) + LocationOfS(chars[numb + i])] = 1);
-            Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOfS(chars[numb - (i + 1)])] = 1);
+            Parallel.For(0, imax, i => result[i] = LocationsOfS(chars[numb + i]);
+            Parallel.For(0, imin, i => result[range + i] = LocationOfS(chars[numb - (i + 1)]);
 
             return result;
         }
@@ -61,21 +63,21 @@ namespace CC_Library.Predictions
         }
         public static double[] LocateLetters(this string s, int numb, int range)
         {
-            double[] result = new double[CharCount * ((2 * range) + 1)];
+            double[] result = new double[LetterCount * ((2 * range) + 1)];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
 
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
-            Parallel.For(0, imax, i => result[(i * CharCount) + LocationOfC(chars[numb + i])] = 1);
-            Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOfC(chars[numb - (i + 1)])] = 1);
+            Parallel.For(0, imax, i => result[(i * LetterCount) + LocationOfC(chars[numb + i])] = 1);
+            Parallel.For(0, imin, i => result[((range + i) * LetterCount) + LocationOfC(chars[numb - (i + 1)])] = 1);
 
             return result;
         }
         private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : Chars.Keys.Count() - 1; }
         private static int LocationOfS(char c) { return Chars.Keys.Contains(c) ? Chars[c] : 0; }
-        private static int LocationOfN(char c) { return int.TryParse(c, out int x) ? x : 0; }
+        private static int LocationOfN(char c) { return int.TryParse(c, out int x) ? x : 10; }
         private static int LocationOfC(char c) { return !Chars.Keys.Contains(c) ? Chars.Count() - 1 :
                                                 Chars[c] > 0? Chars.Keys.ToList().IndexOf(c) :
                                                 Chars.Keys.Count() - 1; }
