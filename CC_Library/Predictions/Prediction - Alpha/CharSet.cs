@@ -100,22 +100,35 @@ namespace CC_Library.Predictions
                         l += Loc1[(i * CharSet.CharCount) + j] + ", ";
                     }
                     l += "\r\n";
+                }
+                l += "\r\n\r\n\r\n";
+                for (int i = 0; i < 8; i++)
+                {
                     for (int j = 0; j < CharSet.CharCount; j++)
                     {
                         l += Loc2[(i * CharSet.CharCount) + j] + ", ";
                     }
                     l += "\r\n";
+                }
+                l += "\r\n\r\n\r\n";
+                for (int i = 0; i < 8; i++)
+                {
                     for (int j = 0; j < CharSet.CharCount; j++)
                     {
                         l += Loc3[(i * CharSet.CharCount) + j] + ", ";
                     }
                     l += "\r\n";
+                }
+                l += "\r\n\r\n\r\n";
+                for (int i = 0; i < 8; i++)
+                {
                     for (int j = 0; j < CharSet.CharCount; j++)
                     {
                         l += Loc4[(i * CharSet.CharCount) + j] + ", ";
                     }
                     l += "\r\n";
                 }
+                l += "\r\n\r\n\r\n";
                 write(l);
             }
             catch(Exception e) { e.OutputError(); }
