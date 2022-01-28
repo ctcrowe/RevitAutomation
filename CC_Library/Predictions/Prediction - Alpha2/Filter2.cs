@@ -22,23 +22,21 @@ namespace CC_Library.Predictions
             ValueNetwork.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
-        private double ScoreAttention(string s, int c)
+        private double ScoreAttention(double[] values)
         {
-            var result = s.Locate(c, Radius);
             for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
             {
-                result = AttentionNetwork.Layers[i].Output(result);
+                values = AttentionNetwork.Layers[i].Output(values);
             }
-            return result.First();
+            return values.First();
         }
-        private double[] Locate(string s, int c)
+        private double[] Locate(double[] values)
         {
-            var result = s.Locate(c, Radius);
             for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
             {
-                result = ValueNetwork.Layers[i].Output(result);
+                values = ValueNetwork.Layers[i].Output(values);
             }
-            return result;
+            return values;
         }
         public double[] Forward(string s)
         {
@@ -46,8 +44,9 @@ namespace CC_Library.Predictions
             double[,] loc = new double[s.Length, Size];
             Parallel.For(0, s.Length, j =>
             {
-                ctxt[j] = ScoreAttention(s, j);
-                loc.SetRank(Locate(s, j), j);
+                var vals = s.Locate(j, Radius);
+                ctxt[j] = ScoreAttention(vals);
+                loc.SetRank(vals);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
