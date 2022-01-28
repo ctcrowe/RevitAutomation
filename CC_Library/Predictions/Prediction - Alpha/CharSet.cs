@@ -75,12 +75,12 @@ namespace CC_Library.Predictions
 
             return result;
         }
-        private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : Chars.Keys.Count() - 1; }
+        private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : CharCount - 1; }
         private static int LocationOfS(char c) { return Chars.Keys.Contains(c) ? Chars[c] : 0; }
         private static int LocationOfN(char c) { return int.TryParse(c, out int x) ? x : 10; }
-        private static int LocationOfC(char c) { return !Chars.Keys.Contains(c) ? Chars.Count() - 1 :
+        private static int LocationOfC(char c) { return !Chars.Keys.Contains(c) ? LetterCount - 1 :
                                                 Chars[c] > 0? Chars.Keys.ToList().IndexOf(c) :
-                                                Chars.Keys.Count() - 1; }
+                                               LetterCount - 1; }
     }
     public static class TestCharSet
     {
