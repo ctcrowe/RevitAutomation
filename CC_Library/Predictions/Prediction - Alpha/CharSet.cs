@@ -49,15 +49,15 @@ namespace CC_Library.Predictions
         }
         public static double[] LocateNumbs(this string s, int numb, int range)
         {
-            double[] result = new double[CharCount * ((2 * range) + 1)];
+            double[] result = new double[NumbCount * ((2 * range) + 1)];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
 
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
-            Parallel.For(0, imax, i => result[(i * CharCount) + LocationOfN(chars[numb + i])] = 1);
-            Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOfN(chars[numb - (i + 1)])] = 1);
+            Parallel.For(0, imax, i => result[(i * NumbCount) + LocationOfN(chars[numb + i])] = 1);
+            Parallel.For(0, imin, i => result[((range + i) * NumbCount) + LocationOfN(chars[numb - (i + 1)])] = 1);
 
             return result;
         }
