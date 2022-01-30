@@ -4,8 +4,8 @@
     {
         NeuralNetwork AttentionNetwork { get; }
         NeuralNetwork ValueNetwork { get; }
-        int Size;
-        double[] Forward(string s);
+        int GetSize();
+        double[] Forward(string s, AlphaMem am);
         void Backward(string s, double[] DValues,
             AlphaMem am, NetworkMem mem, NetworkMem CtxtMem);
     }

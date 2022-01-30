@@ -40,6 +40,7 @@ namespace CC_Library.Predictions
             }
             return values;
         }
+        public int GetSize() { return Size; }
         public double[] Forward(string s, AlphaMem am)
         {
             double[] ctxt = new double[s.Length];
@@ -50,7 +51,7 @@ namespace CC_Library.Predictions
                 am.LocationOutputs[j].Add(vals);
                 am.LocalContextOutputs[j].Add(vals);
                 ctxt[j] = ScoreAttention(vals, j, am);
-                loc.SetRank(vals, j, am);
+                loc.SetRank(vals, j);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }

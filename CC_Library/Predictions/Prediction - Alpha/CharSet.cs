@@ -42,8 +42,8 @@ namespace CC_Library.Predictions
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
-            Parallel.For(0, imax, i => result[i] = LocationsOfS(chars[numb + i]);
-            Parallel.For(0, imin, i => result[range + i] = LocationOfS(chars[numb - (i + 1)]);
+            Parallel.For(0, imax, i => { result[i] = LocationOfS(chars[numb + i]); });
+            Parallel.For(0, imin, i => { result[range + i] = LocationOfS(chars[numb - (i + 1)]); });
 
             return result;
         }
@@ -77,7 +77,7 @@ namespace CC_Library.Predictions
         }
         private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : CharCount - 1; }
         private static int LocationOfS(char c) { return Chars.Keys.Contains(c) ? Chars[c] : 0; }
-        private static int LocationOfN(char c) { return int.TryParse(c, out int x) ? x : 10; }
+        private static int LocationOfN(char c) { return int.TryParse(c.ToString(), out int x) ? x : 10; }
         private static int LocationOfC(char c) { return !Chars.Keys.Contains(c) ? LetterCount - 1 :
                                                 Chars[c] > 0? Chars.Keys.ToList().IndexOf(c) :
                                                LetterCount - 1; }
@@ -106,19 +106,16 @@ namespace CC_Library.Predictions
                 l += "Scrabble Location : ";
                 for (int i = 0; i < 8; i++)
                 {
-                    for (int j = 0; j < CharSet.CharCount; j++)
-                    {
-                        l += Loc2[(i * CharSet.CharCount) + j] + ", ";
-                    }
+                    l += Loc2[i] + ", ";
                     l += "\r\n";
                 }
                 l += "\r\n\r\n\r\n";
                 l += "Number Location : ";
                 for (int i = 0; i < 8; i++)
                 {
-                    for (int j = 0; j < CharSet.CharCount; j++)
+                    for (int j = 0; j < CharSet.NumbCount; j++)
                     {
-                        l += Loc3[(i * CharSet.CharCount) + j] + ", ";
+                        l += Loc3[(i * CharSet.NumbCount) + j] + ", ";
                     }
                     l += "\r\n";
                 }
@@ -126,9 +123,9 @@ namespace CC_Library.Predictions
                 l += "Letter Location : ";
                 for (int i = 0; i < 8; i++)
                 {
-                    for (int j = 0; j < CharSet.CharCount; j++)
+                    for (int j = 0; j < CharSet.LetterCount; j++)
                     {
-                        l += Loc4[(i * CharSet.CharCount) + j] + ", ";
+                        l += Loc4[(i * CharSet.LetterCount) + j] + ", ";
                     }
                     l += "\r\n";
                 }
