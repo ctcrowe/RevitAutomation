@@ -16,25 +16,7 @@ namespace CC_Library.Predictions
             Filters.Add(new AlphaFilter3(write));
         }
         
-        public const int SearchRange = 3;
-        public NeuralNetwork Network { get; }
-        
-        public double[] Forward(string s, AlphaContext context)
-        {
-            double[] ctxt = new double[s.Length];
-            double[,] loc = new double[s.Length, DictSize];
-            
-            Parallel.For(0, s.Length, j =>
-            {
-                double[] a = s.Locate(j, SearchRange);
-                for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
-                loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(s, j);
-            });
-            
-            return loc.Multiply(Activations.SoftMax(ctxt));
-        }
-        public double[] Forward(string s, AlphaContext context, AlphaMem am)
+        public double[] Forward(string s, AlphaMem[] am)
         {
             double[,] loc = new double[s.Length, DictSize];
             
@@ -52,7 +34,7 @@ namespace CC_Library.Predictions
             });
             return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
         }
-        public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(string s, double[] DValues, AlphaMem am[], NetworkMem mem, NetworkMem CtxtMem)
         {
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
