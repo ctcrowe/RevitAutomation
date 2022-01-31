@@ -10,17 +10,12 @@ namespace CC_Library.Predictions
         private List<IAlphaFilter> Filters { get; }
         internal Alpha2(WriteToCMDLine write)
         {
-            Network = Datatype.Alpha.LoadNetwork(write);
-            if(Network.Datatype == Datatype.None)
-            {
-                Network = new NeuralNetwork(Datatype.Alpha);
-                Network.Layers.Add(new Layer(DictSize, ((2 * SearchRange) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
-            }
+            this.Filters = new List<IAlphaFilter>();
+            Filters.Add(new AlphaFilter1(write));
+            Filters.Add(new AlphaFilter2(write));
+            Filters.Add(new AlphaFilter3(write));
         }
         
-        public const int DictSize = 200;
         public const int SearchRange = 3;
         public NeuralNetwork Network { get; }
         
