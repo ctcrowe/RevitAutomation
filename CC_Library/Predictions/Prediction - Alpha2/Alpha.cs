@@ -15,7 +15,15 @@ namespace CC_Library.Predictions
             Filters.Add(new AlphaFilter2(write));
             Filters.Add(new AlphaFilter3(write));
         }
-        
+        public int GetSize()
+        {
+            int size = 0;
+            for(int i = 0; i < Filters.Length; i++)
+            {
+                size += Filters[i].GetSize();
+            }
+            return size;
+        }
         public double[] Forward(string s, AlphaMem[] am)
         {
             if(am.Length == Filters.Count())
