@@ -24,6 +24,16 @@ namespace CC_Library.Predictions
             }
             return size;
         }
+        public NetworkMem[,] CreateMemory()
+        {
+            NetworkMem[,] mem = new NetworkMem[Filters.Count(), 2];
+            Parallel.For(0, Filters.Length, j =>
+                         {
+                             mem[j, 0] = new NetworkMem(Filters[j].ValueNetwork);
+                             mem[j, 1] = new NetworkMem(Filters[j].AttentionNetwork);
+                         });
+            return mem;
+        }
         public double[] Forward(string s, AlphaMem[] am)
         {
             if(am.Length == Filters.Count())
@@ -38,14 +48,16 @@ namespace CC_Library.Predictions
             else
                 return null;
         }
-        public void Backward(string s, double[] DValues, AlphaMem am[], NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(string s, double[] DValues, AlphaMem am[], NetworkMem[,] mem)
         {
             try
             {
                 int start = 0;
-                while(start < GetSize())
+                for(int i = 0; i < Filters.Count(); i++)
                 {
-                    
+                    var size = Filters[i].GetSize();
+                    var dvals = DValues.ToList().GetRange(start, size).ToArray();
+                    Filters[i].Backward(s, dvals, am[i], mem[i, 0]. mem[i, 1]);
                 }
             }
             catch (Exception e) { e.OutputError(); }
