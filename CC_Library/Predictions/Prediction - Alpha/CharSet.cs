@@ -84,8 +84,8 @@ namespace CC_Library.Predictions
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
-            Parallel.For(0, imax, i => { result[i] = numb + i; });
-            Parallel.For(0, imin, i => { result[range + i] = numb - (i + 1); });
+            Parallel.For(0, imax, i => { result[i] = numb + i + 1; });
+            Parallel.For(0, imin, i => { result[range + i] = numb - i; });
 
             return result;
         }
@@ -98,8 +98,8 @@ namespace CC_Library.Predictions
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
-            Parallel.For(0, imax, i => { result[i] = (numb + i) / chars.Length; });
-            Parallel.For(0, imin, i => { result[range + i] = (numb - (i + 1)) / chars.Length; });
+            Parallel.For(0, imax, i => { result[i] = 1.0 * (numb + i + 1.0) / chars.Length; });
+            Parallel.For(0, imin, i => { result[range + i] = 1.0 * (numb - i) / chars.Length; });
 
             return result;
         }
