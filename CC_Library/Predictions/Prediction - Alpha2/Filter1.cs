@@ -52,7 +52,8 @@ namespace CC_Library.Predictions
                 am.LocationOutputs[j].Add(vals);
                 am.LocalContextOutputs[j].Add(vals);
                 ctxt[j] = ScoreAttention(vals, j, am);
-                loc.SetRank(vals, j);
+                var output = Locate(vals, j, am);
+                loc.SetRank(output, j);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
