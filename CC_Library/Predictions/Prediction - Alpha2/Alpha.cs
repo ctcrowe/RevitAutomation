@@ -40,6 +40,15 @@ namespace CC_Library.Predictions
         }
         public void Backward(string s, double[] DValues, AlphaMem am[], NetworkMem mem, NetworkMem CtxtMem)
         {
+            try
+            {
+                int start = 0;
+                while(start < GetSize())
+                {
+                    
+                }
+            }
+            catch (Exception e) { e.OutputError(); }
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
