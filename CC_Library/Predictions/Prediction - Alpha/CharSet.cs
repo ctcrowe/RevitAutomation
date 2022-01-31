@@ -75,6 +75,34 @@ namespace CC_Library.Predictions
 
             return result;
         }
+        public static double[] LocateOrder(this string s, int numb, int range)
+        {
+            double[] result = new double[((2 * range) + 1)];
+            string a = s.ToUpper();
+            char[] chars = a.ToCharArray();
+
+            int imin = numb < range ? numb : range;
+            int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
+
+            Parallel.For(0, imax, i => { result[i] = numb + i; });
+            Parallel.For(0, imin, i => { result[range + i] = numb - (i + 1); });
+
+            return result;
+        }
+        public static double[] LocatePercent(this string s, int numb, int range)
+        {
+            double[] result = new double[((2 * range) + 1)];
+            string a = s.ToUpper();
+            char[] chars = a.ToCharArray();
+
+            int imin = numb < range ? numb : range;
+            int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
+
+            Parallel.For(0, imax, i => { result[i] = (numb + i) / chars.Length; });
+            Parallel.For(0, imin, i => { result[range + i] = (numb - (i + 1)) / chars.Length; });
+
+            return result;
+        }
         private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : CharCount - 1; }
         private static int LocationOfS(char c) { return Chars.Keys.Contains(c) ? Chars[c] : 0; }
         private static int LocationOfN(char c) { return int.TryParse(c.ToString(), out int x) ? x : 10; }
