@@ -58,24 +58,10 @@ namespace CC_Library.Predictions
                     var size = Filters[i].GetSize();
                     var dvals = DValues.ToList().GetRange(start, size).ToArray();
                     Filters[i].Backward(s, dvals, am[i], mem[i, 0]. mem[i, 1]);
+                    start += size;
                 }
             }
             catch (Exception e) { e.OutputError(); }
-            var LocDValues = am.DLocation(DValues);
-            DValues = am.DGlobalContext(DValues);
-            DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
-            context.Backward(DValues, s.Length, am, CtxtMem);
-            Parallel.For(0, s.Length, j =>
-            {
-                var ldv = LocDValues[j];
-                for (int i = Network.Layers.Count() - 1; i >= 0; i--)
-                {
-                    ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
-                    mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
-                    mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
-                    ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
-                }
-            });
         }
     }
 }
