@@ -120,6 +120,8 @@ namespace CC_Library.Predictions
                 var Loc2 = s.LocateScrabble(3, 4);
                 var Loc3 = s.LocateNumbs(3, 4);
                 var Loc4 = s.LocateLetters(3, 4);
+                var Loc5 = s.LocateOrder(3, 4);
+                var Loc6 = s.LocatePercent(3, 4);
                 string l = "";
                 l += "Base Location : ";
                 for (int i = 0; i < 8; i++)
@@ -155,6 +157,20 @@ namespace CC_Library.Predictions
                     {
                         l += Loc4[(i * CharSet.LetterCount) + j] + ", ";
                     }
+                    l += "\r\n";
+                }
+                l += "\r\n\r\n\r\n";
+                l += "Order Location : ";
+                for (int i = 0; i < 8; i++)
+                {
+                    l += Loc5[i] + ", ";
+                    l += "\r\n";
+                }
+                l += "\r\n\r\n\r\n";
+                l += "Percent Location : ";
+                for (int i = 0; i < 8; i++)
+                {
+                    l += Loc6[i] + ", ";
                     l += "\r\n";
                 }
                 l += "\r\n\r\n\r\n";
