@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace CC_Library.Predictions
 {
+    [serializable]
     internal class Alpha2
     {
         private List<IAlphaFilter> Filters { get; }
