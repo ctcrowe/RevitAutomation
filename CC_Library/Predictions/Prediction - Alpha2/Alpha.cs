@@ -18,21 +18,17 @@ namespace CC_Library.Predictions
         
         public double[] Forward(string s, AlphaMem[] am)
         {
-            double[,] loc = new double[s.Length, DictSize];
-            
-            Parallel.For(0, s.Length, j =>
+            if(am.Length == Filters.Count())
             {
-                double[] a = s.Locate(j, SearchRange);
-                am.LocationOutputs[j].Add(a);
-                for (int i = 0; i < Network.Layers.Count(); i++)
+                List<double> output = new List<double>();
+                for(int i = 0; i < Filters.Count(); i++)
                 {
-                    a = Network.Layers[i].Output(a);
-                    am.LocationOutputs[j].Add(a);
+                    output.AddRange(Filters[i].Forward(s, am[i]));
                 }
-                loc.SetRank(a, j);
-                am.GlobalContextOutputs[j] = context.Contextualize(s, j, am);
-            });
-            return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
+                return output.ToArray();
+            }
+            else
+                return null;
         }
         public void Backward(string s, double[] DValues, AlphaMem am[], NetworkMem mem, NetworkMem CtxtMem)
         {
