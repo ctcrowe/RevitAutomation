@@ -22,24 +22,6 @@ namespace CC_Library.Predictions
             ValueNetwork.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
-        private double ScoreAttention(double[] values, int j, AlphaMem am)
-        {
-            for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
-            {
-                values = AttentionNetwork.Layers[i].Output(values);
-                am.LocalContextOutputs[j].Add(values);
-            }
-            return values.First();
-        }
-        private double[] Locate(double[] values, int j, AlphaMem am)
-        {
-            for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
-            {
-                values = ValueNetwork.Layers[i].Output(values);
-                am.LocationOutputs[j].Add(values);
-            }
-            return values;
-        }
         public int GetSize() { return Size; }
         public double[] Forward(string s, AlphaMem am)
         {
@@ -47,18 +29,22 @@ namespace CC_Library.Predictions
             double[,] loc = new double[s.Length, Size];
             Parallel.For(0, s.Length, j =>
             {
-                var vals = s.Locate(j, Radius);
-                var ctxt = s.LocatePercent(j, Radius);
+                am.LocalContextOutputs[j].Add(s.LocatePercent(j, Radius));
+                for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
+                {
+                    am.LocalContextOutputs[j].Add(values);
+                }
                 
-                am.LocationOutputs[j].Add(vals);
-                am.LocalContextOutputs[j].Add(ctxt);
+                am.LocationOutputs[j].Add(s.Locate(j, Radius));
+                for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
+                {
+                     am.LocationOutputs[j].Add
+                        (ValueNetwork.Layers[i].Output(am.LocationOutputs[j].Last()));
+                }
                 
-                ctxt[j] = ScoreAttention(vals, j, am);
-                var output = Locate(vals, j, am);
-                
-                loc.SetRank(output, j);
+                loc.SetRank(am.LocationOutputs[j].Last(), j);
             });
-            return loc.Multiply(Activations.SoftMax(ctxt));
+            return loc.Multiply(Activations.SoftMax(am.LocalContextOutput.Last()));
         }
         public void Backward
             (string s, double[] DValues,
