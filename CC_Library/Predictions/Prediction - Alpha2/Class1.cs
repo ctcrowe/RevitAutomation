@@ -12,13 +12,13 @@ namespace CC_Library.Predictions
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
-        private const int Radius = 2;
+        private const int Radius = 3;
         public const int Size = 50;
         internal AlphaFilter3(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * Radius)), Activation.Linear));
+            AttentionNetwork.Layers.Add(new Layer(1, 1 + (2 * Radius), Activation.Linear));
             ValueNetwork.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
@@ -48,10 +48,15 @@ namespace CC_Library.Predictions
             Parallel.For(0, s.Length, j =>
             {
                 var vals = s.Locate(j, Radius);
+                var ctxt = s.LocatePercent(j, Radius);
+                
                 am.LocationOutputs[j].Add(vals);
-                am.LocalContextOutputs[j].Add(vals);
+                am.LocalContextOutputs[j].Add(ctxt);
+                
                 ctxt[j] = ScoreAttention(vals, j, am);
-                loc.SetRank(vals, j);
+                var output = Locate(vals, j, am);
+                
+                loc.SetRank(output, j);
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
