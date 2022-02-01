@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
 using System.Collections.Generic;
 
 namespace CC_Library.Predictions
 {
-    [serializable]
+    [Serializable]
     internal class Alpha2
     {
         private List<IAlphaFilter> Filters { get; }
@@ -19,7 +20,7 @@ namespace CC_Library.Predictions
         public int GetSize()
         {
             int size = 0;
-            for(int i = 0; i < Filters.Length; i++)
+            for(int i = 0; i < Filters.Count; i++)
             {
                 size += Filters[i].GetSize();
             }
@@ -28,7 +29,7 @@ namespace CC_Library.Predictions
         public NetworkMem[,] CreateMemory()
         {
             NetworkMem[,] mem = new NetworkMem[Filters.Count(), 2];
-            Parallel.For(0, Filters.Length, j =>
+            Parallel.For(0, Filters.Count, j =>
                          {
                              mem[j, 0] = new NetworkMem(Filters[j].ValueNetwork);
                              mem[j, 1] = new NetworkMem(Filters[j].AttentionNetwork);
@@ -49,7 +50,7 @@ namespace CC_Library.Predictions
             else
                 return null;
         }
-        public void Backward(string s, double[] DValues, AlphaMem am[], NetworkMem[,] mem)
+        public void Backward(string s, double[] DValues, AlphaMem[] am, NetworkMem[,] mem)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace CC_Library.Predictions
                 {
                     var size = Filters[i].GetSize();
                     var dvals = DValues.ToList().GetRange(start, size).ToArray();
-                    Filters[i].Backward(s, dvals, am[i], mem[i, 0]. mem[i, 1]);
+                    Filters[i].Backward(s, dvals, am[i], mem[i, 0], mem[i, 1]);
                     start += size;
                 }
             }

@@ -32,7 +32,8 @@ namespace CC_Library.Predictions
                 am.LocalContextOutputs[j].Add(s.LocatePercent(j, Radius));
                 for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
                 {
-                    am.LocalContextOutputs[j].Add(values);
+                    am.LocalContextOutputs[j].Add
+                        (AttentionNetwork.Layers[i].Output(am.LocalContextOutputs[j].Last()));
                 }
                 
                 am.LocationOutputs[j].Add(s.Locate(j, Radius));
@@ -43,8 +44,9 @@ namespace CC_Library.Predictions
                 }
                 
                 loc.SetRank(am.LocationOutputs[j].Last(), j);
+                ctxt[j] = am.LocalContextOutputs[j].Last().First();
             });
-            return loc.Multiply(Activations.SoftMax(am.LocalContextOutput.Last()));
+            return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public void Backward
             (string s, double[] DValues,
