@@ -41,7 +41,7 @@ namespace CC_Patterns
             {
                 default:
                 case "Brick Pattern":
-                    SetTB(args.Application, "Width, Height, Grout, Steps");
+                    SetTB(args.Application, "Width, Height, Grout Width, Grout Height, Steps");
                     break;
                 case "Herringbone Pattern":
                     SetTB(args.Application, "Width, Height");
@@ -98,13 +98,14 @@ namespace CC_Patterns
             var numbs = text.Split(',');
             double width = double.TryParse(numbs[0], out double a) ? a : 4;
             double height = numbs.Count() >= 2 ? double.TryParse(numbs[1], out double b) ? b : 2 : 2;
-            double grout = numbs.Count() >= 3 ? double.TryParse(numbs[2], out double c) ? c : 0 : 0;
-            int ratio = numbs.Count() >= 4 ? int.TryParse(numbs[3], out int d) ? d : 2 : 2;
+            double groutx = numbs.Count() >= 3 ? double.TryParse(numbs[2], out double c) ? c : 0 : 0;
+            double grouty = numbs.Count() >= 4 ? double.TryParse(numbs[3], out double c) ? c : 0 : 0;
+            int ratio = numbs.Count() >= 5 ? int.TryParse(numbs[4], out int d) ? d : 2 : 2;
             switch (combotype)
             {
                 default:
                 case "Brick Pattern":
-                    BrickPattern.CreatePattern(doc, width, height, grout, ratio);
+                    BrickPattern.CreatePattern(doc, width, height, groutx, grouty, ratio);
                     break;
                 case "Herringbone Pattern":
                     HerringbonePattern.CreatePattern(doc, width, height);
