@@ -26,31 +26,46 @@ namespace CC_Library.Predictions
             }
             return size;
         }
+        public AlphaMem[] CreateAlphaMemory(string s)
+        {
+            AlphaMem[] mem = new AlphaMem[Filters.Count];
+            Parallel.For(0, Filters.Count, j => mem[j] = new AlphaMem(s.ToCharArray()));
+            return mem;
+        }
         public NetworkMem[,] CreateMemory()
         {
             NetworkMem[,] mem = new NetworkMem[Filters.Count(), 2];
-            Parallel.For(0, Filters.Count, j =>
-                         {
-                             mem[j, 0] = new NetworkMem(Filters[j].ValueNetwork);
-                             mem[j, 1] = new NetworkMem(Filters[j].AttentionNetwork);
-                         });
+            try
+            {
+                Parallel.For(0, Filters.Count, j =>
+                             {
+                                 mem[j, 0] = new NetworkMem(Filters[j].ValueNetwork);
+                                 mem[j, 1] = new NetworkMem(Filters[j].AttentionNetwork);
+                             });
+            }
+            catch (Exception e) { e.OutputError(); }
             return mem;
         }
-        public double[] Forward(string s, AlphaMem[] am)
+        public double[] Forward(string s, AlphaMem[] am, WriteToCMDLine write)
         {
-            if(am.Length == Filters.Count())
+            try
             {
-                List<double> output = new List<double>();
-                for(int i = 0; i < Filters.Count(); i++)
+                if (am.Length == Filters.Count())
                 {
-                    output.AddRange(Filters[i].Forward(s, am[i]));
+                    List<double> output = new List<double>();
+                    for (int i = 0; i < Filters.Count(); i++)
+                    {
+                        output.AddRange(Filters[i].Forward(s, am[i]));
+                    }
+                    return output.ToArray();
                 }
-                return output.ToArray();
+                else
+                    return null;
             }
-            else
-                return null;
+            catch (Exception e) { e.OutputError(); }
+            return null;
         }
-        public void Backward(string s, double[] DValues, AlphaMem[] am, NetworkMem[,] mem)
+        public void Backward(string s, double[] DValues, AlphaMem[] am, NetworkMem[,] mem, WriteToCMDLine write)
         {
             try
             {
@@ -62,6 +77,18 @@ namespace CC_Library.Predictions
                     Filters[i].Backward(s, dvals, am[i], mem[i, 0], mem[i, 1]);
                     start += size;
                 }
+            }
+            catch (Exception e) { e.OutputError(); }
+        }
+        public void Update(NetworkMem[,] mem, int runsize = 16, double changesize = 1e-5)
+        {
+            try
+            {
+                Parallel.For(0, Filters.Count, j =>
+                {
+                    mem[j, 0].Update(runsize, changesize, Filters[j].ValueNetwork);
+                    mem[j, 1].Update(runsize, changesize, Filters[j].AttentionNetwork);
+                });
             }
             catch (Exception e) { e.OutputError(); }
         }

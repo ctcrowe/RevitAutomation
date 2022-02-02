@@ -5,16 +5,14 @@ using System.Reflection;
 
 namespace CC_Library.Predictions
 {
-    internal static class ReadWriteNeuralNetwork
+    internal static class ReadWriteAlpha
     {
-        public static void Save(this NeuralNetwork network, Datatype reference = Datatype.None)
+        public static void Save(this Alpha2 network)
         {
             string Folder = "NeuralNets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\NeuralNet_" + network.Datatype;
-            if (reference != Datatype.None)
-                FileName += "_" + reference.ToString();
+            string FileName = Folder + "\\AlphaNetwork";
             FileName += ".bin";
             WriteToBinaryFile(FileName, network, true);
         }
@@ -26,7 +24,7 @@ namespace CC_Library.Predictions
                 binaryFormatter.Serialize(stream, objectToWrite);
             }
         }
-        public static T ReadFromBinaryFile<T>(this string filePath)
+        private static T ReadFromBinaryFile<T>(this string filePath)
         {
             using (Stream stream = File.Open(filePath, FileMode.Open))
             {
@@ -34,12 +32,9 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static NeuralNetwork LoadNetwork(this Datatype datatype, WriteToCMDLine write, Datatype reference = Datatype.None)
+        public static Alpha2 LoadAlpha(this Datatype datatype, WriteToCMDLine write)
         {
-            string fn = "NeuralNet_";
-            fn += datatype.ToString();
-            if (reference != Datatype.None)
-                fn += "_" + reference.ToString();
+            string fn = "AlphaNetwork";
             fn += ".bin";
             string Folder = "NeuralNets".GetMyDocs();
             if (Directory.Exists(Folder))
@@ -48,8 +43,8 @@ namespace CC_Library.Predictions
                 if (Files.Any(x => x.Contains(fn)))
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
-                    write("Datatype " + datatype.ToString() + " Read from My Docs");
-                    return ReadFromBinaryFile<NeuralNetwork>(doc);
+                    write("Alpha read from My Docs");
+                    return ReadFromBinaryFile<Alpha2>(doc);
                 }
             }
             var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
@@ -59,13 +54,13 @@ namespace CC_Library.Predictions
                 using (Stream stream = assembly.GetManifestResourceStream(name))
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                    write("Datatype " + datatype.ToString() + " Read from Assembly");
-                    return (NeuralNetwork)binaryFormatter.Deserialize(stream);
+                    write("Alpha Read from Assembly");
+                    return (Alpha2)binaryFormatter.Deserialize(stream);
                 }
             }
                           
-            write("Datatype " + datatype.ToString() + " Not Found. New Network Created");
-            return new NeuralNetwork(Datatype.None);
+            write("Alpha Not Found. New Network Created");
+            return new Alpha2(write);
         }
     }
 }

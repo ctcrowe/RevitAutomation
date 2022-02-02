@@ -8,6 +8,7 @@ using CC_Library.Predictions;
 
 namespace CC_Library.Predictions
 {
+    [Serializable]
     internal class AlphaFilter3 : IAlphaFilter
     {
         public NeuralNetwork AttentionNetwork { get; }
@@ -25,7 +26,6 @@ namespace CC_Library.Predictions
         public int GetSize() { return Size; }
         public double[] Forward(string s, AlphaMem am)
         {
-            double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, Size];
             Parallel.For(0, s.Length, j =>
             {
@@ -44,9 +44,9 @@ namespace CC_Library.Predictions
                 }
                 
                 loc.SetRank(am.LocationOutputs[j].Last(), j);
-                ctxt[j] = am.LocalContextOutputs[j].Last().First();
+                am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last().First();
             });
-            return loc.Multiply(Activations.SoftMax(ctxt));
+            return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
         }
         public void Backward
             (string s, double[] DValues,

@@ -196,8 +196,7 @@ namespace CC_Plugin.Parameters
         }
         public static void SetIntParam(this Room r, Param p, string value)
         {
-            int i = 0;
-            if(int.TryParse(value, out i))
+            if(int.TryParse(value, out int i))
             {
                 if (r.get_Parameter(p.Guid) != null)
                     r.get_Parameter(p.Guid).Set(i);

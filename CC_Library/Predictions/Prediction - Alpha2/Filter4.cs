@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,13 +11,13 @@ using CC_Library.Predictions;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class AlphaFilter1 : IAlphaFilter
+    internal class AlphaFilter4 : IAlphaFilter
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
-        private const int Radius = 5;
+        private const int Radius = 10;
         private const int Size = 100;
-        internal AlphaFilter1(WriteToCMDLine write)
+        internal AlphaFilter4(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);

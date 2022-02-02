@@ -34,6 +34,8 @@ namespace DataAnalysis
                             bool c = true;
                             while(c)
                             {
+                                Datasets.RunPredictions(Write);
+                                /*
                                 Console.WriteLine("Enter a Datatype to Predict");
                                 string dt = Console.ReadLine();
                                 try
@@ -43,6 +45,10 @@ namespace DataAnalysis
                                     {
                                         default:
                                         case Datatype.Masterformat:
+                                            for(int i = 0; i < 1000; i++)
+                                            {
+                                                MasterformatNetwork.Propogate(Write);
+                                            }
                                             break;
                                         case Datatype.Command:
                                             for(int i = 0; i < 1000; i++)
@@ -65,6 +71,7 @@ namespace DataAnalysis
                                 catch
                                 {
                                 }
+                                */
                             }
                             Datasets.RunPredictions(new WriteToCMDLine(Write));
                             break;

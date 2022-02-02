@@ -92,8 +92,7 @@ namespace CC_Plugin
             //ref string message,
             //ElementSet elements)
         {
-            int numb;
-            if(int.TryParse(text, out numb))
+            if(int.TryParse(text, out int numb))
             {
                 Document doc = app.ActiveUIDocument.Document;
                 Selection sel = app.ActiveUIDocument.Selection;
@@ -108,7 +107,7 @@ namespace CC_Plugin
                 s.TextInput = symb.Family.Name;
                 s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
                 s.DesiredOutput[numb] = 1;
-                MasterformatNetwork.Propogate(s, CMDLibrary.WriteNull);
+                //MasterformatNetwork.Propogate(CMDLibrary.WriteNull);
 
                 using (Transaction t = new Transaction(doc, "Set Param"))
                 {

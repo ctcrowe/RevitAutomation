@@ -18,9 +18,13 @@ namespace CC_Library.Predictions
         {
             Parallel.For(0, this.Layers.Count(), j =>
             {
-                this.Layers[j].DeltaB.Divide(RunSize);
-                this.Layers[j].DeltaW.Divide(RunSize);
-                this.Layers[j].Update(Net.Layers[j], ChangeSize);
+                try
+                {
+                    this.Layers[j].DeltaB.Divide(RunSize);
+                    this.Layers[j].DeltaW.Divide(RunSize);
+                    this.Layers[j].Update(Net.Layers[j], ChangeSize);
+                }
+                catch (Exception e) { e.OutputError(); }
             });
         }
     }
