@@ -28,6 +28,7 @@ namespace CC_Patterns
             cbox.AddItem(new ComboBoxMemberData("Plank Pattern", "Plank Pattern"));
             cbox.AddItem(new ComboBoxMemberData("Custom Pattern", "Custom Pattern"));
 
+            tbox.Width = 250;
             tbox.PromptText = "Width, Height, Grout, Steps";
             tbox.EnterPressed += EnterPressed;
             cbox.CurrentChanged += CurrentChanged;
