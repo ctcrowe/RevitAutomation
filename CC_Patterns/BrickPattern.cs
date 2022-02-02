@@ -23,13 +23,15 @@ namespace CC_Patterns
     {
         private double Width { get; set; }
         private double Height { get; set; }
-        private double Grout { get; set; }
+        private double GroutX { get; set; }
+        private double GroutY { get; set; }
         private int Ratio { get; set; }
-        public BrickPattern(double W, double H, double G = 0, int TR = 2)
+        public BrickPattern(double W, double H, double Gx = 0, double Gy = 0, int TR = 2)
         {
             this.Width = Math.Abs(W);
             this.Height = Math.Abs(H);
-            this.Grout = Math.Abs(G);
+            this.GroutX = Math.Abs(Gx);
+            this.GroutY = Math.Abs(Gy);
             this.Ratio = TR == 0 ? 1 : Math.Abs(TR);
         }
         public void SetWidth(double W) { this.Width = Math.Abs(W); }
@@ -43,13 +45,12 @@ namespace CC_Patterns
             List<string> grids = new List<string>();
             lines.Add("*" + fn.Split('\\').Last().Split('.').First());
             lines.Add(";%TYPE=MODEL,");
-            grids.Add("0,0,0," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
-            grids.Add("90,0,0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
-            if (Grout > 0)
-            {
-                grids.Add("0,0," + Height + "," + (XOffset * (Width + Grout)) + "," + (Height + Grout) + "," + Width + "," + (-1 * Grout));
-                grids.Add("90," + Width + ",0," + (Height + Grout) + "," + ((Width + Grout) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * Grout))));
-            }
+            grids.Add("0,0,0," + (XOffset * (Width + GroutX)) + "," + (Height + GroutY) + "," + Width + "," + (-1 * GroutX));
+            grids.Add("90,0,0," + (Height + GroutY) + "," + ((Width + GroutX) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * GroutY))));
+            if(GroutX > 0)
+                grids.Add("0,0," + Height + "," + (XOffset * (Width + GroutX)) + "," + (Height + GroutY) + "," + Width + "," + (-1 * GroutX));
+            if (GroutY > 0)
+                grids.Add("90," + Width + ",0," + (Height + GroutY) + "," + ((Width + GroutX) / Ratio) + "," + Height + "," + (-1 * (((Ratio - 1) * Height) + (Ratio * GroutY))));
             lines.AddRange(grids);
             File.WriteAllLines(fn, lines);
 
@@ -70,7 +71,26 @@ namespace CC_Patterns
                     fp.Replace(".txt", ".pat");
                 if (!fp.EndsWith(".pat"))
                     fp += ".pat";
-                BrickPattern p = new BrickPattern(W, H, G, ratio);
+                BrickPattern p = new BrickPattern(W, H, G, G, ratio);
+                p.WritePattern(doc, fp);
+            }
+        }
+        public static void CreatePattern(Document doc, double W, double H, double Gx, double Gy, int ratio = 2)
+        {
+            SaveFileDialog sfd = new SaveFileDialog()
+            {
+                FileName = "Create a pattern file",
+                Filter = "PAT files (*.pat)|*.pat",
+                Title = "Create a pat file"
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                var fp = sfd.FileName;
+                if (fp.EndsWith(".txt"))
+                    fp.Replace(".txt", ".pat");
+                if (!fp.EndsWith(".pat"))
+                    fp += ".pat";
+                BrickPattern p = new BrickPattern(W, H, Gx, Gy, ratio);
                 p.WritePattern(doc, fp);
             }
         }
