@@ -36,7 +36,8 @@ namespace CC_Patterns
         }
         public void SetWidth(double W) { this.Width = Math.Abs(W); }
         public void SetHeight(double H) { this.Height = Math.Abs(H); }
-        public void SetGrout(double G) { this.Grout = Math.Abs(G); }
+        public void SetGroutHeight(double G) { this.GroutY = Math.Abs(G); }
+        public void SetGroutWidth(double G) { this.GroutX = Math.Abs(G); }
         public void SetRatio(int TR) { this.Ratio = TR == 0 ? 1 : Math.Abs(TR); }
         public void WritePattern(Document doc, string fn)
         {
