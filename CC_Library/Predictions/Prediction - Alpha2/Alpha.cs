@@ -16,6 +16,7 @@ namespace CC_Library.Predictions
             Filters.Add(new AlphaFilter1(write));
             Filters.Add(new AlphaFilter2(write));
             Filters.Add(new AlphaFilter3(write));
+            Filters.Add(new AlphaFilter4(write));
         }
         public int GetSize()
         {

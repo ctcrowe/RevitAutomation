@@ -15,7 +15,7 @@ namespace CC_Library.Predictions
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
-        private const int Radius = 5;
+        private const int Radius = 3;
         private const int Size = 100;
         internal AlphaFilter1(WriteToCMDLine write)
         {

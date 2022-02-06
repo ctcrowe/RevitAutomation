@@ -21,7 +21,7 @@ namespace CC_Library.Predictions
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * Radius)), Activation.Linear));
+            AttentionNetwork.Layers.Add(new Layer(1, CharSet.LetterCount * (1 + (2 * Radius)), Activation.Linear));
             ValueNetwork.Layers.Add(new Layer(Size, CharSet.CharCount * (1 + (2 * Radius)), Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
@@ -33,7 +33,7 @@ namespace CC_Library.Predictions
                 double[,] loc = new double[s.Length, Size];
                 Parallel.For(0, s.Length, j =>
                 {
-                    am.LocalContextOutputs[j].Add(s.Locate(j, Radius));
+                    am.LocalContextOutputs[j].Add(s.LocatePhrase(j, Radius));
                     for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
                     {
                         am.LocalContextOutputs[j].Add

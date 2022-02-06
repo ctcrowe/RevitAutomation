@@ -70,8 +70,16 @@ namespace CC_Library.Predictions
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
-            Parallel.For(0, imax, i => result[(i * LetterCount) + LocationOfC(chars[numb + i])] = 1);
-            Parallel.For(0, imin, i => result[((range + i) * LetterCount) + LocationOfC(chars[numb - (i + 1)])] = 1);
+            Parallel.For(0, imax, i =>
+            {
+                if(LocationOfC(chars[numb + i]) >= 0)
+                    result[(i * LetterCount) + LocationOfC(chars[numb + i])] = 1;
+            });
+            Parallel.For(0, imin, i =>
+            {
+                if (LocationOfC(chars[numb - (i + 1)]) >= 0)
+                    result[((range + i) * LetterCount) + LocationOfC(chars[numb - (i + 1)])] = 1;
+            });
 
             return result;
         }
@@ -103,12 +111,44 @@ namespace CC_Library.Predictions
 
             return result;
         }
+        public static double[] LocatePhrase(this string s, int numb, int range)
+        {
+            double[] result = new double[LetterCount * ((2 * range) + 1)];
+            string a = s.ToUpper();
+            char[] chars = a.ToCharArray();
+
+            int imin = numb < range ? numb : range;
+            int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
+            int j = 0;
+            while(j < imax)
+            {
+                var index = LocationOfC(chars[numb + j]);
+                if (index >= 0)
+                    result[(j * LetterCount) + LocationOfC(chars[numb + j])] = 1;
+                else
+                    break;
+                j++;
+            }
+            j = 0;
+            while(j < imin)
+            {
+                var index = LocationOfC(chars[numb - (j + 1)]);
+                if (index >= 0)
+                    result[((range + j) * LetterCount) + LocationOfC(chars[numb - (j + 1)])] = 1;
+                else
+                    break;
+                j++;
+
+            }
+
+            return result;
+        }
         private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : CharCount - 1; }
         private static int LocationOfS(char c) { return Chars.Keys.Contains(c) ? Chars[c] : 0; }
         private static int LocationOfN(char c) { return int.TryParse(c.ToString(), out int x) ? x : 10; }
-        private static int LocationOfC(char c) { return !Chars.Keys.Contains(c) ? LetterCount - 1 :
+        private static int LocationOfC(char c) { return !Chars.Keys.Contains(c) ? -1 :
                                                 Chars[c] > 0? Chars.Keys.ToList().IndexOf(c) :
-                                               LetterCount - 1; }
+                                               -1; }
     }
     public static class TestCharSet
     {
