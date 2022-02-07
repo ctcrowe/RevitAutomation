@@ -81,14 +81,14 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
         }
-        public void Update(NetworkMem[,] mem, int runsize = 16, double changesize = 1e-5)
+        public void Update(NetworkMem[,] mem, int runsize = 16)
         {
             try
             {
                 Parallel.For(0, Filters.Count, j =>
                 {
-                    mem[j, 0].Update(runsize, changesize, Filters[j].ValueNetwork);
-                    mem[j, 1].Update(runsize, changesize, Filters[j].AttentionNetwork);
+                    mem[j, 0].Update(runsize, Filters[j].GetChangeSize(), Filters[j].ValueNetwork);
+                    mem[j, 1].Update(runsize, Filters[j].GetChangeSize(), Filters[j].AttentionNetwork);
                 });
             }
             catch (Exception e) { e.OutputError(); }
