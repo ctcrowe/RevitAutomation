@@ -73,8 +73,8 @@
     <Compile Include="Patterns\HerringbonePattern.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Alpha.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Filter3.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Filter4.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Class3.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\LongTermWordFilter.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\ShortTermWordFilter.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Filter2.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Filter1.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\IAlphaFilter.cs" />
