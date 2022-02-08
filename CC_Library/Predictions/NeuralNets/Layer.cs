@@ -106,5 +106,14 @@ namespace CC_Library.Predictions
             }
             return output;
         }
+        public double[] InverseDropOut(double[] DValues, double[] DropOutRank)
+        {
+            double[] output = new double[DValues.Count()];
+            for(int i = 0; i < DValues.Count(); i++)
+            {
+                output[i] = DropOutRank[i] == 0 ? 0 : DValues[i];
+            }
+            return output;
+        }
     }
 }
