@@ -56,12 +56,13 @@ namespace CC_Library.Predictions
             }
         }
         #endregion
-        public double[] Output(double[] Input)
+        public double[,] Output(double[] Input, double dropout = 0.1)
         {
-            double[] Output = new double[Weights.GetLength(0)];
+            double[,] output = new double[2, Weights.GetLength(0)];
+            double[] forward = new double[Weights.GetLength(0)];
             try
             {
-                for (int i = 0; i < Output.Count(); i++)
+                for (int i = 0; i < forward.Count(); i++)
                 {
                     double result = 0;
                     for (int j = 0; j < Input.Count(); j++)
@@ -69,12 +70,15 @@ namespace CC_Library.Predictions
                         result += Input[j] * Weights[i, j];
                     }
                     result += Biases[i];
-                    Output[i] = result;
+                    forward[i] = result;
                 }
             }
             catch(Exception e) { e.OutputError(); }
+            
             var func = Function.GetFunction();
-            return func(Output);
+            output.SetRank(func(output), 0);
+            output.SetRank(Dropout(output.GetRank(0), dropout), 1);
+            return output;
         }
         public void Update()
         {
@@ -91,6 +95,16 @@ namespace CC_Library.Predictions
                              BMomentum[j] *= 0.5;
                          });
             
+        }
+        private static double[] DropOut(double[] input, double rate)
+        {
+            double[] output = new double[input.Count()];
+            var DOLayer = input.RandomBinomial(rate);
+            for(int i = 0; i < output.Count(); i++)
+            {
+                output[i] = input[i] * DOLayer[i] / (1 - rate);
+            }
+            return output;
         }
     }
 }
