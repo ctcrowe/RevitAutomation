@@ -25,7 +25,7 @@ namespace CC_Library.Predictions
                 var dir = Path.GetDirectoryName(filepath);
                 var Files = Directory.GetFiles(dir);
                 Random random = new Random();
-                for(int i = 0; i < 5000; i++)
+                for(int i = 0; i < 1000; i++)
                 {
                     string f = Files[random.Next(Files.Count())];
                     try
