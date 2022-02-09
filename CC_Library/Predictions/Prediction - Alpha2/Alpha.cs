@@ -58,7 +58,7 @@ namespace CC_Library.Predictions
                     List<double> output = new List<double>();
                     for (int i = 0; i < Filters.Count(); i++)
                     {
-                        output.AddRange(Filters[i].Forward(s, dropout, am[i]));
+                        output.AddRange(Filters[i].Forward(s, am[i]));
                     }
                     return output.ToArray();
                 }
