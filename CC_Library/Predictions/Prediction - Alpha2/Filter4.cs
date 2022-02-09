@@ -11,14 +11,14 @@ using CC_Library.Predictions;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class ShortTermWordFilter : IAlphaFilter
+    internal class AlphaFilter4 : IAlphaFilter
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
-        private const int Size = 10;
-        private const double ChangeSize = 1e-3;
-        internal ShortTermWordFilter(WriteToCMDLine write)
+        private const int Size = 100;
+        private const double ChangeSize = 1e-6;
+        internal AlphaFilter4(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
         public int GetSize() { return Size; }
-        public double GetChangeSize() { return ChangeSize; }
+        public int GetChangeSize() { return ChangeSize; }
         public double[] Forward(string s, AlphaMem am)
         {
             try

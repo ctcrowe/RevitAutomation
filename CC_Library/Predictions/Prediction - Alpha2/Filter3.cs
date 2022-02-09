@@ -15,7 +15,7 @@ namespace CC_Library.Predictions
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 5;
         public const int Size = 50;
-        private const double ChangeSize = 1e-5;
+        private const double ChangeSize = 1e-6;
         internal AlphaFilter3(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
@@ -25,7 +25,7 @@ namespace CC_Library.Predictions
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
         public int GetSize() { return Size; }
-        public double GetChangeSize() { return ChangeSize; }
+        public int GetChangeSize() { return ChangeSize; }
         public double[] Forward(string s, AlphaMem am)
         {
             double[,] loc = new double[s.Length, Size];

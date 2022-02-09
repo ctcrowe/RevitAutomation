@@ -9,7 +9,6 @@ namespace CC_Library.Predictions
     [Serializable]
     internal class Alpha2
     {
-        double dropout = 0.1;
         private List<IAlphaFilter> Filters { get; }
         internal Alpha2(WriteToCMDLine write)
         {
@@ -17,8 +16,7 @@ namespace CC_Library.Predictions
             Filters.Add(new AlphaFilter1(write));
             Filters.Add(new AlphaFilter2(write));
             Filters.Add(new AlphaFilter3(write));
-            Filters.Add(new LongTermWordFilter(write));
-            Filters.Add(new ShortTermWordFilter(write));
+            Filters.Add(new AlphaFilter4(write));
         }
         public int GetSize()
         {
@@ -58,7 +56,7 @@ namespace CC_Library.Predictions
                     List<double> output = new List<double>();
                     for (int i = 0; i < Filters.Count(); i++)
                     {
-                        output.AddRange(Filters[i].Forward(s, dropout, am[i]));
+                        output.AddRange(Filters[i].Forward(s, am[i]));
                     }
                     return output.ToArray();
                 }
