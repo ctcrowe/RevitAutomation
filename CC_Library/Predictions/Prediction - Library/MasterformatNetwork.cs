@@ -75,7 +75,7 @@ namespace CC_Library.Predictions
                 }
                 catch (Exception e) { e.OutputError(); } 
                 MFMem.Update(Samples.Count(), 0.00001, net);
-                a.Update(am, Samples.Count(), 0.00001);
+                a.Update(am, Samples.Count());
                 //AlphaMem.Update(Samples.Count(), 0.00001, a.Network);
                 //CtxtMem.Update(Samples.Count(), 0.00001, ctxt.Network);
                 write("Pre Training Error : " + error);

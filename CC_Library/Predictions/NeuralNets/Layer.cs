@@ -56,13 +56,12 @@ namespace CC_Library.Predictions
             }
         }
         #endregion
-        public double[,] Output(double[] Input, double dropout = 0.1)
+        public double[] Output(double[] Input)
         {
-            double[,] output = new double[2, Weights.GetLength(0)];
-            double[] forward = new double[Weights.GetLength(0)];
+            double[] Output = new double[Weights.GetLength(0)];
             try
             {
-                for (int i = 0; i < forward.Count(); i++)
+                for (int i = 0; i < Output.Count(); i++)
                 {
                     double result = 0;
                     for (int j = 0; j < Input.Count(); j++)
@@ -70,15 +69,12 @@ namespace CC_Library.Predictions
                         result += Input[j] * Weights[i, j];
                     }
                     result += Biases[i];
-                    forward[i] = result;
+                    Output[i] = result;
                 }
             }
-            catch(Exception e) { e.OutputError(); }
-            
+            catch (Exception e) { e.OutputError(); }
             var func = Function.GetFunction();
-            output.SetRank(func(output), 0);
-            output.SetRank(Dropout(output.GetRank(0), dropout), 1);
-            return output;
+            return func(Output);
         }
         public void Update()
         {
