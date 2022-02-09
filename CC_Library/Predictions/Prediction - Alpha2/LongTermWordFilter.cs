@@ -28,7 +28,7 @@ namespace CC_Library.Predictions
         }
         public int GetSize() { return Size; }
         public double GetChangeSize() { return ChangeSize; }
-        public double[] Forward(string s, double dropout, AlphaMem am)
+        public double[] Forward(string s, AlphaMem am)
         {
             try
             {
