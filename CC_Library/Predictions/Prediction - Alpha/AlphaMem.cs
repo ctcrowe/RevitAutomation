@@ -18,18 +18,18 @@ namespace CC_Library.Predictions
 {
     internal class AlphaMem
     {
-        public List<double[]>[] LocationOutputs { get; set; }
-        public List<double[]>[] LocalContextOutputs { get; set; }
+        public List<double[,]>[] LocationOutputs { get; set; }
+        public List<double[,]>[] LocalContextOutputs { get; set; }
         public double[] GlobalContextOutputs { get; set; }
 
         public AlphaMem(char[] Phrase)
         {
-            LocationOutputs = new List<double[]>[Phrase.Count()]; // Old = PhraseLength, DictSize
-            LocalContextOutputs = new List<double[]>[Phrase.Count()];
+            LocationOutputs = new List<double[,]>[Phrase.Count()]; // Old = PhraseLength, DictSize
+            LocalContextOutputs = new List<double[,]>[Phrase.Count()];
             GlobalContextOutputs = new double[Phrase.Count()];
 
-            Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[]>());
-            Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[]>());
+            Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[,]>());
+            Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[,]>());
         }
         public double[] DGlobalContext(double[] dvalues)
         {

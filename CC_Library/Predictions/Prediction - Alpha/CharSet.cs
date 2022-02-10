@@ -119,28 +119,23 @@ namespace CC_Library.Predictions
 
             int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
-            int j = 0;
-            while(j < imax)
+
+            for(int i = 0; i < imax; i++)
             {
-                var index = LocationOfC(chars[numb + j]);
+                var index = LocationOfC(chars[numb + i]);
                 if (index >= 0)
-                    result[(j * LetterCount) + LocationOfC(chars[numb + j])] = 1;
+                    result[(i * LetterCount) + index] = 1;
                 else
                     break;
-                j++;
             }
-            j = 0;
-            while(j < imin)
+            for (int i = 0; i < imin; i++)
             {
-                var index = LocationOfC(chars[numb - (j + 1)]);
+                var index = LocationOfC(chars[numb - (i + 1)]);
                 if (index >= 0)
-                    result[((range + j) * LetterCount) + LocationOfC(chars[numb - (j + 1)])] = 1;
+                    result[((range + i) * LetterCount) + index] = 1;
                 else
                     break;
-                j++;
-
             }
-
             return result;
         }
         private static int LocationOf(char c) { return Chars.Keys.Contains(c) ? Chars.Keys.ToList().IndexOf(c) : CharCount - 1; }
@@ -162,6 +157,7 @@ namespace CC_Library.Predictions
                 var Loc4 = s.LocateLetters(3, 4);
                 var Loc5 = s.LocateOrder(3, 4);
                 var Loc6 = s.LocatePercent(3, 4);
+                var Loc7 = s.LocatePhrase(3, 2);
                 string l = "";
                 l += "Base Location : ";
                 for (int i = 0; i < 8; i++)
@@ -211,6 +207,16 @@ namespace CC_Library.Predictions
                 for (int i = 0; i < 8; i++)
                 {
                     l += Loc6[i] + ", ";
+                    l += "\r\n";
+                }
+                l += "\r\n\r\n\r\n";
+                l += "Phrase Location : ";
+                for (int i = 0; i < 5; i++)
+                {
+                    for (int j = 0; j < CharSet.LetterCount; j++)
+                    {
+                        l += Loc7[(i * CharSet.LetterCount) + j] + ", ";
+                    }
                     l += "\r\n";
                 }
                 l += "\r\n\r\n\r\n";

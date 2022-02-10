@@ -56,7 +56,7 @@ namespace CC_Library.Predictions
             }
         }
         #endregion
-        public double[] Output(double[] Input)
+        public double[,] Output(double[] Input, double dropout = 0.1)
         {
             double[] Output = new double[Weights.GetLength(0)];
             try
