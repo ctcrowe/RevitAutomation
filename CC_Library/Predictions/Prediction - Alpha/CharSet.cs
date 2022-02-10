@@ -3,7 +3,14 @@ using System.Threading.Tasks;
 using CC_Library.Datatypes;
 using System.Collections.Generic;
 using System;
-
+/*
+    TODO:
+    New Locate Command that uses a network to predict the beginning and end of each word. This will then advance the term by n, where n is the length of the word.
+    Ultimately, breaking a phrase down into words. Search Radius will need to be substantially large, potentially 10 characters +/-. This will give us access to a set of pseudo words,
+    without having to instantiate a dictionary for prediction purposes, giving more flexibility than a dictionary, but more structure than just letters to determine terms.
+    
+    
+*/
 namespace CC_Library.Predictions
 {
     internal static class CharSet
