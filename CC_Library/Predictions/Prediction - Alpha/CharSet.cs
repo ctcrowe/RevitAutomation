@@ -9,7 +9,10 @@ using System;
     Ultimately, breaking a phrase down into words. Search Radius will need to be substantially large, potentially 10 characters +/-. This will give us access to a set of pseudo words,
     without having to instantiate a dictionary for prediction purposes, giving more flexibility than a dictionary, but more structure than just letters to determine terms.
     
-    
+    This Network needs to be relatively small and quick, to interpret words on the fly fairly efficiently.
+    Base Layer 1 size to have search radius 2 and Locate by character.
+    Additional Base Layer to have coordintaed search size and locate a set of characters (potentially turns them into something like a syllable.)
+    These syllables will then be interpreted into words, starting and ending being highlighted.
 */
 namespace CC_Library.Predictions
 {
