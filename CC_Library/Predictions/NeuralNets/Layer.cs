@@ -56,25 +56,51 @@ namespace CC_Library.Predictions
             }
         }
         #endregion
+
+        /*
+        public List<double[,]> Forward(double[] input, double dropout, WriteToCMDLine write)
+        {
+            List<double[,]> Results = new List<double[,]>();
+            double[,] resultinput = new double[2,input.Count()];
+            resultinput.SetRank(input, 0);
+            resultinput.SetRank(input, 1);
+            Results.Add(resultinput);
+            for (int k = 0; k < Layers.Count(); k++)
+            {
+                double[,] output = new double[2, Layers[k].Biases.Count()];
+                var rank = Layers[k].Output(Results.Last().GetRank(1));
+                if(rank.Any(x => double.IsNaN(x)))
+                {
+                    write("Layer " + k + " in " + Datatype.ToString() + " Network  has NaN Values");
+                }
+                output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
+                var drop = DropOut(output.GetRank(0), dropout, write);
+                output.SetRank(drop, 1);
+                Results.Add(output);
+            }
+            return Results;
+        }
+         */
         public double[,] Output(double[] Input, double dropout = 0.1)
         {
-            double[] Output = new double[Weights.GetLength(0)];
+            double[,] Output = new double[2, Biases.Count()];
+            double[] result = new double[Biases.Count()];
             try
             {
-                for (int i = 0; i < Output.Count(); i++)
+                for (int i = 0; i < result.Count(); i++)
                 {
-                    double result = 0;
                     for (int j = 0; j < Input.Count(); j++)
                     {
-                        result += Input[j] * Weights[i, j];
+                        result[i] += Input[j] * Weights[i, j];
                     }
-                    result += Biases[i];
-                    Output[i] = result;
+                    result[i] += Biases[i];
                 }
             }
             catch (Exception e) { e.OutputError(); }
             var func = Function.GetFunction();
-            return func(Output);
+            Output.SetRank(func(result), 0);
+            Output.SetRank(DropOut(Output.GetRank(0), dropout), 1);
+            return Output;
         }
         public void Update()
         {

@@ -46,6 +46,15 @@ namespace CC_Library
             Parallel.For(0, output.Count(), i => output[i] = output[i] == 0 ? 0 : 1);
             return output;
         }
+        public static double[] InverseDropOut(this double[] DValues, double[] DropOutRank)
+        {
+            double[] output = new double[DValues.Count()];
+            for (int i = 0; i < DValues.Count(); i++)
+            {
+                output[i] = DropOutRank[i] == 0 ? 0 : DValues[i];
+            }
+            return output;
+        }
         public static string GenText(this double[] x)
         {
             string s = x[0].ToString();

@@ -35,22 +35,29 @@ namespace CC_Library.Predictions
                 double[,] loc = new double[s.Length, Size];
                 Parallel.For(0, s.Length, j =>
                 {
-                    am.LocalContextOutputs[j].Add(s.Locate(j, Radius));
+                    double[,] CtxtInput = new double[2, CharSet.CharCount];
+                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 0);
+                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 1);
+                    am.LocalContextOutputs[j].Add(CtxtInput);
                     for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
                     {
                         am.LocalContextOutputs[j].Add
-                            (AttentionNetwork.Layers[i].Output(am.LocalContextOutputs[j].Last()));
+                            (AttentionNetwork.Layers[i].Output(am.LocalContextOutputs[j].Last().GetRank(1), 0));
                     }
 
-                    am.LocationOutputs[j].Add(s.Locate(j, Radius));
+
+                    double[,] LocInput = new double[2, CharSet.CharCount];
+                    LocInput.SetRank(s.Locate(j, Radius), 0);
+                    LocInput.SetRank(s.Locate(j, Radius), 1);
+                    am.LocationOutputs[j].Add(LocInput);
                     for (int i = 0; i < ValueNetwork.Layers.Count(); i++)
                     {
                         am.LocationOutputs[j].Add
-                           (ValueNetwork.Layers[i].Output(am.LocationOutputs[j].Last()));
+                           (ValueNetwork.Layers[i].Output(am.LocationOutputs[j].Last().GetRank(1)));
                     }
 
-                    loc.SetRank(am.LocationOutputs[j].Last(), j);
-                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last().First();
+                    loc.SetRank(am.LocationOutputs[j].Last().GetRank(1), j);
+                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0,1];
                 });
                 return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
             }
@@ -70,18 +77,19 @@ namespace CC_Library.Predictions
                 double[] cdv = new double[1] { DValues[j] / s.Length };
                 for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
                 {
-                    ldv = ValMem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
+                    ldv = ValMem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1].GetRank(1));
                     ValMem.Layers[i].DBiases(ldv, ValueNetwork.Layers[i], s.Length);
-                    ValMem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], ValueNetwork.Layers[i], s.Length);
+                    ValMem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i].GetRank(1), ValueNetwork.Layers[i], s.Length);
                     ldv = ValMem.Layers[i].DInputs(ldv, ValueNetwork.Layers[i]);
                 }
                 for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
                 {
                     try
                     {
-                        cdv = FocMem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1]);
+                        cdv = cdv.InverseDropOut(am.LocalContextOutputs[j][i + 1].GetRank(1));
+                        cdv = FocMem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1].GetRank(1));
                         FocMem.Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], s.Length);
-                        FocMem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i], AttentionNetwork.Layers[i], s.Length);
+                        FocMem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i].GetRank(1), AttentionNetwork.Layers[i], s.Length);
                         cdv = FocMem.Layers[i].DInputs(cdv, AttentionNetwork.Layers[i]);
                     }
                     catch (Exception e) { e.OutputError(); }

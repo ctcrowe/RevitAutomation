@@ -15,7 +15,7 @@ namespace CC_Library.Predictions
         {
             for(int i = 0; i < Layers.Count(); i++)
             {
-                results = Layers[i].Output(results);
+                results = Layers[i].Output(results).GetRank(0);
             }
             return results;
         }
@@ -28,6 +28,8 @@ namespace CC_Library.Predictions
             Results.Add(resultinput);
             for (int k = 0; k < Layers.Count(); k++)
             {
+                Results.Add(Layers[k].Output(Results.Last().GetRank(1)));
+                /*
                 double[,] output = new double[2, Layers[k].Biases.Count()];
                 var rank = Layers[k].Output(Results.Last().GetRank(1));
                 if(rank.Any(x => double.IsNaN(x)))
@@ -38,6 +40,7 @@ namespace CC_Library.Predictions
                 var drop = DropOut(output.GetRank(0), dropout, write);
                 output.SetRank(drop, 1);
                 Results.Add(output);
+                */
             }
             return Results;
         }
@@ -50,7 +53,7 @@ namespace CC_Library.Predictions
                 try
                 {
                     if (l != Layers.Count() - 1)
-                        DValues = InverseDropOut(DValues, Results[l].GetRank(1));
+                        DValues = DValues.InverseDropOut(Results[l].GetRank(1));
                     DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank(0));
                     mem.Layers[l].DBiases(DValues, Layers[l]);
                     mem.Layers[l].DWeights(DValues, Results[l].GetRank(0), Layers[l]);
@@ -71,15 +74,6 @@ namespace CC_Library.Predictions
             for(int i = 0; i < output.Count(); i++)
             {
                 output[i] = input[i] * DOLayer[i] / (1 - rate);
-            }
-            return output;
-        }
-        private static double[] InverseDropOut(double[] DValues, double[] DropOutRank)
-        {
-            double[] output = new double[DValues.Count()];
-            for(int i = 0; i < DValues.Count(); i++)
-            {
-                output[i] = DropOutRank[i] == 0 ? 0 : DValues[i];
             }
             return output;
         }

@@ -41,24 +41,31 @@ namespace CC_Library.Predictions
         }
         public double Contextualize(string s, int c, AlphaMem am)
         {
+            return 0;
+            /*
             am.LocalContextOutputs[c].Add(CharSet.Locate(s, c, SearchRange));
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 am.LocalContextOutputs[c].Add(Network.Layers[i].Output(am.LocalContextOutputs[c].Last()));
             }
             return am.LocalContextOutputs[c].Last().First();
+            */
         }
         public double Contextualize(string s, int c)
         {
+            return 0;
+            /*
             var result = CharSet.Locate(s, c, SearchRange);
             for (int i = 0; i < Network.Layers.Count(); i++)
             {
                 result = Network.Layers[i].Output(result);
             }
             return result.First();
+            */
         }
         public void Backward(double[] DValues, int runs, AlphaMem am, NetworkMem mem)
         {
+            /*
             Parallel.For(0, runs, j =>
             {
                 double[] cdv = new double[1] { DValues[j] / runs };
@@ -74,6 +81,7 @@ namespace CC_Library.Predictions
                     catch (Exception e) { e.OutputError(); }
                 }
             });
+            */
         }
     }
 }
