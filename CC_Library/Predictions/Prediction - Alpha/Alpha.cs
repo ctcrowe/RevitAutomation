@@ -22,7 +22,7 @@ namespace CC_Library.Predictions
         public const int SearchRange = 3;
         public NeuralNetwork Network { get; }
         
-        public double[] Forward(string s, AlphaContext context)
+        public double[] Forward(string s)
         {
             double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, DictSize];
@@ -37,7 +37,7 @@ namespace CC_Library.Predictions
             */
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public double[] Forward(string s, AlphaContext context, AlphaMem am)
+        public List<List<double[]>> Forward(string s)
         {
             double[,] loc = new double[s.Length, DictSize];
             
@@ -55,7 +55,7 @@ namespace CC_Library.Predictions
             });
             return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
         }
-        public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(string s, double[] DValues, List<List<double[]>> Outputs)
         {
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
