@@ -9,7 +9,6 @@ namespace CC_Library.Predictions
     [Serializable]
     internal class Alpha2
     {
-        double dropout = 0.1;
         private List<IAlphaFilter> Filters { get; }
         internal Alpha2(WriteToCMDLine write)
         {

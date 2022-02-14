@@ -35,28 +35,28 @@ namespace CC_Library.Predictions
                 double[,] loc = new double[s.Length, Size];
                 Parallel.For(0, s.Length, j =>
                 {
-                    double[,] CtxtInput = new double[2, CharSet.LetterCount];
+                    double[,] CtxtInput = new double[2, AttentionNetwork.Layers[0].Weights.GetLength(1)];
                     CtxtInput.SetRank(s.LocatePhrase(j, Radius), 0);
                     CtxtInput.SetRank(s.LocatePhrase(j, Radius), 1);
                     am.LocalContextOutputs[j].Add(CtxtInput);
                     for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
                     {
                         am.LocalContextOutputs[j].Add
-                            (AttentionNetwork.Layers[i].Output(am.LocalContextOutputs[j].Last().GetRank(1), 0));
+                            (AttentionNetwork.Layers[i].Forward(am.LocalContextOutputs[j].Last().GetRank(1), 0));
                     }
 
-                    double[,] LocInput = new double[2, CharSet.CharCount];
+                    double[,] LocInput = new double[2, ValueNetwork.Layers[0].Weights.GetLength(1)];
                     LocInput.SetRank(s.Locate(j, Radius), 0);
                     LocInput.SetRank(s.Locate(j, Radius), 1);
                     am.LocationOutputs[j].Add(LocInput);
                     for (int i = 0; i < ValueNetwork.Layers.Count(); i++)
                     {
                         am.LocationOutputs[j].Add
-                           (ValueNetwork.Layers[i].Output(am.LocationOutputs[j].Last().GetRank(1)));
+                           (ValueNetwork.Layers[i].Forward(am.LocationOutputs[j].Last().GetRank(1)));
                     }
 
                     loc.SetRank(am.LocationOutputs[j].Last().GetRank(1), j);
-                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0, 1];
+                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0, 0];
                 });
                 return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
             }

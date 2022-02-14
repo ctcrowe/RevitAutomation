@@ -26,7 +26,7 @@ namespace CC_Library.Predictions
         {
             double[] ctxt = new double[s.Length];
             double[,] loc = new double[s.Length, DictSize];
-            
+            /*
             Parallel.For(0, s.Length, j =>
             {
                 double[] a = s.Locate(j, SearchRange);
@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 loc.SetRank(a, j);
                 ctxt[j] = context.Contextualize(s, j);
             });
-            
+            */
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
@@ -44,11 +44,11 @@ namespace CC_Library.Predictions
             Parallel.For(0, s.Length, j =>
             {
                 double[] a = s.Locate(j, SearchRange);
-                am.LocationOutputs[j].Add(a);
+                //am.LocationOutputs[j].Add(a);
                 for (int i = 0; i < Network.Layers.Count(); i++)
                 {
-                    a = Network.Layers[i].Output(a);
-                    am.LocationOutputs[j].Add(a);
+                    //a = Network.Layers[i].Output(a);
+                    //am.LocationOutputs[j].Add(a);
                 }
                 loc.SetRank(a, j);
                 am.GlobalContextOutputs[j] = context.Contextualize(s, j, am);
@@ -66,10 +66,10 @@ namespace CC_Library.Predictions
                 var ldv = LocDValues[j];
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
-                    ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
-                    mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
-                    mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
-                    ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
+                    //ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
+                    //mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
+                    //mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
+                    //ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
                 }
             });
         }

@@ -81,7 +81,18 @@ namespace CC_Library.Predictions
             return Results;
         }
          */
-        public double[,] Output(double[] Input, double dropout = 0.1)
+        public double[] Output(double[] Input)
+        {
+            double[] result = new double[Biases.Length];
+            Parallel.For(0, result.Count(), i =>
+            {
+                Parallel.For(0, Input.Count(), j => result[i] += Input[j] * Weights[i, j]);
+                result[i] += Biases[i];
+            });
+            var func = Function.GetFunction();
+            return func(result);
+        }
+        public double[,] Forward(double[] Input, double dropout = 0.1)
         {
             double[,] Output = new double[2, Biases.Count()];
             double[] result = new double[Biases.Count()];

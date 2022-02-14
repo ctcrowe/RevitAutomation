@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
                 for (int j = 0; j < dvalues.Count(); j++)
                 {
                     if (LocationOutputs[i].Any())
-                        result[i] += dvalues[j] * LocationOutputs[i].Last()[j];
+                        result[i] += dvalues[j] * LocationOutputs[i].Last()[1, j];
                 }
             }
             return result;

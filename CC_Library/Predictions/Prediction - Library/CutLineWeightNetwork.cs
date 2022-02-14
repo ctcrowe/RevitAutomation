@@ -26,7 +26,7 @@ namespace CC_Library.Predictions
             
             for(int i = 0; i < Network.Layers.Count(); i++)
             {
-                Results = Network.Layers[i].Output(Results);
+               // Results = Network.Layers[i].Output(Results);
             }
             
             return Results;
@@ -42,7 +42,7 @@ namespace CC_Library.Predictions
 
             for (int k = 0; k < Network.Layers.Count(); k++)
             {
-                Results.Add(Network.Layers[k].Output(Results.Last()));
+               // Results.Add(Network.Layers[k].Output(Results.Last()));
             }
 
             return Results;

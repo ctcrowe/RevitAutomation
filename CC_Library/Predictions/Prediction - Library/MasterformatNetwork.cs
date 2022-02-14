@@ -28,9 +28,9 @@ namespace CC_Library.Predictions
         public static double[] Predict(string s, WriteToCMDLine write)
         {
             NeuralNetwork net = GetNetwork(write);
-            Alpha a = new Alpha(write);
-            AlphaContext ctxt = new AlphaContext(datatype, write);
-            double[] Results = a.Forward(s, ctxt);
+            Alpha2 a = datatype.LoadAlpha(write);
+            var mem = a.CreateAlphaMemory(s);
+            double[] Results = a.Forward(s, mem, write);
             Results.WriteArray("Alpha Results : ", write);
             for(int i = 0; i < net.Layers.Count(); i++)
             {

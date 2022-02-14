@@ -33,7 +33,7 @@ namespace CC_Library.Predictions
             Results.WriteArray("Alpha Results : ", write);
             for (int i = 0; i < net.Layers.Count(); i++)
             {
-                Results = net.Layers[i].Output(Results);
+                //Results = net.Layers[i].Output(Results);
             }
             return Results;
         }

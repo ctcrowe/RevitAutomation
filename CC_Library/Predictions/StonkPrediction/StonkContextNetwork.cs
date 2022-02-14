@@ -5,7 +5,6 @@ using CC_Library.Datatypes;
 using System;
 using CC_Library.Predictions;
 
-
 namespace CC_Library.Predictions
 {
     public class StonkContext
@@ -47,7 +46,7 @@ namespace CC_Library.Predictions
             return result.First();
         }
         public void Backward(double[] DValues, int runs, StonkMem sm, NetworkMem mem)
-        {
+        {/*
             Parallel.For(0, runs, j =>
             {
                 double[] cdv = new double[1] { DValues[j] };
@@ -62,7 +61,7 @@ namespace CC_Library.Predictions
                     }
                     catch (Exception e) { e.OutputError(); }
                 }
-            });
+            });*/
         }
     }
 }

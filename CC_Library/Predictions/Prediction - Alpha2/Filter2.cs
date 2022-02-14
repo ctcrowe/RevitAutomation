@@ -28,17 +28,18 @@ namespace CC_Library.Predictions
         {
             for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
             {
-                values = AttentionNetwork.Layers[i].Output(values);
-                am.LocalContextOutputs[j].Add(values);
+               // values = AttentionNetwork.Layers[i].Output(values);
+               // am.LocalContextOutputs[j].Add(values);
             }
-            return values.First();
+            return 1;
+            //return values.First();
         }
         private double[] Locate(double[] values, int j, AlphaMem am)
         {
             for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
             {
-                values = ValueNetwork.Layers[i].Output(values);
-                am.LocationOutputs[j].Add(values);
+                //values = ValueNetwork.Layers[i].Output(values);
+                //am.LocationOutputs[j].Add(values);
             }
             return values;
         }
@@ -50,12 +51,14 @@ namespace CC_Library.Predictions
             double[,] loc = new double[s.Length, Size];
             Parallel.For(0, s.Length, j =>
             {
+                /*
                 var vals = s.Locate(j, Radius);
                 am.LocationOutputs[j].Add(vals);
                 am.LocalContextOutputs[j].Add(vals);
                 ctxt[j] = ScoreAttention(vals, j, am);
                 var output = Locate(vals, j, am);
                 loc.SetRank(output, j);
+                */
             });
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
@@ -68,6 +71,7 @@ namespace CC_Library.Predictions
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
             Parallel.For(0, s.Length, j =>
             {
+                /*
                 var ldv = LocDValues[j];
                 double[] cdv = new double[1] { DValues[j] / s.Length };
                 for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
@@ -88,6 +92,7 @@ namespace CC_Library.Predictions
                     }
                     catch (Exception e) { e.OutputError(); }
                 }
+                */
             });
         }
     }
