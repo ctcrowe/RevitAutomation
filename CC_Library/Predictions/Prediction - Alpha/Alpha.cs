@@ -4,7 +4,7 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    internal class Alpha
+    internal class Predictionary
     {
         internal Alpha(WriteToCMDLine write)
         {
