@@ -18,7 +18,7 @@ namespace CC_Library.Predictions
             }
         }
         
-        public const int DictSize = 30;
+        public const int DictSize = 200;
         public const int SearchRange = 3;
         public NeuralNetwork Network { get; }
         
