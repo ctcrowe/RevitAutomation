@@ -15,9 +15,9 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    internal class Alpha
+    internal class Predictionary
     {
-        internal Alpha(WriteToCMDLine write)
+        internal Predictionary(WriteToCMDLine write)
         {
             Network = Datatype.Alpha.LoadNetwork(write);
             if(Network.Datatype == Datatype.None)
