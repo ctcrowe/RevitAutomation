@@ -29,14 +29,13 @@ namespace CC_Library.Predictions
                 Network = new NeuralNetwork(Datatype.Alpha);
                 Network.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
                 Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(1, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
             }
         }
         
         public const int Size = 25;
         public const int Radius = 2;
         public NeuralNetwork Network { get; }
-        public NeuralNetwork AttentionNet { get; }
         
         public List<List<List<double[]>>> Forward(string s)
         {
