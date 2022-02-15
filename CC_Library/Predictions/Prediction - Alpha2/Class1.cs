@@ -64,24 +64,6 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return output;
         }
-        public double[] Forward(string s, AlphaContext context, AlphaMem am)
-        {
-            double[,] loc = new double[s.Length, DictSize];
-            
-            Parallel.For(0, s.Length, j =>
-            {
-                double[] a = s.Locate(j, SearchRange);
-                //am.LocationOutputs[j].Add(a);
-                for (int i = 0; i < Network.Layers.Count(); i++)
-                {
-                    //a = Network.Layers[i].Output(a);
-                    //am.LocationOutputs[j].Add(a);
-                }
-                loc.SetRank(a, j);
-                am.GlobalContextOutputs[j] = context.Contextualize(s, j, am);
-            });
-            return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
-        }
         public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
         {
             var LocDValues = am.DLocation(DValues);
