@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
             NeuralNetwork net = GetNetwork(write);
             Alpha a = new Alpha(write);
             AlphaContext ctxt = new AlphaContext(datatype, write);
-            double[] Results = a.Forward(s, ctxt);
+            double[] Results = a.Forward(s);
             Results.WriteArray("Alpha Results : ", write);
             for (int i = 0; i < net.Layers.Count(); i++)
             {
@@ -53,12 +53,12 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    var output = a.Forward(Samples[j].TextInput);
                     var F = net.Forward(output, dropout, write);
                     error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
 
                     var DValues = net.Backward(F, Samples[j].DesiredOutput, NetMem, write);
-                    a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
+                    //a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 });
                 NetMem.Update(Samples.Count(), 0.00001, net);
                 AlphaMem.Update(Samples.Count(), 0.00001, a.Network);
@@ -73,7 +73,7 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                    var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    var output = a.Forward(Samples[j].TextInput);
                     var F = net.Forward(output, dropout, write);
                     error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
                 });

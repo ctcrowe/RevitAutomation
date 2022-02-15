@@ -9,9 +9,13 @@
     Additional Base Layer to have coordintaed search size and locate a set of characters (potentially turns them into something like a syllable.)
     These syllables will then be interpreted into words, starting and ending being highlighted.
 */
+using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CC_Library;
 using CC_Library.Datatypes;
+using CC_Library.Predictions;
 
 namespace CC_Library.Predictions
 {
@@ -23,30 +27,55 @@ namespace CC_Library.Predictions
             if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Alpha);
-                Network.Layers.Add(new Layer(DictSize, ((2 * SearchRange) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
             }
         }
         
-        public const int DictSize = 40;
-        public const int SearchRange = 3;
+        public const int Size = 25;
+        public const int Radius = 2;
         public NeuralNetwork Network { get; }
+        public NeuralNetwork AttentionNet { get; }
         
-        public double[] Forward(string s, AlphaContext context)
+        public List<List<List<double[]>>> Forward(string s)
         {
-            double[] ctxt = new double[s.Length];
-            double[,] loc = new double[s.Length, DictSize];
-            /*
-            Parallel.For(0, s.Length, j =>
+            List<List<List<double[]>>> output = new List<List<List<double[]>>>();
+            List<List<double[]>> context = new List<List<double[]>>();
+            List<List<double[]>> location = new List<List<double[]>>();
+            try
             {
-                double[] a = s.Locate(j, SearchRange);
-                for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
-                loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(s, j);
-            });
-            */
-            return loc.Multiply(Activations.SoftMax(ctxt));
+                double[,] loc = new double[s.Length, Size];
+                Parallel.For(0, s.Length, j =>
+                {
+                    double[,] CtxtInput = new double[2, AttentionNet.Layers[0].Weights.GetLength(1)];
+                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 0);
+                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 1);
+                    am.LocalContextOutputs[j].Add(CtxtInput);
+                    for (int i = 0; i < AttentionNet.Layers.Count(); i++)
+                    {
+                        am.LocalContextOutputs[j].Add
+                            (AttentionNet.Layers[i].Forward(am.LocalContextOutputs[j].Last().GetRank(1), 0));
+                    }
+
+
+                    double[,] LocInput = new double[2, Network.Layers[0].Weights.GetLength(1)];
+                    LocInput.SetRank(s.Locate(j, Radius), 0);
+                    LocInput.SetRank(s.Locate(j, Radius), 1);
+                    am.LocationOutputs[j].Add(LocInput);
+                    for (int i = 0; i < Network.Layers.Count(); i++)
+                    {
+                        am.LocationOutputs[j].Add
+                           (ValueNetwork.Layers[i].Forward(am.LocationOutputs[j].Last().GetRank(1), 0.1));
+                    }
+
+                    loc.SetRank(am.LocationOutputs[j].Last().GetRank(1), j);
+                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0, 0];
+                });
+                return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
+            }
+            catch (Exception e) { e.OutputError(); }
+            return output;
         }
         public double[] Forward(string s, AlphaContext context, AlphaMem am)
         {

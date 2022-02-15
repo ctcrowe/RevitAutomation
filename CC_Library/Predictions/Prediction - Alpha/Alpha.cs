@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
 
@@ -37,26 +38,9 @@ namespace CC_Library.Predictions
             */
             return loc.Multiply(Activations.SoftMax(ctxt));
         }
-        public List<List<double[]>> Forward(string s)
-        {
-            double[,] loc = new double[s.Length, DictSize];
-            
-            Parallel.For(0, s.Length, j =>
-            {
-                double[] a = s.Locate(j, SearchRange);
-                //am.LocationOutputs[j].Add(a);
-                for (int i = 0; i < Network.Layers.Count(); i++)
-                {
-                    //a = Network.Layers[i].Output(a);
-                    //am.LocationOutputs[j].Add(a);
-                }
-                loc.SetRank(a, j);
-                am.GlobalContextOutputs[j] = context.Contextualize(s, j, am);
-            });
-            return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
-        }
         public void Backward(string s, double[] DValues, List<List<double[]>> Outputs)
         {
+            /*
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
@@ -71,7 +55,7 @@ namespace CC_Library.Predictions
                     //mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
                     //ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
                 }
-            });
+            });*/
         }
     }
 }

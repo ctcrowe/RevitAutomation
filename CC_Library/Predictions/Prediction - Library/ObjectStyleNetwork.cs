@@ -18,8 +18,8 @@ namespace CC_Library.Predictions
             Alpha a = new Alpha(CMDLibrary.WriteNull);
             AlphaContext ctxt1 = new AlphaContext(datatype, CMDLibrary.WriteNull);
             AlphaContext ctxt2 = new AlphaContext(datatype, CMDLibrary.WriteNull, 1);
-            var input = a.Forward(s.TextInput, ctxt1).ToList();
-            input.AddRange(a.Forward(s.SecondaryText, ctxt2));
+            var input = a.Forward(s.TextInput).ToList();
+            input.AddRange(a.Forward(s.SecondaryText));
             input.AddRange(s.ValInput);
             var Results = input.ToArray();
             
@@ -83,17 +83,17 @@ namespace CC_Library.Predictions
                     Parallel.For(0, Samples.Count(), j =>
                     {
                         AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput, ctxt1, am);
+                        Samples[j].TextOutput = a.Forward(Samples[j].TextInput);
                         AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.ToCharArray());
-                        Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText, ctxt2, am2);
+                        Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText);
                         var F = Forward(Samples[j]);
                         lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
                     
                         var DValues = Backward(Samples[j], F, ObjMem);
                         var DV1 = DValues.ToList().Take(Alpha.DictSize).ToArray();
                         var DV2 = Enumerable.Reverse(DValues).Take(Alpha.DictSize).Reverse().ToArray();
-                        a.Backward(Samples[j].TextInput, DV1, ctxt1, am, AlphaMem, CtxtMem1);
-                        a.Backward(Samples[j].SecondaryText, DV2, ctxt2, am2, AlphaMem, CtxtMem2);
+                        //a.Backward(Samples[j].TextInput, DV1, ctxt1, am, AlphaMem, CtxtMem1);
+                        //a.Backward(Samples[j].SecondaryText, DV2, ctxt2, am2, AlphaMem, CtxtMem2);
                     });
                     ObjMem.Update(1, 0.0001, Network);
                     AlphaMem.Update(1, 0.00001, a.Network);
