@@ -39,27 +39,28 @@ namespace CC_Library.Predictions
         
         public List<double[,]>[] Forward(string s)
         {
-            List<double[,]>[] Ouput = new List<double[]>[s.Length + 1];
-            double pred = new double[s.Length];
+            List<double[,]>[] Ouput = new List<double[,]>[s.Length + 1];
+            Output[s.Length] = new List<double[,]();
+            Output[s.Length].Add(new double[2, s.Length]);
+            
             try
             {
-                double[,] loc = new double[s.Length, Size];
                 Parallel.For(0, s.Length, j =>
                 {
-                    double[,] Input = new double[2, Network.Layers[0].Weights.GetLength(1)];
-                    Input.SetRank(s.Locate(j, Radius), 0);
-                    Input.SetRank(s.Locate(j, Radius), 1);
-                    am.LocationOutputs[j].Add(LocInput);
+                    Output[j] = new List<double[,]>();
+                    Output[j].Add(new double[2, Network.Layers[0].Weights.GetLength(1)]);
+                    Output[j][0].SetRank(s.Locate(j, Radius), 0);
+                    Output[j][0].SetRank(s.Locate(j, Radius), 1);
+                    
                     for (int i = 0; i < Network.Layers.Count(); i++)
                     {
-                        am.LocationOutputs[j].Add
-                           (ValueNetwork.Layers[i].Forward(am.LocationOutputs[j].Last().GetRank(1), 0.1));
+                        Output[j].Add
+                           (Network.Layers[i].Forward(Output[j].Last().GetRank(1), 0.1));
                     }
-
-                    loc.SetRank(am.LocationOutputs[j].Last().GetRank(1), j);
-                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0, 0];
+                    
+                    Output[s.Length][0][0, j] = Output[j].Last[0];
                 });
-                return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
+                Output[s.Length][0].SetRank(1, Activations.SoftMax(Output[s.Length][0].GetRank(0)));
             }
             catch (Exception e) { e.OutputError(); }
             return output;
