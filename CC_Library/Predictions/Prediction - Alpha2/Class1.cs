@@ -40,7 +40,7 @@ namespace CC_Library.Predictions
         public List<List<double[]>> Forward(string s)
         {
             List<List<double[]>> output = new List<List<double[]>>();
-            double pred = new double[s.ToCharArray.Length];
+            double pred = new double[s.Length];
             try
             {
                 double[,] loc = new double[s.Length, Size];
