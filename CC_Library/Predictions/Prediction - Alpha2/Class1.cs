@@ -37,11 +37,9 @@ namespace CC_Library.Predictions
         public const int Radius = 2;
         public NeuralNetwork Network { get; }
         
-        public List<List<List<double[]>>> Forward(string s)
+        public List<List<double[]>> Forward(string s)
         {
-            List<List<List<double[]>>> output = new List<List<List<double[]>>>();
-            List<List<double[]>> context = new List<List<double[]>>();
-            List<List<double[]>> location = new List<List<double[]>>();
+            List<List<double[]>> output = new List<List<List<double[]>>>();
             try
             {
                 double[,] loc = new double[s.Length, Size];
