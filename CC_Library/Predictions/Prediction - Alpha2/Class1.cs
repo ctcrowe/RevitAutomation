@@ -37,6 +37,20 @@ namespace CC_Library.Predictions
         public const int Radius = 2;
         public NeuralNetwork Network { get; }
         
+        public int Output(string s, int start)
+        {
+            double[] output = new double[s.Length];
+            Parallel.For(start, s.Length, j =>
+                         {
+                             var result = s.Locate(j, Radius);
+                             for(int i = 0; i < Network.Layers.Count(); i++)
+                             {
+                                 result = Network.Layers[i].Output(result);
+                             }
+                             output[j] = result.First();
+                         });
+            return output.ToList().IndexOf(output.Max());
+        }
         public List<double[,]>[] Forward(string s)
         {
             List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
