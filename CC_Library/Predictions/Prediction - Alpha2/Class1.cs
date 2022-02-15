@@ -37,29 +37,18 @@ namespace CC_Library.Predictions
         public const int Radius = 2;
         public NeuralNetwork Network { get; }
         
-        public List<List<double[]>> Forward(string s)
+        public List<double[]>[] Forward(string s)
         {
-            List<List<double[]>> output = new List<List<double[]>>();
+            List<double[]>[] Ouput = new List<double[]>[s.Length + 1];
             double pred = new double[s.Length];
             try
             {
                 double[,] loc = new double[s.Length, Size];
                 Parallel.For(0, s.Length, j =>
                 {
-                    double[,] CtxtInput = new double[2, AttentionNet.Layers[0].Weights.GetLength(1)];
-                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 0);
-                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 1);
-                    am.LocalContextOutputs[j].Add(CtxtInput);
-                    for (int i = 0; i < AttentionNet.Layers.Count(); i++)
-                    {
-                        am.LocalContextOutputs[j].Add
-                            (AttentionNet.Layers[i].Forward(am.LocalContextOutputs[j].Last().GetRank(1), 0));
-                    }
-
-
-                    double[,] LocInput = new double[2, Network.Layers[0].Weights.GetLength(1)];
-                    LocInput.SetRank(s.Locate(j, Radius), 0);
-                    LocInput.SetRank(s.Locate(j, Radius), 1);
+                    double[,] Input = new double[2, Network.Layers[0].Weights.GetLength(1)];
+                    Input.SetRank(s.Locate(j, Radius), 0);
+                    Input.SetRank(s.Locate(j, Radius), 1);
                     am.LocationOutputs[j].Add(LocInput);
                     for (int i = 0; i < Network.Layers.Count(); i++)
                     {
