@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
         
         public List<double[,]>[] Forward(string s)
         {
-            List<double[,]>[] Ouput = new List<double[,]>[s.Length + 1];
+            List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
             Output[s.Length] = new List<double[,]();
             Output[s.Length].Add(new double[2, s.Length]);
             
@@ -63,7 +63,7 @@ namespace CC_Library.Predictions
                 Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
             }
             catch (Exception e) { e.OutputError(); }
-            return output;
+            return Output;
         }
         public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
         {
