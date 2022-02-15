@@ -65,7 +65,7 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return Output;
         }
-        public void Backward(string s, double[] DValues, AlphaContext context, AlphaMem am, NetworkMem mem, NetworkMem CtxtMem)
+        public void Backward(string s, double[] DValues, List<double[,]>[] Output)
         {
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
