@@ -60,7 +60,7 @@ namespace CC_Library.Predictions
                     
                     Output[s.Length][0][0, j] = Output[j].Last[0];
                 });
-                Output[s.Length][0].SetRank(1, Activations.SoftMax(Output[s.Length][0].GetRank(0)));
+                Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
             }
             catch (Exception e) { e.OutputError(); }
             return output;
