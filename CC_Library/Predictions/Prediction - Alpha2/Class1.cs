@@ -84,13 +84,13 @@ namespace CC_Library.Predictions
             DValues = Activations.InverseSoftMax(DValues, Output.Last().First().GetRank(0));
             Parallel.For(0, s.Length, j =>
             {
-                var ldv = LocDValues[j];
+                var ldv = DValues[j];
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
-                    //ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
-                    //mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
-                    //mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
-                    //ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
+                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i]);     //am.LocationOutputs[j][i + 1]);
+                    mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
+                    mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
+                    ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
                 }
             });
         }
