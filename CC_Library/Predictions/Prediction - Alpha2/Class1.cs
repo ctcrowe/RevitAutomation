@@ -89,7 +89,7 @@ namespace CC_Library.Predictions
                 {
                     ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));     //am.LocationOutputs[j][i + 1]);
                     mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
-                    mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
+                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), Network.Layers[i], s.Length);
                     ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
                 }
             });
