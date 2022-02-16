@@ -81,8 +81,6 @@ namespace CC_Library.Predictions
         }
         public void Backward(string s, double[] DValues, List<double[,]>[] Output)
         {
-            var LocDValues = am.DLocation(DValues);
-            DValues = am.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
             context.Backward(DValues, s.Length, am, CtxtMem);
             Parallel.For(0, s.Length, j =>
