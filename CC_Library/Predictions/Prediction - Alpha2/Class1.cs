@@ -79,7 +79,7 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return Output;
         }
-        public void Backward(string s, double[] DValues, List<double[,]>[] Output)
+        public void Backward(string s, NetworkMem mem, double[] DValues, List<double[,]>[] Output)
         {
             DValues = Activations.InverseSoftMax(DValues, Output.Last().First().GetRank(0));
             Parallel.For(0, s.Length, j =>
