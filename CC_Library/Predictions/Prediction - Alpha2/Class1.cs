@@ -54,7 +54,7 @@ namespace CC_Library.Predictions
         public List<double[,]>[] Forward(string s)
         {
             List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
-            Output[s.Length] = new List<double[,]();
+            Output[s.Length] = new List<double[,]>();
             Output[s.Length].Add(new double[2, s.Length]);
             
             try
@@ -72,7 +72,7 @@ namespace CC_Library.Predictions
                            (Network.Layers[i].Forward(Output[j].Last().GetRank(1), 0.1));
                     }
                     
-                    Output[s.Length][0][0, j] = Output[j].Last[0];
+                    Output[s.Length][0][0, j] = Output[j].Last()[0,0];
                 });
                 Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
             }
