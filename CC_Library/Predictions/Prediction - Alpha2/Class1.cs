@@ -94,5 +94,10 @@ namespace CC_Library.Predictions
                 }
             });
         }
+        public static double Propogate(string s, int split, WriteToCMDLine write)
+        {
+            double error = 0;
+            return error;
+        }
     }
 }
