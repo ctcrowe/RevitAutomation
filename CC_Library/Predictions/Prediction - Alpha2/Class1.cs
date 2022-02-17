@@ -84,7 +84,7 @@ namespace CC_Library.Predictions
             DValues = Activations.InverseSoftMax(DValues, Output.Last().First().GetRank(0));
             Parallel.For(0, s.Length, j =>
             {
-                var ldv = DValues[j];
+                var ldv = new double[1] { DValues[j] };
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
                     ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));     //am.LocationOutputs[j][i + 1]);
