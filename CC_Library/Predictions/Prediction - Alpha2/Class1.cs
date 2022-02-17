@@ -94,9 +94,68 @@ namespace CC_Library.Predictions
                 }
             });
         }
-        public static double Propogate(string s, int split, WriteToCMDLine write)
-        {
-            double error = 0;
+        public static double Propogate(string fn, WriteToCMDLine write)
+        {            double error = 0;
+
+            //var Pred = Predict(s.TextInput, new WriteToCMDLine(CMDLibrary.WriteNull));
+
+            //if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != Pred.ToList().IndexOf(Pred.Max()) || tf)
+            {
+                NeuralNetwork net = GetNetwork(write);
+                var lines = File.ReadLines(fn);
+                var Samples = s.ReadSamples( 24);
+                Alpha2 a = datatype.LoadAlpha(write);
+                var am = a.CreateMemory();
+                //Alpha a = new Alpha(write);
+                //AlphaContext ctxt = new AlphaContext(datatype, write);
+                NetworkMem MFMem = new NetworkMem(net);
+                //NetworkMem AlphaMem = new NetworkMem(a.Network);
+                //NetworkMem CtxtMem = new NetworkMem(ctxt.Network);
+
+                try
+                {
+                    Parallel.For(0, Samples.Count(), j =>
+                    {
+                    //AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                    //var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                        var AMem = a.CreateAlphaMemory(Samples[j].TextInput);
+                        var output = a.Forward(Samples[j].TextInput, AMem, write);
+                        var F = net.Forward(output, dropout, write);
+                        error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+
+                        var DValues = net.Backward(F, Samples[j].DesiredOutput, MFMem, write);
+                        a.Backward(Samples[j].TextInput, DValues, AMem, am, write);
+                    //a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
+                    });
+                }
+                catch (Exception e) { e.OutputError(); } 
+                MFMem.Update(Samples.Count(), 0.00001, net);
+                a.Update(am, Samples.Count());
+                //AlphaMem.Update(Samples.Count(), 0.00001, a.Network);
+                //CtxtMem.Update(Samples.Count(), 0.00001, ctxt.Network);
+                write("Pre Training Error : " + error);
+
+                net.Save();
+                a.Save();
+                //a.Network.Save();
+                //ctxt.Network.Save(Datatype.Masterformat);
+
+                error = 0;
+                Parallel.For(0, Samples.Count(), j =>
+                {
+                    var AMem = a.CreateAlphaMemory(Samples[j].TextInput);
+                    var output = a.Forward(Samples[j].TextInput, AMem, write);
+                    var F = net.Forward(output, 0, write);
+                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                    //AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                    //var output = a.Forward(Samples[j].TextInput, ctxt, am);
+                    //var F = net.Forward(output, dropout, write);
+                    //error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                });
+                write("Post Training Error : " + error);
+
+                //s.Save();
+            }
             return error;
         }
     }
