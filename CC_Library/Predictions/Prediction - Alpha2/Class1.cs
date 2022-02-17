@@ -103,9 +103,7 @@ namespace CC_Library.Predictions
                 NeuralNetwork net = GetNetwork(write);
                 var lines = File.ReadLines(fn);
                 var Samples = s.ReadSamples( 24);
-                Alpha2 a = datatype.LoadAlpha(write);
-                var am = a.CreateMemory();
-                NetworkMem MFMem = new NetworkMem(net);
+                NetworkMem Mem = new NetworkMem(net);
 
                 try
                 {
