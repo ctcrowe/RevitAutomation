@@ -87,7 +87,7 @@ namespace CC_Library.Predictions
                 var ldv = new double[1] { DValues[j] };
                 for (int i = Network.Layers.Count() - 1; i >= 0; i--)
                 {
-                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));     //am.LocationOutputs[j][i + 1]);
+                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));
                     mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
                     mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), Network.Layers[i], s.Length);
                     ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
