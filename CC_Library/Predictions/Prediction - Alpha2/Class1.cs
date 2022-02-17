@@ -53,49 +53,6 @@ namespace CC_Library.Predictions
                          });
             return output.ToList().IndexOf(output.Max());
         }
-        public List<double[,]>[] Forward(string s)
-        {
-            List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
-            Output[s.Length] = new List<double[,]>();
-            Output[s.Length].Add(new double[2, s.Length]);
-            
-            try
-            {
-                Parallel.For(0, s.Length, j =>
-                {
-                    Output[j] = new List<double[,]>();
-                    Output[j].Add(new double[2, Network.Layers[0].Weights.GetLength(1)]);
-                    Output[j][0].SetRank(s.Locate(j, Radius), 0);
-                    Output[j][0].SetRank(s.Locate(j, Radius), 1);
-                    
-                    for (int i = 0; i < Network.Layers.Count(); i++)
-                    {
-                        Output[j].Add
-                           (Network.Layers[i].Forward(Output[j].Last().GetRank(1), 0.1));
-                    }
-                    
-                    Output[s.Length][0][0, j] = Output[j].Last()[0,0];
-                });
-                Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
-            }
-            catch (Exception e) { e.OutputError(); }
-            return Output;
-        }
-        public void Backward(string s, NetworkMem mem, double[] DValues, List<double[,]>[] Output)
-        {
-            DValues = Activations.InverseSoftMax(DValues, Output.Last().First().GetRank(0));
-            Parallel.For(0, s.Length, j =>
-            {
-                var ldv = new double[1] { DValues[j] };
-                for (int i = Network.Layers.Count() - 1; i >= 0; i--)
-                {
-                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));
-                    mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
-                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), Network.Layers[i], s.Length);
-                    ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
-                }
-            });
-        }
         public static double Propogate(string fn, WriteToCMDLine write)
         {
             double error = 0;
@@ -107,34 +64,50 @@ namespace CC_Library.Predictions
 
                 try
                 {
-                    Parallel.For(0, Samples.Count(), j =>
+                    Parallel.For(0, Samples.Count(), z =>
                     {
-                        var AMem = a.CreateAlphaMemory(Samples[j].TextInput);
-                        var output = a.Forward(Samples[j].TextInput, AMem, write);
-                        var F = net.Forward(output, dropout, write);
-                        error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
-
-                        var DValues = net.Backward(F, Samples[j].DesiredOutput, MFMem, write);
-                        a.Backward(Samples[j].TextInput, DValues, AMem, am, write);
+                        List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
+                        Output[s.Length] = new List<double[,]>();
+                        Output[s.Length].Add(new double[2, s.Length]);
+            
+                        try
+                        {
+                            Parallel.For(0, s.Length, j =>
+                            {
+                                Output[j] = new List<double[,]>();
+                                Output[j].Add(new double[2, Network.Layers[0].Weights.GetLength(1)]);
+                                Output[j][0].SetRank(s.Locate(j, Radius), 0);
+                                Output[j][0].SetRank(s.Locate(j, Radius), 1);
+                    
+                                for (int i = 0; i < Network.Layers.Count(); i++)
+                                    Output[j].Add(Network.Layers[i].Forward(Output[j].Last().GetRank(1), 0.1));
+                    
+                                Output[s.Length][0][0, j] = Output[j].Last()[0,0];
+                            });
+                            Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
+                        
+                            error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[z].DesiredOutput).Max();
+                            DValues = Activations.InverseSoftMax(DValues, Output.Last().First().GetRank(0));
+                            Parallel.For(0, s.Length, j =>
+                            {
+                                var ldv = new double[1] { DValues[j] };
+                                for (int i = Network.Layers.Count() - 1; i >= 0; i--)
+                                {
+                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));
+                                    mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
+                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), Network.Layers[i], s.Length);
+                                    ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
+                                }
+                            });
+                        }
+                        catch (Exception e) { e.OutputError(); }
                     });
                 }
-                catch (Exception e) { e.OutputError(); } 
-                MFMem.Update(Samples.Count(), 0.00001, net);
-                a.Update(am, Samples.Count());
-                write("Pre Training Error : " + error);
-
+                catch (Exception e) { e.OutputError(); }
+                
+                Mem.Update(Samples.Count(), 0.00001, net);
+                write("Error : " + error);
                 net.Save();
-                a.Save();
-
-                error = 0;
-                Parallel.For(0, Samples.Count(), j =>
-                {
-                    var AMem = a.CreateAlphaMemory(Samples[j].TextInput);
-                    var output = a.Forward(Samples[j].TextInput, AMem, write);
-                    var F = net.Forward(output, 0, write);
-                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
-                });
-                write("Post Training Error : " + error);
             }
             return error;
         }
