@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using CC_Library;
 using CC_Library.Datatypes;
@@ -23,7 +24,7 @@ namespace CC_Library.Predictions
     {
         internal static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
-            Network = Datatype.Alpha.LoadNetwork(write);
+            NeuralNetwork Network = Datatype.Alpha.LoadNetwork(write);
             if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Alpha);
@@ -60,7 +61,7 @@ namespace CC_Library.Predictions
                 NeuralNetwork net = GetNetwork(write);
                 var lines = File.ReadLines(fn);
                 var Samples = s.ReadSamples( 24);
-                NetworkMem Mem = new NetworkMem(net);
+                NetworkMem mem = new NetworkMem(net);
 
                 try
                 {
@@ -75,12 +76,12 @@ namespace CC_Library.Predictions
                             Parallel.For(0, s.Length, j =>
                             {
                                 Output[j] = new List<double[,]>();
-                                Output[j].Add(new double[2, Network.Layers[0].Weights.GetLength(1)]);
+                                Output[j].Add(new double[2, net.Layers[0].Weights.GetLength(1)]);
                                 Output[j][0].SetRank(s.Locate(j, Radius), 0);
                                 Output[j][0].SetRank(s.Locate(j, Radius), 1);
                     
-                                for (int i = 0; i < Network.Layers.Count(); i++)
-                                    Output[j].Add(Network.Layers[i].Forward(Output[j].Last().GetRank(1), 0.1));
+                                for (int i = 0; i < net.Layers.Count(); i++)
+                                    Output[j].Add(net.Layers[i].Forward(Output[j].Last().GetRank(1), 0.1));
                     
                                 Output[s.Length][0][0, j] = Output[j].Last()[0,0];
                             });
@@ -91,12 +92,12 @@ namespace CC_Library.Predictions
                             Parallel.For(0, s.Length, j =>
                             {
                                 var ldv = new double[1] { DValues[j] };
-                                for (int i = Network.Layers.Count() - 1; i >= 0; i--)
+                                for (int i = net.Layers.Count() - 1; i >= 0; i--)
                                 {
                                     ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));
-                                    mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
-                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), Network.Layers[i], s.Length);
-                                    ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
+                                    mem.Layers[i].DBiases(ldv, net.Layers[i], s.Length);
+                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), net.Layers[i], s.Length);
+                                    ldv = mem.Layers[i].DInputs(ldv, net.Layers[i]);
                                 }
                             });
                         }
@@ -105,7 +106,7 @@ namespace CC_Library.Predictions
                 }
                 catch (Exception e) { e.OutputError(); }
                 
-                Mem.Update(Samples.Count(), 0.00001, net);
+                mem.Update(Samples.Count(), 0.00001, net);
                 write("Error : " + error);
                 net.Save();
             }
