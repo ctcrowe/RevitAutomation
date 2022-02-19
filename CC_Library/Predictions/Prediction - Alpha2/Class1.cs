@@ -54,6 +54,17 @@ namespace CC_Library.Predictions
                          });
             return output.ToList().IndexOf(output.Max());
         }
+        public static Dictionary<string, int> GetSamples(string fn, int numb = 24)
+        {
+            string Lines = File.ReadLines(fn);
+            Dictionary<string, int> inputs = new Dictionary<string, int>();
+            
+            for(int i = 0; i < numb; i++)
+            {
+                
+            }
+            return inputs;
+        }
         public static double Propogate(string fn, WriteToCMDLine write)
         {
             double error = 0;
