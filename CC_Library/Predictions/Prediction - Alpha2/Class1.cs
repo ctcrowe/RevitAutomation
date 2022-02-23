@@ -28,16 +28,16 @@ namespace CC_Library.Predictions
             if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Alpha);
-                Network.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, (((2 * Radius) + 1) * CharSet.CharCount) + 1, Activation.LRelu, 1e-5, 1e-5));
                 Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
                 Network.Layers.Add(new Layer(1, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
             }
             return Network;
         }
         
-        public const int Size = 20;
+        public const int Size = 100;
         public const int Radius = 3;
-        private const double dropout = 0.0001;
+        private const double dropout = 0.1;
         
         public static int Output(string s, int start)
         {
@@ -45,7 +45,7 @@ namespace CC_Library.Predictions
             double[] output = new double[s.Length];
             Parallel.For(start, s.Length, j =>
                          {
-                             var result = s.Locate(j, Radius);
+                             var result = s.Locate(j, Radius, true);
                              for(int i = 0; i < net.Layers.Count(); i++)
                              {
                                  result = net.Layers[i].Output(result);
@@ -111,8 +111,8 @@ namespace CC_Library.Predictions
                             {
                                 Output[j] = new List<double[,]>();
                                 Output[j].Add(new double[2, net.Layers[0].Weights.GetLength(1)]);
-                                Output[j][0].SetRank(s.Locate(j, Radius), 0);
-                                Output[j][0].SetRank(s.Locate(j, Radius), 1);
+                                Output[j][0].SetRank(s.Locate(j, Radius, true), 0);
+                                Output[j][0].SetRank(s.Locate(j, Radius, true), 1);
 
                                 for (int i = 0; i < net.Layers.Count(); i++)
                                     Output[j].Add(
@@ -132,9 +132,10 @@ namespace CC_Library.Predictions
                                 var ldv = new double[1] { DValues[j] };
                                 for (int i = net.Layers.Count() - 1; i >= 0; i--)
                                 {
-                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i + 1].GetRank(1));
+                                    ldv = net.Layers[i].InverseDropOut(ldv, Output[j][i + 1].GetRank(1));
+                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i + 1].GetRank(0));
                                     mem.Layers[i].DBiases(ldv, net.Layers[i], s.Length);
-                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), net.Layers[i], s.Length);
+                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(0), net.Layers[i], s.Length);
                                     ldv = mem.Layers[i].DInputs(ldv, net.Layers[i]);
                                 }
                             });
@@ -144,7 +145,7 @@ namespace CC_Library.Predictions
                 }
                 catch (Exception e) { e.OutputError(); }
                 
-                mem.Update(Samples.Count(), 1e4, net);
+                mem.Update(Samples.Count(), 1e-3, net);
                 write("Error : " + error);
                 net.Save();
             }

@@ -29,9 +29,11 @@ namespace CC_Library.Predictions
             {'2', 0}, {'3', 0}, {'4', 0}, {'5', 0}, {'6', 0}, {'7', 0}, {'8', 0},
             {'9', 0}, {' ', 0}, {'_', 0}};
 
-        public static double[] Locate(this string s, int numb, int range)
+        public static double[] Locate(this string s, int numb, int range, bool incl = false)
         {
-            double[] result = new double[CharCount * ((2 * range) + 1)];
+            double[] result = new double[
+                incl ? (CharCount * ((2 * range) + 1)) + 1 :
+                CharCount * (2 * range)];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
 
@@ -40,6 +42,7 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, imax, i => result[(i * CharCount) + LocationOf(chars[numb + i])] = 1);
             Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOf(chars[numb - (i + 1)])] = 1);
+            result[result.Count() - 1] = incl ? numb : result[result.Count() - 1];
 
             return result;
         }
