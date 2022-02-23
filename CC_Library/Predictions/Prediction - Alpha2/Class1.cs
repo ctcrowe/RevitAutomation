@@ -35,8 +35,8 @@ namespace CC_Library.Predictions
             return Network;
         }
         
-        public const int Size = 50;
-        public const int Radius = 5;
+        public const int Size = 20;
+        public const int Radius = 3;
         private const double dropout = 0.0001;
         
         public static int Output(string s, int start)
@@ -132,9 +132,9 @@ namespace CC_Library.Predictions
                                 var ldv = new double[1] { DValues[j] };
                                 for (int i = net.Layers.Count() - 1; i >= 0; i--)
                                 {
-                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i + 1].GetRank(0));
+                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i + 1].GetRank(1));
                                     mem.Layers[i].DBiases(ldv, net.Layers[i], s.Length);
-                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(0), net.Layers[i], s.Length);
+                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), net.Layers[i], s.Length);
                                     ldv = mem.Layers[i].DInputs(ldv, net.Layers[i]);
                                 }
                             });
@@ -144,7 +144,7 @@ namespace CC_Library.Predictions
                 }
                 catch (Exception e) { e.OutputError(); }
                 
-                mem.Update(Samples.Count(), 0.1, net);
+                mem.Update(Samples.Count(), 1e4, net);
                 write("Error : " + error);
                 net.Save();
             }

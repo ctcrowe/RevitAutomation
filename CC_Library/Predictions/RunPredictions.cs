@@ -29,12 +29,13 @@ namespace CC_Library.Predictions
                     string f = Files[random.Next(Files.Count())];
                     try
                     {
-                        //var error = Predictionary.Propogate(f, write);
+                        var error = Predictionary.Propogate(f, write);
+                        /*
                         
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
                         var error = MasterformatNetwork.Propogate(s, write, true);
-                        
+                        */
                         //var error = new MasterformatNetwork(s).PropogateSingle(s, write, true);
                         if (error > 0)
                         {

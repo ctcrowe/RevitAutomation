@@ -110,9 +110,7 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             var func = Function.GetFunction();
             Output.SetRank(func(result), 0);
-            Output.SetRank(
-                dropout > 0 ? DropOut(Output.GetRank(0), dropout) :
-                Output.GetRank(0), 1);
+            Output.SetRank(DropOut(Output.GetRank(0), dropout), 1);
             return Output;
         }
         public void Update()

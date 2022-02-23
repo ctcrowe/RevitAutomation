@@ -36,7 +36,7 @@ namespace CC_Library
             Random r = new Random();
             double[] output = new double[Similar.Count()];
             double todropout = output.Count() * dropout;
-            Parallel.For(0, output.Count(), i => output[i] = i);
+            Parallel.For(0, output.Count(), i => output[i] = i + 1);
             for(int i = 0; i < todropout; i++)
             {
                 var test = output.Where(x => x != 0).ToList();
