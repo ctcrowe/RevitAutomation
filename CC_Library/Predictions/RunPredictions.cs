@@ -13,9 +13,8 @@ namespace CC_Library.Predictions
         {
             OpenFileDialog ofd = new OpenFileDialog()
             {
-                FileName = "Select a binary file",
-                Filter = "BIN files (*.bin)|*.bin",
-                Title = "Open bin file"
+                FileName = "Select a text file",
+                Title = "Open txt file"
             };
             if(ofd.ShowDialog() == DialogResult.OK)
             {
@@ -30,9 +29,12 @@ namespace CC_Library.Predictions
                     string f = Files[random.Next(Files.Count())];
                     try
                     {
+                        //var error = Predictionary.Propogate(f, write);
+                        
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
                         var error = MasterformatNetwork.Propogate(s, write, true);
+                        
                         //var error = new MasterformatNetwork(s).PropogateSingle(s, write, true);
                         if (error > 0)
                         {
@@ -52,6 +54,8 @@ namespace CC_Library.Predictions
                         }
                     }
                     catch (Exception e) { e.OutputError(); }
+                    System.Threading.Thread.Sleep(500);
+
                 }
             }
         }

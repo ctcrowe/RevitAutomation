@@ -35,9 +35,9 @@ namespace CC_Library.Predictions
             return Network;
         }
         
-        public const int Size = 25;
-        public const int Radius = 2;
-        private const double dropout = 0.1;
+        public const int Size = 50;
+        public const int Radius = 5;
+        private const double dropout = 0.0001;
         
         public static int Output(string s, int start)
         {
@@ -56,11 +56,34 @@ namespace CC_Library.Predictions
         }
         public static Dictionary<string, int> GetSamples(string fn, int numb = 24)
         {
-            string Lines = File.ReadLines(fn);
+            var Lines = File.ReadLines(fn);
             Dictionary<string, int> inputs = new Dictionary<string, int>();
+            Random r = new Random();
             
             for(int i = 0; i < numb; i++)
             {
+                var line = Lines.ElementAt(r.Next(Lines.Count()));
+                var parts = line.Split(',');
+                string input = parts[0];
+                int number = r.Next(1, parts.Count());
+                if (int.TryParse(parts[number], out int output))
+                {
+                    bool inclresult = true;
+                    if (number > 1)
+                    {
+                        for (int j = 1; j < number; j++)
+                        {
+                            if (int.TryParse(parts[j], out int removal))
+                                input = input.Remove(0, removal);
+                            else
+                            {
+                                inclresult = false;
+                                break;
+                            }
+                        }
+                    }
+                    if(inclresult && !inputs.ContainsKey(input)) inputs.Add(input, output - 1);
+                }
                 
             }
             return inputs;
@@ -70,14 +93,14 @@ namespace CC_Library.Predictions
             double error = 0;
             {
                 NeuralNetwork net = GetNetwork(write);
-                var lines = File.ReadLines(fn);
-                var Samples = s.ReadSamples( 24);
+                var Samples = GetSamples(fn, 24);
                 NetworkMem mem = new NetworkMem(net);
 
                 try
                 {
                     Parallel.For(0, Samples.Count(), z =>
                     {
+                        var s = Samples.Keys.ElementAt(z);
                         List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
                         Output[s.Length] = new List<double[,]>();
                         Output[s.Length].Add(new double[2, s.Length]);
@@ -90,24 +113,28 @@ namespace CC_Library.Predictions
                                 Output[j].Add(new double[2, net.Layers[0].Weights.GetLength(1)]);
                                 Output[j][0].SetRank(s.Locate(j, Radius), 0);
                                 Output[j][0].SetRank(s.Locate(j, Radius), 1);
-                    
+
                                 for (int i = 0; i < net.Layers.Count(); i++)
-                                    Output[j].Add(net.Layers[i].Forward(Output[j].Last().GetRank(1), 0.1));
-                    
-                                Output[s.Length][0][0, j] = Output[j].Last()[0,0];
+                                    Output[j].Add(
+                                        i == net.Layers.Count() - 1 ? net.Layers[i].Forward(Output[j].Last().GetRank(1), 0) :
+                                                                      net.Layers[i].Forward(Output[j].Last().GetRank(1), dropout));
+
+                                Output[s.Length][0][0, j] = Output[j].Last()[0, 0];
                             });
                             Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
-                        
-                            error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[z].DesiredOutput).Max();
-                            DValues = Activations.InverseSoftMax(DValues, Output.Last().First().GetRank(0));
+                            var Desired = new double[s.Length];
+                            Desired[Samples[s]] = 1;
+
+                            error += CategoricalCrossEntropy.Forward(Output[s.Length].Last().GetRank(1), Desired).Max();
+                            var DValues = Activations.InverseSoftMax(Desired, Output.Last().First().GetRank(1));
                             Parallel.For(0, s.Length, j =>
                             {
                                 var ldv = new double[1] { DValues[j] };
                                 for (int i = net.Layers.Count() - 1; i >= 0; i--)
                                 {
-                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i].GetRank(1));
+                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i + 1].GetRank(0));
                                     mem.Layers[i].DBiases(ldv, net.Layers[i], s.Length);
-                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(1), net.Layers[i], s.Length);
+                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(0), net.Layers[i], s.Length);
                                     ldv = mem.Layers[i].DInputs(ldv, net.Layers[i]);
                                 }
                             });
@@ -117,7 +144,7 @@ namespace CC_Library.Predictions
                 }
                 catch (Exception e) { e.OutputError(); }
                 
-                mem.Update(Samples.Count(), 0.00001, net);
+                mem.Update(Samples.Count(), 0.1, net);
                 write("Error : " + error);
                 net.Save();
             }

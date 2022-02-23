@@ -40,7 +40,7 @@ namespace CC_Library
             for(int i = 0; i < todropout; i++)
             {
                 var test = output.Where(x => x != 0).ToList();
-                int numb = (int)test[r.Next(0, test.Count() - 1)];
+                int numb = test.Count > 1 ? (int)test[r.Next(0, test.Count() - 1)] : 0;
                 output[numb] = 0;
             }
             Parallel.For(0, output.Count(), i => output[i] = output[i] == 0 ? 0 : 1);
