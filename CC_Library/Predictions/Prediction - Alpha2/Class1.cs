@@ -54,6 +54,15 @@ namespace CC_Library.Predictions
                          });
             return output.ToList().IndexOf(output.Max());
         }
+        public static Dictionary<string, int> GetSample(string fn)
+        {
+            var Lines = File.ReadLines(fn);
+            Dictionary<string, int> inputs = new Dictionary<string, int>();
+            var line = Lines.ElementAt(0);
+            var parts = line.Split(',');
+            inputs.Add(parts[0], int.Parse(parts[1]));
+            return inputs;
+        }
         public static Dictionary<string, int> GetSamples(string fn, int numb = 24)
         {
             var Lines = File.ReadLines(fn);
@@ -93,7 +102,7 @@ namespace CC_Library.Predictions
             double error = 0;
             {
                 NeuralNetwork net = GetNetwork(write);
-                var Samples = GetSamples(fn, 24);
+                var Samples = GetSample(fn);
                 NetworkMem mem = new NetworkMem(net);
 
                 try
@@ -137,6 +146,8 @@ namespace CC_Library.Predictions
                                     mem.Layers[i].DBiases(ldv, net.Layers[i], s.Length);
                                     mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(0), net.Layers[i], s.Length);
                                     ldv = mem.Layers[i].DInputs(ldv, net.Layers[i]);
+                                    if (j == 0)
+                                        ldv.WriteArray("DValues at layer " + i, write);
                                 }
                             });
                         }
