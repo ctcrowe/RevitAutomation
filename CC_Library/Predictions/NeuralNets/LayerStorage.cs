@@ -27,6 +27,19 @@ namespace CC_Library.Predictions
                 catch (Exception e) { e.OutputError(); }
             });
         }
+        internal void Update(int RunSize, double ChangeSize, NeuralNetwork Net, WriteToCMDLine write)
+        {
+            Parallel.For(0, this.Layers.Count(), j =>
+            {
+                try
+                {
+                    this.Layers[j].DeltaB.Divide(RunSize);
+                    this.Layers[j].DeltaW.Divide(RunSize);
+                    this.Layers[j].Update(Net.Layers[j], ChangeSize, write, j);
+                }
+                catch (Exception e) { e.OutputError(); }
+            });
+        }
     }
     public class LayerMem
     {
@@ -108,6 +121,31 @@ namespace CC_Library.Predictions
                     //DeltaW[i, j] >= 1 ?
                         //layer.WMomentum[i, j] - adjustment : DeltaW[i, j] <= -1?
                         //layer.WMomentum[i, j] + adjustment : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
+                });
+            });
+            layer.Update();
+            Reset();
+        }
+        public void Update(Layer layer, double adjustment, WriteToCMDLine write, int ln = 0)
+        {
+            Parallel.For(0, DeltaB.Count(), i =>
+            {
+                layer.BMomentum[i] = double.IsNaN(DeltaB[i]) ?
+                    layer.BMomentum[i] : layer.BMomentum[i] - (adjustment * DeltaB[i]);
+                //DeltaB[i] >= 1 ?
+                //layer.BMomentum[i] - adjustment : DeltaB[i] <= -1 ?
+                //layer.BMomentum[i] + adjustment : layer.BMomentum [i] - (adjustment * DeltaB[i]);
+            });
+            layer.BMomentum.WriteArray("Momentum on Biases for layer " + ln, write);
+            Parallel.For(0, layer.Weights.GetLength(0), i =>
+            {
+                Parallel.For(0, layer.Weights.GetLength(1), j =>
+                {
+                    layer.WMomentum[i, j] = double.IsNaN(DeltaW[i, j]) ?
+                        layer.WMomentum[i, j] : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
+                    //DeltaW[i, j] >= 1 ?
+                    //layer.WMomentum[i, j] - adjustment : DeltaW[i, j] <= -1?
+                    //layer.WMomentum[i, j] + adjustment : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
                 });
             });
             layer.Update();

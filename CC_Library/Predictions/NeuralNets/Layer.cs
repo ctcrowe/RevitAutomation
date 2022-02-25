@@ -127,7 +127,7 @@ namespace CC_Library.Predictions
                              Biases[j] += BMomentum[j];
                              BMomentum[j] *= 0.5;
                          });
-            
+
         }
         private static double[] DropOut(double[] input, double rate)
         {
