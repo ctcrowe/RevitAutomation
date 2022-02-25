@@ -33,6 +33,7 @@ namespace DataAnalysis
                         case "SOFTMAX":
                             double[] outputs = new double[3] {0.7, 0.1, 0.2};
                             double[] dvalues = new double[3] {1, 1, 1};
+                            Activations.InverseSoftmax(dvalues, outputs, Write);
                             break;
                         case "TRAIN":
                             bool c = true;
