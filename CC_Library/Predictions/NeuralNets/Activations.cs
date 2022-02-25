@@ -182,8 +182,40 @@ namespace CC_Library.Predictions
             }
             return output;
         }
-        public static double[] InverseSoftMax(double[] dvalues, double[] outputs)
+        public static double[] InverseSoftMax(double[] dvalues, double[] outputs, WriteToCMDLine write)
         {
+            double[] input = new double[dvalues.Count()];
+            double[,] diag = outputs.DiagFlat();
+            double[,] Jacobian = new double[diag.GetLength(0), diag.GetLength(1)];
+            
+            Parallel.For(0, Jacobian.GetLength(0), i =>
+                         {
+                             Parallel.For(0, Jacobian.GetLength(1), j =>
+                                          {
+                                              Jacobian[i, j] = outputs[i] * outputs[j];
+                                          });
+                         });
+            
+            double[,] Fin = new double[Jacobian.GetLength(0), Jacobian.GetLength(1)];          
+            Parallel.For(0, Jacobian.GetLength(0), i =>
+                         {
+                             Parallel.For(0, Jacobian.GetLength(1), j =>
+                                          {
+                                              Fin[i, j] = diag[i, j] - Jacobian[i, j];
+                                          });
+                         });
+            
+            for(int i = 0; i < input.Count(); i++)
+            {
+                for(int j = 0; j < Fin.GetLength(1); j++)
+                {
+                    input[i] += dvalues[j] * Fin[i, j];
+                }
+            }
+            WriteArray("DValues", write);
+            WriteArray("Inputs", write);
+            return input;
+            /*
             double[] result = new double[dvalues.Count()];
             double[,] diag = outputs.DiagFlat();
             double[,] Jacobian = new double[diag.GetLength(0), diag.GetLength(1)];
@@ -197,6 +229,7 @@ namespace CC_Library.Predictions
                 }
             }
             return result;
+            */
         }
         public static double[] InverseCombinedCrossEntropySoftmax(double[] dvalues, double[] outputs)
         {
