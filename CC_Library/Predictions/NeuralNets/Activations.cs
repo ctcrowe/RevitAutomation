@@ -226,22 +226,22 @@ namespace CC_Library.Predictions
             }
             dvalues.WriteArray("DValues", write);
             dvalues.WriteArray("Inputs", write);
-            return input;
-            /*
-            double[] result = new double[dvalues.Count()];
-            double[,] diag = outputs.DiagFlat();
-            double[,] Jacobian = new double[diag.GetLength(0), diag.GetLength(1)];
+            //return input;
+            
+            double[] R = new double[dvalues.Count()];
+            double[,] D = outputs.DiagFlat();
+            double[,] J = new double[diag.GetLength(0), diag.GetLength(1)];
 
-            for (int j = 0; j < Jacobian.GetLength(0); j++)
+            for (int j = 0; j < J.GetLength(0); j++)
             {
-                for (int k = 0; k < Jacobian.GetLength(1); k++)
+                for (int k = 0; k < J.GetLength(1); k++)
                 {
-                    Jacobian[j, k] = diag[j, k] - (outputs[j] * outputs[k]);
-                    result[j] += Jacobian[j, k] * dvalues[k];
+                    J[j, k] = D[j, k] - (outputs[j] * outputs[k]);
+                    R[j] += J[j, k] * dvalues[k];
                 }
             }
-            return result;
-            */
+            R.WriteArray("Previous Results", write);
+            return input;
         }
         public static double[] InverseCombinedCrossEntropySoftmax(double[] dvalues, double[] outputs)
         {
