@@ -216,6 +216,14 @@ namespace CC_Library.Predictions
             {
                 diag.GetRank(i).WriteArray("diag " + i, write);
             }
+            for(int i = 0; i < Jacobian.GetLength(0); i++)
+            {
+                Jacobian.GetRank(i).WriteArray("Jacobian " + i, write);
+            }
+            for(int i = 0; i < Fin.GetLength(0); i++)
+            {
+                Fin.GetRank(i).WriteArray("Resultant " + i, write);
+            }
             dvalues.WriteArray("DValues", write);
             dvalues.WriteArray("Inputs", write);
             return input;
