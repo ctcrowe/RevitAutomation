@@ -31,7 +31,8 @@ namespace DataAnalysis
                         default:
                             break;
                         case "SOFTMAX":
-                            double[] inputs = new double[3] {0.7, 0.1, 0.2};
+                            double[] outputs = new double[3] {0.7, 0.1, 0.2};
+                            double[] dvalues = new double[3] {1, 1, 1};
                             break;
                         case "TRAIN":
                             bool c = true;
