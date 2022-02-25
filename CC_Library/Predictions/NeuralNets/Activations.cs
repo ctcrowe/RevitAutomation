@@ -212,8 +212,12 @@ namespace CC_Library.Predictions
                     input[i] += dvalues[j] * Fin[i, j];
                 }
             }
-            WriteArray("DValues", write);
-            WriteArray("Inputs", write);
+            for(int i = 0; i < diag.Length(0); i++)
+            {
+                diag.GetRank(i).WriteArray("diag " + i, write);
+            }
+            dvalues.WriteArray("DValues", write);
+            dvalues.WriteArray("Inputs", write);
             return input;
             /*
             double[] result = new double[dvalues.Count()];
