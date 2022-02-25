@@ -30,6 +30,9 @@ namespace DataAnalysis
                     {
                         default:
                             break;
+                        case "SOFTMAX":
+                            double[] inputs = new double[3] {0.7, 0.1, 0.2};
+                            break;
                         case "TRAIN":
                             bool c = true;
                             while(c)
