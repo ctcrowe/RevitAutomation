@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Linq;
 
 namespace CC_Library.Predictions
@@ -15,7 +16,7 @@ namespace CC_Library.Predictions
         Tangential,
         CombinedCrossEntropySoftmax
     }
-    internal static class Activations
+    public static class Activations
     {
         public static Func<double[], double[]> GetFunction(this Activation a)
         {
@@ -48,8 +49,8 @@ namespace CC_Library.Predictions
                     return InverseReLu;
                 case Activation.LRelu:
                     return InverseLRelu;
-                case Activation.SoftMax:
-                    return InverseSoftMax;
+                //case Activation.SoftMax:
+                //    return InverseSoftMax;
                 case Activation.Linear:
                     return InverseLinear;
                 case Activation.Sigmoid:
@@ -182,52 +183,9 @@ namespace CC_Library.Predictions
             }
             return output;
         }
-        public static double[] InverseSoftMax(double[] dvalues, double[] outputs, WriteToCMDLine write)
+        public static double[] InverseSoftMax(double[] dvalues, double[] outputs)
         {
-            double[] input = new double[dvalues.Count()];
             double[,] diag = outputs.DiagFlat();
-            double[,] Jacobian = new double[diag.GetLength(0), diag.GetLength(1)];
-            
-            Parallel.For(0, Jacobian.GetLength(0), i =>
-                         {
-                             Parallel.For(0, Jacobian.GetLength(1), j =>
-                                          {
-                                              Jacobian[i, j] = outputs[i] * outputs[j];
-                                          });
-                         });
-            
-            double[,] Fin = new double[Jacobian.GetLength(0), Jacobian.GetLength(1)];          
-            Parallel.For(0, Jacobian.GetLength(0), i =>
-                         {
-                             Parallel.For(0, Jacobian.GetLength(1), j =>
-                                          {
-                                              Fin[i, j] = diag[i, j] - Jacobian[i, j];
-                                          });
-                         });
-            
-            for(int i = 0; i < input.Count(); i++)
-            {
-                for(int j = 0; j < Fin.GetLength(1); j++)
-                {
-                    input[i] += dvalues[j] * Fin[i, j];
-                }
-            }
-            for(int i = 0; i < diag.Length(0); i++)
-            {
-                diag.GetRank(i).WriteArray("diag " + i, write);
-            }
-            for(int i = 0; i < Jacobian.GetLength(0); i++)
-            {
-                Jacobian.GetRank(i).WriteArray("Jacobian " + i, write);
-            }
-            for(int i = 0; i < Fin.GetLength(0); i++)
-            {
-                Fin.GetRank(i).WriteArray("Resultant " + i, write);
-            }
-            dvalues.WriteArray("DValues", write);
-            dvalues.WriteArray("Inputs", write);
-            //return input;
-            
             double[] R = new double[dvalues.Count()];
             double[,] D = outputs.DiagFlat();
             double[,] J = new double[diag.GetLength(0), diag.GetLength(1)];
@@ -240,8 +198,16 @@ namespace CC_Library.Predictions
                     R[j] += J[j, k] * dvalues[k];
                 }
             }
-            R.WriteArray("Previous Results", write);
-            return input;
+            return R;
+        }
+        public static double[] InverseCrossEntropy(double[] dvalues, double[] outputs)
+        {
+            double[] dinputs = new double[dvalues.Count()];
+            for(int i = 0; i < dinputs.Count(); i++)
+            {
+                dinputs[i] = (-1 * dvalues[i]) / outputs[i];
+            }
+            return dinputs;
         }
         public static double[] InverseCombinedCrossEntropySoftmax(double[] dvalues, double[] outputs)
         {

@@ -28,9 +28,9 @@ namespace CC_Library.Predictions
             if(Network.Datatype == Datatype.None)
             {
                 Network = new NeuralNetwork(Datatype.Alpha);
-                Network.Layers.Add(new Layer(Size, (((2 * Radius) + 1) * CharSet.CharCount) + 1, Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(1, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, (((2 * Radius) + 1) * CharSet.CharCount) + 1, Activation.LRelu/*, 1e-5, 1e-5*/));
+                Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu/*, 1e-5, 1e-5*/));
+                Network.Layers.Add(new Layer(1, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu/*, 1e-5, 1e-5*/));
             }
             return Network;
         }
@@ -102,7 +102,7 @@ namespace CC_Library.Predictions
             double error = 0;
             {
                 NeuralNetwork net = GetNetwork(write);
-                var Samples = GetSample(fn);
+                var Samples = GetSamples(fn);
                 NetworkMem mem = new NetworkMem(net);
 
                 try
@@ -135,7 +135,7 @@ namespace CC_Library.Predictions
                             Desired[Samples[s]] = 1;
 
                             error += CategoricalCrossEntropy.Forward(Output[s.Length].Last().GetRank(1), Desired).Max();
-                            var DValues = Activations.InverseSoftMax(Desired, Output.Last().First().GetRank(1));
+                            var DValues = Activations.InverseCombinedCrossEntropySoftmax(Desired, Output.Last().First().GetRank(1));
                             Parallel.For(0, s.Length, j =>
                             {
                                 var ldv = new double[1] { DValues[j] };
@@ -154,7 +154,7 @@ namespace CC_Library.Predictions
                 }
                 catch (Exception e) { e.OutputError(); }
                 
-                mem.Update(Samples.Count(), 1e-4, net, write);
+                mem.Update(Samples.Count(), 1e-2, net, write);
                 write("Error : " + error);
                 net.Save();
             }

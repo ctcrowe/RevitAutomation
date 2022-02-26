@@ -32,8 +32,13 @@ namespace DataAnalysis
                             break;
                         case "SOFTMAX":
                             double[] outputs = new double[3] {0.7, 0.1, 0.2};
-                            double[] dvalues = new double[3] {1, 1, 1};
-                            var test = Activations.InverseSoftmax(dvalues, outputs, Write);
+                            double[] dvalues = new double[3] {0, 0, 1};
+                            var t1 = Activations.InverseCrossEntropy(dvalues, outputs);
+                            var t2 = Activations.InverseSoftMax(t1, outputs);
+                            var t3 = Activations.InverseCombinedCrossEntropySoftmax(dvalues, outputs);
+                            t1.WriteArray("Test 1, Cross Entropy", Write);
+                            t2.WriteArray("Test 2, SoftMax", Write);
+                            t3.WriteArray("Test 3, Combined CES", Write);
                             break;
                         case "TRAIN":
                             bool c = true;
