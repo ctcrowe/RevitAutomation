@@ -70,7 +70,7 @@ namespace CC_Library.Predictions
         {
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
-            //DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
+            DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
             Parallel.For(0, s.Length, j =>
             {
                 var ldv = LocDValues[j];

@@ -1,0 +1,17 @@
+Banana,5
+ThisIsFourWords,4,2,4,5
+ThisIsSixMoreWords,4,2,3,4,5
+DoorNumber8,4,6
+HMDoor,2,4
+SteelPost,5,4
+Change Number 2,6,1,6,1,1
+This is a sentence,4,1,2,1,1,1,8
+OnionGinger,5,6
+ButternutSquash,9,6
+EatGuys,3,4
+FoodGuy,4,3
+iamscared,1,2,6
+WindowA3,6,2
+datatypetestingcontinues,8,7,9
+thetheaterseats2800,3,7,5,4
+roomnumber240,4,6,3

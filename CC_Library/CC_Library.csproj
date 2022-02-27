@@ -128,5 +128,10 @@
   <ItemGroup>
     <Folder Include="Predictions\BinaryFiles\" />
   </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="Predictions\Prediction - Alpha2\WordInterpretation.txt.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AdditionalFiles>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
