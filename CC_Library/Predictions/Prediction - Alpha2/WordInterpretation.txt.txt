@@ -1,4 +1,4 @@
-Banana,5
+Banana,6
 ThisIsFourWords,4,2,4,5
 ThisIsSixMoreWords,4,2,3,4,5
 DoorNumber8,4,6
@@ -15,3 +15,7 @@ WindowA3,6,2
 datatypetestingcontinues,8,7,9
 thetheaterseats2800,3,7,5,4
 roomnumber240,4,6,3
+Det_AccessiblePathOfTravel,3,1,10,4,2,6
+Ele_GlazingArea,3,1,7,4
+Ele_Keynote_Text,3,1,7,1,4
+Ele_WindbreakGlazing,3,1,9,7
