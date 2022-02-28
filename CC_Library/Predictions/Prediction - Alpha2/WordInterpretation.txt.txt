@@ -19,3 +19,10 @@ Det_AccessiblePathOfTravel,3,1,10,4,2,6
 Ele_GlazingArea,3,1,7,4
 Ele_Keynote_Text,3,1,7,1,4
 Ele_WindbreakGlazing,3,1,9,7
+Ele_CityHallSiteContext,3,1,4,4,4,7
+Ele_Enscape AssetDefinition,3,1,7,1,5,10
+Ele_Balcony_Grid_7-x,3,1,7,1,4,1,3
+Ele_Soffits_BCDEFGHJ,3,1,7,1,8
+Pro_RectangularReveal,3,1,11,7
+Det_test,3,1,4
+Det_PortalLightHousing,3,1,6,4,7
