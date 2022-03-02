@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
         public const int Radius = 3;
         private const double dropout = 0.1;
         
-        public static int Output(string s, int start)
+        public static string Output(string s, int start)
         {
             var net = GetNetwork(CMDLibrary.WriteNull);
             double[] output = new double[s.Length];
@@ -52,16 +52,9 @@ namespace CC_Library.Predictions
                              }
                              output[j] = result.First();
                          });
-            return output.ToList().IndexOf(output.Max());
-        }
-        public static Dictionary<string, int> GetSample(string fn)
-        {
-            var Lines = File.ReadLines(fn);
-            Dictionary<string, int> inputs = new Dictionary<string, int>();
-            var line = Lines.ElementAt(0);
-            var parts = line.Split(',');
-            inputs.Add(parts[0], int.Parse(parts[1]));
-            return inputs;
+            char[] c = new char[output.ToList().IndexOf(output.Max())];
+            Parallel.For(0, c.Count(), j => c[j] = s.ToCharArray()[j]);
+            return new string(c);
         }
         public static Dictionary<string, int> GetSamples(string fn, int numb = 24)
         {
@@ -153,7 +146,8 @@ namespace CC_Library.Predictions
                     });
                 }
                 catch (Exception e) { e.OutputError(); }
-                
+
+                error /= Samples.Count();
                 mem.Update(Samples.Count(), 1e-2, net, write);
                 write("Error : " + error);
                 net.Save();

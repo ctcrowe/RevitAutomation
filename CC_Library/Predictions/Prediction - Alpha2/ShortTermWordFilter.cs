@@ -11,19 +11,19 @@ using CC_Library.Predictions;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class ShortTermWordFilter : IAlphaFilter
+    internal class WordFilter : IAlphaFilter
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
-        private const int Size = 10;
+        private const int Size = 80;
         private const double ChangeSize = 1e-3;
-        internal ShortTermWordFilter(WriteToCMDLine write)
+        internal WordFilter(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(1, CharSet.LetterCount * (1 + (2 * Radius)), Activation.Linear));
-            ValueNetwork.Layers.Add(new Layer(Size, CharSet.CharCount * (1 + (2 * Radius)), Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(1, CharSet.CharCount * Radius, Activation.Linear));
+            ValueNetwork.Layers.Add(new Layer(Size, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
         public int GetSize() { return Size; }

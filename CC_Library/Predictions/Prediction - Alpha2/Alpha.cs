@@ -14,10 +14,9 @@ namespace CC_Library.Predictions
         {
             this.Filters = new List<IAlphaFilter>();
             Filters.Add(new AlphaFilter1(write));
-            Filters.Add(new AlphaFilter2(write));
             Filters.Add(new AlphaFilter3(write));
             Filters.Add(new LongTermWordFilter(write));
-            Filters.Add(new ShortTermWordFilter(write));
+            Filters.Add(new WordFilter(write));
         }
         public int GetSize()
         {
