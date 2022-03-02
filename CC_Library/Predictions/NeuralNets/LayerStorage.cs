@@ -108,9 +108,6 @@ namespace CC_Library.Predictions
             {
                     layer.BMomentum[i] = double.IsNaN(DeltaB[i]) ? 
                         layer.BMomentum[i] : layer.BMomentum[i] - (adjustment * DeltaB[i]);
-                //DeltaB[i] >= 1 ?
-                        //layer.BMomentum[i] - adjustment : DeltaB[i] <= -1 ?
-                        //layer.BMomentum[i] + adjustment : layer.BMomentum [i] - (adjustment * DeltaB[i]);
             });
             Parallel.For(0, layer.Weights.GetLength(0), i =>
             {
@@ -118,9 +115,6 @@ namespace CC_Library.Predictions
                 {
                     layer.WMomentum[i, j] = double.IsNaN(DeltaW[i, j]) ? 
                         layer.WMomentum[i, j] : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
-                    //DeltaW[i, j] >= 1 ?
-                        //layer.WMomentum[i, j] - adjustment : DeltaW[i, j] <= -1?
-                        //layer.WMomentum[i, j] + adjustment : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
                 });
             });
             layer.Update();
@@ -132,9 +126,6 @@ namespace CC_Library.Predictions
             {
                 layer.BMomentum[i] = double.IsNaN(DeltaB[i]) ?
                     layer.BMomentum[i] : layer.BMomentum[i] - (adjustment * DeltaB[i]);
-                //DeltaB[i] >= 1 ?
-                //layer.BMomentum[i] - adjustment : DeltaB[i] <= -1 ?
-                //layer.BMomentum[i] + adjustment : layer.BMomentum [i] - (adjustment * DeltaB[i]);
             });
             layer.BMomentum.WriteArray("Momentum on Biases for layer " + ln, write);
             Parallel.For(0, layer.Weights.GetLength(0), i =>
@@ -143,9 +134,6 @@ namespace CC_Library.Predictions
                 {
                     layer.WMomentum[i, j] = double.IsNaN(DeltaW[i, j]) ?
                         layer.WMomentum[i, j] : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
-                    //DeltaW[i, j] >= 1 ?
-                    //layer.WMomentum[i, j] - adjustment : DeltaW[i, j] <= -1?
-                    //layer.WMomentum[i, j] + adjustment : layer.WMomentum[i, j] - (adjustment * DeltaW[i, j]);
                 });
             });
             layer.Update();
