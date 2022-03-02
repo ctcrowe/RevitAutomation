@@ -42,7 +42,7 @@ namespace CC_Library.Predictions
         public static string Output(string s, int start)
         {
             var net = GetNetwork(CMDLibrary.WriteNull);
-            double[] output = new double[s.Length];
+            double[] output = new double[s.Length - start];
             Parallel.For(start, s.Length, j =>
                          {
                              var result = s.Locate(j, Radius, true);
@@ -50,10 +50,10 @@ namespace CC_Library.Predictions
                              {
                                  result = net.Layers[i].Output(result);
                              }
-                             output[j] = result.First();
+                             output[j - start] = result.First();
                          });
             char[] c = new char[output.ToList().IndexOf(output.Max())];
-            Parallel.For(0, c.Count(), j => c[j] = s.ToCharArray()[j]);
+            Parallel.For(start, c.Count() + start, j => c[j - start] = s.ToCharArray()[j]);
             return new string(c);
         }
         public static Dictionary<string, int> GetSamples(string fn, int numb = 24)
