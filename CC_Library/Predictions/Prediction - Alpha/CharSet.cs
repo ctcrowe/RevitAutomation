@@ -46,14 +46,15 @@ namespace CC_Library.Predictions
 
             return result;
         }
-        public static double[] LocateWord(this string s, int numb, int range)
+        public static List<double[]> LocateWords(this string s, List<double[]> results, int numb, int range)
         {
             double[] result = new double[CharCount * range];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
             var fin = Predictionary.Output(s, numb).ToCharArray();
             Parallel.For(0, fin.Count(), j => result[(j * CharCount) + LocationOf(fin[j])] = 1);
-            return result;
+            results.Add(result);
+            return results;
         }
         public static double[] LocateScrabble(this string s, int numb, int range)
         {
