@@ -39,7 +39,7 @@ namespace CC_Library.Predictions
         public const int Radius = 3;
         private const double dropout = 0.1;
         
-        public static string CreateWordOutput(this string s, int start, NeuralNetwork net = null)
+        public static string Output(string s, int start, NeuralNetwork net = null)
         {
             net = net == null ? GetNetwork(CMDLibrary.WriteNull) : net;
             double[] output = new double[s.Length - start];
