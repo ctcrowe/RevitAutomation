@@ -22,7 +22,7 @@ namespace CC_Library.Predictions
 {
     internal static class Predictionary
     {
-        internal static NeuralNetwork GetNetwork(WriteToCMDLine write)
+        public static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
             NeuralNetwork Network = Datatype.Alpha.LoadNetwork(write);
             if(Network.Datatype == Datatype.None)
@@ -39,9 +39,9 @@ namespace CC_Library.Predictions
         public const int Radius = 3;
         private const double dropout = 0.1;
         
-        public static string Output(string s, int start)
+        public static string Output(string s, int start, NeuralNetwork net = null)
         {
-            var net = GetNetwork(CMDLibrary.WriteNull);
+            net = net == null ? GetNetwork(CMDLibrary.WriteNull) : net;
             double[] output = new double[s.Length - start];
             Parallel.For(start, s.Length, j =>
                          {
