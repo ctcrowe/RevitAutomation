@@ -17,7 +17,7 @@ namespace CC_Library.Predictions
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
         private const int Size = 80;
-        private const double ChangeSize = 1e-3;
+        private const double ChangeSize = 1e-5;
         internal WordFilter(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
@@ -30,14 +30,16 @@ namespace CC_Library.Predictions
         public double GetChangeSize() { return ChangeSize; }
         public double[] Forward(string s, AlphaMem am)
         {
+            List<double[]> locations = new List<double[]>();
+            locations = s.LocateWords(locations, Radius);
             try
             {
                 double[,] loc = new double[s.Length, Size];
-                Parallel.For(0, s.Length, j =>
+                Parallel.For(0, locations.Count(), j =>
                 {
                     double[,] CtxtInput = new double[2, AttentionNetwork.Layers[0].Weights.GetLength(1)];
-                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 0);
-                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 1);
+                    CtxtInput.SetRank(locations[j], 0);
+                    CtxtInput.SetRank(locations[j], 1);
                     am.LocalContextOutputs[j].Add(CtxtInput);
                     for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
                     {
@@ -46,8 +48,8 @@ namespace CC_Library.Predictions
                     }
 
                     double[,] LocInput = new double[2, ValueNetwork.Layers[0].Weights.GetLength(1)];
-                    LocInput.SetRank(s.Locate(j, Radius), 0);
-                    LocInput.SetRank(s.Locate(j, Radius), 1);
+                    LocInput.SetRank(locations[j], 0);
+                    LocInput.SetRank(locations[j], 1);
                     am.LocationOutputs[j].Add(LocInput);
                     for (int i = 0; i < ValueNetwork.Layers.Count(); i++)
                     {
