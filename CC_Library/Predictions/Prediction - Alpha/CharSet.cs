@@ -48,10 +48,11 @@ namespace CC_Library.Predictions
         }
         public static List<double[]> LocateWords(this string s, List<double[]> results, int range, int numb = 0)
         {
+            var net = Predictionary.GetNetwork(CMDLibrary.WriteNull);
             double[] result = new double[CharCount * range];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
-            var fin = Predictionary.Output(s, numb).ToCharArray();
+            var fin = Predictionary.Output(s, numb, net).ToCharArray();
             Parallel.For(0, fin.Count(), j => result[(j * CharCount) + LocationOf(fin[j])] = 1);
             results.Add(result);
             return numb + fin.Length < s.Length - 1 ? s.LocateWords(results, range, numb + fin.Length) : results;
