@@ -28,7 +28,7 @@ namespace CC_Library.Predictions
         }
         public int GetSize() { return Size; }
         public double GetChangeSize() { return ChangeSize; }
-        public double[] Forward(string s, AlphaMem am)
+        public double[] Forward(string s, AlphaMem am, NeuralNetwork net)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace CC_Library.Predictions
         }
         public void Backward
             (string s, double[] DValues,
-            AlphaMem am, NetworkMem ValMem, NetworkMem FocMem)
+            AlphaMem am, NetworkMem ValMem, NetworkMem FocMem, NeuralNetwork net)
         {
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);

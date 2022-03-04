@@ -55,7 +55,7 @@ namespace CC_Library.Predictions
             var fin = Predictionary.Output(s, numb, net).ToCharArray();
             Parallel.For(0, fin.Count(), j => result[(j * CharCount) + LocationOf(fin[j])] = 1);
             results.Add(result);
-            return numb + fin.Length < s.Length - 1 ? s.LocateWords(results, range, numb + fin.Length) : results;
+            return numb + fin.Length < s.Length - 1 ? s.LocateWords(results, range, numb + fin.Length, net) : results;
         }
         public static double[] LocateScrabble(this string s, int numb, int range)
         {

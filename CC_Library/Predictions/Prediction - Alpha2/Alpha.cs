@@ -47,16 +47,17 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return mem;
         }
-        public double[] Forward(string s, AlphaMem[] am, WriteToCMDLine write)
+        public double[] Forward(string s, AlphaMem[] am, WriteToCMDLine write, NeuralNetwork net = null)
         {
             try
             {
+                net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
                 if (am.Length == Filters.Count())
                 {
                     List<double> output = new List<double>();
                     for (int i = 0; i < Filters.Count(); i++)
                     {
-                        output.AddRange(Filters[i].Forward(s, am[i]));
+                        output.AddRange(Filters[i].Forward(s, am[i], net));
                     }
                     return output.ToArray();
                 }
@@ -66,16 +67,17 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return null;
         }
-        public void Backward(string s, double[] DValues, AlphaMem[] am, NetworkMem[,] mem, WriteToCMDLine write)
+        public void Backward(string s, double[] DValues, AlphaMem[] am, NetworkMem[,] mem, WriteToCMDLine write, NeuralNetwork net = null)
         {
             try
             {
+                net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
                 int start = 0;
                 for(int i = 0; i < Filters.Count(); i++)
                 {
                     var size = Filters[i].GetSize();
                     var dvals = DValues.ToList().GetRange(start, size).ToArray();
-                    Filters[i].Backward(s, dvals, am[i], mem[i, 0], mem[i, 1]);
+                    Filters[i].Backward(s, dvals, am[i], mem[i, 0], mem[i, 1], net);
                     start += size;
                 }
             }

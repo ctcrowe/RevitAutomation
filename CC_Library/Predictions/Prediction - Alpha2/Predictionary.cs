@@ -52,7 +52,7 @@ namespace CC_Library.Predictions
                              }
                              output[j - start] = result.First();
                          });
-            char[] c = new char[output.ToList().IndexOf(output.Max())];
+            char[] c = new char[output.ToList().IndexOf(output.Max()) + 1];
             Parallel.For(start, c.Count() + start, j => c[j - start] = s.ToCharArray()[j]);
             return new string(c);
         }
