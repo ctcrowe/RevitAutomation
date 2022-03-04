@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, Samples.Count(), j =>
             {
-                AlphaMem am = new AlphaMem(Samples.Keys.ToList()[j].ToCharArray());
+                AlphaMem am = new AlphaMem(Samples.Keys.ToList()[j].Length);
                 var output = a.Forward(Samples.Keys.ToList()[j]);
                 var F = net.Forward(output, dropout, write);
                 var desired = new double[Enum.GetNames(typeof(Command)).Length];
@@ -73,7 +73,7 @@ namespace CC_Library.Predictions
             error = 0;
             Parallel.For(0, Samples.Count(), j =>
             {
-                AlphaMem am = new AlphaMem(Samples.Keys.ToList()[j].ToCharArray());
+                AlphaMem am = new AlphaMem(Samples.Keys.ToList()[j].Length);
                 var output = a.Forward(Samples.Keys.ToList()[j]);
                 var F = net.Forward(output, dropout, write);
                 var desired = new double[Enum.GetNames(typeof(Command)).Length];

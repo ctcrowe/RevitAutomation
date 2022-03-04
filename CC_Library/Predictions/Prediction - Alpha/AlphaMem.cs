@@ -22,11 +22,11 @@ namespace CC_Library.Predictions
         public List<double[,]>[] LocalContextOutputs { get; set; }
         public double[] GlobalContextOutputs { get; set; }
 
-        public AlphaMem(char[] Phrase)
+        public AlphaMem(int length)
         {
-            LocationOutputs = new List<double[,]>[Phrase.Count()]; // Old = PhraseLength, DictSize
-            LocalContextOutputs = new List<double[,]>[Phrase.Count()];
-            GlobalContextOutputs = new double[Phrase.Count()];
+            LocationOutputs = new List<double[,]>[length]; // Old = PhraseLength, DictSize
+            LocalContextOutputs = new List<double[,]>[length];
+            GlobalContextOutputs = new double[length];
 
             Parallel.For(0, LocalContextOutputs.Count(), j => LocalContextOutputs[j] = new List<double[,]>());
             Parallel.For(0, LocationOutputs.Count(), j => LocationOutputs[j] = new List<double[,]>());

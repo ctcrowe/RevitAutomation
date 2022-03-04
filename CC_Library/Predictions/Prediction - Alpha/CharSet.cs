@@ -49,7 +49,7 @@ namespace CC_Library.Predictions
         public static List<double[]> LocateWords(this string s, List<double[]> results, int range, int numb = 0, NeuralNetwork net = null)
         {
             net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-            double[] result = new double[CharCount * range];
+            double[] result = new double[CharCount * (1 + range)];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
             var fin = Predictionary.Output(s, numb, net).ToCharArray();

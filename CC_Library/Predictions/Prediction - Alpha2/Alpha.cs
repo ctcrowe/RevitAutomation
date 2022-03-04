@@ -27,10 +27,11 @@ namespace CC_Library.Predictions
             }
             return size;
         }
-        public AlphaMem[] CreateAlphaMemory(string s)
+        public AlphaMem[] CreateAlphaMemory(string s, NeuralNetwork net = null)
         {
+            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
             AlphaMem[] mem = new AlphaMem[Filters.Count];
-            Parallel.For(0, Filters.Count, j => mem[j] = new AlphaMem(s.ToCharArray()));
+            Parallel.For(0, Filters.Count, j => mem[j] = new AlphaMem(Filters[j].GetLength(s, net)));
             return mem;
         }
         public NetworkMem[,] CreateMemory()

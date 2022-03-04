@@ -5,6 +5,7 @@
         NeuralNetwork AttentionNetwork { get; }
         NeuralNetwork ValueNetwork { get; }
         int GetSize();
+        int GetLength(string s, NeuralNetwork net);
         double GetChangeSize();
         double[] Forward(string s, AlphaMem am, NeuralNetwork net);
         void Backward(string s, double[] DValues,

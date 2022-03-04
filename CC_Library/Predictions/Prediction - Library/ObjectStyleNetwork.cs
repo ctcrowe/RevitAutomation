@@ -82,9 +82,9 @@ namespace CC_Library.Predictions
                     
                     Parallel.For(0, Samples.Count(), j =>
                     {
-                        AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                        AlphaMem am = new AlphaMem(Samples[j].TextInput.Length);
                         Samples[j].TextOutput = a.Forward(Samples[j].TextInput);
-                        AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.ToCharArray());
+                        AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.Length);
                         Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText);
                         var F = Forward(Samples[j]);
                         lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));

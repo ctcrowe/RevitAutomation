@@ -22,11 +22,17 @@ namespace CC_Library.Predictions
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(1, CharSet.CharCount * Radius, Activation.Linear));
-            ValueNetwork.Layers.Add(new Layer(Size, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(1, CharSet.CharCount * (1 + Radius), Activation.Linear));
+            ValueNetwork.Layers.Add(new Layer(Size, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
         public int GetSize() { return Size; }
+        public int GetLength(string s, NeuralNetwork net)
+        {
+            List<double[]> l = new List<double[]>();
+            l = s.LocateWords(l, Radius, 0, net);
+            return l.Count();
+        }
         public double GetChangeSize() { return ChangeSize; }
         public double[] Forward(string s, AlphaMem am, NeuralNetwork net = null)
         {

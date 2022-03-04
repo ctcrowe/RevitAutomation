@@ -27,6 +27,7 @@ namespace CC_Library.Predictions
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
         }
         public int GetSize() { return Size; }
+        public int GetLength(string s, NeuralNetwork net) { return s.Length; }
         public double GetChangeSize() { return ChangeSize; }
         public double[] Forward(string s, AlphaMem am, NeuralNetwork net)
         {

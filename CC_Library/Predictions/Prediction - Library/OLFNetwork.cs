@@ -50,7 +50,7 @@ namespace CC_Library.Predictions
 
             Parallel.For(0, Samples.Count(), j =>
             {
-                AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                AlphaMem am = new AlphaMem(Samples[j].TextInput.Length);
                 var output = a.Forward(Samples[j].TextInput);
                 var F = net.Forward(output, dropout, write);
                 error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
@@ -70,7 +70,7 @@ namespace CC_Library.Predictions
             error = 0;
             Parallel.For(0, Samples.Count(), j =>
             {
-                AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
+                AlphaMem am = new AlphaMem(Samples[j].TextInput.Length);
                 var output = a.Forward(Samples[j].TextInput);
                 var F = net.Forward(output, dropout, write);
                 error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
