@@ -42,8 +42,9 @@ namespace CC_Library.Predictions
         public static string Output(string s, int start, NeuralNetwork net = null)
         {
             net = net == null ? GetNetwork(CMDLibrary.WriteNull) : net;
-            double[] output = new double[s.Length - start];
-            Parallel.For(start, s.Length, j =>
+            int dist = s.Length - start < 14 ? s.Length - start : 14;
+            double[] output = new double[dist];
+            Parallel.For(start, start + dist, j =>
                          {
                              var result = s.Locate(j, Radius, true);
                              for(int i = 0; i < net.Layers.Count(); i++)

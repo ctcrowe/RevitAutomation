@@ -89,7 +89,7 @@ namespace CC_Library.Predictions
                 error = 0;
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var AMem = a.CreateAlphaMemory(Samples[j].TextInput);
+                    var AMem = a.CreateAlphaMemory(Samples[j].TextInput, DictNet);
                     var output = a.Forward(Samples[j].TextInput, AMem, write, DictNet);
                     var F = net.Forward(output, 0, write);
                     error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();

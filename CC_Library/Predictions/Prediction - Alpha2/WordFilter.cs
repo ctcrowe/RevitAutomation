@@ -85,18 +85,18 @@ namespace CC_Library.Predictions
             //DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
             Parallel.For(0, locations.Count(), j =>
             {
-                var ldv = LocDValues[j];
-                double[] cdv = new double[1] { DValues[j] / locations.Count() };
-                for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
+                try
                 {
-                    ldv = ValMem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1].GetRank(1));
-                    ValMem.Layers[i].DBiases(ldv, ValueNetwork.Layers[i], locations.Count());
-                    ValMem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i].GetRank(1), ValueNetwork.Layers[i], locations.Count());
-                    ldv = ValMem.Layers[i].DInputs(ldv, ValueNetwork.Layers[i]);
-                }
-                for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
-                {
-                    try
+                    var ldv = LocDValues[j];
+                    double[] cdv = new double[1] { DValues[j] / locations.Count() };
+                    for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
+                    {
+                        ldv = ValMem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1].GetRank(1));
+                        ValMem.Layers[i].DBiases(ldv, ValueNetwork.Layers[i], locations.Count());
+                        ValMem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i].GetRank(1), ValueNetwork.Layers[i], locations.Count());
+                        ldv = ValMem.Layers[i].DInputs(ldv, ValueNetwork.Layers[i]);
+                    }
+                    for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
                         cdv = cdv.InverseDropOut(am.LocalContextOutputs[j][i + 1].GetRank(1));
                         cdv = FocMem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1].GetRank(1));
@@ -104,8 +104,8 @@ namespace CC_Library.Predictions
                         FocMem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i].GetRank(1), AttentionNetwork.Layers[i], locations.Count());
                         cdv = FocMem.Layers[i].DInputs(cdv, AttentionNetwork.Layers[i]);
                     }
-                    catch (Exception e) { e.OutputError(); }
                 }
+                catch (Exception e) { e.OutputError(); }
             });
         }
     }
