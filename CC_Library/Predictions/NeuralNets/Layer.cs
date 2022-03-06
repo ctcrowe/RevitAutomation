@@ -129,7 +129,7 @@ namespace CC_Library.Predictions
                          });
 
         }
-        private static double[] DropOut(double[] input, double rate)
+        public static double[] DropOut(double[] input, double rate)
         {
             double[] output = new double[input.Count()];
             var DOLayer = input.RandomBinomial(rate);

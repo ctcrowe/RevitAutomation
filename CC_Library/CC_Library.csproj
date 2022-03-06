@@ -71,6 +71,7 @@
     <Compile Include="Patterns\BrickPattern.cs" />
     <Compile Include="Patterns\DrawnPattern.cs" />
     <Compile Include="Patterns\HerringbonePattern.cs" />
+    <Compile Include="Predictions\ErrorProcessing\DActivationArrays.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Alpha.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Predictionary.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Filter3.cs" />

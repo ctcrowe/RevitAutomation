@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CC_Library;
 using CC_Library.Datatypes;
-using System;
-using CC_Library.Predictions;
 
 
 namespace CC_Library.Predictions
@@ -18,6 +16,7 @@ namespace CC_Library.Predictions
         private const int Radius = 15;
         private const int Size = 80;
         private const double ChangeSize = 1e-5;
+        private const double dropout = 0.1;
         internal WordFilter(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
@@ -31,9 +30,69 @@ namespace CC_Library.Predictions
         {
             List<double[]> l = new List<double[]>();
             l = s.LocateWords(l, Radius, 0, net);
-            return l.Count();
+            return l.Count() + 1;
         }
         public double GetChangeSize() { return ChangeSize; }
+        //[][][][][x] => value set
+        //[][][][x] => dropout / no. 2 wide always
+        //[][][x] => layer number - based on Filter Size
+        //[][x] => location location location - varies
+        //[x] => layer group - 3 wide always - 0 = locations, 1 = context, 2 = combined output
+
+        //[2][1][1][3][x] =>
+        //  x = [0] = locations, ,[1] = locations, [2] = const int Size above
+        public double[][][][][] Forward(string s, NeuralNetwork net = null)
+        {
+            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
+            List<double[]> locations = new List<double[]>();
+            locations = s.LocateWords(locations, Radius, 0, net);
+
+            double[][][][][] output = new double[3][][][][];
+            output[0] = new double[locations.Count()][][][];
+            output[1] = new double[locations.Count()][][][];
+            output[2] = new double[1][][][];
+            output[2][0] = new double[1][][];
+            output[2][0][0] = new double[3][];
+            output[2][0][0][0] = new double[locations.Count()];
+            output[2][0][0][1] = new double[locations.Count()];
+            output[2][0][0][2] = new double[Size];
+
+            Parallel.For(0, locations.Count(), j =>
+            {
+                output[0][j] = new double[ValueNetwork.Layers.Count() + 1][][];
+                output[0][j][0] = new double[2][];
+                output[0][j][0][0] = locations[j];
+                output[0][j][0][1] = locations[j];
+                for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
+                {
+                    output[0][j][i + 1] = new double[2][];
+                    output[0][j][i + 1][0] = ValueNetwork.Layers[i].Output(output[0][j][i][1]);
+                    output[0][j][i + 1][1] = Layer.DropOut(output[0][j][i+1][0], dropout);
+                }
+
+                output[1][j] = new double[AttentionNetwork.Layers.Count() + 1][][];
+                output[1][j][0] = new double[2][];
+                output[1][j][0][0] = locations[j];
+                output[1][j][0][1] = locations[j];
+                for(int i = 0; i < AttentionNetwork.Layers.Count(); i++)
+                {
+                    output[1][j][i + 1] = new double[2][];
+                    output[1][j][i + 1][0] = AttentionNetwork.Layers[i].Output(output[0][j][i][1]);
+                    output[1][j][i + 1][1] = Layer.DropOut(output[1][j][i + 1][0], dropout);
+                }
+                output[2][0][0][0][j] = output[1][j][AttentionNetwork.Layers.Count()][0][0];
+            });
+            output[2][0][0][1] = Activations.SoftMax(output[2][0][0][0]);
+            Parallel.For(0, Size, j =>
+            {
+                for(int i = 0; i < locations.Count(); i++)
+                {
+                    output[2][0][0][2][j] += output[0][i][ValueNetwork.Layers.Count()][0][j] * output[2][0][0][1][i];
+                }
+            });
+
+            return output;
+        }
         public double[] Forward(string s, AlphaMem am, NeuralNetwork net = null)
         {
             net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
@@ -82,7 +141,7 @@ namespace CC_Library.Predictions
 
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
-            //DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
+            DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
             Parallel.For(0, locations.Count(), j =>
             {
                 try
