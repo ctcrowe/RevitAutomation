@@ -94,8 +94,7 @@ namespace CC_Library.Predictions
             return output;
         }
         public void Backward
-            (string s, double[] DValues,
-            double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem)
+            (double[] DValues, double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem)
         {
             var ContextualDVals = new double[output[0].Count()]; //output[0].Count() => Locations.Count()
             for(int i = 0; i < ContextualDVals.Count(); i++)
@@ -106,7 +105,7 @@ namespace CC_Library.Predictions
                 }
             }
             ContextualDVals = Activations.InverseSoftMax(ContextualDVals, outputs[2][0][0][0]);
-            Parallel.For(0, locations.Count(), j =>
+            Parallel.For(0, outputs[0].Count(), j =>
             {
                 try
                 {
