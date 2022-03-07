@@ -13,9 +13,9 @@ namespace CC_Library.Predictions
         internal Alpha2(WriteToCMDLine write)
         {
             this.Filters = new List<IAlphaFilter>();
-            Filters.Add(new AlphaFilter1(write));
-            Filters.Add(new AlphaFilter3(write));
-            Filters.Add(new LongTermWordFilter(write));
+           // Filters.Add(new AlphaFilter1(write));
+           // Filters.Add(new AlphaFilter3(write));
+           // Filters.Add(new LongTermWordFilter(write));
             Filters.Add(new WordFilter(write));
         }
         public int GetSize()
