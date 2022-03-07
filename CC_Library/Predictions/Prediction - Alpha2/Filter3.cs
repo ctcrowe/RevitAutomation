@@ -9,7 +9,7 @@ using CC_Library.Predictions;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class AlphaFilter3 : IAlphaFilter
+    internal class AlphaFilter3// : IAlphaFilter
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
