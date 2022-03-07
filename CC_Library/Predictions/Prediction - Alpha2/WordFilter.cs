@@ -129,10 +129,11 @@ namespace CC_Library.Predictions
                     for(int i = 0; i < Size; i++) { LocalDVals[i] = DValues[i] * outputs[2][0][0][0][j]; }
                     for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
-                        LocalDVals = ValMem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1].GetRank(1));
-                        ValMem.Layers[i].DBiases(ldv, ValueNetwork.Layers[i], locations.Count());
-                        ValMem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i].GetRank(1), ValueNetwork.Layers[i], locations.Count());
-                        LocalDVals = ValMem.Layers[i].DInputs(ldv, ValueNetwork.Layers[i]);
+                        LocalDVals = LocalDVals.InverseDropOut(outputs[0][j][i+1][1]);
+                        LocalDVals = ValMem.Layers[i].DActivation(LocalDVals, outputs[0][j][i + 1][0]);
+                        ValMem.Layers[i].DBiases(LocalDVals, ValueNetwork.Layers[i], locations.Count());
+                        ValMem.Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], ValueNetwork.Layers[i], locations.Count());
+                        LocalDVals = ValMem.Layers[i].DInputs(LocalDVals, ValueNetwork.Layers[i]);
                     }
                     double[] cdv = new double[1] { ContextualDVals[j] / locations.Count() };
                     for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
