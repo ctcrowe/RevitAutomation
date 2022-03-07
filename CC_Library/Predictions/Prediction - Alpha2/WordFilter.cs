@@ -115,8 +115,8 @@ namespace CC_Library.Predictions
                     {
                         LocalDVals = LocalDVals.InverseDropOut(outputs[0][j][i+1][1]);
                         LocalDVals = ValMem.Layers[i].DActivation(LocalDVals, outputs[0][j][i + 1][0]);
-                        ValMem.Layers[i].DBiases(LocalDVals, ValueNetwork.Layers[i], locations.Count());
-                        ValMem.Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], ValueNetwork.Layers[i], locations.Count());
+                        ValMem.Layers[i].DBiases(LocalDVals, ValueNetwork.Layers[i], outputs[0].Count());
+                        ValMem.Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], ValueNetwork.Layers[i], outputs[0].Count());
                         LocalDVals = ValMem.Layers[i].DInputs(LocalDVals, ValueNetwork.Layers[i]);
                     }
                     double[] cdv = new double[1] { ContextualDVals[j] / locations.Count() };
@@ -124,14 +124,15 @@ namespace CC_Library.Predictions
                     {
                         cdv = cdv.InverseDropOut(outputs[1][j][i+1][1]);
                         cdv = FocMem.Layers[i].DActivation(cdv, outputs[1][j][i+1][0]);
-                        FocMem.Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], locations.Count());
-                        FocMem.Layers[i].DWeights(cdv, outputs[1][j][i][1], AttentionNetwork.Layers[i], locations.Count());
+                        FocMem.Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], outputs[0].Count());
+                        FocMem.Layers[i].DWeights(cdv, outputs[1][j][i][1], AttentionNetwork.Layers[i], outputs[0].Count());
                         cdv = FocMem.Layers[i].DInputs(cdv, AttentionNetwork.Layers[i]);
                     }
                 }
                 catch (Exception e) { e.OutputError(); }
             });
         }
+        /*
         public double[] Forward(string s, AlphaMem am, NeuralNetwork net = null)
         {
             net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
@@ -169,6 +170,6 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
             return null;
-        }
+        }*/
     }
 }
