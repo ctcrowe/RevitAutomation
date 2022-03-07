@@ -11,7 +11,7 @@ using CC_Library.Predictions;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class AlphaFilter1 : IAlphaFilter
+    internal class AlphaFilter1// : IAlphaFilter
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
