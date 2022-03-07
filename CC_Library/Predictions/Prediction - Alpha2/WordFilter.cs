@@ -135,10 +135,6 @@ namespace CC_Library.Predictions
             (string s, double[] DValues,
             double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem)
         {
-            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-            List<double[]> locations = new List<double[]>();
-            locations = s.LocateWords(locations, Radius, 0, net);
-
             var LocDValues = am.DLocation(DValues);
             DValues = am.DGlobalContext(DValues);
             DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
