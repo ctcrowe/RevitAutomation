@@ -65,17 +65,16 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return output
         }
-        public void Backward(string s, double[] DValues, AlphaMem[] am, NetworkMem[,] mem, WriteToCMDLine write, NeuralNetwork net = null)
+        public void Backward(double[] DValues, List<double[][][][][]> outputs, NetworkMem[,] mem, WriteToCMDLine write, NeuralNetwork net = null)
         {
             try
             {
                 net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-                int start = 0;
                 for(int i = 0; i < Filters.Count(); i++)
                 {
                     var size = Filters[i].GetSize();
                     var dvals = DValues.ToList().GetRange(start, size).ToArray();
-                    Filters[i].Backward(s, dvals, /*am[i]*/, mem[i, 0], mem[i, 1], net);
+                    Filters[i].Backward(dvals, /*am[i]*/outputs[i], mem[i, 1], net);
                     start += size;
                 }
             }
