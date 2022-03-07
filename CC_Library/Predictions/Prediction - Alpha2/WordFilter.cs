@@ -133,7 +133,7 @@ namespace CC_Library.Predictions
         }
         public void Backward
             (string s, double[] DValues,
-            AlphaMem am, NetworkMem ValMem, NetworkMem FocMem, NeuralNetwork net = null)
+            double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem)
         {
             net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
             List<double[]> locations = new List<double[]>();
