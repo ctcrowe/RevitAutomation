@@ -93,21 +93,6 @@ namespace CC_Library.Predictions
 
             return output;
         }
-        /*
-        public double[] DGlobalContext(double[] dvalues)
-        {
-            double[] result = new double[LocationOutputs.Count()];
-            for (int i = 0; i < result.Count(); i++)
-            {
-                for (int j = 0; j < dvalues.Count(); j++)
-                {
-                    if (LocationOutputs[i].Any())
-                        result[i] += dvalues[j] * LocationOutputs[i].Last()[1, j];
-                }
-            }
-            return result;
-        }
-        */
         public void Backward
             (string s, double[] DValues,
             double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem)
