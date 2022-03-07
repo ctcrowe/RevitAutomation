@@ -138,10 +138,10 @@ namespace CC_Library.Predictions
                     double[] cdv = new double[1] { ContextualDVals[j] / locations.Count() };
                     for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
-                        cdv = cdv.InverseDropOut(am.LocalContextOutputs[j][i + 1].GetRank(1));
-                        cdv = FocMem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1].GetRank(1));
+                        cdv = cdv.InverseDropOut(outputs[1][j][i+1][1]);
+                        cdv = FocMem.Layers[i].DActivation(cdv, outputs[1][j][i+1][0]);
                         FocMem.Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], locations.Count());
-                        FocMem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i].GetRank(1), AttentionNetwork.Layers[i], locations.Count());
+                        FocMem.Layers[i].DWeights(cdv, outputs[1][j][i][1], AttentionNetwork.Layers[i], locations.Count());
                         cdv = FocMem.Layers[i].DInputs(cdv, AttentionNetwork.Layers[i]);
                     }
                 }
