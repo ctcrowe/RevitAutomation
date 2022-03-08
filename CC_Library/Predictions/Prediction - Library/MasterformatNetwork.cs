@@ -30,7 +30,7 @@ namespace CC_Library.Predictions
             NeuralNetwork net = GetNetwork(write);
             Alpha2 a = datatype.LoadAlpha(write);
             var mem = a.CreateAlphaMemory(s);
-            double[] Results = a.Forward(s, mem, write);
+            double[] Results = a.Forward(s, write).Key;
             Results.WriteArray("Alpha Results : ", write);
             for(int i = 0; i < net.Layers.Count(); i++)
             {
@@ -66,11 +66,11 @@ namespace CC_Library.Predictions
                     //var output = a.Forward(Samples[j].TextInput, ctxt, am);
                         var AMem = a.CreateAlphaMemory(Samples[j].TextInput, DictNet);
                         var output = a.Forward(Samples[j].TextInput, write, DictNet);
-                        var F = net.Forward(output, dropout, write);
+                        var F = net.Forward(output.Key, dropout, write);
                         error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
 
                         var DValues = net.Backward(F, Samples[j].DesiredOutput, MFMem, write);
-                        a.Backward(Samples[j].TextInput, DValues, AMem, am, write, DictNet);
+                        a.Backward(DValues, output.Value, am, write, DictNet);
                     //a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                     });
                 }
@@ -90,8 +90,8 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     var AMem = a.CreateAlphaMemory(Samples[j].TextInput, DictNet);
-                    var output = a.Forward(Samples[j].TextInput, AMem, write, DictNet);
-                    var F = net.Forward(output, 0, write);
+                    var output = a.Forward(Samples[j].TextInput, write, DictNet);
+                    var F = net.Forward(output.Key, 0, write);
                     error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
                     //AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
                     //var output = a.Forward(Samples[j].TextInput, ctxt, am);
