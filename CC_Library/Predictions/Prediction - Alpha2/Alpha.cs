@@ -66,6 +66,7 @@ namespace CC_Library.Predictions
         }
         public void Backward(double[] DValues, List<double[][][][][]> outputs, NetworkMem[,] mem, WriteToCMDLine write, NeuralNetwork net = null)
         {
+            var start = 0;
             try
             {
                 net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
@@ -73,7 +74,7 @@ namespace CC_Library.Predictions
                 {
                     var size = Filters[i].GetSize();
                     var dvals = DValues.ToList().GetRange(start, size).ToArray();
-                    Filters[i].Backward(dvals, /*am[i]*/outputs[i], mem[i, 1], net);
+                    Filters[i].Backward(dvals, /*am[i]*/outputs[i], mem[i, 0], mem[i, 1]);
                     start += size;
                 }
             }
