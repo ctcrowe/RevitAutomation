@@ -65,7 +65,7 @@ namespace CC_Library.Predictions
                     //AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
                     //var output = a.Forward(Samples[j].TextInput, ctxt, am);
                         var AMem = a.CreateAlphaMemory(Samples[j].TextInput, DictNet);
-                        var output = a.Forward(Samples[j].TextInput, AMem, write, DictNet);
+                        var output = a.Forward(Samples[j].TextInput, write, DictNet);
                         var F = net.Forward(output, dropout, write);
                         error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
 

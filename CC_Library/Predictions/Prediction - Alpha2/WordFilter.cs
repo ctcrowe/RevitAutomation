@@ -96,12 +96,12 @@ namespace CC_Library.Predictions
         public void Backward
             (double[] DValues, double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem)
         {
-            var ContextualDVals = new double[output[0].Count()]; //output[0].Count() => Locations.Count()
+            var ContextualDVals = new double[outputs[0].Count()]; //output[0].Count() => Locations.Count()
             for(int i = 0; i < ContextualDVals.Count(); i++)
             {
                 for(int j = 0; j < DValues.Count(); j++) //DValues.Count() => Size
                 {
-                    ContextualDVals[i] += DValues[j] * output[0][i][ValueNetwork.Layers.Count()][1][j]
+                    ContextualDVals[i] += DValues[j] * outputs[0][i][ValueNetwork.Layers.Count()][1][j];
                 }
             }
             ContextualDVals = Activations.InverseSoftMax(ContextualDVals, outputs[2][0][0][0]);
@@ -109,7 +109,7 @@ namespace CC_Library.Predictions
             {
                 try
                 {
-                    double[] LocalDVals = new double[size];
+                    double[] LocalDVals = new double[Size];
                     for(int i = 0; i < Size; i++) { LocalDVals[i] = DValues[i] * outputs[2][0][0][0][j]; }
                     for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
@@ -119,7 +119,7 @@ namespace CC_Library.Predictions
                         ValMem.Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], ValueNetwork.Layers[i], outputs[0].Count());
                         LocalDVals = ValMem.Layers[i].DInputs(LocalDVals, ValueNetwork.Layers[i]);
                     }
-                    double[] cdv = new double[1] { ContextualDVals[j] / locations.Count() };
+                    double[] cdv = new double[1] { ContextualDVals[j] / outputs[0].Count() };
                     for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
                         cdv = cdv.InverseDropOut(outputs[1][j][i+1][1]);

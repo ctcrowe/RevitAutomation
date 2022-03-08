@@ -48,22 +48,21 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return mem;
         }
-        public List<double[][][][][]> Forward(string s, WriteToCMDLine write, NeuralNetwork net = null)
+        public KeyValuePair<double[], List<double[][][][][]>> Forward(string s, WriteToCMDLine write, NeuralNetwork net = null)
         {
             List<double[][][][][]> output = new List<double[][][][][]>();
+            List<double> fin = new List<double>();
             try
             {
                 net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-                if (am.Length == Filters.Count())
+                for (int i = 0; i < Filters.Count(); i++)
                 {
-                    for (int i = 0; i < Filters.Count(); i++)
-                    {
-                        output.Add(Filters[i].Forward(s, net));
-                    }
+                    output.Add(Filters[i].Forward(s, net));
+                    fin.AddRange(output.Last().Last().Last().Last().Last());
                 }
             }
             catch (Exception e) { e.OutputError(); }
-            return output
+            return new KeyValuePair<double[], List<double[][][][][]>>(fin.ToArray(), output);
         }
         public void Backward(double[] DValues, List<double[][][][][]> outputs, NetworkMem[,] mem, WriteToCMDLine write, NeuralNetwork net = null)
         {
