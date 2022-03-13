@@ -50,18 +50,46 @@ namespace CC_Library.Predictions
 
             for (int l = Layers.Count() - 1; l >= 0; l--)
             {
-                try
-                {
-                    DValues = DValues.InverseDropOut(Results[l].GetRank(1));
-                    DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank(0));
-                    mem.Layers[l].DBiases(DValues, Layers[l]);
-                    mem.Layers[l].DWeights(DValues, Results[l].GetRank(0), Layers[l]);
-                    DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
-                }
+                try { DValues = DValues.InverseDropOut(Results[l + 1].GetRank(1)); }
                 catch (Exception e)
                 {
-                    write("Failed at Layer : " + l);
+                    write("Failed at Inverse Dropout layer " + l);
+                    write("DValues : " + DValues.Count());
+                    write("Results : " + Results[l + 1].GetRank(1).Count());
                     e.OutputError();
+                }
+                try { DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank(0)); }
+                catch
+                {
+                    write("Failed at DActivation layer " + l);
+                    write("DValues : " + DValues.Count());
+                    write("Results : " + Results[l + 1].GetRank(0).Count());
+                }
+                try { mem.Layers[l].DBiases(DValues, Layers[l]); }
+                catch
+                {
+                    write("Failed at DBiases layer " + l);
+                    write("DValues : " + DValues.Count());
+                    write("Biases : " + Layers[l].Biases.Count());
+                }
+                try { mem.Layers[l].DWeights(DValues, Results[l].GetRank(0), Layers[l]); }
+                catch
+                {
+                    write("Failed at DWeights layer " + l);
+                    write("DValues : " + DValues.Count());
+                    write("Results : " + Results[l + 1].GetRank(0).Count());
+                    write("Weights : " + Layers[l].Weights.GetLength(0) + ", " + Layers[l].Weights.GetLength(1));
+                }
+                try
+                {
+                    if(l > 0)
+                        DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
+                }
+                catch
+                {
+                    write("Failed at DInputs layer " + l);
+                    write("DValues : " + DValues.Count());
+                    write("Weights : " + Layers[l].Weights.GetLength(0) + ", " + Layers[l].Weights.GetLength(1));
                 }
             }
             return DValues;

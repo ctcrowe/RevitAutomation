@@ -14,16 +14,18 @@ namespace CC_Library.Predictions
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
-        private const int Size = 80;
-        private const double ChangeSize = 1e-5;
+        private const int Size = 50;
+        private const double ChangeSize = 1e-4;
         private const double dropout = 0.1;
         internal WordFilter(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(1, CharSet.CharCount * (1 + Radius), Activation.Linear));
-            ValueNetwork.Layers.Add(new Layer(Size, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
-            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(1, AttentionNetwork.Layers.Last(), Activation.Linear));
+            ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
+            ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
         }
         public int GetSize() { return Size; }
         public int GetLength(string s, NeuralNetwork net)

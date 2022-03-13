@@ -29,14 +29,17 @@ namespace CC_Library.Predictions
             {
                 Network = new NeuralNetwork(Datatype.Alpha);
                 Network.Layers.Add(new Layer(Size, (((2 * Radius) + 1) * CharSet.CharCount) + 1, Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(Size, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(1, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, Network.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, Network.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, Network.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(Size, Network.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                Network.Layers.Add(new Layer(1, Network.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             }
             return Network;
         }
         
-        public const int Size = 16;
-        public const int Radius = 3;
+        public const int Size = 50;
+        public const int Radius = 5;
         private const double dropout = 0.1;
         
         public static string Output(string s, int start, NeuralNetwork net = null)
@@ -94,65 +97,67 @@ namespace CC_Library.Predictions
         public static double Propogate(string fn, WriteToCMDLine write)
         {
             double error = 0;
+            double accuracy = 0;
+            NeuralNetwork net = GetNetwork(write);
+            var Samples = GetSamples(fn);
+            NetworkMem mem = new NetworkMem(net);
+
+            try
             {
-                NeuralNetwork net = GetNetwork(write);
-                var Samples = GetSamples(fn);
-                NetworkMem mem = new NetworkMem(net);
-
-                try
+                Parallel.For(0, Samples.Count(), z =>
                 {
-                    Parallel.For(0, Samples.Count(), z =>
+                    var s = Samples.Keys.ElementAt(z);
+                    List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
+                    Output[s.Length] = new List<double[,]>();
+                    Output[s.Length].Add(new double[2, s.Length]);
+
+                    try
                     {
-                        var s = Samples.Keys.ElementAt(z);
-                        List<double[,]>[] Output = new List<double[,]>[s.Length + 1];
-                        Output[s.Length] = new List<double[,]>();
-                        Output[s.Length].Add(new double[2, s.Length]);
-            
-                        try
+                        Parallel.For(0, s.Length, j =>
                         {
-                            Parallel.For(0, s.Length, j =>
+                            Output[j] = new List<double[,]>();
+                            Output[j].Add(new double[2, net.Layers[0].Weights.GetLength(1)]);
+                            Output[j][0].SetRank(s.Locate(j, Radius, true), 0);
+                            Output[j][0].SetRank(s.Locate(j, Radius, true), 1);
+
+                            for (int i = 0; i < net.Layers.Count(); i++)
+                                Output[j].Add(
+                                    i == net.Layers.Count() - 1 ? net.Layers[i].Forward(Output[j].Last().GetRank(1), 0) :
+                                                                  net.Layers[i].Forward(Output[j].Last().GetRank(1), dropout));
+
+                            Output[s.Length][0][0, j] = Output[j].Last()[0, 0];
+                        });
+                        Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
+                        var Desired = new double[s.Length];
+                        Desired[Samples[s]] = 1;
+
+                        error += CategoricalCrossEntropy.Forward(Output[s.Length].Last().GetRank(1), Desired).Max();
+                        if (Output[s.Length].Last().GetRank(1).ToList().IndexOf(Output[s.Length].Last().GetRank(1).Max()) == Samples[s])
+                            accuracy++;
+                        var DValues = Activations.InverseCombinedCrossEntropySoftmax(Desired, Output.Last().First().GetRank(1));
+                        Parallel.For(0, s.Length, j =>
+                        {
+                            var ldv = new double[1] { DValues[j] };
+                            for (int i = net.Layers.Count() - 1; i >= 0; i--)
                             {
-                                Output[j] = new List<double[,]>();
-                                Output[j].Add(new double[2, net.Layers[0].Weights.GetLength(1)]);
-                                Output[j][0].SetRank(s.Locate(j, Radius, true), 0);
-                                Output[j][0].SetRank(s.Locate(j, Radius, true), 1);
-
-                                for (int i = 0; i < net.Layers.Count(); i++)
-                                    Output[j].Add(
-                                        i == net.Layers.Count() - 1 ? net.Layers[i].Forward(Output[j].Last().GetRank(1), 0) :
-                                                                      net.Layers[i].Forward(Output[j].Last().GetRank(1), dropout));
-
-                                Output[s.Length][0][0, j] = Output[j].Last()[0, 0];
-                            });
-                            Output[s.Length][0].SetRank(Activations.SoftMax(Output[s.Length][0].GetRank(0)), 1);
-                            var Desired = new double[s.Length];
-                            Desired[Samples[s]] = 1;
-
-                            error += CategoricalCrossEntropy.Forward(Output[s.Length].Last().GetRank(1), Desired).Max();
-                            var DValues = Activations.InverseCombinedCrossEntropySoftmax(Desired, Output.Last().First().GetRank(1));
-                            Parallel.For(0, s.Length, j =>
-                            {
-                                var ldv = new double[1] { DValues[j] };
-                                for (int i = net.Layers.Count() - 1; i >= 0; i--)
-                                {
-                                    ldv = net.Layers[i].InverseDropOut(ldv, Output[j][i + 1].GetRank(1));
-                                    ldv = mem.Layers[i].DActivation(ldv, Output[j][i + 1].GetRank(0));
-                                    mem.Layers[i].DBiases(ldv, net.Layers[i], s.Length);
-                                    mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(0), net.Layers[i], s.Length);
-                                    ldv = mem.Layers[i].DInputs(ldv, net.Layers[i]);
-                                }
-                            });
-                        }
-                        catch (Exception e) { e.OutputError(); }
-                    });
-                }
-                catch (Exception e) { e.OutputError(); }
-
-                error /= Samples.Count();
-                mem.Update(Samples.Count(), 1e-2, net, write);
-                write("Error : " + error);
-                net.Save();
+                                ldv = net.Layers[i].InverseDropOut(ldv, Output[j][i + 1].GetRank(1));
+                                ldv = mem.Layers[i].DActivation(ldv, Output[j][i + 1].GetRank(0));
+                                mem.Layers[i].DBiases(ldv, net.Layers[i], s.Length);
+                                mem.Layers[i].DWeights(ldv, Output[j][i].GetRank(0), net.Layers[i], s.Length);
+                                ldv = mem.Layers[i].DInputs(ldv, net.Layers[i]);
+                            }
+                        });
+                    }
+                    catch (Exception e) { e.OutputError(); }
+                });
+                write("Error : " + error / Samples.Count());
+                write("Accuracy : " + accuracy + " / " + Samples.Count() + " = " + (accuracy / Samples.Count()));
             }
+            catch (Exception e) { e.OutputError(); }
+
+            error /= Samples.Count();
+            mem.Update(Samples.Count(), 1e-2, net, CMDLibrary.WriteNull);
+            net.Save();
             return error;
         }
     }
