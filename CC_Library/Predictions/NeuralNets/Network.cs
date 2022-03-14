@@ -82,8 +82,7 @@ namespace CC_Library.Predictions
                 }
                 try
                 {
-                    if(l > 0)
-                        DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
+                    DValues = mem.Layers[l].DInputs(DValues, Layers[l]);
                 }
                 catch
                 {

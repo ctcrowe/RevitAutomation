@@ -20,6 +20,7 @@ namespace CC_Library.Predictions
             {
                 int runs = 0;
                 double er = 0;
+                double acc = 0;
                 var filepath = ofd.FileName;
                 var dir = Path.GetDirectoryName(filepath);
                 var Files = Directory.GetFiles(dir);
@@ -36,14 +37,15 @@ namespace CC_Library.Predictions
                         var error = MasterformatNetwork.Propogate(s, write, true);
                         
                         //var error = new MasterformatNetwork(s).PropogateSingle(s, write, true);
-                        if (error > 0)
+                        if (error[0] > 0)
                         {
                             runs++;
-                            er += error;
+                            er += error[0];
+                            acc += error[1];
 
-                            write("Total Error : " + er);
                             write("Total Runs : " + runs);
-                            write("Error : " + er / runs);
+                            write("Total Error : " + er / runs);
+                            write("Total Accuracy : " + acc / runs);
                             write("");
                         }
                         else

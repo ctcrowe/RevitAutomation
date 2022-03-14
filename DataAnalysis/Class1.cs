@@ -10,7 +10,7 @@ using CC_Library.Predictions;
 
 namespace DataAnalysis
 {
-    public static class Datasets
+    public static class RunPreds
     {
         public static void RunPredictions(WriteToCMDLine write)
         {

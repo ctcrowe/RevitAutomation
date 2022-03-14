@@ -3,6 +3,7 @@ using CC_Library;
 using CC_Library.Predictions;
 using CC_Library.Datatypes;
 using System.IO;
+using System.Windows.Forms;
 using System.Diagnostics;
 
 namespace DataAnalysis
@@ -17,6 +18,9 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new FakeChartForm1());
             bool x = true;
             while(x)
             {
@@ -41,6 +45,7 @@ namespace DataAnalysis
                             t3.WriteArray("Test 3, Combined CES", Write);
                             break;
                         case "TRAIN":
+                            var chart = new FakeChartForm1();
                             bool c = true;
                             while(c)
                             {

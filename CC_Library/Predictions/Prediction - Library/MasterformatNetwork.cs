@@ -21,6 +21,7 @@ namespace CC_Library.Predictions
                 net = new NeuralNetwork(datatype);
                 net.Layers.Add(new Layer(30, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(30, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(30, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(40, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
             return net;
@@ -47,45 +48,38 @@ namespace CC_Library.Predictions
             Alpha2 a = datatype.LoadAlpha(write);
             var am = a.CreateMemory();
             NeuralNetwork DictNet = Predictionary.GetNetwork(write);
-            //Alpha a = new Alpha(write);
-            //AlphaContext ctxt = new AlphaContext(datatype, write);
             NetworkMem MFMem = new NetworkMem(net);
 
             try
             {
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    //AlphaMem am = new AlphaMem(Samples[j].TextInput.ToCharArray());
-                    //var output = a.Forward(Samples[j].TextInput, ctxt, am);
-                    var AMem = a.CreateAlphaMemory(Samples[j].TextInput, DictNet);
                     var output = a.Forward(Samples[j].TextInput, write, DictNet);
                     var F = net.Forward(output.Key, dropout, write);
-                    if (j == 0)
+                    /*if (j == 0)
                     {
                         F.Last().GetRank(0).WriteArray("Output[0]", write);
                         F.Last().GetRank(1).WriteArray("Output[1]", write);
                         Samples[j].DesiredOutput.WriteArray("Desired", write);
-                    }
+                    }*/
                     results[0] += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
                     results[1] += F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()) ==
                         Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()) ? 1 : 0;
 
                     var DValues = net.Backward(F, Samples[j].DesiredOutput, MFMem, write);
                     a.Backward(DValues, output.Value, am, write, DictNet);
-                    //a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
                 });
             }
             catch (Exception e) { e.OutputError(); }
             MFMem.Update(Samples.Count(), 1e-4, net);
             a.Update(am, Samples.Count());
-            //AlphaMem.Update(Samples.Count(), 0.00001, a.Network);
-            //CtxtMem.Update(Samples.Count(), 0.00001, ctxt.Network);
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
+
+            write("Run Error : " + results[0]);
+            write("Run Accuracy : " + results[1]);
             net.Save();
             a.Save();
-
-            //s.Save();
             return results;
         }
     }
