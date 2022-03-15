@@ -18,9 +18,13 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FakeChartForm1());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new Form1());
+            }
+            catch(Exception exc) { exc.OutputError(); }
             bool x = true;
             while(x)
             {
@@ -45,7 +49,6 @@ namespace DataAnalysis
                             t3.WriteArray("Test 3, Combined CES", Write);
                             break;
                         case "TRAIN":
-                            var chart = new FakeChartForm1();
                             bool c = true;
                             while(c)
                             {
@@ -88,7 +91,6 @@ namespace DataAnalysis
                                 }
                                 */
                             }
-                            Datasets.RunPredictions(new WriteToCMDLine(Write));
                             break;
                         case "SORT":
                             Datatype.Masterformat.Sort();

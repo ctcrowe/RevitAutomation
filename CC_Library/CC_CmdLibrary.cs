@@ -16,6 +16,18 @@ namespace CC_Library
     public delegate string WriteToCMDLine(string s);
     public static class CMDLibrary
     {
+        public static double[,] Transpose(this double[,] array)
+        {
+            var array2 = new double[array.GetLength(1), array.GetLength(0)];
+            Parallel.For(0, array.GetLength(1), i =>
+            {
+                Parallel.For(0, array.GetLength(0), j =>
+                {
+                    array2[i, j] = array[j, i];
+                });
+            });
+            return array2;
+        }
         public static double[,] Ones(this double[,] Similar)
         {
             double[,] output = new double[Similar.GetLength(0), Similar.GetLength(1)];

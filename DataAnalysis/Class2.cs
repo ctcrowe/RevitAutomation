@@ -10,12 +10,12 @@ using CC_Library.Predictions;
 
 namespace DataAnalysis
 {
-    public class FakeChartForm1 : Form
+    public class Form1 : Form
     {
         private System.ComponentModel.IContainer components = null;
         Chart chart1;
 
-        public FakeChartForm1()
+        public Form1()
         {
             InitializeComponent();
         }
@@ -23,25 +23,8 @@ namespace DataAnalysis
         private void Form1_Load(object sender, EventArgs e)
         {
             chart1.Series.Clear();
-            var series1 = new System.Windows.Forms.DataVisualization.Charting.Series
-            {
-                Name = "Average Error",
-                Color = System.Drawing.Color.Green,
-                IsVisibleInLegend = true,
-                IsXValueIndexed = true,
-                ChartType = SeriesChartType.Line
-            };
-            var series2 = new Series
-            {
-                Name = "Individualized Error",
-                Color = System.Drawing.Color.Red,
-                IsVisibleInLegend = true,
-                IsXValueIndexed = true,
-                ChartType = SeriesChartType.Point
-            };
-
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
+            chart1.Series.Add("series1");
+            chart1.Series.Add("series2");
 
             OpenFileDialog ofd = new OpenFileDialog()
             {
@@ -50,7 +33,9 @@ namespace DataAnalysis
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                chart1.Show();
+                chart1.Series["series1"].Enabled = true;
+                chart1.Series["series2"].Enabled = true;
+                chart1.Visible = true;
                 int runs = 0;
                 double er = 0;
                 double acc = 0;
@@ -75,8 +60,8 @@ namespace DataAnalysis
                             runs++;
                             er += error[0];
                             acc += error[1];
-                            series1.Points.AddXY(i, er);
-                            series2.Points.AddXY(i, error[0]);
+                            chart1.Series["series1"].Points.AddXY(i, er);
+                            chart1.Series["series2"].Points.AddXY(i, error[0]);
                             chart1.Invalidate();
                         }
                     }
@@ -101,7 +86,7 @@ namespace DataAnalysis
             ChartArea chartArea1 = new ChartArea();
             Legend legend1 = new Legend();
             this.chart1 = new Chart();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(chart1)).BeginInit();
             this.SuspendLayout();
 
             chartArea1.Name = "ChartArea1";
@@ -111,7 +96,6 @@ namespace DataAnalysis
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 50);
             this.chart1.Name = "chart1";
-            // this.chart1.Size = new System.Drawing.Size(284, 212);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
 
@@ -122,7 +106,7 @@ namespace DataAnalysis
             this.Name = "Form1";
             this.Text = "FakeChart";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            //((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
         }
     }

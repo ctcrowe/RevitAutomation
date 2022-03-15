@@ -92,12 +92,13 @@ namespace CC_Library.Predictions
         }
         public double[] DInputs(double[] dvalues, Layer layer)
         {
+            var weights = layer.Weights.Transpose();
             double[] result = new double[this.DeltaW.GetLength(1)];
             for(int i = 0; i < this.DeltaW.GetLength(1); i++)
             {
                 for(int j = 0; j < this.DeltaW.GetLength(0); j++)
                 {
-                    result[i] += dvalues[j] * layer.Weights[j, i];
+                    result[i] += dvalues[j] * weights[i, j];
                 }
             }
             return result;
