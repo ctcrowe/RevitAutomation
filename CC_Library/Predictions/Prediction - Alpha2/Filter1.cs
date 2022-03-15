@@ -43,6 +43,8 @@ namespace CC_Library.Predictions
                 output[2][0][0][1] = new double[s.Length];
                 output[2][0][0][2] = new double[Size];
                 
+                List<double[]> locations = new List<double[]>();
+                locations = s.LocateWords(locations, Radius, 0, net);
                 double[,] loc = new double[s.Length, Size];
                 Parallel.For(0, s.Length, j =>
                 {
