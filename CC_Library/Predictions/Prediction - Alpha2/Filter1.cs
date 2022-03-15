@@ -46,33 +46,40 @@ namespace CC_Library.Predictions
                 List<double[]> locations = new List<double[]>();
                 locations = s.LocateWords(locations, Radius, 0, net);
                 double[,] loc = new double[s.Length, Size];
-                Parallel.For(0, s.Length, j =>
+                
+                Parallel.For(0, locations.Count(), j =>
                 {
-                    double[,] CtxtInput = new double[2, AttentionNetwork.Layers[0].Weights.GetLength(1)];
-                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 0);
-                    CtxtInput.SetRank(s.LocatePhrase(j, Radius), 1);
-                    am.LocalContextOutputs[j].Add(CtxtInput);
-                    for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
+                    output[0][j] = new double[ValueNetwork.Layers.Count() + 1][][];
+                    output[0][j][0] = new double[2][];
+                    output[0][j][0][0] = s.Locate([j, Radius];
+                    output[0][j][0][1] = output[0][j][0][0];
+                    for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
                     {
-                        am.LocalContextOutputs[j].Add
-                            (AttentionNetwork.Layers[i].Forward(am.LocalContextOutputs[j].Last().GetRank(1), 0));
+                        output[0][j][i + 1] = new double[2][];
+                        output[0][j][i + 1][0] = ValueNetwork.Layers[i].Output(output[0][j][i][1]);
+                        output[0][j][i + 1][1] = Layer.DropOut(output[0][j][i+1][0], dropout);
                     }
 
-
-                    double[,] LocInput = new double[2, ValueNetwork.Layers[0].Weights.GetLength(1)];
-                    LocInput.SetRank(s.Locate(j, Radius), 0);
-                    LocInput.SetRank(s.Locate(j, Radius), 1);
-                    am.LocationOutputs[j].Add(LocInput);
-                    for (int i = 0; i < ValueNetwork.Layers.Count(); i++)
+                    output[1][j] = new double[AttentionNetwork.Layers.Count() + 1][][];
+                    output[1][j][0] = new double[2][];
+                    output[1][j][0][0] = s.Locate([j, Radius];
+                    output[1][j][0][1] = output[1][j][0][0];
+                    for(int i = 0; i < AttentionNetwork.Layers.Count(); i++)
                     {
-                        am.LocationOutputs[j].Add
-                           (ValueNetwork.Layers[i].Forward(am.LocationOutputs[j].Last().GetRank(1), 0.1));
+                        output[1][j][i + 1] = new double[2][];
+                        output[1][j][i + 1][0] = AttentionNetwork.Layers[i].Output(output[0][j][i][1]);
+                        output[1][j][i + 1][1] = Layer.DropOut(output[1][j][i + 1][0], dropout);
                     }
-
-                    loc.SetRank(am.LocationOutputs[j].Last().GetRank(1), j);
-                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0,0];
+                    output[2][0][0][0][j] = output[1][j][AttentionNetwork.Layers.Count()][0][0];
                 });
-                return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
+                output[2][0][0][1] = Activations.SoftMax(output[2][0][0][0]);
+                Parallel.For(0, Size, j =>
+                {
+                    for(int i = 0; i < locations.Count(); i++)
+                    {
+                        output[2][0][0][2][j] += output[0][i][ValueNetwork.Layers.Count()][0][j] * output[2][0][0][1][i];
+                    }
+                });
             }
             catch (Exception e) { e.OutputError(); }
             return output;
