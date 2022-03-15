@@ -11,7 +11,7 @@ using CC_Library.Predictions;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class AlphaFilter1// : IAlphaFilter
+    internal class AlphaFilter1 : IAlphaFilter
     {
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
@@ -29,10 +29,20 @@ namespace CC_Library.Predictions
         public int GetSize() { return Size; }
         public int GetLength(string s, NeuralNetwork net) { return s.Length; }
         public double GetChangeSize() { return ChangeSize; }
-        public double[] Forward(string s, AlphaMem am, NeuralNetwork net)
+        public double[][][][][] Forward(string s, NeuralNetwork net = null)
         {
             try
             {
+                double[][][][][] output = new double[3][][][][];
+                output[0] = new double[s.Length][][][];
+                output[1] = new double[s.Length][][][];
+                output[2] = new double[1][][][];
+                output[2][0] = new double[1][][];
+                output[2][0][0] = new double[3][];
+                output[2][0][0][0] = new double[s.Length];
+                output[2][0][0][1] = new double[s.Length];
+                output[2][0][0][2] = new double[Size];
+                
                 double[,] loc = new double[s.Length, Size];
                 Parallel.For(0, s.Length, j =>
                 {
@@ -63,7 +73,7 @@ namespace CC_Library.Predictions
                 return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
             }
             catch (Exception e) { e.OutputError(); }
-            return null;
+            return output;
         }
         public void Backward
             (string s, double[] DValues,
