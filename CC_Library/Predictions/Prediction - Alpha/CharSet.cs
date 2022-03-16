@@ -32,7 +32,7 @@ namespace CC_Library.Predictions
         public static double[] Locate(this string s, int numb, int range, bool incl = false)
         {
             double[] result = new double[
-                incl ? (CharCount * ((2 * range) + 1)) + 1 :
+                incl ? (CharCount * ((2 * range) + 1)) :
                 CharCount * (2 * range)];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();

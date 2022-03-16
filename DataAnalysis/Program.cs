@@ -18,6 +18,7 @@ namespace DataAnalysis
         [STAThread]
         static void Main(string[] args)
         {
+            /*
             try
             {
                 Application.EnableVisualStyles();
@@ -25,6 +26,7 @@ namespace DataAnalysis
                 Application.Run(new Form1());
             }
             catch(Exception exc) { exc.OutputError(); }
+            */
             bool x = true;
             while(x)
             {
