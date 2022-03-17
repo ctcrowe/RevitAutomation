@@ -133,7 +133,10 @@ namespace CC_Library.Predictions
                     double[] cdv = new double[1] { ContextualDVals[j] / outputs[0].Count() };
                     for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
-                        cdv = cdv.InverseDropOut(outputs[1][j][i+1][1]);
+                        cdv =
+                            AttentionNetwork.Layers[i].Function != Activation.SoftMax &&
+                            AttentionNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                            cdv.InverseDropOut(outputs[1][j][i+1][1]) : cdv;
                         cdv = FocMem.Layers[i].DActivation(cdv, outputs[1][j][i+1][0]);
                         FocMem.Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], outputs[0].Count());
                         FocMem.Layers[i].DWeights(cdv, outputs[1][j][i][1], AttentionNetwork.Layers[i], outputs[0].Count());
