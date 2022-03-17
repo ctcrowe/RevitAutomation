@@ -50,7 +50,9 @@ namespace CC_Library.Predictions
 
             for (int l = Layers.Count() - 1; l >= 0; l--)
             {
-                try { DValues = DValues.InverseDropOut(Results[l + 1].GetRank(1)); }
+                try { DValues = Layers[i].Function  != Activation.SoftMax &&
+                        Layers[i].Function != Activation.CombinedCrossEntropySoftMax ? 
+                        DValues.InverseDropOut(Results[l + 1].GetRank(1) : DValues); }
                 catch (Exception e)
                 {
                     write("Failed at Inverse Dropout layer " + l);
