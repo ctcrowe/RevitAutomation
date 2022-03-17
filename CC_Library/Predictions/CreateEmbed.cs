@@ -8,7 +8,7 @@ namespace CC_Library.Predictions
 {
     public static class CMD_CreateEmbed
     {
-        public static List<string> CreateEmbed(NeuralNetwork net, string fn)
+        public static List<string> CreateEmbed(this NeuralNetwork net, string fn)
         {
             var Lines = new List<string>();
             Lines.Add("using System;");
