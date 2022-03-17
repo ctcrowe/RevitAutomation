@@ -70,7 +70,7 @@ namespace CC_Library.Predictions
                     output[0][j][i + 1] = new double[2][];
                     output[0][j][i + 1][0] = ValueNetwork.Layers[i].Output(output[0][j][i][1]);
                     output[0][j][i + 1][1] =
-                        ValueNetwork.Layers[i].Function != Activation.SoftMax ||
+                        ValueNetwork.Layers[i].Function != Activation.SoftMax &&
                         ValueNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
                         Layer.DropOut(output[0][j][i + 1][0], dropout) : output[0][j][i + 1][0];
                 }
@@ -84,7 +84,7 @@ namespace CC_Library.Predictions
                     output[1][j][i + 1] = new double[2][];
                     output[1][j][i + 1][0] = AttentionNetwork.Layers[i].Output(output[0][j][i][1]);
                     output[1][j][i + 1][1] =
-                        AttentionNetwork.Layers[i].Function != Activation.SoftMax ||
+                        AttentionNetwork.Layers[i].Function != Activation.SoftMax &&
                         AttentionNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
                         Layer.DropOut(output[1][j][i + 1][0], dropout) : output[1][j][i + 1][0];
                 }
@@ -121,7 +121,10 @@ namespace CC_Library.Predictions
                     for(int i = 0; i < Size; i++) { LocalDVals[i] = DValues[i] * outputs[2][0][0][0][j]; }
                     for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
-                        LocalDVals = LocalDVals.InverseDropOut(outputs[0][j][i+1][1]);
+                        LocalDVals =
+                            ValueNetwork.Layers[i].Function != Activation.SoftMax &&
+                            ValueNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ? 
+                            LocalDVals.InverseDropOut(outputs[0][j][i+1][1]) : LocalDVals;
                         LocalDVals = ValMem.Layers[i].DActivation(LocalDVals, outputs[0][j][i + 1][0]);
                         ValMem.Layers[i].DBiases(LocalDVals, ValueNetwork.Layers[i], outputs[0].Count());
                         ValMem.Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], ValueNetwork.Layers[i], outputs[0].Count());
