@@ -19,8 +19,8 @@ namespace CC_Library.Predictions
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(50, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(50, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(50, a.GetSize(), Activation.LRelu, 1e-8, 1e-8));
+                net.Layers.Add(new Layer(50, net.Layers.Last(), Activation.LRelu, 1e-8, 1e-8));
                 net.Layers.Add(new Layer(40, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
             return net;
@@ -55,12 +55,11 @@ namespace CC_Library.Predictions
                 {
                     var output = a.Forward(Samples[j].TextInput, write, DictNet);
                     var F = net.Forward(output.Key, dropout, write);
-                    /*if (j == 0)
+                    if (j == 0)
                     {
                         F.Last().GetRank(0).WriteArray("Output[0]", write);
-                        F.Last().GetRank(1).WriteArray("Output[1]", write);
                         Samples[j].DesiredOutput.WriteArray("Desired", write);
-                    }*/
+                    }
                     results[0] += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
                     results[1] += F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()) ==
                         Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()) ? 1 : 0;
@@ -70,7 +69,7 @@ namespace CC_Library.Predictions
                 });
             }
             catch (Exception e) { e.OutputError(); }
-            MFMem.Update(Samples.Count(), 1e-4, net);
+            MFMem.Update(Samples.Count(), 1e-6, net);
             a.Update(am, Samples.Count());
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();

@@ -15,17 +15,17 @@ namespace CC_Library.Predictions
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
         private const int Size = 50;
-        private const double ChangeSize = 1e-4;
+        private const double ChangeSize = 1e-6;
         private const double dropout = 0.1;
         internal WordFilter(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-8, 1e-8));
             AttentionNetwork.Layers.Add(new Layer(1, AttentionNetwork.Layers.Last(), Activation.Linear));
-            ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
-            ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-8, 1e-8));
+            ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-8, 1e-8));
+            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-8, 1e-8));
         }
         public int GetSize() { return Size; }
         public int GetLength(string s, NeuralNetwork net)
@@ -69,7 +69,10 @@ namespace CC_Library.Predictions
                 {
                     output[0][j][i + 1] = new double[2][];
                     output[0][j][i + 1][0] = ValueNetwork.Layers[i].Output(output[0][j][i][1]);
-                    output[0][j][i + 1][1] = Layer.DropOut(output[0][j][i+1][0], dropout);
+                    output[0][j][i + 1][1] =
+                        ValueNetwork.Layers[i].Function != Activation.SoftMax ||
+                        ValueNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                        Layer.DropOut(output[0][j][i + 1][0], dropout) : output[0][j][i + 1][0];
                 }
 
                 output[1][j] = new double[AttentionNetwork.Layers.Count() + 1][][];
@@ -80,7 +83,10 @@ namespace CC_Library.Predictions
                 {
                     output[1][j][i + 1] = new double[2][];
                     output[1][j][i + 1][0] = AttentionNetwork.Layers[i].Output(output[0][j][i][1]);
-                    output[1][j][i + 1][1] = Layer.DropOut(output[1][j][i + 1][0], dropout);
+                    output[1][j][i + 1][1] =
+                        AttentionNetwork.Layers[i].Function != Activation.SoftMax ||
+                        AttentionNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                        Layer.DropOut(output[1][j][i + 1][0], dropout) : output[1][j][i + 1][0];
                 }
                 output[2][0][0][0][j] = output[1][j][AttentionNetwork.Layers.Count()][0][0];
             });

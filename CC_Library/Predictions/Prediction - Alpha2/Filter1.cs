@@ -18,14 +18,15 @@ namespace CC_Library.Predictions
         private const int Radius = 3;
         private const int Size = 60;
         private const double dropout = 0.1;
-        private const double ChangeSize = 1e-5;
+        private const double ChangeSize = 1e-6;
         internal AlphaFilter1(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
             AttentionNetwork.Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * Radius)), Activation.Linear));
-            ValueNetwork.Layers.Add(new Layer(Size, CharSet.CharCount * (1 + (2 * Radius)), Activation.LRelu, 1e-5, 1e-5));
-            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + (2 * Radius)), Activation.LRelu, 1e-8, 1e-8));
+            ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-8, 1e-8));
+            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-8, 1e-8));
         }
         public int GetSize() { return Size; }
         public int GetLength(string s, NeuralNetwork net) { return s.Length; }
