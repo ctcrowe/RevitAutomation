@@ -28,8 +28,6 @@ namespace CC_Library.Predictions
             Results.Add(resultinput);
             for (int k = 0; k < Layers.Count(); k++)
             {
-                Results.Add(Layers[k].Forward(Results.Last().GetRank(1)));
-                /*
                 double[,] output = new double[2, Layers[k].Biases.Count()];
                 var rank = Layers[k].Output(Results.Last().GetRank(1));
                 if(rank.Any(x => double.IsNaN(x)))
@@ -40,7 +38,6 @@ namespace CC_Library.Predictions
                 var drop = DropOut(output.GetRank(0), dropout, write);
                 output.SetRank(drop, 1);
                 Results.Add(output);
-                */
             }
             return Results;
         }
