@@ -18,20 +18,18 @@ namespace CC_Library.Predictions
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 var filepath = ofd.FileName;
+                var datatype = Datatype.Masterformat;
                 write("Network Type : " + datatype.ToString());
-                var Lines = File.ReadAllLines(filepath);
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    var fp = sfd.FileName;
+                Sample s = //load sample
+                var fp = sfd.FileName;
 
-                    switch (datatype)
-                    {
-                        default:
-                        case Datatype.Masterformat:
-                            string[] r = MasterformatNetwork.PredictAll(Lines, write);
-                            File.WriteAllLines(fp, r);
-                        break;
-                    }
+                switch (datatype)
+                {
+                    default:
+                    case Datatype.Masterformat:
+                        string[] r = MasterformatNetwork.PredictAll(Lines, write);
+                        File.WriteAllLines(fp, r);
+                    break;
                 }
             }
         }
