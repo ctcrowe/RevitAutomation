@@ -58,7 +58,7 @@ namespace CC_Library.Predictions
                 }
             }
                           
-            write("Alpha Not Found. New Network Created");
+            write("Filter " + fn + " Not Found. New Filter Created");
             return Filter;
         }
     }
