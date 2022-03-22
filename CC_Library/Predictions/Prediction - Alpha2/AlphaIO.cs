@@ -31,7 +31,7 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static Alpha2 LoadAlpha(this Datatype datatype, WriteToCMDLine write)
+        public static IAlphaFilter LoadAlpha(this Datatype datatype, WriteToCMDLine write)
         {
             string fn = "AlphaNetwork";
             fn += ".bin";
