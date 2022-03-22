@@ -36,6 +36,10 @@ namespace CC_Library.Predictions
             {
             }
         }
+        public static Alpha2 Load(WriteToCMDLine write)
+        {
+            return new Alpha2(write);
+        }
         public AlphaMem[] CreateAlphaMemory(string s, NeuralNetwork net = null)
         {
             net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
