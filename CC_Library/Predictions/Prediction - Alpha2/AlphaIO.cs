@@ -10,8 +10,6 @@ namespace CC_Library.Predictions
         public static void Save(this IAlphaFilter filter)
         {
             string Folder = "NeuralNets".GetMyDocs();
-            if (!Directory.Exists(Folder))
-                Directory.CreateDirectory(Folder);
             string FileName = Folder + "\\" + filter.Name + ".bin";
             WriteToBinaryFile(FileName, filter, true);
         }
