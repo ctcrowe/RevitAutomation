@@ -32,13 +32,11 @@ namespace CC_Library.Predictions
             string Folder = "NeuralNets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            for (int i = 0; i < this.Filters.Count(); i++)
-            {
-            }
+            Parallel.For(0, this.Filters.Count(), i => this.Filters[i].Save(Folder));
         }
-        public static Alpha2 Load(WriteToCMDLine write)
+        public void Load(WriteToCMDLine write)
         {
-            return new Alpha2(write);
+            Parallel.For(0, this.Filters.Count(), i => this.Filters[i] = this.Filters[i].LoadAlpha(write));
         }
         public AlphaMem[] CreateAlphaMemory(string s, NeuralNetwork net = null)
         {
