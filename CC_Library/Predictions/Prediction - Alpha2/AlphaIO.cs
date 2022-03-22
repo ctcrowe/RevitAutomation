@@ -53,13 +53,13 @@ namespace CC_Library.Predictions
                 using (Stream stream = assembly.GetManifestResourceStream(name))
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                    write("Alpha Read from Assembly");
-                    return (Alpha2)binaryFormatter.Deserialize(stream);
+                    write("Filter Read from Assembly");
+                    return (IAlphaFilter)binaryFormatter.Deserialize(stream);
                 }
             }
                           
             write("Alpha Not Found. New Network Created");
-            return new Alpha2(write);
+            return Filter;
         }
     }
 }
