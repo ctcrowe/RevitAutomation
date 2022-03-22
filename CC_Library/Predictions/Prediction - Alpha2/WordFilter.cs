@@ -15,18 +15,19 @@ namespace CC_Library.Predictions
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
         private const int Size = 50;
-        private const double ChangeSize = 1e-6;
+        private const double ChangeSize = 1e-3;
         private const double dropout = 0.1;
         internal WordFilter(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-8, 1e-8));
+            AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
             AttentionNetwork.Layers.Add(new Layer(1, AttentionNetwork.Layers.Last(), Activation.Linear));
-            ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-8, 1e-8));
-            ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-8, 1e-8));
-            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-8, 1e-8));
+            ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
+            ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
         }
+        public string Name { get { return "WordFilter"; } }
         public int GetSize() { return Size; }
         public int GetLength(string s, NeuralNetwork net)
         {
@@ -102,8 +103,10 @@ namespace CC_Library.Predictions
             return output;
         }
         public void Backward
-            (double[] DValues, double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem)
+            (double[] DValues, double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem, WriteToCMDLine write, bool tf = false)
         {
+            //if (tf) DValues.WriteArray("DValues :", write);
+            //if (tf) outputs[0][0][ValueNetwork.Layers.Count()][1].WriteArray("Outputs : ", write);
             var ContextualDVals = new double[outputs[0].Count()]; //output[0].Count() => Locations.Count()
             for(int i = 0; i < ContextualDVals.Count(); i++)
             {
@@ -112,13 +115,14 @@ namespace CC_Library.Predictions
                     ContextualDVals[i] += DValues[j] * outputs[0][i][ValueNetwork.Layers.Count()][1][j];
                 }
             }
+            //if (tf) ContextualDVals.WriteArray("Context DVals : ", write);
             ContextualDVals = Activations.InverseSoftMax(ContextualDVals, outputs[2][0][0][0]);
             Parallel.For(0, outputs[0].Count(), j =>
             {
                 try
                 {
                     double[] LocalDVals = new double[Size];
-                    for(int i = 0; i < Size; i++) { LocalDVals[i] = DValues[i] * outputs[2][0][0][0][j]; }
+                    for(int i = 0; i < Size; i++) { LocalDVals[i] = DValues[i] * outputs[2][0][0][1][j]; }
                     for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
                     {
                         LocalDVals =

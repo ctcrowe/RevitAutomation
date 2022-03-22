@@ -7,14 +7,13 @@ namespace CC_Library.Predictions
 {
     internal static class ReadWriteAlpha
     {
-        public static void Save(this Alpha2 network)
+        public static void Save(this IAlphaFilter filter)
         {
             string Folder = "NeuralNets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            string FileName = Folder + "\\AlphaNetwork";
-            FileName += ".bin";
-            WriteToBinaryFile(FileName, network, true);
+            string FileName = Folder + "\\" + filter.Name + ".bin";
+            WriteToBinaryFile(FileName, filter, true);
         }
         private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
         {

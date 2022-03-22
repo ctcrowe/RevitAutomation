@@ -36,7 +36,6 @@ namespace CC_Library.Predictions
                         string datatype = s.Datatype;
                         var error = MasterformatNetwork.Propogate(s, write, true);
                         
-                        //var error = new MasterformatNetwork(s).PropogateSingle(s, write, true);
                         if (error[0] > 0)
                         {
                             runs++;

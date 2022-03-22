@@ -20,15 +20,14 @@ namespace CC_Library.Predictions
                 var filepath = ofd.FileName;
                 var datatype = Datatype.Masterformat;
                 write("Network Type : " + datatype.ToString());
-                Sample s = //load sample
-                var fp = sfd.FileName;
+                //Sample s = //load sample
 
                 switch (datatype)
                 {
                     default:
                     case Datatype.Masterformat:
-                        string[] r = MasterformatNetwork.PredictAll(Lines, write);
-                        File.WriteAllLines(fp, r);
+                        //string[] r = MasterformatNetwork.PredictAll(Lines, write);
+                        //File.WriteAllLines(fp, r);
                     break;
                 }
             }

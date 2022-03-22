@@ -38,8 +38,8 @@ namespace CC_Library.Predictions
             return Network;
         }
         
-        public const int Size = 50;
-        public const int Radius = 5;
+        public const int Size = 150;
+        public const int Radius = 8;
         private const double dropout = 0.1;
         
         public static string Output(string s, int start, NeuralNetwork net = null)
@@ -94,10 +94,9 @@ namespace CC_Library.Predictions
             }
             return inputs;
         }
-        public static double Propogate(string fn, WriteToCMDLine write)
+        public static double[] Propogate(string fn, WriteToCMDLine write)
         {
-            double error = 0;
-            double accuracy = 0;
+            double[] output = new double[2];
             NeuralNetwork net = GetNetwork(write);
             var Samples = GetSamples(fn);
             NetworkMem mem = new NetworkMem(net);
@@ -131,9 +130,9 @@ namespace CC_Library.Predictions
                         var Desired = new double[s.Length];
                         Desired[Samples[s]] = 1;
 
-                        error += CategoricalCrossEntropy.Forward(Output[s.Length].Last().GetRank(1), Desired).Max();
+                        output[0] += CategoricalCrossEntropy.Forward(Output[s.Length].Last().GetRank(1), Desired).Max();
                         if (Output[s.Length].Last().GetRank(1).ToList().IndexOf(Output[s.Length].Last().GetRank(1).Max()) == Samples[s])
-                            accuracy++;
+                            output[1]++;
                         var DValues = Activations.InverseCombinedCrossEntropySoftmax(Desired, Output.Last().First().GetRank(1));
                         Parallel.For(0, s.Length, j =>
                         {
@@ -150,15 +149,16 @@ namespace CC_Library.Predictions
                     }
                     catch (Exception e) { e.OutputError(); }
                 });
-                write("Error : " + error / Samples.Count());
-                write("Accuracy : " + accuracy + " / " + Samples.Count() + " = " + (accuracy / Samples.Count()));
             }
             catch (Exception e) { e.OutputError(); }
 
-            error /= Samples.Count();
-            mem.Update(Samples.Count(), 1e-2, net, CMDLibrary.WriteNull);
+            output[0] /= Samples.Count();
+            output[1] /= Samples.Count();
+            write("Run Error : " + output[0]);
+            write("Run Accuracy : " + output[1]);
+            mem.Update(Samples.Count(), 1e-3, net, CMDLibrary.WriteNull);
             net.Save();
-            return error;
+            return output;
         }
     }
 }

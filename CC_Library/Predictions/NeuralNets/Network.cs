@@ -19,7 +19,7 @@ namespace CC_Library.Predictions
             }
             return results;
         }
-        public List<double[,]> Forward(double[] input, double dropout, WriteToCMDLine write)
+        public List<double[,]> Forward(double[] input, double dropout, WriteToCMDLine write, bool tf = false)
         {
             List<double[,]> Results = new List<double[,]>();
             double[,] resultinput = new double[2,input.Count()];
@@ -38,6 +38,8 @@ namespace CC_Library.Predictions
                 var drop = DropOut(output.GetRank(0), dropout, write);
                 output.SetRank(drop, 1);
                 Results.Add(output);
+                if (tf)
+                    output.GetRank(1).WriteArray(this.Datatype.ToString() + " Layer " + k + " output : ", write);
             }
             return Results;
         }
@@ -47,9 +49,7 @@ namespace CC_Library.Predictions
 
             for (int l = Layers.Count() - 1; l >= 0; l--)
             {
-                try { DValues = Layers[i].Function  != Activation.SoftMax &&
-                        Layers[i].Function != Activation.CombinedCrossEntropySoftMax ? 
-                        DValues.InverseDropOut(Results[l + 1].GetRank(1) : DValues); }
+                try { DValues = DValues.InverseDropOut(Results[l + 1].GetRank(1)); }
                 catch (Exception e)
                 {
                     write("Failed at Inverse Dropout layer " + l);

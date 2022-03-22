@@ -3,10 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+
 
 namespace CC_Library.Predictions
 {
-    [Serializable]
     internal class Alpha2
     {
         private List<IAlphaFilter> Filters { get; }
@@ -14,8 +16,6 @@ namespace CC_Library.Predictions
         {
             this.Filters = new List<IAlphaFilter>();
             Filters.Add(new AlphaFilter1(write));
-            // Filters.Add(new AlphaFilter3(write));
-            // Filters.Add(new LongTermWordFilter(write));
             Filters.Add(new WordFilter(write));
         }
         public int GetSize()
@@ -26,6 +26,15 @@ namespace CC_Library.Predictions
                 size += Filters[i].GetSize();
             }
             return size;
+        }
+        public void Save()
+        {
+            string Folder = "NeuralNets".GetMyDocs();
+            if (!Directory.Exists(Folder))
+                Directory.CreateDirectory(Folder);
+            for (int i = 0; i < this.Filters.Count(); i++)
+            {
+            }
         }
         public AlphaMem[] CreateAlphaMemory(string s, NeuralNetwork net = null)
         {
@@ -64,17 +73,16 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return new KeyValuePair<double[], List<double[][][][][]>>(fin.ToArray(), output);
         }
-        public void Backward(double[] DValues, List<double[][][][][]> outputs, NetworkMem[,] mem, WriteToCMDLine write, NeuralNetwork net = null)
+        public void Backward(double[] DValues, List<double[][][][][]> outputs, NetworkMem[,] mem, WriteToCMDLine write, bool tf = false)
         {
             var start = 0;
             try
             {
-                net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
                 for(int i = 0; i < Filters.Count(); i++)
                 {
                     var size = Filters[i].GetSize();
                     var dvals = DValues.ToList().GetRange(start, size).ToArray();
-                    Filters[i].Backward(dvals, /*am[i]*/outputs[i], mem[i, 0], mem[i, 1]);
+                    Filters[i].Backward(dvals, /*am[i]*/outputs[i], mem[i, 0], mem[i, 1], write, tf);
                     start += size;
                 }
             }
