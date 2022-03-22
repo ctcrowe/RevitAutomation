@@ -31,9 +31,9 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static IAlphaFilter LoadAlpha(this Datatype datatype, WriteToCMDLine write)
+        public static IAlphaFilter LoadAlpha(this IAlphaFilter Filter, WriteToCMDLine write)
         {
-            string fn = "AlphaNetwork";
+            string fn = Filter.Name;
             fn += ".bin";
             string Folder = "NeuralNets".GetMyDocs();
             if (Directory.Exists(Folder))
@@ -42,8 +42,8 @@ namespace CC_Library.Predictions
                 if (Files.Any(x => x.Contains(fn)))
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
-                    write("Alpha read from My Docs");
-                    return ReadFromBinaryFile<Alpha2>(doc);
+                    write("Filter read from My Docs");
+                    return ReadFromBinaryFile<IAlphaFilter>(doc);
                 }
             }
             var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
