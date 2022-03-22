@@ -7,9 +7,8 @@ namespace CC_Library.Predictions
 {
     internal static class ReadWriteAlphaFilter
     {
-        public static void Save(this IAlphaFilter filter)
+        public static void Save(this IAlphaFilter filter, string Folder)
         {
-            string Folder = "NeuralNets".GetMyDocs();
             string FileName = Folder + "\\" + filter.Name + ".bin";
             WriteToBinaryFile(FileName, filter, true);
         }
