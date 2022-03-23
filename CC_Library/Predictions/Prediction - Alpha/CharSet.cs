@@ -40,12 +40,9 @@ namespace CC_Library.Predictions
             double[] result = new double[CharCount * range];
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
-
-            int imin = numb < range ? numb : range;
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
 
             Parallel.For(0, imax, i => result[(i * CharCount) + LocationOf(chars[numb + i])] = 1);
-            Parallel.For(0, imin, i => result[((range + i) * CharCount) + LocationOf(chars[numb - (i + 1)])] = 1);
             result[result.Count() - 1] = incl ? numb : result[result.Count() - 1];
 
             return result;
