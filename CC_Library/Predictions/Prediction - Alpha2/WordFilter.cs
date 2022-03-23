@@ -21,8 +21,11 @@ namespace CC_Library.Predictions
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
-            AttentionNetwork.Layers.Add(new Layer(1, AttentionNetwork.Layers.Last(), Activation.Linear));
+            AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(40, AttentionNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(40, AttentionNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(40, AttentionNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            AttentionNetwork.Layers.Add(new Layer(Radius, AttentionNetwork.Layers.Last(), Activation.SoftMax));
             ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
@@ -46,9 +49,7 @@ namespace CC_Library.Predictions
         //  x = [0] = locations, ,[1] = locations, [2] = const int Size above
         public double[][][][][] Forward(string s, NeuralNetwork net = null)
         {
-            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
             List<double[]> locations = new List<double[]>();
-            locations = s.LocateWords(locations, Radius, 0, net);
 
             double[][][][][] output = new double[3][][][][];
             output[0] = new double[locations.Count()][][][];
