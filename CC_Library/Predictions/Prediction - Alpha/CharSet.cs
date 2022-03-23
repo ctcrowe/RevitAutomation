@@ -41,10 +41,7 @@ namespace CC_Library.Predictions
             string a = s.ToUpper();
             char[] chars = a.ToCharArray();
             int imax = (numb + range) < chars.Count() ? range : chars.Count() - numb;
-
             Parallel.For(0, imax, i => result[(i * CharCount) + LocationOf(chars[numb + i])] = 1);
-            result[result.Count() - 1] = incl ? numb : result[result.Count() - 1];
-
             return result;
         }
         public static List<double[]> LocateWords(this string s, List<double[]> results, int range, int numb = 0, NeuralNetwork net = null)
