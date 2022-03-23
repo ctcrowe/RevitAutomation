@@ -7,8 +7,8 @@ using CC_Library.Datatypes;
 
         //[][][][][x] => value set
         //[][][][x] => dropout / no. 2 wide always
-        //[][][x] => layer number - based on Filter Size
-        //[][x] => location location location - varies
+        //[][][x] => layer number - based on Filter Size (# of layers)
+        //[][x] => location location location - this version will make a list and then convert it to an array.
         //[x] => layer group - 3 wide always - 0 = locations, 1 = context, 2 = combined output
 
         //[2][1][1][3][x] =>
@@ -46,13 +46,17 @@ namespace CC_Library.Predictions
         public double GetChangeSize() { return ChangeSize; }
         public double[][][][][] Forward(string s, NeuralNetwork net = null)
         {
-            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-            List<double[]> locations = new List<double[]>();
-            locations = s.LocateWords(locations, Radius, 0, net);
-
+            int start = 0;
+            List<double[][][]> outputs = new List<double[][][]>();
+            do
+            {
+                var loc = s.LocateSingle(s, Radius, start); 
+            }
+            while(start + end < s.Length)
+            var locations = s.LocateSingle(locations, Radius, 0, net);
             double[][][][][] output = new double[3][][][][];
             output[0] = new double[locations.Count()][][][];
-            output[1] = new double[locations.Count()][][][];
+            output[1] = outputs.ToArray();
             output[2] = new double[1][][][];
             output[2][0] = new double[1][][];
             output[2][0][0] = new double[3][];
