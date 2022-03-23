@@ -48,6 +48,7 @@ namespace CC_Library.Predictions
         }
         public NetworkMem[,] CreateMemory()
         {
+            //change mem from NetworkMem[,] to NetworkMem[Filters.Count()][];
             NetworkMem[,] mem = new NetworkMem[Filters.Count(), 2];
             try
             {
