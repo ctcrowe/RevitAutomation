@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
+//TODO: Replace Networks in each filter with an array of Networks (simplifies things and makes it more interoperable)
 
 namespace CC_Library.Predictions
 {
