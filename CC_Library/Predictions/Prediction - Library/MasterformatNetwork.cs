@@ -29,7 +29,8 @@ namespace CC_Library.Predictions
         public static double[] Predict(string s, WriteToCMDLine write)
         {
             NeuralNetwork net = GetNetwork(write);
-            Alpha2 a = Alpha2.Load(write);
+            Alpha2 a = new Alpha2(write);
+            a.Load(write);
             var mem = a.CreateAlphaMemory(s);
             double[] Results = a.Forward(s, write).Key;
             //Results.WriteArray("Alpha Results : ", write);
@@ -45,7 +46,8 @@ namespace CC_Library.Predictions
             var results = new double[2];
             NeuralNetwork net = GetNetwork(write);
             var Samples = s.ReadSamples(24);
-            Alpha2 a = Alpha2.Load(write);
+            Alpha2 a = new Alpha2(write);
+            a.Load(write);
             var am = a.CreateMemory();
             NeuralNetwork DictNet = Predictionary.GetNetwork(write);
             NetworkMem MFMem = new NetworkMem(net);

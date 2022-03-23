@@ -77,6 +77,7 @@
     <Compile Include="Predictions\Prediction - Alpha2\Predictionary.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Filter3.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\LongTermWordFilter.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\WordFilter - Copy.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\WordFilter.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Filter1.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\IAlphaFilter.cs" />
