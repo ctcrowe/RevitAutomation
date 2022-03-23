@@ -50,7 +50,18 @@ namespace CC_Library.Predictions
             List<double[][][]> outputs = new List<double[][][]>();
             do
             {
-                var loc = s.LocateSingle(s, Radius, start); 
+                var[][][] LocOut = new double[AttentionNetwork.Layers.Count() + 1][][];
+                LocOut[0][0] = s.LocateSingle(s, Radius, start);
+                LocOut[0][1] = LocOut[0][0];
+                for(int i = 0; i < AttentionNetwork.Layers.Count(); i++)
+                {
+                    LocOut[i + 1] = new double[2][];
+                    LocOut[i + 1][0] = AttentionNetwork.Layers[i].Output(LocOut[i][1]);
+                    LocOut[i + 1][1] = 
+                        AttentionNetwork.Layers[i].Function != Activation.SoftMax &&
+                        AttentionNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                        Layer.DropOut(LocOut[i + 1][0], dropout) : LocOut[i + 1][0];
+                }
             }
             while(start + end < s.Length)
             var locations = s.LocateSingle(locations, Radius, 0, net);
