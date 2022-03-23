@@ -5,6 +5,14 @@ using System.Threading.Tasks;
 using CC_Library;
 using CC_Library.Datatypes;
 
+        //[][][][][x] => value set
+        //[][][][x] => dropout / no. 2 wide always
+        //[][][x] => layer number - based on Filter Size
+        //[][x] => location location location - varies
+        //[x] => layer group - 3 wide always - 0 = locations, 1 = context, 2 = combined output
+
+        //[2][1][1][3][x] =>
+        //  x = [0] = locations, ,[1] = locations, [2] = const int Size above
 
 namespace CC_Library.Predictions
 {
@@ -36,14 +44,6 @@ namespace CC_Library.Predictions
             return l.Count() + 1;
         }
         public double GetChangeSize() { return ChangeSize; }
-        //[][][][][x] => value set
-        //[][][][x] => dropout / no. 2 wide always
-        //[][][x] => layer number - based on Filter Size
-        //[][x] => location location location - varies
-        //[x] => layer group - 3 wide always - 0 = locations, 1 = context, 2 = combined output
-
-        //[2][1][1][3][x] =>
-        //  x = [0] = locations, ,[1] = locations, [2] = const int Size above
         public double[][][][][] Forward(string s, NeuralNetwork net = null)
         {
             net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
