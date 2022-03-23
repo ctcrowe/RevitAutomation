@@ -150,44 +150,5 @@ namespace CC_Library.Predictions
                 catch (Exception e) { e.OutputError(); }
             });
         }
-        /*
-        public double[] Forward(string s, AlphaMem am, NeuralNetwork net = null)
-        {
-            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-            List<double[]> locations = new List<double[]>();
-            locations = s.LocateWords(locations, Radius, 0, net);
-            try
-            {
-                double[,] loc = new double[locations.Count, Size];
-                Parallel.For(0, locations.Count(), j =>
-                {
-                    double[,] CtxtInput = new double[2, AttentionNetwork.Layers[0].Weights.GetLength(1)];
-                    CtxtInput.SetRank(locations[j], 0);
-                    CtxtInput.SetRank(locations[j], 1);
-                    am.LocalContextOutputs[j].Add(CtxtInput);
-                    for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
-                    {
-                        am.LocalContextOutputs[j].Add
-                            (AttentionNetwork.Layers[i].Forward(am.LocalContextOutputs[j].Last().GetRank(1), 0));
-                    }
-
-                    double[,] LocInput = new double[2, ValueNetwork.Layers[0].Weights.GetLength(1)];
-                    LocInput.SetRank(locations[j], 0);
-                    LocInput.SetRank(locations[j], 1);
-                    am.LocationOutputs[j].Add(LocInput);
-                    for (int i = 0; i < ValueNetwork.Layers.Count(); i++)
-                    {
-                        am.LocationOutputs[j].Add
-                           (ValueNetwork.Layers[i].Forward(am.LocationOutputs[j].Last().GetRank(1)));
-                    }
-
-                    loc.SetRank(am.LocationOutputs[j].Last().GetRank(1), j);
-                    am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0, 0];
-                });
-                return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
-            }
-            catch (Exception e) { e.OutputError(); }
-            return null;
-        }*/
     }
 }
