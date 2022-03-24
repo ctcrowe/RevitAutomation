@@ -9,15 +9,16 @@ using CC_Library.Datatypes;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class WordFilter2 : IAlphaFilter
+    internal class WordFilter : IAlphaFilter
     {
+        public NeuralNetwork[] Networks { get; }
         public NeuralNetwork AttentionNetwork { get; }
         public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
         private const int Size = 50;
         private const double ChangeSize = 1e-3;
         private const double dropout = 0.1;
-        internal WordFilter2(WriteToCMDLine write)
+        internal WordFilter(WriteToCMDLine write)
         {
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
@@ -30,7 +31,7 @@ namespace CC_Library.Predictions
             ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
         }
-        public string Name { get { return "WordFilter"; } }
+        public string Name { get { return "PredefinedWordFilter"; } }
         public int GetSize() { return Size; }
         public int GetLength(string s, NeuralNetwork net)
         {
@@ -104,7 +105,7 @@ namespace CC_Library.Predictions
             return output;
         }
         public void Backward
-            (double[] DValues, double[][][][][] outputs, NetworkMem ValMem, NetworkMem FocMem, WriteToCMDLine write, bool tf = false)
+            (double[] DValues, double[][][][][] outputs, NetworkMem[] mem, WriteToCMDLine write, bool tf = false)
         {
             //if (tf) DValues.WriteArray("DValues :", write);
             //if (tf) outputs[0][0][ValueNetwork.Layers.Count()][1].WriteArray("Outputs : ", write);
@@ -130,10 +131,10 @@ namespace CC_Library.Predictions
                             ValueNetwork.Layers[i].Function != Activation.SoftMax &&
                             ValueNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ? 
                             LocalDVals.InverseDropOut(outputs[0][j][i+1][1]) : LocalDVals;
-                        LocalDVals = ValMem.Layers[i].DActivation(LocalDVals, outputs[0][j][i + 1][0]);
-                        ValMem.Layers[i].DBiases(LocalDVals, ValueNetwork.Layers[i], outputs[0].Count());
-                        ValMem.Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], ValueNetwork.Layers[i], outputs[0].Count());
-                        LocalDVals = ValMem.Layers[i].DInputs(LocalDVals, ValueNetwork.Layers[i]);
+                        LocalDVals = mem[0].Layers[i].DActivation(LocalDVals, outputs[0][j][i + 1][0]);
+                        mem[0].Layers[i].DBiases(LocalDVals, ValueNetwork.Layers[i], outputs[0].Count());
+                        mem[0].Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], ValueNetwork.Layers[i], outputs[0].Count());
+                        LocalDVals = mem[0].Layers[i].DInputs(LocalDVals, ValueNetwork.Layers[i]);
                     }
                     double[] cdv = new double[1] { ContextualDVals[j] / outputs[0].Count() };
                     for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
@@ -142,10 +143,10 @@ namespace CC_Library.Predictions
                             AttentionNetwork.Layers[i].Function != Activation.SoftMax &&
                             AttentionNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
                             cdv.InverseDropOut(outputs[1][j][i+1][1]) : cdv;
-                        cdv = FocMem.Layers[i].DActivation(cdv, outputs[1][j][i+1][0]);
-                        FocMem.Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], outputs[0].Count());
-                        FocMem.Layers[i].DWeights(cdv, outputs[1][j][i][1], AttentionNetwork.Layers[i], outputs[0].Count());
-                        cdv = FocMem.Layers[i].DInputs(cdv, AttentionNetwork.Layers[i]);
+                        cdv = mem[1].Layers[i].DActivation(cdv, outputs[1][j][i+1][0]);
+                        mem[1].Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], outputs[0].Count());
+                        mem[1].Layers[i].DWeights(cdv, outputs[1][j][i][1], AttentionNetwork.Layers[i], outputs[0].Count());
+                        cdv = mem[1].Layers[i].DInputs(cdv, AttentionNetwork.Layers[i]);
                     }
                 }
                 catch (Exception e) { e.OutputError(); }

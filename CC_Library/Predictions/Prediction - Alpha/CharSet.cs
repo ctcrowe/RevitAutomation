@@ -44,6 +44,14 @@ namespace CC_Library.Predictions
             Parallel.For(0, imax, i => result[(i * CharCount) + LocationOf(chars[numb + i])] = 1);
             return result;
         }
+        public static double[] LocateWord(this string s, int numb, int size, int length = 1)
+        {
+            double[] result = new double[CharCount * size];
+            var chars = s.ToUpper().ToCharArray();
+            int imax = (numb + length) < chars.Count() ? length : chars.Count() - numb;
+            Parallel.For(0, imax, i => result[(i * CharCount) + LocationOf(chars[numb + i])] = 1);
+            return result;
+        }
         public static List<double[]> LocateWords(this string s, List<double[]> results, int range, int numb = 0, NeuralNetwork net = null)
         {
             net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;

@@ -58,8 +58,10 @@ namespace CC_Library.Predictions
                 {
                     var output = a.Forward(Samples[j].TextInput, write, DictNet);
                     var F = net.Forward(output.Key, dropout, write, false);
-                   /* if (j == 0)
+                    /*
+                    if (j == 0)
                     {
+                        output.Key.WriteArray("Alpha Out : ", write);
                         F.Last().GetRank(0).WriteArray("Output[0]", write);
                         Samples[j].DesiredOutput.WriteArray("Desired", write);
                     }*/
@@ -72,7 +74,7 @@ namespace CC_Library.Predictions
                 });
             }
             catch (Exception e) { e.OutputError(); }
-            MFMem.Update(Samples.Count(), 1e-3, net);
+            MFMem.Update(Samples.Count(), 1e-4, net);
             a.Update(am, Samples.Count());
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
