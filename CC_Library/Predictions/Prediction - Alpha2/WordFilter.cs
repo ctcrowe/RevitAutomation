@@ -20,6 +20,7 @@ namespace CC_Library.Predictions
         private const double dropout = 0.1;
         internal WordFilter(WriteToCMDLine write)
         {
+            this.Networks = new NeuralNetwork[3];
             AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
             ValueNetwork = new NeuralNetwork(Datatype.Alpha);
             AttentionNetwork.Layers.Add(new Layer(40, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
