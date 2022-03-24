@@ -20,7 +20,6 @@ namespace CC_Library.Predictions
     internal class WordFilter2 : IAlphaFilter
     {
         public NeuralNetwork[] Networks { get; }
-        public NeuralNetwork ValueNetwork { get; }
         private const int Radius = 15;
         private const int Size = 50;
         private const double ChangeSize = 1e-3;
