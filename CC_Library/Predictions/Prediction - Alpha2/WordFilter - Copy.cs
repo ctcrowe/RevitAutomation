@@ -27,16 +27,17 @@ namespace CC_Library.Predictions
         private const double dropout = 0.1;
         internal WordFilter2(WriteToCMDLine write)
         {
+            this.Networks = new NeuralNetwork[2];
             Networks[0] = new NeuralNetwork(Datatype.Alpha);
-            ValueNetwork = new NeuralNetwork(Datatype.Alpha);
             Networks[0].Layers.Add(new Layer(40, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
             Networks[0].Layers.Add(new Layer(40, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[0].Layers.Add(new Layer(40, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[0].Layers.Add(new Layer(40, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[0].Layers.Add(new Layer(Radius, Networks[0].Layers.Last(), Activation.SoftMax));
-            ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
-            ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            Networks[1] = new NeuralNetwork(Datatype.Alpha);
+            Networks[1].Layers.Add(new Layer(40, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
+            Networks[1].Layers.Add(new Layer(40, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            Networks[1].Layers.Add(new Layer(Size, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
         }
         public string Name { get { return "UndefinedWordFilter"; } }
         public int GetSize() { return Size; }
@@ -72,18 +73,18 @@ namespace CC_Library.Predictions
                 length = LocOut.Last().Last().ToList().IndexOf(LocOut.Last().Last().Max()) + 1;
                 output1.Add(LocOut);
 
-                double[][][] ValOut = new double[ValueNetwork.Layers.Count() + 1][][];
+                double[][][] ValOut = new double[Networks[1].Layers.Count() + 1][][];
                 ValOut[0] = new double[2][];
                 ValOut[0][0] = s.LocateWord(start, Radius, length);
                 ValOut[0][1] = ValOut[0][0];
 
-                for(int i = 0; i < ValueNetwork.Layers.Count(); i++)
+                for(int i = 0; i < Networks[1].Layers.Count(); i++)
                 {
                     ValOut[i + 1] = new double[2][];
-                    ValOut[i + 1][0] = ValueNetwork.Layers[i].Output(ValOut[i][1]);
+                    ValOut[i + 1][0] = Networks[1].Layers[i].Output(ValOut[i][1]);
                     ValOut[i + 1][1] =
-                        ValueNetwork.Layers[i].Function != Activation.SoftMax &&
-                        ValueNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                        Networks[1].Layers[i].Function != Activation.SoftMax &&
+                        Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
                         Layer.DropOut(ValOut[i + 1][0], dropout) : ValOut[i + 1][0];
                 }
                 output2.Add(ValOut);
@@ -102,7 +103,7 @@ namespace CC_Library.Predictions
             {
                 for(int i = 0; i < output[0].Count(); i++)
                 {
-                    output[2][0][0][0][j] += output[1][i][ValueNetwork.Layers.Count()][0][j];
+                    output[2][0][0][0][j] += output[1][i][Networks[1].Layers.Count()][0][j];
                 }
             });
 
@@ -116,24 +117,24 @@ namespace CC_Library.Predictions
                 try
                 {
                     var dvals = DValues.Duplicate();
-                    for(int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
+                    for(int i = Networks[1].Layers.Count() - 1; i >= 0; i--)
                     {
                         dvals =
-                            ValueNetwork.Layers[i].Function != Activation.SoftMax &&
-                            ValueNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                            Networks[1].Layers[i].Function != Activation.SoftMax &&
+                            Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
                             dvals.InverseDropOut(outputs[1][j][i + 1][1]) : dvals;
-                        dvals = mem[0].Layers[i].DActivation(dvals, outputs[1][j][i + 1][0]);
-                        mem[0].Layers[i].DBiases(dvals, ValueNetwork.Layers[i], outputs[1].Count());
+                        dvals = mem[1].Layers[i].DActivation(dvals, outputs[1][j][i + 1][0]);
+                        mem[1].Layers[i].DBiases(dvals, Networks[1].Layers[i], outputs[1].Count());
                         try
-                        { mem[0].Layers[i].DWeights(dvals, outputs[1][j][i][1], ValueNetwork.Layers[i], outputs[1].Count()); }
+                        { mem[1].Layers[i].DWeights(dvals, outputs[1][j][i][1], Networks[1].Layers[i], outputs[1].Count()); }
                         catch
                         {
                             write("Failed at Layer " + i);
                             write("dvals " + dvals.Count());
                             write("outputs " + outputs[1][j][i][1].Count());
-                            write("weights " + ValueNetwork.Layers[i].Weights.GetLength(0) + ", " + ValueNetwork.Layers[i].Weights.GetLength(1));
+                            write("weights " + Networks[1].Layers[i].Weights.GetLength(0) + ", " + Networks[1].Layers[i].Weights.GetLength(1));
                         }
-                        dvals = mem[0].Layers[i].DInputs(dvals, ValueNetwork.Layers[i]);
+                        dvals = mem[1].Layers[i].DInputs(dvals, Networks[1].Layers[i]);
                     }
                     for(int i = Networks[0].Layers.Count() - 1; i >= 0; i--)
                     {
@@ -141,10 +142,10 @@ namespace CC_Library.Predictions
                             Networks[0].Layers[i].Function != Activation.SoftMax &&
                             Networks[0].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
                             dvals.InverseDropOut(outputs[0][j][i + 1][1]) : dvals;
-                        dvals = mem[1].Layers[i].DActivation(dvals, outputs[0][j][i + 1][0]);
-                        mem[1].Layers[i].DBiases(dvals, Networks[0].Layers[i], outputs[0].Count());
-                        mem[1].Layers[i].DWeights(dvals, outputs[0][j][i][1], Networks[0].Layers[i], outputs[0].Count());
-                        dvals = mem[1].Layers[i].DInputs(dvals, Networks[0].Layers[i]);
+                        dvals = mem[0].Layers[i].DActivation(dvals, outputs[0][j][i + 1][0]);
+                        mem[0].Layers[i].DBiases(dvals, Networks[0].Layers[i], outputs[0].Count());
+                        mem[0].Layers[i].DWeights(dvals, outputs[0][j][i][1], Networks[0].Layers[i], outputs[0].Count());
+                        dvals = mem[0].Layers[i].DInputs(dvals, Networks[0].Layers[i]);
                     }
                 }
                 catch (Exception e) { e.OutputError(); }
