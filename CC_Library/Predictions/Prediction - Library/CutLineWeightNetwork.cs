@@ -1,114 +1,90 @@
-  
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CC_Library.Datatypes;
 using System.Threading.Tasks;
+using System.IO;
+using CC_Library.Datatypes;
+using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
-    class CutLineWeightNetwork : INetworkPredUpdater
+    class CutLineWeightNetwork
     {
-        public Datatype datatype { get { return Datatype.CutLineWeight; } }
-        public NeuralNetwork Network { get; }
-        
-        public CutLineWeightNetwork(Sample s)
+        private const double dropout = 0.1;
+        public static Datatype datatype { get { return Datatype.CutLineWeight; } }
+        public static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
-            Network = Datatype.CutLineWeight.LoadNetwork(new WriteToCMDLine(WriteNull));
-        }
-        public double[] Predict(Sample s)
-        {
-            Alpha a = new Alpha(CMDLibrary.WriteNull);
-            AlphaContext ctxt = new AlphaContext(datatype, CMDLibrary.WriteNull);
-            var input = a.Forward(s.TextInput).ToList();
-            input.AddRange(a.Forward(s.SecondaryText));
-            input.AddRange(s.ValInput);
-            var Results = input.ToArray();
-            
-            for(int i = 0; i < Network.Layers.Count(); i++)
+            Alpha2 a = new Alpha2(CMDLibrary.WriteNull);
+            NeuralNetwork net = datatype.LoadNetwork(write);
+            if (net.Datatype == Datatype.None)
             {
-               // Results = Network.Layers[i].Output(Results);
+                net = new NeuralNetwork(datatype);
+                net.Layers.Add(new Layer(100, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(16, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
-            
+            return net;
+        }
+        public static double[] Predict(string s, WriteToCMDLine write)
+        {
+            NeuralNetwork net = GetNetwork(write);
+            Alpha2 a = new Alpha2(write);
+            a.Load(write);
+            var mem = a.CreateAlphaMemory(s);
+            double[] Results = a.Forward(s, write).Key;
+            for(int i = 0; i < net.Layers.Count(); i++)
+            {
+                Results = net.Layers[i].Output(Results);
+            }
             return Results;
         }
-        public List<double[]> Forward(Sample s)
+        public static double[] Propogate
+            (Sample s, WriteToCMDLine write, bool tf = false)
         {
-            var input = s.TextOutput.ToList();
-            input.AddRange(s.SecondaryTextOutput);
-            input.AddRange(s.ValInput);
+            var results = new double[2];
+            NeuralNetwork net = GetNetwork(write);
+            var Samples = s.ReadSamples(24);
+            Alpha2 a = new Alpha2(write);
+            a.Load(write);
+            var am = a.CreateMemory();
+            NeuralNetwork DictNet = Predictionary.GetNetwork(write);
+            NetworkMem mem = new NetworkMem(net);
 
-            List<double[]> Results = new List<double[]>();
-            Results.Add(input.ToArray()) ;
-
-            for (int k = 0; k < Network.Layers.Count(); k++)
+            try
             {
-               // Results.Add(Network.Layers[k].Output(Results.Last()));
-            }
-
-            return Results;
-        }
-        public double[] Backward
-            (Sample s,
-            List<double[]> Results,
-             NetworkMem mem)
-        {
-            var DValues = s.DesiredOutput;
-
-            for (int l = Network.Layers.Count() - 1; l >= 0; l--)
-            {
-                DValues = mem.Layers[l].DActivation(DValues, Results[l + 1]);
-                mem.Layers[l].DBiases(DValues, Network.Layers[l]);
-                mem.Layers[l].DWeights(DValues, Results[l], Network.Layers[l]);
-                DValues = mem.Layers[l].DInputs(DValues, Network.Layers[l]);
-            }
-            return DValues.ToList().Take(2 * Alpha.DictSize).ToArray();
-        }
-        public void Propogate
-            (Sample s, WriteToCMDLine write)
-        {
-            var check = Predict(s);
-            if (s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()) != check.ToList().IndexOf(check.Max()))
-            {
-                Alpha a = new Alpha(write);
-                AlphaContext ctxt1 = new AlphaContext(datatype, write);
-                AlphaContext ctxt2 = new AlphaContext(datatype, write, 1);
-                var Samples = s.ReadSamples();
-                List<string> lines = new List<string>();
-
-                NetworkMem ObjMem = new NetworkMem(Network);
-                NetworkMem AlphaMem = new NetworkMem(a.Network);
-                NetworkMem CtxtMem1 = new NetworkMem(ctxt1.Network);
-                NetworkMem CtxtMem2 = new NetworkMem(ctxt2.Network);
-
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    AlphaMem am = new AlphaMem(Samples[j].TextInput.Length);
-                    Samples[j].TextOutput = a.Forward(Samples[j].TextInput);
-                    AlphaMem am2 = new AlphaMem(Samples[j].SecondaryText.Length);
-                    Samples[j].SecondaryTextOutput = a.Forward(Samples[j].SecondaryText);
-                    var F = Forward(Samples[j]);
-                    lines.AddRange(Samples[j].OutputError(CategoricalCrossEntropy.Forward(F.Last(), Samples[j].DesiredOutput)));
+                    var output = a.Forward(Samples[j].TextInput, write, DictNet);
+                    var F = net.Forward(output.Key, dropout, write, false);
+                    /*
+                    if (j == 0)
+                    {
+                        output.Key.WriteArray("Alpha Out : ", write);
+                        F.Last().GetRank(0).WriteArray("Output[0]", write);
+                        Samples[j].DesiredOutput.WriteArray("Desired", write);
+                    }*/
+                    results[0] += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                    results[1] += F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()) ==
+                        Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()) ? 1 : 0;
 
-                    var DValues = Backward(Samples[j], F, ObjMem);
-                    var DV1 = DValues.ToList().Take(Alpha.DictSize).ToArray();
-                    var DV2 = Enumerable.Reverse(DValues).Take(Alpha.DictSize).Reverse().ToArray();
-                    //a.Backward(Samples[j].TextInput, DV1, ctxt1, am, AlphaMem, CtxtMem1);
-                    //a.Backward(Samples[j].SecondaryText, DV2, ctxt2, am2, AlphaMem, CtxtMem2);
+                    var DValues = net.Backward(F, Samples[j].DesiredOutput, mem, write);
+                    a.Backward(DValues, output.Value, am, write, j == 0);
                 });
-                ObjMem.Update(1, 0.0001, Network);
-                AlphaMem.Update(1, 0.00001, a.Network);
-                CtxtMem1.Update(1, 0.0001, ctxt1.Network);
-                CtxtMem2.Update(1, 0.0001, ctxt2.Network);
-
-                lines.ShowErrorOutput();
-                Network.Save();
-                a.Network.Save();
-                ctxt1.Save();
-                ctxt2.Save();
-
-                s.Save();
             }
+            catch (Exception e) { e.OutputError(); }
+            mem.Update(Samples.Count(), 1e-4, net);
+            a.Update(am, Samples.Count());
+            results[0] /= Samples.Count();
+            results[1] /= Samples.Count();
+
+            write("Run Error : " + results[0]);
+            write("Run Accuracy : " + results[1]);
+            net.Save();
+            a.Save();
+            return results;
         }
-        private static string WriteNull(string s) { return s; }
     }
 }
