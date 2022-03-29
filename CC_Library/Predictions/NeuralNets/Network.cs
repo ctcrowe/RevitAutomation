@@ -38,7 +38,8 @@ namespace CC_Library.Predictions
                 var drop =
                     Layers[k].Function != Activation.SoftMax &&
                     Layers[k].Function != Activation.CombinedCrossEntropySoftmax &&
-                    Layers[k].Function != Activation.Tangential ?
+                    Layers[k].Function != Activation.Tangential &&
+                    Layers[k].Function != Activation.Sigmoid ?
                     DropOut(output.GetRank(0), dropout, write) : output.GetRank(0);
                 output.SetRank(drop, 1);
                 Results.Add(output);
@@ -58,7 +59,8 @@ namespace CC_Library.Predictions
                     DValues =
                       Layers[l].Function != Activation.SoftMax &&
                       Layers[l].Function != Activation.CombinedCrossEntropySoftmax &&
-                      Layers[l].Function != Activation.Tangential ?
+                      Layers[l].Function != Activation.Tangential &&
+                      Layers[l].Function != Activation.Sigmoid ?
                       DValues.InverseDropOut(Results[l + 1].GetRank(1)) : DValues;
                 }
                 catch (Exception e)
