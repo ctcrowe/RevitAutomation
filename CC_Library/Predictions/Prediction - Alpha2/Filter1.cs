@@ -15,7 +15,7 @@ namespace CC_Library.Predictions
     {
         public NeuralNetwork[] Networks { get; }
         private const int Radius = 3;
-        private const int Size = 40;
+        private const int Size = 50;
         private const double dropout = 0.1;
         private const double ChangeSize = 1e-4;
         internal AlphaFilter1(WriteToCMDLine write)
@@ -23,16 +23,18 @@ namespace CC_Library.Predictions
             this.Networks = new NeuralNetwork[2];
             Networks[0] = new NeuralNetwork(Datatype.Alpha);
             Networks[1] = new NeuralNetwork(Datatype.Alpha);
-            Networks[0].Layers.Add(new Layer(40, CharSet.CharCount * (1 + (2 * Radius)), Activation.LRelu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(40, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            Networks[1].Layers.Add(new Layer(1, CharSet.CharCount * (1 + (2 * Radius)), Activation.Linear));
+            Networks[0].Layers.Add(new Layer(60, CharSet.CharCount * (1 + (2 * Radius)), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(60, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(60, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.Sigmoid, 1e-5, 1e-5));
+            Networks[1].Layers.Add(new Layer(60, CharSet.CharCount * (1 + (2 * Radius)), Activation.ReLu));
+            Networks[1].Layers.Add(new Layer(60, Networks[1].Layers.Last(), Activation.ReLu));
+            Networks[1].Layers.Add(new Layer(1, Networks[1].Layers.Last(), Activation.ReLu));
         }
         public string Name { get { return "ClassicFilter"; } }
         public int GetSize() { return Size; }
-        public int GetLength(string s, NeuralNetwork net) { return s.Length; }
         public double GetChangeSize() { return ChangeSize; }
-        public double[][][][][] Forward(string s, NeuralNetwork net = null)
+        public double[][][][][] Forward(string s)
         {
             double[][][][][] output = new double[3][][][][];
             output[0] = new double[s.Length][][][];

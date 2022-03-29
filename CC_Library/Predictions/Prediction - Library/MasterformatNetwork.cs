@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.IO;
 using CC_Library.Datatypes;
-using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
@@ -19,9 +16,11 @@ namespace CC_Library.Predictions
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(50, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(50, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(50, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(80, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(80, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(80, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(80, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(80, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(40, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
             return net;
@@ -31,7 +30,6 @@ namespace CC_Library.Predictions
             NeuralNetwork net = GetNetwork(write);
             Alpha2 a = new Alpha2(write);
             a.Load(write);
-            var mem = a.CreateAlphaMemory(s);
             double[] Results = a.Forward(s, write).Key;
             //Results.WriteArray("Alpha Results : ", write);
             for(int i = 0; i < net.Layers.Count(); i++)
@@ -49,14 +47,13 @@ namespace CC_Library.Predictions
             Alpha2 a = new Alpha2(write);
             a.Load(write);
             var am = a.CreateMemory();
-            NeuralNetwork DictNet = Predictionary.GetNetwork(write);
             NetworkMem MFMem = new NetworkMem(net);
 
             try
             {
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var output = a.Forward(Samples[j].TextInput, write, DictNet);
+                    var output = a.Forward(Samples[j].TextInput, write);
                     var F = net.Forward(output.Key, dropout, write, false);
                     /*
                     if (j == 0)

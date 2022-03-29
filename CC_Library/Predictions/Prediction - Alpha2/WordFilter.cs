@@ -27,19 +27,13 @@ namespace CC_Library.Predictions
             AttentionNetwork.Layers.Add(new Layer(40, AttentionNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             AttentionNetwork.Layers.Add(new Layer(40, AttentionNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             AttentionNetwork.Layers.Add(new Layer(40, AttentionNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            AttentionNetwork.Layers.Add(new Layer(Radius, AttentionNetwork.Layers.Last(), Activation.SoftMax));
+            AttentionNetwork.Layers.Add(new Layer(Radius, AttentionNetwork.Layers.Last(), Activation.Tangential));
             ValueNetwork.Layers.Add(new Layer(40, CharSet.CharCount * (1 + Radius), Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(40, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
         }
         public string Name { get { return "PredefinedWordFilter"; } }
         public int GetSize() { return Size; }
-        public int GetLength(string s, NeuralNetwork net)
-        {
-            List<double[]> l = new List<double[]>();
-            l = s.LocateWords(l, Radius, 0, net);
-            return l.Count() + 1;
-        }
         public double GetChangeSize() { return ChangeSize; }
         //[][][][][x] => value set
         //[][][][x] => dropout / no. 2 wide always
@@ -49,7 +43,7 @@ namespace CC_Library.Predictions
 
         //[2][1][1][3][x] =>
         //  x = [0] = locations, ,[1] = locations, [2] = const int Size above
-        public double[][][][][] Forward(string s, NeuralNetwork net = null)
+        public double[][][][][] Forward(string s)
         {
             List<double[]> locations = new List<double[]>();
 

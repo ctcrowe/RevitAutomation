@@ -4,9 +4,6 @@ using System.Threading.Tasks;
 using CC_Library.Datatypes;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-
-//TODO: Replace Networks in each filter with an array of Networks (simplifies things and makes it more interoperable)
 
 namespace CC_Library.Predictions
 {
@@ -18,12 +15,12 @@ namespace CC_Library.Predictions
             this.Filters = new List<IAlphaFilter>();
             Filters.Add(new AlphaFilter1(write));
             //Filters.Add(new WordFilter(write));
-            //Filters.Add(new WordFilter2(write));
+            Filters.Add(new WordFilter2(write));
         }
         public int GetSize()
         {
             int size = 0;
-            for(int i = 0; i < Filters.Count; i++)
+            for (int i = 0; i < Filters.Count; i++)
             {
                 size += Filters[i].GetSize();
             }
@@ -40,13 +37,6 @@ namespace CC_Library.Predictions
         {
             Parallel.For(0, this.Filters.Count(), i => this.Filters[i] = this.Filters[i].LoadAlpha(write));
         }
-        public AlphaMem[] CreateAlphaMemory(string s, NeuralNetwork net = null)
-        {
-            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-            AlphaMem[] mem = new AlphaMem[Filters.Count];
-            Parallel.For(0, Filters.Count, j => mem[j] = new AlphaMem(Filters[j].GetLength(s, net)));
-            return mem;
-        }
         public NetworkMem[][] CreateMemory()
         {
             //change mem from NetworkMem[,] to NetworkMem[Filters.Count()][];
@@ -56,7 +46,7 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Filters.Count, j =>
                              {
                                  mem[j] = new NetworkMem[Filters[j].Networks.Count()];
-                                 for(int i = 0; i < Filters[j].Networks.Count(); i++)
+                                 for (int i = 0; i < Filters[j].Networks.Count(); i++)
                                  {
                                      mem[j][i] = new NetworkMem(Filters[j].Networks[i]);
                                  }
@@ -65,16 +55,15 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return mem;
         }
-        public KeyValuePair<double[], List<double[][][][][]>> Forward(string s, WriteToCMDLine write, NeuralNetwork net = null)
+        public KeyValuePair<double[], List<double[][][][][]>> Forward(string s, WriteToCMDLine write)
         {
             List<double[][][][][]> output = new List<double[][][][][]>();
             List<double> fin = new List<double>();
             try
             {
-                net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
                 for (int i = 0; i < Filters.Count(); i++)
                 {
-                    output.Add(Filters[i].Forward(s, net));
+                    output.Add(Filters[i].Forward(s));
                     fin.AddRange(output.Last().Last().Last().Last().Last());
                 }
             }
@@ -86,7 +75,7 @@ namespace CC_Library.Predictions
             var start = 0;
             try
             {
-                for(int i = 0; i < Filters.Count(); i++)
+                for (int i = 0; i < Filters.Count(); i++)
                 {
                     var size = Filters[i].GetSize();
                     var dvals = DValues.ToList().GetRange(start, size).ToArray();
@@ -102,7 +91,7 @@ namespace CC_Library.Predictions
             {
                 Parallel.For(0, Filters.Count, j =>
                 {
-                    for(int i = 0; i < Filters[j].Networks.Count(); i++)
+                    for (int i = 0; i < Filters[j].Networks.Count(); i++)
                     {
                         mem[j][i].Update(runsize, Filters[j].GetChangeSize(), Filters[j].Networks[i]);
                     }

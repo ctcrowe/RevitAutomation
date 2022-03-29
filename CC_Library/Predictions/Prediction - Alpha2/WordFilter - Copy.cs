@@ -36,7 +36,8 @@ namespace CC_Library.Predictions
             Networks[1] = new NeuralNetwork(Datatype.Alpha);
             Networks[1].Layers.Add(new Layer(40, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
             Networks[1].Layers.Add(new Layer(40, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            Networks[1].Layers.Add(new Layer(Size, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            Networks[1].Layers.Add(new Layer(40, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            Networks[1].Layers.Add(new Layer(Size, Networks[1].Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
         }
         public string Name { get { return "UndefinedWordFilter"; } }
         public int GetSize() { return Size; }
@@ -47,7 +48,7 @@ namespace CC_Library.Predictions
             return l.Count() + 1;
         }
         public double GetChangeSize() { return ChangeSize; }
-        public double[][][][][] Forward(string s, NeuralNetwork net = null)
+        public double[][][][][] Forward(string s)
         {
             int start = 0;
             int length = 0;
@@ -56,7 +57,7 @@ namespace CC_Library.Predictions
             do
             {
                 start += length;
-                double[][][] LocOut = new double[AttentionNetwork.Layers.Count() + 1][][];
+                double[][][] LocOut = new double[Networks[0].Layers.Count() + 1][][];
                 LocOut[0] = new double[2][];
                 LocOut[0][0] = s.LocateSingle(start, Radius);
                 LocOut[0][1] = LocOut[0][0];
