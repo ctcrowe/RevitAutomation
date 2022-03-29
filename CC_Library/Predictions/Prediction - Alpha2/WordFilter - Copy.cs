@@ -67,7 +67,9 @@ namespace CC_Library.Predictions
                     LocOut[i + 1][0] = Networks[0].Layers[i].Output(LocOut[i][1]);
                     LocOut[i + 1][1] =
                         Networks[0].Layers[i].Function != Activation.SoftMax &&
-                        Networks[0].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                        Networks[0].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
+                        Networks[0].Layers[i].Function != Activation.Tangential &&
+                    Layers[k].Function != Activation.Sigmoid ?
                         Layer.DropOut(LocOut[i + 1][0], dropout) : LocOut[i + 1][0];
                 }
                 length = LocOut.Last().Last().ToList().IndexOf(LocOut.Last().Last().Max()) + 1;
