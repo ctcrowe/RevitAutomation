@@ -69,7 +69,7 @@ namespace CC_Library.Predictions
                         Networks[0].Layers[i].Function != Activation.SoftMax &&
                         Networks[0].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
                         Networks[0].Layers[i].Function != Activation.Tangential &&
-                    Layers[k].Function != Activation.Sigmoid ?
+                        Networks[0].Layers[i].Function != Activation.Sigmoid ?
                         Layer.DropOut(LocOut[i + 1][0], dropout) : LocOut[i + 1][0];
                 }
                 length = LocOut.Last().Last().ToList().IndexOf(LocOut.Last().Last().Max()) + 1;
@@ -87,6 +87,8 @@ namespace CC_Library.Predictions
                     ValOut[i + 1][1] =
                         Networks[1].Layers[i].Function != Activation.SoftMax &&
                         Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                        Networks[1].Layers[i].Function != Activation.Tangential &&
+                        Networks[1].Layers[i].Function != Activation.Sigmoid ?
                         Layer.DropOut(ValOut[i + 1][0], dropout) : ValOut[i + 1][0];
                 }
                 output2.Add(ValOut);
@@ -123,7 +125,9 @@ namespace CC_Library.Predictions
                     {
                         dvals =
                             Networks[1].Layers[i].Function != Activation.SoftMax &&
-                            Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                            Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
+                            Networks[1].Layers[i].Function != Activation.Tangential &&
+                            Networks[1].Layers[i].Function != Activation.Sigmoid ?
                             dvals.InverseDropOut(outputs[1][j][i + 1][1]) : dvals;
                         dvals = mem[1].Layers[i].DActivation(dvals, outputs[1][j][i + 1][0]);
                         mem[1].Layers[i].DBiases(dvals, Networks[1].Layers[i], outputs[1].Count());
@@ -142,7 +146,9 @@ namespace CC_Library.Predictions
                     {
                         dvals =
                             Networks[0].Layers[i].Function != Activation.SoftMax &&
-                            Networks[0].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                            Networks[0].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
+                            Networks[0].Layers[i].Function != Activation.Tangential &&
+                            Networks[0].Layers[i].Function != Activation.Sigmoid ?
                             dvals.InverseDropOut(outputs[0][j][i + 1][1]) : dvals;
                         dvals = mem[0].Layers[i].DActivation(dvals, outputs[0][j][i + 1][0]);
                         mem[0].Layers[i].DBiases(dvals, Networks[0].Layers[i], outputs[0].Count());
