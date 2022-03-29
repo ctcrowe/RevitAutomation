@@ -33,7 +33,6 @@ namespace CC_Library.Predictions
             NeuralNetwork net = GetNetwork(write);
             Alpha2 a = new Alpha2(write);
             a.Load(write);
-            var mem = a.CreateAlphaMemory(s);
             double[] Results = a.Forward(s, write).Key;
             for(int i = 0; i < net.Layers.Count(); i++)
             {
@@ -50,14 +49,13 @@ namespace CC_Library.Predictions
             Alpha2 a = new Alpha2(write);
             a.Load(write);
             var am = a.CreateMemory();
-            NeuralNetwork DictNet = Predictionary.GetNetwork(write);
             NetworkMem mem = new NetworkMem(net);
 
             try
             {
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var output = a.Forward(Samples[j].TextInput, write, DictNet);
+                    var output = a.Forward(Samples[j].TextInput, write);
                     var F = net.Forward(output.Key, dropout, write, false);
                     /*
                     if (j == 0)
