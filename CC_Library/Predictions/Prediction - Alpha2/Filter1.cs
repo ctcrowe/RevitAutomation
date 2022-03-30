@@ -59,10 +59,10 @@ namespace CC_Library.Predictions
                     catch { Console.WriteLine("Failed at Value Net Layer : " + i + ", inputs : " + output[0][j][i][1].Count() + ", weights : " +
                         Networks[0].Layers[i].Weights.GetLength(0) + ", " + Networks[0].Layers[i].Weights.GetLength(1)); }
                     output[0][j][i + 1][1] =
-                        Networks[1].Layers[i].Function != Activation.SoftMax &&
-                        Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
-                        Networks[1].Layers[i].Function != Activation.Tangential &&
-                        Networks[1].Layers[i].Function != Activation.Sigmoid ?
+                        Networks[0].Layers[i].Function != Activation.SoftMax &&
+                        Networks[0].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
+                        Networks[0].Layers[i].Function != Activation.Tangential &&
+                        Networks[0].Layers[i].Function != Activation.Sigmoid ?
                         Layer.DropOut(output[0][j][i + 1][0], dropout) : output[0][j][i + 1][0];
                 }
 
@@ -79,7 +79,7 @@ namespace CC_Library.Predictions
                         Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
                         Networks[1].Layers[i].Function != Activation.Tangential &&
                         Networks[1].Layers[i].Function != Activation.Sigmoid ?
-                        Layer.DropOut(output[1][j][i + 1][0] : output[1][j][i + 1][0];
+                        Layer.DropOut(output[1][j][i + 1][0], dropout) : output[1][j][i + 1][0];
                 }
                 output[2][0][0][0][j] = output[1][j][Networks[1].Layers.Count()][0][0];
             });

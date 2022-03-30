@@ -37,7 +37,7 @@ namespace CC_Library.Predictions
             Networks[1].Layers.Add(new Layer(40, CharSet.CharCount * Radius, Activation.LRelu, 1e-5, 1e-5));
             Networks[1].Layers.Add(new Layer(40, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[1].Layers.Add(new Layer(40, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            Networks[1].Layers.Add(new Layer(Size, Networks[1].Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
+            Networks[1].Layers.Add(new Layer(Size, Networks[1].Layers.Last(), Activation.Sigmoid, 1e-5, 1e-5));
         }
         public string Name { get { return "UndefinedWordFilter"; } }
         public int GetSize() { return Size; }
@@ -86,7 +86,7 @@ namespace CC_Library.Predictions
                     ValOut[i + 1][0] = Networks[1].Layers[i].Output(ValOut[i][1]);
                     ValOut[i + 1][1] =
                         Networks[1].Layers[i].Function != Activation.SoftMax &&
-                        Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
+                        Networks[1].Layers[i].Function != Activation.CombinedCrossEntropySoftmax &&
                         Networks[1].Layers[i].Function != Activation.Tangential &&
                         Networks[1].Layers[i].Function != Activation.Sigmoid ?
                         Layer.DropOut(ValOut[i + 1][0], dropout) : ValOut[i + 1][0];
