@@ -30,10 +30,14 @@ namespace CC_Patterns
             Herringbone.ToolTip = "Used to create Herringbone Pattern Files. Format is Width (decimal inches), Height (decimal inches). Grout spacing is defined automatically based on pattern.";
             cbox.AddItem(Herringbone);
             
-            cbox.AddItem(new ComboBoxMemberData("Basket Pattern", "Basket Pattern"));
+            var Basket = new ComboBoxMemberData("Basket Pattern", "Basket Pattern");
+            Basket.ToolTip = "Creates a Basket Tile Pattern File. Format is Width (decimal inches), Height (decimal inches). Grout spacing is automatically determined.";
+            cbox.AddItem(Basket);
+            
             var Plank = new ComboBoxMemberData("Plank Pattern", "Plank Pattern");
-            Plank.ToolTip = "Creates a linear pattern of a given length with randomly dispersed endpoints, creating a wood flooring style effect.";
+            Plank.ToolTip = "Creates a linear pattern of a given length with randomly dispersed endpoints, creating a wood flooring style effect. Format is Width (Decimal Inches),Height (Decimal Inches), Grout (Decimal Inches)";
             cbox.AddItem(Plank);
+            
             cbox.AddItem(new ComboBoxMemberData("Custom Pattern", "Custom Pattern"));
 
             tbox.Width = 250;
