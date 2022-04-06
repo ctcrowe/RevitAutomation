@@ -22,15 +22,18 @@ namespace CC_Patterns
             var cbox = items[0] as ComboBox;
             var tbox = items[1] as TextBox;
             
-            var brick = new ComboBoxMemberData("Brick Pattern", "Brick Pattern");
+            var Brick = new ComboBoxMemberData("Brick Pattern", "Brick Pattern");
             brick.ToolTip = "Used for creating brick and tiling patterns of all types including a direct stack.";
-            cbox.AddItem(brick);
+            cbox.AddItem(Brick);
             
             var Herringbone = new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern");
             Herringbone.ToolTip = "Used to create Herringbone Pattern Files. Format is Width (decimal inches), Height (decimal inches). Grout spacing is defined automatically based on pattern.";
             cbox.AddItem(Herringbone);
+            
             cbox.AddItem(new ComboBoxMemberData("Basket Pattern", "Basket Pattern"));
-            cbox.AddItem(new ComboBoxMemberData("Plank Pattern", "Plank Pattern"));
+            var Plank = new ComboBoxMemberData("Plank Pattern", "Plank Pattern");
+            Plank.ToolTip = "Creates a linear pattern of a given length with randomly dispersed endpoints, creating a wood flooring style effect.";
+            cbox.AddItem(Plank);
             cbox.AddItem(new ComboBoxMemberData("Custom Pattern", "Custom Pattern"));
 
             tbox.Width = 250;
