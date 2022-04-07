@@ -35,12 +35,7 @@ namespace CC_Library.Predictions
                     write("Layer " + k + " in " + Datatype.ToString() + " Network  has NaN Values");
                 }
                 output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
-                var drop =
-                    Layers[k].Function != Activation.SoftMax &&
-                    Layers[k].Function != Activation.CombinedCrossEntropySoftmax &&
-                    Layers[k].Function != Activation.Tangential &&
-                    Layers[k].Function != Activation.Sigmoid ?
-                    DropOut(output.GetRank(0), dropout, write) : output.GetRank(0);
+                var drop = Layers[k].DropOut(output.GetRank(0), dropout);
                 output.SetRank(drop, 1);
                 Results.Add(output);
                 if (tf)
@@ -56,12 +51,7 @@ namespace CC_Library.Predictions
             {
                 try
                 {
-                    DValues =
-                      Layers[l].Function != Activation.SoftMax &&
-                      Layers[l].Function != Activation.CombinedCrossEntropySoftmax &&
-                      Layers[l].Function != Activation.Tangential &&
-                      Layers[l].Function != Activation.Sigmoid ?
-                      DValues.InverseDropOut(Results[l + 1].GetRank(1)) : DValues;
+                    DValues = Layers[l].InverseDropOut(DValues, Results[l + 1].GetRank(1));
                 }
                 catch (Exception e)
                 {

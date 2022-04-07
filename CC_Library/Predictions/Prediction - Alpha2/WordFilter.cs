@@ -70,7 +70,7 @@ namespace CC_Library.Predictions
                     output[0][j][i + 1][1] =
                         ValueNetwork.Layers[i].Function != Activation.SoftMax &&
                         ValueNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
-                        Layer.DropOut(output[0][j][i + 1][0], dropout) : output[0][j][i + 1][0];
+                        Networks[0].Layers[i].DropOut(output[0][j][i + 1][0], dropout) : output[0][j][i + 1][0];
                 }
 
                 output[1][j] = new double[AttentionNetwork.Layers.Count() + 1][][];
@@ -84,7 +84,7 @@ namespace CC_Library.Predictions
                     output[1][j][i + 1][1] =
                         AttentionNetwork.Layers[i].Function != Activation.SoftMax &&
                         AttentionNetwork.Layers[i].Function != Activation.CombinedCrossEntropySoftmax ?
-                        Layer.DropOut(output[1][j][i + 1][0], dropout) : output[1][j][i + 1][0];
+                        AttentionNetwork.Layers[i].DropOut(output[1][j][i + 1][0], dropout) : output[1][j][i + 1][0];
                 }
                 output[2][0][0][0][j] = output[1][j][AttentionNetwork.Layers.Count()][0][0];
             });

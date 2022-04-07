@@ -129,23 +129,32 @@ namespace CC_Library.Predictions
                          });
 
         }
-        public static double[] DropOut(double[] input, double rate)
+        public double[] DropOut(double[] input, double rate)
         {
             double[] output = new double[input.Count()];
-            var DOLayer = input.RandomBinomial(rate);
-            for(int i = 0; i < output.Count(); i++)
+            if (Function != Activation.SoftMax &&
+                Function != Activation.CombinedCrossEntropySoftmax)
             {
-                output[i] = input[i] * DOLayer[i] / (1 - rate);
+                var DOLayer = input.RandomBinomial(rate);
+                Parallel.For(0, output.Count(), i =>
+                {
+                    output[i] = Function != Activation.Tangential &&
+                        Function != Activation.Sigmoid ?
+                        input[i] * DOLayer[i] / (1 - rate) :
+                        input[i] * DOLayer[i];
+                });
             }
             return output;
         }
         public double[] InverseDropOut(double[] DValues, double[] DropOutRank)
         {
             double[] output = new double[DValues.Count()];
-            for(int i = 0; i < DValues.Count(); i++)
+            Parallel.For(0, DValues.Count(), i =>
             {
-                output[i] = DropOutRank[i] == 0 ? 0 : DValues[i];
-            }
+                output[i] = Function != Activation.CombinedCrossEntropySoftmax &&
+                    Function != Activation.SoftMax &&
+                    DropOutRank[i] == 0 ? 0 : DValues[i];
+            });
             return output;
         }
     }
