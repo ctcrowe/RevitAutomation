@@ -29,13 +29,13 @@ namespace CC_Library.Parameters
         public static readonly Param OverallHeight = new Param
             ("OverallHeight",
             new Guid("cfc88653c63b47efb165380d7e63600c"),
-            sub,
+            Subcategory.Generic,
             ParamType.Length,
             false);
         public static readonly Param OverallWidth = new Param
             ("OverallWidth",
             new Guid("d0249e62f16141868704e89c096cbbc9"),
-            sub,
+            Subcategory.Generic,
             ParamType.Length,
             false);
         /*
