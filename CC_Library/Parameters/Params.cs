@@ -26,6 +26,18 @@ namespace CC_Library.Parameters
             false,
             true
             );
+        public static readonly Param OverallHeight = new Param
+            ("OverallHeight",
+            new Guid("cfc88653c63b47efb165380d7e63600c"),
+            sub,
+            ParamType.Length,
+            false);
+        public static readonly Param OverallWidth = new Param
+            ("OverallWidth",
+            new Guid("d0249e62f16141868704e89c096cbbc9"),
+            sub,
+            ParamType.Length,
+            false);
         /*
         Add the below unfinished Params to Doors, Generic Models, and Stairs.
         */
