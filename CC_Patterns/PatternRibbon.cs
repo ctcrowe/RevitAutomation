@@ -23,7 +23,7 @@ namespace CC_Patterns
             var tbox = items[1] as TextBox;
             
             var Brick = new ComboBoxMemberData("Brick Pattern", "Brick Pattern");
-            brick.ToolTip = "Used for creating brick and tiling patterns of all types including a direct stack.";
+            Brick.ToolTip = "Used for creating brick and tiling patterns of all types including a direct stack.";
             cbox.AddItem(Brick);
             
             var Herringbone = new ComboBoxMemberData("Herringbone Pattern", "Herringbone Pattern");

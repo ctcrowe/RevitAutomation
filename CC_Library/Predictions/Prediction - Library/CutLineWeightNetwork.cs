@@ -41,7 +41,7 @@ namespace CC_Library.Predictions
             return Results;
         }
         public static double[] Propogate
-            (Sample s, WriteToCMDLine write, bool tf = false)
+            (string s, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
             NeuralNetwork net = GetNetwork(write);
@@ -55,20 +55,16 @@ namespace CC_Library.Predictions
             {
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var output = a.Forward(Samples[j].TextInput, write);
+                    var sample = Samples.ElementAt(j);
+                    var output = a.Forward(sample.Key, write);
                     var F = net.Forward(output.Key, dropout, write, false);
-                    /*
-                    if (j == 0)
-                    {
-                        output.Key.WriteArray("Alpha Out : ", write);
-                        F.Last().GetRank(0).WriteArray("Output[0]", write);
-                        Samples[j].DesiredOutput.WriteArray("Desired", write);
-                    }*/
-                    results[0] += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
-                    results[1] += F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()) ==
-                        Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()) ? 1 : 0;
 
-                    var DValues = net.Backward(F, Samples[j].DesiredOutput, mem, write);
+                    var desired = new double[net.Layers.Last().Biases.Count()];
+                    desired[sample.Value] = 1;
+                    results[0] += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), desired).Max();
+                    results[1] += F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()) == sample.Value ? 1 : 0;
+
+                    var DValues = net.Backward(F, desired, mem, write);
                     a.Backward(DValues, output.Value, am, write, j == 0);
                 });
             }

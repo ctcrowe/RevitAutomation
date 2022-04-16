@@ -32,25 +32,22 @@ namespace CC_Plugin
             Categories cats = doc.Settings.Categories;
             foreach (Category c in cats)
             {
-                if (c.IsImportedCategory())
+                if (!c.SubCategories.IsEmpty)
                 {
-                    if (!c.SubCategories.IsEmpty)
+                    foreach (Category cs in c.SubCategories)
                     {
-                        foreach (Category cs in c.SubCategories)
+                        var pattern = doc.GetElement(cs.GetLinePatternId(GraphicsStyleType.Projection)) as LinePatternElement;
+                        if (pattern != null)
                         {
-                            var pattern = doc.GetElement(cs.GetLinePatternId(GraphicsStyleType.Projection)) as LinePatternElement;
-                            if (pattern != null)
+                            if (Names.Contains(pattern.Name))
                             {
-                                if (Names.Contains(pattern.Name))
-                                {
 
-                                    string lt = cs.Parent.Name.SimplifyTitle() + "_" + cs.Name.SimplifyTitle() + "," + Names.ToList().IndexOf(pattern.Name);
-                                    ltstrings.Add(lt);
-                                }
+                                string lt = cs.Parent.Name.SimplifyTitle() + "_" + cs.Name.SimplifyTitle() + "," + Names.ToList().IndexOf(pattern.Name);
+                                ltstrings.Add(lt);
                             }
-                            string lw = cs.Parent.Name.SimplifyTitle() + "_" + cs.Name.SimplifyTitle() + "," + cs.GetLineWeight(GraphicsStyleType.Projection);
-                            lwstrings.Add(lw);
                         }
+                        string lw = cs.Parent.Name.SimplifyTitle() + "_" + cs.Name.SimplifyTitle() + "," + cs.GetLineWeight(GraphicsStyleType.Cut);
+                        lwstrings.Add(lw);
                     }
                 }
             }

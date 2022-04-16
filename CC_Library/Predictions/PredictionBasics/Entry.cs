@@ -45,6 +45,29 @@ namespace CC_Library.Predictions
     {
         private const string fname = "NetworkSamples";
         private static string folder = fname.GetMyDocs();
+        public static Dictionary<string, int> ReadSamples(this string s, int Count = 16)
+        {
+            Dictionary<string, int> samples = new Dictionary<string, int>();
+            if(File.Exists(s))
+            {
+                Random r = new Random();
+                var lines = File.ReadAllLines(s);
+                for(int i = 0; i < Count; i++)
+                {
+                    int lineno = r.Next(lines.Length);
+                    var line = lines[lineno];
+                    var str = line.Split(',').First();
+                    if (int.TryParse(line.Split(',').Last(), out int numb))
+                    {
+                        if (!samples.ContainsKey(str))
+                            samples.Add(str, numb - 1);
+                    }
+                    else
+                        Console.WriteLine("Failed at Line : " + lineno + " : " + line);
+                }
+            }
+            return samples;
+        }
         public static Sample[] ReadSamples(this Sample s, int Count = 16)
         {
             if (Directory.Exists(folder))

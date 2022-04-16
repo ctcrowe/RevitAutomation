@@ -18,10 +18,10 @@ namespace CC_Plugin
             try { uiApp.CreateRibbonTab(tabName); } catch {};
             CCPaintPanel.PaintPanel(uiApp);
             UpdateTab.CreatePanel(uiApp);
+            ObjStylesTab.ObjTab(uiApp, tabName);
             FamilyReorganize.Run();
 
             //DetailPanel.DetailTab(uiApp, tabName);
-            //ObjStylesTab.ObjTab(uiApp, tabName);
             //QCTab.QCPanel(uiApp, tabName);
             // MFPanel.MFTab(uiApp, tabName);
             //AnalysisTab.AnalysisPanel(uiApp, tabName);
