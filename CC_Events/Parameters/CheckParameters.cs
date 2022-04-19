@@ -46,21 +46,14 @@ namespace CC_Plugin
         }
         private static List<ProjectParameterData> GetPPD(Document doc)
         {
-            if (doc == null)
-            {
-                throw new ArgumentNullException("doc");
-            }
-
-            if (doc.IsFamilyDocument)
-            {
-                throw new Exception("doc cannot be family document.");
-            }
+            if (doc == null) { throw new ArgumentNullException("doc"); }
+            if (doc.IsFamilyDocument) { throw new Exception("doc cannot be family document."); }
 
             List<ProjectParameterData> data = new List<ProjectParameterData>();
-
             BindingMap map = doc.ParameterBindings;
             DefinitionBindingMapIterator it = map.ForwardIterator();
             it.Reset();
+
             while (it.MoveNext())
             {
                 ProjectParameterData ppd = new ProjectParameterData();
@@ -72,7 +65,8 @@ namespace CC_Plugin
             }
             return data;
         }
-        static bool AddProjectParameterBinding(
+        
+        private static bool AddProjectParameterBinding(
             Document doc,
             ProjectParameterData ppd,
             Category cat)
