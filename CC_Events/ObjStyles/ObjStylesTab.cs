@@ -30,8 +30,14 @@ namespace CC_Plugin
                 dllpath(),
                 "CC_Plugin.SetObjStyles");
 
+            PushButtonData B3 = new PushButtonData(
+                "Param Check",
+                "Param Check",
+                dllpath(),
+                "CC_Plugin.ParamCheck");
+
             List<RibbonItem> DBButtons5 = new List<RibbonItem>();
-            DBButtons5.AddRange(CPanel.AddStackedItems(B1, B2));
+            DBButtons5.AddRange(CPanel.AddStackedItems(B1, B2, B3));
         }
     }
 }
