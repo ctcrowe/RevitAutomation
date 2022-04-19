@@ -98,9 +98,6 @@ namespace CC_Plugin
             }
 
             cats.Insert(cat);
-
-            // See if the parameter is an instance or type parameter.
-
             InstanceBinding instanceBinding = ppd.Binding as InstanceBinding;
 
             if (instanceBinding != null)
@@ -198,8 +195,6 @@ namespace CC_Plugin
                                     }
                                     else
                                     {
-                                        // The project parameter was already 
-                                        // bound to the Walls category.
                                         foundParameter
                                           = firstWallTypeElement.get_Parameter(
                                             projectParameterData.Definition);
