@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 
@@ -45,6 +41,7 @@ namespace CC_Plugin
             public bool IsSharedStatusKnown = false;  // Will probably always be true when the data is gathered
             public bool IsShared = false;
             public string GUID = null;
+            public string type = null;
         }
         private static List<ProjectParameterData> GetPPD(Document doc)
         {
@@ -69,6 +66,7 @@ namespace CC_Plugin
                 ppd.Definition = it.Key;
                 ppd.Name = it.Key.Name;
                 ppd.Binding = it.Current as ElementBinding;
+                ppd.type = it.Key.ParameterType.ToString();
                 data.Add(ppd);
             }
             return data;
@@ -366,6 +364,16 @@ namespace CC_Plugin
                     s += "\t";
                     s += projectParameterData.GUID;
                 }
+                else
+                {
+                    s += "\t";
+                    s += "<Unknown<";
+                }
+                if(projectParameterData.type != null)
+                {
+                    s += "\t";
+                    s += projectParameterData.type;
+                }    
                 lines.Add(s);
             }
             using (SaveFileDialog sfd = new SaveFileDialog()
