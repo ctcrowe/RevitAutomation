@@ -79,7 +79,6 @@ namespace CC_Plugin
             bool result = false;
 
             CategorySet cats = ppd.Binding.Categories;
-
             if (cats.Contains(cat))
             {
                 // It's already bound to the desired category. Nothing to do.
@@ -158,6 +157,10 @@ namespace CC_Plugin
                 if (projectParameterData.Definition != null)
                 {
                     categories = projectParameterData.Binding.Categories;
+                    foreach (Category c in categories)
+                    {
+                        projectParameterData.cats += c.Name + ",";
+                    }
                     if (!categories.Contains(projectInfoElement.Category))
                     {
                         using (Transaction tempTransaction
