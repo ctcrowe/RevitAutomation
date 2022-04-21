@@ -42,7 +42,7 @@ namespace CC_Plugin
             public bool IsShared = false;
             public string GUID = null;
             public string type = null;
-            public List<string> cats = new List<string>();
+            public string cats = "";
         }
         private static List<ProjectParameterData> GetPPD(Document doc)
         {
