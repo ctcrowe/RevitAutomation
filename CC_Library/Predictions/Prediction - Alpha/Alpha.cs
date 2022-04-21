@@ -5,6 +5,16 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
+    internal class AlphaHash
+    {
+        public HashTable Hash = new HashTable()
+        {
+            {"AAA", 1}, {"AAB", 2}, {"AAC", 3}, {"AAD", 4}, {"AAE", 5}
+        }
+        /*
+        for(int i = 0; i < 
+        */
+    }
     internal class Alpha
     {
         internal Alpha(WriteToCMDLine write)
