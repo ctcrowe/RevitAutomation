@@ -5,6 +5,30 @@ using System.Collections.Generic;
 using System;
 namespace CC_Library.Predictions
 {
+    internal class AlphaHash
+    {
+        public HashTable Hash = new HashTable()
+        {
+            {"AAA", 1}, {"AAB", 2}, {"AAC", 3}, {"AAD", 4}, {"AAE", 5}, {"AAF", 6}, {"AAG", 7}, {"AAH", 8}, {"AAI", 9}, {"AAK", 10}, {"AAL
+        }
+        /*
+        string s = "";
+        int n = 0;
+        for(int i = 0; i < CharSet.CharCount; i++)
+        {
+            for(int j = 0; j < CharSet.CharCount; j++)
+            {
+                for(int k = 0; k < CharSet.CharCount; k++)
+                {
+                    s += "{\"" + CharSet.Chars.Keys.ElementAt(i) +
+                        CharSet.Chars.Keys.ElementAt(j) +
+                        CharSet.Chars.Keys.ElementAt(k) + "\", " + n + "}, ";
+                    n++;
+                }
+            }
+        }
+        */
+    }
     internal static class CharSet
     {
         public const int CharCount = 38;
