@@ -7,10 +7,6 @@ namespace CC_Library.Predictions
 {
     internal class AlphaHash
     {
-        public HashTable Hash = new HashTable()
-        {
-            {"AAA", 1}, {"AAB", 2}, {"AAC", 3}, {"AAD", 4}, {"AAE", 5}, {"AAF", 6}, {"AAG", 7}, {"AAH", 8}, {"AAI", 9}, {"AAK", 10}, {"AAL
-        }
         /*
         string s = "";
         int n = 0;
