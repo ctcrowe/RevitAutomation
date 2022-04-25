@@ -19,31 +19,23 @@ namespace CC_Library.Predictions
             }
             return results;
         }
-        public List<double[,]> Forward(double[] input, double dropout, WriteToCMDLine write, bool tf = false)
+        public double[][][] Forward(double[] input, double dropout, WriteToCMDLine write, bool tf = false)
         {
-            List<double[,]> Results = new List<double[,]>();
-            double[,] resultinput = new double[2,input.Count()];
-            resultinput.SetRank(input, 0);
-            resultinput.SetRank(input, 1);
-            Results.Add(resultinput);
+            double[][][] Results = new double[Layers.Count() + 1][][];
+            Results[0] = new double[2][];
+            Results[0][0] = input;
+            Results[0][1] = input;
             for (int k = 0; k < Layers.Count(); k++)
             {
-                double[,] output = new double[2, Layers[k].Biases.Count()];
-                var rank = Layers[k].Output(Results.Last().GetRank(1));
-                if(rank.Any(x => double.IsNaN(x)))
-                {
-                    write("Layer " + k + " in " + Datatype.ToString() + " Network  has NaN Values");
-                }
-                output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
-                var drop = Layers[k].DropOut(output.GetRank(0), dropout);
-                output.SetRank(drop, 1);
-                Results.Add(output);
-                if (tf)
-                    output.GetRank(1).WriteArray(this.Datatype.ToString() + " Layer " + k + " output : ", write);
+                Results[k + 1] = new double[2][];
+                try { Results[k + 1][0] = Layers[k].Output(Results[k][1]); }
+                catch { Console.WriteLine("Failed at Network 0 Layer : " + i + ", inputs : " + Results[k][1].Count() + ", weights : " +
+                    Layers[k].Weights.GetLength(0) + ", " + Layers[k].Weights.GetLength(1)); }
+                Results[k + 1][1] = Layers[k].DropOut(Results[k + 1][0], dropout);
             }
             return Results;
         }
-        public double[] Backward(List<double[,]> Results, double[] desired, NetworkMem mem, WriteToCMDLine write)
+        public double[] Backward(double[][][] Results, double[] desired, NetworkMem mem, WriteToCMDLine write)
         {
             var DValues = desired;
 
@@ -51,7 +43,7 @@ namespace CC_Library.Predictions
             {
                 try
                 {
-                    DValues = Layers[l].InverseDropOut(DValues, Results[l + 1].GetRank(1));
+                    DValues = Layers[l].InverseDropOut(DValues, Results[l + 1][1]);
                 }
                 catch (Exception e)
                 {
@@ -60,7 +52,7 @@ namespace CC_Library.Predictions
                     write("Results : " + Results[l + 1].GetRank(1).Count());
                     e.OutputError();
                 }
-                try { DValues = mem.Layers[l].DActivation(DValues, Results[l + 1].GetRank(0)); }
+                try { DValues = mem.Layers[l].DActivation(DValues, Results[l + 1][0]); }
                 catch
                 {
                     write("Failed at DActivation layer " + l);
@@ -74,7 +66,7 @@ namespace CC_Library.Predictions
                     write("DValues : " + DValues.Count());
                     write("Biases : " + Layers[l].Biases.Count());
                 }
-                try { mem.Layers[l].DWeights(DValues, Results[l].GetRank(0), Layers[l]); }
+                try { mem.Layers[l].DWeights(DValues, Results[l][1], Layers[l]); }
                 catch
                 {
                     write("Failed at DWeights layer " + l);
