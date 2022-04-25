@@ -83,6 +83,9 @@ namespace CC_Library.Predictions
          */
         public double[] Output(double[] Input)
         {
+            if(Input.Any(x => double.IsNaN(x)) { throw new Exception("Inputs are NaN Values"); }
+            if(Input.Any(x => x == null) { throw new Exception("Inputs are null"); }
+            
             double[] result = new double[Biases.Length];
             Parallel.For(0, result.Count(), i =>
             {
