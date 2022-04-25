@@ -63,7 +63,7 @@ namespace CC_Library.Predictions
                         Samples[j].DesiredOutput.WriteArray("Desired", write);
                     }*/
                     results[0] += CategoricalCrossEntropy.Forward(F.Last()[0], Samples[j].DesiredOutput).Max();
-                    results[1] += F.Last()[0].ToList().IndexOf(F.Last().GetRank(0).Max()) ==
+                    results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) ==
                         Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()) ? 1 : 0;
 
                     var DValues = net.Backward(F, Samples[j].DesiredOutput, MFMem, write);
