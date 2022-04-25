@@ -5,88 +5,123 @@ using CC_Library.Datatypes;
 using System;
 using CC_Library.Predictions;
 
-
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class AlphaFilter3// : IAlphaFilter
+    internal class AlphaFilter3 : IAlphaFilter
     {
-        public NeuralNetwork AttentionNetwork { get; }
-        public NeuralNetwork ValueNetwork { get; }
-        private const int Radius = 5;
-        public const int Size = 50;
-        private const double ChangeSize = 1e-5;
+        public NeuralNetwork[] Networks { get; }
+        private const int Radius = 1;
+        private const int Size = 150;
+        private const double dropout = 0.1;
+        private const double ChangeSize = 1e-8;
         internal AlphaFilter3(WriteToCMDLine write)
         {
-            AttentionNetwork = new NeuralNetwork(Datatype.Alpha);
-            ValueNetwork = new NeuralNetwork(Datatype.Alpha);
-            AttentionNetwork.Layers.Add(new Layer(1, 1 + (2 * Radius), Activation.Linear));
-            ValueNetwork.Layers.Add(new Layer(Size, ((2 * Radius) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
-            ValueNetwork.Layers.Add(new Layer(Size, ValueNetwork.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
+            this.Networks = new NeuralNetwork[2];
+            Networks[0] = new NeuralNetwork(Datatype.Alpha);
+            Networks[1] = new NeuralNetwork(Datatype.Alpha);
+            Networks[0].Layers.Add(new Layer(150, CharSet.CharCount * (1 + (2 * Radius)), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[1].Layers.Add(new Layer(100, CharSet.CharCount * (1 + (2 * Radius)), Activation.ReLu));
+            Networks[1].Layers.Add(new Layer(100, Networks[1].Layers.Last(), Activation.ReLu));
+            Networks[1].Layers.Add(new Layer(1, Networks[1].Layers.Last(), Activation.ReLu));
         }
+        public string Name { get { return "ClassicFilter"; } }
         public int GetSize() { return Size; }
-        public int GetLength(string s, NeuralNetwork net) { return s.Length; }
         public double GetChangeSize() { return ChangeSize; }
-        public double[] Forward(string s, AlphaMem am, NeuralNetwork net)
+        public double[][][][][] Forward(string s)
         {
-            double[,] loc = new double[s.Length, Size];
+            double[][][][][] output = new double[3][][][][];
+            output[0] = new double[s.Length][][][];
+            output[1] = new double[s.Length][][][];
+            output[2] = new double[1][][][];
+            output[2][0] = new double[1][][];
+            output[2][0][0] = new double[3][];
+            output[2][0][0][0] = new double[s.Length];
+            output[2][0][0][1] = new double[s.Length];
+            output[2][0][0][2] = new double[Size];
+
             Parallel.For(0, s.Length, j =>
             {
-                double[,] CtxtInput = new double[2, AttentionNetwork.Layers[0].Weights.GetLength(1)];
-                CtxtInput.SetRank(s.LocatePercent(j, Radius), 0);
-                CtxtInput.SetRank(s.LocatePercent(j, Radius), 1);
-                am.LocalContextOutputs[j].Add(CtxtInput);
-                for (int i = 0; i < AttentionNetwork.Layers.Count(); i++)
+                output[0][j] = new double[Networks[0].Layers.Count() + 1][][];
+                output[0][j][0] = new double[2][];
+                output[0][j][0][0] = s.Locate(j, Radius, true);
+                output[0][j][0][1] = output[0][j][0][0];
+                for (int i = 0; i < Networks[0].Layers.Count(); i++)
                 {
-                    am.LocalContextOutputs[j].Add
-                        (AttentionNetwork.Layers[i].Forward(am.LocalContextOutputs[j].Last().GetRank(1), 0));
+                    output[0][j][i + 1] = new double[2][];
+                    try { output[0][j][i + 1][0] = Networks[0].Layers[i].Output(output[0][j][i][1]); }
+                    catch { Console.WriteLine("Failed at Network 0 Layer : " + i + ", inputs : " + output[0][j][i][1].Count() + ", weights : " +
+                        Networks[0].Layers[i].Weights.GetLength(0) + ", " + Networks[0].Layers[i].Weights.GetLength(1)); }
+                    output[0][j][i + 1][1] = Networks[0].Layers[i].DropOut(output[0][j][i + 1][0], dropout);
                 }
 
-                double[,] LocInput = new double[2, ValueNetwork.Layers[0].Weights.GetLength(1)];
-                LocInput.SetRank(s.Locate(j, Radius), 0);
-                LocInput.SetRank(s.Locate(j, Radius), 1);
-                am.LocationOutputs[j].Add(LocInput);
-                for (int i = 0; i < ValueNetwork.Layers.Count(); i++)
+                output[1][j] = new double[Networks[1].Layers.Count() + 1][][];
+                output[1][j][0] = new double[2][];
+                output[1][j][0][0] = s.Locate(j, Radius, true);
+                output[1][j][0][1] = output[1][j][0][0];
+                for (int i = 0; i < Networks[1].Layers.Count(); i++)
                 {
-                    am.LocationOutputs[j].Add
-                       (ValueNetwork.Layers[i].Forward(am.LocationOutputs[j].Last().GetRank(1)));
+                    output[1][j][i + 1] = new double[2][];
+                    try { output[1][j][i + 1][0] = Networks[1].Layers[i].Output(output[1][j][i][1]); }
+                    catch {
+                        Console.WriteLine("Failed at Network 1 Layer : " + i + ", inputs : " + output[1][j][i][1].Count() + ", weights : " +
+                    Networks[1].Layers[i].Weights.GetLength(0) + ", " + Networks[1].Layers[i].Weights.GetLength(1)); }
+                    output[1][j][i + 1][1] = Networks[1].Layers[i].DropOut(output[1][j][i + 1][0], dropout);
                 }
-
-                loc.SetRank(am.LocationOutputs[j].Last().GetRank(1), j);
-                am.GlobalContextOutputs[j] = am.LocalContextOutputs[j].Last()[0, 0];
+                output[2][0][0][0][j] = output[1][j][Networks[1].Layers.Count()][0][0];
             });
-            return loc.Multiply(Activations.SoftMax(am.GlobalContextOutputs));
+            output[2][0][0][1] = Activations.SoftMax(output[2][0][0][0]);
+            Parallel.For(0, Size, j =>
+            {
+                for (int i = 0; i < s.Length; i++)
+                {
+                    output[2][0][0][2][j] += output[0][i][Networks[0].Layers.Count()][0][j] * output[2][0][0][1][i];
+                }
+            });
+            return output;
         }
         public void Backward
-            (string s, double[] DValues,
-            AlphaMem am, NetworkMem ValMem, NetworkMem FocMem, NeuralNetwork net)
+            (double[] DValues, double[][][][][] outputs, NetworkMem[] mem, WriteToCMDLine write, bool tf = false)
         {
-            var LocDValues = am.DLocation(DValues);
-            DValues = am.DGlobalContext(DValues);
-            DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
-            Parallel.For(0, s.Length, j =>
+            var ContextualDVals = new double[outputs[0].Count()]; //output[0].Count() => S.Length
+            for(int i = 0; i < ContextualDVals.Count(); i++)
             {
-                var ldv = LocDValues[j];
-                double[] cdv = new double[1] { DValues[j] / s.Length };
-                for (int i = ValueNetwork.Layers.Count() - 1; i >= 0; i--)
+                for(int j = 0; j < DValues.Count(); j++) //DValues.Count() => Size
                 {
-                    ldv = ValMem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1].GetRank(1));
-                    ValMem.Layers[i].DBiases(ldv, ValueNetwork.Layers[i], s.Length);
-                    ValMem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i].GetRank(1), ValueNetwork.Layers[i], s.Length);
-                    ldv = ValMem.Layers[i].DInputs(ldv, ValueNetwork.Layers[i]);
+                    ContextualDVals[i] += DValues[j] * outputs[0][i][Networks[0].Layers.Count()][1][j];
                 }
-                for (int i = AttentionNetwork.Layers.Count() - 1; i >= 0; i--)
+            }
+            ContextualDVals = Activations.InverseSoftMax(ContextualDVals, outputs[2][0][0][0]);
+            Parallel.For(0, outputs[0].Count(), j =>
+            {
+                try
                 {
-                    try
+                    double[] LocalDVals = new double[Size];
+                    for(int i = 0; i < Size; i++) { LocalDVals[i] = DValues[i] * outputs[2][0][0][1][j]; }
+                    for (int i = Networks[0].Layers.Count() - 1; i >= 0; i--)
                     {
-                        cdv = cdv.InverseDropOut(am.LocalContextOutputs[j][i + 1].GetRank(1));
-                        cdv = FocMem.Layers[i].DActivation(cdv, am.LocalContextOutputs[j][i + 1].GetRank(1));
-                        FocMem.Layers[i].DBiases(cdv, AttentionNetwork.Layers[i], s.Length);
-                        FocMem.Layers[i].DWeights(cdv, am.LocalContextOutputs[j][i].GetRank(1), AttentionNetwork.Layers[i], s.Length);
-                        cdv = FocMem.Layers[i].DInputs(cdv, AttentionNetwork.Layers[i]);
+                        LocalDVals = Networks[0].Layers[i].InverseDropOut(LocalDVals, outputs[0][j][i+1][1]);
+                        LocalDVals = mem[0].Layers[i].DActivation(LocalDVals, outputs[0][j][i + 1][0]);
+                        mem[0].Layers[i].DBiases(LocalDVals, Networks[0].Layers[i], outputs[0].Count());
+                        mem[0].Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], Networks[0].Layers[i], outputs[0].Count());
+                        LocalDVals = mem[0].Layers[i].DInputs(LocalDVals, Networks[0].Layers[i]);
                     }
-                    catch (Exception e) { e.OutputError(); }
+                    double[] cdv = new double[1] { ContextualDVals[j] / outputs[0].Count() };
+                    for (int i = Networks[1].Layers.Count() - 1; i >= 0; i--)
+                    {
+                        cdv = Networks[1].Layers[i].InverseDropOut(cdv, outputs[1][j][i+1][1]);
+                        cdv = mem[1].Layers[i].DActivation(cdv, outputs[1][j][i+1][0]);
+                        mem[1].Layers[i].DBiases(cdv, Networks[1].Layers[i], outputs[0].Count());
+                        mem[1].Layers[i].DWeights(cdv, outputs[1][j][i][1], Networks[1].Layers[i], outputs[0].Count());
+                        cdv = mem[1].Layers[i].DInputs(cdv, Networks[1].Layers[i]);
+                    }
                 }
+                catch (Exception e) { e.OutputError(); }
             });
         }
     }

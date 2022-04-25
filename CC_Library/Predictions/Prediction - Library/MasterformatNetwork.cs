@@ -16,11 +16,11 @@ namespace CC_Library.Predictions
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(150, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(150, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(150, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(150, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(150, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(40, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
             return net;
@@ -71,7 +71,7 @@ namespace CC_Library.Predictions
                 });
             }
             catch (Exception e) { e.OutputError(); }
-            MFMem.Update(Samples.Count(), 1e-3, net);
+            MFMem.Update(Samples.Count(), 1e-8, net);
             a.Update(am, Samples.Count());
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();

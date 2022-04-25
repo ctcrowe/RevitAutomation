@@ -79,6 +79,7 @@ namespace CC_Library.Predictions
                 {
                     write("Failed at DWeights layer " + l);
                     write("DValues : " + DValues.Count());
+                    write("Inputs : " + Results[l].GetRank(1).Count());
                     write("Results : " + Results[l + 1].GetRank(0).Count());
                     write("Weights : " + Layers[l].Weights.GetLength(0) + ", " + Layers[l].Weights.GetLength(1));
                 }

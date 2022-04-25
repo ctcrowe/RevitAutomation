@@ -97,6 +97,9 @@ namespace DataAnalysis
                         case "SORT":
                             Datatype.Masterformat.Sort();
                             break;
+                        case "LINES":
+                            AlphaHash.run();
+                            break;
                         case "TEST":
                             Console.WriteLine("Enter a Datatype to Predict");
                             string l2 = Console.ReadLine();

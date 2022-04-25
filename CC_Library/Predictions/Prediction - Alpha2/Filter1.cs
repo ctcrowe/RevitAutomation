@@ -67,7 +67,7 @@ namespace CC_Library.Predictions
                 for (int i = 0; i < Networks[1].Layers.Count(); i++)
                 {
                     output[1][j][i + 1] = new double[2][];
-                    output[1][j][i + 1][0] = Networks[1].Layers[i].Output(output[0][j][i][1]);
+                    output[1][j][i + 1][0] = Networks[1].Layers[i].Output(output[1][j][i][1]);
                     output[1][j][i + 1][1] = Networks[1].Layers[i].DropOut(output[1][j][i + 1][0], dropout);
                 }
                 output[2][0][0][0][j] = output[1][j][Networks[1].Layers.Count()][0][0];

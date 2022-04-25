@@ -3,31 +3,32 @@ using System.Threading.Tasks;
 using CC_Library.Datatypes;
 using System.Collections.Generic;
 using System;
+using System.IO;
 namespace CC_Library.Predictions
 {
-    internal class AlphaHash
+    public class AlphaHash
     {
-        public static Dictionary<string, int> Hash = new Dictionary<string, int>()
+        public static void run()
         {
-            {"AAA", 1}, {"AAB", 2}, {"AAC", 3}, {"AAD", 4}, {"AAE", 5}
-        };
-        /*
-        string s = "";
-        int n = 0;
-        for(int i = 0; i < CharSet.CharCount; i++)
-        {
-            for(int j = 0; j < CharSet.CharCount; j++)
+            string s = "";
+            int n = 0;
+            for (int i = 0; i < CharSet.CharCount; i++)
             {
-                for(int k = 0; k < CharSet.CharCount; k++)
+                for (int j = 0; j < CharSet.CharCount; j++)
                 {
-                    s += "{\"" + CharSet.Chars.Keys.ElementAt(i) +
-                        CharSet.Chars.Keys.ElementAt(j) +
-                        CharSet.Chars.Keys.ElementAt(k) + "\", " + n + "}, ";
-                    n++;
+                    for (int k = 0; k < CharSet.CharCount; k++)
+                    {
+                        s += "{\"" + CharSet.Chars.Keys.ElementAt(i) +
+                            CharSet.Chars.Keys.ElementAt(j) +
+                            CharSet.Chars.Keys.ElementAt(k) + "\", " + n + "}, ";
+                        n++;
+                    }
                 }
             }
+            var lines = new List<string>() { s };
+            var fn = "CharsetCSV.txt".GetMyDocs();
+            File.WriteAllLines(fn, lines);
         }
-        */
     }
     public enum Chars
     {
@@ -43,7 +44,7 @@ namespace CC_Library.Predictions
         public const int CharCount = 38;
         public const int LetterCount = 27;
         public const int NumbCount = 11;
-        private static Dictionary<char, int> Chars = new Dictionary<char, int> {
+        internal static Dictionary<char, int> Chars = new Dictionary<char, int> {
             {'A', 1}, {'B', 3}, {'C', 3}, {'D', 2}, {'E', 1}, {'F', 4}, {'G', 2},
             {'H', 4}, {'I', 1}, {'J', 8}, {'K', 5}, {'L', 1}, {'M', 3}, {'N', 1},
             {'O', 1}, {'P', 3}, {'Q', 10}, {'R', 1}, {'S', 1}, {'T', 1}, {'U', 1},

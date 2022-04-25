@@ -88,7 +88,6 @@ namespace CC_Library.Predictions
                     });
                 });
             }
-
         }
         public double[] DInputs(double[] dvalues, Layer layer)
         {

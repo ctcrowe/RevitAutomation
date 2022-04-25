@@ -79,10 +79,10 @@ namespace CC_Library.Predictions
         public static double[] ReLu(double[] x)
         {
             double[] result = new double[x.Count()];
-            for (int i = 0; i < x.Count(); i++)
+            Parallel.For(0, x.Count(), i =>
             {
                 result[i] = Math.Max(x[i], 0);
-            }
+            });
             return result;
         }
         //DValues is the derivative values coming in from the previous layer.
@@ -90,10 +90,10 @@ namespace CC_Library.Predictions
         public static double[] InverseReLu(double[] dvalues, double[] outputs)
         {
             double[] dinput = new double[outputs.Count()];
-            for (int j = 0; j < outputs.Count(); j++)
+            Parallel.For(0, outputs.Count(), j =>
             {
                 dinput[j] = dvalues[j] * Math.Max(outputs[j], 0) / outputs[j];
-            }
+            });
             return dinput;
         }
         public static double[] LRelu(double[] x)

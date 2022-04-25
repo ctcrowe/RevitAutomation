@@ -30,12 +30,12 @@ namespace CC_Library.Predictions
                     string f = Files[random.Next(Files.Count())];
                     try
                     {
-                        var error = CutLineWeightNetwork.Propogate(f, write);
-                        /*
+                        //var error = CutLineWeightNetwork.Propogate(f, write);
+                        
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
                         var error = MasterformatNetwork.Propogate(s, write, true);
-                        */
+                        
                         if (error[0] > 0)
                         {
                             runs++;
