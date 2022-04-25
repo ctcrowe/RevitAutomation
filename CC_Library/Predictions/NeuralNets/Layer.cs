@@ -8,6 +8,7 @@ namespace CC_Library.Predictions
     [Serializable]
     public class Layer
     {
+        public int LayerNumb {get; set;}
         public double[,] Weights { get; set; }
         public double[] Biases { get; set; }
         public double[,] WMomentum { get; set; }
@@ -20,6 +21,7 @@ namespace CC_Library.Predictions
         public Layer(int NeuronCount, int WeightCount, Activation function, double L1R = 0, double L2R = 0)
         {
             Random random = new Random();
+            this.LayerNumb = 0;
             this.Weights = new double[NeuronCount, WeightCount];
             this.Biases = new double[NeuronCount];
             this.WMomentum = new double[NeuronCount, WeightCount];
@@ -39,6 +41,7 @@ namespace CC_Library.Predictions
         public Layer(int NeuronCount, Layer PreviousLayer, Activation function, double L1R = 0, double L2R = 0)
         {
             Random random = new Random();
+            this.LayerNumb = PreviousLayer.LayerNumb + 1;
             this.Weights = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
             this.Biases = new double[NeuronCount];
             this.WMomentum = new double[NeuronCount, PreviousLayer.Weights.GetLength(0)];
@@ -83,8 +86,8 @@ namespace CC_Library.Predictions
          */
         public double[] Output(double[] Input)
         {
-            if(Input.Any(x => double.IsNaN(x)) { throw new Exception("Inputs are NaN Values"); }
-            if(Input.Any(x => x == null) { throw new Exception("Inputs are null"); }
+            if(Input.Any(x => double.IsNaN(x)) { throw new Exception("Inputs are NaN Values at Layer Number " + LayerNumb); }
+            if(Input.Any(x => x == null) { throw new Exception("Inputs are null at Layer Number " + LayerNumb); }
             
             double[] result = new double[Biases.Length];
             Parallel.For(0, result.Count(), i =>
