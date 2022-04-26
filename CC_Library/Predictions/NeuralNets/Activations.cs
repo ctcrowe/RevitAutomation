@@ -49,8 +49,8 @@ namespace CC_Library.Predictions
                     return InverseReLu;
                 case Activation.LRelu:
                     return InverseLRelu;
-                //case Activation.SoftMax:
-                //    return InverseSoftMax;
+                case Activation.SoftMax:
+                    return InverseSoftMax;
                 case Activation.Linear:
                     return InverseLinear;
                 case Activation.Sigmoid:
