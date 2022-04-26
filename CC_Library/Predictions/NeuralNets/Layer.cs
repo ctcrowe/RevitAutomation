@@ -86,8 +86,8 @@ namespace CC_Library.Predictions
          */
         public double[] Output(double[] Input)
         {
-            if(Input.Any(x => double.IsNaN(x)) { throw new Exception("Inputs are NaN Values at Layer Number " + LayerNumb); }
-            if(Input.Any(x => x == null) { throw new Exception("Inputs are null at Layer Number " + LayerNumb); }
+            //if(Input.Any(x => double.IsNaN(x))) { throw new Exception("Inputs are NaN Values at Layer Number " + LayerNumb); }
+            //if(Input.Any(x => x == null)) { throw new Exception("Inputs are null at Layer Number " + LayerNumb); }
             
             double[] result = new double[Biases.Length];
             Parallel.For(0, result.Count(), i =>
@@ -144,10 +144,12 @@ namespace CC_Library.Predictions
                 var DOLayer = input.RandomBinomial(rate);
                 Parallel.For(0, output.Count(), i =>
                 {
+                    /*
                     output[i] = Function != Activation.Tangential &&
                         Function != Activation.Sigmoid ?
                         input[i] * DOLayer[i] / (1 - rate) :
-                        input[i] * DOLayer[i];
+                    */
+                       output[i] = input[i] * DOLayer[i];
                 });
             }
             return output;

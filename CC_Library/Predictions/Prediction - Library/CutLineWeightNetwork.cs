@@ -61,8 +61,8 @@ namespace CC_Library.Predictions
 
                     var desired = new double[net.Layers.Last().Biases.Count()];
                     desired[sample.Value] = 1;
-                    results[0] += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), desired).Max();
-                    results[1] += F.Last().GetRank(0).ToList().IndexOf(F.Last().GetRank(0).Max()) == sample.Value ? 1 : 0;
+                    results[0] += CategoricalCrossEntropy.Forward(F.Last()[0], desired).Max();
+                    results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) == sample.Value ? 1 : 0;
 
                     var DValues = net.Backward(F, desired, mem, write);
                     a.Backward(DValues, output.Value, am, write, j == 0);

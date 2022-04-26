@@ -55,7 +55,7 @@ namespace CC_Library.Predictions
                     AlphaMem am = new AlphaMem(Samples[j].TextInput.Length);
                     var output = a.Forward(Samples[j].TextInput);
                     var F = net.Forward(output, dropout, write);
-                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                    error += CategoricalCrossEntropy.Forward(F.Last()[0], Samples[j].DesiredOutput).Max();
 
                     var DValues = net.Backward(F, Samples[j].DesiredOutput, NetMem, write);
                     //a.Backward(Samples[j].TextInput, DValues, ctxt, am, AlphaMem, CtxtMem);
@@ -75,7 +75,7 @@ namespace CC_Library.Predictions
                     AlphaMem am = new AlphaMem(Samples[j].TextInput.Length);
                     var output = a.Forward(Samples[j].TextInput);
                     var F = net.Forward(output, dropout, write);
-                    error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), Samples[j].DesiredOutput).Max();
+                    error += CategoricalCrossEntropy.Forward(F.Last()[0], Samples[j].DesiredOutput).Max();
                 });
                 write("Post Training Error : " + error);
 

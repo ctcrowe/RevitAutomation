@@ -67,7 +67,7 @@ namespace CC_Library.Predictions
                                 int opnumb = vals[j].Increase ? 1 : 0;
                                 output[opnumb] = 1;
                 
-                                var Error = CategoricalCrossEntropy.Forward(F.Last().GetRank(0), output);
+                                var Error = CategoricalCrossEntropy.Forward(F.Last()[0], output);
                                 e += Error.Max();
                                 var D = Network.Backward(F, output, AAPLMem, write);
                                 stk.Backward(D, ctxt, sm, StkMem, CtxtMem);

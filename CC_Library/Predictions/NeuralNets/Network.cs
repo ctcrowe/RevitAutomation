@@ -29,7 +29,7 @@ namespace CC_Library.Predictions
             {
                 Results[k + 1] = new double[2][];
                 try { Results[k + 1][0] = Layers[k].Output(Results[k][1]); }
-                catch { Console.WriteLine("Failed at Network 0 Layer : " + i + ", inputs : " + Results[k][1].Count() + ", weights : " +
+                catch { Console.WriteLine("Failed at Layer : " + k + ", inputs : " + Results[k][1].Count() + ", weights : " +
                     Layers[k].Weights.GetLength(0) + ", " + Layers[k].Weights.GetLength(1)); }
                 Results[k + 1][1] = Layers[k].DropOut(Results[k + 1][0], dropout);
             }
@@ -49,7 +49,7 @@ namespace CC_Library.Predictions
                 {
                     write("Failed at Inverse Dropout layer " + l);
                     write("DValues : " + DValues.Count());
-                    write("Results : " + Results[l + 1].GetRank(1).Count());
+                    write("Results : " + Results[l + 1][1].Count());
                     e.OutputError();
                 }
                 try { DValues = mem.Layers[l].DActivation(DValues, Results[l + 1][0]); }
@@ -57,7 +57,7 @@ namespace CC_Library.Predictions
                 {
                     write("Failed at DActivation layer " + l);
                     write("DValues : " + DValues.Count());
-                    write("Results : " + Results[l + 1].GetRank(0).Count());
+                    write("Results : " + Results[l + 1][0].Count());
                 }
                 try { mem.Layers[l].DBiases(DValues, Layers[l]); }
                 catch
@@ -71,8 +71,8 @@ namespace CC_Library.Predictions
                 {
                     write("Failed at DWeights layer " + l);
                     write("DValues : " + DValues.Count());
-                    write("Inputs : " + Results[l].GetRank(1).Count());
-                    write("Results : " + Results[l + 1].GetRank(0).Count());
+                    write("Inputs : " + Results[l][1].Count());
+                    write("Results : " + Results[l + 1][0].Count());
                     write("Weights : " + Layers[l].Weights.GetLength(0) + ", " + Layers[l].Weights.GetLength(1));
                 }
                 try
@@ -88,7 +88,7 @@ namespace CC_Library.Predictions
             }
             return DValues;
         }
-        private static double[] DropOut(double[] input, double rate, WriteToCMDLine write)
+        private static double[] DropOut(double[] input, double rate)
         {
             double[] output = new double[input.Count()];
             var DOLayer = input.RandomBinomial(rate);

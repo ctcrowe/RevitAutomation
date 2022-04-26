@@ -108,11 +108,10 @@ namespace CC_Library.Predictions
         public static double[] InverseLRelu(double[] dvalues, double[] outputs)
         {
             double[] dinput = new double[outputs.Count()];
-            for (int j = 0; j < outputs.Count(); j++)
+            Parallel.For(0, outputs.Count(), j =>
             {
-                dinput[j] = outputs[j] <= 0?
-                    dvalues[j] / 100 : dvalues[j];
-            }
+                dinput[j] = dvalues[j] * Math.Max(outputs[j], outputs[j] / 100) / outputs[j];
+            });
             return dinput;
         }
         public static double[] SeLu(double[] x)

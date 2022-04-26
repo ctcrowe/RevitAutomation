@@ -56,7 +56,7 @@ namespace CC_Library.Predictions
                 var F = net.Forward(output, dropout, write);
                 var desired = new double[Enum.GetNames(typeof(Command)).Length];
                 desired[Samples.Values.ToList()[j]] = 1;
-                error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), desired).Max();
+                error += CategoricalCrossEntropy.Forward(F.Last()[0], desired).Max();
 
                 var DValues = net.Backward(F, desired, OLFMem, write);
                 //a.Backward(Samples.Keys.ToList()[j], DValues, ctxt, am, AlphaMem, CtxtMem);
@@ -78,7 +78,7 @@ namespace CC_Library.Predictions
                 var F = net.Forward(output, dropout, write);
                 var desired = new double[Enum.GetNames(typeof(Command)).Length];
                 desired[Samples.Values.ToList()[j]] = 1;
-                error += CategoricalCrossEntropy.Forward(F.Last().GetRank(0), desired).Max();
+                error += CategoricalCrossEntropy.Forward(F.Last()[0], desired).Max();
             });
             write("Post Training Error : " + error);
             return error;
