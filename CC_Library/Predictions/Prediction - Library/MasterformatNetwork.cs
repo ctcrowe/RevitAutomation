@@ -72,7 +72,7 @@ namespace CC_Library.Predictions
                 });
             }
             catch (Exception e) { e.OutputError(); }
-            MFMem.Update(Samples.Count(), 1e-4, net);
+            MFMem.Update(Samples.Count(), 1e-3, net);
             a.Update(am, Samples.Count());
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();

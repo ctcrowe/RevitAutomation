@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
         private const int Radius = 1;
         private const int Size = 150;
         private const double dropout = 0.1;
-        private const double ChangeSize = 1e-4;
+        private const double ChangeSize = 1e-3;
         internal AlphaFilter3(WriteToCMDLine write)
         {
             this.Networks = new NeuralNetwork[2];
