@@ -24,8 +24,7 @@ namespace CC_Library.Parameters
             Subcategory.Generic,
             ParamType.Text,
             false,
-            true
-            );
+            true);
         public static readonly Param OpeningHeight = new Param
             ("Opening Height",
             new Guid("cfc88653c63b47efb165380d7e63600c"),
@@ -43,6 +42,13 @@ namespace CC_Library.Parameters
             new Guid("bd1dfff5412046998d2cda0685ea4db7"),
             Subcategory.Generic,
             ParamType.Length,
+            false);
+        public static readonly Param ViewModified = new Param
+            ("View Modified Date",
+            new Guid("979bab9c3ccf40dfb8be612dda6af2ea"),
+            Subcategory.View,
+            ParamType.Text,
+            false,
             false);
         /*
         Add the below unfinished Params to Doors, Generic Models, and Stairs.
