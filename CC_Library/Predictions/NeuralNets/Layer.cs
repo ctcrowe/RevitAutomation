@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 for (int j = 0; j < WeightCount; j++)
                 {
                     this.Weights[i, j] = random.NextDouble() > 0.5 ? 
-                        random.NextDouble() : (-1 * random.NextDouble());
+                        random.NextDouble() / WeightCount : (-1 * random.NextDouble() / WeightCount);
                 }
             }
         }
@@ -49,41 +49,19 @@ namespace CC_Library.Predictions
             this.L1Regularization = L1R;
             this.L2Regularizattion = L2R;
             this.Function = function;
+            
+            var WeightCount = PreviousLayer.Weights.GetLength(0);
             for (int i = 0; i < NeuronCount; i++)
             {
-                for (int j = 0; j < PreviousLayer.Weights.GetLength(0); j++)
+                for (int j = 0; j < WeightCount; j++)
                 {
                     this.Weights[i, j] = random.NextDouble() > 0.5 ? 
-                        random.NextDouble() : (-1 * random.NextDouble());
+                        random.NextDouble() / WeightCount : (-1 * random.NextDouble() / WeightCount);
                 }
             }
         }
         #endregion
-
-        /*
-        public List<double[,]> Forward(double[] input, double dropout, WriteToCMDLine write)
-        {
-            List<double[,]> Results = new List<double[,]>();
-            double[,] resultinput = new double[2,input.Count()];
-            resultinput.SetRank(input, 0);
-            resultinput.SetRank(input, 1);
-            Results.Add(resultinput);
-            for (int k = 0; k < Layers.Count(); k++)
-            {
-                double[,] output = new double[2, Layers[k].Biases.Count()];
-                var rank = Layers[k].Output(Results.Last().GetRank(1));
-                if(rank.Any(x => double.IsNaN(x)))
-                {
-                    write("Layer " + k + " in " + Datatype.ToString() + " Network  has NaN Values");
-                }
-                output.SetRank(Layers[k].Output(Results.Last().GetRank(1)), 0);
-                var drop = DropOut(output.GetRank(0), dropout, write);
-                output.SetRank(drop, 1);
-                Results.Add(output);
-            }
-            return Results;
-        }
-         */
+            
         public double[] Output(double[] Input)
         {
             //if(Input.Any(x => double.IsNaN(x))) { throw new Exception("Inputs are NaN Values at Layer Number " + LayerNumb); }
