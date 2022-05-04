@@ -19,11 +19,11 @@ namespace CC_Library.Predictions
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(100, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, a.GetSize(), Activation.ReLu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(16, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
             return net;

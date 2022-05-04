@@ -12,22 +12,19 @@ namespace CC_Library.Predictions
     {
         public NeuralNetwork[] Networks { get; }
         private const int Radius = 1;
-        private const int Size = 150;
+        private const int Size = 400;
         private const double dropout = 0.1;
-        private const double ChangeSize = 1e-3;
+        private const double ChangeSize = 1e-2;
         internal AlphaFilter3(WriteToCMDLine write)
         {
             this.Networks = new NeuralNetwork[2];
             Networks[0] = new NeuralNetwork(Datatype.Alpha);
             Networks[1] = new NeuralNetwork(Datatype.Alpha);
-            Networks[0].Layers.Add(new Layer(150, CharSet.CharCount * (1 + (2 * Radius)), Activation.ReLu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(150, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(200, CharSet.CharCount * (1 + (2 * Radius)), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(500, Networks[0].Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(500, Networks[0].Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+            Networks[0].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
             Networks[1].Layers.Add(new Layer(100, CharSet.CharCount * (1 + (2 * Radius)), Activation.ReLu));
-            Networks[1].Layers.Add(new Layer(100, Networks[1].Layers.Last(), Activation.ReLu));
             Networks[1].Layers.Add(new Layer(1, Networks[1].Layers.Last(), Activation.ReLu));
         }
         public string Name { get { return "ClassicFilter"; } }

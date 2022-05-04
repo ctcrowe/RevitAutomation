@@ -17,10 +17,9 @@ namespace CC_Library.Predictions
             {
                 net = new NeuralNetwork(datatype);
                 net.Layers.Add(new Layer(100, a.GetSize(), Activation.ReLu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(40, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
@@ -56,13 +55,15 @@ namespace CC_Library.Predictions
                 {
                     var output = a.Forward(Samples[j].TextInput, write);
                     var F = net.Forward(output.Key, dropout, write, false);
-                    /*
+
                     if (j == 0)
                     {
-                        output.Key.WriteArray("Alpha Out : ", write);
-                        F.Last().GetRank(0).WriteArray("Output[0]", write);
-                        Samples[j].DesiredOutput.WriteArray("Desired", write);
-                    }*/
+                        write("Alpha Total : " + output.Key.Sum());
+                        F.Last()[0].WriteArray("Output[0]", write);
+                        write("Predicted : " + F.Last()[0].ToList().IndexOf(F.Last()[0].Max()));
+                        write("Desired : " + Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
+                    }
+
                     results[0] += CategoricalCrossEntropy.Forward(F.Last()[0], Samples[j].DesiredOutput).Max();
                     results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) ==
                         Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()) ? 1 : 0;
@@ -72,7 +73,7 @@ namespace CC_Library.Predictions
                 });
             }
             catch (Exception e) { e.OutputError(); }
-            MFMem.Update(Samples.Count(), 1e-3, net);
+            MFMem.Update(Samples.Count(), 1e-2, net);
             a.Update(am, Samples.Count());
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
