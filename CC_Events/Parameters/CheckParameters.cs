@@ -23,6 +23,10 @@ namespace CC_Plugin
             return Result.Succeeded;
         }
     }
+    public class CheckParam
+    {
+        
+    }
     public class CheckParameters
     {
         class ProjectParameterData
