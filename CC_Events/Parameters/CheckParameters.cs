@@ -7,14 +7,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 
-/// <summary>
-/// On Document startup
-/// 1) Collect a list of parameters in th project by GUID.
-/// 2) Cross check the list against a txt file, tracking - name, date added, guid, Object Categories?
-/// 3) save back as a tab dlimittd text file (or csv file?)
-/// 4) leave open column one. IF column 1.ToUpper = "DELETE", remove the parameter from the set and the txt file.
-/// </summary>
-
 namespace CC_Plugin
 {
     [TransactionAttribute(TransactionMode.Manual)]
