@@ -25,7 +25,19 @@ namespace CC_Plugin
     }
     public class CheckParam
     {
-        
+        //TASKLIST
+        //FIND THE GIVEN PARAM (FROM CC_PARAMS)
+            //CHECK IF THE PARAM IS INCLUDED ON WALLS
+            //IF SO, GET THE FIRST WALL ELEMENT AND PULL PARAM FROM THERE (SEE BELOW)
+            //IF NOT, TEMPORARILY ADD IT TO WALLS SO THAT IT CAN BE PULLED
+            //POST PROCESSING - REMOVE FROM WALLS.
+        /*
+        public static bool WallParam(Param p, Document doc)
+        {
+            if (doc == null) { throw new ArgumentNullException("doc"); }
+            if (doc.IsFamilyDocument) { throw new Exception("doc cannot be family document."); }
+        }
+        */
     }
     public class CheckParameters
     {
