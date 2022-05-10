@@ -117,8 +117,8 @@ namespace CC_Library.Predictions
                         output[3][0][0][0][j] += output[0][j][Networks[0].Layers.Count()][1][k] * output[1][l][Networks[0].Layers.Count()][1][k];
                     });
                 });
+                output[3][0][0][1] = Activations.SoftMax(output[3][0][0][0]);
             });
-            output[3][0][0][1] = Activations.SoftMax(output[3][0][0][0]);
             /*
             output[2][0][0][1] = Activations.SoftMax(output[2][0][0][0]);
             Parallel.For(0, Size, j =>
