@@ -154,11 +154,13 @@ namespace CC_Library.Predictions
                 
                 dvals = Activations.InverseSoftMax(dvals, outputs[3][0][0][j];
                 var QDVals = new double[dvals.Count()];
-                var KDVals = new double[dvals.Count()];
                 Parallel.For(0, dvals.Count(), k =>
                 {
                     QDVals[k] = dvals[k] * outputs[
-                    KDVals[k] = dvals[k] * outputs[
+                });
+                Parallel.For(0, outputs[0].Count(), k =>
+                {
+                    var KDVals = new double[dvals.Count()];
                 });
             });
             */
