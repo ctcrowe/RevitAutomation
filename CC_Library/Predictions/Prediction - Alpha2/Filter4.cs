@@ -131,7 +131,27 @@ namespace CC_Library.Predictions
         public void Backward
             (double[] DValues, double[][][][][] outputs, NetworkMem[] mem, WriteToCMDLine write, bool tf = false)
         {
-            var ContextualDVals = new double[outputs[0].Count()]; //output[0].Count() => S.Length
+            //first step in  backward pass is to derive each of the softmax layers (there are kind of a lot)
+            /*
+            var dvals = new double[DValues.Count()]; //this later get feds into the query and keys (Network[0] and Network[1])
+            var ValDVals = new double[DValues.Count()]; //this will be fed into the Values (Network[2])
+            Parallel.For(0, outputs[0].Count(), j=> //relates to s.Length -> this is the number of softmax sets there are.
+            {
+                Parallel.For(0, Dvalues.Count(), k =>
+                {
+                    dvals[k] += DValues[k] * outputs[2][j][Networks[2].Layers.Count()][1][k];
+                    Parallel.For(0, outputs[0].Count(), l =>
+                    {
+                        ValDVals[k] += DValues[k] * output[3][0][1][j][l];
+                    });
+                });
+                for(int i = 0; i < Networks[2].Layers.Count() - 1; i >= 0; i--)
+                {
+                    ValDVals
+                }
+                dvals = Activations.InverseSoftMax(dvals, outputs[3][0][0][j];
+            });
+            */
             for(int i = 0; i < ContextualDVals.Count(); i++)
             {
                 for(int j = 0; j < DValues.Count(); j++) //DValues.Count() => Size
