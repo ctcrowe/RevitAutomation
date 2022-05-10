@@ -133,23 +133,33 @@ namespace CC_Library.Predictions
         {
             //first step in  backward pass is to derive each of the softmax layers (there are kind of a lot)
             /*
-            var dvals = new double[DValues.Count()]; //this later get feds into the query and keys (Network[0] and Network[1])
-            var ValDVals = new double[DValues.Count()]; //this will be fed into the Values (Network[2])
             Parallel.For(0, outputs[0].Count(), j=> //relates to s.Length -> this is the number of softmax sets there are.
             {
+                var dvals = new double[DValues.Count()]; //this later get feds into the query and keys (Network[0] and Network[1])
+                var ValDVals = new double[DValues.Count()]; //this will be fed into the Values (Network[2])
+                
                 Parallel.For(0, Dvalues.Count(), k =>
                 {
                     dvals[k] += DValues[k] * outputs[2][j][Networks[2].Layers.Count()][1][k];
-                    Parallel.For(0, outputs[0].Count(), l =>
-                    {
-                        ValDVals[k] += DValues[k] * output[3][0][1][j][l];
-                    });
+                    ValDVals[k] += DValues[k] * output[3][0][2][j][k];
                 });
                 for(int i = 0; i < Networks[2].Layers.Count() - 1; i >= 0; i--)
                 {
-                    ValDVals
+                    ValDVals = Networks[2].Layers[i].InverseDropOut(ValDVals, outputs[2][j][i+1][1]);
+                    ValDVals = mem[2].Layers[i].DActivation(ValDVals, outputs[2][j][i+1][0]);
+                    mem[2].Layers[i].DBiases(ValDVals, Networks[2].Layers[i], outputs[2].Count());
+                    mem[2].Layers[i].DWeights(ValDVals, outputs[2][j][i][1], Networks[2].Layers[i], outputs[2].Count());
+                    ValDVals = mem[2].Layers[i].DInputs(ValDVals, Networks[2].Layers[i]);
                 }
+                
                 dvals = Activations.InverseSoftMax(dvals, outputs[3][0][0][j];
+                var QDVals = new double[dvals.Count()];
+                var KDVals = new double[dvals.Count()];
+                Parallel.For(0, dvals.Count(), k =>
+                {
+                    QDVals[k] = dvals[k] * outputs[
+                    KDVals[k] = dvals[k] * outputs[
+                });
             });
             */
             for(int i = 0; i < ContextualDVals.Count(); i++)
