@@ -38,12 +38,8 @@ namespace CC_Library.Predictions
             Networks[0].Layers.Add(new Layer(200, 1 + (CharSet.CharCount * (1 + (2 * Radius))), Activation.LRelu, 1e-5, 1e-5));
             Networks[0].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[1].Layers.Add(new Layer(200, 1 + (CharSet.CharCount * (1 + (2 * Radius))), Activation.LRelu, 1e-5, 1e-5));
-            //Networks[1].Layers.Add(new Layer(500, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            //Networks[1].Layers.Add(new Layer(500, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[1].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[2].Layers.Add(new Layer(200, 1 + (CharSet.CharCount * (1 + (2 * Radius))), Activation.LRelu, 1e-5, 1e-5));
-            //Networks[2].Layers.Add(new Layer(500, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            //Networks[2].Layers.Add(new Layer(500, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
             Networks[2].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
         }
         public string Name { get { return "AlphaFilterv4"; } }
