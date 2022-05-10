@@ -22,20 +22,49 @@ namespace CC_Library.Predictions
                 double er = 0;
                 double acc = 0;
                 var filepath = ofd.FileName;
-                var dir = Path.GetDirectoryName(filepath);
-                var Files = Directory.GetFiles(dir);
-                Random random = new Random();
+                var l = File.ReadAllLines(filepath);
+
+                Dictionary<int, List<string>> values = new Dictionary<int, List<string>>();
+                List<string> finlines = new List<string>();
+                int count = 0;
+                Random r = new Random();
+
+                foreach(string line in l)
+                {
+                    if(values.ContainsKey(int.Parse(line.Split(',').Last())))
+                    {
+                        values[int.Parse(line.Split(',').Last())].Add(line);
+                        count = values[int.Parse(line.Split(',').Last())].Count() > count ? values[int.Parse(line.Split(',').Last())].Count() : count;
+                    }
+                    else
+                    {
+                        var vals = new List<string>();
+                        vals.Add(line);
+                        values.Add(int.Parse(line.Split(',').Last()), vals);
+                        count = values[int.Parse(line.Split(',').Last())].Count() > count ? values[int.Parse(line.Split(',').Last())].Count() : count;
+                    }
+                }
+                foreach(KeyValuePair<int, List<string>> kvp in values)
+                {
+                    while(kvp.Value.Count() < count)
+                    {
+                        kvp.Value.Add(kvp.Value[r.Next(kvp.Value.Count())]);
+                    }
+                    finlines.AddRange(kvp.Value);
+                }
+
                 for(int i = 0; i < 10000; i++)
                 {
-                    string f = Files[random.Next(Files.Count())];
                     try
                     {
                         //var error = CutLineWeightNetwork.Propogate(f, write);
-                        
+                        /*
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
-                        var error = MasterformatNetwork.Propogate(s, write, true);
-                        
+                        */
+                        var lines = finlines.OrderBy(x => r.NextDouble()).Take(16).ToArray();
+                        var error = MasterformatNetwork.Propogate(lines, write, true);
+
                         if (error[0] > 0)
                         {
                             runs++;

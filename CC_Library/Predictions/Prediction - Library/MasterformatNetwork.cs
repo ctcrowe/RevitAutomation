@@ -16,11 +16,11 @@ namespace CC_Library.Predictions
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(100, a.GetSize(), Activation.ReLu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.Tangential, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.ReLu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, a.GetSize(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(40, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
             return net;
@@ -39,11 +39,10 @@ namespace CC_Library.Predictions
             return Results;
         }
         public static double[] Propogate
-            (Sample s, WriteToCMDLine write, bool tf = false)
+            (string[] Samples, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
             NeuralNetwork net = GetNetwork(write);
-            var Samples = s.ReadSamples(24);
             Alpha2 a = new Alpha2(write);
             a.Load(write);
             var am = a.CreateMemory();
@@ -53,7 +52,7 @@ namespace CC_Library.Predictions
             {
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var output = a.Forward(Samples[j].TextInput, write);
+                    var output = a.Forward(Samples[j].Split(',').First(), write);
                     var F = net.Forward(output.Key, dropout, write, false);
 
                     if (j == 0)
@@ -61,19 +60,19 @@ namespace CC_Library.Predictions
                         write("Alpha Total : " + output.Key.Sum());
                         F.Last()[0].WriteArray("Output[0]", write);
                         write("Predicted : " + F.Last()[0].ToList().IndexOf(F.Last()[0].Max()));
-                        write("Desired : " + Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()));
+                        write("Desired : " + int.Parse(Samples[j].Split(',').Last()));
                     }
+                    var DesiredOutput = new double[40];
+                    DesiredOutput[int.Parse(Samples[j].Split(',').Last())] = 1;
+                    results[0] += CategoricalCrossEntropy.Forward(F.Last()[0], DesiredOutput).Max();
+                    results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
 
-                    results[0] += CategoricalCrossEntropy.Forward(F.Last()[0], Samples[j].DesiredOutput).Max();
-                    results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) ==
-                        Samples[j].DesiredOutput.ToList().IndexOf(Samples[j].DesiredOutput.Max()) ? 1 : 0;
-
-                    var DValues = net.Backward(F, Samples[j].DesiredOutput, MFMem, write);
+                    var DValues = net.Backward(F, DesiredOutput, MFMem, write);
                     a.Backward(DValues, output.Value, am, write, j == 0);
                 });
             }
             catch (Exception e) { e.OutputError(); }
-            MFMem.Update(Samples.Count(), 1e-2, net);
+            MFMem.Update(Samples.Count(), 0.1, net);
             a.Update(am, Samples.Count());
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();

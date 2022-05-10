@@ -68,6 +68,48 @@ namespace CC_Library.Predictions
             }
             return samples;
         }
+        public static Dictionary<string, int> ReadSamples(this string[] s, int Count = 16)
+        {
+            Dictionary<string, int> samples = new Dictionary<string, int>();
+            Random r = new Random();
+            for (int i = 0; i < Count; i++)
+            {
+                int lineno = r.Next(s.Count());
+                var line = s[lineno];
+                var str = line.Split(',').First();
+                if (int.TryParse(line.Split(',').Last(), out int numb))
+                {
+                    if (!samples.ContainsKey(str))
+                        samples.Add(str, numb - 1);
+                }
+                else
+                    Console.WriteLine("Failed at Line : " + lineno + " : " + line);
+            }
+            return samples;
+        }
+        public static string[] ReadSamples(this Sample s, WriteToCMDLine write)
+        {
+            List<string> lines = new List<string>();
+            if(Directory.Exists(folder))
+            {
+                string subfolder = folder + "\\" + s.Datatype;
+                if(Directory.Exists(subfolder))
+                {
+                    string[] Files = Directory.GetFiles(subfolder);
+                    if(Files.Any())
+                    {
+                        for(int i = 0; i < Files.Count(); i++)
+                        {
+                            var samp = Files[i].ReadFromBinaryFile<Sample>();
+                            lines.Add(samp.TextInput + "," + samp.DesiredOutput.ToList().IndexOf(samp.DesiredOutput.Max()));
+                        }
+                    }
+                }
+            }
+            lines = lines.OrderBy(x => int.Parse(x.Split(',').Last())).ToList();
+            File.WriteAllLines(folder + "\\" + s.Datatype + "_Samples.txt", lines);
+            return lines.ToArray();
+        }
         public static Sample[] ReadSamples(this Sample s, int Count = 16)
         {
             if (Directory.Exists(folder))

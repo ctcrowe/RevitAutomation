@@ -88,10 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuySell.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="CreateCompBar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

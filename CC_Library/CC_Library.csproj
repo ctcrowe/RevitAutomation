@@ -74,6 +74,7 @@
     <Compile Include="Predictions\CreateEmbed.cs" />
     <Compile Include="Predictions\ErrorProcessing\DActivationArrays.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Alpha.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\Filter4.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Predictionary.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Filter3.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\LongTermWordFilter.cs" />

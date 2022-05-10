@@ -149,15 +149,15 @@ namespace CC_Library
         }
         public static double[,] Dot(this double[,] x, double[,] y)
         {
-            if (x.GetLength(0) == y.GetLength(1) && x.GetLength(1) == y.GetLength(0))
+            if (x.GetLength(1) == y.GetLength(0))
             {
-                double[,] dot = new double[x.GetLength(1), y.GetLength(0)];
+                double[,] dot = new double[x.GetLength(0), y.GetLength(1)];
 
                 Parallel.For(0, x.GetLength(0), i =>
                 {
                     Parallel.For(0, y.GetLength(1), j =>
                     {
-                        Parallel.For(0, y.GetLength(0), k => dot[i, j] += x[i, k] * y[k, j]);
+                        Parallel.For(0, y.GetLength(0), k => dot[i, j] += (x[i, k] * y[k, j]));
                     });
                 });
                 return dot;

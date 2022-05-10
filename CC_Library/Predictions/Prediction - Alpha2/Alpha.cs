@@ -13,7 +13,8 @@ namespace CC_Library.Predictions
         internal Alpha2(WriteToCMDLine write)
         {
             this.Filters = new List<IAlphaFilter>();
-            Filters.Add(new AlphaFilter3(write));
+            Filters.Add(new AlphaFilter4(write));
+            //Filters.Add(new AlphaFilter3(write));
             //Filters.Add(new WordFilter(write));
             //Filters.Add(new WordFilter2(write));
         }

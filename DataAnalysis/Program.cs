@@ -124,6 +124,10 @@ namespace DataAnalysis
                                 s.TestChars(new WriteToCMDLine(Write));
                             }
                             break;
+                        case "COPY":
+                            Sample samp = new Sample(Datatype.Masterformat);
+                            samp.ReadSamples(new WriteToCMDLine(Write));
+                            break;
                         case "READ":
                             ReadSample.Read(new WriteToCMDLine(Write));
                             break;
