@@ -57,10 +57,10 @@ namespace CC_Library.Predictions
             output[2] = new double[s.Length][][][];
             output[3] = new double[1][][][];
 
-            output[3][0] = new double[4][][];
+            output[3][0] = new double[3][][];
             output[3][0][0] = new double[s.Length][];
             output[3][0][1] = new double[s.Length][];
-            output[3][0][2] = new double[Size][];
+            output[3][0][2] = new double[s.Length + 1][];
 
             Parallel.For(0, s.Length, j =>
             {
@@ -111,6 +111,7 @@ namespace CC_Library.Predictions
             Parallel.For(0, s.Length, j =>
             {
                 output[3][0][0][j] = new double[s.Length];
+                output[3][0][2][j] = new double[Size];
                 Parallel.For(0, Size, k =>
                 {
                     Parallel.For(0, s.Length, l =>
