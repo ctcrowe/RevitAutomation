@@ -55,7 +55,13 @@ namespace CC_Library.Predictions
             output[0] = new double[s.Length][][][];
             output[1] = new double[s.Length][][][];
             output[2] = new double[s.Length][][][];
-            output[3] = new double[s.Length][][][];
+            output[3] = new double[1][][][];
+
+            output[3][0] = new double[1][][];
+            output[3][0][0] = new double[2][];
+            output[3][0][0][1] = new double[s.Length];
+            output[3][0][0][2] = new double[s.Length];
+
 
             Parallel.For(0, s.Length, j =>
             {
@@ -104,14 +110,16 @@ namespace CC_Library.Predictions
             });
             Parallel.For(0, s.Length, j =>
             {
-                output[3][j] = new double[1][][];
-                output[3][j][0] = new double[1][];
-                output[3][j][0][0] = new double[Size];
                 Parallel.For(0, Size, k =>
                 {
-                    output[3][j][k]
+                    Parallel.For(0, s.Length, l =>
+                    {
+                        //output[0][x] * output[1][x]
+                        output[3][0][0][0][j] += output[0][j][Networks[0].Layers.Count()][1][k] * output[1][l][Networks[0].Layers.Count()][1][k];
+                    });
                 });
             });
+            output[3][0][0][1] = Activations.SoftMax(output[3][0][0][0]);
             /*
             output[2][0][0][1] = Activations.SoftMax(output[2][0][0][0]);
             Parallel.For(0, Size, j =>
