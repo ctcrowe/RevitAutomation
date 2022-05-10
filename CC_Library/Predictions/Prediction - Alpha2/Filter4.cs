@@ -114,7 +114,6 @@ namespace CC_Library.Predictions
                 {
                     Parallel.For(0, s.Length, l =>
                     {
-                        //output[0][x] * output[1][x]
                         output[3][0][0][0][j] += output[0][j][Networks[0].Layers.Count()][1][k] * output[1][l][Networks[0].Layers.Count()][1][k];
                     });
                 });
