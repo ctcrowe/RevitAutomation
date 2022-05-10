@@ -116,21 +116,20 @@ namespace CC_Library.Predictions
                 {
                     Parallel.For(0, s.Length, l =>
                     {
-                        output[3][0][0][j][l] += output[0][j][Networks[0].Layers.Count()][1][k] * output[1][l][Networks[0].Layers.Count()][1][k];
+                        output[3][0][0][j][l] += output[0][j][Networks[0].Layers.Count()][1][k] * output[1][l][Networks[1].Layers.Count()][1][k];
                     });
                 });
                 output[3][0][1][j] = Activations.SoftMax(output[3][0][0][j]);
-            });
-            /*
-            output[2][0][0][1] = Activations.SoftMax(output[2][0][0][0]);
-            Parallel.For(0, Size, j =>
-            {
-                for (int i = 0; i < s.Length; i++)
+                Parallel.For(0, Size, k =>
                 {
-                    output[2][0][0][2][j] += output[0][i][Networks[0].Layers.Count()][0][j] * output[2][0][0][1][i];
-                }
+                    Parallel.For(0, s.Length, l =>
+                    {
+                        var attention = output[3][0][1][j][l] * output[2][l][Networks[2].Layers.Count()][1][k];
+                        output[3][0][2][j][k] += attention;
+                        output[3][0][2][s.Length][k] += attention;
+                    });
+                });
             });
-            */
             return output;
         }
         public void Backward
