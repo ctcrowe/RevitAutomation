@@ -164,6 +164,7 @@ namespace CC_Library.Predictions
                 });
             });
             */
+            /*
             for(int i = 0; i < ContextualDVals.Count(); i++)
             {
                 for(int j = 0; j < DValues.Count(); j++) //DValues.Count() => Size
@@ -198,6 +199,7 @@ namespace CC_Library.Predictions
                 }
                 catch (Exception e) { e.OutputError(); }
             });
+            */
         }
     }
 }
