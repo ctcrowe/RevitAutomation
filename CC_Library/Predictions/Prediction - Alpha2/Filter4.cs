@@ -148,7 +148,7 @@ namespace CC_Library.Predictions
                 Parallel.For(0, DValues.Count(), k =>
                 {
                     dvals[k] += DValues[k] * outputs[2][j][Networks[2].Layers.Count()][1][k];
-                    VDVals[k] += DValues[k] * outputs[3][0][2][j][k];
+                    VDVals[k] += DValues[k] * outputs[3][0][2][j][k]; //TODO Confirm this is correct. Seems wrong.
                 });
                 for(int i = Networks[2].Layers.Count() - 1; i >= 0; i--)
                 {
