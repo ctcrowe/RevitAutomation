@@ -52,7 +52,7 @@ namespace CC_Library.Predictions
             {'2', 0}, {'3', 0}, {'4', 0}, {'5', 0}, {'6', 0}, {'7', 0}, {'8', 0},
             {'9', 0}, {' ', 0}, {'_', 0}};
 
-        public static double[] Locate(this string s, int numb, int range, bool incl = false)
+        public static double[] Locate(this string s, int numb, int range, bool incl = true)
         {
             double[] result = new double[
                 incl ? (CharCount * ((2 * range) + 1)) :

@@ -46,10 +46,12 @@ namespace CC_Library.Predictions
         public double[] DeltaB { get; set; }
         public double[,] DeltaW { get; set; }
         public Activation Function { get; set; }
+        private int number { get; }
         public LayerMem(Layer l)
         {
             DeltaW = new double[l.Weights.GetLength(0), l.Weights.GetLength(1)];
             DeltaB = new double[l.Biases.Count()];
+            number = l.LayerNumb;
             Function = l.Function;
         }
         public double[] DActivation(double[] dvalues, double[] output) { return Function.InvertFunction()(dvalues, output); }
@@ -70,12 +72,23 @@ namespace CC_Library.Predictions
         }
         public void DWeights(double[] dvalues, double[] inputs, Layer l, double divisor = 1)
         {
-            for (int i = 0; i < DeltaW.GetLength(0); i++)
+            try
             {
-                for (int j = 0; j < DeltaW.GetLength(1); j++)
+                for (int i = 0; i < DeltaW.GetLength(0); i++)
                 {
-                    DeltaW[i, j] += (inputs[j] * dvalues[i] * 1 / divisor);
+                    for (int j = 0; j < DeltaW.GetLength(1); j++)
+                    {
+                        DeltaW[i, j] += (inputs[j] * dvalues[i] * 1 / divisor);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed at DWeights layer " + number);
+                Console.WriteLine("DValues : " + dvalues.Count());
+                Console.WriteLine("Inputs : " + inputs.Count());
+                Console.WriteLine("Weights : " + DeltaW.GetLength(0) + ", " + DeltaW.GetLength(1));
+                ex.OutputError();
             }
             if (l.L1Regularization > 0)
             {
