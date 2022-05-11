@@ -141,70 +141,51 @@ namespace CC_Library.Predictions
             Parallel.For(0, outputs[0].Count(), j=> //relates to s.Length -> this is the number of softmax sets there are.
             {
                 var dvals = new double[DValues.Count()]; //this later get feds into the query and keys (Network[0] and Network[1])
-                var ValDVals = new double[DValues.Count()]; //this will be fed into the Values (Network[2])
+                var VDVals = new double[Networks[2].Layers.Last().Biases.Count()]; //this will be fed into the Values (Network[2])
+                var KDVals = new double[Networks[1].Layers.Last().Biases.Count()];
+                var QDVals = new double[Networks[0].Layers.Last().Biases.Count()];
                 
                 Parallel.For(0, DValues.Count(), k =>
                 {
                     dvals[k] += DValues[k] * outputs[2][j][Networks[2].Layers.Count()][1][k];
-                    ValDVals[k] += DValues[k] * outputs[3][0][2][j][k];
+                    VDVals[k] += DValues[k] * outputs[3][0][2][j][k];
                 });
                 for(int i = Networks[2].Layers.Count() - 1; i >= 0; i--)
                 {
-                    ValDVals = Networks[2].Layers[i].InverseDropOut(ValDVals, outputs[2][j][i+1][1]);
-                    ValDVals = mem[2].Layers[i].DActivation(ValDVals, outputs[2][j][i+1][0]);
-                    mem[2].Layers[i].DBiases(ValDVals, Networks[2].Layers[i], outputs[2].Count());
-                    mem[2].Layers[i].DWeights(ValDVals, outputs[2][j][i][1], Networks[2].Layers[i], outputs[2].Count());
-                    ValDVals = mem[2].Layers[i].DInputs(ValDVals, Networks[2].Layers[i]);
+                    VDVals = Networks[2].Layers[i].InverseDropOut(VDVals, outputs[2][j][i+1][1]);
+                    VDVals = mem[2].Layers[i].DActivation(VDVals, outputs[2][j][i+1][0]);
+                    mem[2].Layers[i].DBiases(VDVals, Networks[2].Layers[i], outputs[2].Count());
+                    mem[2].Layers[i].DWeights(VDVals, outputs[2][j][i][1], Networks[2].Layers[i], outputs[2].Count());
+                    VDVals = mem[2].Layers[i].DInputs(VDVals, Networks[2].Layers[i]);
                 }
                 
                 dvals = Activations.InverseSoftMax(dvals, outputs[3][0][0][j]);
-                var QDVals = new double[dvals.Count()];
 
                 Parallel.For(0, dvals.Count(), k =>
                 {
-                    //QDVals[k] = dvals[k] * outputs[
-                });
-                Parallel.For(0, outputs[0].Count(), k =>
-                {
-                    var KDVals = new double[dvals.Count()];
-                });
-            });
-            /*
-            for(int i = 0; i < ContextualDVals.Count(); i++)
-            {
-                for(int j = 0; j < DValues.Count(); j++) //DValues.Count() => Size
-                {
-                    ContextualDVals[i] += DValues[j] * outputs[0][i][Networks[0].Layers.Count()][1][j];
-                }
-            }
-            ContextualDVals = Activations.InverseSoftMax(ContextualDVals, outputs[2][0][0][0]);
-            Parallel.For(0, outputs[0].Count(), j =>
-            {
-                try
-                {
-                    double[] LocalDVals = new double[Size];
-                    for(int i = 0; i < Size; i++) { LocalDVals[i] = DValues[i] * outputs[2][0][0][1][j]; }
-                    for (int i = Networks[0].Layers.Count() - 1; i >= 0; i--)
+                    KDVals[k] += dvals[k] * outputs[0][j][Networks[0].Layers.Count()][1][k]
+                    Parallel.For(0, outputs[0].Count(), l =>
                     {
-                        LocalDVals = Networks[0].Layers[i].InverseDropOut(LocalDVals, outputs[0][j][i+1][1]);
-                        LocalDVals = mem[0].Layers[i].DActivation(LocalDVals, outputs[0][j][i + 1][0]);
-                        mem[0].Layers[i].DBiases(LocalDVals, Networks[0].Layers[i], outputs[0].Count());
-                        mem[0].Layers[i].DWeights(LocalDVals, outputs[0][j][i][1], Networks[0].Layers[i], outputs[0].Count());
-                        LocalDVals = mem[0].Layers[i].DInputs(LocalDVals, Networks[0].Layers[i]);
-                    }
-                    double[] cdv = new double[1] { ContextualDVals[j] / outputs[0].Count() };
-                    for (int i = Networks[1].Layers.Count() - 1; i >= 0; i--)
-                    {
-                        cdv = Networks[1].Layers[i].InverseDropOut(cdv, outputs[1][j][i+1][1]);
-                        cdv = mem[1].Layers[i].DActivation(cdv, outputs[1][j][i+1][0]);
-                        mem[1].Layers[i].DBiases(cdv, Networks[1].Layers[i], outputs[0].Count());
-                        mem[1].Layers[i].DWeights(cdv, outputs[1][j][i][1], Networks[1].Layers[i], outputs[0].Count());
-                        cdv = mem[1].Layers[i].DInputs(cdv, Networks[1].Layers[i]);
-                    }
+                        QDVals[k] += dvals[k] * outputs[1][l][Networks[1].Layers.Count()][1][k]
+                    });
+                });
+                for(int i = Networks[1].Layers.Count() - 1; i >= 0; i--)
+                {
+                    KDVals = Networks[1].Layers[i].InverseDropOut(KDVals, outputs[1][j][i+1][1]);
+                    KDVals = mem[1].Layers[i].DActivation(KDVals, outputs[1][j][i+1][0]);
+                    mem[1].Layers[i].DBiases(KDVals, Networks[1].Layers[i], outputs[1].Count());
+                    mem[1].Layers[i].DWeights(KDVals, outputs[1][j][i][1], Networks[1].Layers[i], outputs[1].Count());
+                    KDVals = mem[1].Layers[i].DInputs(KDVals, Networks[1].Layers[i]);
                 }
-                catch (Exception e) { e.OutputError(); }
+                for(int i = Networks[0].Layers.Count() - 1; i >= 0; i--)
+                {
+                    QDVals = Networks[0].Layers[i].InverseDropOut(QDVals, outputs[0][j][i+1][1]);
+                    QDVals = mem[0].Layers[i].DActivation(QDVals, outputs[0][j][i+1][0]);
+                    mem[0].Layers[i].DBiases(QDVals, Networks[0].Layers[i], outputs[0].Count());
+                    mem[0].Layers[i].DWeights(QDVals, outputs[0][j][i][1], Networks[0].Layers[i], outputs[0].Count());
+                    QDVals = mem[0].Layers[i].DInputs(QDVals, Networks[0].Layers[i]);
+                }
             });
-            */
         }
     }
 }
