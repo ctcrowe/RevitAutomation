@@ -163,10 +163,10 @@ namespace CC_Library.Predictions
 
                 Parallel.For(0, dvals.Count(), k =>
                 {
-                    KDVals[k] += dvals[k] * outputs[0][j][Networks[0].Layers.Count()][1][k]
+                    KDVals[k] += dvals[k] * outputs[0][j][Networks[0].Layers.Count()][1][k];
                     Parallel.For(0, outputs[0].Count(), l =>
                     {
-                        QDVals[k] += dvals[k] * outputs[1][l][Networks[1].Layers.Count()][1][k]
+                        QDVals[k] += dvals[k] * outputs[1][l][Networks[1].Layers.Count()][1][k];
                     });
                 });
                 for(int i = Networks[1].Layers.Count() - 1; i >= 0; i--)
