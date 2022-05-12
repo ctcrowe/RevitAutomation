@@ -137,13 +137,15 @@ namespace CC_Library.Predictions
             (double[] DValues, double[][][][][] outputs, NetworkMem[] mem, WriteToCMDLine write, bool tf = false)
         {
             //first step in  backward pass is to derive each of the softmax layers (there are kind of a lot)
+            var KDVals = new double[outputs[0].Count()][];
+            var QDVals = new double[outputs[0].Count()][];
             
             Parallel.For(0, outputs[0].Count(), j=> //relates to s.Length -> this is the number of softmax sets there are.
             {
                 var dvals = new double[DValues.Count()]; //this later get feds into the query and keys (Network[0] and Network[1])
                 var VDVals = new double[Networks[2].Layers.Last().Biases.Count()]; //this will be fed into the Values (Network[2])
-                var KDVals = new double[Networks[1].Layers.Last().Biases.Count()];
-                var QDVals = new double[Networks[0].Layers.Last().Biases.Count()];
+                var KDVals[j] = new double[Networks[1].Layers.Last().Biases.Count()];
+                var QDVals[j] = new double[Networks[0].Layers.Last().Biases.Count()];
                 
                 Parallel.For(0, DValues.Count(), k =>
                 {
@@ -163,12 +165,16 @@ namespace CC_Library.Predictions
 
                 Parallel.For(0, dvals.Count(), k =>
                 {
-                    KDVals[k] += dvals[k] * outputs[0][j][Networks[0].Layers.Count()][1][k];
                     Parallel.For(0, outputs[0].Count(), l =>
                     {
-                        QDVals[k] += dvals[k] * outputs[1][l][Networks[1].Layers.Count()][1][k];
+                        KDVals[l][k] += dvals[k] * outputs[0][j][Networks[0].Layers.Count()][1][k];
+                        QDVals[j][k] += dvals[k] * outputs[1][l][Networks[1].Layers.Count()][1][k];
                     });
                 });
+            });
+            
+            Parallel.For(0, outputs[0].Count(), j=>
+            {
                 for(int i = Networks[1].Layers.Count() - 1; i >= 0; i--)
                 {
                     KDVals = Networks[1].Layers[i].InverseDropOut(KDVals, outputs[1][j][i+1][1]);
