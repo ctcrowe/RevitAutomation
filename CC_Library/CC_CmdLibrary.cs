@@ -43,6 +43,12 @@ namespace CC_Library
             Parallel.For(0, output.Count(), i => output[i] = 1);
             return output;
         }
+        public static double[] Ones(int Count);
+        {
+            double[] output = new double[Count];
+            Parallel.For(0, output.Count(), i => output[i] = 1);
+            return output;
+        }        
         public static double[] RandomBinomial(this double[] Similar, double dropout)
         {
             Random r = new Random();
