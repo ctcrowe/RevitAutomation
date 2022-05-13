@@ -4,21 +4,6 @@ using System.Threading.Tasks;
 using CC_Library.Datatypes;
 using System;
 using CC_Library.Predictions;
-
-/// <summary>
-/// step 1 locate trigram
-/// step 2 pull values for Query from trigram (can be a NN or a single layer)
-///     This will be set up as a NN that has a couple layers (max)
-/// step 3 pull values for Keys from each trigram (can be a NN or a single layer)
-///     This will be set up as a NN that has a couple layers (max)
-/// step 4 pull values for Values from each trigram (can be a NN or a single layer)
-///     This will be set up as a NN that has a couple layers (max)
-/// step 5 dot product the Query and the Transpose of the Keys
-///     This will be accomplished by multiplying the Query Result with each of the key results across all sets rather than as a single dot product.
-/// step 6 softmax each index in the output
-/// step 7 multiply the softmax score by the values for the trigram.
-/// </summary>
-
 /*
 Attention
 [Serializable]
