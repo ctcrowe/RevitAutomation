@@ -179,7 +179,7 @@ namespace CC_Library
                 {
                     for(int j = 0; j < x.GetLength(1); j++)
                     {
-                        z[i] += x[i, j] * y[j];
+                        z[i] += x[i, j] * y[i];
                     }
                 }
                 return z;
