@@ -49,6 +49,9 @@ public void backward(AttentionMem mem, dvalues dvals)
     var Qdvals = dweights.Dot(K.Transpose());
     var Kdvals = dweights.Dot(Q).Transpose();
     
+    Queries.Update(Qdvals.Dot(input));
+    Keys.Update(Kdvals.Dot(input));
+    Values.Update(Vdvals.Dot(input));
 }
 */
 
