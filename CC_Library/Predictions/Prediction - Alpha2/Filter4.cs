@@ -41,8 +41,18 @@ public void backward(AttentionMem mem, dvalues dvals)
     Keys.Update(Kdvals.Dot(input));
     Values.Update(Vdvals.Dot(input));
 }
-public void Update(this double[,] set, double dvalues)
+public static void Update(this double[,] set, double[,] dvalues, double rate)
 {
+    if(set.GetLength(0) == dvalues.GetLength(0) && set.GetLength(1) == dvalues.GetLength(1))
+    {
+        Parallel.For(0, set.GetLength(0), j =>
+        {
+            Parallel.For(0, set.GetLength(1), k =>
+            {
+                set[j,k] += dvalues[j,k] * rate;
+            });
+        });
+    }
 }
 */
 
