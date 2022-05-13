@@ -41,6 +41,9 @@ public void backward(AttentionMem mem, dvalues dvals)
     Keys.Update(Kdvals.Dot(input));
     Values.Update(Vdvals.Dot(input));
 }
+public void Update(this double[,] set, double dvalues)
+{
+}
 */
 
 namespace CC_Library.Predictions
