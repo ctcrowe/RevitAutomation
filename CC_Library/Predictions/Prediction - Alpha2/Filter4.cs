@@ -19,6 +19,35 @@ using CC_Library.Predictions;
 /// step 7 multiply the softmax score by the values for the trigram.
 /// </summary>
 
+/*
+Attention
+int size
+double[,] Queries = new double[size, size]
+double[,] Keys = new double[size, size]
+double[,] Values = new double[size, size]
+
+string s
+double[,] input = s.Locate(j, Radius)
+
+var Q = input.Dot(Queries);
+var K = input.Dot(Keys);
+var V = input.Dot(Values);
+
+var scores = Q.Dot(K.Transpose());
+var weights = Activations.SoftMax(scores);
+var attn = weights.Dot(V);
+
+var attention = attn.Dot(Ones(attn.GetLength(1));
+
+public void forward
+{
+    
+}
+public void backward
+{
+}
+*/
+
 namespace CC_Library.Predictions
 {
     [Serializable]
