@@ -21,6 +21,7 @@ using CC_Library.Predictions;
 
 /*
 Attention
+[Serializable]
 int size
 int Radius
 double rate
