@@ -22,6 +22,7 @@ using CC_Library.Predictions;
 /*
 Attention
 int size
+double rate
 double[,] Queries = new double[size, size]
 double[,] Keys = new double[size, size]
 double[,] Values = new double[size, size]
