@@ -26,25 +26,29 @@ double[,] Queries = new double[size, size]
 double[,] Keys = new double[size, size]
 double[,] Values = new double[size, size]
 
-string s
-double[,] input = s.Locate(j, Radius)
-
-var Q = input.Dot(Queries);
-var K = input.Dot(Keys);
-var V = input.Dot(Values);
-
-var scores = Q.Dot(K.Transpose());
-var weights = Activations.SoftMax(scores);
-var attn = weights.Dot(V);
-
-var attention = attn.Dot(Ones(attn.GetLength(1));
-
-public void forward
+public void forward(string s, AttentionMem mem)
 {
-    
+    double[,] input = s.Locate(j, Radius)
+
+    var Q = input.Dot(Queries);
+    var K = input.Dot(Keys);
+    var V = input.Dot(Values);
+
+    var scores = Q.Dot(K.Transpose());
+    var weights = Activations.SoftMax(scores);
+    var attn = weights.Dot(V);
+
+    var attention = attn.Dot(Ones(attn.GetLength(1));
 }
-public void backward
+public void backward(AttentionMem mem, dvalues dvals)
 {
+    var Vdvals = dvals.Dot(mem.attention);
+    var dweights = dvals.Dot(mem.V);
+    dweights = Activations.InverseSoftMax(dattn);
+    
+    var Qdvals = dweights.Dot(K.Transpose());
+    var Kdvals = dweights.Dot(Q).Transpose();
+    
 }
 */
 
