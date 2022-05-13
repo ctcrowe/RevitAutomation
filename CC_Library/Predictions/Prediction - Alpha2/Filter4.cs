@@ -22,10 +22,11 @@ using CC_Library.Predictions;
 /*
 Attention
 int size
+int Radius
 double rate
-double[,] Queries = new double[size, size]
-double[,] Keys = new double[size, size]
-double[,] Values = new double[size, size]
+double[,] Queries = new double[CharSet.CharCount * (1 + (2 * Radius))), size]
+double[,] Keys = new double[CharSet.CharCount * (1 + (2 * Radius))), size]
+double[,] Values = new double[CharSet.CharCount * (1 + (2 * Radius))), size]
 
 public void forward(string s, AttentionMem mem)
 {
