@@ -181,8 +181,8 @@ namespace CC_Library.Predictions
             {
                 var dvals = new double[DValues.Count()]; //this later get feds into the query and keys (Network[0] and Network[1])
                 var VDVals = new double[Networks[2].Layers.Last().Biases.Count()]; //this will be fed into the Values (Network[2])
-                var KDVals[j] = new double[Networks[1].Layers.Last().Biases.Count()];
-                var QDVals[j] = new double[Networks[0].Layers.Last().Biases.Count()];
+                KDVals[j] = new double[Networks[1].Layers.Last().Biases.Count()];
+                QDVals[j] = new double[Networks[0].Layers.Last().Biases.Count()];
                 
                 Parallel.For(0, DValues.Count(), k =>
                 {
