@@ -218,7 +218,7 @@ namespace CC_Library.Predictions
                 {
                     for(int l = 0; l < J.GetLength(1); l++)
                     {
-                        J[j, k] = diag[j, k] - (outputs[j, k] * outputs[j, l]);
+                        J[k, l] = diag[k, l] - (outputs[j, k] * outputs[j, l]);
                         R[j, k] += J[k, l] * dvalues[j, l];
                     }
                 }
