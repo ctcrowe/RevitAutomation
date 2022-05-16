@@ -73,8 +73,16 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Input.Count(), j => result[i] += Input[j] * Weights[i, j]);
                 result[i] += Biases[i];
             });
+            return result;
+            /*
             var func = Function.GetFunction();
             return func(result);
+            */
+        }
+        public double[] Activation(double[] LayerOutput)
+        {
+            var func = Function.GetFunction();
+            return func(LayerOutput);
         }
         public double[,] Forward(double[] Input, double dropout = 0.1)
         {
