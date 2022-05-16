@@ -46,18 +46,16 @@ namespace CC_Library.Predictions
         }
         public void Backward(AttentionMem mem, AttentionChange change, double[] dvals) //dvals Size is always size
         {
-            var atndvals = dvals.Dot(mem.attn); // Size of this is size, s.Length
-            var Vdvals = mem.weights.Transpose().Dot(atndvals); //returns a vector [size, s.Length]
+            var atndvals = dvals.Dot(mem.attn.Ones()); //returns a vector [s.Length, size]
+            var Vdvals = atndvals.Transpose().Dot(mem.weights); //returns a vector [size, s.Length]
+            var DV = Vdvals.Dot(mem.input).Transpose(); //size is CharCount * diameter, size
 
             var dweights = atndvals.Dot(mem.V.Transpose()); // Size of this is s.Length, s.Length
             dweights = Activations.InverseSoftMax(dweights, mem.weights); // Size of this is s.Length, s.Length
-
             var Qdvals = dweights.Dot(mem.K); //size is s.Length, size
             var Kdvals = dweights.Transpose().Dot(mem.Q); //size is s.Length, size
-
             var DQ = mem.input.Transpose().Dot(Qdvals); //this needs to be CharCount * diameter, size
             var DK = mem.input.Transpose().Dot(Kdvals);
-            var DV = mem.input.Transpose().Dot(Vdvals); //size is CharCount * diameter, size
 
             //change.Q.Update(DQ, 1); 
             //change.K.Update(DK, 1);
