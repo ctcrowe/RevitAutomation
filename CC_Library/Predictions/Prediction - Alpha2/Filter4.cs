@@ -1,234 +1,152 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
+
+using CC_Library;
 using CC_Library.Datatypes;
-using System;
 using CC_Library.Predictions;
-/*
-Attention
-[Serializable]
-int size
-int Radius
-double rate
-double[,] Queries = new double[CharSet.CharCount * (1 + (2 * Radius))), size]
-double[,] Keys = new double[CharSet.CharCount * (1 + (2 * Radius))), size]
-double[,] Values = new double[CharSet.CharCount * (1 + (2 * Radius))), size]
-
-public void forward(string s, AttentionMem mem)
-{
-    double[,] input = s.Locate(j, Radius)
-
-    var Q = input.Dot(Queries);
-    var K = input.Dot(Keys);
-    var V = input.Dot(Values);
-
-    var scores = Q.Dot(K.Transpose());
-    var weights = Activations.SoftMax(scores);
-    var attn = weights.Dot(V);
-
-    var attention = attn.Dot(Ones(attn.GetLength(1));
-}
-public void backward(AttentionMem mem, dvalues dvals)
-{
-    var Vdvals = dvals.Dot(mem.attention);
-    var dweights = dvals.Dot(mem.V);
-    dweights = Activations.InverseSoftMax(dattn);
-    
-    var Qdvals = dweights.Dot(K.Transpose());
-    var Kdvals = dweights.Dot(Q).Transpose();
-    
-    Queries.Update(Qdvals.Dot(input));
-    Keys.Update(Kdvals.Dot(input));
-    Values.Update(Vdvals.Dot(input));
-}
-public static void Update(this double[,] set, double[,] dvalues, double rate)
-{
-    if(set.GetLength(0) == dvalues.GetLength(0) && set.GetLength(1) == dvalues.GetLength(1))
-    {
-        Parallel.For(0, set.GetLength(0), j =>
-        {
-            Parallel.For(0, set.GetLength(1), k =>
-            {
-                set[j,k] += dvalues[j,k] * rate;
-            });
-        });
-    }
-}
-*/
 
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class AlphaFilter4 : IAlphaFilter
+    internal class AlphaAttn
     {
-        public NeuralNetwork[] Networks { get; }
-        private const int Radius = 1;
-        private const int Size = 400;
-        private const double dropout = 0.1;
-        private const double ChangeSize = 0.1;
-        internal AlphaFilter4(WriteToCMDLine write)
+        public const int size = 20;
+        public const int Radius = 1;
+        private const double rate = 0.1;
+
+        public double[,] Queries { get; set; }
+        public double[,] Keys { get; set; }
+        public double[,] Values { get; set; }
+        public AlphaAttn()
         {
-            this.Networks = new NeuralNetwork[3];
-            Networks[0] = new NeuralNetwork(Datatype.Alpha);
-            Networks[1] = new NeuralNetwork(Datatype.Alpha);
-            Networks[2] = new NeuralNetwork(Datatype.Alpha);
-            Networks[0].Layers.Add(new Layer(200, (CharSet.CharCount * (1 + (2 * Radius))), Activation.LRelu, 1e-5, 1e-5));
-            Networks[0].Layers.Add(new Layer(Size, Networks[0].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            Networks[1].Layers.Add(new Layer(200, (CharSet.CharCount * (1 + (2 * Radius))), Activation.LRelu, 1e-5, 1e-5));
-            Networks[1].Layers.Add(new Layer(Size, Networks[1].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
-            Networks[2].Layers.Add(new Layer(200, (CharSet.CharCount * (1 + (2 * Radius))), Activation.LRelu, 1e-5, 1e-5));
-            Networks[2].Layers.Add(new Layer(Size, Networks[2].Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+            this.Queries = new double[CharSet.CharCount * (1 + (2 * Radius)), size];
+            this.Queries.SetRandom();
+            this.Keys = new double[CharSet.CharCount * (1 + (2 * Radius)), size];
+            this.Keys.SetRandom();
+            this.Values = new double[CharSet.CharCount * (1 + (2 * Radius)), size];
+            this.Values.SetRandom();
         }
-        public string Name { get { return "AlphaFilterv4"; } }
-        public int GetSize() { return Size; }
-        public double GetChangeSize() { return ChangeSize; }
-        public double[][][][][] Forward(string s)
+        public void Forward(string s, AttentionMem mem)
         {
-            double[][][][][] output = new double[4][][][][];
-            output[0] = new double[s.Length][][][];
-            output[1] = new double[s.Length][][][];
-            output[2] = new double[s.Length][][][];
-            output[3] = new double[1][][][];
+            mem.input = s.Locate(Radius); //Size should be s.Length, CharCount * Diameter
 
-            output[3][0] = new double[3][][];
-            output[3][0][0] = new double[s.Length][];
-            output[3][0][1] = new double[s.Length][];
-            output[3][0][2] = new double[s.Length + 1][];
-            output[3][0][2][s.Length] = new double[Size];
+            try { mem.Q = mem.input.Dot(Queries); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
+            try { mem.K = mem.input.Dot(Keys); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
+            try { mem.V = mem.input.Dot(Values); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 
-            Parallel.For(0, s.Length, j =>
-            {
-                output[0][j] = new double[Networks[0].Layers.Count() + 1][][];
-                output[0][j][0] = new double[2][];
-                output[0][j][0][0] = s.Locate(j, Radius);
-                output[0][j][0][1] = output[0][j][0][0];
-                for (int i = 0; i < Networks[0].Layers.Count(); i++)
-                {
-                    output[0][j][i + 1] = new double[2][];
-                    try { output[0][j][i + 1][0] = Networks[0].Layers[i].Output(output[0][j][i][1]); }
-                    catch { Console.WriteLine("Failed at Network 0 Layer : " + i + ", inputs : " + output[0][j][i][1].Count() + ", weights : " +
-                        Networks[0].Layers[i].Weights.GetLength(0) + ", " + Networks[0].Layers[i].Weights.GetLength(1)); }
-                    output[0][j][i + 1][1] = Networks[0].Layers[i].DropOut(output[0][j][i + 1][0], dropout);
-                }
+            try { mem.scores = mem.Q.Dot(mem.K.Transpose()); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
+            try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
+            try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 
-                output[1][j] = new double[Networks[1].Layers.Count() + 1][][];
-                output[1][j][0] = new double[2][];
-                output[1][j][0][0] = s.Locate(j, Radius);
-                output[1][j][0][1] = output[1][j][0][0];
-                for (int i = 0; i < Networks[1].Layers.Count(); i++)
-                {
-                    output[1][j][i + 1] = new double[2][];
-                    try { output[1][j][i + 1][0] = Networks[1].Layers[i].Output(output[1][j][i][1]); }
-                    catch {
-                        Console.WriteLine("Failed at Network 1 Layer : " + i + ", inputs : " + output[1][j][i][1].Count() + ", weights : " +
-                    Networks[1].Layers[i].Weights.GetLength(0) + ", " + Networks[1].Layers[i].Weights.GetLength(1)); }
-                    output[1][j][i + 1][1] = Networks[1].Layers[i].DropOut(output[1][j][i + 1][0], dropout);
-                }
-
-                output[2][j] = new double[Networks[2].Layers.Count() + 1][][];
-                output[2][j][0] = new double[2][];
-                output[2][j][0][0] = s.Locate(2, Radius);
-                output[2][j][0][1] = output[2][j][0][0];
-                for (int i = 0; i < Networks[2].Layers.Count(); i++)
-                {
-                    output[2][j][i + 1] = new double[2][];
-                    try { output[2][j][i + 1][0] = Networks[2].Layers[i].Output(output[2][j][i][1]); }
-                    catch
-                    {
-                        Console.WriteLine("Failed at Network 1 Layer : " + i + ", inputs : " + output[2][j][i][1].Count() + ", weights : " +
-                    Networks[2].Layers[i].Weights.GetLength(0) + ", " + Networks[2].Layers[i].Weights.GetLength(1));
-                    }
-                    output[2][j][i + 1][1] = Networks[1].Layers[i].DropOut(output[2][j][i + 1][0], dropout);
-                }
-            });
-            
-            Parallel.For(0, s.Length, j =>
-            {
-                try
-                {
-                    output[3][0][0][j] = new double[s.Length];
-                    output[3][0][2][j] = new double[Size];
-                    Parallel.For(0, Size, k =>
-                    {
-                        Parallel.For(0, s.Length, l =>
-                        {
-                            output[3][0][0][j][l] += output[0][j][Networks[0].Layers.Count()][1][k] * output[1][l][Networks[1].Layers.Count()][1][k];
-                        });
-                    });
-                    output[3][0][1][j] = Activations.SoftMax(output[3][0][0][j]);
-                    Parallel.For(0, Size, k =>
-                    {
-                        Parallel.For(0, s.Length, l =>
-                        {
-                            var attention = output[3][0][1][j][l] * output[2][l][Networks[2].Layers.Count()][1][k];
-                            output[3][0][2][j][k] += attention;
-                            output[3][0][2][s.Length][k] += attention;
-                        });
-                    });
-                }
-                catch (Exception ex) { ex.OutputError(); }
-            });
-            return output;
+            try { mem.attention = mem.attn.SumRange(); } catch (Exception e) { e.OutputError(); } //Size should be size
         }
-        public void Backward
-            (double[] DValues, double[][][][][] outputs, NetworkMem[] mem, WriteToCMDLine write, bool tf = false)
+        public void Backward(AttentionMem mem, AttentionChange change, double[] dvals) //dvals Size is always size
         {
-            //first step in  backward pass is to derive each of the softmax layers (there are kind of a lot)
-            var KDVals = new double[outputs[0].Count()][];
-            var QDVals = new double[outputs[0].Count()][];
-            
-            Parallel.For(0, outputs[0].Count(), j=> //relates to s.Length -> this is the number of softmax sets there are.
-            {
-                var dvals = new double[DValues.Count()]; //this later get feds into the query and keys (Network[0] and Network[1])
-                var VDVals = new double[Networks[2].Layers.Last().Biases.Count()]; //this will be fed into the Values (Network[2])
-                KDVals[j] = new double[Networks[1].Layers.Last().Biases.Count()];
-                QDVals[j] = new double[Networks[0].Layers.Last().Biases.Count()];
-                
-                Parallel.For(0, DValues.Count(), k =>
-                {
-                    dvals[k] += DValues[k] * outputs[2][j][Networks[2].Layers.Count()][1][k];
-                    VDVals[k] += DValues[k] * outputs[3][0][2][j][k]; //TODO Confirm this is correct. Seems wrong.
-                });
-                for(int i = Networks[2].Layers.Count() - 1; i >= 0; i--)
-                {
-                    VDVals = Networks[2].Layers[i].InverseDropOut(VDVals, outputs[2][j][i+1][1]);
-                    VDVals = mem[2].Layers[i].DActivation(VDVals, outputs[2][j][i+1][0]);
-                    mem[2].Layers[i].DBiases(VDVals, Networks[2].Layers[i], outputs[2].Count());
-                    mem[2].Layers[i].DWeights(VDVals, outputs[2][j][i][1], Networks[2].Layers[i], outputs[2].Count());
-                    VDVals = mem[2].Layers[i].DInputs(VDVals, Networks[2].Layers[i]);
-                }
-                
-                dvals = Activations.InverseSoftMax(dvals, outputs[3][0][0][j]);
+            var atndvals = dvals.Dot(mem.attn); // Size of this is size, s.Length
+            var Vdvals = mem.weights.Transpose().Dot(atndvals); //returns a vector [size, s.Length]
 
-                Parallel.For(0, dvals.Count(), k =>
-                {
-                    Parallel.For(0, outputs[0].Count(), l =>
-                    {
-                        KDVals[l][k] += dvals[k] * outputs[0][j][Networks[0].Layers.Count()][1][k];
-                        QDVals[j][k] += dvals[k] * outputs[1][l][Networks[1].Layers.Count()][1][k];
-                    });
-                });
-            });
-            
-            Parallel.For(0, outputs[0].Count(), j=>
-            {
-                for(int i = Networks[1].Layers.Count() - 1; i >= 0; i--)
-                {
-                    KDVals[j] = Networks[1].Layers[i].InverseDropOut(KDVals[j], outputs[1][j][i+1][1]);
-                    KDVals[j] = mem[1].Layers[i].DActivation(KDVals[j], outputs[1][j][i+1][0]);
-                    mem[1].Layers[i].DBiases(KDVals[j], Networks[1].Layers[i], outputs[1].Count());
-                    mem[1].Layers[i].DWeights(KDVals[j], outputs[1][j][i][1], Networks[1].Layers[i], outputs[1].Count());
-                    KDVals[j] = mem[1].Layers[i].DInputs(KDVals[j], Networks[1].Layers[i]);
-                }
-                for(int i = Networks[0].Layers.Count() - 1; i >= 0; i--)
-                {
-                    QDVals[j] = Networks[0].Layers[i].InverseDropOut(QDVals[j], outputs[0][j][i+1][1]);
-                    QDVals[j] = mem[0].Layers[i].DActivation(QDVals[j], outputs[0][j][i+1][0]);
-                    mem[0].Layers[i].DBiases(QDVals[j], Networks[0].Layers[i], outputs[0].Count());
-                    mem[0].Layers[i].DWeights(QDVals[j], outputs[0][j][i][1], Networks[0].Layers[i], outputs[0].Count());
-                    QDVals[j] = mem[0].Layers[i].DInputs(QDVals[j], Networks[0].Layers[i]);
-                }
-            });
+            var dweights = atndvals.Dot(mem.V.Transpose()); // Size of this is s.Length, s.Length
+            dweights = Activations.InverseSoftMax(dweights, mem.weights); // Size of this is s.Length, s.Length
+
+            var Qdvals = dweights.Dot(mem.K); //size is s.Length, size
+            var Kdvals = dweights.Transpose().Dot(mem.Q); //size is s.Length, size
+
+            var DQ = mem.input.Transpose().Dot(Qdvals); //this needs to be CharCount * diameter, size
+            var DK = mem.input.Transpose().Dot(Kdvals);
+            var DV = mem.input.Transpose().Dot(Vdvals); //size is CharCount * diameter, size
+
+            change.Q.Update(DQ, 1); 
+            change.K.Update(DK, 1);
+            change.V.Update(DV, 1);
         }
+        public void Update(AttentionChange change, int Count)
+        {
+            Queries.Update(change.Q, -1 * rate * Count);
+            Keys.Update(change.K, -1 * rate * Count);
+            Values.Update(change.V, -1 * rate * Count);
+        }
+        public static AlphaAttn Load(WriteToCMDLine write)
+        {
+            string fn = "AlphaAttention";
+            fn += ".bin";
+            string Folder = "NeuralNets".GetMyDocs();
+            if (Directory.Exists(Folder))
+            {
+                string[] Files = Directory.GetFiles(Folder);
+                if (Files.Any(x => x.Contains(fn)))
+                {
+                    var doc = Files.Where(x => x.Contains(fn)).First();
+                    write("Filter read from My Docs");
+                    return ReadFromBinaryFile<AlphaAttn>(doc);
+                }
+            }
+            var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
+            if (assembly.GetManifestResourceNames().Any(x => x.Contains(fn)))
+            {
+                string name = assembly.GetManifestResourceNames().Where(x => x.Contains(fn)).First();
+                using (Stream stream = assembly.GetManifestResourceStream(name))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    write("Filter Read from Assembly");
+                    return (AlphaAttn)binaryFormatter.Deserialize(stream);
+                }
+            }
+
+            write("Alpha Attention Not Found. New Filter Created");
+            return new AlphaAttn();
+        }
+
+        public void Save(string Folder)
+        {
+            string FileName = Folder + "\\AlphaAttention.bin";
+            WriteToBinaryFile(FileName, this, true);
+        }
+        private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+        {
+            using (Stream stream = File.Create(filePath))
+            {
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                binaryFormatter.Serialize(stream, objectToWrite);
+            }
+        }
+        private static AlphaAttn ReadFromBinaryFile<T>(string filePath)
+        {
+            using (Stream stream = File.Open(filePath, FileMode.Open))
+            {
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                return (AlphaAttn)binaryFormatter.Deserialize(stream);
+            }
+        }
+    }
+    internal class AttentionChange
+    {
+        public double[,] Q;
+        public double[,] K;
+        public double[,] V;
+
+        public AttentionChange()
+        {
+            this.Q = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.size];
+            this.K = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.size];
+            this.V = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.size];
+        }
+    }
+    internal class AttentionMem
+    {
+        public double[,] input;
+
+        public double[,] Q;
+        public double[,] K;
+        public double[,] V;
+
+        public double[,] scores;
+        public double[,] weights;
+        public double[,] attn;
+
+        public double[] attention;
     }
 }

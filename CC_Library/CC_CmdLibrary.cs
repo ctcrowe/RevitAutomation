@@ -16,6 +16,45 @@ namespace CC_Library
     public delegate string WriteToCMDLine(string s);
     public static class CMDLibrary
     {
+        public static double[] SumRange(this double[,] x)
+        {
+            double[] y = new double[x.GetLength(1)];
+            Parallel.For(0, x.GetLength(0), j =>
+            {
+                Parallel.For(0, x.GetLength(1), i =>
+                {
+                    y[i] += x[j, i];
+                });
+            });
+            return y;
+        }
+        public static void SetRandom(this double[,] x)
+        {
+            Random random = new Random();
+            Parallel.For(0, x.GetLength(0), j =>
+            {
+                Parallel.For(0, x.GetLength(1), i =>
+                {
+                    x[j, i] = random.NextDouble() > 0.5 ?
+                        random.NextDouble() / x.GetLength(1) : (-1 * random.NextDouble() / x.GetLength(1));
+                });
+            });
+        }
+        public static void Update(this double[,] set, double[,] dvalues, double rate)
+        {
+            if (set.GetLength(0) != dvalues.GetLength(0) || set.GetLength(1) != dvalues.GetLength(1))
+            {
+                Console.WriteLine("Error, x Count was : " + set.GetLength(0) + ", " + set.GetLength(1) + ", y length is : " + dvalues.GetLength(0) + ", " + dvalues.GetLength(1));
+                throw new Exception("Element Null Exception");
+            }
+            Parallel.For(0, set.GetLength(0), j =>
+            {
+                Parallel.For(0, set.GetLength(1), k =>
+                {
+                    set[j, k] += dvalues[j, k] * rate;
+                });
+            });
+        }
         public static double[,] Transpose(this double[,] array)
         {
             var array2 = new double[array.GetLength(1), array.GetLength(0)];
@@ -43,7 +82,7 @@ namespace CC_Library
             Parallel.For(0, output.Count(), i => output[i] = 1);
             return output;
         }
-        public static double[] Ones(int Count);
+        public static double[] Ones(this int Count)
         {
             double[] output = new double[Count];
             Parallel.For(0, output.Count(), i => output[i] = 1);
@@ -155,36 +194,62 @@ namespace CC_Library
         }
         public static double[,] Dot(this double[,] x, double[,] y)
         {
-            if (x.GetLength(1) == y.GetLength(0))
+            if (x.GetLength(1) != y.GetLength(0))
             {
-                double[,] dot = new double[x.GetLength(0), y.GetLength(1)];
-
-                Parallel.For(0, x.GetLength(0), i =>
-                {
-                    Parallel.For(0, y.GetLength(1), j =>
-                    {
-                        Parallel.For(0, y.GetLength(0), k => dot[i, j] += (x[i, k] * y[k, j]));
-                    });
-                });
-                return dot;
+                Console.WriteLine("Error, x Count was : " + x.GetLength(0) + ", " + x.GetLength(1) + ", y length is : " + y.GetLength(0) + ", " + y.GetLength(1));
+                throw new Exception("Element Null Exception");
             }
-            return null;
+            double[,] dot = new double[x.GetLength(0), y.GetLength(1)];
+
+            Parallel.For(0, x.GetLength(0), i =>
+            {
+                Parallel.For(0, y.GetLength(1), j =>
+                {
+                    Parallel.For(0, y.GetLength(0), k => dot[i, j] += (x[i, k] * y[k, j]));
+                });
+            });
+            return dot;
         }
         public static double[] Dot(this double[,] x, double[] y)
         {
-            if(x.GetLength(1) == y.GetLength(0))
+            if (x.GetLength(1) != y.GetLength(0))
             {
-                double[] z = new double[x.GetLength(0)];
-                for(int i = 0; i < x.GetLength(0); i++)
+                Console.WriteLine("Error, x Count was : " + x.GetLength(0) + ", " + x.GetLength(1) + ", y length is : " + y.GetLength(0));
+                throw new Exception("Element Null Exception");
+            }
+            double[] z = new double[x.GetLength(1)];
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                for (int j = 0; j < x.GetLength(1); j++)
                 {
-                    for(int j = 0; j < x.GetLength(1); j++)
-                    {
-                        z[i] += x[i, j] * y[i];
-                    }
+                    z[j] += x[i, j] * y[i];
                 }
+            }
+            return z;
+        }
+        public static double[] Dot(this double[] x, double[] y)
+        {
+            if(x.Count() == y.Count())
+            {
+                double[] z = new double[x.Count()];
+                Parallel.For(0, x.Count(), j => z[j] = x[j] * y[j]);
                 return z;
             }
             return null;
+        }
+        public static double[,] Dot(this double[] x, double[,] y)
+        {
+            if (x.Count() != y.GetLength(1))
+            {
+                Console.WriteLine("Error, x Count was : " + x.Count() + ", y length 1 is : " + y.GetLength(1));
+                throw new Exception("Element Null Exception");
+            }
+            double[,] z = new double[y.GetLength(0), y.GetLength(1)];
+            Parallel.For(0, y.GetLength(0), j =>
+            {
+                Parallel.For(0, y.GetLength(1), k => z[j, k] = x[k] * y[j, k]);
+            });
+            return z;
         }
         public static double[] DotSwitch(this double[] x, double[] y)
         {

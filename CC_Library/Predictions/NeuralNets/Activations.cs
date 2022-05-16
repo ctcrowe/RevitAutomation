@@ -160,6 +160,31 @@ namespace CC_Library.Predictions
             }
             return result;
         }
+        public static double[,] SoftMax(double[,] input)
+        {
+            double[,] output = new double[input.GetLength(0), input.GetLength(1)];
+            Parallel.For(0, input.GetLength(0), j =>
+            {
+                for (int i = 0; i < input.GetLength(1); i++)
+                {
+                    input[j, i] = input[j, i] >= double.MaxValue ?
+                        double.MaxValue : input[j, i] <= double.MinValue ?
+                            double.MinValue : input[j, i];
+                }
+                double max = input.GetRank(j).Max();
+                for (int i = 0; i < output.GetLength(1); i++)
+                {
+                    double a = input[j, i] - max;
+                    output[j, i] = Math.Exp(a);
+                }
+                double sum = output.GetRank(j).Sum();
+                for (int i = 0; i < output.GetLength(1); i++)
+                {
+                    output[j, i] = output[j, i] / sum;
+                }
+            });
+            return output;
+        }
         public static double[] SoftMax(double[] input)
         {
             double[] output = new double[input.Count()];
@@ -181,6 +206,24 @@ namespace CC_Library.Predictions
                 output[i] = output[i] / sum;
             }
             return output;
+        }
+        public static double[,] InverseSoftMax(double[,] dvalues, double[,] outputs)
+        {
+            double[,] R = new double[dvalues.GetLength(0), dvalues.GetLength(1)];
+            Parallel.For(0, dvalues.GetLength(0), j =>
+            {
+                double[,] diag = outputs.GetRank(j).DiagFlat();
+                double[,] J = new double[diag.GetLength(0), diag.GetLength(1)];
+                for(int k = 0; k < J.GetLength(0); k++)
+                {
+                    for(int l = 0; l < J.GetLength(1); l++)
+                    {
+                        J[j, k] = diag[j, k] - (outputs[j, k] * outputs[j, l]);
+                        R[j, k] += J[k, l] * dvalues[j, l];
+                    }
+                }
+            });
+            return R;
         }
         public static double[] InverseSoftMax(double[] dvalues, double[] outputs)
         {

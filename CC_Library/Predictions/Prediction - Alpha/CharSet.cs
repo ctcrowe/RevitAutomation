@@ -60,9 +60,9 @@ namespace CC_Library.Predictions
             Parallel.For(0, chars.Count(), j =>
                          {
                              int imin = j < range ? j : range;
-                             int imax = (j + range) < chars.Count() ? range : chars.Count() - numb;
-                             Parallel.For(0, imax, i => result[j, (i * CharCount) + LocationOf(chars[numb + i])] = 1);
-                             Parallel.For(0, imin, i => result[j, ((range + i) * CharCount) + LocationOf(chars[numb - (i + 1)])] = 1);
+                             int imax = (j + range) < chars.Count() ? range : chars.Count() - j;
+                             Parallel.For(0, imax, i => result[j, (i * CharCount) + LocationOf(chars[j + i])] = 1);
+                             Parallel.For(0, imin, i => result[j, ((range + i) * CharCount) + LocationOf(chars[j - (i + 1)])] = 1);
                          });
             return result;
         }
