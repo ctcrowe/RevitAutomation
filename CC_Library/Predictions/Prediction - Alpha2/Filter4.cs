@@ -57,8 +57,8 @@ namespace CC_Library.Predictions
             var DQ = mem.input.Transpose().Dot(Qdvals); //this needs to be CharCount * diameter, size
             var DK = mem.input.Transpose().Dot(Kdvals);
 
-            //change.Q.Update(DQ, 1); 
-            //change.K.Update(DK, 1);
+            change.Q.Update(DQ, 1); 
+            change.K.Update(DK, 1);
             change.V.Update(DV, 1);
         }
         public void Update(AttentionChange change, int Count)
