@@ -1,5 +1,13 @@
 ﻿namespace CC_Library.Predictions
 {
+    internal interface IAlphaTransformer
+    {
+        public string name {get; set;}
+        public int size {get; set;}
+        public double[,] Queries { get; set; }
+        public double[,] Keys { get; set; }
+        public double[,] Values { get; set; }
+    }
     internal interface IAlphaFilter
     {
         NeuralNetwork[] Networks { get; }
