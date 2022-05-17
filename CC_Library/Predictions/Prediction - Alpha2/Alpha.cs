@@ -9,11 +9,11 @@ namespace CC_Library.Predictions
 {
     internal class Alpha2
     {
-        private List<IAlphaFilter> Filters { get; }
+        private List<IAlphaTransformer> Transformers { get; }
         internal Alpha2(WriteToCMDLine write)
         {
-            this.Filters = new List<IAlphaFilter>();
-            //Filters.Add(new AlphaFilter4(write));
+            this.Transformers = new List<IAlphaTransformer>();
+            Transformers.Add(new Transformer1(write));
             //Filters.Add(new AlphaFilter3(write));
             //Filters.Add(new WordFilter(write));
             //Filters.Add(new WordFilter2(write));
@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
             int size = 0;
             for (int i = 0; i < Filters.Count; i++)
             {
-                size += Filters[i].GetSize();
+                size += Transformers[i].Size;
             }
             return size;
         }
@@ -64,7 +64,7 @@ namespace CC_Library.Predictions
             {
                 for (int i = 0; i < Filters.Count(); i++)
                 {
-                    output.Add(Filters[i].Forward(s));
+                    output.Add(Transformers[i].Forward(s));
                     fin.AddRange(output.Last().Last().Last().Last().Last());
                 }
             }
