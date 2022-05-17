@@ -46,6 +46,25 @@ namespace CC_Library.Predictions
 
             try { mem.attention = mem.attn.SumRange();} catch (Exception e) { e.OutputError(); } //Size should be size
         }
+        public double[] Forward(string s)
+        {
+            var input = s.Locate(Radius); //Size should be s.Length, CharCount * Diameter
+            var output = new double[Size];
+            
+            try
+            {
+                var Q = input.Dot(Queries); //Size should be s.Length, size
+                var K = input.Dot(Keys); //Size should be s.Length, size
+                var V = input.Dot(Values); //Size should be s.Length, size
+
+                var scores = Q.Dot(mem.K.Transpose()); //Size should be s.Length, s.Length
+                var weights = Activations.SoftMax( scores); //Size should be s.Length, s.Length
+                var attn = weights.Dot(V);  //Size should be s.Length, size
+                output = mem.attn.SumRange();
+            }
+            catch (Exception e) { e.OutputError(); }
+            return output;
+        }
         public void Backward(AttentionMem mem, AttentionChange change, double[] dvals) //dvals Size is always size
         {
             var atndvals = dvals.Dot(mem.attn.Ones()); //returns a vector [s.Length, size]
