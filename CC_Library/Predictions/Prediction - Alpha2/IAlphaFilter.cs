@@ -2,11 +2,15 @@
 {
     internal interface IAlphaTransformer
     {
-        public string Name {get; set;}
-        public int Size {get; set;}
-        public double[,] Queries { get; set; }
-        public double[,] Keys { get; set; }
-        public double[,] Values { get; set; }
+        string Name {get;}
+        int Size {get;}
+        double[,] Queries { get; set; }
+        double[,] Keys { get; set; }
+        double[,] Values { get; set; }
+        
+        void Forward(string s, AttentionMem mem);
+        void Backward(AttentionMem mem, AttentionChange change, double[] dvals);
+        double[] Forward(string s);
     }
     internal interface IAlphaFilter
     {
