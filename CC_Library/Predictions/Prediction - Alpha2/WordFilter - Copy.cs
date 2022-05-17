@@ -16,6 +16,7 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
+/*
     [Serializable]
     internal class WordFilter2 : IAlphaFilter
     {
@@ -140,4 +141,5 @@ namespace CC_Library.Predictions
             });
         }
     }
+*/
 }
