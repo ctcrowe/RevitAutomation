@@ -8,7 +8,7 @@ namespace CC_Library.Predictions
     public static class MasterformatNetwork
     {
         private const double dropout = 0.1;
-        private const double rate = 1e-4;
+        private const double rate = 0.1;
         public static Datatype datatype { get { return Datatype.Masterformat; } }
         public static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
@@ -49,9 +49,6 @@ namespace CC_Library.Predictions
             NeuralNetwork net = GetNetwork(write);
             var Alpha = AlphaAttn.Load(write);
             var AlphaRate = new AttentionChange();
-            //Alpha2 a = new Alpha2(write);
-            //a.Load(write);
-            //var am = a.CreateMemory();
             NetworkMem MFMem = new NetworkMem(net);
 
             try
@@ -62,7 +59,6 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     AttentionMem atnmem = new AttentionMem();
-                    //var output = a.Forward(Samples[j].Split(',').First(), write);
                     Alpha.Forward(Samples[j].Split(',').First(), atnmem);
                     var F = net.Forward(atnmem.attention, dropout, write, false);
 
@@ -84,7 +80,7 @@ namespace CC_Library.Predictions
                 desouts.WriteArray("Desired", write);
             }
             catch (Exception e) { e.OutputError(); }
-            //MFMem.Update(Samples.Count(), rate, net);
+            MFMem.Update(Samples.Count(), rate, net);
             Alpha.Update(AlphaRate, Samples.Count());
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
@@ -94,7 +90,6 @@ namespace CC_Library.Predictions
             net.Save();
             string Folder = "NeuralNets".GetMyDocs();
             Alpha.Save(Folder);
-            //a.Save();
             return results;
         }
     }

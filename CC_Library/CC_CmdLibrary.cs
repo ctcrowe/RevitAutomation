@@ -16,6 +16,15 @@ namespace CC_Library
     public delegate string WriteToCMDLine(string s);
     public static class CMDLibrary
     {
+        public static double[,] Divide(this double[,] x, double divisor)
+        {
+            double[,] y = new double[x.GetLength(0), x.GetLength(1)];
+            Parallel.For(0, x.GetLength(0), i =>
+            {
+                Parallel.For(0, x.GetLength(1), j => y[i, j] = x[i, j] / divisor);
+            });
+            return y;
+        }
         public static double[] SumRange(this double[,] x)
         {
             double[] y = new double[x.GetLength(1)];
@@ -371,16 +380,6 @@ namespace CC_Library
             for(int i = 0; i < X.Count(); i++)
             {
                 X[i] += Y[i];
-            }
-        }
-        public static void Divide(this double[,] X, double Y)
-        {
-            for (int i = 0; i < X.GetLength(0); i++)
-            {
-                for (int j = 0; j < X.GetLength(1); j++)
-                {
-                    X[i, j] /= Y;
-                }
             }
         }
         public static void Divide(this double[] X, double Y)

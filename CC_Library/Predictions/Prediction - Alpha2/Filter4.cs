@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
     [Serializable]
     internal class AlphaAttn
     {
-        public const int size = 20;
+        public const int size = 300;
         public const int Radius = 1;
         private const double rate = 0.1;
 
@@ -38,7 +38,11 @@ namespace CC_Library.Predictions
             try { mem.K = mem.input.Dot(Keys); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
             try { mem.V = mem.input.Dot(Values); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 
-            try { mem.scores = mem.Q.Dot(mem.K.Transpose()); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
+            try {
+                mem.scores = mem.Q.Dot(mem.K.Transpose());//Size should be s.Length, s.Length
+                mem.scores = mem.scores.Divide(Math.Sqrt(size));
+            }
+            catch (Exception e) { e.OutputError(); }
             try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
             try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 
