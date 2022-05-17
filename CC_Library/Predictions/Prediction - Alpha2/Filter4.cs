@@ -12,9 +12,10 @@ using CC_Library.Predictions;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class AlphaAttn
+    internal class Transformer1 : IAlphaTransformer
     {
-        public const int size = 100;
+        public const string Name = "Transformer1";
+        public const int Size = 100;
         public const int Radius = 1;
         private const double rate = 0.1;
 
@@ -23,11 +24,11 @@ namespace CC_Library.Predictions
         public double[,] Values { get; set; }
         public AlphaAttn()
         {
-            this.Queries = new double[CharSet.CharCount * (1 + (2 * Radius)), size];
+            this.Queries = new double[CharSet.CharCount * (1 + (2 * Radius)), Size];
             this.Queries.SetRandom();
-            this.Keys = new double[CharSet.CharCount * (1 + (2 * Radius)), size];
+            this.Keys = new double[CharSet.CharCount * (1 + (2 * Radius)), Size];
             this.Keys.SetRandom();
-            this.Values = new double[CharSet.CharCount * (1 + (2 * Radius)), size];
+            this.Values = new double[CharSet.CharCount * (1 + (2 * Radius)), Size];
             this.Values.SetRandom();
         }
         public void Forward(string s, AttentionMem mem)
@@ -38,10 +39,7 @@ namespace CC_Library.Predictions
             try { mem.K = mem.input.Dot(Keys); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
             try { mem.V = mem.input.Dot(Values); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 
-            try {
-                mem.scores = mem.Q.Dot(mem.K.Transpose());//Size should be s.Length, s.Length
-                //mem.scores = mem.scores.Divide(Math.Sqrt(size));
-            }
+            try { mem.scores = mem.Q.Dot(mem.K.Transpose());//Size should be s.Length, s.Length }
             catch (Exception e) { e.OutputError(); }
             try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
             try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
@@ -135,9 +133,9 @@ namespace CC_Library.Predictions
 
         public AttentionChange()
         {
-            this.Q = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.size];
-            this.K = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.size];
-            this.V = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.size];
+            this.Q = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.Size];
+            this.K = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.Size];
+            this.V = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.Size];
         }
     }
     internal class AttentionMem
