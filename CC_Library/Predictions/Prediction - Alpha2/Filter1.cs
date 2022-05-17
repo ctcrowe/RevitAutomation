@@ -9,6 +9,7 @@ using CC_Library.Predictions;
 
 namespace CC_Library.Predictions
 {
+/*
     [Serializable]
     internal class AlphaFilter1 : IAlphaFilter
     {
@@ -122,4 +123,5 @@ namespace CC_Library.Predictions
             });
         }
     }
+*/
 }
