@@ -87,9 +87,6 @@ namespace CC_Library.Predictions
             Queries.Update(change.Q, -1 * rate / Count);
             Keys.Update(change.K, -1 * rate / Count);
             Values.Update(change.V, -1 * rate / Count);
-           // Queries.SumRange().WriteArray("Queries", write);
-            //Keys.SumRange().WriteArray("Keys", write);
-            //Values.SumRange().WriteArray("Values", write);
         }
         public static AlphaAttn Load(WriteToCMDLine write)
         {
