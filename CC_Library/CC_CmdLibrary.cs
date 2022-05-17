@@ -32,7 +32,7 @@ namespace CC_Library
             {
                 Parallel.For(0, x.GetLength(1), i =>
                 {
-                    y[i] += x[j, i];
+                    y[i] += x[j, i] / x.GetLength(0);
                 });
             });
             return y;
@@ -49,7 +49,7 @@ namespace CC_Library
                 });
             });
         }
-        public static void Update(this double[,] set, double[,] dvalues, double rate)
+        public static void Update(this double[,] set, double[,] dvalues, double rate, double L1Regularization = 1e-4, double L2Regularization = 1e-4)
         {
             if (set.GetLength(0) != dvalues.GetLength(0) || set.GetLength(1) != dvalues.GetLength(1))
             {
@@ -367,13 +367,10 @@ namespace CC_Library
         }
         public static void Add(this double[,] X, double[,] Y)
         {
-            for(int i = 0; i < X.GetLength(0); i++)
+            Parallel.For(0, X.GetLength(0), i =>
             {
-                for(int j = 0; j < X.GetLength(1); j++)
-                {
-                    X[i, j] += Y[i, j];
-                }
-            }
+                Parallel.For(0, X.GetLength(1), j => X[i, j] += Y[i, j]);
+            });
         }
         public static void Add(this double[] X, double[] Y)
         {

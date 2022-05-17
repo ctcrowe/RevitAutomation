@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
     [Serializable]
     internal class AlphaAttn
     {
-        public const int size = 300;
+        public const int size = 50;
         public const int Radius = 1;
         private const double rate = 0.1;
 
@@ -40,13 +40,13 @@ namespace CC_Library.Predictions
 
             try {
                 mem.scores = mem.Q.Dot(mem.K.Transpose());//Size should be s.Length, s.Length
-                mem.scores = mem.scores.Divide(Math.Sqrt(size));
+                //mem.scores = mem.scores.Divide(Math.Sqrt(size));
             }
             catch (Exception e) { e.OutputError(); }
             try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
             try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 
-            try { mem.attention = mem.attn.SumRange(); } catch (Exception e) { e.OutputError(); } //Size should be size
+            try { mem.attention = mem.attn.SumRange();} catch (Exception e) { e.OutputError(); } //Size should be size
         }
         public void Backward(AttentionMem mem, AttentionChange change, double[] dvals) //dvals Size is always size
         {
@@ -61,15 +61,18 @@ namespace CC_Library.Predictions
             var DQ = mem.input.Transpose().Dot(Qdvals); //this needs to be CharCount * diameter, size
             var DK = mem.input.Transpose().Dot(Kdvals);
 
-            change.Q.Update(DQ, 1); 
-            change.K.Update(DK, 1);
-            change.V.Update(DV, 1);
+            change.Q.Add(DQ); 
+            change.K.Add(DK);
+            change.V.Add(DV);
         }
-        public void Update(AttentionChange change, int Count)
+        public void Update(AttentionChange change, int Count, WriteToCMDLine write)
         {
-            Queries.Update(change.Q, -1 * rate * Count);
-            Keys.Update(change.K, -1 * rate * Count);
-            Values.Update(change.V, -1 * rate * Count);
+            Queries.Update(change.Q, -1 * rate / Count);
+            Keys.Update(change.K, -1 * rate / Count);
+            Values.Update(change.V, -1 * rate / Count);
+           // Queries.SumRange().WriteArray("Queries", write);
+            //Keys.SumRange().WriteArray("Keys", write);
+            //Values.SumRange().WriteArray("Values", write);
         }
         public static AlphaAttn Load(WriteToCMDLine write)
         {
