@@ -31,21 +31,6 @@ namespace CC_Library.Predictions
             this.Values = new double[CharSet.CharCount * (1 + (2 * Radius)), Size];
             this.Values.SetRandom();
         }
-        public void Forward(string s, AttentionMem mem)
-        {
-            mem.input = s.Locate(Radius); //Size should be s.Length, CharCount * Diameter
-
-            try { mem.Q = mem.input.Dot(Queries); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
-            try { mem.K = mem.input.Dot(Keys); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
-            try { mem.V = mem.input.Dot(Values); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
-
-            try { mem.scores = mem.Q.Dot(mem.K.Transpose());//Size should be s.Length, s.Length }
-            catch (Exception e) { e.OutputError(); }
-            try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
-            try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
-
-            try { mem.attention = mem.attn.SumRange();} catch (Exception e) { e.OutputError(); } //Size should be size
-        }
         public double[] Forward(string s)
         {
             var input = s.Locate(Radius); //Size should be s.Length, CharCount * Diameter
@@ -64,6 +49,21 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
             return output;
+        }
+        public void Forward(string s, AttentionMem mem)
+        {
+            mem.input = s.Locate(Radius); //Size should be s.Length, CharCount * Diameter
+
+            try { mem.Q = mem.input.Dot(Queries); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
+            try { mem.K = mem.input.Dot(Keys); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
+            try { mem.V = mem.input.Dot(Values); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
+
+            try { mem.scores = mem.Q.Dot(mem.K.Transpose());//Size should be s.Length, s.Length }
+            catch (Exception e) { e.OutputError(); }
+            try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
+            try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
+
+            try { mem.attention = mem.attn.SumRange();} catch (Exception e) { e.OutputError(); } //Size should be size
         }
         public void Backward(AttentionMem mem, AttentionChange change, double[] dvals) //dvals Size is always size
         {
