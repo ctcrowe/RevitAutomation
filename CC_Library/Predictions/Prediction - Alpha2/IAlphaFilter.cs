@@ -2,8 +2,8 @@
 {
     internal interface IAlphaTransformer
     {
-        public string name {get; set;}
-        public int size {get; set;}
+        public string Name {get; set;}
+        public int Size {get; set;}
         public double[,] Queries { get; set; }
         public double[,] Keys { get; set; }
         public double[,] Values { get; set; }
