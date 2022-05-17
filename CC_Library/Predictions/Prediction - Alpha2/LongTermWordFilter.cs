@@ -9,6 +9,7 @@ using CC_Library.Predictions;
 
 namespace CC_Library.Predictions
 {
+/*
     [Serializable]
     internal class LongTermWordFilter// : IAlphaFilter
     {
@@ -96,4 +97,5 @@ namespace CC_Library.Predictions
             });
         }
     }
+*/
 }
