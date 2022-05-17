@@ -7,7 +7,7 @@ namespace CC_Library.Predictions
 {
     internal static class ReadWriteAlphaFilter
     {
-        public static void Save(this IAlphaFilter filter, string Folder)
+        public static void Save(this IAlphaTransformer filter, string Folder)
         {
             string FileName = Folder + "\\" + filter.Name + ".bin";
             WriteToBinaryFile(FileName, filter, true);
@@ -28,7 +28,7 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static IAlphaFilter LoadAlpha(this IAlphaFilter Filter, WriteToCMDLine write)
+        public static IAlphaTransformer LoadAlpha(this IAlphaTransformer Filter, WriteToCMDLine write)
         {
             string fn = Filter.Name;
             fn += ".bin";
@@ -40,7 +40,7 @@ namespace CC_Library.Predictions
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
                     write("Filter read from My Docs");
-                    return ReadFromBinaryFile<IAlphaFilter>(doc);
+                    return ReadFromBinaryFile<IAlphaTransformer>(doc);
                 }
             }
             var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
@@ -51,7 +51,7 @@ namespace CC_Library.Predictions
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                     write("Filter Read from Assembly");
-                    return (IAlphaFilter)binaryFormatter.Deserialize(stream);
+                    return (IAlphaTransformer)binaryFormatter.Deserialize(stream);
                 }
             }
                           
