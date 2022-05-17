@@ -14,7 +14,7 @@ namespace CC_Library.Predictions
     [Serializable]
     internal class AlphaAttn
     {
-        public const int size = 50;
+        public const int size = 100;
         public const int Radius = 1;
         private const double rate = 0.1;
 
