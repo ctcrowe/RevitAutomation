@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace CC_Library.Predictions
 {
-    internal static class ReadWriteAlphaFilter
+    internal static class ReadWriteAlphaXfmr
     {
         public static void Save(this IAlphaTransformer filter, string Folder)
         {
