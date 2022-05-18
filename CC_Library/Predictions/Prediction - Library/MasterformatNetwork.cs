@@ -14,11 +14,10 @@ namespace CC_Library.Predictions
         {
             //Alpha2 a = new Alpha2(CMDLibrary.WriteNull);
             NeuralNetwork net = datatype.LoadNetwork(write);
-            Transformer1 t1 = new Transformer1();
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(300, t1.Size, Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(300, 400, Activation.LRelu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 // net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 //net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
@@ -48,7 +47,7 @@ namespace CC_Library.Predictions
         {
             var results = new double[2];
             NeuralNetwork net = GetNetwork(write);
-            var Alpha = new Transformer1();
+            var Alpha = "XfmrAlpha1".LoadAlpha(400, write);
             var AlphaRate = new AttentionChange(Alpha);
             NetworkMem MFMem = new NetworkMem(net);
 
@@ -73,7 +72,6 @@ namespace CC_Library.Predictions
                     results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
 
                     var DValues = net.Backward(F, DesiredOutput, MFMem, write);
-                    //a.Backward(DValues, output.Value, am, write, j == 0);
                     Alpha.Backward(atnmem, AlphaRate, DValues);
                 });
                 alpharesults.WriteArray("Alpha Results", write);

@@ -7,7 +7,7 @@ namespace CC_Library.Predictions
 {
     internal static class ReadWriteAlphaXfmr
     {
-        public static void Save(this IAlphaTransformer filter, string Folder)
+        public static void Save(this Transformer filter, string Folder)
         {
             string FileName = Folder + "\\" + filter.Name + ".bin";
             WriteToBinaryFile(FileName, filter, true);
@@ -28,9 +28,9 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static IAlphaTransformer LoadAlpha(this IAlphaTransformer Filter, WriteToCMDLine write)
+        public static Transformer LoadAlpha(this string _name, int size, WriteToCMDLine write)
         {
-            string fn = Filter.Name;
+            string fn = _name;
             fn += ".bin";
             string Folder = "NeuralNets".GetMyDocs();
             if (Directory.Exists(Folder))
@@ -40,7 +40,7 @@ namespace CC_Library.Predictions
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
                     write("Filter read from My Docs");
-                    return ReadFromBinaryFile<IAlphaTransformer>(doc);
+                    return ReadFromBinaryFile<Transformer>(doc);
                 }
             }
             var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
@@ -51,12 +51,12 @@ namespace CC_Library.Predictions
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                     write("Filter Read from Assembly");
-                    return (IAlphaTransformer)binaryFormatter.Deserialize(stream);
+                    return (Transformer)binaryFormatter.Deserialize(stream);
                 }
             }
                           
             write("Filter " + fn + " Not Found. New Filter Created");
-            return Filter;
+            return new Transformer(_name, size);
         }
     }
 }

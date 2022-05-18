@@ -9,11 +9,11 @@ namespace CC_Library.Predictions
 {
     internal class Alpha2
     {
-        private List<IAlphaTransformer> Transformers { get; }
+        private List<Transformer> Xfmrs { get; }
         internal Alpha2(WriteToCMDLine write)
         {
-            this.Transformers = new List<IAlphaTransformer>();
-            Transformers.Add(new Transformer1());
+            this.Xfmrs = new List<Transformer>();
+            Xfmrs.Add("XfmrAlpha1".LoadAlpha(400, write));
             //Filters.Add(new AlphaFilter3(write));
             //Filters.Add(new WordFilter(write));
             //Filters.Add(new WordFilter2(write));
@@ -21,9 +21,9 @@ namespace CC_Library.Predictions
         public int GetSize()
         {
             int size = 0;
-            for (int i = 0; i < Transformers.Count(); i++)
+            for (int i = 0; i < Xfmrs.Count(); i++)
             {
-                size += Transformers[i].Size;
+                size += Xfmrs[i].Size;
             }
             return size;
         }
@@ -32,21 +32,17 @@ namespace CC_Library.Predictions
             string Folder = "NeuralNets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            Parallel.For(0, this.Transformers.Count(), i => this.Transformers[i].Save(Folder));
-        }
-        public void Load(WriteToCMDLine write)
-        {
-            Parallel.For(0, this.Transformers.Count(), i => this.Transformers[i] = this.Transformers[i].LoadAlpha(write));
+            Parallel.For(0, this.Xfmrs.Count(), i => this.Xfmrs[i].Save(Folder));
         }
         public AttentionMem[] Forward(string s, WriteToCMDLine write)
         {
-            AttentionMem[] result = new AttentionMem[Transformers.Count()];
+            AttentionMem[] result = new AttentionMem[Xfmrs.Count()];
             try
             {
-                for (int i = 0; i < Transformers.Count(); i++)
+                for (int i = 0; i < Xfmrs.Count(); i++)
                 {
                     result[i] = new AttentionMem();
-                    Transformers[i].Forward(s, result[i]);
+                    Xfmrs[i].Forward(s, result[i]);
                 }
             }
             catch (Exception e) { e.OutputError(); }
@@ -57,11 +53,11 @@ namespace CC_Library.Predictions
             var start = 0;
             try
             {
-                for (int i = 0; i < Transformers.Count(); i++)
+                for (int i = 0; i < Xfmrs.Count(); i++)
                 {
-                    var dvals = DValues.ToList().GetRange(start, Transformers[i].Size).ToArray();
-                    Transformers[i].Backward(outputs[i], change[i], dvals);
-                    start += Transformers[i].Size;
+                    var dvals = DValues.ToList().GetRange(start, Xfmrs[i].Size).ToArray();
+                    Xfmrs[i].Backward(outputs[i], change[i], dvals);
+                    start += Xfmrs[i].Size;
                 }
             }
             catch (Exception e) { e.OutputError(); }
