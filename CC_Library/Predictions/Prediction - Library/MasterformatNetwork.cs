@@ -12,7 +12,6 @@ namespace CC_Library.Predictions
         public static Datatype datatype { get { return Datatype.Masterformat; } }
         public static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
-            //Alpha2 a = new Alpha2(CMDLibrary.WriteNull);
             NeuralNetwork net = datatype.LoadNetwork(write);
             if (net.Datatype == Datatype.None)
             {
@@ -29,18 +28,14 @@ namespace CC_Library.Predictions
         public static double[] Predict(string s, WriteToCMDLine write)
         {
             return null;
-            /*
             NeuralNetwork net = GetNetwork(write);
-            //Alpha2 a = new Alpha2(write);
-            //a.Load(write);
-            //double[] Results = a.Forward(s, write).Key;
-            //Results.WriteArray("Alpha Results : ", write);
+            var Alpha = "XfmrAlpha1".LoadAlpha(400, write);
+            double[] Results = Alpha.Forward(s);
             for(int i = 0; i < net.Layers.Count(); i++)
             {
                 Results = net.Layers[i].Output(Results);
             }
             return Results;
-            */
         }
         public static double[] Propogate
             (string[] Samples, WriteToCMDLine write, bool tf = false)
