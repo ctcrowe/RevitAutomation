@@ -14,15 +14,15 @@ namespace CC_Library.Predictions
     [Serializable]
     internal class Transformer1 : IAlphaTransformer
     {
-        public const string Name = "Transformer1";
-        public const int Size = 100;
+        public string Name { get { return "Transformer1"; } }
+        public int Size { get { return 400; } }
         public const int Radius = 1;
         private const double rate = 0.1;
 
         public double[,] Queries { get; set; }
         public double[,] Keys { get; set; }
         public double[,] Values { get; set; }
-        public AlphaAttn()
+        public Transformer1()
         {
             this.Queries = new double[CharSet.CharCount * (1 + (2 * Radius)), Size];
             this.Queries.SetRandom();
@@ -42,10 +42,10 @@ namespace CC_Library.Predictions
                 var K = input.Dot(Keys); //Size should be s.Length, size
                 var V = input.Dot(Values); //Size should be s.Length, size
 
-                var scores = Q.Dot(mem.K.Transpose()); //Size should be s.Length, s.Length
+                var scores = Q.Dot(K.Transpose()); //Size should be s.Length, s.Length
                 var weights = Activations.SoftMax( scores); //Size should be s.Length, s.Length
                 var attn = weights.Dot(V);  //Size should be s.Length, size
-                output = mem.attn.SumRange();
+                output = attn.SumRange();
             }
             catch (Exception e) { e.OutputError(); }
             return output;
@@ -58,7 +58,7 @@ namespace CC_Library.Predictions
             try { mem.K = mem.input.Dot(Keys); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
             try { mem.V = mem.input.Dot(Values); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 
-            try { mem.scores = mem.Q.Dot(mem.K.Transpose());//Size should be s.Length, s.Length }
+            try { mem.scores = mem.Q.Dot(mem.K.Transpose()); }//Size should be s.Length, s.Length
             catch (Exception e) { e.OutputError(); }
             try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
             try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
@@ -88,58 +88,6 @@ namespace CC_Library.Predictions
             Keys.Update(change.K, -1 * rate / Count);
             Values.Update(change.V, -1 * rate / Count);
         }
-        public static AlphaAttn Load(WriteToCMDLine write)
-        {
-            string fn = "AlphaAttention";
-            fn += ".bin";
-            string Folder = "NeuralNets".GetMyDocs();
-            if (Directory.Exists(Folder))
-            {
-                string[] Files = Directory.GetFiles(Folder);
-                if (Files.Any(x => x.Contains(fn)))
-                {
-                    var doc = Files.Where(x => x.Contains(fn)).First();
-                    write("Filter read from My Docs");
-                    return ReadFromBinaryFile<AlphaAttn>(doc);
-                }
-            }
-            var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
-            if (assembly.GetManifestResourceNames().Any(x => x.Contains(fn)))
-            {
-                string name = assembly.GetManifestResourceNames().Where(x => x.Contains(fn)).First();
-                using (Stream stream = assembly.GetManifestResourceStream(name))
-                {
-                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                    write("Filter Read from Assembly");
-                    return (AlphaAttn)binaryFormatter.Deserialize(stream);
-                }
-            }
-
-            write("Alpha Attention Not Found. New Filter Created");
-            return new AlphaAttn();
-        }
-
-        public void Save(string Folder)
-        {
-            string FileName = Folder + "\\AlphaAttention.bin";
-            WriteToBinaryFile(FileName, this, true);
-        }
-        private static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
-        {
-            using (Stream stream = File.Create(filePath))
-            {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                binaryFormatter.Serialize(stream, objectToWrite);
-            }
-        }
-        private static AlphaAttn ReadFromBinaryFile<T>(string filePath)
-        {
-            using (Stream stream = File.Open(filePath, FileMode.Open))
-            {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (AlphaAttn)binaryFormatter.Deserialize(stream);
-            }
-        }
     }
     internal class AttentionChange
     {
@@ -147,11 +95,11 @@ namespace CC_Library.Predictions
         public double[,] K;
         public double[,] V;
 
-        public AttentionChange()
+        public AttentionChange(IAlphaTransformer xfmr)
         {
-            this.Q = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.Size];
-            this.K = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.Size];
-            this.V = new double[CharSet.CharCount * (1 + (2 * AlphaAttn.Radius)), AlphaAttn.Size];
+            this.Q = new double[CharSet.CharCount * 3, xfmr.Size];
+            this.K = new double[CharSet.CharCount * 3, xfmr.Size];
+            this.V = new double[CharSet.CharCount * 3, xfmr.Size];
         }
     }
     internal class AttentionMem

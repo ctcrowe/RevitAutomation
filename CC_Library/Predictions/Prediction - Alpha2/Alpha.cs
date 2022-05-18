@@ -13,7 +13,7 @@ namespace CC_Library.Predictions
         internal Alpha2(WriteToCMDLine write)
         {
             this.Transformers = new List<IAlphaTransformer>();
-            Transformers.Add(new Transformer1(write));
+            Transformers.Add(new Transformer1());
             //Filters.Add(new AlphaFilter3(write));
             //Filters.Add(new WordFilter(write));
             //Filters.Add(new WordFilter2(write));
@@ -21,7 +21,7 @@ namespace CC_Library.Predictions
         public int GetSize()
         {
             int size = 0;
-            for (int i = 0; i < Filters.Count; i++)
+            for (int i = 0; i < Transformers.Count(); i++)
             {
                 size += Transformers[i].Size;
             }
@@ -32,73 +32,54 @@ namespace CC_Library.Predictions
             string Folder = "NeuralNets".GetMyDocs();
             if (!Directory.Exists(Folder))
                 Directory.CreateDirectory(Folder);
-            Parallel.For(0, this.Filters.Count(), i => this.Filters[i].Save(Folder));
+            Parallel.For(0, this.Transformers.Count(), i => this.Transformers[i].Save(Folder));
         }
         public void Load(WriteToCMDLine write)
         {
-            Parallel.For(0, this.Filters.Count(), i => this.Filters[i] = this.Filters[i].LoadAlpha(write));
+            Parallel.For(0, this.Transformers.Count(), i => this.Transformers[i] = this.Transformers[i].LoadAlpha(write));
         }
-        public NetworkMem[][] CreateMemory()
+        public AttentionMem[] Forward(string s, WriteToCMDLine write)
         {
-            //change mem from NetworkMem[,] to NetworkMem[Filters.Count()][];
-            NetworkMem[][] mem = new NetworkMem[Filters.Count()][];
+            AttentionMem[] result = new AttentionMem[Transformers.Count()];
             try
             {
-                Parallel.For(0, Filters.Count, j =>
-                             {
-                                 mem[j] = new NetworkMem[Filters[j].Networks.Count()];
-                                 for (int i = 0; i < Filters[j].Networks.Count(); i++)
-                                 {
-                                     mem[j][i] = new NetworkMem(Filters[j].Networks[i]);
-                                 }
-                             });
-            }
-            catch (Exception e) { e.OutputError(); }
-            return mem;
-        }
-        public KeyValuePair<double[], List<double[][][][][]>> Forward(string s, WriteToCMDLine write)
-        {
-            List<double[][][][][]> output = new List<double[][][][][]>();
-            List<double> fin = new List<double>();
-            try
-            {
-                for (int i = 0; i < Filters.Count(); i++)
+                for (int i = 0; i < Transformers.Count(); i++)
                 {
-                    output.Add(Transformers[i].Forward(s));
-                    fin.AddRange(output.Last().Last().Last().Last().Last());
+                    result[i] = new AttentionMem();
+                    Transformers[i].Forward(s, result[i]);
                 }
             }
             catch (Exception e) { e.OutputError(); }
-            return new KeyValuePair<double[], List<double[][][][][]>>(fin.ToArray(), output);
+            return result;
         }
-        public void Backward(double[] DValues, List<double[][][][][]> outputs, NetworkMem[][] mem, WriteToCMDLine write, bool tf = false)
+        public void Backward(double[] DValues, AttentionMem[] outputs, AttentionChange[] change, WriteToCMDLine write, bool tf = false)
         {
             var start = 0;
             try
             {
-                for (int i = 0; i < Filters.Count(); i++)
+                for (int i = 0; i < Transformers.Count(); i++)
                 {
-                    var size = Filters[i].GetSize();
-                    var dvals = DValues.ToList().GetRange(start, size).ToArray();
-                    Filters[i].Backward(dvals, /*am[i]*/outputs[i], mem[i], write, tf);
-                    start += size;
+                    var dvals = DValues.ToList().GetRange(start, Transformers[i].Size).ToArray();
+                    Transformers[i].Backward(outputs[i], change[i], dvals);
+                    start += Transformers[i].Size;
                 }
             }
             catch (Exception e) { e.OutputError(); }
         }
         public void Update(NetworkMem[][] mem, int runsize = 16)
         {
+            /*
             try
             {
-                Parallel.For(0, Filters.Count, j =>
+                Parallel.For(0, Transformers.Count, j =>
                 {
-                    for (int i = 0; i < Filters[j].Networks.Count(); i++)
+                    for (int i = 0; i < Transformers[j].Networks.Count(); i++)
                     {
-                        mem[j][i].Update(runsize, Filters[j].GetChangeSize(), Filters[j].Networks[i]);
+                        mem[j][i].Update(runsize, 0.1, Transformers[j].Networks[i]);
                     }
                 });
             }
-            catch (Exception e) { e.OutputError(); }
+            catch (Exception e) { e.OutputError(); }*/
         }
     }
 }

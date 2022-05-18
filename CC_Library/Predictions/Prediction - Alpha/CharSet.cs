@@ -115,17 +115,6 @@ namespace CC_Library.Predictions
             Parallel.For(0, imax, i => result[(i * CharCount) + LocationOf(chars[numb + i])] = 1);
             return result;
         }
-        public static List<double[]> LocateWords(this string s, List<double[]> results, int range, int numb = 0, NeuralNetwork net = null)
-        {
-            net = net == null ? Predictionary.GetNetwork(CMDLibrary.WriteNull) : net;
-            double[] result = new double[CharCount * (1 + range)];
-            string a = s.ToUpper();
-            char[] chars = a.ToCharArray();
-            var fin = Predictionary.Output(s, numb, net).ToCharArray();
-            Parallel.For(0, fin.Count(), j => result[(j * CharCount) + LocationOf(fin[j])] = 1);
-            results.Add(result);
-            return numb + fin.Length < s.Length - 1 ? s.LocateWords(results, range, numb + fin.Length, net) : results;
-        }
         public static double[] LocateScrabble(this string s, int numb, int range)
         {
             double[] result = new double[((2 * range) + 1)];
