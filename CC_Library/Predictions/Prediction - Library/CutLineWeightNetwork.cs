@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace CC_Library.Predictions
 {
+    /*
     class CutLineWeightNetwork
     {
         private const double dropout = 0.1;
@@ -81,4 +82,5 @@ namespace CC_Library.Predictions
             return results;
         }
     }
+    */
 }

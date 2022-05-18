@@ -14,10 +14,11 @@ namespace CC_Library.Predictions
         {
             //Alpha2 a = new Alpha2(CMDLibrary.WriteNull);
             NeuralNetwork net = datatype.LoadNetwork(write);
+            Transformer1 t1 = new Transformer1();
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(300, AlphaAttn.size, Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(300, t1.Size, Activation.LRelu, 1e-5, 1e-5));
                 net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 // net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 //net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
@@ -47,8 +48,8 @@ namespace CC_Library.Predictions
         {
             var results = new double[2];
             NeuralNetwork net = GetNetwork(write);
-            var Alpha = AlphaAttn.Load(write);
-            var AlphaRate = new AttentionChange();
+            var Alpha = new Transformer1();
+            var AlphaRate = new AttentionChange(Alpha);
             NetworkMem MFMem = new NetworkMem(net);
 
             try
