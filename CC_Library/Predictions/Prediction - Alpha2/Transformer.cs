@@ -73,8 +73,9 @@ namespace CC_Library.Predictions
 
                 var scores = Q.Dot(K.Transpose()); //Size should be s.Length, s.Length
                 var weights = Activations.SoftMax(scores); //Size should be s.Length, s.Length
-                var attn = weights.Dot(V);  //Size should be s.Length, size
-                output = attn.SumRange();
+                var attn = weights.Dot(V); //Size should be s.Length, size
+
+                output = attn.SumRange(); //Size should be size
             }
             catch (Exception e) { e.OutputError(); }
             return output;
