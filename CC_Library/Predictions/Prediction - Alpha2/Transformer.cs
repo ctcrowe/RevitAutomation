@@ -49,7 +49,7 @@ namespace CC_Library.Predictions
             var Vdvals = mem.weights.Transpose().Dot(atndvals); //returns a vector [size, s.Length] - changed to [s.Length, size]
             var DV = mem.input.Transpose().Dot(Vdvals); //size is CharCount * diameter, size
 
-            var dweights = atndvals.Dot(mem.V.Transpose()); // Size of this is s.Length, s.Length
+            var dweights = mem.V.Dot(atndvals.Transpose()); // Size of this is s.Length, s.Length
             dweights = Activations.InverseSoftMax(dweights, mem.weights); // Size of this is s.Length, s.Length
             var Qdvals = dweights.Transpose().Dot(mem.K); //size is s.Length, size
             var Kdvals = dweights.Dot(mem.Q); //size is s.Length, size
