@@ -74,16 +74,10 @@
     <Compile Include="Predictions\CreateEmbed.cs" />
     <Compile Include="Predictions\ErrorProcessing\DActivationArrays.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\Alpha.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Filter4.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Predictionary.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Filter3.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\LongTermWordFilter.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\WordFilter - Copy.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\WordFilter.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Filter1.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\IAlphaFilter.cs" />
+    <Compile Include="Predictions\Prediction - Alpha2\Transformer.cs" />
     <Compile Include="Predictions\Prediction - Alpha2\AlphaIO.cs" />
     <Compile Include="Predictions\Prediction - Library\CommandNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\MasterformatNetwork - Copy.cs" />
     <Compile Include="Predictions\Prediction - Library\UniformatNetwork.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
@@ -130,11 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Predictions\BinaryFiles\" />
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include="Predictions\Prediction - Alpha2\WordInterpretation.txt.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

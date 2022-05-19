@@ -5,14 +5,14 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    public static class MasterformatNetwork
+    public static class MasterformatNetwork2
     {
         private const double dropout = 0.1;
         private const double rate = 0.1;
         public static Datatype datatype { get { return Datatype.Masterformat; } }
-        
         public static NeuralNetwork GetNetwork(WriteToCMDLine write)
         {
+            //Alpha2 a = new Alpha2(CMDLibrary.WriteNull);
             NeuralNetwork net = datatype.LoadNetwork(write);
             if (net.Datatype == Datatype.None)
             {
@@ -26,27 +26,30 @@ namespace CC_Library.Predictions
             }
             return net;
         }
-        
         public static double[] Predict(string s, WriteToCMDLine write)
         {
-            return new double[40];
-            /*
             return null;
+            /*
             NeuralNetwork net = GetNetwork(write);
-            var Alpha = "XfmrAlpha1".LoadAlpha(400, write);
-            double[] Results = Alpha.Forward(s);
+            //Alpha2 a = new Alpha2(write);
+            //a.Load(write);
+            //double[] Results = a.Forward(s, write).Key;
+            //Results.WriteArray("Alpha Results : ", write);
             for(int i = 0; i < net.Layers.Count(); i++)
             {
                 Results = net.Layers[i].Output(Results);
             }
-            return Results;*/
+            return Results;
+            */
         }
         public static double[] Propogate
             (string[] Samples, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
-            var Alpha = "XfmrAlpha1".LoadAlpha(40, write);
+            NeuralNetwork net = GetNetwork(write);
+            var Alpha = "XfmrAlpha1".LoadAlpha(400, write);
             var AlphaRate = new AttentionChange(Alpha);
+            NetworkMem MFMem = new NetworkMem(net);
 
             try
             {
@@ -57,18 +60,18 @@ namespace CC_Library.Predictions
                 {
                     AttentionMem atnmem = new AttentionMem();
                     Alpha.Forward(Samples[j].Split(',').First(), atnmem);
-                    var F = Activations.SoftMax(atnmem.attention);
+                    var F = net.Forward(atnmem.attention, dropout, write, false);
 
                     alpharesults[j] = atnmem.attention.Sum();
-                    outputs[j] = F.ToList().IndexOf(F.Max());
+                    outputs[j] = F.Last()[0].ToList().IndexOf(F.Last()[0].Max());
                     desouts[j] = int.Parse(Samples[j].Split(',').Last());
 
                     var DesiredOutput = new double[40];
                     DesiredOutput[int.Parse(Samples[j].Split(',').Last())] = 1;
-                    results[0] += CategoricalCrossEntropy.Forward(F, DesiredOutput).Max();
-                    results[1] += F.ToList().IndexOf(F.Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
+                    results[0] += CategoricalCrossEntropy.Forward(F.Last()[0], DesiredOutput).Max();
+                    results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
 
-                    var DValues = Activations.InverseCombinedCrossEntropySoftmax(F, DesiredOutput);
+                    var DValues = net.Backward(F, DesiredOutput, MFMem, write);
                     Alpha.Backward(atnmem, AlphaRate, DValues);
                 });
                 alpharesults.WriteArray("Alpha Results", write);
@@ -76,14 +79,14 @@ namespace CC_Library.Predictions
                 desouts.WriteArray("Desired", write);
             }
             catch (Exception e) { e.OutputError(); }
-            //MFMem.Update(Samples.Count(), rate, net);
+            MFMem.Update(Samples.Count(), rate, net);
             Alpha.Update(AlphaRate, Samples.Count(), write);
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
 
             write("Run Error : " + results[0]);
             write("Run Accuracy : " + results[1]);
-            //net.Save();
+            net.Save();
             string Folder = "NeuralNets".GetMyDocs();
             Alpha.Save(Folder);
             return results;

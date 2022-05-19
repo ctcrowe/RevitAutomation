@@ -5,7 +5,7 @@ namespace CC_Library.Predictions
     [Serializable]
     internal class Transformer
     {
-        private const double Rate = 0.1;
+        private const double Rate = 0.01;
         public string Name { get; set; }
         public int Size {get;}
         public int Radius { get; }
@@ -46,13 +46,13 @@ namespace CC_Library.Predictions
         public void Backward(AttentionMem mem, AttentionChange change, double[] dvals) //dvals Size is always size
         {
             var atndvals = dvals.Dot(mem.attn.Ones()); //returns a vector [s.Length, size]
-            var Vdvals = atndvals.Transpose().Dot(mem.weights); //returns a vector [size, s.Length]
-            var DV = Vdvals.Dot(mem.input).Transpose(); //size is CharCount * diameter, size
+            var Vdvals = mem.weights.Transpose().Dot(atndvals); //returns a vector [size, s.Length] - changed to [s.Length, size]
+            var DV = mem.input.Transpose().Dot(Vdvals); //size is CharCount * diameter, size
 
             var dweights = atndvals.Dot(mem.V.Transpose()); // Size of this is s.Length, s.Length
             dweights = Activations.InverseSoftMax(dweights, mem.weights); // Size of this is s.Length, s.Length
-            var Qdvals = dweights.Dot(mem.K); //size is s.Length, size
-            var Kdvals = dweights.Transpose().Dot(mem.Q); //size is s.Length, size
+            var Qdvals = dweights.Transpose().Dot(mem.K); //size is s.Length, size
+            var Kdvals = dweights.Dot(mem.Q); //size is s.Length, size
             var DQ = mem.input.Transpose().Dot(Qdvals); //this needs to be CharCount * diameter, size
             var DK = mem.input.Transpose().Dot(Kdvals);
 
@@ -81,9 +81,9 @@ namespace CC_Library.Predictions
         }
         public void Update(AttentionChange change, int Count, WriteToCMDLine write)
         {
-            Queries.Update(change.Q, -1 * Rate / Count);
-            Keys.Update(change.K, -1 * Rate / Count);
-            Values.Update(change.V, -1 * Rate / Count);
+            Queries.Update(change.Q, Rate / Count);
+            Keys.Update(change.K, Rate / Count);
+            Values.Update(change.V, Rate / Count);
         }
     }
     internal class AttentionChange

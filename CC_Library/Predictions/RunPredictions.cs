@@ -62,6 +62,7 @@ namespace CC_Library.Predictions
                         Sample s = f.ReadFromBinaryFile<Sample>();
                         string datatype = s.Datatype;
                         */
+                        //var lines = finlines.Take(16).ToArray();
                         var lines = finlines.OrderBy(x => r.NextDouble()).Take(16).ToArray();
                         var error = MasterformatNetwork.Propogate(lines, write, true);
 
