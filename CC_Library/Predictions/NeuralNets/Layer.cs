@@ -67,12 +67,7 @@ namespace CC_Library.Predictions
             //if(Input.Any(x => double.IsNaN(x))) { throw new Exception("Inputs are NaN Values at Layer Number " + LayerNumb); }
             //if(Input.Any(x => x == null)) { throw new Exception("Inputs are null at Layer Number " + LayerNumb); }
             
-            double[] result = new double[Biases.Length];
-            Parallel.For(0, result.Count(), i =>
-            {
-                Parallel.For(0, Input.Count(), j => result[i] += Input[j] * Weights[i, j]);
-                result[i] += Biases[i];
-            });
+            var result = Weights.Dot(Input).Add(Biases);
             var func = Function.GetFunction();
             return func(result);
         }
