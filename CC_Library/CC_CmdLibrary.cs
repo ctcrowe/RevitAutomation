@@ -369,12 +369,15 @@ namespace CC_Library
                 Parallel.For(0, X.GetLength(1), j => X[i, j] += Y[i, j]);
             });
         }
-        public static void Add(this double[] X, double[] Y)
+        public static double[] Add(this double[] X, double[] Y)
         {
-            for(int i = 0; i < X.Count(); i++)
+            if (x.GetLength(0) != y.GetLength(0))
             {
-                X[i] += Y[i];
+                throw new Exception("Size Difference Exception");
             }
+            double[] Z = new double[X.GetLength(0);
+            Parallel.For(0, X.GetLength(0), j => Z[j] = X[j] + Y[j]);
+            return Z;
         }
         public static void Divide(this double[] X, double Y)
         {
