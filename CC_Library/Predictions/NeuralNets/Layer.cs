@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 for (int j = 0; j < WeightCount; j++)
                 {
                     this.Weights[i, j] = random.NextDouble() > 0.5 ? 
-                        random.NextDouble() / WeightCount : (-1 * random.NextDouble() / WeightCount);
+                        random.NextDouble() / Inputs : (-1 * random.NextDouble() / Inputs);
                 }
             }
         }
