@@ -226,14 +226,11 @@ namespace CC_Library
                 Console.WriteLine("Error, x Count was : " + x.GetLength(0) + ", " + x.GetLength(1) + ", y length is : " + y.GetLength(0));
                 throw new Exception("Element Null Exception");
             }
-            double[] z = new double[x.GetLength(1)];
-            for (int i = 0; i < x.GetLength(0); i++)
+            double[] z = new double[x.GetLength(0)];
+            Parallel.For(0, x.GetLength(0), j =>
             {
-                for (int j = 0; j < x.GetLength(1); j++)
-                {
-                    z[j] += x[i, j] * y[i];
-                }
-            }
+                Parallel.For(0, x.GetLength(1), i => z[j] += x[j, i] * y[i]);
+            });
             return z;
         }
         public static double[] Dot(this double[] x, double[] y)
