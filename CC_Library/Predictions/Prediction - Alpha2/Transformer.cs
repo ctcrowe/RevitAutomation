@@ -60,7 +60,7 @@ namespace CC_Library.Predictions
             change.K.Add(DK);
             change.V.Add(DV);
         }
-        double[] Forward(string s)
+        public double[] Forward(string s)
         {
             var input = s.Locate(Radius); //Size should be s.Length, CharCount * Diameter
             var output = new double[Size];

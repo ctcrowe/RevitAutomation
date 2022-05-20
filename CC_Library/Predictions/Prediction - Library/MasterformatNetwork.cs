@@ -29,23 +29,16 @@ namespace CC_Library.Predictions
         
         public static double[] Predict(string s, WriteToCMDLine write)
         {
-            return new double[40];
-            /*
-            return null;
-            NeuralNetwork net = GetNetwork(write);
-            var Alpha = "XfmrAlpha1".LoadAlpha(400, write);
-            double[] Results = Alpha.Forward(s);
-            for(int i = 0; i < net.Layers.Count(); i++)
-            {
-                Results = net.Layers[i].Output(Results);
-            }
-            return Results;*/
+            var Alpha = "MasterformatXfmr".LoadAlpha(40, write);
+            var output = Alpha.Forward(s);
+            output = Activations.SoftMax(output);
+            return output;
         }
         public static double[] Propogate
             (string[] Samples, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
-            var Alpha = "XfmrAlpha1".LoadAlpha(40, write);
+            var Alpha = "MasterformatXfmr".LoadAlpha(40, write);
             var AlphaRate = new AttentionChange(Alpha);
 
             try
