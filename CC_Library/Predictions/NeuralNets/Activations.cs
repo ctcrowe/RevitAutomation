@@ -255,10 +255,7 @@ namespace CC_Library.Predictions
         {
             double[] dinputs = new double[dvalues.Count()];
             int max = dvalues.ToList().IndexOf(dvalues.Max());
-            for (int i = 0; i < dinputs.Count(); i++)
-            {
-                dinputs[i] = outputs[i];
-            }
+            Parallel.For(0, dinputs.Count(), i => dinputs[i] = outputs[i]);
             dinputs[max] -= 1;
             return dinputs;
         }

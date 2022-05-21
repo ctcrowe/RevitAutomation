@@ -4,7 +4,7 @@ using System.Linq;
 using System.IO;
 using CC_Library.Datatypes;
 using System.Threading.Tasks;
-
+/*
 namespace CC_Library.Predictions
 {
     public class CmdNetwork
@@ -132,3 +132,4 @@ namespace CC_Library.Predictions
         }
     }
 }
+*/

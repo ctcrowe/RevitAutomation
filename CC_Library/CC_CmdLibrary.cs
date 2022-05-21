@@ -371,11 +371,11 @@ namespace CC_Library
         }
         public static double[] Add(this double[] X, double[] Y)
         {
-            if (x.GetLength(0) != y.GetLength(0))
+            if (X.GetLength(0) != Y.GetLength(0))
             {
                 throw new Exception("Size Difference Exception");
             }
-            double[] Z = new double[X.GetLength(0);
+            double[] Z = new double[X.GetLength(0)];
             Parallel.For(0, X.GetLength(0), j => Z[j] = X[j] + Y[j]);
             return Z;
         }

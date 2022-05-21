@@ -73,9 +73,9 @@
     <Compile Include="Patterns\HerringbonePattern.cs" />
     <Compile Include="Predictions\CreateEmbed.cs" />
     <Compile Include="Predictions\ErrorProcessing\DActivationArrays.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Alpha.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\Transformer.cs" />
-    <Compile Include="Predictions\Prediction - Alpha2\AlphaIO.cs" />
+    <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
+    <Compile Include="Predictions\Prediction - Alpha\Transformer.cs" />
+    <Compile Include="Predictions\Prediction - Alpha\AlphaIO.cs" />
     <Compile Include="Predictions\Prediction - Library\CommandNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork - Copy.cs" />
     <Compile Include="Predictions\Prediction - Library\UniformatNetwork.cs" />
@@ -86,13 +86,9 @@
     <Compile Include="Predictions\NeuralNets\Layer.cs" />
     <Compile Include="Predictions\NeuralNets\LayerStorage.cs" />
     <Compile Include="Predictions\NeuralNets\Network.cs" />
-    <Compile Include="Predictions\NeuralNets\Networks.cs" />
     <Compile Include="Predictions\NeuralNets\NeuralNetIO.cs" />
     <Compile Include="Predictions\NeuralNets\OutputStor.cs" />
-    <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
-    <Compile Include="Predictions\Prediction - Alpha\AlphaMem.cs" />
     <Compile Include="Predictions\Prediction - Alpha\CharSet.cs" />
-    <Compile Include="Predictions\Prediction - Alpha\LocalContext.cs" />
     <Compile Include="Predictions\Prediction - Library\CategoryVisNetwork.cs" />
     <Compile Include="Predictions\StonkPrediction\AAPLNetwork.cs" />
     <Compile Include="Predictions\StonkPrediction\StonkValues.cs" />

@@ -1,61 +1,81 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CC_Library.Datatypes;
+using System.Collections.Generic;
+using System.IO;
 
 namespace CC_Library.Predictions
 {
-    internal class Alpha
+    internal class Alpha2
     {
-        internal Alpha(WriteToCMDLine write)
+        private List<Transformer> Xfmrs { get; }
+        internal Alpha2(WriteToCMDLine write)
         {
-            Network = Datatype.Alpha.LoadNetwork(write);
-            if(Network.Datatype == Datatype.None)
+            this.Xfmrs = new List<Transformer>();
+            Xfmrs.Add("XfmrAlpha1".LoadAlpha(400, write));
+            //Filters.Add(new AlphaFilter3(write));
+            //Filters.Add(new WordFilter(write));
+            //Filters.Add(new WordFilter2(write));
+        }
+        public int GetSize()
+        {
+            int size = 0;
+            for (int i = 0; i < Xfmrs.Count(); i++)
             {
-                Network = new NeuralNetwork(Datatype.Alpha);
-                Network.Layers.Add(new Layer(DictSize, ((2 * SearchRange) + 1) * CharSet.CharCount, Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.LRelu, 1e-5, 1e-5));
-                Network.Layers.Add(new Layer(DictSize, Network.Layers.Last().Weights.GetLength(0), Activation.Linear, 1e-5, 1e-5));
+                size += Xfmrs[i].Size;
             }
+            return size;
         }
-        
-        public const int DictSize = 200;
-        public const int SearchRange = 3;
-        public NeuralNetwork Network { get; }
-        
-        public double[] Forward(string s)
+        public void Save()
         {
-            double[] ctxt = new double[s.Length];
-            double[,] loc = new double[s.Length, DictSize];
-            /*
-            Parallel.For(0, s.Length, j =>
-            {
-                double[] a = s.Locate(j, SearchRange);
-                for (int i = 0; i < Network.Layers.Count(); i++) { a = Network.Layers[i].Output(a); }
-                loc.SetRank(a, j);
-                ctxt[j] = context.Contextualize(s, j);
-            });
-            */
-            return loc.Multiply(Activations.SoftMax(ctxt));
+            string Folder = "NeuralNets".GetMyDocs();
+            if (!Directory.Exists(Folder))
+                Directory.CreateDirectory(Folder);
+            Parallel.For(0, this.Xfmrs.Count(), i => this.Xfmrs[i].Save(Folder));
         }
-        public void Backward(string s, double[] DValues, List<List<double[]>> Outputs)
+        public AttentionMem[] Forward(string s, WriteToCMDLine write)
         {
-            /*
-            var LocDValues = am.DLocation(DValues);
-            DValues = am.DGlobalContext(DValues);
-            DValues = Activations.InverseSoftMax(DValues, am.GlobalContextOutputs);
-            context.Backward(DValues, s.Length, am, CtxtMem);
-            Parallel.For(0, s.Length, j =>
+            AttentionMem[] result = new AttentionMem[Xfmrs.Count()];
+            try
             {
-                var ldv = LocDValues[j];
-                for (int i = Network.Layers.Count() - 1; i >= 0; i--)
+                for (int i = 0; i < Xfmrs.Count(); i++)
                 {
-                    //ldv = mem.Layers[i].DActivation(ldv, am.LocationOutputs[j][i + 1]);
-                    //mem.Layers[i].DBiases(ldv, Network.Layers[i], s.Length);
-                    //mem.Layers[i].DWeights(ldv, am.LocationOutputs[j][i], Network.Layers[i], s.Length);
-                    //ldv = mem.Layers[i].DInputs(ldv, Network.Layers[i]);
+                    result[i] = new AttentionMem();
+                    Xfmrs[i].Forward(s, result[i]);
                 }
-            });*/
+            }
+            catch (Exception e) { e.OutputError(); }
+            return result;
+        }
+        public void Backward(double[] DValues, AttentionMem[] outputs, AttentionChange[] change, WriteToCMDLine write, bool tf = false)
+        {
+            var start = 0;
+            try
+            {
+                for (int i = 0; i < Xfmrs.Count(); i++)
+                {
+                    var dvals = DValues.ToList().GetRange(start, Xfmrs[i].Size).ToArray();
+                    Xfmrs[i].Backward(outputs[i], change[i], dvals);
+                    start += Xfmrs[i].Size;
+                }
+            }
+            catch (Exception e) { e.OutputError(); }
+        }
+        public void Update(NetworkMem[][] mem, int runsize = 16)
+        {
+            /*
+            try
+            {
+                Parallel.For(0, Transformers.Count, j =>
+                {
+                    for (int i = 0; i < Transformers[j].Networks.Count(); i++)
+                    {
+                        mem[j][i].Update(runsize, 0.1, Transformers[j].Networks[i]);
+                    }
+                });
+            }
+            catch (Exception e) { e.OutputError(); }*/
         }
     }
 }

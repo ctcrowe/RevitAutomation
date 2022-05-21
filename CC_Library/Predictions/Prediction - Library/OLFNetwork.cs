@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CC_Library.Datatypes;
 using System.Threading.Tasks;
-
+/*
 namespace CC_Library.Predictions
 {
     public class OLFNetwork
@@ -81,3 +81,4 @@ namespace CC_Library.Predictions
         }
     }
 }
+*/

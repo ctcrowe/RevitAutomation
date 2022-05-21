@@ -29,9 +29,9 @@ namespace CC_Library.Predictions
             this.L1Regularization = L1R;
             this.L2Regularizattion = L2R;
             this.Function = function;
-            for (int i = 0; i < NeuronCount; i++)
+            for (int i = 0; i < Outputs; i++)
             {
-                for (int j = 0; j < WeightCount; j++)
+                for (int j = 0; j < Inputs; j++)
                 {
                     this.Weights[i, j] = random.NextDouble() > 0.5 ? 
                         random.NextDouble() / Inputs : (-1 * random.NextDouble() / Inputs);

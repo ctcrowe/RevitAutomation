@@ -17,7 +17,11 @@ namespace CC_Library.Predictions
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(40, 400, Activation.CombinedCrossEntropySoftmax));
+                net.Layers.Add(new Layer(300, 400, Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                net.Layers.Add(new Layer(40, net.Layers.Last(), Activation.CombinedCrossEntropySoftmax));
             }
             return net;
         }
@@ -48,7 +52,8 @@ namespace CC_Library.Predictions
 
             try
             {
-                double[] alpharesults = new double[Samples.Count()];
+                double[] max = new double[Samples.Count()];
+                double[] final = new double[Samples.Count()];
                 double[] outputs = new double[Samples.Count()];
                 double[] desouts = new double[Samples.Count()];
                 Parallel.For(0, Samples.Count(), j =>
@@ -57,8 +62,9 @@ namespace CC_Library.Predictions
                     Alpha.Forward(Samples[j].Split(',').First(), atnmem);
                     var F = net.Forward(atnmem.attention, dropout, write, false);
 
-                    alpharesults[j] = atnmem.attention.Sum();
+                    max[j] = F.Last()[0][F.Last()[0].ToList().IndexOf(F.Last()[0].Max())];
                     outputs[j] = F.Last()[0].ToList().IndexOf(F.Last()[0].Max());
+                    final[j] = F.Last()[0][int.Parse(Samples[j].Split(',').Last())];
                     desouts[j] = int.Parse(Samples[j].Split(',').Last());
 
                     var DesiredOutput = new double[40];
@@ -69,7 +75,8 @@ namespace CC_Library.Predictions
                     var DValues = net.Backward(F, DesiredOutput, MFMem, write);
                     Alpha.Backward(atnmem, AlphaRate, DValues);
                 });
-                alpharesults.WriteArray("Alpha Results", write);
+                final.WriteArray("Desired Output", write);
+                max.WriteArray("Max Output", write);
                 outputs.WriteArray("Outputs", write);
                 desouts.WriteArray("Desired", write);
             }

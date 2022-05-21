@@ -17,8 +17,10 @@ namespace CC_Library.Predictions
             if (net.Datatype == Datatype.None)
             {
                 net = new NeuralNetwork(datatype);
-                net.Layers.Add(new Layer(300, 400, Activation.LRelu, 1e-5, 1e-5));
-                net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                //net.Layers.Add(new Layer(300, 400, Activation.LRelu, 1e-5, 1e-5));
+                //net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                //net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
+                //net.Layers.Add(new Layer(300, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 // net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 //net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));
                 //net.Layers.Add(new Layer(100, net.Layers.Last(), Activation.LRelu, 1e-5, 1e-5));

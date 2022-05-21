@@ -38,6 +38,7 @@ namespace CC_Library.Predictions
 
             try { mem.scores = mem.Q.Dot(mem.K.Transpose()); }//Size should be s.Length, s.Length
             catch (Exception e) { e.OutputError(); }
+            mem.scores = mem.scores.Divide(Size);
             try { mem.weights = Activations.SoftMax(mem.scores); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, s.Length
             try { mem.attn = mem.weights.Dot(mem.V); } catch (Exception e) { e.OutputError(); } //Size should be s.Length, size
 

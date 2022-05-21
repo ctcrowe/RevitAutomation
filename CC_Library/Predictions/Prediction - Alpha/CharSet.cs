@@ -6,30 +6,6 @@ using System;
 using System.IO;
 namespace CC_Library.Predictions
 {
-    public class AlphaHash
-    {
-        public static void run()
-        {
-            string s = "";
-            int n = 0;
-            for (int i = 0; i < CharSet.CharCount; i++)
-            {
-                for (int j = 0; j < CharSet.CharCount; j++)
-                {
-                    for (int k = 0; k < CharSet.CharCount; k++)
-                    {
-                        s += "{\"" + CharSet.Chars.Keys.ElementAt(i) +
-                            CharSet.Chars.Keys.ElementAt(j) +
-                            CharSet.Chars.Keys.ElementAt(k) + "\", " + n + "}, ";
-                        n++;
-                    }
-                }
-            }
-            var lines = new List<string>() { s };
-            var fn = "CharsetCSV.txt".GetMyDocs();
-            File.WriteAllLines(fn, lines);
-        }
-    }
     public enum Chars
     {
         A = 1, B = 2, C = 3, D = 4, E = 5,
