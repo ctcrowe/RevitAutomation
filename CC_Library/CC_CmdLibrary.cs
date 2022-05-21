@@ -16,6 +16,13 @@ namespace CC_Library
     public delegate string WriteToCMDLine(string s);
     public static class CMDLibrary
     {
+        /*
+        public static double[] Normalize(this double[] x)
+        {
+            double[] result = new double[x.Length];
+            Parallel.For(0, x.Length, j => result[j] = x[j] / x.Max());
+            return result;
+        }*/
         public static double[,] Divide(this double[,] x, double divisor)
         {
             double[,] y = new double[x.GetLength(0), x.GetLength(1)];
@@ -531,16 +538,10 @@ namespace CC_Library
         public static double[] Normalize(this double[] x)
         {
             double normalval = 0;
-            for (int i = 0; i < x.Count(); i++)
-            {
-                normalval += Math.Pow(x[i], 2);
-            }
-            double length = Math.Sqrt(normalval);
             double[] result = new double[x.Count()];
-            for (int i = 0; i < x.Count(); i++)
-            {
-                result[i] = x[i] / length;
-            }
+            Parallel.For(0, x.Count(), j => normalval += x[j] * x[j]);
+            normalval = Math.Sqrt(normalval);
+            Parallel.For(0, x.Count(), j => result[j] = x[j] / normalval);
             return result;
         }
         public static double VectorLength(this double[] vector)

@@ -43,7 +43,6 @@ namespace CC_Library.Predictions
 
             try
             {
-                double[] alpharesults = new double[Samples.Count()];
                 double[] outputs = new double[Samples.Count()];
                 double[] desouts = new double[Samples.Count()];
                 Parallel.For(0, Samples.Count(), j =>
@@ -51,8 +50,8 @@ namespace CC_Library.Predictions
                     AttentionMem atnmem = new AttentionMem();
                     Alpha.Forward(Samples[j].Split(',').First(), atnmem);
                     var F = Activations.SoftMax(atnmem.attention);
-
-                    alpharesults[j] = atnmem.attention.Sum();
+                    F = F.Normalize();
+                    
                     outputs[j] = F.ToList().IndexOf(F.Max());
                     desouts[j] = int.Parse(Samples[j].Split(',').Last());
 
@@ -64,7 +63,6 @@ namespace CC_Library.Predictions
                     var DValues = Activations.InverseCombinedCrossEntropySoftmax(F, DesiredOutput);
                     Alpha.Backward(atnmem, AlphaRate, DValues);
                 });
-                alpharesults.WriteArray("Alpha Results", write);
                 outputs.WriteArray("Outputs", write);
                 desouts.WriteArray("Desired", write);
             }
