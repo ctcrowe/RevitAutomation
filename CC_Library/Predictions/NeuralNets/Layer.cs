@@ -18,14 +18,14 @@ namespace CC_Library.Predictions
         public Activation Function { get; set; }
 
         #region Overloads
-        public Layer(int NeuronCount, int WeightCount, Activation function, double L1R = 0, double L2R = 0)
+        public Layer(int Outputs, int Inputs, Activation function, double L1R = 0, double L2R = 0)
         {
             Random random = new Random();
             this.LayerNumb = 0;
-            this.Weights = new double[NeuronCount, WeightCount];
-            this.Biases = new double[NeuronCount];
-            this.WMomentum = new double[NeuronCount, WeightCount];
-            this.BMomentum = new double[NeuronCount];
+            this.Weights = new double[Outputs, Inputs];
+            this.Biases = new double[Outputs];
+            this.WMomentum = new double[Outputs, Inputs];
+            this.BMomentum = new double[Outputs];
             this.L1Regularization = L1R;
             this.L2Regularizattion = L2R;
             this.Function = function;
@@ -34,7 +34,7 @@ namespace CC_Library.Predictions
                 for (int j = 0; j < WeightCount; j++)
                 {
                     this.Weights[i, j] = random.NextDouble() > 0.5 ? 
-                        random.NextDouble() / WeightCount : (-1 * random.NextDouble() / WeightCount);
+                        random.NextDouble() / Inputs : (-1 * random.NextDouble() / Inputs);
                 }
             }
         }
@@ -67,12 +67,7 @@ namespace CC_Library.Predictions
             //if(Input.Any(x => double.IsNaN(x))) { throw new Exception("Inputs are NaN Values at Layer Number " + LayerNumb); }
             //if(Input.Any(x => x == null)) { throw new Exception("Inputs are null at Layer Number " + LayerNumb); }
             
-            double[] result = new double[Biases.Length];
-            Parallel.For(0, result.Count(), i =>
-            {
-                Parallel.For(0, Input.Count(), j => result[i] += Input[j] * Weights[i, j]);
-                result[i] += Biases[i];
-            });
+            var result = Weights.Dot(Input).Add(Biases);
             var func = Function.GetFunction();
             return func(result);
         }

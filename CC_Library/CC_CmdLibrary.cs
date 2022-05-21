@@ -226,14 +226,11 @@ namespace CC_Library
                 Console.WriteLine("Error, x Count was : " + x.GetLength(0) + ", " + x.GetLength(1) + ", y length is : " + y.GetLength(0));
                 throw new Exception("Element Null Exception");
             }
-            double[] z = new double[x.GetLength(1)];
-            for (int i = 0; i < x.GetLength(0); i++)
+            double[] z = new double[x.GetLength(0)];
+            Parallel.For(0, x.GetLength(0), j =>
             {
-                for (int j = 0; j < x.GetLength(1); j++)
-                {
-                    z[j] += x[i, j] * y[i];
-                }
-            }
+                Parallel.For(0, x.GetLength(1), i => z[j] += x[j, i] * y[i]);
+            });
             return z;
         }
         public static double[] Dot(this double[] x, double[] y)
@@ -372,12 +369,15 @@ namespace CC_Library
                 Parallel.For(0, X.GetLength(1), j => X[i, j] += Y[i, j]);
             });
         }
-        public static void Add(this double[] X, double[] Y)
+        public static double[] Add(this double[] X, double[] Y)
         {
-            for(int i = 0; i < X.Count(); i++)
+            if (x.GetLength(0) != y.GetLength(0))
             {
-                X[i] += Y[i];
+                throw new Exception("Size Difference Exception");
             }
+            double[] Z = new double[X.GetLength(0);
+            Parallel.For(0, X.GetLength(0), j => Z[j] = X[j] + Y[j]);
+            return Z;
         }
         public static void Divide(this double[] X, double Y)
         {
