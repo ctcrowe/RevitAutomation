@@ -317,10 +317,17 @@ namespace CC_Library
         }
         public static void SetRank(this double[,] d, double[] r, int n)
         {
-            if (d.GetLength(1) == r.GetLength(0) && n < d.GetLength(0))
+            if(d.GetLength(1) != r.GetLength(0))
             {
-                Parallel.For(0, d.GetLength(1), j => d[n, j] = r[j]);
+                Console.WriteLine("Error, x Count was : " + d.GetLength(0) + ", " + d.GetLength(1) + ", y length is : " + r.GetLength(0));
+                throw new Exception("Size Difference Exception");
             }
+            if(n > d.GetLength(0))
+            {
+                Console.WriteLine("Error, x Count was : " + d.GetLength(0) + ", " + d.GetLength(1) + ", n is : " + n);
+                throw new Exception("Indexing Exception");
+            }
+            Parallel.For(0, d.GetLength(1), j => d[n, j] = r[j]);
         }
         public static double[] GetRank(this double[,,] D, int r1, int r2)
         {
@@ -511,6 +518,21 @@ namespace CC_Library
                 s += ", " + values[i];
             }
             write(s);
+        }
+        public static double[,] Merge(this double[,] X, double [,] Y)
+        {
+            if (X.GetLength(0) != Y.GetLength(0))
+            {
+                Console.WriteLine("Error, x Count was : " + X.GetLength(0) + ", " + X.GetLength(1) + ", y length is : " + Y.GetLength(0) + ", " + Y.GetLength(1));
+                throw new Exception("Size Difference Exception");
+            }
+            double[,] Z = new double[X.GetLength(0), X.GetLength(1) + Y.GetLength(1)];
+            Parallel.For(0, X.GetLength(0), i =>
+            {
+                Parallel.For(0, X.GetLength(1), j => Z[i, j] = X[i, j]);
+                Parallel.For(0, Y.GetLength(1), j => Z[i, X.GetLength(1) + j] = Y[i, j]);
+            });
+            return Z;
         }
         public static double[,] Normalize(this double[,] x)
         {

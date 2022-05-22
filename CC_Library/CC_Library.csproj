@@ -77,8 +77,8 @@
     <Compile Include="Predictions\Prediction - Alpha\Transformer.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaIO.cs" />
     <Compile Include="Predictions\Prediction - Library\CommandNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\MasterformatNetwork - Copy %282%29 - Copy.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork - Copy %282%29.cs" />
-    <Compile Include="Predictions\Prediction - Library\MasterformatNetwork - Copy.cs" />
     <Compile Include="Predictions\Prediction - Library\UniformatNetwork.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />

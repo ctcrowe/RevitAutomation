@@ -5,20 +5,18 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    public static class MasterformatNetwork
+    public static class MasterformatNetwork2
     {
         private const double dropout = 0.1;
         private const double rate = 0.1;
         public static double[] Predict(string s, WriteToCMDLine write)
         {
-            var Alpha = new Alpha(write);
-            var MF = "Masterformat9".LoadXfmr(Alpha._Outputs, 40, 80, write);
-            var AlphaMem = Alpha.GetMem();
-            var MFMem = new AttentionMem();
-
-            var AOut = Alpha.Forward(s, AlphaMem, write);
-            var MFOut = MF.Forward(AOut);
-            var output = MFOut.SumRange();
+            var Alpha = "MasterformatXfmr3".LoadXfmr(CharSet.CharCount * 3, 200, 400, write);
+            var Alpha2 = "MasterformatXfmr4".LoadXfmr(400, 40, 600, write);
+            var _input = s.Locate(1);
+            var AOut = Alpha.Forward(_input);
+            AOut = Alpha2.Forward(AOut);
+            var output = AOut.SumRange();
             output = Activations.SoftMax(output);
             return output;
         }
@@ -26,10 +24,11 @@ namespace CC_Library.Predictions
             (string[] Samples, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
-            var Alpha = new Alpha(write);
-            var Rates = Alpha.GetChange();
-
-            var MF = "Masterformat9".LoadXfmr(Alpha._Outputs, 40, 80, write);
+            var Alpha1 = "MasterformatXfmr5".LoadXfmr(CharSet.CharCount * 3, 100, 200, write);
+            var Alpha2 = "MasterformatXfmr6".LoadXfmr(CharSet.CharCount * 3, 100, 100, write);
+            var MF = "MasterformatXfmr7".LoadXfmr(200, 40, 100, write);
+            var AlphaRate = new AttentionChange(Alpha1);
+            var AlphaRate2 = new AttentionChange(Alpha2);
             var MFRate = new AttentionChange(MF);
 
             try
@@ -38,16 +37,18 @@ namespace CC_Library.Predictions
                 double[] final = new double[Samples.Count()];
                 double[] outputs = new double[Samples.Count()];
                 double[] desouts = new double[Samples.Count()];
-
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var AlphaMem = Alpha.GetMem();
-                    var MFMem = new AttentionMem();
+                    AttentionMem atnmem = new AttentionMem();
+                    AttentionMem atnmem2 = new AttentionMem();
+                    AttentionMem mfmem = new AttentionMem();
+                    var _input = Samples[j].Split(',').First().Locate(1);
+                    Alpha1.Forward(_input, atnmem);
+                    Alpha2.Forward(_input, atnmem2);
+                    var input = atnmem.attn.Merge(atnmem2.attn);
+                    MF.Forward(input, mfmem);
 
-                    var AlphaOut = Alpha.Forward(Samples[j].Split(',').First(), AlphaMem, write);
-                    MF.Forward(AlphaOut, MFMem);
-
-                    var F = Activations.SoftMax(MFMem.attention);
+                    var F = Activations.SoftMax(mfmem.attention);
 
                     max[j] = F[F.ToList().IndexOf(F.Max())];
                     outputs[j] = F.ToList().IndexOf(F.Max());
@@ -60,9 +61,9 @@ namespace CC_Library.Predictions
                     results[1] += F.ToList().IndexOf(F.Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
 
                     var DValues = Activations.InverseCombinedCrossEntropySoftmax(F, DesiredOutput);
-                    var dvals = DValues.Dot(MFMem.attn.Ones()); //returns a vector [s.Length, size]
-                    dvals = MF.Backward(MFMem, MFRate, dvals);
-                    Alpha.Backward(dvals, AlphaMem, Rates, write);
+                    var dvals = DValues.Dot(atnmem2.attn.Ones()); //returns a vector [s.Length, size]
+                    dvals = MF.Backward(mfmem, MFRate, dvals);
+                    Alpha1.Backward(atnmem, AlphaRate, dvals);
                 });
                 final.WriteArray("Desired Output", write);
                 max.WriteArray("Max Output", write);
@@ -71,9 +72,8 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
             //MFMem.Update(Samples.Count(), rate, net);
-            Alpha.Update(Rates, write);
-            MF.Update(MFRate, write);
-
+            Alpha1.Update(AlphaRate, write);
+            Alpha2.Update(AlphaRate2, write);
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
 
@@ -81,7 +81,8 @@ namespace CC_Library.Predictions
             write("Run Accuracy : " + results[1]);
             //net.Save();
             string Folder = "NeuralNets".GetMyDocs();
-            MF.Save(Folder);
+            Alpha1.Save(Folder);
+            Alpha2.Save(Folder);
             return results;
         }
     }
