@@ -55,16 +55,16 @@ namespace CC_Plugin
             {
                 default:
                 case "Run Command":
-                    combotype.ReadCommandInfo(text);
+                    //combotype.ReadCommandInfo(text);
                     break;
                 case "Masterformat":
                     args.Application.SetMasterformat(text);
                     break;
                 case "Occupant Load Factor":
-                    args.Application.SetOLF(text);
+                    //args.Application.SetOLF(text);
                     break;
                 case "Command Training":
-                    combotype.WriteCommandInfo(text);
+                    //combotype.WriteCommandInfo(text);
                     break;
 
             }
@@ -101,12 +101,13 @@ namespace CC_Plugin
                 Reference ChangedObject = sel.PickObject(ObjectType.Element, selectionFilter);
                 FamilyInstance inst = doc.GetElement(ChangedObject.ElementId) as FamilyInstance;
                 FamilySymbol symb = inst.Symbol;
+                /*
                 NeuralNetwork net = MasterformatNetwork.GetNetwork(CMDLibrary.WriteNull);
 
                 Sample s = new Sample(CC_Library.Datatypes.Datatype.Masterformat);
                 s.TextInput = symb.Family.Name;
                 s.DesiredOutput = new double[net.Layers.Last().Biases.Count()];
-                s.DesiredOutput[numb] = 1;
+                s.DesiredOutput[numb] = 1;*/
                 //MasterformatNetwork.Propogate(CMDLibrary.WriteNull);
 
                 using (Transaction t = new Transaction(doc, "Set Param"))
@@ -120,6 +121,7 @@ namespace CC_Plugin
     }
     public static class CMD_SetOLF
     {
+        /*
         public static void SetOLF( this UIApplication app, string text )
             //ExternalCommandData commandData,
             //ref string message,
@@ -152,6 +154,7 @@ namespace CC_Plugin
                 }
             }
         }
+        */
     }
     public static class CMD_CreatePatterns
     {
@@ -176,6 +179,7 @@ namespace CC_Plugin
     }
     public static class CMD_ReadWriteCommandInfo
     {
+        /*
         private const string fname = "NetworkSamples";
         private static string folder = fname.GetMyDocs();
         public static void WriteCommandInfo(this string combotype, string text)
@@ -204,13 +208,14 @@ namespace CC_Plugin
                 CmdNetwork.Propogate(CMDLibrary.WriteNull);
             }
         }
+        /*
         public static void ReadCommandInfo(this string combotyp, string text)
         {
             var output = CmdNetwork.Predict(text, CMDLibrary.WriteNull);
             var numb = output.ToList().IndexOf(output.Max());
             var result = Enum.GetNames(typeof(Command)).ToList()[numb];
             TaskDialog.Show("Result", result);
-        }
+        }*/
     }
     public class EleSelectionFilter : ISelectionFilter
     {

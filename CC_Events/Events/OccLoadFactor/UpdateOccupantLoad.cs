@@ -23,6 +23,7 @@ namespace CC_Plugin
         }
         public static void UpdateLoadFactor(this Element ele)
         {
+            /*
             try
             {
                 Room r = ele as Room;
@@ -35,6 +36,7 @@ namespace CC_Plugin
                     loadfactor);
             }
             catch (Exception e) { e.OutputError(); }
+            */
         }
     }
 }

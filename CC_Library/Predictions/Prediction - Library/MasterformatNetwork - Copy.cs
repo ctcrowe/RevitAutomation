@@ -46,7 +46,7 @@ namespace CC_Library.Predictions
         {
             var results = new double[2];
             NeuralNetwork net = GetNetwork(write);
-            var Alpha = "XfmrAlpha1".LoadAlpha(400, write);
+            var Alpha = "XfmrAlpha1".LoadXfmr(CharSet.CharCount * 3, 400, 400, write);
             var AlphaRate = new AttentionChange(Alpha);
             NetworkMem MFMem = new NetworkMem(net);
 
@@ -59,7 +59,8 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     AttentionMem atnmem = new AttentionMem();
-                    Alpha.Forward(Samples[j].Split(',').First(), atnmem);
+                    var _input = Samples[j].Split(',').First().Locate(1);
+                    Alpha.Forward(_input, atnmem);
                     var F = net.Forward(atnmem.attention, dropout, write, false);
 
                     max[j] = F.Last()[0][F.Last()[0].ToList().IndexOf(F.Last()[0].Max())];
@@ -73,7 +74,8 @@ namespace CC_Library.Predictions
                     results[1] += F.Last()[0].ToList().IndexOf(F.Last()[0].Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
 
                     var DValues = net.Backward(F, DesiredOutput, MFMem, write);
-                    Alpha.Backward(atnmem, AlphaRate, DValues);
+                    var dvals = DValues.Dot(atnmem.attn.Ones()); //returns a vector [s.Length, size]
+                    Alpha.Backward(atnmem, AlphaRate, dvals);
                 });
                 final.WriteArray("Desired Output", write);
                 max.WriteArray("Max Output", write);
@@ -82,7 +84,7 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
             MFMem.Update(Samples.Count(), rate, net);
-            Alpha.Update(AlphaRate, Samples.Count(), write);
+            Alpha.Update(AlphaRate, write);
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
 

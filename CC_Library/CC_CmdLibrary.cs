@@ -96,14 +96,14 @@ namespace CC_Library
             double[] output = new double[Count];
             Parallel.For(0, output.Count(), i => output[i] = 1);
             return output;
-        }        
+        }
         public static double[] RandomBinomial(this double[] Similar, double dropout)
         {
             Random r = new Random();
             double[] output = new double[Similar.Count()];
             double todropout = output.Count() * dropout;
             Parallel.For(0, output.Count(), i => output[i] = i + 1);
-            for(int i = 0; i < todropout; i++)
+            for (int i = 0; i < todropout; i++)
             {
                 var test = output.Where(x => x != 0).ToList();
                 int numb = test.Count > 1 ? (int)test[r.Next(0, test.Count() - 1)] : 0;
@@ -124,9 +124,9 @@ namespace CC_Library
         public static string GenText(this double[] x)
         {
             string s = x[0].ToString();
-            for(int i = 1; i < x.Count(); i++)
+            for (int i = 1; i < x.Count(); i++)
             {
-                s+= ", " + x[i];
+                s += ", " + x[i];
             }
             return s;
         }
@@ -146,7 +146,7 @@ namespace CC_Library
         public static double[] Clone(this double[] x)
         {
             double[] y = new double[x.Count()];
-            for(int i = 0; i < x.Count(); i++)
+            for (int i = 0; i < x.Count(); i++)
             {
                 y[i] = x[i];
             }
@@ -172,13 +172,13 @@ namespace CC_Library
         {
             double[] result = new double[X.Count()];
             Parallel.For(0, X.Count(), i =>
-                result[i] = X[i] <= 0? 1e-7 : X[i] >= 1? 1 - (1e-7) : X[i]);
+                result[i] = X[i] <= 0 ? 1e-7 : X[i] >= 1 ? 1 - (1e-7) : X[i]);
             return result;
         }
         public static double[,] DiagFlat(this double[] X)
         {
             double[,] result = new double[X.Count(), X.Count()];
-            for(int i = 0; i < X.Count(); i++)
+            for (int i = 0; i < X.Count(); i++)
             {
                 result[i, i] = X[i];
             }
@@ -187,7 +187,7 @@ namespace CC_Library
         public static string GetMyDocs(this string Subdir, WriteToCMDLine wo)
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string subdir = directory +"\\" + Subdir;
+            string subdir = directory + "\\" + Subdir;
             wo(subdir);
             return subdir;
         }
@@ -199,7 +199,7 @@ namespace CC_Library
         }
         public static string GetDir(this string FolderName)
         {
-            return !Directory.Exists(FolderName)? Directory.CreateDirectory(FolderName).FullName : FolderName;
+            return !Directory.Exists(FolderName) ? Directory.CreateDirectory(FolderName).FullName : FolderName;
         }
         public static double[,] Dot(this double[,] x, double[,] y)
         {
@@ -235,7 +235,7 @@ namespace CC_Library
         }
         public static double[] Dot(this double[] x, double[] y)
         {
-            if(x.Count() == y.Count())
+            if (x.Count() == y.Count())
             {
                 double[] z = new double[x.Count()];
                 Parallel.For(0, x.Count(), j => z[j] = x[j] * y[j]);
@@ -259,7 +259,7 @@ namespace CC_Library
         }
         public static double[] DotSwitch(this double[] x, double[] y)
         {
-            if(x.GetLength(0) == y.GetLength(0))
+            if (x.GetLength(0) == y.GetLength(0))
             {
                 double[] dot = new double[x.GetLength(0)];
                 Parallel.For(0, x.GetLength(0), i =>
@@ -296,7 +296,7 @@ namespace CC_Library
             List<string> lines = new List<string>();
             lines.Add("-----------------------------------------------------------------------------");
             lines.Add("Date : " + DateTime.Now.ToString());
-            lines.Add("Datatype : " +  s.Datatype);
+            lines.Add("Datatype : " + s.Datatype);
             lines.Add("Sample Text : " + s.TextInput);
             lines.Add("Desired Output : " + s.DesiredOutput.ToList().IndexOf(s.DesiredOutput.Max()));
             lines.Add("Error : " + e.SumError());
@@ -311,13 +311,13 @@ namespace CC_Library
         public static double[] GetRank(this double[,] D, int l)
         {
             double[] r = new double[D.GetLength(1)];
-            if(D.GetLength(0) > l)
+            if (D.GetLength(0) > l)
                 Parallel.For(0, D.GetLength(1), j => r[j] = D[l, j]);
             return r;
         }
         public static void SetRank(this double[,] d, double[] r, int n)
         {
-            if(d.GetLength(1) == r.GetLength(0) && n < d.GetLength(0))
+            if (d.GetLength(1) == r.GetLength(0) && n < d.GetLength(0))
             {
                 Parallel.For(0, d.GetLength(1), j => d[n, j] = r[j]);
             }
@@ -348,13 +348,13 @@ namespace CC_Library
         public static double SumError(this double[] X)
         {
             double a = 0;
-            for(int x = 0; x < X.Count(); x++)
+            for (int x = 0; x < X.Count(); x++)
             {
                 a += X[x];
             }
             return a / X.Count();
         }
-        public static int Abs(this int x) { return x < 0? x * -1 : x; }
+        public static int Abs(this int x) { return x < 0 ? x * -1 : x; }
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (T element in source)
@@ -364,6 +364,11 @@ namespace CC_Library
         }
         public static void Add(this double[,] X, double[,] Y)
         {
+            if (X.GetLength(0) != Y.GetLength(0) || X.GetLength(1) != Y.GetLength(1))
+            {
+                Console.WriteLine("Error, x Count was : " + X.GetLength(0) + ", " + X.GetLength(1) + ", y length is : " + Y.GetLength(0) + ", " + Y.GetLength(1));
+                throw new Exception("Size Difference Exception");
+            }
             Parallel.For(0, X.GetLength(0), i =>
             {
                 Parallel.For(0, X.GetLength(1), j => X[i, j] += Y[i, j]);

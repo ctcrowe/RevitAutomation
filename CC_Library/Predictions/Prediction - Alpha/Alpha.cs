@@ -13,7 +13,7 @@ namespace CC_Library.Predictions
         internal Alpha2(WriteToCMDLine write)
         {
             this.Xfmrs = new List<Transformer>();
-            Xfmrs.Add("XfmrAlpha1".LoadAlpha(400, write));
+            Xfmrs.Add("XfmrAlpha1".LoadXfmr(CharSet.CharCount * 3, 400, 400, write));
             //Filters.Add(new AlphaFilter3(write));
             //Filters.Add(new WordFilter(write));
             //Filters.Add(new WordFilter2(write));
@@ -23,7 +23,7 @@ namespace CC_Library.Predictions
             int size = 0;
             for (int i = 0; i < Xfmrs.Count(); i++)
             {
-                size += Xfmrs[i].Size;
+                size += Xfmrs[i].ValueSize;
             }
             return size;
         }
@@ -39,10 +39,11 @@ namespace CC_Library.Predictions
             AttentionMem[] result = new AttentionMem[Xfmrs.Count()];
             try
             {
+                var _input = s.Locate(1);
                 for (int i = 0; i < Xfmrs.Count(); i++)
                 {
                     result[i] = new AttentionMem();
-                    Xfmrs[i].Forward(s, result[i]);
+                    Xfmrs[i].Forward(_input, result[i]);
                 }
             }
             catch (Exception e) { e.OutputError(); }
@@ -55,9 +56,10 @@ namespace CC_Library.Predictions
             {
                 for (int i = 0; i < Xfmrs.Count(); i++)
                 {
-                    var dvals = DValues.ToList().GetRange(start, Xfmrs[i].Size).ToArray();
-                    Xfmrs[i].Backward(outputs[i], change[i], dvals);
-                    start += Xfmrs[i].Size;
+                    var dvals = DValues.ToList().GetRange(start, Xfmrs[i].ValueSize).ToArray();
+                    var atndvals = dvals.Dot(outputs[i].attn.Ones()); //returns a vector [s.Length, size]
+                    Xfmrs[i].Backward(outputs[i], change[i], atndvals);
+                    start += Xfmrs[i].ValueSize;
                 }
             }
             catch (Exception e) { e.OutputError(); }

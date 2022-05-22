@@ -28,7 +28,7 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static Transformer LoadAlpha(this string _name, int size, WriteToCMDLine write)
+        public static Transformer LoadXfmr(this string _name, int _InputSize, int _ValueSize, int _QuerySize, WriteToCMDLine write)
         {
             string fn = _name;
             fn += ".bin";
@@ -56,7 +56,7 @@ namespace CC_Library.Predictions
             }
                           
             write("Filter " + fn + " Not Found. New Filter Created");
-            return new Transformer(_name, size);
+            return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
         }
     }
 }
