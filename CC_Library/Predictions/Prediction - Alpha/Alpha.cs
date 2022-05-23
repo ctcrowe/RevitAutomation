@@ -10,7 +10,6 @@ namespace CC_Library.Predictions
     internal class Alpha
     {
         public const int _Outputs = 200;
-        public const int _Count = 2;
         private List<Transformer> Xfmrs { get; }
         internal Alpha(WriteToCMDLine write)
         {
@@ -18,6 +17,7 @@ namespace CC_Library.Predictions
             Xfmrs.Add("XfmrAlpha1".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
             Xfmrs.Add("XfmrAlpha2".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
             Xfmrs.Add("XfmrAlpha3".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
+            Xfmrs.Add("XfmrAlpha4".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
         }
         public void Save()
         {
@@ -76,13 +76,18 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Xfmrs.Count(), j =>
                 {
                     var dvals = new double[length, _Outputs];
-                    Parallel.For(0, length, i => dvals.SetRank(DValues.GetRank(i + (j * length)), i));
+                    Parallel.For(0, length, i =>
+                    {
+                        var inputs = DValues.GetRank(i + (j * length));
+                        inputs.Divide(length);
+                        dvals.SetRank(inputs, i);
+                    });
                     Xfmrs[j].Backward(outputs[j], change[j], dvals);
                 });
             }
             catch (Exception e) { e.OutputError(); }
         }
-        public void Update(AttentionChange[] change, WriteToCMDLine write, int runsize = 16)
+        public void Update(AttentionChange[] change, WriteToCMDLine write)
         {
             try
             {

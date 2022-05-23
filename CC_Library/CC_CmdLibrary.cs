@@ -310,9 +310,13 @@ namespace CC_Library
         }
         public static double[] GetRank(this double[,] D, int l)
         {
+            if(l > D.GetLength(0))
+            {
+                Console.WriteLine("Error, x Count was : " + D.GetLength(0) + ", " + D.GetLength(1) + ", n is : " + l);
+                throw new Exception("Indexing Exception");
+            }
             double[] r = new double[D.GetLength(1)];
-            if (D.GetLength(0) > l)
-                Parallel.For(0, D.GetLength(1), j => r[j] = D[l, j]);
+            Parallel.For(0, D.GetLength(1), j => r[j] = D[l, j]);
             return r;
         }
         public static void SetRank(this double[,] d, double[] r, int n)

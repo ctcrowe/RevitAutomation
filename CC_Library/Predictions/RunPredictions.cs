@@ -29,7 +29,6 @@ namespace CC_Library.Predictions
                 int count = 0;
                 Random r = new Random();
 
-                /*
                 foreach(string line in l)
                 {
                     if(values.ContainsKey(int.Parse(line.Split(',').Last())))
@@ -45,7 +44,6 @@ namespace CC_Library.Predictions
                         count = values[int.Parse(line.Split(',').Last())].Count() > count ? values[int.Parse(line.Split(',').Last())].Count() : count;
                     }
                 }
-                /*
                 foreach(KeyValuePair<int, List<string>> kvp in values)
                 {
                     while(kvp.Value.Count() < count)
@@ -54,7 +52,7 @@ namespace CC_Library.Predictions
                     }
                     finlines.AddRange(kvp.Value);
                 }
-                */
+
                 for(int i = 0; i < 10000; i++)
                 {
                     try
@@ -65,8 +63,8 @@ namespace CC_Library.Predictions
                         string datatype = s.Datatype;
                         */
                         //var lines = finlines.Take(16).ToArray();
-                        var lines = File.ReadAllLines(filepath).ToList().OrderBy(x => r.NextDouble()).Take(16).ToArray();
-                        //var lines = l.OrderBy(x => r.NextDouble()).Take(16).ToArray();
+                        //var lines = File.ReadAllLines(filepath).ToList().OrderBy(x => r.NextDouble()).Take(16).ToArray();
+                        var lines = finlines.OrderBy(x => r.NextDouble()).Take(16).ToArray();
                         var error = MasterformatNetwork.Propogate(lines, write, true);
 
                         if (error[0] > 0)
