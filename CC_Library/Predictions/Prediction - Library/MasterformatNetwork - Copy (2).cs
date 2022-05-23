@@ -59,7 +59,7 @@ namespace CC_Library.Predictions
                     results[0] += CategoricalCrossEntropy.Forward(F, DesiredOutput).Max();
                     results[1] += F.ToList().IndexOf(F.Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
 
-                    var DValues = Activations.InverseCombinedCrossEntropySoftmax(F, DesiredOutput);
+                    var DValues = Activations.InverseCombinedCrossEntropySoftmax(DesiredOutput, F);
                     var dvals = DValues.Dot(MFMem.attn.Ones()); //returns a vector [s.Length, size]
                     dvals = MF.Backward(MFMem, MFRate, dvals);
                     Alpha.Backward(dvals, AlphaMem, Rates, write);

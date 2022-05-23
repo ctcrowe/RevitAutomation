@@ -60,7 +60,7 @@ namespace CC_Library
             {
                 Parallel.For(0, set.GetLength(1), k =>
                 {
-                    set[j, k] += dvalues[j, k] * rate;
+                    set[j, k] -= dvalues[j, k] * rate;
                 });
             });
         }
