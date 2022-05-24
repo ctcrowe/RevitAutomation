@@ -40,7 +40,9 @@ namespace CC_Library.Predictions
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
                     write("Filter read from My Docs");
-                    return ReadFromBinaryFile<Transformer>(doc);
+                    var XFMR = ReadFromBinaryFile<Transformer>(doc);
+                    XFMR.Name = _name;
+                    return XFMR;
                 }
             }
             var assembly = typeof(ReadWriteNeuralNetwork).GetTypeInfo().Assembly;
@@ -51,7 +53,9 @@ namespace CC_Library.Predictions
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                     write("Filter Read from Assembly");
-                    return (Transformer)binaryFormatter.Deserialize(stream);
+                    var XFMR = (Transformer)binaryFormatter.Deserialize(stream);
+                    XFMR.Name = _name;
+                    return XFMR;
                 }
             }
                           
