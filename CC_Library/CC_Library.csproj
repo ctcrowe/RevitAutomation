@@ -110,8 +110,13 @@
     <Compile Include="Predictions\RunPredictions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Predictions\BinaryFiles\" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\Masterformat.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha1.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha2.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha3.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha4.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
