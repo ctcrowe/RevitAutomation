@@ -7,16 +7,12 @@ namespace CC_Library.Predictions
 {
     public static class MasterformatNetwork
     {
-        private const double dropout = 0.1;
-        private const double rate = 0.1;
         public static double[] Predict(string s, WriteToCMDLine write)
         {
             var Alpha = new Alpha(write);
-            var MF = "Masterformat9".LoadXfmr(Alpha._Outputs, 40, 80, write);
-            var AlphaMem = Alpha.GetMem();
-            var MFMem = new AttentionMem();
+            var MF = "Masterformat".LoadXfmr(Alpha._Outputs, 40, 80, write);
 
-            var AOut = Alpha.Forward(s, AlphaMem, write);
+            var AOut = Alpha.Forward(s, write);
             var MFOut = MF.Forward(AOut);
             var output = MFOut.SumRange();
             output = Activations.SoftMax(output);
@@ -29,7 +25,7 @@ namespace CC_Library.Predictions
             var Alpha = new Alpha(write);
             var Rates = Alpha.GetChange();
 
-            var MF = "Masterformat9".LoadXfmr(Alpha._Outputs, 40, 80, write);
+            var MF = "Masterformat".LoadXfmr(Alpha._Outputs, 40, 80, write);
             var MFRate = new AttentionChange(MF);
 
             try
