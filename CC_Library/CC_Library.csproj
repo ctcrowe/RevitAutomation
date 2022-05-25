@@ -77,6 +77,8 @@
     <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
     <Compile Include="Predictions\Prediction - Alpha\Transformer.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaIO.cs" />
+    <Compile Include="Predictions\Prediction - Library\OccLoadFactorNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\ObjStyleCaseworkNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
