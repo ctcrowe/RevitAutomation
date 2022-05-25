@@ -83,6 +83,8 @@
     <Compile Include="Events\UpdateOccLoad.cs" />
     <Compile Include="Events\ViewChangeLineWeights.cs" />
     <Compile Include="Families\FamilyUnpack.cs" />
+    <Compile Include="ObjStyles\Class1.cs" />
+    <Compile Include="ObjStyles\Class2.cs" />
     <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CheckParameters.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
