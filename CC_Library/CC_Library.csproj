@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\ObjectStyles_Casework.cs" />
     <Compile Include="Enumerations\Uniformat.cs" />
     <Compile Include="Enumerations\Datatypes\CountDatatype.cs" />
     <Compile Include="Enumerations\Datatypes\CreateCSVInputData.cs" />
