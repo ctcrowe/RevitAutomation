@@ -6,6 +6,10 @@ namespace CC_Events
 {
     class RevitCategories
     {
+        /*
+        public static void ReviseCaseworkCategories(
+        
+        */
         public static void RunCategorySetup(Document currentDoc)
         {
             RevitCategories cats = new RevitCategories(currentDoc);
