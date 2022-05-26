@@ -59,13 +59,6 @@
         Sill,
         Panel,
         Glazing,
-    //Cabinetry
-        Box,
-        Outline,
-        Counter,
-        Base,
-        Pull,
-        Details,
     //Details
         Fasteners,
         Blocking,
