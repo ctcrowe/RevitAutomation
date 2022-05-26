@@ -6,7 +6,6 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 using CC_Library;
 using CC_Plugin.TypeNaming;
-using CC_Plugin.Details;
 
 namespace CC_Plugin
 {
