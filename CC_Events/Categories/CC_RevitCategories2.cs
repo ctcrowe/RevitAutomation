@@ -8,6 +8,11 @@ namespace CC_Events
     {
         /*
         public static void ReviseCaseworkCategories(
+        Category famcat = doc.OwnerFamily.FamilyCategory;
+        if(famcat.Id.IntegerValue == (int)BuiltInCategory.OST_Casework)
+        {
+            
+        }
         
         */
         public static void RunCategorySetup(Document currentDoc)
