@@ -9,7 +9,18 @@ namespace CC_Events
         /*
         public static void ReviseCaseworkCategories(
         Category famcat = doc.OwnerFamily.FamilyCategory;
-        if(famcat.Id.IntegerValue == (int)BuiltInCategory.OST_Casework)
+        Type t = null;
+        
+        switch(famcat.Id.IntegerValue)
+        {
+            default:
+                break;
+            case (int)BuiltInCategory.OST_Casework:
+                t = typeof(x);
+                break;
+        }
+        
+        if(t != null)
         {
             var forms = new FilteredElementCollector(doc).OfType(typeof(GenericForm)).ToElementIds().ToList();
             foreach (ElementId e in forms)
