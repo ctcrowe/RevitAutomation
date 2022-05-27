@@ -7,7 +7,7 @@ namespace CC_Events
     class RevitCategories
     {
         /*
-        public static void ReviseCaseworkCategories(
+        public static void ReviseCategories(
         Category famcat = doc.OwnerFamily.FamilyCategory;
         Type t = null;
         
