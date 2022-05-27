@@ -7,32 +7,33 @@ namespace CC_Events
     class RevitCategories
     {
         /*
-        public static void ReviseCategories(
-        Category famcat = doc.OwnerFamily.FamilyCategory;
-        Type t = null;
-        
-        switch(famcat.Id.IntegerValue)
+        public static void ReviseCategories(Document doc)
         {
-            default:
-                break;
-            case (int)BuiltInCategory.OST_Casework:
-                t = typeof(x);
-                break;
-        }
+            Category famcat = doc.OwnerFamily.FamilyCategory;
+            Type t = null;
         
-        if(t != null)
-        {
-            var forms = new FilteredElementCollector(doc).OfType(typeof(GenericForm)).ToElementIds().ToList();
-            foreach (ElementId e in forms)
+            switch(famcat.Id.IntegerValue)
             {
-                GenericForm ele = doc.GetElement(e) as GenericForm;
-                if (ele != null)
+                default:
+                    break;
+                case (int)BuiltInCategory.OST_Casework:
+                    t = typeof(x);
+                    break;
+            }
+        
+            if(t != null)
+            {
+                var forms = new FilteredElementCollector(doc).OfType(typeof(GenericForm)).ToElementIds().ToList();
+                foreach (ElementId e in forms)
                 {
-                    var name = ele.Subcategory.Name;
+                    GenericForm ele = doc.GetElement(e) as GenericForm;
+                    if (ele != null)
+                    {
+                        var name = ele.Subcategory.Name;
+                    }
                 }
             }
         }
-        
         */
         public static void RunCategorySetup(Document currentDoc)
         {
