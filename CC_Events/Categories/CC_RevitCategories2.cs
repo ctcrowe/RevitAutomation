@@ -16,6 +16,7 @@ namespace CC_Events
                 GenericForm ele = doc.GetElement(e) as GenericForm;
                 if (ele != null)
                 {
+                    var name = ele.Subcategory.Name
                 }
             }
         }
