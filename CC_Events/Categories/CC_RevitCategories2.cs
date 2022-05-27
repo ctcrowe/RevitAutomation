@@ -32,6 +32,22 @@ namespace CC_Events
                 TaskDialog.Show("Categories Setup", "The line weights have been set for " + i + " Categories!");
             }
         }
+        public static Category AddCategories(this Document doc, int catnumber)
+        {
+            if (doc.IsFamilyDocument)
+            {
+                Category cat = Category.GetCategory(doc, doc.OwnerFamily.FamilyCategoryId);
+                var values = Enum.GetNames(typeof(ObjectCategory));
+
+                Category subcat;
+                if (!cat.SubCategories.Contains(values[catnumber])) { subcat = doc.Settings.Categories.NewSubcategory(cat, values[catnumber]); }
+                else { subcat = cat.SubCategories.get_Item(values[catnumber]); }
+
+                return subcat;
+            }
+            else
+                return null;
+        }
         private Document currentDoc { get; }
         private RevitCategories(Document currentdoc)
         {
