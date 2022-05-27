@@ -11,12 +11,13 @@ namespace CC_Events
         Category famcat = doc.OwnerFamily.FamilyCategory;
         if(famcat.Id.IntegerValue == (int)BuiltInCategory.OST_Casework)
         {
-            foreach (ElementId e in data.GetModifiedElementIds())
+            var forms = new FilteredElementCollector(doc).OfType(typeof(GenericForm)).ToElementIds().ToList();
+            foreach (ElementId e in forms)
             {
                 GenericForm ele = doc.GetElement(e) as GenericForm;
                 if (ele != null)
                 {
-                    var name = ele.Subcategory.Name
+                    var name = ele.Subcategory.Name;
                 }
             }
         }
