@@ -66,6 +66,7 @@
     <Compile Include="Events\FamilyReorginize.cs" />
     <Compile Include="Events\LineWeights.cs" />
     <Compile Include="Events\Masterformat\UpdateMF.cs" />
+    <Compile Include="Events\Subcategories\CC_RevitCategories.cs" />
     <Compile Include="Events\Uniformat\AddUniformat.cs" />
     <Compile Include="Events\Uniformat\SetUniformat.cs" />
     <Compile Include="Events\Uniformat\Uniformat_FamilySaved.cs" />

@@ -25,10 +25,11 @@ namespace CC_Library.Predictions
                 var l = File.ReadAllLines(filepath).ToList();
 
                 Dictionary<int, List<string>> values = new Dictionary<int, List<string>>();
-                List<string> finlines = new List<string>();
+                //List<string> finlines = new List<string>();
                 int count = 0;
                 Random r = new Random();
 
+                /*
                 foreach(string line in l)
                 {
                     if(values.ContainsKey(int.Parse(line.Split(',').Last())))
@@ -52,20 +53,15 @@ namespace CC_Library.Predictions
                     }
                     finlines.AddRange(kvp.Value);
                 }
+                */
 
                 for(int i = 0; i < 10000; i++)
                 {
                     try
                     {
-                        //var error = CutLineWeightNetwork.Propogate(f, write);
-                        /*
-                        Sample s = f.ReadFromBinaryFile<Sample>();
-                        string datatype = s.Datatype;
-                        */
-                        //var lines = finlines.Take(16).ToArray();
-                        //var lines = File.ReadAllLines(filepath).ToList().OrderBy(x => r.NextDouble()).Take(16).ToArray();
-                        var lines = finlines.OrderBy(x => r.NextDouble()).Take(16).ToArray();
-                        var error = MasterformatNetwork.Propogate(lines, write, true);
+                        var lines = l.OrderBy(x => r.NextDouble()).Take(16).ToArray();
+                        //var error = MasterformatNetwork.Propogate(lines, write, true);
+                        var error = ObjStyleNetwork.Propogate(lines, typeof(ObjectStyles_Casework), write, true);
 
                         if (error[0] > 0)
                         {

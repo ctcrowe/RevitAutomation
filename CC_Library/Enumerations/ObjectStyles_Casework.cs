@@ -9,7 +9,7 @@
         Upper_Cabinet,
         Glass,
         Hardware,
-        Hidden_Lines,
+        Hidden,
         ADA
     }
 }

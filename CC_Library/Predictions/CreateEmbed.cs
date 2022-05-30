@@ -1,44 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace CC_Library.Predictions
 {
-    public static class CMD_CreateEmbed
+    public static class CMD_CreateSample
     {
-        public static List<string> CreateEmbed(this NeuralNetwork net, string fn)
+        public static void CreateEmbed(this Type t, string input, string output)
         {
-            var Lines = new List<string>();
-            Lines.Add("using System;");
-            Lines.Add("using System.Collections.Generic;");
-            Lines.Add("using System.Linq;");
-            Lines.Add("using System.Threading.Tasks;");
-            Lines.Add("using CC_Library.Datatypes;");
-            Lines.Add("");
-            Lines.Add("namespace CC_Library.Predictions");
-            Lines.Add("{");
+            var dir = "NetworkSamples".GetMyDocs();
+            if(!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-            Lines.Add("public static class " + fn);
-            Lines.Add("{");
+            var fn = dir + "\\" + t.ToString().Split('.').Last() + ".txt";
+            List<string> Lines = new List<string>();
 
-            Lines.Add("public static double[] Output(double[] outputs");
-            Lines.Add("{");
-
-            for(int i = 0; i < net.Layers.Count(); i++)
-            {
-                string s = "";
-                Lines.Add(s);
-                Lines.Add("");
-                Lines.Add("");
-            }
-            Lines.Add("return outputs;");
-
-            Lines.Add("}");
-            Lines.Add("}");
-            Lines.Add("}");
-            return Lines;
+            Lines.Add(input + "," + output);
+            File.AppendAllLines(fn, Lines);
         }
     }
 }

@@ -78,7 +78,7 @@
     <Compile Include="Predictions\Prediction - Alpha\Transformer.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaIO.cs" />
     <Compile Include="Predictions\Prediction - Library\OccLoadFactorNetwork.cs" />
-    <Compile Include="Predictions\Prediction - Library\ObjStyleCaseworkNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\ObjStyleNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
     <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
@@ -113,7 +113,9 @@
     <Compile Include="Predictions\RunPredictions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Casework.bin" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Predictions\BinaryFiles\Masterformat.bin" />
     <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha1.bin" />
