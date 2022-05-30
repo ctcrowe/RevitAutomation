@@ -1,8 +1,11 @@
 ﻿using Autodesk.Revit.DB;
 using System.IO;
-using Autodesk.Revit.UI;
+using System;
 using System.Linq;
 
+using CC_Plugin.Parameters;
+
+using CC_Library.Parameters;
 using CC_Library.Predictions;
 using CC_Library;
 
@@ -10,6 +13,42 @@ namespace CC_Plugin
 {
     internal static class MFSaveFamily
     {
+        public static void SetFamily(string fn, Document doc)
+        {
+            if (doc.IsFamilyDocument)
+            {
+                var output = MasterformatNetwork.Predict(fn, CMDLibrary.WriteNull);
+                var Masterformat = output.ToList().IndexOf(output.Max());
+                using (TransactionGroup tg = new TransactionGroup(doc, "Set MF"))
+                {
+                    tg.Start();
+                    using (Transaction t = new Transaction(doc, "Add MF Param"))
+                    {
+                        t.Start();
+                        try { doc.AddParam(Params.Masterformat); }
+                        catch (Exception e) { e.OutputError(); }
+                        t.Commit();
+                    }
+                    if (doc.FamilyManager.Types.Size < 1)
+                    {
+                        using (Transaction t = new Transaction(doc, "Create Family Type"))
+                        {
+                            t.Start();
+                            doc.FamilyManager.NewType("Automatic Type");
+                            t.Commit();
+                        }
+                    }
+                    using (Transaction t = new Transaction(doc, "Set MF Param"))
+                    {
+                        t.Start();
+                        try { doc.SetFamilyParam(Params.Masterformat, Masterformat.ToString()); }
+                        catch (Exception e) { e.OutputError(); }
+                        t.Commit();
+                    }
+                    tg.Commit();
+                }
+            }
+        }
         public static void SaveFamily(this string fp, string prefix = "test")
         {
             string folder = "CC_Families".GetMyDocs().GetDir();

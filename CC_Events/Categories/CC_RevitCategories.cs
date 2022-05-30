@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Events;
-using Autodesk.Revit.UI;
 
 using CC_Library;
 using CC_Library.Predictions;
@@ -13,26 +11,6 @@ namespace CC_Plugin
 {
     class RevitCategories
     {
-        public static void OnStartup(UIControlledApplication app)
-        {
-            app.ControlledApplication.DocumentSaving += new EventHandler<DocumentSavingEventArgs>(SavingEvent);
-            app.ControlledApplication.DocumentSavingAs += new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
-        }
-        public static void OnShutdown(UIControlledApplication app)
-        {
-            app.ControlledApplication.DocumentSaving -= new EventHandler<DocumentSavingEventArgs>(SavingEvent);
-            app.ControlledApplication.DocumentSavingAs -= new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
-        }
-        public static void SavingEvent(object sender, DocumentSavingEventArgs args)
-        {
-            Document doc = args.Document;
-            ReviseCategories(doc);
-        }
-        public static void SavingAsEvent(object sender, DocumentSavingAsEventArgs args)
-        {
-            Document doc = args.Document;
-            ReviseCategories(doc);
-        }
         public static void ReviseCategories(Document doc)
         {
             Category cat = doc.OwnerFamily.FamilyCategory;

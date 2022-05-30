@@ -28,7 +28,6 @@ namespace CC_Plugin
             //uiApp.LoadFamPanel(tabName);
 
             //try { LineStyleUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
-            try { RevitCategories.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { LineStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { MFTypeNameChange.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { TypeNamingUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
@@ -48,7 +47,6 @@ namespace CC_Plugin
             PlaneTypeUpdater.OnShutdown(uiApp);
             //ObjStyleUpdater.OnShutdown(uiApp);
             ObjStyleNetworkUpdater.OnShutdown(uiApp);
-            RevitCategories.OnShutdown(uiApp);
             return Result.Succeeded;
         }
     }

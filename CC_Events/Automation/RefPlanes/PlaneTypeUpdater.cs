@@ -7,6 +7,7 @@ namespace CC_Plugin
 {
     public class RefPlaneMaker
     {
+        /*
         public static void OnStartup(UIControlledApplication application)
         {
             RefPlaneUpdater rpupdater = new RefPlaneUpdater(application.ActiveAddInId);
@@ -22,10 +23,12 @@ namespace CC_Plugin
             RefPlaneUpdater updater = new RefPlaneUpdater(application.ActiveAddInId);
             UpdaterRegistry.UnregisterUpdater(updater.GetUpdaterId());
         }
+        */
     }
 
-    public class RefPlaneUpdater : IUpdater
-    {
+    //public class RefPlaneUpdater : IUpdater
+    //{
+        /*
         private static List<CCcategory> CCcategories = new List<CCcategory>
         {
             new CCcategory("CL", 1, new byte[3]{252, 198, 3 }),
@@ -69,5 +72,6 @@ namespace CC_Plugin
         public ChangePriority GetChangePriority() { return ChangePriority.Annotations; }
         public UpdaterId GetUpdaterId() { return updaterId; }
         public string GetUpdaterName() { return "Charlie Crowe Reference Plane Categories Updater"; }
-    }
+        */
+    //}
 }
