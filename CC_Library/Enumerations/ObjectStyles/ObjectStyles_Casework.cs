@@ -10,6 +10,8 @@
         Glass,
         Hardware,
         Hidden,
+        Wall,
+        Finish,
         ADA
     }
 }
