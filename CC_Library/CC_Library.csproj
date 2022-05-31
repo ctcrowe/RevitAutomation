@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\Class1.cs" />
+    <Compile Include="Enumerations\Class2.cs" />
+    <Compile Include="Enumerations\Class3.cs" />
+    <Compile Include="Enumerations\Class4.cs" />
     <Compile Include="Enumerations\ObjectStyles_Casework.cs" />
     <Compile Include="Enumerations\Uniformat.cs" />
     <Compile Include="Enumerations\Datatypes\CountDatatype.cs" />

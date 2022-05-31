@@ -23,6 +23,7 @@ namespace CC_Plugin
                 tg.Start();
                 RevitCategories.ReviseCategories(args.Document);
                 MFSaveFamily.SetFamily(args.Document.PathName, args.Document);
+                tg.Commit();
             }
         }
         public static void SavedEvent(object sender, DocumentSavedEventArgs args)
