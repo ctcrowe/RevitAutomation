@@ -51,20 +51,6 @@ namespace CC_Plugin
         }
         public static void SaveFamily(this string fp, string prefix = "test")
         {
-            string folder = "CC_Families".GetMyDocs().GetDir();
-            
-            var div = MasterformatNetwork.Predict(fp.Split('\\').Last().Split('.').First(), new WriteToCMDLine(CMDLibrary.WriteNull));
-            typeof(MasterformatNetwork).CreateEmbed(fp.Split('\\').Last().Split('.').First(), div.ToString());
-            string Division = "Division " + div.ToList().IndexOf(div.Max());
-            string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
-                
-            string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
-                SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
-                SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
-            File.Copy(fp, nf, true);
-        }
-        public static void Main(Document doc)
-        {
             if (doc.IsFamilyDocument)
             {
                 string prefix = "";
@@ -79,9 +65,18 @@ namespace CC_Plugin
                     case (int)BuiltInCategory.OST_ProfileFamilies:
                         prefix = "Pro";
                         break;
-                }
-                string fp = doc.PathName;
-                fp.SaveFamily(prefix);
+                }            
+                string folder = "CC_Families".GetMyDocs().GetDir();
+            
+                var div = MasterformatNetwork.Predict(fp.Split('\\').Last().Split('.').First(), new WriteToCMDLine(CMDLibrary.WriteNull));
+                typeof(MasterformatNetwork).CreateEmbed(fp.Split('\\').Last().Split('.').First(), div.ToString());
+                string Division = "Division " + div.ToList().IndexOf(div.Max());
+                string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
+                
+                string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
+                SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
+                SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
+                File.Copy(fp, nf, true);
             }
         }
     }
