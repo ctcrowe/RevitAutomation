@@ -3,11 +3,11 @@
     public enum ObjectStyles_Doors
     {
         _Zero_,
-        Base,
-        Countertop,
-        Lower_Cabinet,
-        Upper_Cabinet,
+        Door,
+        Frame,
+        Threshold,
         Glass,
+        Swing,
         Hardware,
         Hidden,
         ADA
