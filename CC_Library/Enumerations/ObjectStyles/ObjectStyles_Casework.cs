@@ -13,6 +13,7 @@
         Hidden,
         Wall,
         Finish,
+        Swing,
         ADA
     }
 }
