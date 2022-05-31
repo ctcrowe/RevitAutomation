@@ -3,7 +3,7 @@
     public enum ObjectStyles_Doors
     {
         _Zero_,
-        Door,
+        Panel,
         Frame,
         Threshold,
         Glass,
