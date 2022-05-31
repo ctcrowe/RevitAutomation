@@ -28,11 +28,11 @@ namespace CC_Plugin
         }
         public static void SavedEvent(object sender, DocumentSavedEventArgs args)
         {
-            MFSaveFamily.Main(args.Document);
+            MFSaveFamily.SaveFamily(args.Document.PathName, args.Document);
         }
         public static void SavedAsEvent(object sender, DocumentSavedAsEventArgs args)
         {
-            MFSaveFamily.Main(args.Document);
+            MFSaveFamily.SaveFamily(args.Document.PathName, args.Document);
         }
         public static Result OnStartup(UIControlledApplication app)
         {
