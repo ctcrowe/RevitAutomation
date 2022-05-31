@@ -67,7 +67,7 @@ namespace CC_Plugin
                     while(iter.MoveNext())
                     {
                         var sc = iter.Current as Category;
-                        if(!Subcats.Contains(sc.Name))
+                        if(!Subcats.Contains(sc.Name) && !Enum.GetNames(t).Contains(sc.Name))
                         {
                             using(Transaction trans = new Transaction(doc, sc.Name))
                             {
