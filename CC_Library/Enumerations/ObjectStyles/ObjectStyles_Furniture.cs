@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CC_Library.Enumerations
 {
-    internal class Class4
+    internal class ObjectStyles_Furniture
     {
     }
 }

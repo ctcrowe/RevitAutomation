@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumerations\Class1.cs" />
-    <Compile Include="Enumerations\Class2.cs" />
-    <Compile Include="Enumerations\Class3.cs" />
-    <Compile Include="Enumerations\Class4.cs" />
-    <Compile Include="Enumerations\ObjectStyles_Casework.cs" />
+    <Compile Include="Enumerations\ObjectStyles\ObjectStyles_Doors.cs" />
+    <Compile Include="Enumerations\ObjectStyles\ObjectStyles_Windows.cs" />
+    <Compile Include="Enumerations\ObjectStyles\ObjectStyles_GenericModels.cs" />
+    <Compile Include="Enumerations\ObjectStyles\ObjectStyles_Furniture.cs" />
+    <Compile Include="Enumerations\ObjectStyles\ObjectStyles_Casework.cs" />
     <Compile Include="Enumerations\Uniformat.cs" />
     <Compile Include="Enumerations\Datatypes\CountDatatype.cs" />
     <Compile Include="Enumerations\Datatypes\CreateCSVInputData.cs" />
