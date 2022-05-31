@@ -49,7 +49,7 @@ namespace CC_Plugin
                 }
             }
         }
-        public static void SaveFamily(this string fp, string prefix = "test")
+        public static void SaveFamily(string fn, Document doc)
         {
             if (doc.IsFamilyDocument)
             {
