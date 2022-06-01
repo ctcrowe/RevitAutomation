@@ -69,7 +69,7 @@ namespace CC_Plugin
                 string folder = "CC_Families".GetMyDocs().GetDir();
             
                 var div = MasterformatNetwork.Predict(fp.Split('\\').Last().Split('.').First(), new WriteToCMDLine(CMDLibrary.WriteNull));
-                typeof(MasterformatNetwork).CreateEmbed(fp.Split('\\').Last().Split('.').First(), div.ToString());
+                typeof(MasterformatNetwork).CreateEmbed(fp.Split('\\').Last().Split('.').First(), (string)div.ToList().IndexOf(div.Max()));
                 string Division = "Division " + div.ToList().IndexOf(div.Max());
                 string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
                 
