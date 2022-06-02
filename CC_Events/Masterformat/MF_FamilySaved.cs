@@ -17,7 +17,7 @@ namespace CC_Plugin
         {
             if (doc.IsFamilyDocument)
             {
-                var output = MasterformatNetwork.Predict(fn, CMDLibrary.WriteNull);
+                var output = MasterformatNetwork.Predict(fn.Split('\\').Last().Split('.').First(), CMDLibrary.WriteNull);
                 var Masterformat = output.ToList().IndexOf(output.Max());
                 using (TransactionGroup tg = new TransactionGroup(doc, "Set MF"))
                 {
@@ -69,14 +69,14 @@ namespace CC_Plugin
                 string folder = "CC_Families".GetMyDocs().GetDir();
             
                 var div = MasterformatNetwork.Predict(fp.Split('\\').Last().Split('.').First(), new WriteToCMDLine(CMDLibrary.WriteNull));
-                typeof(MasterformatNetwork).CreateEmbed(fp.Split('\\').Last().Split('.').First(), (string)div.ToList().IndexOf(div.Max()));
+                typeof(MasterformatNetwork).CreateEmbed(fp.Split('\\').Last().Split('.').First(), div.ToString());
                 string Division = "Division " + div.ToList().IndexOf(div.Max());
                 string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
                 
-                string nf = !fp.Split('\\').Last().StartsWith(prefix + "_")?
-                SubDir + "\\" + prefix + "_" + fp.Split('\\').Last().Split('.').First() + ".rfa":
-                SubDir + "\\" + fp.Split('\\').Last().Split('.').First() + ".rfa";
-                File.Copy(fp, nf, true);
+                string nf = !fn.Split('\\').Last().StartsWith(prefix + "_")?
+                SubDir + "\\" + prefix + "_" + fn.Split('\\').Last().Split('.').First() + ".rfa":
+                SubDir + "\\" + fn.Split('\\').Last().Split('.').First() + ".rfa";
+                File.Copy(fn, nf, true);
             }
         }
     }
