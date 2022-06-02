@@ -30,8 +30,15 @@ namespace CC_Plugin
                 using (TransactionGroup tg = new TransactionGroup(doc, "ChangeCategories"))
                 {
                     tg.Start();
-
-                    List<string> Subcats = new List<string>();
+                    foreach(string tn in Enum.GetNames(t))
+                    {
+                        using (Transaction trans = new Transaction(doc, tn))
+                        {
+                            trans.Start();
+                            Category Sub = cat.SubCategories.Contains(tn) ? cat.SubCategories.get_Item(tn) : doc.Settings.Categories.NewSubcategory(cat, tn);
+                            trans.Commit();
+                        }
+                    }
 
                     var forms = new FilteredElementCollector(doc).OfClass(typeof(GenericForm)).ToElementIds().ToList();
                     foreach (ElementId e in forms)
@@ -50,9 +57,6 @@ namespace CC_Plugin
                                 t.CreateEmbed(name, subcat);
                             }
 
-                            if(!Subcats.Contains(subcat))
-                                Subcats.Add(subcat);
-
                             using (Transaction trans = new Transaction(doc, "set Category"))
                             {
                                 trans.Start();
@@ -67,7 +71,7 @@ namespace CC_Plugin
                     while(iter.MoveNext())
                     {
                         var sc = iter.Current as Category;
-                        if(!Subcats.Contains(sc.Name) && !Enum.GetNames(t).Contains(sc.Name))
+                        if(!Enum.GetNames(t).Contains(sc.Name))
                         {
                             using(Transaction trans = new Transaction(doc, sc.Name))
                             {
