@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CC_Library.Enumerations
+namespace CC_Library
 {
-    internal class ObjectStyles_Furniture
+    public enum ObjectStyles_Furniture
     {
+        _Zero_,
+        Panel,
+        Frame,
+        Threshold,
+        Glass,
+        Swing,
+        Hardware,
+        Hidden,
+        ADA
     }
 }
