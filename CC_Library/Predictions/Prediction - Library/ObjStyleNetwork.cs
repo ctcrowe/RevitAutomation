@@ -62,7 +62,7 @@ namespace CC_Library.Predictions
                     final[j] = F[target];
                     desouts[j] = target;
 
-                    var DesiredOutput = new double[9];
+                    var DesiredOutput = new double[count];
                     DesiredOutput[target] = 1;
                     results[0] += CategoricalCrossEntropy.Forward(F, DesiredOutput).Max();
                     results[1] += F.ToList().IndexOf(F.Max()) == target ? 1 : 0;
