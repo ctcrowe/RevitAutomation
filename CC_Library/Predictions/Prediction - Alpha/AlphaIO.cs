@@ -41,6 +41,9 @@ namespace CC_Library.Predictions
                     var doc = Files.Where(x => x.Contains(fn)).First();
                     write("Filter read from My Docs");
                     var XFMR = ReadFromBinaryFile<Transformer>(doc);
+                    if (XFMR.Inputs != _InputSize || XFMR.ValueSize != _ValueSize || XFMR.QuerySize != _QuerySize)
+                        return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
+
                     XFMR.Name = _name;
                     return XFMR;
                 }
@@ -54,6 +57,9 @@ namespace CC_Library.Predictions
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                     write("Filter Read from Assembly");
                     var XFMR = (Transformer)binaryFormatter.Deserialize(stream);
+                    if (XFMR.Inputs != _InputSize || XFMR.ValueSize != _ValueSize || XFMR.QuerySize != _QuerySize)
+                        return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
+
                     XFMR.Name = _name;
                     return XFMR;
                 }
