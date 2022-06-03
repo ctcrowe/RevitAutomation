@@ -18,7 +18,7 @@ namespace CC_Plugin
             CCPaintPanel.PaintPanel(uiApp);
             UpdateTab.CreatePanel(uiApp);
             ObjStylesTab.ObjTab(uiApp, tabName);
-            FamilyReorganize.Run();
+            //FamilyReorganize.Run();
 
             //DetailPanel.DetailTab(uiApp, tabName);
             //QCTab.QCPanel(uiApp, tabName);
