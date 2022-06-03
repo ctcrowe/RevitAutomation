@@ -2,7 +2,7 @@
 {
     public enum Masterformat
     {
-        Div00_NA,
+        NA,
         Div01_GeneralConditions,
         Div02,
         Div03,
