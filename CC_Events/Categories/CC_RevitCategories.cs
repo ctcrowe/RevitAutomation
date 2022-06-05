@@ -23,6 +23,9 @@ namespace CC_Plugin
                 case (int)BuiltInCategory.OST_Casework:
                     t = typeof(CC_Library.ObjectStyles_Casework);
                     break;
+                case (int)BuiltInCategory.OST_Doors:
+                    t = typeof(CC_Library.ObjectStyles_Doors);
+                    break;
             }
         
             if(t != null)
