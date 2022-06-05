@@ -55,47 +55,7 @@ namespace DataAnalysis
                             while(c)
                             {
                                 Datasets.RunPredictions(Write);
-                                /*
-                                Console.WriteLine("Enter a Datatype to Predict");
-                                string dt = Console.ReadLine();
-                                try
-                                {
-                                    Datatype datatype = (Datatype)Enum.Parse(typeof(Datatype), dt);
-                                    switch(datatype)
-                                    {
-                                        default:
-                                        case Datatype.Masterformat:
-                                            for(int i = 0; i < 1000; i++)
-                                            {
-                                                MasterformatNetwork.Propogate(Write);
-                                            }
-                                            break;
-                                        case Datatype.Command:
-                                            for(int i = 0; i < 1000; i++)
-                                            {
-                                                CmdNetwork.Propogate(Write);
-                                            }
-                                            break;
-                                        case Datatype.OccupantLoadFactor:
-                                            for(int i = 0; i < 1000; i++)
-                                            {
-                                                OLFNetwork.Propogate(Write);
-                                            }
-                                            break;
-                                    }
-                                    Console.WriteLine("Continue? Y / N");
-                                    string cont = Console.ReadLine().ToUpper();
-                                    if(cont == "N")
-                                        c = false;
-                                }
-                                catch
-                                {
-                                }
-                                */
                             }
-                            break;
-                        case "SORT":
-                            Datatype.Masterformat.Sort();
                             break;
                         case "TEST":
                             Console.WriteLine("Enter a Datatype to Predict");
@@ -127,17 +87,6 @@ namespace DataAnalysis
                             break;
                         case "READ":
                             ReadSample.Read(new WriteToCMDLine(Write));
-                            break;
-                        case "BUYSELL":
-                        case "BS":
-                            while (true)
-                            {
-                                TaskScheduler.Instance.ScheduleCycle(.006);
-
-                                string l1 = Console.ReadLine();
-                                if (l1 == "x")
-                                    break;
-                            }
                             break;
                         case "EXIT":
                         case "E":

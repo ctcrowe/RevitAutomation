@@ -96,14 +96,7 @@
     <Compile Include="Predictions\NeuralNets\NeuralNetIO.cs" />
     <Compile Include="Predictions\NeuralNets\OutputStor.cs" />
     <Compile Include="Predictions\Prediction - Alpha\CharSet.cs" />
-    <Compile Include="Predictions\StonkPrediction\AAPLNetwork.cs" />
-    <Compile Include="Predictions\StonkPrediction\StonkValues.cs" />
-    <Compile Include="Predictions\StonkPrediction\StonkContextNetwork.cs" />
-    <Compile Include="Predictions\StonkPrediction\StonkMemory.cs" />
-    <Compile Include="Predictions\StonkPrediction\StonkNetwork.cs" />
     <Compile Include="Predictions\PredictionMaster.cs" />
-    <Compile Include="Predictions\StonkPrediction\Stonks.cs" />
-    <Compile Include="Predictions\StonkPrediction\ValueSet.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
     <Compile Include="Predictions\LossFunctions\Loss.cs" />
@@ -128,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Casework.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Doors.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
