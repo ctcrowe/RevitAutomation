@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using CC_Library;
 using CC_Library.Predictions;
-using CC_Library.Datatypes;
 
 namespace CC_Plugin
 {
