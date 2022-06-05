@@ -21,10 +21,10 @@ namespace CC_Plugin
                 default:
                     break;
                 case (int)BuiltInCategory.OST_Casework:
-                    t = typeof(CC_Library.ObjectStyles_Casework);
+                    t = typeof(ObjectStyles_Casework);
                     break;
                 case (int)BuiltInCategory.OST_Doors:
-                    t = typeof(CC_Library.ObjectStyles_Doors);
+                    t = typeof(ObjectStyles_Doors);
                     break;
             }
         
