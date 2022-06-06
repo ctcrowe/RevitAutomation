@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Enumerations\Masterformat.cs" />
     <Compile Include="Enumerations\ObjectStyles\ObjectStyles_Doors.cs" />
+    <Compile Include="Enumerations\ObjectStyles\ObjectStyles_PlumbingFixtures.cs" />
     <Compile Include="Enumerations\ObjectStyles\ObjectStyles_Windows.cs" />
     <Compile Include="Enumerations\ObjectStyles\ObjectStyles_GenericModels.cs" />
     <Compile Include="Enumerations\ObjectStyles\ObjectStyles_Furniture.cs" />
