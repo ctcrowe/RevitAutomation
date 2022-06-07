@@ -71,6 +71,23 @@ namespace CC_Library.Predictions
         public double[,] Forward(string s, WriteToCMDLine write)
         {
             var _input = s.Locate(1);
+            double[,] result = new double[s.Length, Outputs()];
+            try
+            {
+                Parallel.For(0, Xfmrs.Count(), j =>
+                {
+                    var f = Xfmrs[j].Forward(_input);
+                    int start = 0;
+                    Parallel.For(0, j, i => start += Xfmrs[i].ValueSize);
+                    Parallel.For(0, s.Length, i =>
+                    {
+                        Parallel.For(0, Xfmrs[j].ValueSize, k => result[i, start + k] = f[i, k]);
+                    });
+                });
+            }
+            catch (Exception e) { e.OutputError(); }
+            return result;
+            /*
             double[,] result = new double[Xfmrs.Count() * s.Length, Outputs()];
             try
             {
@@ -82,6 +99,7 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
             return result;
+            */
         }
         public void Backward(double[,] DValues, AttentionMem[] outputs, AttentionChange[] change, WriteToCMDLine write)
         {
