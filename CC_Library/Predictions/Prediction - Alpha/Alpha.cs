@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
 {
     internal class Alpha
     {
-        public const int _Outputs = 200;
+        public const int _Outputs = 300;
         private List<Transformer> Xfmrs { get; }
         internal Alpha(WriteToCMDLine write)
         {
@@ -18,6 +18,7 @@ namespace CC_Library.Predictions
             Xfmrs.Add("XfmrAlpha2".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
             Xfmrs.Add("XfmrAlpha3".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
             Xfmrs.Add("XfmrAlpha4".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
+            Xfmrs.Add("XfmrAlpha5".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
         }
         public void Save()
         {
@@ -87,14 +88,17 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
         }
-        public void Update(AttentionChange[] change, WriteToCMDLine write)
+        public void Update(AttentionChange[] change, int[] numbs, WriteToCMDLine write)
         {
             try
             {
                 Parallel.For(0, Xfmrs.Count, j =>
                 {
-                    Xfmrs[j].Update(change[j], write);
-                    Xfmrs[j].Save("NeuralNets".GetMyDocs());
+                    if (numbs.Contains(j))
+                    {
+                        Xfmrs[j].Update(change[j], write);
+                        Xfmrs[j].Save("NeuralNets".GetMyDocs());
+                    }
                 });
             }
             catch (Exception e) { e.OutputError(); }

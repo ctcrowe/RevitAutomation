@@ -39,10 +39,13 @@ namespace CC_Library.Predictions
                 if (Files.Any(x => x.Contains(fn)))
                 {
                     var doc = Files.Where(x => x.Contains(fn)).First();
-                    write("Filter read from My Docs");
                     var XFMR = ReadFromBinaryFile<Transformer>(doc);
                     if (XFMR.Inputs != _InputSize || XFMR.ValueSize != _ValueSize || XFMR.QuerySize != _QuerySize)
+                    {
+                        write("Size Error, " + fn + " New Xfmr Created");
                         return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
+                    }
+                    write("Filter read from My Docs");
 
                     XFMR.Name = _name;
                     return XFMR;
@@ -55,11 +58,14 @@ namespace CC_Library.Predictions
                 using (Stream stream = assembly.GetManifestResourceStream(name))
                 {
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                    write("Filter Read from Assembly");
                     var XFMR = (Transformer)binaryFormatter.Deserialize(stream);
                     if (XFMR.Inputs != _InputSize || XFMR.ValueSize != _ValueSize || XFMR.QuerySize != _QuerySize)
+                    {
+                        write("Size Error, " + fn + " New Xfmr Created");
                         return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
+                    }
 
+                    write("Filter Read from Assembly");
                     XFMR.Name = _name;
                     return XFMR;
                 }

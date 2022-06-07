@@ -77,7 +77,7 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
 
-            //Alpha.Update(Rates, write);
+            Alpha.Update(Rates, new int[2] { 3, 4 }, write);
             Obj.Update(ObjRate, write);
 
             results[0] /= Samples.Count();
