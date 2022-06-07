@@ -5,8 +5,6 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    //  New concept : load Xfmr based on Type t, rather than just outright loading it. This will add a little  complexity here, but simplify elsewhere.
-    //  Enum.GetNames(typeof(ObjectCategory)).ToList()
     public static class ObjStyleNetwork
     {
         public static double[] Predict(string s, Type t, WriteToCMDLine write)
@@ -79,7 +77,7 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
 
-            Alpha.Update(Rates, write);
+            //Alpha.Update(Rates, write);
             Obj.Update(ObjRate, write);
 
             results[0] /= Samples.Count();
