@@ -9,16 +9,24 @@ namespace CC_Library.Predictions
 {
     internal class Alpha
     {
-        public const int _Outputs = 300;
         private List<Transformer> Xfmrs { get; }
         internal Alpha(WriteToCMDLine write)
         {
             this.Xfmrs = new List<Transformer>();
-            Xfmrs.Add("XfmrAlpha1".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha2".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha3".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha4".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha5".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
+            Xfmrs.Add("XfmrAlpha1".LoadXfmr(CharSet.CharCount * 3, 300, 200, write));
+            Xfmrs.Add("XfmrAlpha2".LoadXfmr(CharSet.CharCount * 3, 300, 200, write));
+            Xfmrs.Add("XfmrAlpha3".LoadXfmr(CharSet.CharCount * 3, 300, 200, write));
+            Xfmrs.Add("XfmrAlpha4".LoadXfmr(CharSet.CharCount * 3, 300, 200, write));
+            Xfmrs.Add("XfmrAlpha5".LoadXfmr(CharSet.CharCount * 3, 300, 200, write));
+        }
+        public int Outputs()
+        {
+            int outputs = 0;
+            foreach(Transformer t in Xfmrs)
+            {
+                outputs += t.ValueSize;
+            }
+            return outputs;
         }
         public void Save()
         {
@@ -42,12 +50,16 @@ namespace CC_Library.Predictions
         public double[,] Forward(string s, AttentionMem[] mem, WriteToCMDLine write)
         {
             var _input = s.Locate(1);
-            double[,] result = new double[Xfmrs.Count() * s.Length, _Outputs];
+            double[,] result = new double[s.Length, Outputs()];
             try
             {
                 Parallel.For(0, Xfmrs.Count(), j =>
                 {
                     Xfmrs[j].Forward(_input, mem[j]);
+                    Parallel.For(0, s.Length, i =>
+                    {
+                        
+                    });
                     Parallel.For(0, s.Length, i => result.SetRank(mem[j].attn.GetRank(i), i + (j * s.Length)));
                 });
             }
@@ -57,7 +69,7 @@ namespace CC_Library.Predictions
         public double[,] Forward(string s, WriteToCMDLine write)
         {
             var _input = s.Locate(1);
-            double[,] result = new double[Xfmrs.Count() * s.Length, _Outputs];
+            double[,] result = new double[Xfmrs.Count() * s.Length, Outputs()];
             try
             {
                 Parallel.For(0, Xfmrs.Count(), j =>
