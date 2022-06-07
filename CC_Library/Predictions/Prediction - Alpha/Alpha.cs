@@ -103,18 +103,25 @@ namespace CC_Library.Predictions
         }
         public void Backward(double[,] DValues, AttentionMem[] outputs, AttentionChange[] change, WriteToCMDLine write)
         {
-            int length = DValues.GetLength(0) / Xfmrs.Count();
             try
             {
                 Parallel.For(0, Xfmrs.Count(), j =>
                 {
-                    var dvals = new double[length, _Outputs];
+                    var dvals = new double[DValues.GetLength(0), Xfmrs[j].ValueSize];
+                    int start = 0;
+                    Parallel.For(0, j, i => start += Xfmrs[i].ValueSize);
+                    Parallel.For(0, DValues.GetLength(0), i =>
+                    {
+                        Parallel.For(0, Xfmrs[j].ValueSize, k => dvals[i, k] = DValues[i, start + k]);
+                    });
+                    /*
                     Parallel.For(0, length, i =>
                     {
                         var inputs = DValues.GetRank(i + (j * length));
                         inputs.Divide(length);
                         dvals.SetRank(inputs, i);
                     });
+                    */
                     Xfmrs[j].Backward(outputs[j], change[j], dvals);
                 });
             }
