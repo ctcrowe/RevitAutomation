@@ -56,11 +56,13 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Xfmrs.Count(), j =>
                 {
                     Xfmrs[j].Forward(_input, mem[j]);
+                    int start = 0;
+                    Parallel.For(0, j, i => start += Xfmrs[i].ValueSize);
                     Parallel.For(0, s.Length, i =>
                     {
-                        
+                        Parallel.For(0, Xfmrs[j].ValueSize, k => result[i, start + k] = mem[j].attn[i, k]);
                     });
-                    Parallel.For(0, s.Length, i => result.SetRank(mem[j].attn.GetRank(i), i + (j * s.Length)));
+                    //Parallel.For(0, s.Length, i => result.SetRank(mem[j].attn.GetRank(i), i + (j * s.Length)));
                 });
             }
             catch (Exception e) { e.OutputError(); }
