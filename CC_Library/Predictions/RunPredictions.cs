@@ -22,6 +22,7 @@ namespace CC_Library.Predictions
                 double er = 0;
                 double acc = 0;
                 var filepath = ofd.FileName;
+                var files = Directory.GetFiles(Directory.GetDirectoryRoot(filepath));
                 var l = File.ReadAllLines(filepath).ToList();
 
                 Dictionary<int, List<string>> values = new Dictionary<int, List<string>>();
