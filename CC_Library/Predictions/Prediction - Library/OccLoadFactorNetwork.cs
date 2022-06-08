@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
         public static double[] Predict(string s, WriteToCMDLine write)
         {
             var Alpha = new Alpha(write);
-            var Obj = "OccLoadFactor".LoadXfmr(Alpha._Outputs, 9, 80, write);
+            var Obj = "OccLoadFactor".LoadXfmr(Alpha.Outputs(), 9, 80, write);
 
             var AOut = Alpha.Forward(s, write);
             var ObjOut = Obj.Forward(AOut);
@@ -25,7 +25,7 @@ namespace CC_Library.Predictions
             var Alpha = new Alpha(write);
             var Rates = Alpha.GetChange();
 
-            var Obj = "OccLoadFactor".LoadXfmr(Alpha._Outputs, 9, 80, write);
+            var Obj = "OccLoadFactor".LoadXfmr(Alpha.Outputs(), 9, 80, write);
             var ObjRate = new AttentionChange(Obj);
 
             try
