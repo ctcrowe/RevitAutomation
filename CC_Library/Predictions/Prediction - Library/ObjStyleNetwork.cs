@@ -12,7 +12,7 @@ namespace CC_Library.Predictions
             var Alpha = new Alpha(write);
             string Name = t.Name;
             var count = Enum.GetNames(t).ToList().Count();
-            var Obj = Name.LoadXfmr(Alpha.Outputs(), count, 80, write);
+            var Obj = Name.LoadXfmr(Alpha._Outputs, count, 80, write);
 
             var AOut = Alpha.Forward(s, write);
             var ObjOut = Obj.Forward(AOut);
@@ -29,7 +29,7 @@ namespace CC_Library.Predictions
 
             string Name = t.Name;
             var count = Enum.GetNames(t).ToList().Count();
-            var Obj = Name.LoadXfmr(Alpha.Outputs(), count, 80, write);
+            var Obj = Name.LoadXfmr(Alpha._Outputs, count, 80, write);
             var ObjRate = new AttentionChange(Obj);
 
             try
