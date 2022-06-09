@@ -114,17 +114,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Predictions\BinaryFiles\Masterformat.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha1.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha2.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha3.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\XfmrAlpha4.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Casework.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Doors.bin" />
+    <Folder Include="Predictions\BinaryFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

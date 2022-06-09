@@ -42,8 +42,8 @@ namespace CC_Library.Predictions
 
                     var AlphaOut = Alpha.Forward(Samples[j].Split(',').First(), AlphaMem, write);
                     MF.Forward(AlphaOut, MFMem);
-
-                    var F = Activations.SoftMax(MFMem.attention);
+                    var attention = MFMem.attn.SumRange();
+                    var F = Activations.SoftMax(attention);
 
                     max[j] = F[F.ToList().IndexOf(F.Max())];
                     outputs[j] = F.ToList().IndexOf(F.Max());

@@ -9,16 +9,16 @@ namespace CC_Library.Predictions
 {
     internal class Alpha
     {
-        public const int _Outputs = 300;
+        public const int _Outputs = 500;
         private List<Transformer> Xfmrs { get; }
         internal Alpha(WriteToCMDLine write)
         {
             this.Xfmrs = new List<Transformer>();
-            Xfmrs.Add("XfmrAlpha1".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha2".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha3".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha4".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
-            Xfmrs.Add("XfmrAlpha5".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write));
+            Xfmrs.Add("XfmrAlpha1".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write, 0, 200));
+            Xfmrs.Add("XfmrAlpha2".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write, 100, 200));
+            Xfmrs.Add("XfmrAlpha3".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write, 0, 100));
+            Xfmrs.Add("XfmrAlpha4".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write, 300, 0));
+            Xfmrs.Add("XfmrAlpha5".LoadXfmr(CharSet.CharCount * 3, _Outputs, 200, write, 200, 200));
         }
         public void Save()
         {

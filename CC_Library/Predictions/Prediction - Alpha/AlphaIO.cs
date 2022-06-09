@@ -28,7 +28,7 @@ namespace CC_Library.Predictions
                 return (T)binaryFormatter.Deserialize(stream);
             }
         }
-        public static Transformer LoadXfmr(this string _name, int _InputSize, int _ValueSize, int _QuerySize, WriteToCMDLine write)
+        public static Transformer LoadXfmr(this string _name, int _InputSize, int _ValueSize, int _QuerySize, WriteToCMDLine write, int Prefix = 0, int Suffix = 0)
         {
             string fn = _name;
             fn += ".bin";
@@ -43,7 +43,7 @@ namespace CC_Library.Predictions
                     if (XFMR.Inputs != _InputSize || XFMR.ValueSize != _ValueSize || XFMR.QuerySize != _QuerySize)
                     {
                         write("Size Error, " + fn + " New Xfmr Created");
-                        return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
+                        return new Transformer(_name, _InputSize, _ValueSize, _QuerySize, Prefix, Suffix);
                     }
                     write("Filter read from My Docs");
 
@@ -62,7 +62,7 @@ namespace CC_Library.Predictions
                     if (XFMR.Inputs != _InputSize || XFMR.ValueSize != _ValueSize || XFMR.QuerySize != _QuerySize)
                     {
                         write("Size Error, " + fn + " New Xfmr Created");
-                        return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
+                        return new Transformer(_name, _InputSize, _ValueSize, _QuerySize, Prefix, Suffix);
                     }
 
                     write("Filter Read from Assembly");
@@ -72,7 +72,7 @@ namespace CC_Library.Predictions
             }
                           
             write("Filter " + fn + " Not Found. New Filter Created");
-            return new Transformer(_name, _InputSize, _ValueSize, _QuerySize);
+            return new Transformer(_name, _InputSize, _ValueSize, _QuerySize, Prefix, Suffix);
         }
     }
 }
