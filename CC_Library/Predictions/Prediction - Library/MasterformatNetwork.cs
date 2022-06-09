@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
         public static double[] Predict(string s, WriteToCMDLine write)
         {
             var Alpha = new Alpha(write);
-            var MF = "Masterformat".LoadXfmr(Alpha.Outputs(), 40, 80, write);
+            var MF = "Masterformat".LoadXfmr(Alpha._Outputs, 40, 80, write);
 
             var AOut = Alpha.Forward(s, write);
             var MFOut = MF.Forward(AOut);
@@ -25,7 +25,7 @@ namespace CC_Library.Predictions
             var Alpha = new Alpha(write);
             var Rates = Alpha.GetChange();
 
-            var MF = "Masterformat".LoadXfmr(Alpha.Outputs(), 40, 80, write);
+            var MF = "Masterformat".LoadXfmr(Alpha._Outputs, 40, 80, write);
             var MFRate = new AttentionChange(MF);
 
             try
