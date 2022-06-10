@@ -9,12 +9,12 @@ namespace CC_Library.Predictions
     {
         public static double[] Predict(string s, Type t, WriteToCMDLine write)
         {
-            var Alpha = new Alpha(write);
             string Name = t.Name;
+            var Alpha = new Alpha(Name, write);
             var count = Enum.GetNames(t).ToList().Count();
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 80, write);
 
-            var AOut = Alpha.Forward(s, write);
+            var AOut = Alpha.Forward(s);
             var ObjOut = Obj.Forward(AOut);
             var output = ObjOut.SumRange();
             output = Activations.SoftMax(output);
@@ -24,10 +24,9 @@ namespace CC_Library.Predictions
             (string[] Samples, Type t, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
-            var Alpha = new Alpha(write);
-            var Rates = Alpha.GetChange();
-
             string Name = t.Name;
+            var Alpha = new Alpha(Name, write);
+            var Rates = Alpha.GetChange();
             var count = Enum.GetNames(t).ToList().Count();
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 80, write);
             var ObjRate = new AttentionChange(Obj);

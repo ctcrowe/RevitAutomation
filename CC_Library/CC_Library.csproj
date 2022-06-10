@@ -80,10 +80,12 @@
     <Compile Include="Patterns\HerringbonePattern.cs" />
     <Compile Include="Predictions\CreateEmbed.cs" />
     <Compile Include="Predictions\ErrorProcessing\DActivationArrays.cs" />
+    <Compile Include="Predictions\Prediction - Alpha\Alpha - Copy.cs" />
     <Compile Include="Predictions\Prediction - Alpha\Alpha.cs" />
     <Compile Include="Predictions\Prediction - Alpha\Transformer.cs" />
     <Compile Include="Predictions\Prediction - Alpha\AlphaIO.cs" />
     <Compile Include="Predictions\Prediction - Library\CMDNetwork.cs" />
+    <Compile Include="Predictions\Prediction - Library\MasterformatNetwork - Copy.cs" />
     <Compile Include="Predictions\Prediction - Library\OccLoadFactorNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ObjStyleNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
@@ -114,7 +116,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Predictions\BinaryFiles\" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Casework.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_CaseworkAlpha.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Predictions\BinaryFiles\Masterformat.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\MasterformatAlpha.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

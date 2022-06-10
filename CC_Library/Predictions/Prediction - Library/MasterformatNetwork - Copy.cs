@@ -5,16 +5,16 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    public static class OccLoadFactorNetwork
+    public static class MasterformatNetwork2
     {
         public static double[] Predict(string s, WriteToCMDLine write)
         {
             var Alpha = new Alpha2(write);
-            var Obj = "OccLoadFactor".LoadXfmr(Alpha2._Outputs, 9, 80, write);
+            var MF = "Masterformat".LoadXfmr(Alpha2._Outputs, 40, 80, write);
 
             var AOut = Alpha.Forward(s, write);
-            var ObjOut = Obj.Forward(AOut);
-            var output = ObjOut.SumRange();
+            var MFOut = MF.Forward(AOut);
+            var output = MFOut.SumRange();
             output = Activations.SoftMax(output);
             return output;
         }
@@ -25,8 +25,8 @@ namespace CC_Library.Predictions
             var Alpha = new Alpha2(write);
             var Rates = Alpha.GetChange();
 
-            var Obj = "OccLoadFactor".LoadXfmr(Alpha2._Outputs, 9, 80, write);
-            var ObjRate = new AttentionChange(Obj);
+            var MF = "Masterformat".LoadXfmr(Alpha2._Outputs, 40, 80, write);
+            var MFRate = new AttentionChange(MF);
 
             try
             {
@@ -38,12 +38,11 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     var AlphaMem = Alpha.GetMem();
-                    var ObjMem = new AttentionMem();
+                    var MFMem = new AttentionMem();
 
                     var AlphaOut = Alpha.Forward(Samples[j].Split(',').First(), AlphaMem, write);
-                    Obj.Forward(AlphaOut, ObjMem);
-
-                    var attention = ObjMem.attn.SumRange();
+                    MF.Forward(AlphaOut, MFMem);
+                    var attention = MFMem.attn.SumRange();
                     var F = Activations.SoftMax(attention);
 
                     max[j] = F[F.ToList().IndexOf(F.Max())];
@@ -51,14 +50,14 @@ namespace CC_Library.Predictions
                     final[j] = F[int.Parse(Samples[j].Split(',').Last())];
                     desouts[j] = int.Parse(Samples[j].Split(',').Last());
 
-                    var DesiredOutput = new double[9];
+                    var DesiredOutput = new double[40];
                     DesiredOutput[int.Parse(Samples[j].Split(',').Last())] = 1;
                     results[0] += CategoricalCrossEntropy.Forward(F, DesiredOutput).Max();
                     results[1] += F.ToList().IndexOf(F.Max()) == int.Parse(Samples[j].Split(',').Last()) ? 1 : 0;
 
                     var DValues = Activations.InverseCombinedCrossEntropySoftmax(DesiredOutput, F);
-                    var dvals = DValues.Dot(ObjMem.attn.Ones()); //returns a vector [s.Length, size]
-                    dvals = Obj.Backward(ObjMem, ObjRate, dvals);
+                    var dvals = DValues.Dot(MFMem.attn.Ones()); //returns a vector [s.Length, size]
+                    dvals = MF.Backward(MFMem, MFRate, dvals);
                     Alpha.Backward(dvals, AlphaMem, Rates, write);
                 });
                 final.WriteArray("Desired Output", write);
@@ -67,18 +66,18 @@ namespace CC_Library.Predictions
                 desouts.WriteArray("Desired", write);
             }
             catch (Exception e) { e.OutputError(); }
-
-            //Alpha.Update(Rates, write);
-            Obj.Update(ObjRate, write);
+            //MFMem.Update(Samples.Count(), rate, net);
+            Alpha.Update(Rates, new int[4] {0,1,2,3}, write);
+            MF.Update(MFRate, write);
 
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
 
             write("Run Error : " + results[0]);
             write("Run Accuracy : " + results[1]);
-
+            //net.Save();
             string Folder = "NeuralNets".GetMyDocs();
-            Obj.Save(Folder);
+            MF.Save(Folder);
             return results;
         }
     }
