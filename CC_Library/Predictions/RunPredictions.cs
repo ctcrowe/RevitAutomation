@@ -37,7 +37,7 @@ namespace CC_Library.Predictions
                         var lines = l.OrderBy(x => r.NextDouble()).Take(16).ToArray();
                         //var error = MasterformatNetwork.Propogate(lines, write, true);
 
-                        var error = ObjStyleNetwork.Propogate(lines, typeof(ObjectStyles_Casework), write, true);
+                        var error = ObjStyleNetwork.Propogate(lines, typeof(ObjectStyles_Doors), write, true);
 
                         if (error[0] > 0)
                         {
