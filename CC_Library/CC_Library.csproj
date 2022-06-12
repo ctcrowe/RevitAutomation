@@ -89,7 +89,6 @@
     <Compile Include="Predictions\Prediction - Library\OccLoadFactorNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ObjStyleNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\MasterformatNetwork.cs" />
-    <Compile Include="Predictions\ReadSample.cs" />
     <Compile Include="Predictions\ConsoleOutput.cs" />
     <Compile Include="Predictions\INetworkPredUpdater.cs" />
     <Compile Include="Predictions\LossFunctions\Loss_BinaryCrossEntropy.cs" />
@@ -99,7 +98,6 @@
     <Compile Include="Predictions\NeuralNets\NeuralNetIO.cs" />
     <Compile Include="Predictions\NeuralNets\OutputStor.cs" />
     <Compile Include="Predictions\Prediction - Alpha\CharSet.cs" />
-    <Compile Include="Predictions\PredictionMaster.cs" />
     <Compile Include="Predictions\TestPredictions.cs" />
     <Compile Include="Predictions\OutputPredictions.cs" />
     <Compile Include="Predictions\LossFunctions\Loss.cs" />
