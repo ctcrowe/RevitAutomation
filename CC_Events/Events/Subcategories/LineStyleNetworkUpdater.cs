@@ -13,7 +13,7 @@ using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
-    internal class LineStyleNetworkUpdater : IUpdater
+ /*   internal class LineStyleNetworkUpdater : IUpdater
     {
         public static Result OnStartup(UIControlledApplication app)
         {
@@ -107,5 +107,5 @@ namespace CC_Plugin
         public ChangePriority GetChangePriority() { return ChangePriority.FreeStandingComponents; }
         public UpdaterId GetUpdaterId() { return updaterId; }
         public string GetUpdaterName() { return "Update Object Styles"; }
-    }
+    }*/
 }

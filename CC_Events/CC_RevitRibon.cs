@@ -19,7 +19,7 @@ namespace CC_Plugin
             UpdateTab.CreatePanel(uiApp);
             ObjStylesTab.ObjTab(uiApp, tabName);
 
-            try { LineStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
+           // try { LineStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { TypeNamingUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { DocumentSaved.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { PlaneTypeUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
@@ -28,7 +28,7 @@ namespace CC_Plugin
         }
         public Result OnShutdown(UIControlledApplication uiApp)
         {
-            LineStyleNetworkUpdater.OnShutdown(uiApp);
+            //LineStyleNetworkUpdater.OnShutdown(uiApp);
             TypeNamingUpdater.OnShutdown(uiApp);
             DocumentSaved.OnShutdown(uiApp);
             PlaneTypeUpdater.OnShutdown(uiApp);

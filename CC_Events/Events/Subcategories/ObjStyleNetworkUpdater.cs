@@ -98,7 +98,7 @@ namespace CC_Plugin
                                 if (Enum.GetNames(typeof(ObjectCategory)).ToList().Any(x => ele.Subcategory.Name.Contains(x)))
                                 {
                                     int Correct = Enum.GetNames(typeof(ObjectCategory)).ToList().IndexOf(Enum.GetNames(typeof(ObjectCategory)).ToList().Where(x => ele.Subcategory.Name.Contains(x)).First());
-                                    Datatype.ObjectStyle.PropogateSingle(Correct, new WriteToCMDLine(WriteNull), name, n2, dims);
+                                    //Datatype.ObjectStyle.PropogateSingle(Correct, new WriteToCMDLine(WriteNull), name, n2, dims);
                                 }
                             }
                         }
