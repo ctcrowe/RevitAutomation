@@ -121,5 +121,9 @@
     <EmbeddedResource Include="Predictions\BinaryFiles\Masterformat.bin" />
     <EmbeddedResource Include="Predictions\BinaryFiles\MasterformatAlpha.bin" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Doors.bin" />
+    <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_DoorsAlpha.bin" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
