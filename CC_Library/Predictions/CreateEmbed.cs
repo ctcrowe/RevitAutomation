@@ -12,7 +12,7 @@ namespace CC_Library.Predictions
             var dir = "NetworkSamples".GetMyDocs();
             if(!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            var fn = dir + "\" + t.ToString().Split('.').Last() + "_" + input + "_" + output + ".txt";
+            var fn = dir + "\\" + t.ToString().Split('.').Last() + "_" + input + "_" + output + ".txt";
             List<string> Lines = new List<string>();
 
             Lines.Add(t.ToString().Split('.').Last() + "," + input + "," + output);
