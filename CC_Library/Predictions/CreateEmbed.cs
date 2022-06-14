@@ -16,7 +16,7 @@ namespace CC_Library.Predictions
             List<string> Lines = new List<string>();
 
             Lines.Add(t.ToString().Split('.').Last() + "," + input + "," + output);
-            File.AppendAllLines(fn, Lines);
+            File.WriteAllLines(fn, Lines);
         }
     }
 }
