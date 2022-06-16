@@ -8,7 +8,7 @@ namespace CC_Library.Predictions
     public static class ProjectionLineWeightNetwork
     {
         private const int count = 16;
-        public static double[] Predict(string s, Type t, WriteToCMDLine write)
+        public static double[] Predict(string s, WriteToCMDLine write)
         {
             string Name = t.Name;
             var Alpha = new Alpha(Name, write);
@@ -21,7 +21,7 @@ namespace CC_Library.Predictions
             return output;
         }
         public static double[] Propogate
-            (string[] Samples, Type t, WriteToCMDLine write, bool tf = false)
+            (string[] Samples, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
             string Name = t.Name;
