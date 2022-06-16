@@ -7,7 +7,7 @@ namespace CC_Library.Predictions
 {
     public static class ProjectionLineWeightNetwork
     {
-        private const int count = 17;
+        private const int count = 16;
         public static double[] Predict(string s, Type t, WriteToCMDLine write)
         {
             string Name = t.Name;
