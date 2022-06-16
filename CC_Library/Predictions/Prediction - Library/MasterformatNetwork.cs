@@ -67,7 +67,7 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
             //MFMem.Update(Samples.Count(), rate, net);
-            Alpha.Update(Rates, new int[4] {0,1,2,3}, write);
+            Alpha.Update(Rates, write);
             MF.Update(MFRate, write);
 
             results[0] /= Samples.Count();

@@ -31,7 +31,7 @@ namespace CC_Library.Predictions
         }
         public double[,] Forward(string s) { return Xfmr.Forward(s.Locate(1)); }
         public void Backward(double[,] DValues, AttentionMem outputs, AttentionChange change, WriteToCMDLine write) { Xfmr.Backward(outputs, change, DValues); }
-        public void Update(AttentionChange change, int[] numbs, WriteToCMDLine write)
+        public void Update(AttentionChange change, WriteToCMDLine write)
         {
             Xfmr.Update(change, write);
             Xfmr.Save("NeuralNets".GetMyDocs());
