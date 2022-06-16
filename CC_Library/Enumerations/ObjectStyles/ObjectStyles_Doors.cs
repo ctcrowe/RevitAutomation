@@ -10,6 +10,7 @@
         Swing,
         Hardware,
         Hidden,
+        Trim,
         ADA
     }
 }
