@@ -83,6 +83,10 @@ namespace CC_Plugin
                                 trans.Commit();
                             }
                         }
+                        else
+                        {
+                            sc.SetProjectedLineWeight();
+                        }
                     }
                     
                     tg.Commit();
