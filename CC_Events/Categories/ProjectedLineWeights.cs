@@ -14,9 +14,11 @@ namespace CC_Plugin
     internal static class ProjectedLineWeights
     {
         public static void SetProjectedLineWeight(this Category cat)
-        { cat.SetLineWeight(
-            ProjectionLineWeightNetwork.Predict(cat.Name, CMDLibrary.WriteNull),
-            GraphicsStyleType.Projection);
+        {
+            var predset = ProjectionLineWeightNetwork.Predict(cat.Name, CMDLibrary.WriteNull);
+            var pred = predset.ToList().IndexOf(predset.Max());
+            typeof(ProjectionLineWeightNetwork).CreateEmbed(cat.Name, pred);
+            cat.SetLineWeight(pred + 1, GraphicsStyleType.Projection);
         }
     }
 }
