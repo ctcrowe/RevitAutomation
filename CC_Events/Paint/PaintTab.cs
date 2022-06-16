@@ -63,20 +63,6 @@ namespace CC_Plugin
     }
     [TransactionAttribute(TransactionMode.Manual)]
     [RegenerationAttribute(RegenerationOption.Manual)]
-    public class LearnLineWeights : IExternalCommand
-    {
-        public Result Execute(
-            ExternalCommandData commandData,
-            ref string message,
-            ElementSet elements)
-        {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-            LineWeights.Learn(doc);
-            return Result.Succeeded;
-        }
-    }
-    [TransactionAttribute(TransactionMode.Manual)]
-    [RegenerationAttribute(RegenerationOption.Manual)]
     public class CreatePatternFile : IExternalCommand
     {
         public Result Execute(
@@ -122,13 +108,6 @@ namespace CC_Plugin
             b3Data.ToolTip = "Organize all families in the mydocuments folder.";
             PushButton PB3 = Panel.AddItem(b3Data) as PushButton;
 
-            PushButtonData b4Data = new PushButtonData(
-                "Learn Line Weights",
-                "Learn\r\nLine Weights",
-                @dllpath,
-                "CC_Plugin.LearnLineWeights");
-            b4Data.ToolTip = "Learn from the line weights of the current view";
-            PushButton PB4 = Panel.AddItem(b4Data) as PushButton;
             PushButtonData b5Data = new PushButtonData(
                 "Create Pattern File",
                 "Create\r\nPattern File",
