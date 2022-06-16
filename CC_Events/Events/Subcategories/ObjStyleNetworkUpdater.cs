@@ -13,6 +13,7 @@ using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
+    /*
     internal class ObjStyleNetworkUpdater : IUpdater
     {
         public static Result OnStartup(UIControlledApplication app)
@@ -124,4 +125,5 @@ namespace CC_Plugin
         public string GetUpdaterName() { return "Update Object Styles"; }
 
     }
+    */
 }
