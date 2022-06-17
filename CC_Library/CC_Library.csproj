@@ -86,6 +86,7 @@
     <Compile Include="Predictions\Prediction - Alpha\AlphaIO.cs" />
     <Compile Include="Predictions\Prediction - Library\CMDNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\Concepts\MasterformatNetwork - Copy.cs" />
+    <Compile Include="Predictions\Prediction - Library\CutLineWeightNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ProjectionLineWeightNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\OccLoadFactorNetwork.cs" />
     <Compile Include="Predictions\Prediction - Library\ObjStyleNetwork.cs" />
