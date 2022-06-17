@@ -22,3 +22,18 @@ namespace CC_Plugin
         }
     }
 }
+
+
+/*
+
+step 1: collect view name
+step 2: interpret view name in transformer
+
+step 3: for each category in view, collect all subcategories
+step 4: for each subcategory, intrepret name in transformer
+step 5: merge view name output with subcategory output.
+step 6: run output through extrapolator
+step 7: use extrapolation output as vg override settings.
+note: relate extrapolation for projection, cut, and visibility
+
+*/
