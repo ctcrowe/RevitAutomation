@@ -85,7 +85,12 @@ namespace CC_Plugin
                         }
                         else
                         {
-                            sc.SetProjectedLineWeight();
+                            using(Transaction trans = new Transaction(doc, sc.Name))
+                            {
+                                trans.Start();
+                                sc.SetProjectedLineWeight();
+                                trans.Commit();
+                            }
                         }
                     }
                     
