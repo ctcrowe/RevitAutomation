@@ -17,7 +17,7 @@ namespace CC_Plugin
         {
             var predset = ProjectionLineWeightNetwork.Predict(cat.Name, CMDLibrary.WriteNull);
             var pred = predset.ToList().IndexOf(predset.Max());
-            typeof(ProjectionLineWeightNetwork).CreateEmbed(cat.Name, pred);
+            typeof(ProjectionLineWeightNetwork).CreateEmbed(cat.Name, pred.ToString());
             cat.SetLineWeight(pred + 1, GraphicsStyleType.Projection);
         }
     }

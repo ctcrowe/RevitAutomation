@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
         private const int count = 16;
         public static double[] Predict(string s, WriteToCMDLine write)
         {
-            string Name = t.Name;
+            string Name = typeof(ProjectionLineWeightNetwork).Name;
             var Alpha = new Alpha(Name, write);
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
 
@@ -24,7 +24,7 @@ namespace CC_Library.Predictions
             (string[] Samples, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
-            string Name = t.Name;
+            string Name = typeof(ProjectionLineWeightNetwork).Name;
             var Alpha = new Alpha(Name, write);
             var Rates = Alpha.GetChange();
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
@@ -51,8 +51,7 @@ namespace CC_Library.Predictions
                     max[j] = F[F.ToList().IndexOf(F.Max())];
                     outputs[j] = F.ToList().IndexOf(F.Max());
 
-                    int target = Enum.GetNames(t).Contains(Samples[j].Split(',').Last()) ?
-                        Enum.GetNames(t).ToList().IndexOf(Samples[j].Split(',').Last()) :
+                    int target =
                         int.TryParse(Samples[j].Split(',').Last(), out int integer) ?
                         int.Parse(Samples[j].Split(',').Last()) : 0;
 

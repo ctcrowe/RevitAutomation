@@ -23,7 +23,7 @@ namespace CC_Plugin
             try { TypeNamingUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { DocumentSaved.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { PlaneTypeUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
-            try { ObjStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
+            //try { ObjStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             return Result.Succeeded;
         }
         public Result OnShutdown(UIControlledApplication uiApp)
@@ -32,7 +32,7 @@ namespace CC_Plugin
             TypeNamingUpdater.OnShutdown(uiApp);
             DocumentSaved.OnShutdown(uiApp);
             PlaneTypeUpdater.OnShutdown(uiApp);
-            ObjStyleNetworkUpdater.OnShutdown(uiApp);
+            //ObjStyleNetworkUpdater.OnShutdown(uiApp);
             return Result.Succeeded;
         }
     }
