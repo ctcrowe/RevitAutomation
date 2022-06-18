@@ -15,10 +15,20 @@ namespace CC_Plugin
     {
         public static void SetProjectedLineWeight(this Category cat)
         {
-            var predset = ProjectionLineWeightNetwork.Predict(cat.Name, CMDLibrary.WriteNull);
-            var pred = predset.ToList().IndexOf(predset.Max());
-            typeof(ProjectionLineWeightNetwork).CreateEmbed(cat.Name, pred.ToString());
-            cat.SetLineWeight(pred + 1, GraphicsStyleType.Projection);
+            var ProjectionPredset = ProjectionLineWeightNetwork.Predict(cat.Name, CMDLibrary.WriteNull);
+            var ProjectionPred = ProjectionPredset.ToList().IndexOf(ProjectionPredset.Max());
+            
+            typeof(ProjectionLineWeightNetwork).CreateEmbed(cat.Name, ProjectionPred.ToString());
+            cat.SetLineWeight(ProjectionPred + 1, GraphicsStyleType.Projection);
+            
+            if(cat.IsCuttable)
+            {
+                var CutPredset = CutLineWeightNetwork.Predict(cat.Name, CMDLibrary.WriteNull);
+                var CutPred = CutPredset.ToList().IndexOf(CutPredset.Max());
+                
+                typeof(CutLineWeightNetwork).CreateEmbed(cat.Name, CutPred.ToString());
+                cat.SetLineWeight(CutPred + 1, GraphicsStyleType.Cut);
+            }
         }
     }
 }
