@@ -8,13 +8,15 @@ namespace CC_Library.Predictions
     public static class ProjectionLineWeightNetwork
     {
         private const int count = 16;
-        public static double[] Predict(string s, WriteToCMDLine write)
+        public static double[] Predict(string s, WriteToCMDLine write, double[,] VInput = null)
         {
             string Name = typeof(ProjectionLineWeightNetwork).Name;
             var Alpha = new Alpha(Name, write);
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
-
             var AOut = Alpha.Forward(s);
+            if (VInput != null)
+                AOut = AOut.Append(VInput);
+
             var ObjOut = Obj.Forward(AOut);
             var output = ObjOut.SumRange();
             output = Activations.SoftMax(output);
@@ -26,7 +28,9 @@ namespace CC_Library.Predictions
             var results = new double[2];
             string Name = typeof(ProjectionLineWeightNetwork).Name;
             var Alpha = new Alpha(Name, write);
+            var A2 = new Alpha("ViewName", write);
             var Rates = Alpha.GetChange();
+            var A2Rates = A2.GetChange();
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
             var ObjRate = new AttentionChange(Obj);
 
@@ -40,10 +44,17 @@ namespace CC_Library.Predictions
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     var AlphaMem = Alpha.GetMem();
+                    var A2Mem = A2.GetMem();
                     var ObjMem = new AttentionMem();
+                    double[,] AOut = Alpha.Forward(Samples[j].Split(',')[1], AlphaMem, write);
 
-                    var AlphaOut = Alpha.Forward(Samples[j].Split(',').First(), AlphaMem, write);
-                    Obj.Forward(AlphaOut, ObjMem);
+                    if (Samples[j].Split(',').Length == 4)
+                    {
+                        var A2Out = A2.Forward(Samples[j].Split(',')[2], A2Mem, write);
+                        AOut.Append(A2Out);
+                    }
+
+                    Obj.Forward(AOut, ObjMem);
 
                     var attention = ObjMem.attn.SumRange();
                     var F = Activations.SoftMax(attention);
@@ -64,8 +75,15 @@ namespace CC_Library.Predictions
                     results[1] += F.ToList().IndexOf(F.Max()) == target ? 1 : 0;
 
                     var DValues = Activations.InverseCombinedCrossEntropySoftmax(DesiredOutput, F);
-                    var dvals = DValues.Dot(ObjMem.attn.Ones()); //returns a vector [s.Length, size]
+                    var dvals = DValues.Dot(ObjMem.attn.Ones()); //returns a vector [s1.Length + s2.Length, size]
                     dvals = Obj.Backward(ObjMem, ObjRate, dvals);
+
+                    if(Samples[j].Split(',').Length == 4)
+                    {
+                        var A2Dvals = dvals.Take(Samples[j].Split(',')[2].Length, Samples[j].Split(',')[3].Length);
+                        A2.Backward(A2Dvals, A2Mem, A2Rates, write);
+                        dvals = dvals.Take(0, Samples[j].Split(',')[2].Length);
+                    }
                     Alpha.Backward(dvals, AlphaMem, Rates, write);
                 });
                 final.WriteArray("Desired Output", write);

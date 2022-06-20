@@ -10,7 +10,7 @@ namespace CC_Library.Predictions
         private const int count = 16;
         public static double[] Predict(string s, WriteToCMDLine write)
         {
-            string Name = typeof(ProjectionLineWeightNetwork).Name;
+            string Name = typeof(CutLineWeightNetwork).Name;
             var Alpha = new Alpha(Name, write);
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
 
@@ -24,7 +24,7 @@ namespace CC_Library.Predictions
             (string[] Samples, WriteToCMDLine write, bool tf = false)
         {
             var results = new double[2];
-            string Name = typeof(ProjectionLineWeightNetwork).Name;
+            string Name = typeof(CutLineWeightNetwork).Name;
             var Alpha = new Alpha(Name, write);
             var Rates = Alpha.GetChange();
             var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);

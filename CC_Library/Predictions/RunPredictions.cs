@@ -21,23 +21,27 @@ namespace CC_Library.Predictions
                 int runs = 0;
                 double er = 0;
                 double acc = 0;
-                var filepath = ofd.FileName;
-                var files = Directory.GetFiles(Directory.GetDirectoryRoot(filepath));
-                var l = File.ReadAllLines(filepath).ToList();
-
-                Dictionary<int, List<string>> values = new Dictionary<int, List<string>>();
-                //List<string> finlines = new List<string>();
-                int count = 0;
                 Random r = new Random();
 
-                for(int i = 0; i < 10000; i++)
+                var filepath = ofd.FileName;
+
+                Dictionary<int, List<string>> values = new Dictionary<int, List<string>>();
+
+                for(int i = 0; i < 5; i++)
                 {
                     try
                     {
-                        var lines = l.OrderBy(x => r.NextDouble()).Take(16).ToArray();
-                        //var error = MasterformatNetwork.Propogate(lines, write, true);
+                        var files = Directory.GetFiles(Directory.GetDirectoryRoot(filepath)).ToList().OrderBy(x => r.NextDouble()).Take(16);
+                        List<string> l = new List<string>();
 
-                        var error = ObjStyleNetwork.Propogate(lines, typeof(ObjectStyles_Doors), write, true);
+                        foreach (var f in files)
+                        {
+                            l.Add(File.ReadAllLines(filepath)[0]);
+                        }
+                        var lines = l.ToArray();
+                        //var error = MasterformatNetwork.Propogate(lines, write, true);
+                        //var error = ObjStyleNetwork.Propogate(lines, typeof(ObjectStyles_Doors), write, true);
+                        var error = ProjectionLineWeightNetwork.Propogate(lines, write, true);
 
                         if (error[0] > 0)
                         {

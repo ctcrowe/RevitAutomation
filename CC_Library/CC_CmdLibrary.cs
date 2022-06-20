@@ -16,6 +16,28 @@ namespace CC_Library
     public delegate string WriteToCMDLine(string s);
     public static class CMDLibrary
     {
+        public static double[,] Take(this double[,] x, int start, int count)
+        {
+            if(x.GetLength(0) < start + count)
+            {
+                throw new Exception("Out of Range Exception");
+            }    
+            double[,] result = new double[count, x.GetLength(1)];
+            Parallel.For(start, start + count, i => result.SetRank(x.GetRank(1), i - start) );
+            return result;
+        }
+        public static double[,] Append(this double[,] x, double[,] y)
+        {
+            if(x.GetLength(1) != y.GetLength(1))
+            {
+                Console.WriteLine("Error, x Count was : " + x.GetLength(0) + ", " + x.GetLength(1) + ", y length is : " + y.GetLength(0) + ", " + y.GetLength(1));
+                throw new Exception("Element Null Exception");
+            }
+            double[,] result = new double[x.GetLength(0) + y.GetLength(0), x.GetLength(1)];
+            Parallel.For(0, x.GetLength(0), i => result.SetRank(x.GetRank(i), i));
+            Parallel.For(0, y.GetLength(0), i => result.SetRank(y.GetRank(i), i + x.GetLength(0)));
+            return x;
+        }
         public static double[,] Divide(this double[,] x, double divisor)
         {
             double[,] y = new double[x.GetLength(0), x.GetLength(1)];

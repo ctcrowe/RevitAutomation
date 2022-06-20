@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaptureWallTypes.cs" />
+    <Compile Include="Categories\Class1.cs" />
     <Compile Include="Categories\ProjectedLineWeights.cs" />
     <Compile Include="Events\FamilyReorginize.cs" />
     <Compile Include="Categories\CC_RevitCategories.cs" />

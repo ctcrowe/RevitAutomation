@@ -18,6 +18,7 @@ namespace CC_Plugin
             CCPaintPanel.PaintPanel(uiApp);
             UpdateTab.CreatePanel(uiApp);
             ObjStylesTab.ObjTab(uiApp, tabName);
+            LineweightTab.LWTab(uiApp, tabName);
 
            // try { LineStyleNetworkUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
             try { TypeNamingUpdater.OnStartup(uiApp); } catch (Exception e) { e.OutputError(); }
