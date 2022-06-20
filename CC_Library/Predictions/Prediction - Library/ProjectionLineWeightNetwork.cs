@@ -94,6 +94,7 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
 
             Alpha.Update(Rates, write);
+            A2.Update(A2Rates, write);
             Obj.Update(ObjRate, write);
 
             results[0] /= Samples.Count();
