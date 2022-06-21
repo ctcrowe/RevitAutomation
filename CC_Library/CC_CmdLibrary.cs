@@ -37,7 +37,7 @@ namespace CC_Library
             double[,] result = new double[x.GetLength(0) + y.GetLength(0), x.GetLength(1)];
             Parallel.For(0, x.GetLength(0), i => result.SetRank(x.GetRank(i), i));
             Parallel.For(0, y.GetLength(0), i => result.SetRank(y.GetRank(i), i + x.GetLength(0)));
-            return x;
+            return result;
         }
         public static double[,] Divide(this double[,] x, double divisor)
         {
