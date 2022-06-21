@@ -48,10 +48,11 @@ namespace CC_Library.Predictions
                     var ObjMem = new AttentionMem();
                     double[,] AOut = Alpha.Forward(Samples[j].Split(',')[1], AlphaMem, write);
 
-                    if (Samples[j].Split(',').Length == 4)
+
+                    if (Samples[j].Split(',').Count() > 3)
                     {
                         var A2Out = A2.Forward(Samples[j].Split(',')[2], A2Mem, write);
-                        AOut.Append(A2Out);
+                        AOut = AOut.Append(A2Out);
                     }
 
                     Obj.Forward(AOut, ObjMem);
