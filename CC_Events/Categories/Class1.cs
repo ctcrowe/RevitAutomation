@@ -84,7 +84,7 @@ namespace CC_Plugin
                 "CC_Plugin.RunPredictions");
             var but2 = CPanel.AddItem(B2) as PushButton;
         }
-    }//test
+    }
     [TransactionAttribute(TransactionMode.Manual)]
     [RegenerationAttribute(RegenerationOption.Manual)]
     public class Weights : IExternalCommand

@@ -80,7 +80,7 @@ namespace CC_Library.Predictions
 
                     if(Samples[j].Split(',').Length == 4)
                     {
-                        var A2Dvals = dvals.Take(Samples[j].Split(',')[1].Length, Samples[j].Split(',')[1].Length);
+                        var A2Dvals = dvals.Take(Samples[j].Split(',')[1].Count(), Samples[j].Split(',')[2].Count());
                         A2.Backward(A2Dvals, A2Mem, A2Rates, write);
                         dvals = dvals.Take(0, Samples[j].Split(',')[1].Length);
                     }

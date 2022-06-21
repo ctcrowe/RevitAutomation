@@ -20,6 +20,7 @@ namespace CC_Library
         {
             if(x.GetLength(0) < start + count)
             {
+                Console.WriteLine("Error, tried to take " + count + ", start was " + start + ", x length is " + x.GetLength(0));
                 throw new Exception("Out of Range Exception");
             }    
             double[,] result = new double[count, x.GetLength(1)];
