@@ -9,7 +9,7 @@ namespace CC_Library.Predictions
 {
     public static class Datasets
     {
-        public static void RunPredictions(WriteToCMDLine write)
+        public static void RunPredictions(WriteToCMDLine write, int NumberOfCycles = 10000)
         {
             OpenFileDialog ofd = new OpenFileDialog()
             {
@@ -27,7 +27,7 @@ namespace CC_Library.Predictions
 
                 Dictionary<int, List<string>> values = new Dictionary<int, List<string>>();
 
-                for(int i = 0; i < 5; i++)
+                for(int i = 0; i < NumberOfCycles; i++)
                 {
                     try
                     {

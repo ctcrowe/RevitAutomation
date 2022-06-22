@@ -108,7 +108,7 @@ namespace CC_Plugin
             ref string message,
             ElementSet elements)
         {
-            Datasets.RunPredictions(CMDLibrary.WriteNull);
+            Datasets.RunPredictions(CMDLibrary.WriteNull, 5);
             return Result.Succeeded;
         }
     }
