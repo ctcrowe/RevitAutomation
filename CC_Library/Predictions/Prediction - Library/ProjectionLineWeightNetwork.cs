@@ -65,7 +65,7 @@ namespace CC_Library.Predictions
 
                     int target =
                         int.TryParse(Samples[j].Split(',').Last(), out int integer) ?
-                        int.Parse(Samples[j].Split(',').Last()) : 0;
+                        int.Parse(Samples[j].Split(',').Last()) - 1 : 0;
 
                     final[j] = F[target];
                     desouts[j] = target;
