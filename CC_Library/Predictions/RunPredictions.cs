@@ -39,6 +39,11 @@ namespace CC_Library.Predictions
                             l.Add(File.ReadAllLines(filepath)[0]);
                         }
                         var lines = l.ToArray();
+                        switch(filepath.Split('\\').Last().Split('_').First();
+                        {
+                            default:
+                                   break;
+                        }
                         //var error = MasterformatNetwork.Propogate(lines, write, true);
                         //var error = ObjStyleNetwork.Propogate(lines, typeof(ObjectStyles_Doors), write, true);
                         var error = ProjectionLineWeightNetwork.Propogate(lines, write, true);
