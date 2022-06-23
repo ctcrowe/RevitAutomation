@@ -30,7 +30,7 @@ namespace CC_Plugin
                         var CProj = COverrides.ProjectionLineWeight > 0 ?
                             COverrides.ProjectionLineWeight :
                             c.GetLineWeight(GraphicsStyleType.Projection);
-                        typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name, CProj, v.Name);
+                        typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name, CProj.ToString(), v.Name);
                     }
                     catch {}
                     foreach(Category sc in c.SubCategories)
@@ -38,6 +38,9 @@ namespace CC_Plugin
                         try
                         {
                             var CSOverrides = v.GetCategoryOverrides(cs.Id);
+                            var CsProj = CSOverrides.ProjectionLineWeight > 0 ?
+                                CSOverrides.ProjectionLineWeight :
+                                cs.GetLineWeight(GraphicsStyleType.Projection);
                             typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, , v.Name);
                         }
                         catch {}
