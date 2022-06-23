@@ -17,6 +17,31 @@ namespace CC_Plugin
 {
     internal static class CMD_PredictLineWeights
     {
+        public static void PullLineWeights(this View v)
+        {
+            Document doc = v.Document;
+            foreach(Category c in doc.Settings.Categories)
+            {
+                if(c.CategoryType == CategoryType.Model && c.CanAddSubcategory)
+                {
+                    try
+                    {
+                        var COverrides = v.GetCategoryOverrides(c.Id);
+                        typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name, , v.Name);
+                    }
+                    catch {}
+                    foreach(Category sc in c.SubCategories)
+                    {
+                        try
+                        {
+                            var CSOverrides = v.GetCategoryOverrides(cs.Id);
+                            typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, , v.Name);
+                        }
+                        catch {}
+                    }
+                }
+            }
+        }
         public static void PredictLineWeights(this View v)
         {
             using (Transaction t = new Transaction(v.Document, "Overwrite Line Weights"))
