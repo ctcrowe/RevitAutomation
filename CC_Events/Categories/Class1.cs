@@ -132,6 +132,20 @@ namespace CC_Plugin
     }
     [TransactionAttribute(TransactionMode.Manual)]
     [RegenerationAttribute(RegenerationOption.Manual)]
+    public class PullPredictions : IExternalCommand
+    {
+        public Result Execute(
+            ExternalCommandData commandData,
+            ref string message,
+            ElementSet elements)
+        {
+            var view = commandData.Application.ActiveUIDocument.Document.ActiveView;
+            view.PullLineWeights();
+            return Result.Succeeded;
+        }
+    }
+    [TransactionAttribute(TransactionMode.Manual)]
+    [RegenerationAttribute(RegenerationOption.Manual)]
     public class RunPredictions : IExternalCommand
     {
         public Result Execute(
