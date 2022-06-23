@@ -27,7 +27,10 @@ namespace CC_Plugin
                     try
                     {
                         var COverrides = v.GetCategoryOverrides(c.Id);
-                        typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name, , v.Name);
+                        var CProj = COverrides.ProjectionLineWeight > 0 ?
+                            COverrides.ProjectionLineWeight :
+                            c.GetLineWeight(GraphicsStyleType.Projection);
+                        typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name, CProj, v.Name);
                     }
                     catch {}
                     foreach(Category sc in c.SubCategories)
