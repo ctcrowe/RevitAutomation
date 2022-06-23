@@ -33,20 +33,23 @@ namespace CC_Library.Predictions
                     {
                         var files = Directory.GetFiles(Directory.GetDirectoryRoot(filepath)).ToList().OrderBy(x => r.NextDouble()).Take(16);
                         List<string> l = new List<string>();
+                        double[] error = new double[2];
 
                         foreach (var f in files)
                         {
                             l.Add(File.ReadAllLines(filepath)[0]);
                         }
                         var lines = l.ToArray();
-                        switch(filepath.Split('\\').Last().Split('_').First();
+                        switch(filepath.Split('\\').Last().Split('_').First())
                         {
+                            case "ProjectionLineWeightNetwork":
+                                error = ProjectionLineWeightNetwork.Propogate(lines, write, true);
+                                break;
                             default:
                                    break;
                         }
                         //var error = MasterformatNetwork.Propogate(lines, write, true);
                         //var error = ObjStyleNetwork.Propogate(lines, typeof(ObjectStyles_Doors), write, true);
-                        var error = ProjectionLineWeightNetwork.Propogate(lines, write, true);
 
                         if (error[0] > 0)
                         {
