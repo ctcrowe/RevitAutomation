@@ -5,6 +5,7 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
+//public static Transformer ProjectionLineWeightTransformer = "ProjectionLineWeightNetwork".LoadXfmr(Alpha._Outputs, 16, 120, CMDLibrary.WriteNull);
     public static class LineWeightNetwork
     {
         private const int count = 16;
