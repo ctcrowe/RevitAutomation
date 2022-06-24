@@ -109,11 +109,19 @@ namespace CC_Plugin
             var Button = CPanel.AddItem(B1) as PushButton;
 
             PushButtonData B2 = new PushButtonData(
+                "Pull Predictions",
+                "Pull Predictions",
+                dllpath(),
+                "CC_Plugin.PullPredictions");
+
+            var Button2 = CPanel.AddItem(B2) as PushButton;
+            
+            PushButtonData B3 = new PushButtonData(
                 "Run Predictions",
                 "Run Predictions",
                 dllpath(),
                 "CC_Plugin.RunPredictions");
-            var but2 = CPanel.AddItem(B2) as PushButton;
+            var but3 = CPanel.AddItem(B3) as PushButton;
         }
     }
     [TransactionAttribute(TransactionMode.Manual)]
