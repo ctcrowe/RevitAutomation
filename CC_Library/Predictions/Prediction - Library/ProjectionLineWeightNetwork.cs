@@ -12,15 +12,16 @@ namespace CC_Library.Predictions
             string s,
             WriteToCMDLine write,
             Transformer Xfmr,
-            Transformer AlphaXfmr,
-            double[,] VInput = null)
+            Transformer AlphaXfmr1,
+            Transformer AlphaXfmr2,
+            string vname = null)
         {
             //string Name = typeof(ProjectionLineWeightNetwork).Name;
             //var Alpha = new Alpha(Name, write);
             //var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
-            var AOut = AlphaXfmr.Forward(s.Locate(1));
-            if (VInput != null)
-                AOut = AOut.Append(VInput);
+            var AOut = AlphaXfmr1.Forward(s.Locate(1));
+            if (vname != null)
+                AOut = AOut.Append(AlphaXfmr2.Forward(vname.Locate(1));
 
             var ObjOut = Xfmr.Forward(AOut);
             var output = ObjOut.SumRange();
@@ -28,16 +29,24 @@ namespace CC_Library.Predictions
             return output;
         }
         public static double[] Propogate
-            (string[] Samples, WriteToCMDLine write, bool tf = false)
+            (string[] Samples,
+             WriteToCMDLine write,
+             Transformer Xfmr,
+             Transformer AlphaXfmr1,
+             Transformer AlphaXfmr2)
         {
             var results = new double[2];
-            string Name = typeof(ProjectionLineWeightNetwork).Name;
-            var Alpha = new Alpha(Name, write);
-            var A2 = new Alpha("ViewName", write);
-            var Rates = Alpha.GetChange();
-            var A2Rates = A2.GetChange();
-            var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
-            var ObjRate = new AttentionChange(Obj);
+            //string Name = typeof(ProjectionLineWeightNetwork).Name;
+            //var Alpha = new Alpha(Name, write);
+            //var A2 = new Alpha("ViewName", write);
+            //var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
+            //var Rates = Alpha.GetChange();
+            //var A2Rates = A2.GetChange();
+            //var ObjRate = new AttentionChange(Obj);
+            
+            var A1Rates = new AttentionChange(AlphaXfmr1);
+            var A2Rates = new AttentionChange(AlphaXfmr2);
+            var ObjRate = new AttentionChange(Xfmr);
 
             try
             {
@@ -48,8 +57,8 @@ namespace CC_Library.Predictions
 
                 Parallel.For(0, Samples.Count(), j =>
                 {
-                    var AlphaMem = Alpha.GetMem();
-                    var A2Mem = A2.GetMem();
+                    var A1Mem = new AttentionMem();
+                    var A2Mem = new AttentionMem();
                     var ObjMem = new AttentionMem();
                     double[,] AOut = Alpha.Forward(Samples[j].Split(',')[1], AlphaMem, write);
 
