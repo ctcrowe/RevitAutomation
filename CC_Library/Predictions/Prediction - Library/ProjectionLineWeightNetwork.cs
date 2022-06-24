@@ -15,10 +15,10 @@ namespace CC_Library.Predictions
             Transformer AlphaXfmr,
             double[,] VInput = null)
         {
-            string Name = typeof(ProjectionLineWeightNetwork).Name;
-            var Alpha = new Alpha(Name, write);
-            var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
-            var AOut = Alpha.Forward(s);
+            //string Name = typeof(ProjectionLineWeightNetwork).Name;
+            //var Alpha = new Alpha(Name, write);
+            //var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
+            var AOut = AlphaXfmr.Forward(s.Locate(1));
             if (VInput != null)
                 AOut = AOut.Append(VInput);
 
