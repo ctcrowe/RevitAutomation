@@ -60,12 +60,13 @@ namespace CC_Library.Predictions
                     var A1Mem = new AttentionMem();
                     var A2Mem = new AttentionMem();
                     var ObjMem = new AttentionMem();
-                    double[,] AOut = Alpha.Forward(Samples[j].Split(',')[1], AlphaMem, write);
-
+                    //double[,] AOut = Alpha.Forward(Samples[j].Split(',')[1], AlphaMem, write);
+                    double[,] AOut = AlphaXfmr1.Forward(Samples[j].Split(',')[1], A1Mem, write);
 
                     if (Samples[j].Split(',').Count() > 3)
                     {
-                        var A2Out = A2.Forward(Samples[j].Split(',')[2], A2Mem, write);
+                        //var A2Out = A2.Forward(Samples[j].Split(',')[2], A2Mem, write);
+                        var A2Out = AlphaXfmr2.Forward(Samples[j].Split(',')[2], A2Mem, write);
                         AOut = AOut.Append(A2Out);
                     }
 
