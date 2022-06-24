@@ -17,6 +17,44 @@ namespace CC_Plugin
 {
     internal static class CMD_PredictLineWeights
     {
+        public static void RunLineWeightPredictions(this View v)
+        {
+            if (v.ViewTemplateId != ElementId.InvalidElementId)
+                v = v.Document.GetElement(v.ViewTemplateId) as View;
+            Document doc = v.Document;
+            List<string> data = new List<string>();
+            foreach(Category c in doc.Settings.Categories)
+            {
+                if(c.CategoryType == CategoryType.Model && c.CanAddSubcategory)
+                {
+                    try
+                    {
+                        var COverrides = v.GetCategoryOverrides(c.Id);
+                        var CProj = COverrides.ProjectionLineWeight > 0 ?
+                            COverrides.ProjectionLineWeight :
+                            c.GetLineWeight(GraphicsStyleType.Projection);
+                        data.Add("ProjectionLineWeightNetwork," + c.Name + "," + v.Name + "," + CProj.ToString());
+                    }
+                    catch { }
+                    foreach (Category sc in c.SubCategories)
+                    {
+                        try
+                        {
+                            var CSOverrides = v.GetCategoryOverrides(sc.Id);
+                            var CsProj = CSOverrides.ProjectionLineWeight > 0 ?
+                                CSOverrides.ProjectionLineWeight :
+                                sc.GetLineWeight(GraphicsStyleType.Projection);
+                            data.Add("ProjectionLineWeightNetwork," + c.Name + "_" + sc.Name + "," + v.Name + "," + CsProj.ToString());
+                        }
+                        catch { }
+                    }
+                }
+            }
+            Random r = new Random();
+            var dataset = data.OrderBy(x => r.NextDouble()).Take(16).ToArray();
+            var error = ProjectionLineWeightNetwork.Propogate(dataset, CMDLibrary.WriteNull);
+            TaskDialog.Show("Network Training", "Average Error Was : " + error[0] + "\r\nAccuracy Was : " + error[1]);
+        }
         public static void PullLineWeights(this View v)
         {
             Document doc = v.Document;
@@ -37,11 +75,11 @@ namespace CC_Plugin
                     {
                         try
                         {
-                            var CSOverrides = v.GetCategoryOverrides(cs.Id);
+                            var CSOverrides = v.GetCategoryOverrides(sc.Id);
                             var CsProj = CSOverrides.ProjectionLineWeight > 0 ?
                                 CSOverrides.ProjectionLineWeight :
-                                cs.GetLineWeight(GraphicsStyleType.Projection);
-                            typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, , v.Name);
+                                sc.GetLineWeight(GraphicsStyleType.Projection);
+                            typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, CsProj.ToString(), v.Name);
                         }
                         catch {}
                     }
@@ -161,7 +199,10 @@ namespace CC_Plugin
             ref string message,
             ElementSet elements)
         {
-            Datasets.RunPredictions(CMDLibrary.WriteNull, 5);
+            var view = commandData.Application.ActiveUIDocument.Document.ActiveView;
+            view.RunLineWeightPredictions();
+            //var error = Datasets.RunPredictions(CMDLibrary.WriteNull, 5);
+            //TaskDialog.Show("Network Training", "Average Error Was : " + error[0] + "\r\nAccuracy Was : " + error[1]);
             return Result.Succeeded;
         }
     }
