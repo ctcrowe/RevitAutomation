@@ -52,7 +52,15 @@ namespace CC_Plugin
             }
             Random r = new Random();
             var dataset = data.OrderBy(x => r.NextDouble()).Take(16).ToArray();
-            var error = ProjectionLineWeightNetwork.Propogate(dataset, CMDLibrary.WriteNull);
+            var error = new double[2];
+            for (int i = 0; i < 5; i++)
+            {
+                var e = ProjectionLineWeightNetwork.Propogate(dataset, CMDLibrary.WriteNull);
+                error[0] += e[0];
+                error[1] += e[1];
+            }
+            error[0] /= 5;
+            error[1] /= 5;
             TaskDialog.Show("Network Training", "Average Error Was : " + error[0] + "\r\nAccuracy Was : " + error[1]);
         }
         public static void PullLineWeights(this View v)
