@@ -5,10 +5,15 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-    public static class ProjectionLineWeightNetwork
+    public static class LineWeightNetwork
     {
         private const int count = 16;
-        public static double[] Predict(string s, WriteToCMDLine write, double[,] VInput = null)
+        public static double[] Predict(
+            string s,
+            WriteToCMDLine write,
+            Transformer Xfmr,
+            Transformer AlphaXfmr,
+            double[,] VInput = null)
         {
             string Name = typeof(ProjectionLineWeightNetwork).Name;
             var Alpha = new Alpha(Name, write);
@@ -17,7 +22,7 @@ namespace CC_Library.Predictions
             if (VInput != null)
                 AOut = AOut.Append(VInput);
 
-            var ObjOut = Obj.Forward(AOut);
+            var ObjOut = Xfmr.Forward(AOut);
             var output = ObjOut.SumRange();
             output = Activations.SoftMax(output);
             return output;
