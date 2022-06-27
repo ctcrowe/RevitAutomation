@@ -53,6 +53,7 @@ namespace CC_Plugin
             Random r = new Random();
             var dataset = data.OrderBy(x => r.NextDouble()).Take(16).ToArray();
             var Xfmr = Transformers.ProjectionLineWeightTransformer;
+            var Cut = Transformers.CutLineWeightTransformer;
             var Alpha1 = Transformers.ProjectionLineWeightAlpha1;
             var Alpha2 = Transformers.ViewNameAlpha;
             var error = new double[2];
