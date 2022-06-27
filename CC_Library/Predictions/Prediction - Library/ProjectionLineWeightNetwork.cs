@@ -8,6 +8,7 @@ namespace CC_Library.Predictions
     public class Transformers
     {
         public static Transformer ProjectionLineWeightTransformer = "ProjectionLineWeightNetwork".LoadXfmr(Alpha._Outputs, 16, 120, CMDLibrary.WriteNull);
+        public static Transformer CutLineWeightTransformer = "CutLineWeightTransformer".LoadXfmr(Alpha._Outputs, 16, 120, CMDLibrary.WriteNull);
         public static Transformer ProjectionLineWeightAlpha1 = "ProjectionLineWeightNetworkAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, CMDLibrary.WriteNull);
         public static Transformer ViewNameAlpha = "ViewNameAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, CMDLibrary.WriteNull);
     }
