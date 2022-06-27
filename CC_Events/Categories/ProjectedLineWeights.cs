@@ -15,10 +15,14 @@ namespace CC_Plugin
     {
         public static void SetProjectedLineWeight(this Category cat)
         {
-            var ProjectionPredset = ProjectionLineWeightNetwork.Predict(cat.Name, CMDLibrary.WriteNull);
+            var ProjectionPredset = LineWeightNetwork.Predict(cat.Name,
+                                    CMDLibrary.WriteNull,
+                                    Transformers.ProjectionLineWeightTransformer,
+                                    Transformers.ProjectionLineWeightAlpha1,
+                                    Transformers.ViewNameAlpha);
             var ProjectionPred = ProjectionPredset.ToList().IndexOf(ProjectionPredset.Max());
             
-            typeof(ProjectionLineWeightNetwork).CreateEmbed(cat.Name, ProjectionPred.ToString());
+            typeof(LineWeightNetwork).CreateEmbed(cat.Name, ProjectionPred.ToString());
             cat.SetLineWeight(ProjectionPred + 1, GraphicsStyleType.Projection);
             
             if(cat.IsCuttable)

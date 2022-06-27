@@ -44,7 +44,12 @@ namespace CC_Library.Predictions
                         {
                             default:
                             case "ProjectionLineWeightNetwork":
-                                error = ProjectionLineWeightNetwork.Propogate(lines, write, true);
+                                error = LineWeightNetwork.Propogate(
+                                    lines,
+                                    write,
+                                    Transformers.ProjectionLineWeightTransformer,
+                                    Transformers.ProjectionLineWeightAlpha1,
+                                    Transformers.ViewNameAlpha);
                                 break;
                         }
                         //var error = MasterformatNetwork.Propogate(lines, write, true);

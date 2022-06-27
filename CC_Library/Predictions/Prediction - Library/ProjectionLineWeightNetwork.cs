@@ -5,7 +5,12 @@ using CC_Library.Datatypes;
 
 namespace CC_Library.Predictions
 {
-//public static Transformer ProjectionLineWeightTransformer = "ProjectionLineWeightNetwork".LoadXfmr(Alpha._Outputs, 16, 120, CMDLibrary.WriteNull);
+    public class Transformers
+    {
+        public static Transformer ProjectionLineWeightTransformer = "ProjectionLineWeightNetwork".LoadXfmr(Alpha._Outputs, 16, 120, CMDLibrary.WriteNull);
+        public static Transformer ProjectionLineWeightAlpha1 = "ProjectionLineWeightNetworkAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, CMDLibrary.WriteNull);
+        public static Transformer ViewNameAlpha = "ViewNameAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, CMDLibrary.WriteNull);
+    }
     public static class LineWeightNetwork
     {
         private const int count = 16;
@@ -22,7 +27,7 @@ namespace CC_Library.Predictions
             //var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
             var AOut = AlphaXfmr1.Forward(s.Locate(1));
             if (vname != null)
-                AOut = AOut.Append(AlphaXfmr2.Forward(vname.Locate(1));
+                AOut = AOut.Append(AlphaXfmr2.Forward(vname.Locate(1)));
 
             var ObjOut = Xfmr.Forward(AOut);
             var output = ObjOut.SumRange();
@@ -62,16 +67,16 @@ namespace CC_Library.Predictions
                     var A2Mem = new AttentionMem();
                     var ObjMem = new AttentionMem();
                     //double[,] AOut = Alpha.Forward(Samples[j].Split(',')[1], AlphaMem, write);
-                    double[,] AOut = AlphaXfmr1.Forward(Samples[j].Split(',')[1], A1Mem, write);
+                    double[,] AOut = AlphaXfmr1.Forward(Samples[j].Split(',')[1].Locate(1), A1Mem);
 
                     if (Samples[j].Split(',').Count() > 3)
                     {
                         //var A2Out = A2.Forward(Samples[j].Split(',')[2], A2Mem, write);
-                        var A2Out = AlphaXfmr2.Forward(Samples[j].Split(',')[2], A2Mem, write);
+                        var A2Out = AlphaXfmr2.Forward(Samples[j].Split(',')[2].Locate(1), A2Mem);
                         AOut = AOut.Append(A2Out);
                     }
 
-                    Obj.Forward(AOut, ObjMem);
+                    var output = Xfmr.Forward(AOut, ObjMem);
 
                     var attention = ObjMem.attn.SumRange();
                     var F = Activations.SoftMax(attention);
@@ -93,15 +98,15 @@ namespace CC_Library.Predictions
 
                     var DValues = Activations.InverseCombinedCrossEntropySoftmax(DesiredOutput, F);
                     var dvals = DValues.Dot(ObjMem.attn.Ones()); //returns a vector [s1.Length + s2.Length, size]
-                    dvals = Obj.Backward(ObjMem, ObjRate, dvals);
+                    dvals = Xfmr.Backward(ObjMem, ObjRate, dvals);
 
                     if(Samples[j].Split(',').Length == 4)
                     {
                         var A2Dvals = dvals.Take(Samples[j].Split(',')[1].Count(), Samples[j].Split(',')[2].Count());
-                        A2.Backward(A2Dvals, A2Mem, A2Rates, write);
+                        AlphaXfmr2.Backward(A2Mem, A2Rates, A2Dvals);
                         dvals = dvals.Take(0, Samples[j].Split(',')[1].Length);
                     }
-                    Alpha.Backward(dvals, AlphaMem, Rates, write);
+                    AlphaXfmr1.Backward(A1Mem, A1Rates, dvals);
                 });
                 final.WriteArray("Desired Output", write);
                 max.WriteArray("Max Output", write);
@@ -110,9 +115,9 @@ namespace CC_Library.Predictions
             }
             catch (Exception e) { e.OutputError(); }
 
-            Alpha.Update(Rates, write);
-            A2.Update(A2Rates, write);
-            Obj.Update(ObjRate, write);
+            AlphaXfmr1.Update(A1Rates, write);
+            AlphaXfmr2.Update(A2Rates, write);
+            Xfmr.Update(ObjRate, write);
 
             results[0] /= Samples.Count();
             results[1] /= Samples.Count();
@@ -121,7 +126,9 @@ namespace CC_Library.Predictions
             write("Run Accuracy : " + results[1]);
 
             string Folder = "NeuralNets".GetMyDocs();
-            Obj.Save(Folder);
+            Xfmr.Save(Folder);
+            AlphaXfmr1.Save(Folder);
+            AlphaXfmr2.Save(Folder);
             return results;
         }
     }

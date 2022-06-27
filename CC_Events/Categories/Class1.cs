@@ -55,7 +55,12 @@ namespace CC_Plugin
             var error = new double[2];
             for (int i = 0; i < 5; i++)
             {
-                var e = ProjectionLineWeightNetwork.Propogate(dataset, CMDLibrary.WriteNull);
+                var e = LineWeightNetwork.Propogate(
+                                    dataset,
+                                    CMDLibrary.WriteNull,
+                                    Transformers.ProjectionLineWeightTransformer,
+                                    Transformers.ProjectionLineWeightAlpha1,
+                                    Transformers.ViewNameAlpha);
                 error[0] += e[0];
                 error[1] += e[1];
             }
@@ -76,7 +81,7 @@ namespace CC_Plugin
                         var CProj = COverrides.ProjectionLineWeight > 0 ?
                             COverrides.ProjectionLineWeight :
                             c.GetLineWeight(GraphicsStyleType.Projection);
-                        typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name, CProj.ToString(), v.Name);
+                        typeof(LineWeightNetwork).CreateEmbed(c.Name, CProj.ToString(), v.Name);
                     }
                     catch {}
                     foreach(Category sc in c.SubCategories)
@@ -87,7 +92,7 @@ namespace CC_Plugin
                             var CsProj = CSOverrides.ProjectionLineWeight > 0 ?
                                 CSOverrides.ProjectionLineWeight :
                                 sc.GetLineWeight(GraphicsStyleType.Projection);
-                            typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, CsProj.ToString(), v.Name);
+                            typeof(LineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, CsProj.ToString(), v.Name);
                         }
                         catch {}
                     }
@@ -102,6 +107,11 @@ namespace CC_Plugin
                 Document doc = v.Document;
                 var Alpha = new Alpha("ViewName", CMDLibrary.WriteNull);
                 var ViewLoc = Alpha.Forward(v.Name);
+
+                var Xfmr = Transformers.ProjectionLineWeightTransformer;
+                var XfmrAlpha = Transformers.ProjectionLineWeightAlpha1;
+                var XfmrAlpha2 = Transformers.ViewNameAlpha;
+
                 foreach (Category c in doc.Settings.Categories)
                 {
                     if (c.CategoryType == CategoryType.Model && c.CanAddSubcategory)
@@ -109,10 +119,17 @@ namespace CC_Plugin
                         try
                         {
                             var COverrides = v.GetCategoryOverrides(c.Id);
-                            var CPrediction = ProjectionLineWeightNetwork.Predict(c.Name, CMDLibrary.WriteNull, ViewLoc);
+
+                            var CPrediction = LineWeightNetwork.Predict(
+                                c.Name,
+                                CMDLibrary.WriteNull,
+                                Xfmr,
+                                XfmrAlpha,
+                                XfmrAlpha2,
+                                v.Name);
                             COverrides.SetProjectionLineWeight(CPrediction.ToList().IndexOf(CPrediction.Max()) + 1);
                             v.SetCategoryOverrides(c.Id, COverrides);
-                            typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name, CPrediction.ToList().IndexOf(CPrediction.Max()).ToString(), v.Name);
+                            typeof(LineWeightNetwork).CreateEmbed(c.Name, CPrediction.ToList().IndexOf(CPrediction.Max()).ToString(), v.Name);
                         }
                         catch { }
                         foreach (Category sc in c.SubCategories)
@@ -120,10 +137,16 @@ namespace CC_Plugin
                             try
                             {
                                 var SCOverrides = v.GetCategoryOverrides(sc.Id);
-                                var SCPrediction = ProjectionLineWeightNetwork.Predict(c.Name + "_" + sc.Name, CMDLibrary.WriteNull);
+                                var SCPrediction = LineWeightNetwork.Predict(
+                                    c.Name + "_" + sc.Name,
+                                    CMDLibrary.WriteNull,
+                                    Xfmr,
+                                    XfmrAlpha,
+                                    XfmrAlpha2,
+                                    v.Name);
                                 SCOverrides.SetProjectionLineWeight(SCPrediction.ToList().IndexOf(SCPrediction.Max()) + 1);
                                 v.SetCategoryOverrides(sc.Id, SCOverrides);
-                                typeof(ProjectionLineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, SCPrediction.ToList().IndexOf(SCPrediction.Max()).ToString(), v.Name);
+                                typeof(LineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, SCPrediction.ToList().IndexOf(SCPrediction.Max()).ToString(), v.Name);
                             }
                             catch { }
                         }

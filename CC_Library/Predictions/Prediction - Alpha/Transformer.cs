@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace CC_Library.Predictions
 {
     [Serializable]
-    internal class Transformer
+    public class Transformer
     {
         private const double Rate = 0.01;
         public string Name { get; set; }
@@ -35,7 +35,7 @@ namespace CC_Library.Predictions
         }
         #endregion
 
-        public void Forward(double[,] _input, AttentionMem mem)
+        internal double[,] Forward(double[,] _input, AttentionMem mem)
         {
             //s.Locate(Radius)
             mem.input = _input; //Size should be s.Length, CharCount * Diameter
@@ -60,10 +60,11 @@ namespace CC_Library.Predictions
                     });
                 });
             } //Size should be s.Length, size
-            catch (Exception e) { e.OutputError(); } 
+            catch (Exception e) { e.OutputError(); }
+            return mem.attn;
 
         }
-        public double[,] Backward(AttentionMem mem, AttentionChange change, double[,] dvals) //dvals Size is always size
+        internal double[,] Backward(AttentionMem mem, AttentionChange change, double[,] dvals) //dvals Size is always size
         {
             var ndvals = new double[dvals.GetLength(0), dvals.GetLength(1) - (_Prefix + _Suffix)];
             Parallel.For(0, dvals.GetLength(0), i =>
@@ -119,7 +120,7 @@ namespace CC_Library.Predictions
             catch (Exception e) { e.OutputError(); }
             return output;
         }
-        public void Update(AttentionChange change, WriteToCMDLine write)
+        internal void Update(AttentionChange change, WriteToCMDLine write)
         {
             Queries.Update(change.Q, Rate);
             Keys.Update(change.K, Rate);
@@ -139,7 +140,7 @@ namespace CC_Library.Predictions
             this.V = new double[xfmr.Inputs, xfmr.ValueSize - (xfmr._Prefix + xfmr._Suffix)];
         }
     }
-    internal class AttentionMem
+    public class AttentionMem
     {
         public double[,] input;
 
