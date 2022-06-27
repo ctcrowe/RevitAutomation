@@ -22,7 +22,7 @@ namespace CC_Plugin
             if (v.ViewTemplateId != ElementId.InvalidElementId)
                 v = v.Document.GetElement(v.ViewTemplateId) as View;
             Document doc = v.Document;
-            List<string> data = new List<string>();
+            List<string> data1 = new List<string>();
             foreach(Category c in doc.Settings.Categories)
             {
                 if(c.CategoryType == CategoryType.Model && c.CanAddSubcategory)
@@ -33,7 +33,7 @@ namespace CC_Plugin
                         var CProj = COverrides.ProjectionLineWeight > 0 ?
                             COverrides.ProjectionLineWeight :
                             c.GetLineWeight(GraphicsStyleType.Projection);
-                        data.Add("ProjectionLineWeightNetwork," + c.Name + "," + v.Name + "," + CProj.ToString());
+                        data1.Add("ProjectionLineWeightNetwork," + c.Name + "," + v.Name + "," + CProj.ToString());
                     }
                     catch { }
                     foreach (Category sc in c.SubCategories)
@@ -44,14 +44,14 @@ namespace CC_Plugin
                             var CsProj = CSOverrides.ProjectionLineWeight > 0 ?
                                 CSOverrides.ProjectionLineWeight :
                                 sc.GetLineWeight(GraphicsStyleType.Projection);
-                            data.Add("ProjectionLineWeightNetwork," + c.Name + "_" + sc.Name + "," + v.Name + "," + CsProj.ToString());
+                            data1.Add("ProjectionLineWeightNetwork," + c.Name + "_" + sc.Name + "," + v.Name + "," + CsProj.ToString());
                         }
                         catch { }
                     }
                 }
             }
             Random r = new Random();
-            var dataset = data.OrderBy(x => r.NextDouble()).Take(16).ToArray();
+            var dataset1 = data1.OrderBy(x => r.NextDouble()).Take(16).ToArray();
             var Xfmr = Transformers.ProjectionLineWeightTransformer;
             var Cut = Transformers.CutLineWeightTransformer;
             var Alpha1 = Transformers.ProjectionLineWeightAlpha1;
