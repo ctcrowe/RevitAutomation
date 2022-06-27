@@ -52,15 +52,18 @@ namespace CC_Plugin
             }
             Random r = new Random();
             var dataset = data.OrderBy(x => r.NextDouble()).Take(16).ToArray();
+            var Xfmr = Transformers.ProjectionLineWeightTransformer;
+            var Alpha1 = Transformers.ProjectionLineWeightAlpha1;
+            var Alpha2 = Transformers.ViewNameAlpha;
             var error = new double[2];
             for (int i = 0; i < 5; i++)
             {
                 var e = LineWeightNetwork.Propogate(
                                     dataset,
                                     CMDLibrary.WriteNull,
-                                    Transformers.ProjectionLineWeightTransformer,
-                                    Transformers.ProjectionLineWeightAlpha1,
-                                    Transformers.ViewNameAlpha);
+                                    Xfmr,
+                                    Alpha1,
+                                    Alpha2);
                 error[0] += e[0];
                 error[1] += e[1];
             }
