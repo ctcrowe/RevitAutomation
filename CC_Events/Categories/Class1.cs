@@ -60,7 +60,7 @@ namespace CC_Plugin
             for (int i = 0; i < 5; i++)
             {
                 var e = LineWeightNetwork.Propogate(
-                                    dataset,
+                                    dataset1,
                                     CMDLibrary.WriteNull,
                                     Xfmr,
                                     Alpha1,
