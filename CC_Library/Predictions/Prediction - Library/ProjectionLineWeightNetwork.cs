@@ -7,10 +7,18 @@ namespace CC_Library.Predictions
 {
     public class Transformers
     {
-        public static Transformer ProjectionLineWeightTransformer = "ProjectionLineWeightNetwork".LoadXfmr(Alpha._Outputs, 16, 120, CMDLibrary.WriteNull);
-        public static Transformer CutLineWeightTransformer = "CutLineWeightTransformer".LoadXfmr(Alpha._Outputs, 16, 120, CMDLibrary.WriteNull);
-        public static Transformer ProjectionLineWeightAlpha1 = "ProjectionLineWeightNetworkAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, CMDLibrary.WriteNull);
-        public static Transformer ViewNameAlpha = "ViewNameAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, CMDLibrary.WriteNull);
+        public static Transformer ProjectionLineWeightTransformer(WriteToCMDLine write)
+        { return "ProjectionLineWeightNetwork".LoadXfmr(Alpha._Outputs, 16, 120, write); }
+        public static Transformer CutLineWeightTransformer(WriteToCMDLine write)
+        { return "CutLineWeightTransformer".LoadXfmr(Alpha._Outputs, 16, 120, write); }
+        public static Transformer ProjectionLineWeightAlpha1(WriteToCMDLine write)
+        { return "ProjectionLineWeightNetworkAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, write); }
+        public static Transformer ViewNameAlpha(WriteToCMDLine write)
+        { return "ViewNameAlpha".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, write); }
+        public static Transformer Masterformat(WriteToCMDLine write)
+        { return "Masterformat".LoadXfmr(Alpha._Outputs, 40, 80, write); }
+        public static Transformer FamilyName(WriteToCMDLine write)
+        { return "FamilyName".LoadXfmr(CharSet.CharCount * 3, Alpha._Outputs, 200, write); }
     }
     public static class LineWeightNetwork
     {
@@ -43,13 +51,6 @@ namespace CC_Library.Predictions
              Transformer AlphaXfmr2)
         {
             var results = new double[2];
-            //string Name = typeof(ProjectionLineWeightNetwork).Name;
-            //var Alpha = new Alpha(Name, write);
-            //var A2 = new Alpha("ViewName", write);
-            //var Obj = Name.LoadXfmr(Alpha._Outputs, count, 120, write);
-            //var Rates = Alpha.GetChange();
-            //var A2Rates = A2.GetChange();
-            //var ObjRate = new AttentionChange(Obj);
             
             var A1Rates = new AttentionChange(AlphaXfmr1);
             var A2Rates = new AttentionChange(AlphaXfmr2);
@@ -67,12 +68,10 @@ namespace CC_Library.Predictions
                     var A1Mem = new AttentionMem();
                     var A2Mem = new AttentionMem();
                     var ObjMem = new AttentionMem();
-                    //double[,] AOut = Alpha.Forward(Samples[j].Split(',')[1], AlphaMem, write);
                     double[,] AOut = AlphaXfmr1.Forward(Samples[j].Split(',')[1].Locate(1), A1Mem);
 
                     if (Samples[j].Split(',').Count() > 3)
                     {
-                        //var A2Out = A2.Forward(Samples[j].Split(',')[2], A2Mem, write);
                         var A2Out = AlphaXfmr2.Forward(Samples[j].Split(',')[2].Locate(1), A2Mem);
                         AOut = AOut.Append(A2Out);
                     }
@@ -87,7 +86,7 @@ namespace CC_Library.Predictions
 
                     int target =
                         int.TryParse(Samples[j].Split(',').Last(), out int integer) ?
-                        int.Parse(Samples[j].Split(',').Last()) - 1 : 0;
+                        int.Parse(Samples[j].Split(',').Last()) - 1 : -1;
 
                     final[j] = F[target];
                     desouts[j] = target;
@@ -109,12 +108,14 @@ namespace CC_Library.Predictions
                     }
                     AlphaXfmr1.Backward(A1Mem, A1Rates, dvals);
                 });
-                final.WriteArray("Desired Output", write);
-                max.WriteArray("Max Output", write);
-                outputs.WriteArray("Outputs", write);
-                desouts.WriteArray("Desired", write);
+                for(int i = 0; i < Samples.Count(); i++)
+                {
+                    write(Samples[i] + " - Desired : " + final[i] + ", " +  desouts[i] + " - Max " + max[i] + ", " + outputs[i]);
+                }
             }
-            catch (Exception e) { e.OutputError(); }
+            catch (Exception e) {
+                Samples.WriteArray("Failed At this Set", write);
+                e.OutputError(); }
 
             AlphaXfmr1.Update(A1Rates, write);
             AlphaXfmr2.Update(A2Rates, write);

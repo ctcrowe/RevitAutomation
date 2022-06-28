@@ -17,9 +17,9 @@ namespace CC_Plugin
         {
             var ProjectionPredset = LineWeightNetwork.Predict(cat.Name,
                                     CMDLibrary.WriteNull,
-                                    Transformers.ProjectionLineWeightTransformer,
-                                    Transformers.ProjectionLineWeightAlpha1,
-                                    Transformers.ViewNameAlpha);
+                                    Transformers.ProjectionLineWeightTransformer(CMDLibrary.WriteNull),
+                                    Transformers.ProjectionLineWeightAlpha1(CMDLibrary.WriteNull),
+                                    Transformers.ViewNameAlpha(CMDLibrary.WriteNull));
             var ProjectionPred = ProjectionPredset.ToList().IndexOf(ProjectionPredset.Max());
             
             typeof(LineWeightNetwork).CreateEmbed(cat.Name, ProjectionPred.ToString());

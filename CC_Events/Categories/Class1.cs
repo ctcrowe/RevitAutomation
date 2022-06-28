@@ -32,8 +32,10 @@ namespace CC_Plugin
                         var COverrides = v.GetCategoryOverrides(c.Id);
                         var CProj = COverrides.ProjectionLineWeight > 0 ?
                             COverrides.ProjectionLineWeight :
-                            c.GetLineWeight(GraphicsStyleType.Projection);
+                            c.GetLineWeight(GraphicsStyleType.Projection) > 0 ?
+                                c.GetLineWeight(GraphicsStyleType.Projection) : 1;
                         data1.Add("ProjectionLineWeightNetwork," + c.Name + "," + v.Name + "," + CProj.ToString());
+                        typeof(LineWeightNetwork).CreateEmbed(c.Name, CProj.ToString(), v.Name);
                     }
                     catch { }
                     foreach (Category sc in c.SubCategories)
@@ -43,8 +45,10 @@ namespace CC_Plugin
                             var CSOverrides = v.GetCategoryOverrides(sc.Id);
                             var CsProj = CSOverrides.ProjectionLineWeight > 0 ?
                                 CSOverrides.ProjectionLineWeight :
-                                sc.GetLineWeight(GraphicsStyleType.Projection);
+                                sc.GetLineWeight(GraphicsStyleType.Projection) > 0 ?
+                                    sc.GetLineWeight(GraphicsStyleType.Projection) : 1;
                             data1.Add("ProjectionLineWeightNetwork," + c.Name + "_" + sc.Name + "," + v.Name + "," + CsProj.ToString());
+                            typeof(LineWeightNetwork).CreateEmbed(c.Name + "_" + sc.Name, CsProj.ToString(), v.Name);
                         }
                         catch { }
                     }
@@ -52,10 +56,10 @@ namespace CC_Plugin
             }
             Random r = new Random();
             var dataset1 = data1.OrderBy(x => r.NextDouble()).Take(16).ToArray();
-            var Xfmr = Transformers.ProjectionLineWeightTransformer;
-            var Cut = Transformers.CutLineWeightTransformer;
-            var Alpha1 = Transformers.ProjectionLineWeightAlpha1;
-            var Alpha2 = Transformers.ViewNameAlpha;
+            var Xfmr = Transformers.ProjectionLineWeightTransformer(CMDLibrary.WriteNull);
+            var Cut = Transformers.CutLineWeightTransformer(CMDLibrary.WriteNull);
+            var Alpha1 = Transformers.ProjectionLineWeightAlpha1(CMDLibrary.WriteNull);
+            var Alpha2 = Transformers.ViewNameAlpha(CMDLibrary.WriteNull);
             var error = new double[2];
             for (int i = 0; i < 5; i++)
             {
@@ -112,9 +116,9 @@ namespace CC_Plugin
                 var Alpha = new Alpha("ViewName", CMDLibrary.WriteNull);
                 var ViewLoc = Alpha.Forward(v.Name);
 
-                var Xfmr = Transformers.ProjectionLineWeightTransformer;
-                var XfmrAlpha = Transformers.ProjectionLineWeightAlpha1;
-                var XfmrAlpha2 = Transformers.ViewNameAlpha;
+                var Xfmr = Transformers.ProjectionLineWeightTransformer(CMDLibrary.WriteNull);
+                var XfmrAlpha = Transformers.ProjectionLineWeightAlpha1(CMDLibrary.WriteNull);
+                var XfmrAlpha2 = Transformers.ViewNameAlpha(CMDLibrary.WriteNull);
 
                 foreach (Category c in doc.Settings.Categories)
                 {

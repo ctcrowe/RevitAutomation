@@ -34,13 +34,15 @@ namespace CC_Library.Predictions
                 double[] final = new double[Samples.Count()];
                 double[] outputs = new double[Samples.Count()];
                 double[] desouts = new double[Samples.Count()];
+                string[] samples = new string[Samples.Count()];
 
                 Parallel.For(0, Samples.Count(), j =>
                 {
                     var AlphaMem = Alpha.GetMem();
                     var MFMem = new AttentionMem();
 
-                    var AlphaOut = Alpha.Forward(Samples[j].Split(',').First(), AlphaMem, write);
+                    samples[j] = Samples[j].Split(',')[1];
+                    var AlphaOut = Alpha.Forward(samples[j], AlphaMem, write);
                     MF.Forward(AlphaOut, MFMem);
                     var attention = MFMem.attn.SumRange();
                     var F = Activations.SoftMax(attention);
@@ -60,10 +62,10 @@ namespace CC_Library.Predictions
                     dvals = MF.Backward(MFMem, MFRate, dvals);
                     Alpha.Backward(dvals, AlphaMem, Rates, write);
                 });
-                final.WriteArray("Desired Output", write);
-                max.WriteArray("Max Output", write);
-                outputs.WriteArray("Outputs", write);
-                desouts.WriteArray("Desired", write);
+                for (int i = 0; i < Samples.Count(); i++)
+                {
+                    write(samples[i] + " - Desired : " + final[i] + ", " + desouts[i] + " - Max " + max[i] + ", " + outputs[i]);
+                }
             }
             catch (Exception e) { e.OutputError(); }
             //MFMem.Update(Samples.Count(), rate, net);

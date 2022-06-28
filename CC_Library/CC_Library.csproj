@@ -127,10 +127,5 @@
     <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_Doors.bin" />
     <EmbeddedResource Include="Predictions\BinaryFiles\ObjectStyles_DoorsAlpha.bin" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Predictions\BinaryFiles\ProjectionLineWeightNetwork.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\ProjectionLineWeightNetworkAlpha.bin" />
-    <EmbeddedResource Include="Predictions\BinaryFiles\ViewNameAlpha.bin" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

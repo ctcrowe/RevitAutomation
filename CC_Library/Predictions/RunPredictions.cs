@@ -32,24 +32,36 @@ namespace CC_Library.Predictions
                 {
                     try
                     {
-                        var files = Directory.GetFiles(Directory.GetDirectoryRoot(filepath)).ToList().OrderBy(x => r.NextDouble()).Take(16);
+                        var files = Directory.GetParent(filepath).GetFiles();
+                        Console.WriteLine("FileCount : " + files.Count());
+                        var fileset = files.ToList().OrderBy(x => r.NextDouble()).Take(16);
                         List<string> l = new List<string>();
 
-                        foreach (var f in files)
+                        foreach (var f in fileset)
                         {
-                            l.Add(File.ReadAllLines(filepath)[0]);
+                            l.Add(File.ReadAllLines(f.FullName)[0]);
                         }
                         var lines = l.ToArray();
                         switch(filepath.Split('\\').Last().Split('_').First())
                         {
                             default:
+                            case "LineWeightNetwork":
                             case "ProjectionLineWeightNetwork":
-                                error = LineWeightNetwork.Propogate(
-                                    lines,
-                                    write,
-                                    Transformers.ProjectionLineWeightTransformer,
-                                    Transformers.ProjectionLineWeightAlpha1,
-                                    Transformers.ViewNameAlpha);
+                                Console.WriteLine("Training Projection Line Weights");
+                                try
+                                {
+                                    error = LineWeightNetwork.Propogate(
+                                        lines,
+                                        write,
+                                        Transformers.ProjectionLineWeightTransformer(write),
+                                        Transformers.ProjectionLineWeightAlpha1(write),
+                                        Transformers.ViewNameAlpha(write));
+                                }
+                                catch (Exception e) { e.OutputError(); }
+                                break;
+                            case "MasterformatNetwork":
+                                Console.WriteLine("Training Masterformat");
+                                error = MasterformatNetwork.Propogate(lines, write, true);
                                 break;
                         }
                         //var error = MasterformatNetwork.Propogate(lines, write, true);
