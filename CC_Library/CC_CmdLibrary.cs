@@ -16,6 +16,13 @@ namespace CC_Library
     public delegate string WriteToCMDLine(string s);
     public static class CMDLibrary
     {
+        public static void Launch()
+        {
+            var path = Assembly.GetExecutingAssembly().Location;
+            var Dir = Directory.GetParent(path);
+            var target = Dir.GetFiles().Where(x => x.Name.Contains("CC_Learning.html")).First().FullName;
+            System.Diagnostics.Process.Start(target);
+        }
         public static double[,] Take(this double[,] x, int start, int count)
         {
             if(x.GetLength(0) < start + count)
