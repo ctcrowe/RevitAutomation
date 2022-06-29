@@ -1,11 +1,3 @@
-let a = [[1,2],[3,4]];
-let b = [[5,6],[7,8]];
-try {
-  alert(Dot(a, b));
-}
-catch(err) { alert(err.name); }
-
-
 function Dot(x, y) {
   if(!Array.isArray(x)) { return "X is not an Array"; }
   if(!Array.isArray(y)) { return "Y is not an Array"; }
