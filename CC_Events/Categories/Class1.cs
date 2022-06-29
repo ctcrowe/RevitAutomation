@@ -75,6 +75,8 @@ namespace CC_Plugin
             error[0] /= 5;
             error[1] /= 5;
             TaskDialog.Show("Network Training", "Average Error Was : " + error[0] + "\r\nAccuracy Was : " + error[1]);
+            string target = "http://google.com";
+            System.Diagnostics.Process.Start(target);
         }
         public static void PullLineWeights(this View v)
         {
