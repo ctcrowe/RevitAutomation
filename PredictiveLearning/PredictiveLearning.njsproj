@@ -29,7 +29,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="JavaScript1.js">
+    <Content Include="CC_Learning.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="CC_Learning.html">
