@@ -115,11 +115,8 @@ namespace CC_Plugin
                         break;
                 }            
                 string folder = "CC_Families".GetMyDocs().GetDir();
-            
-                var div = MasterformatNetwork.Predict(fn.Split('\\').Last().Split('.').First(), new WriteToCMDLine(CMDLibrary.WriteNull));
-                typeof(MasterformatNetwork).CreateEmbed(fn.Split('\\').Last().Split('.').First(), div.ToList().IndexOf(div.Max()).ToString());
-                string Division = "Division " + div.ToList().IndexOf(div.Max());
-                string SubDir = (folder + "\\Division " + div.ToList().IndexOf(div.Max())).GetDir();
+                var Division = PredictMF(fn.Split('\\').Last().Split('.').First());
+                string SubDir = folder + "\\Division " + Division;
                 
                 string nf = !fn.Split('\\').Last().StartsWith(prefix + "_")?
                 SubDir + "\\" + prefix + "_" + fn.Split('\\').Last().Split('.').First() + ".rfa":
