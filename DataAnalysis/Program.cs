@@ -2,7 +2,10 @@
 using CC_Library;
 using CC_Library.Predictions;
 using CC_Library.Datatypes;
+using System.Net;
+using System.Threading.Tasks;
 using System.IO;
+using System.Net.Http;
 using System.Windows.Forms;
 using System.Diagnostics;
 
@@ -14,6 +17,20 @@ namespace DataAnalysis
         {
             Console.WriteLine(wo);
             return wo;
+        }
+        public static string Test(string message)
+        {
+            string sURL = ("https://us-west2-upheld-now-290121.cloudfunctions.net/PredictMasterformat?message=" + message);
+
+            // ... Use HttpClient.
+            using (HttpClient client = new HttpClient())
+            using (Task<HttpResponseMessage> response = client.GetAsync(sURL))
+            using (HttpContent content = response.Result.Content)
+            {
+                // ... Read the string.
+                Task<string> result = content.ReadAsStringAsync();
+                return result.Result;
+            }
         }
         [STAThread]
         static void Main(string[] args)

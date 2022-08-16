@@ -1,10 +1,14 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Events;
+using Autodesk.Revit.UI;
+
 using System.IO;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 using CC_Plugin.Parameters;
-
 using CC_Library.Parameters;
 using CC_Library.Predictions;
 using CC_Library;
@@ -13,12 +17,56 @@ namespace CC_Plugin
 {
     internal static class MFSaveFamily
     {
+        public static Result OnStartup(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentSaved += new EventHandler<DocumentSavedEventArgs>(SavedEvent);
+            app.ControlledApplication.DocumentSavedAs += new EventHandler<DocumentSavedAsEventArgs>(SavedAsEvent);
+            app.ControlledApplication.DocumentSaving += new EventHandler<DocumentSavingEventArgs>(SavingEvent);
+            app.ControlledApplication.DocumentSavingAs += new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
+            return Result.Succeeded;
+        }
+        public static Result OnShutdown(UIControlledApplication app)
+        {
+            app.ControlledApplication.DocumentSaved -= new EventHandler<DocumentSavedEventArgs>(SavedEvent);
+            app.ControlledApplication.DocumentSavedAs -= new EventHandler<DocumentSavedAsEventArgs>(SavedAsEvent);
+            app.ControlledApplication.DocumentSaving -= new EventHandler<DocumentSavingEventArgs>(SavingEvent);
+            app.ControlledApplication.DocumentSavingAs -= new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
+            return Result.Succeeded;
+        }
+        public static void SavingEvent(object sender, DocumentSavingEventArgs args)
+        {
+            SetFamily(args.Document.PathName, args.Document);
+        }
+        public static void SavingAsEvent(object sender, DocumentSavingAsEventArgs args)
+        {
+            SetFamily(args.Document.PathName, args.Document);
+        }
+        public static void SavedEvent(object sender, DocumentSavedEventArgs args)
+        {
+            SaveFamily(args.Document.PathName, args.Document);
+        }
+        public static void SavedAsEvent(object sender, DocumentSavedAsEventArgs args)
+        {
+            SaveFamily(args.Document.PathName, args.Document);
+        }
+        internal static string PredictMF(string message)
+        {
+            string sURL = ("https://us-west2-upheld-now-290121.cloudfunctions.net/PredictMasterformat?message=" + message);
+
+            // ... Use HttpClient.
+            using (HttpClient client = new HttpClient())
+            using (Task<HttpResponseMessage> response = client.GetAsync(sURL))
+            using (HttpContent content = response.Result.Content)
+            {
+                Task<string> result = content.ReadAsStringAsync();
+                return result.Result;
+            }
+        }
         public static void SetFamily(string fn, Document doc)
         {
             if (doc.IsFamilyDocument)
             {
-                var output = MasterformatNetwork.Predict(fn.Split('\\').Last().Split('.').First(), CMDLibrary.WriteNull);
-                var Masterformat = output.ToList().IndexOf(output.Max());
+                var output = PredictMF(fn.Split('\\').Last().Split('.').First());
                 using (TransactionGroup tg = new TransactionGroup(doc, "Set MF"))
                 {
                     tg.Start();
@@ -41,7 +89,7 @@ namespace CC_Plugin
                     using (Transaction t = new Transaction(doc, "Set MF Param"))
                     {
                         t.Start();
-                        try { doc.SetFamilyParam(Params.Masterformat, Masterformat.ToString()); }
+                        try { doc.SetFamilyParam(Params.Masterformat, output); }
                         catch (Exception e) { e.OutputError(); }
                         t.Commit();
                     }
