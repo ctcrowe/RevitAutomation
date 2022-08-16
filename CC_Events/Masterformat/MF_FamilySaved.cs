@@ -117,6 +117,8 @@ namespace CC_Plugin
                 string folder = "CC_Families".GetMyDocs().GetDir();
                 var Division = PredictMF(fn.Split('\\').Last().Split('.').First());
                 string SubDir = folder + "\\Division " + Division;
+                if(!Directory.Exists(SubDir))
+                    Directory.CreateDirectory(SubDir);
                 
                 string nf = !fn.Split('\\').Last().StartsWith(prefix + "_")?
                 SubDir + "\\" + prefix + "_" + fn.Split('\\').Last().Split('.').First() + ".rfa":
