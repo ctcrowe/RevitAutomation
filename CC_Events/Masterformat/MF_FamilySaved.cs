@@ -21,32 +21,22 @@ namespace CC_Plugin
         {
             app.ControlledApplication.DocumentSaved += new EventHandler<DocumentSavedEventArgs>(SavedEvent);
             app.ControlledApplication.DocumentSavedAs += new EventHandler<DocumentSavedAsEventArgs>(SavedAsEvent);
-            app.ControlledApplication.DocumentSaving += new EventHandler<DocumentSavingEventArgs>(SavingEvent);
-            app.ControlledApplication.DocumentSavingAs += new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
             return Result.Succeeded;
         }
         public static Result OnShutdown(UIControlledApplication app)
         {
             app.ControlledApplication.DocumentSaved -= new EventHandler<DocumentSavedEventArgs>(SavedEvent);
             app.ControlledApplication.DocumentSavedAs -= new EventHandler<DocumentSavedAsEventArgs>(SavedAsEvent);
-            app.ControlledApplication.DocumentSaving -= new EventHandler<DocumentSavingEventArgs>(SavingEvent);
-            app.ControlledApplication.DocumentSavingAs -= new EventHandler<DocumentSavingAsEventArgs>(SavingAsEvent);
             return Result.Succeeded;
-        }
-        public static void SavingEvent(object sender, DocumentSavingEventArgs args)
-        {
-            SetFamily(args.Document.PathName, args.Document);
-        }
-        public static void SavingAsEvent(object sender, DocumentSavingAsEventArgs args)
-        {
-            SetFamily(args.Document.PathName, args.Document);
         }
         public static void SavedEvent(object sender, DocumentSavedEventArgs args)
         {
+            SetFamily(args.Document.PathName, args.Document);
             SaveFamily(args.Document.PathName, args.Document);
         }
         public static void SavedAsEvent(object sender, DocumentSavedAsEventArgs args)
         {
+            SetFamily(args.Document.PathName, args.Document);
             SaveFamily(args.Document.PathName, args.Document);
         }
         internal static string PredictMF(string message)
