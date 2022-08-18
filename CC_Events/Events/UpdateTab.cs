@@ -63,7 +63,7 @@ namespace CC_Plugin
                 case "None":
                     break;
                 case "Add Keynote":
-                    args.Application.SetMasterformat(text);
+                    args.Application.ActiveUIDocument.Document.GenKeynote(text);
                     break;
                 case "Occupant Load Factor":
                     TaskDialog.Show("Command is temporarily disabled.");
