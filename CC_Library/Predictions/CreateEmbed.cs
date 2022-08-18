@@ -16,18 +16,14 @@ namespace CC_Library.Predictions
             if(!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            var subdir = dir + "\\" + t.ToString().Split('.').Last();
-            if (!Directory.Exists(subdir))
-                Directory.CreateDirectory(subdir);
-
-            var fn = subdir + "\\" + t.ToString().Split('.').Last() + "_" + baseinput + ".txt";
+            var fn = dir + "\\" + t.ToString().Split('.').Last() + ".txt";
             List<string> Lines = new List<string>();
 
             if (SecondaryInput != null)
                 Lines.Add(t.ToString().Split('.').Last() + "," + input + "," + SecondaryInput + "," + output);
             else
                 Lines.Add(t.ToString().Split('.').Last() + "," + input + "," + output);
-            File.WriteAllLines(fn, Lines);
+            File.AppendAllLines(fn, Lines);
         }
     }
 }
