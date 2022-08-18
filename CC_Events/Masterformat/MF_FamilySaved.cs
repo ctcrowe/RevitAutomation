@@ -106,7 +106,7 @@ namespace CC_Plugin
                 }            
                 string folder = "CC_Families".GetMyDocs().GetDir();
                 var Division = PredictMF(fn.Split('\\').Last().Split('.').First());
-                typeof(MasterformatNetwork).CreateEmbed(fp.Split('\\').Last().Split('.').First(), Division);
+                typeof(MasterformatNetwork).CreateEmbed(fn.Split('\\').Last().Split('.').First(), Division);
                 string SubDir = folder + "\\Division " + Division;
                 if(!Directory.Exists(SubDir))
                     Directory.CreateDirectory(SubDir);
