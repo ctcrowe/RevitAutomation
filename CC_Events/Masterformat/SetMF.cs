@@ -2,6 +2,7 @@
 using Autodesk.Revit.DB.Events;
 using System.Linq;
 using System;
+using System.IO;
 using Autodesk.Revit.UI;
 
 using CC_Library;
@@ -13,6 +14,16 @@ using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
+    internal static class GenerateKeynote
+    {
+        public static void GenKeynote(this Document doc, string Text)
+        {
+            var lines = File.ReadAllLines(filename);
+            lines.Add(number + "\t" + Text + "\t" + grouping);
+            lines.OrderBy(x => x.Split('\t').First());
+            File.WriteAllLines(filename, lines);
+        }
+    }
     internal class MFElePlaced : IUpdater
     {
         public static void StartUp(AddInId id)
