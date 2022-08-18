@@ -30,13 +30,21 @@ namespace CC_Plugin
             TextBox tb = Panel.AddItem(tbd) as TextBox;
             tb.Width = 350;
             tb.EnterPressed += EnterPressed;
+            
+            RadioButtonGroupData radioData = new RadioButtonGroupData("radioGroup");
+            RadioButtonGroup radioButtonGroup = panel.AddItem(radioData) as RadioButtonGroup;
 
-            ComboBoxData cbd = new ComboBoxData("Update Type");
-            ComboBox box = Panel.AddItem(cbd) as ComboBox;
-            box.AddItem(new ComboBoxMemberData("Run Command", "Run Command"));
-            box.AddItem(new ComboBoxMemberData("Masterformat", "Masterformat"));
-            box.AddItem(new ComboBoxMemberData("Occupant Load Factor", "Occupant Load Factor"));
-            box.AddItem(new ComboBoxMemberData("Command Training", "Command Training"));
+            // create toggle buttons and add to radio button group
+            ToggleButtonData tb1 = new ToggleButtonData("Add Keynote", "Add Keynote");
+            tb1.ToolTip = "Add a keynote to the keynote file and reload the keynote file into the project. Keynote category and number will be determined automatically.";
+            ToggleButtonData tb2 = new ToggleButtonData("Occupant Load Factor", "Occupant Load Factor");
+            tb2.ToolTip = "Set the Occupant Load Factor for a room to the value indicated in the textbox";
+            ToggleButtonData tb3 = new ToggleButtonData("None", "None Active");
+            tb3.ToolTip = "Disable the Text Box";
+            radioButtonGroup.AddItem(tb1);
+            radioButtonGroup.AddItem(tb2);
+            radioButtonGroup.AddItem(tb3);
+            
             PushButtonData OLFButtonData = new PushButtonData(
                 "Update OLF",
                 "Update OLF",
@@ -48,28 +56,21 @@ namespace CC_Plugin
         {
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
-            var combotype = args.Application.GetComboData();
-            if(combotype == "Predictive")
-                combotype = "Masterformat";
-            switch(combotype)
+            var rbData = args.Application.GetRadioData();
+            switch(rbData)
             {
                 default:
-                case "Run Command":
-                    //combotype.ReadCommandInfo(text);
+                case "None":
                     break;
-                case "Masterformat":
+                case "Add Keynote":
                     args.Application.SetMasterformat(text);
                     break;
                 case "Occupant Load Factor":
-                    //args.Application.SetOLF(text);
+                    TaskDialog.Show("Command is temporarily disabled.");
                     break;
-                case "Command Training":
-                    //combotype.WriteCommandInfo(text);
-                    break;
-
             }
         }
-        private static string GetComboData(this UIApplication app)
+        private static string GetRadioData(this UIApplication app)
         {
             string val = "";
             try
@@ -77,9 +78,9 @@ namespace CC_Plugin
                 var panels = app.GetRibbonPanels(CCRibbon.tabName);
                 var panel = panels.Where(x => x.Name == PName).First();
                 var items = panel.GetItems();
-                var item = items.Where(x => x.ItemType == RibbonItemType.ComboBox).First();
-                var cb = item as ComboBox;
-                val = cb.Current.Name;
+                var item = items.Where(x => x.ItemType == RibbonItemType.RadioButtonGroup).First();
+                var rbg = item as RadioButtonGroup;
+                val = rbg.Current.Name;
             }
             catch (Exception e) { e.OutputError(); }
             return val;
