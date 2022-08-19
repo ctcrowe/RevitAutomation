@@ -123,7 +123,7 @@
     <Compile Include="TypeNaming\DoorTypeNaming.cs" />
     <Compile Include="TypeNaming\TypeNamingUpdater.cs" />
     <Compile Include="UpdateStudSize.cs" />
-    <Compile Include="Masterformat\SetMF.cs" />
+    <Compile Include="Masterformat\MF_GenerateKeynote.cs" />
     <Compile Include="QualityControl\CC_TextNoteTypes.cs" />
     <Compile Include="CC_RevitRibon.cs" />
     <Compile Include="UpdateLoadFactor.cs" />
