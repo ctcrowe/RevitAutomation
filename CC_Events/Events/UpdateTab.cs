@@ -69,6 +69,7 @@ namespace CC_Plugin
                     TaskDialog.Show("Error", "Command is temporarily disabled.");
                     break;
             }
+            textBox.Value = "";
         }
         private static string GetRadioData(this UIApplication app)
         {
