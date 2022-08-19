@@ -43,6 +43,7 @@ namespace CC_Plugin
             if (!lines.Any(x => x.Split('\t')[1] == Text))
             {
                 var Division = PredictMF(Text);
+                typeof(MasterformatNetwork).CreateEmbed(Text, Division);
                 var grouping = "Division " + Division;
                 if (lines.Contains(grouping))
                 {
