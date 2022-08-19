@@ -32,7 +32,7 @@ namespace CC_Plugin
             tb.EnterPressed += EnterPressed;
             
             RadioButtonGroupData radioData = new RadioButtonGroupData("radioGroup");
-            RadioButtonGroup radioButtonGroup = panel.AddItem(radioData) as RadioButtonGroup;
+            RadioButtonGroup radioButtonGroup = Panel.AddItem(radioData) as RadioButtonGroup;
 
             // create toggle buttons and add to radio button group
             ToggleButtonData tb1 = new ToggleButtonData("Add Keynote", "Add Keynote");
@@ -66,7 +66,7 @@ namespace CC_Plugin
                     args.Application.ActiveUIDocument.Document.GenKeynote(text);
                     break;
                 case "Occupant Load Factor":
-                    TaskDialog.Show("Command is temporarily disabled.");
+                    TaskDialog.Show("Error", "Command is temporarily disabled.");
                     break;
             }
         }
