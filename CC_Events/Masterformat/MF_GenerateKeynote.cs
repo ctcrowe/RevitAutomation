@@ -47,8 +47,9 @@ namespace CC_Plugin
                 var grouping = "Division " + Division;
                 if (lines.Contains(grouping))
                 {
-                    var maxoptions = lines.Where(x => int.Parse(x.Split('\t').First().Substring(0, 2)) == int.Parse(Division));
-                    var max = double.Parse(maxoptions.Max());
+                	TaskDialog.Show("Test", "Grouping Exists");
+                	var GroupNums = lines.Where(x => x.Split('\t').Count() >= 3).Where(y => y.Split('\t')[2] == "Division " + Division);
+                	var max = double.Parse(GroupNums.Max(x => x.Split('\t').First()));
                     var number = max + 0.001;
                     lines.Add(number + "\t" + Text + "\t" + grouping);
                 }
