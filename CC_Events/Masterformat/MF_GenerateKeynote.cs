@@ -35,6 +35,8 @@ namespace CC_Plugin
         }
         public static void GenKeynote(this Document doc, string Text)
         {
+            try
+            {
             var Keynotes = KeynoteTable.GetKeynoteTable(doc);
             var exref = Keynotes.GetExternalFileReference();
             var filename = ModelPathUtils.ConvertModelPathToUserVisiblePath(exref.GetAbsolutePath());
@@ -62,6 +64,8 @@ namespace CC_Plugin
                 lines.OrderBy(x => x.Split('\t').First());
                 File.WriteAllLines(filename, lines);
             }
+            }
+            catch(Exception e) { e.OutputError(); }
             using (Transaction t = new Transaction(doc, "Reload Keynote File"))
             {
                 t.Start();
