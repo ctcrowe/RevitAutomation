@@ -47,16 +47,17 @@ namespace CC_Plugin
                 var grouping = "Division " + Division;
                 if (lines.Contains(grouping))
                 {
-                	TaskDialog.Show("Test", "Grouping Exists");
                 	var GroupNums = lines.Where(x => x.Split('\t').Count() >= 3).Where(y => y.Split('\t')[2] == "Division " + Division);
                 	var max = double.Parse(GroupNums.Max(x => x.Split('\t').First()));
                     var number = max + 0.001;
                     lines.Add(number + "\t" + Text + "\t" + grouping);
+                    TaskDialog.Show("Keynote Added", number + "\r\n" + Text + "\r\n" + grouping);
                 }
                 else
                 {
                     lines.Add(grouping);
                     lines.Add(Division + ".001\t" + Text + "\t" + grouping);
+                    TaskDialog.Show("Keynote Added", Division + "\r\n" + Text + "\r\n" + grouping);
                 }
                 lines.OrderBy(x => x.Split('\t').First());
                 File.WriteAllLines(filename, lines);
