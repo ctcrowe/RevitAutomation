@@ -37,38 +37,81 @@ namespace CC_Plugin
                 var Keynotes = KeynoteTable.GetKeynoteTable(doc);
                 var exref = Keynotes.GetExternalFileReference();
                 var filename = ModelPathUtils.ConvertModelPathToUserVisiblePath(exref.GetAbsolutePath());
-            
-                var lines = File.ReadAllLines(filename).ToList();
-                if (!lines.Where(x => x.Split('\t').Count() > 1).Any(x => x.Split('\t')[1] == Text))
+
+                if (!String.IsNullOrEmpty(filename))
                 {
-                    var Division = PredictMF(Text);
-                    typeof(MasterformatNetwork).CreateEmbed(Text, Division);
-                    var grouping = "Division " + Division;
-                    if (lines.Contains(grouping))
+                    var lines = File.ReadAllLines(filename).ToList();
+                    if (!lines.Where(x => x.Split('\t').Count() > 1).Any(x => x.Split('\t')[1] == Text))
                     {
-                    	var GroupNums = lines.Where(x => x.Split('\t').Count() >= 3).Where(y => y.Split('\t')[2] == "Division " + Division);
-                    	var max = double.Parse(GroupNums.Max(x => x.Split('\t').First()));
-                        var number = max + 0.001;
-                        lines.Add(number + "\t" + Text + "\t" + grouping);
-                        TaskDialog.Show("Keynote Added", number + "\r\n" + Text + "\r\n" + grouping);
+                        var Division = PredictMF(Text);
+                        typeof(MasterformatNetwork).CreateEmbed(Text, Division);
+                        var grouping = "Division " + Division;
+                        if (lines.Contains(grouping))
+                        {
+                            var GroupNums = lines.Where(x => x.Split('\t').Count() >= 3).Where(y => y.Split('\t')[2] == "Division " + Division);
+                            var max = double.Parse(GroupNums.Max(x => x.Split('\t').First()));
+                            var number = max + 0.001;
+                            lines.Add(number + "\t" + Text + "\t" + grouping);
+                            TaskDialog.Show("Keynote Added", "Key Number : " + number +
+                                "\r\nValue : " + Text +
+                                "\r\nGroup : " + grouping);
+                        }
+                        else
+                        {
+                            lines.Add(grouping);
+                            lines.Add(Division + ".001\t" + Text + "\t" + grouping);
+                            TaskDialog.Show("Keynote Added", "Key Number : " + Division +
+                                ".001\r\nValue : " + Text +
+                                "\r\nGroup : " + grouping);
+                        }
+                        lines.OrderBy(x => x.Split('\t').First());
+                        File.WriteAllLines(filename, lines);
+                    }
+                    using (Transaction t = new Transaction(doc, "Reload Keynote File"))
+                    {
+                        t.Start();
+                        Keynotes.Reload(new KeyBasedTreeEntriesLoadResults());
+                        t.Commit();
+                    }
+                }
+                else
+                {
+                    string fullpath = "";
+                    if (doc.IsWorkshared)
+                    {
+                        var modelpath = ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath());
+                        filename = modelpath.Split('\\').Last().Split('.').First() + "_Keynotes.txt";
+                        fullpath = Directory.GetParent(modelpath).FullName + filename;
                     }
                     else
                     {
-                        lines.Add(grouping);
-                        lines.Add(Division + ".001\t" + Text + "\t" + grouping);
-                        TaskDialog.Show("Keynote Added", Division + "\r\n" + Text + "\r\n" + grouping);
+                        fullpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Keynotes.txt";
                     }
-                    lines.OrderBy(x => x.Split('\t').First());
-                    File.WriteAllLines(filename, lines);
-                }
-                using (Transaction t = new Transaction(doc, "Reload Keynote File"))
-                {
-                    t.Start();
-                    Keynotes.Reload(new KeyBasedTreeEntriesLoadResults());
-                    t.Commit();
+                    if (!File.Exists(fullpath))
+                    {
+                        using (FileStream fs = File.OpenWrite(fullpath))
+                            fs.Close();
+                    }
+                    using (TransactionGroup tg = new TransactionGroup(doc, "Create file and populate"))
+                    {
+                        tg.Start();
+                        using (Transaction t = new Transaction(doc, "Create Keynote File"))
+                        {
+                            t.Start();
+                            var resource = ExternalResourceReference.CreateLocalResource(
+                                doc,
+                                ExternalResourceTypes.BuiltInExternalResourceTypes.KeynoteTable,
+                                ModelPathUtils.ConvertUserVisiblePathToModelPath(fullpath),
+                                PathType.Absolute);
+                            Keynotes.LoadFrom(resource, new KeyBasedTreeEntriesLoadResults());
+                            t.Commit();
+                        }
+                        doc.GenKeynote(Text);
+                        tg.Commit();
+                    }
                 }
             }
-            catch(Exception e) { e.OutputError(); }
+            catch (Exception e) { e.OutputError(); }
         }
     }
 }
