@@ -64,14 +64,14 @@ namespace CC_Plugin
                     lines.OrderBy(x => x.Split('\t').First());
                     File.WriteAllLines(filename, lines);
                 }
+                using (Transaction t = new Transaction(doc, "Reload Keynote File"))
+                {
+                    t.Start();
+                    Keynotes.Reload(new KeyBasedTreeEntriesLoadResults());
+                    t.Commit();
+                }
             }
             catch(Exception e) { e.OutputError(); }
-            using (Transaction t = new Transaction(doc, "Reload Keynote File"))
-            {
-                t.Start();
-                Keynotes.Reload(new KeyBasedTreeEntriesLoadResults());
-                t.Commit();
-            }
         }
     }
 }
