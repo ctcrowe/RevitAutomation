@@ -81,7 +81,7 @@ namespace CC_Plugin
                     {
                         var modelpath = ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath());
                         filename = modelpath.Split('\\').Last().Split('.').First() + "_Keynotes.txt";
-                        fullpath = Directory.GetParent(modelpath).FullName + filename;
+                        fullpath = Directory.GetParent(modelpath).FullName + "\\" + filename;
                     }
                     else
                     {
