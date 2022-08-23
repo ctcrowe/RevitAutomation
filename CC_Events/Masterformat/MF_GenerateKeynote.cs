@@ -39,7 +39,7 @@ namespace CC_Plugin
                 var filename = ModelPathUtils.ConvertModelPathToUserVisiblePath(exref.GetAbsolutePath());
             
                 var lines = File.ReadAllLines(filename).ToList();
-                if (!lines.Any(x => x.Split('\t')[1] == Text))
+                if (!lines.Where(x => x.Split('\t').Count() > 1).Any(x => x.Split('\t')[1] == Text))
                 {
                     var Division = PredictMF(Text);
                     typeof(MasterformatNetwork).CreateEmbed(Text, Division);
