@@ -12,9 +12,6 @@ using System.Net.Http;
 using CC_Library;
 using CC_Library.Predictions;
 using CC_Library.Datatypes;
-using CC_Library.Parameters;
-
-using CC_Plugin.Parameters;
 
 namespace CC_Plugin
 {
