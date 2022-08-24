@@ -20,9 +20,9 @@ namespace CC_Library.Predictions
             List<string> Lines = new List<string>();
 
             if (SecondaryInput != null)
-                Lines.Add(t.ToString().Split('.').Last() + "," + input.Replace(',', '_') + "," + SecondaryInput.Replace(',', '_') + "," + output);
+                Lines.Add(input.Replace(',', '_') + "," + SecondaryInput.Replace(',', '_') + "," + output);
             else
-                Lines.Add(t.ToString().Split('.').Last() + "," + input + "," + output);
+                Lines.Add(input.Replace(',', '_') + "," + output);
             File.AppendAllLines(fn, Lines);
         }
     }
