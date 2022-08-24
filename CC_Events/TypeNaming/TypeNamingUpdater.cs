@@ -32,6 +32,10 @@ namespace CC_Plugin.TypeNaming
                                 try { ele.SetWindowTypeName(); }
                                 catch { }
                                 break;
+                            case (int)BuiltInCategory.OST_Casework:
+                                try { }
+                                catch (Exception e) {e.OutputError(); }
+                                break;
                                 /*
                             case (int)BuiltInCategory.OST_Doors:
                                 try { ele.SetDoorTypeName(); }
