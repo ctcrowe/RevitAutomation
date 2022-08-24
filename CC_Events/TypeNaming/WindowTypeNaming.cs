@@ -41,6 +41,17 @@ namespace CC_Plugin.TypeNaming
             }
             return TypeName;
         }
+        public static string SetCaseworkTypeName(this Element ele)
+        {
+            string TypeName = "";
+            FamilySymbol symb = ele as FamilySymbol;
+            Category cat = symb.Family.FamilyCategory;
+            if((int)BuiltInCategory.OST_Casework == cat.Id.IntegerValue)
+            {
+                
+            }
+            return TypeName;
+        }
     }
 
 }
