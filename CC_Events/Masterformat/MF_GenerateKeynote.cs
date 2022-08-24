@@ -34,6 +34,8 @@ namespace CC_Plugin
         {
             try
             {
+                Text = Text.ToUpper();
+                string input = Text.Replace(',', '_');
                 var Keynotes = KeynoteTable.GetKeynoteTable(doc);
                 var exref = Keynotes.GetExternalFileReference();
                 var filename = ModelPathUtils.ConvertModelPathToUserVisiblePath(exref.GetAbsolutePath());
@@ -43,8 +45,8 @@ namespace CC_Plugin
                     var lines = File.ReadAllLines(filename).ToList();
                     if (!lines.Where(x => x.Split('\t').Count() > 1).Any(x => x.Split('\t')[1] == Text))
                     {
-                        var Division = PredictMF(Text);
-                        typeof(MasterformatNetwork).CreateEmbed(Text, Division);
+                        var Division = PredictMF(input);
+                        typeof(MasterformatNetwork).CreateEmbed(input, Division);
                         var grouping = "Division " + Division;
                         if (lines.Contains(grouping))
                         {
