@@ -39,6 +39,7 @@ namespace CC_Patterns
             var h2 = Height + Grout;
 
             List<string> lines = new List<string>();
+            lines.Add(";%UNITS=INCHES");
             lines.Add("*" + fn.Split('\\').Last().Split('.').First() + ",Width = " + Width + " Height = " + Height + " Grout Spacing = " + Grout);
             lines.Add(";%TYPE=MODEL,");
 
