@@ -46,12 +46,12 @@ namespace CC_Plugin
                     if (!lines.Where(x => x.Split('\t').Count() > 1).Any(x => x.Split('\t')[1] == Text))
                     {
                         var Division = PredictMF(input);
-                        Division = Division.Length < 2 ? "0" + Division : Division;
+                        var Div = Division.Length < 2 ? "0" + Division : Division;
                         typeof(MasterformatNetwork).CreateEmbed(input, Division);
-                        var grouping = "Division " + Division;
+                        var grouping = "Division " + Div;
                         if (lines.Contains(grouping))
                         {
-                            var GroupNums = lines.Where(x => x.Split('\t').Count() >= 3).Where(y => y.Split('\t')[2] == "Division " + Division);
+                            var GroupNums = lines.Where(x => x.Split('\t').Count() >= 3).Where(y => y.Split('\t')[2] == "Division " + Div);
                             var max = double.Parse(GroupNums.Max(x => x.Split('\t').First()));
                             var number = max + 0.001;
                             lines.Add(number + "\t" + Text + "\t" + grouping);
@@ -62,8 +62,8 @@ namespace CC_Plugin
                         else
                         {
                             lines.Add(grouping);
-                            lines.Add(Division + ".001\t" + Text + "\t" + grouping);
-                            TaskDialog.Show("Keynote Added", "Key Number : " + Division +
+                            lines.Add(Div + ".001\t" + Text + "\t" + grouping);
+                            TaskDialog.Show("Keynote Added", "Key Number : " + Div +
                                 ".001\r\nValue : " + Text +
                                 "\r\nGroup : " + grouping);
                         }
