@@ -55,7 +55,7 @@ namespace CC_Patterns
 
             doc.ImportPattern(fn.Split('\\').Last().Split('.').First(), grids);
         }
-        public static void CreatePattern(Document doc, double W, double H, double G = 0, int ratio = 2)
+        public static void CreatePattern(Document doc, double W, double H, double G = 0)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
