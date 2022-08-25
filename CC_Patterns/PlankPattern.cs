@@ -38,6 +38,7 @@ namespace CC_Patterns
             Random r = new Random();
             List<string> lines = new List<string>();
             List<string> grids = new List<string>();
+            lines.Add(";%UNITS=INCHES");
             lines.Add("*" + fn.Split('\\').Last().Split('.').First());
             lines.Add(";%TYPE=MODEL,");
             
