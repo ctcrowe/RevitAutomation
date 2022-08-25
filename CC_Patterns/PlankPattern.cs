@@ -70,7 +70,7 @@ namespace CC_Patterns
                     fp.Replace(".txt", ".pat");
                 if (!fp.EndsWith(".pat"))
                     fp += ".pat";
-                BrickPattern p = new BrickPattern(W, H, G, ratio);
+                PlankPattern p = new PlankPattern(W, H, G);
                 p.WritePattern(doc, fp);
             }
         }
