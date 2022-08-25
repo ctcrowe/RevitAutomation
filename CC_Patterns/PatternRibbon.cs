@@ -191,6 +191,9 @@ namespace CC_Patterns
                 case "Basket Pattern":
                     BasketPattern.CreatePattern(doc, width, height);
                     break;
+                case "Plank Pattern":
+                    PlankPattern.CreatePattern(doc, width, height, groutx);
+                    break;
             }
         }
         public Result OnShutdown(UIControlledApplication uiApp)
