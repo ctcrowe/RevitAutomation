@@ -44,6 +44,7 @@ namespace CC_Patterns
             double XOffset = 1.0 - (1.0 / Ratio);
             List<string> lines = new List<string>();
             List<string> grids = new List<string>();
+            lines.Add(";%UNITS=INCHES");
             lines.Add("*" + fn.Split('\\').Last().Split('.').First());
             lines.Add(";%TYPE=MODEL,");
             grids.Add("0,0,0," + (XOffset * (Width + GroutX)) + "," + (Height + GroutY) + "," + Width + "," + (-1 * GroutX));
