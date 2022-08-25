@@ -56,6 +56,11 @@ namespace CC_Patterns
             SpacingTB.PromptText = "Spacing";
             
             //tbox.Width = 250;
+            WidthTB.Width = 200;
+            HeightTB.Width = 200;
+            GroutWidthTB.Width = 200;
+            GroutHeightTB.Width = 200;
+            SpacingTB.Width = 200;
             
             WidthTB.EnterPressed += EnterPressed;
             HeightTB.EnterPressed += EnterPressed;
