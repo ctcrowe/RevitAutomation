@@ -66,7 +66,7 @@ namespace CC_Plugin
                                 ".001\r\nValue : " + Text +
                                 "\r\nGroup : " + grouping);
                         }
-                        lines.OrderBy(x => x.Split('\t').First());
+                        lines = lines.OrderBy(x => x.Split('\t').First());
                         File.WriteAllLines(filename, lines);
                     }
                     using (Transaction t = new Transaction(doc, "Reload Keynote File"))
