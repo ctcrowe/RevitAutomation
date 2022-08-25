@@ -4,6 +4,8 @@ using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
+using CC_Library;
+
 namespace CC_Plugin.TypeNaming
 {
     public class TypeNamingUpdater : IUpdater
@@ -34,7 +36,7 @@ namespace CC_Plugin.TypeNaming
                                 break;
                             case (int)BuiltInCategory.OST_Casework:
                                 try { }
-                                catch (Exception e) {e.OutputError(); }
+                                catch (Exception e) { e.OutputError(); }
                                 break;
                                 /*
                             case (int)BuiltInCategory.OST_Doors:
