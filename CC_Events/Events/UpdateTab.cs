@@ -35,15 +35,15 @@ namespace CC_Plugin
             RadioButtonGroup radioButtonGroup = Panel.AddItem(radioData) as RadioButtonGroup;
 
             // create toggle buttons and add to radio button group
-            ToggleButtonData tb1 = new ToggleButtonData("Add Keynote", "Add Keynote");
-            tb1.ToolTip = "Add a keynote to the keynote file and reload the keynote file into the project. Keynote category and number will be determined automatically.";
-            ToggleButtonData tb2 = new ToggleButtonData("Occupant Load Factor", "Occupant Load Factor");
-            tb2.ToolTip = "Set the Occupant Load Factor for a room to the value indicated in the textbox";
-            ToggleButtonData tb3 = new ToggleButtonData("None", "None Active");
-            tb3.ToolTip = "Disable the Text Box";
-            radioButtonGroup.AddItem(tb1);
-            radioButtonGroup.AddItem(tb2);
-            radioButtonGroup.AddItem(tb3);
+            //ToggleButtonData tb1 = new ToggleButtonData("Add Keynote", "Add Keynote");
+            //tb1.ToolTip = "Add a keynote to the keynote file and reload the keynote file into the project. Keynote category and number will be determined automatically.";
+            //ToggleButtonData tb2 = new ToggleButtonData("Occupant Load Factor", "Occupant Load Factor");
+            //tb2.ToolTip = "Set the Occupant Load Factor for a room to the value indicated in the textbox";
+            //ToggleButtonData tb3 = new ToggleButtonData("None", "None Active");
+            //tb3.ToolTip = "Disable the Text Box";
+            //radioButtonGroup.AddItem(tb1);
+            //radioButtonGroup.AddItem(tb2);
+            //radioButtonGroup.AddItem(tb3);
             
             PushButtonData OLFButtonData = new PushButtonData(
                 "Update OLF",
@@ -57,18 +57,19 @@ namespace CC_Plugin
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
             var rbData = args.Application.GetRadioData();
-            switch(rbData)
-            {
-                default:
-                case "None":
-                    break;
-                case "Add Keynote":
-                    args.Application.ActiveUIDocument.Document.GenKeynote(text);
-                    break;
-                case "Occupant Load Factor":
-                    TaskDialog.Show("Error", "Command is temporarily disabled.");
-                    break;
-            }
+            args.Application.ActiveUIDocument.Document.GenKeynote(text);
+            /* switch(rbData)
+             {
+                 default:
+                 case "None":
+                     break;
+                 case "Add Keynote":
+                     args.Application.ActiveUIDocument.Document.GenKeynote(text);
+                     break;
+                 case "Occupant Load Factor":
+                     TaskDialog.Show("Error", "Command is temporarily disabled.");
+                     break;
+             }*/
             textBox.Value = "";
         }
         private static string GetRadioData(this UIApplication app)
