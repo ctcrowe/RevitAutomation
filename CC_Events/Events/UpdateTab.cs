@@ -56,7 +56,7 @@ namespace CC_Plugin
         {
             TextBox textBox = sender as TextBox;
             string text = textBox.Value as string;
-            var rbData = args.Application.GetRadioData();
+            //var rbData = args.Application.GetRadioData();
             args.Application.ActiveUIDocument.Document.GenKeynote(text);
             /* switch(rbData)
              {
