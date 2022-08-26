@@ -111,11 +111,11 @@ namespace CC_Patterns
                 var panel = panels.Where(x => x.Name == PanelName).First();
                 var items = panel.GetItems();
                 
-                var WidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Width").First() as TextBox;
-                var HeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Height").First() as TextBox;
-                var GWidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Grout Width").First() as TextBox;
-                var GHeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Grout Height").First() as TextBox;
-                var SpacingBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Spacing").First() as TextBox;
+                var WidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Width").First() as TextBox;
+                var HeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Height").First() as TextBox;
+                var GWidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Grout Width").First() as TextBox;
+                var GHeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Grout Height").First() as TextBox;
+                var SpacingBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Spacing").First() as TextBox;
                 
                 string w = WidthBox.Value as string;
                 string h = HeightBox.Value as string;
@@ -143,7 +143,7 @@ namespace CC_Patterns
             catch (Exception e) { }
             return val;
         }
-        private static void SetTB(UIApplication app, string v1, string v2. string v3, string v4, string v5)
+        private static void SetTB(UIApplication app, string v1, string v2, string v3, string v4, string v5)
         {
             try
             {
@@ -151,11 +151,11 @@ namespace CC_Patterns
                 var panel = panels.Where(x => x.Name == PanelName).First();
                 var items = panel.GetItems();
                 
-                var WidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Width").First() as TextBox;
-                var HeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Height").First() as TextBox;
-                var GWidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Grout Width").First() as TextBox;
-                var GHeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Grout Height").First() as TextBox;
-                var SpacingBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name = "Spacing").First() as TextBox;
+                var WidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Width").First() as TextBox;
+                var HeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Height").First() as TextBox;
+                var GWidthBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Grout Width").First() as TextBox;
+                var GHeightBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Grout Height").First() as TextBox;
+                var SpacingBox = items.Where(x => x.ItemType == RibbonItemType.TextBox).Where(y => y.Name == "Spacing").First() as TextBox;
                 
                 
                 WidthBox.PromptText = v1;
