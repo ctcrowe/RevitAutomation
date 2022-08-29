@@ -160,18 +160,23 @@ namespace CC_Patterns
                 
                 WidthBox.PromptText = v1;
                 WidthBox.Value = string.Empty;
+                WidthBox.Enabled = v1 != "null";
                 HeightBox.PromptText = v2;
                 HeightBox.Value = string.Empty;
+                HeightBox.Enabled = v2 != "null";
                 GWidthBox.PromptText = v3;
                 GWidthBox.Value = string.Empty;
+                GWidthBox.Enabled = v3 != "null";
                 GHeightBox.PromptText = v4;
                 GHeightBox.Value = string.Empty;
+                GHeightBox.Enabled = v4 != "null";
                 SpacingBox.PromptText = v5;
                 SpacingBox.Value = string.Empty;
+                SpacingBox.Enabled = v5 != "null";
             }
             catch (Exception e) { }
         }
-        public static void CreatePattern(Document doc, string combotype, string text)
+        public static bool CreatePattern(Document doc, string combotype, string text)
         {
             var numbs = text.Split(',');
             double width = double.TryParse(numbs[0], out double a) ? a : 4;
