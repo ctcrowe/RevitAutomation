@@ -25,7 +25,7 @@ namespace CC_Library.Parameters
              Paramtype.Area,
              true,
              true);
-        public static readonly Param MasterHeight = new Param
+        public static readonly Param Height = new Param
             ("MCA_Height",
              new Guid("2f97b5172f0b42888be2d20d2c817d26"),
              Subcategory.Generic,
