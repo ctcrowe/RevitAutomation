@@ -183,11 +183,11 @@ namespace CC_Patterns
             if(numbs.Count() < 2) { return false; }
             if(!double.TryParse(numbs[1], out double b)) { return false; }
             
-            double width = double.TryParse(numbs[0], out double a) ? a : 4;
-            double height = numbs.Count() >= 2 ? double.TryParse(numbs[1], out double b) ? b : 2 : 2;
+            double width = double.TryParse(numbs[0], out double f) ? f : 4;
+            double height = numbs.Count() >= 2 ? double.TryParse(numbs[1], out double g) ? g : 2 : 2;
             
             double groutx = numbs.Count() >= 3 ? double.TryParse(numbs[2], out double c) ? c : 0 : 0;
-            double grouty = numbs.Count() >= 4 ? double.TryParse(numbs[3], out double d) ? d : double.TryPase(numbs[2], out double f) ? f : 0 : 0;
+            double grouty = numbs.Count() >= 4 ? double.TryParse(numbs[3], out double d) ? d : double.TryParse(numbs[2], out double h) ? h : 0 : 0;
             
             int ratio = numbs.Count() >= 5 ? int.TryParse(numbs[4], out int e) ? e : 1 : 1;
             
@@ -207,6 +207,7 @@ namespace CC_Patterns
                     PlankPattern.CreatePattern(doc, width, height, groutx);
                     break;
             }
+            return true;
         }
         public Result OnShutdown(UIControlledApplication uiApp)
         {

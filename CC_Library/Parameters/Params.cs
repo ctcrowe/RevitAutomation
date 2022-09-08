@@ -22,14 +22,14 @@ namespace CC_Library.Parameters
             ("MCA_Occupant Load Factor",
              new Guid("cd4aa818198e418dbef1ffae4492fb64"),
              Subcategory.Rooms,
-             Paramtype.Area,
+             ParamType.Area,
              true,
              true);
         public static readonly Param Height = new Param
             ("MCA_Height",
              new Guid("2f97b5172f0b42888be2d20d2c817d26"),
              Subcategory.Generic,
-             Paramtype.Length,
+             ParamType.Length,
              true,
              true);
     }
