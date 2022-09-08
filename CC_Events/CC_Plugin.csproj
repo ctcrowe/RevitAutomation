@@ -85,6 +85,7 @@
     <Compile Include="Paint\PaintTab.cs" />
     <Compile Include="Parameters\CheckParameters.cs" />
     <Compile Include="Parameters\CreateExternalDefinition.cs" />
+    <Compile Include="Parameters\MCA_Parameters.cs" />
     <Compile Include="Patterns\Patterns.cs" />
     <Compile Include="ProjectDataAnalysis\CC_ProjectData.cs" />
     <Compile Include="Automation\RefPlanes\RefPlaneTypeUpdater.cs" />

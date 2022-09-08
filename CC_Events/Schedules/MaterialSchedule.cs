@@ -13,7 +13,7 @@ namespace CC_Plugin.Schedules
 {
     public class MaterialSchedule
     {
-        private static List<Param> MatPars = new List<Param>()
+        private static List<CC_Library.Parameters.Param> MatPars = new List<CC_Library.Parameters.Param>()
         {
             MaterialParams.Category,
             MaterialParams.Manufacturer,
@@ -56,7 +56,7 @@ namespace CC_Plugin.Schedules
             else
                 TaskDialog.Show("Error", "The Schedule Already Exists");
         }
-        private static bool IsSharedParameterSchedulableField(Document document, ElementId parameterId, Param par)
+        private static bool IsSharedParameterSchedulableField(Document document, ElementId parameterId, CC_Library.Parameters.Param par)
         {
             var sharedParameterElement = document.GetElement(parameterId) as SharedParameterElement;
             return sharedParameterElement?.GuidValue == par.Guid;

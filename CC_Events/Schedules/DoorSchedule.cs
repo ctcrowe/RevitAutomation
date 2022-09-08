@@ -12,7 +12,7 @@ namespace CC_Plugin.Schedules
 {
     public class DoorSchedule
     {
-        private static List<Param> DoorParameters = new List<Param>()
+        private static List<CC_Library.Parameters.Param> DoorParameters = new List<CC_Library.Parameters.Param>()
         {
             DoorParams.PanelHeight,
             DoorParams.PanelWidth,
@@ -70,7 +70,7 @@ namespace CC_Plugin.Schedules
                 TaskDialog.Show("Error", "The Schedule Already Exists");
             }
         }
-        private static bool IsSharedParameterSchedulableField(Document document, ElementId parameterId, Param par)
+        private static bool IsSharedParameterSchedulableField(Document document, ElementId parameterId, CC_Library.Parameters.Param par)
         {
             var sharedParameterElement = document.GetElement(parameterId) as SharedParameterElement;
             return sharedParameterElement?.GuidValue == par.Guid;

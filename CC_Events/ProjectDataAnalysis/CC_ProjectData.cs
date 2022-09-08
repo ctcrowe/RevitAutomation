@@ -12,7 +12,7 @@ namespace CC_Plugin
 {
     internal static class ProjectData
     {
-        private static List<Param> Parameters = new List<Param>(){ ProjectParams.Families, ProjectParams.FamilyInstances, ProjectParams.Materials, ProjectParams.ModelLines,
+        private static List<CC_Library.Parameters.Param> Parameters = new List<CC_Library.Parameters.Param>(){ ProjectParams.Families, ProjectParams.FamilyInstances, ProjectParams.Materials, ProjectParams.ModelLines,
             ProjectParams.RefPlanes, ProjectParams.Sheets, ProjectParams.Views, ProjectParams.ViwesOnSheets };
         private static string Location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static string SharedParams = Location + "\\CC_SharedParams.txt";

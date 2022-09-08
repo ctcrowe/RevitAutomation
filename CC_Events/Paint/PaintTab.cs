@@ -116,7 +116,7 @@ namespace CC_Plugin
             b5Data.ToolTip = "Learn from the line weights of the current view";
             PushButton PB5 = Panel.AddItem(b5Data) as PushButton;
         }
-        public static void PaintByMaterial(UIDocument uidoc, Param par)
+        public static void PaintByMaterial(UIDocument uidoc, CC_Library.Parameters.Param par)
         {
             Document doc = uidoc.Document;
             if (doc.IsFamilyDocument)
