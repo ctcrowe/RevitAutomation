@@ -11,11 +11,11 @@ namespace CC_Plugin.Parameters
     {
         public static class MCA_Params
         {
-            public static readonly Param ProjectNo = new Param
-                ("MCA_Project Number",
-                 new Guid(),
-                 Subcategory.Project,
-                 ParamType.Text,
+            public static readonly Param Height = new Param
+                ("MCA_Height",
+                 new Guid("2f97b5172f0b42888be2d20d2c817d26"),
+                 Subcategory.Generic,
+                 ParamType.Length,
                  true,
                  true);
             public static readonly Param Masterformat = new Param
@@ -39,11 +39,11 @@ namespace CC_Plugin.Parameters
                  ParamType.Area,
                  true,
                  true);
-            public static readonly Param Height = new Param
-                ("MCA_Height",
-                 new Guid("2f97b5172f0b42888be2d20d2c817d26"),
-                 Subcategory.Generic,
-                 ParamType.Length,
+            public static readonly Param ProjectNo = new Param
+                ("MCA_Project Number",
+                 new Guid("1f8ba733904c4954945bd5226059001e"),
+                 Subcategory.Project,
+                 ParamType.Text,
                  true,
                  true);
         }
