@@ -67,6 +67,13 @@ namespace CC_Plugin.Parameters
                  ParamType.Text,
                  true,
                  true);
+            public static readonly Param SignOffDate = new Param
+                ("MCA_Sheet Sign Off",
+                 new Guid("66e7e146a5d54b04aadd9b6877d830e9"),
+                 Subcategory.Sheet,
+                 ParamType.Text,
+                 true,
+                 true);
             public static readonly Param Width = new Param
                 ("MCA_Width",
                  new Guid("c5c5ca08831e4c5bbfc33657e410641b),
