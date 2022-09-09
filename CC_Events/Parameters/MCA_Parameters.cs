@@ -41,7 +41,7 @@ namespace CC_Plugin.Parameters
                  true);
             public static readonly Param PanelFinish = new Param
                 ("MCA_Panel Finish",
-                 new Guid("0ba77303a40142b9a39a653b79980816");
+                 new Guid("0ba77303a40142b9a39a653b79980816"),
                  Subcategory.Door,
                  ParamType.Material,
                  true,
@@ -53,11 +53,25 @@ namespace CC_Plugin.Parameters
                  ParamType.Text,
                  true,
                  true);
+            public static readonly Param PanelType = new Param
+                ("MCA_Panel Type",
+                 new Guid("d5913761461548d8bb089c6a7b7b96a5"),
+                 Subcategory.Door,
+                 ParamType.Text,
+                 true,
+                 true);
             public static readonly Param ProjectNo = new Param
                 ("MCA_Project Number",
                  new Guid("1f8ba733904c4954945bd5226059001e"),
                  Subcategory.Project,
                  ParamType.Text,
+                 true,
+                 true);
+            public static readonly Param Width = new Param
+                ("MCA_Width",
+                 new Guid("c5c5ca08831e4c5bbfc33657e410641b),
+                 Subcategory.Generic,
+                 ParamType.Length,
                  true,
                  true);
         }
