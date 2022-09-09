@@ -11,6 +11,13 @@ namespace CC_Plugin.Parameters
     {
         public static class MCA_Params
         {
+            public static readonly Param ProjectNo = new Param
+                ("MCA_Project Number",
+                 new Guid(),
+                 Subcategory.Project,
+                 ParamType.Text,
+                 true,
+                 true);
             public static readonly Param Masterformat = new Param
                 ("MCA_MF Division",
                 new Guid("aedbf7d2d73c44048cf7ed26f3231d25"),
