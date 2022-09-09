@@ -74,6 +74,13 @@ namespace CC_Plugin.Parameters
                  ParamType.Text,
                  true,
                  true);
+            public static readonly Param StudSize = new Param
+                ("MCA_Stud Size",
+                 new Guid(""),
+                 Subcategory.Wall,
+                 ParamType.Text,
+                 true,
+                 true);
             public static readonly Param Width = new Param
                 ("MCA_Width",
                  new Guid("c5c5ca08831e4c5bbfc33657e410641b),
