@@ -46,6 +46,13 @@ namespace CC_Plugin.Parameters
                  ParamType.Material,
                  true,
                  true);
+            public static readonly Param PanelMaterial = new Param
+                ("MCA_Panel Material",
+                 new Guid("7062a2d916594b7ab89d10d2ccee2bec"),
+                 Subcategory.Door,
+                 ParamType.Material,
+                 true,
+                 true);
             public static readonly Param ProjectNo = new Param
                 ("MCA_Project Number",
                  new Guid("1f8ba733904c4954945bd5226059001e"),
